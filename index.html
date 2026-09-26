@@ -20,6 +20,7 @@
     <div class="hud-life">
       <div class="hud-life-top"><span class="hud-name" id="hudName"></span><span class="hud-hp" id="hudHp"></span></div>
       <div class="hud-bar"><i id="hudBar"></i></div>
+      <div class="hud-gauge" id="hudGaugeBox" title="Jauge de super"><i id="hudGauge"></i></div>
     </div>
     <button id="quit" class="hud-quit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E6FAD8" stroke-width="3.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Quitter</button>
   </div>
@@ -33,6 +34,7 @@
   </div>
   <div id="trainPanel" class="hud-train"></div>
   <div class="hud-streak" id="hudStreak"></div>
+  <button id="superBtn" class="hud-super hidden" aria-label="Lancer la super-attaque"><b id="superVal">SUPER</b><small id="superName"></small></button>
 </div>
 
 <div id="lobby" class="lobby"></div>

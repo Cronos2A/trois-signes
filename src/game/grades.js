@@ -3,6 +3,7 @@ import { D } from '../data.js';
 import { G, heroPos } from './state.js';
 import { pop, addFx, vibrate } from './effects.js';
 import { fmt } from '../util.js';
+import { addGauge } from './supers.js';
 
 export function gradeOf(acc) {
   for (const g of D.grades.levels) if (acc >= g.min) return g;
@@ -17,14 +18,23 @@ export function emptyStats() {
   return s;
 }
 
-/** Enregistre un geste dans la série. Renvoie le multiplicateur de combo (1 si pas de combo). */
+/** Gestes identiques de suite pour un combo : 4, ou moins avec un passif (Ilwen). */
+export const comboLength = () => (G.hero && G.hero.comboLength) || D.grades.comboLength;
+
+/** Enregistre un geste dans la série et remplit la jauge. Renvoie le multiplicateur de combo (1 si pas de combo). */
 export function registerGrade(g) {
   G.stats[g ? g.name : D.grades.miss.name]++;
   if (!g) { G.streak = { name: null, n: 0 }; return 1; }
+  addGauge(g);
+  if (G.hero && G.hero.noCombo) return 1;          // Boran : jamais de combo, pas de série
   if (G.streak.name === g.name) G.streak.n++;
   else G.streak = { name: g.name, n: 1 };
-  if (G.streak.n < D.grades.comboLength) return 1;
+  if (G.streak.n < comboLength()) return 1;
+  return comboHit(g);
+}
 
+/** Déclenche un combo du niveau g (série pleine, ou attaque du Grimoire ouvert). Renvoie son multiplicateur. */
+export function comboHit(g) {
   const cm = g.combo;
   G.streak = { name: null, n: 0 };
   G.combos++;
@@ -33,8 +43,9 @@ export function registerGrade(g) {
   pop(G.W / 2, G.H * 0.5, 'Combo ' + g.name, 'effet ×' + fmt(cm), g.col, 1.4, 30);
   addFx({ kind: 'burst', x: h.x, y: h.y, col: g.col, life: 0.8, r: 40 });
   vibrate([30, 40, 30]);
+  addGauge(g, true);
   return cm;
 }
 
 export const streakTxt = () =>
-  G.streak.n > 0 ? '. Série ' + G.streak.name + ' : ' + G.streak.n + '/' + D.grades.comboLength : '';
+  G.streak.n > 0 ? '. Série ' + G.streak.name + ' : ' + G.streak.n + '/' + comboLength() : '';

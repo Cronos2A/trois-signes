@@ -2,10 +2,17 @@
 import { D } from '../data.js';
 import { G, heroPos } from './state.js';
 import { clamp, dist, rand, fmt } from '../util.js';
-import { gradeOf, registerGrade, streakTxt } from './grades.js';
-import { pop, showGrade, addFx, vibrate, trainInfo } from './effects.js';
+import { gradeOf, registerGrade, comboHit, streakTxt } from './grades.js';
+import { startSuper, superAttackMult, damageTakenMult, perfectMode, useAutoDodge, useComboCharge } from './supers.js';
+import { pop, showGrade, addFx, vibrate, trainInfo, superBanner } from './effects.js';
 
 const round1 = v => Math.round(v * 10) / 10;
+
+/** Attaque du héros : base × bonus de niveau × super en cours (Ombre, Renouveau). */
+const heroAtk = () => G.hero.atk * G.atkMult * superAttackMult();
+
+/** Niveau d'un geste reconnu ; pendant Œil de faucon, c'est toujours le meilleur (Perfect). */
+const gradeFor = acc => perfectMode() ? D.grades.levels[0] : gradeOf(acc);
 
 function pickTarget() {
   const alive = G.enemies.filter(e => e.hp > 0 && e.state !== 'walk');
@@ -18,13 +25,13 @@ function pickTarget() {
 
 function doAttack(g, cm) {
   const e = pickTarget(), h = heroPos();
-  const dmg = round1(G.hero.atk * g.mult * G.atkMult * cm);
+  const dmg = round1(heroAtk() * g.mult * cm);
   G.score += g.bonus;
   if (!e) { pop(h.x, h.y - 70, 'Aucune cible', '', g.col, 0.9, 18); return; }
   hitEnemy(e, dmg, g.col);
 }
 
-function dodgeShare(g, cm) { return Math.min(1, D.rules.dodge.base * g.mult * cm); }
+function dodgeShare(g, cm) { return Math.min(1, G.hero.dodgeBase * g.mult * cm); }
 
 function doDodge(g, cm) {
   G.hero.shieldUntil = G.time + D.rules.dodge.shieldDuration;
@@ -33,7 +40,7 @@ function doDodge(g, cm) {
   // Esquive en combo : riposte
   if (cm > 1 && G.mode === 'play') {
     const e = pickTarget();
-    if (e) hitEnemy(e, round1(G.hero.atk * G.atkMult * cm), g.col);
+    if (e) hitEnemy(e, round1(heroAtk() * cm), g.col);
   }
 }
 
@@ -43,7 +50,7 @@ function tryPickup(x, y) {
   for (const l of G.loots) { const d = Math.hypot(l.x - x, l.y - y); if (d < bd) { bd = d; best = l; } }
   if (!best || bd > P.radius) return false;
   const acc = Math.round(clamp(100 - bd * P.accuracyLossPerPx, 0, 100));
-  const g = gradeOf(acc);
+  const g = gradeFor(acc);
   const cm = registerGrade(g);
   showGrade(g, acc, 'Ramassage');
   if (!g) { best.life = Math.min(best.life, P.missLifeCap); return true; }
@@ -61,10 +68,11 @@ function tryPickup(x, y) {
   return true;
 }
 
-function hitEnemy(e, dmg, col) {
+function hitEnemy(e, dmg, col, bySuper) {
   const h = heroPos();
   e.hp -= dmg; e.hit = 0.25;
-  addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: e.x, y2: e.y, col, life: 0.35 });
+  if (bySuper) addFx({ kind: 'superHit', x: e.x, y: e.y, col, life: 0.6 });
+  else addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: e.x, y2: e.y, col, life: 0.35 });
   pop(e.x, e.y - e.T.r - 14, '-' + dmg, '', col, 0.9, 24);
   G.score += Math.round(dmg * D.rules.score.perDamage);
   if (e.hp > 0) return;
@@ -80,13 +88,39 @@ function hitEnemy(e, dmg, col) {
   }
 }
 
+/** Soin du héros (passif de Mira), sans dépasser ses PV max. */
+function heal(v) {
+  const h = G.hero, before = h.hp;
+  h.hp = Math.min(h.max, h.hp + v);
+  const got = round1(h.hp - before);
+  if (got > 0) { const p = heroPos(); pop(p.x - 44, p.y - 44, '+' + fmt(got) + ' PV', '', '#8CF09A', 0.9, 20); }
+}
+
+/** Bouton de super : lance la super du héros si la jauge est pleine. */
+export function useSuper() {
+  const S = startSuper();
+  if (!S) return false;
+  const h = G.hero, p = heroPos();
+  superBanner(S.name, h.col);
+  vibrate([40, 30, 70]);
+  if (S.healPct) pop(p.x, p.y - 90, 'PV au max', '', '#8CF09A', 1.2, 24);
+  if (S.hitAll) {
+    const dmg = round1(G.hero.atk * G.atkMult * S.hitAll);
+    for (const e of G.enemies.filter(e => e.hp > 0)) hitEnemy(e, dmg, h.col, true);
+  }
+  return true;
+}
+
 /** Un ennemi porte son coup sur le héros. */
 export function strike(e) {
   const h = heroPos();
-  const avoid = G.time < G.hero.shieldUntil ? G.hero.shieldAvoid : 0;
-  const taken = Math.round(e.T.dmg * (1 - avoid));
+  let avoid = G.time < G.hero.shieldUntil ? G.hero.shieldAvoid : 0;
+  const auto = avoid < 1 && useAutoDodge();        // Ombre : esquive totale sans tracer
+  if (auto) avoid = 1;
+  const taken = Math.round(e.T.dmg * (1 - avoid) * damageTakenMult());
   addFx({ kind: 'bolt', x1: e.x, y1: e.y, x2: h.x, y2: h.y, col: '#FF5D73', life: 0.25 });
-  if (avoid > 0) pop(h.x, h.y - 80, 'Esquive ' + Math.round(avoid * 100) + ' %', avoid >= 1 ? 'aucun dégât' : '', '#3FD7C4', 1, 20);
+  if (auto) pop(h.x, h.y - 80, 'Ombre', 'esquive automatique', G.hero.col, 1, 22);
+  else if (avoid > 0) pop(h.x, h.y - 80, 'Esquive ' + Math.round(avoid * 100) + ' %', avoid >= 1 ? 'aucun dégât' : '', '#3FD7C4', 1, 20);
   if (avoid >= 1) G.score += D.rules.dodge.perfectScore;
   if (taken > 0) {
     G.hero.hp = Math.max(0, G.hero.hp - taken);
@@ -111,8 +145,8 @@ export function handleGesture(res) {
     if (train) trainInfo(res.reason + '. Série remise à zéro.');
     return;
   }
-  const g = gradeOf(res.acc);
-  const cm = registerGrade(g);
+  const g = gradeFor(res.acc);
+  let cm = registerGrade(g);
   const label = res.type === 'triangle' ? 'Attaque' : 'Esquive';
   showGrade(g, res.acc, label);
   if (!g) {
@@ -120,9 +154,12 @@ export function handleGesture(res) {
     return;
   }
   if (res.type === 'triangle') {
+    // Grimoire ouvert : l'attaque compte comme un combo de son propre niveau.
+    if (useComboCharge() && cm === 1) cm = comboHit(g);
+    if (G.hero.healPerHit) heal(G.hero.healPerHit * g.mult);
     if (G.mode === 'play') doAttack(g, cm);
     else addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: h.x, y2: h.y - 200, col: g.col, life: 0.35 });
-    if (train) trainInfo('Attaque ' + g.name + ' : ' + fmt(round1(G.hero.atk * g.mult * cm)) + ' dégâts' + (cm > 1 ? ' (combo ×' + fmt(cm) + ')' : '') + streakTxt());
+    if (train) trainInfo('Attaque ' + g.name + ' : ' + fmt(round1(heroAtk() * g.mult * cm)) + ' dégâts' + (cm > 1 ? ' (combo ×' + fmt(cm) + ')' : '') + streakTxt());
   } else {
     doDodge(g, cm);
     if (train) trainInfo('Esquive ' + g.name + ' : ' + Math.round(dodgeShare(g, cm) * 100) + ' % des dégâts évités' + (cm > 1 ? ' + riposte (combo)' : '') + streakTxt());

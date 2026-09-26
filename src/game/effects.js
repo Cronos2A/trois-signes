@@ -9,6 +9,8 @@ export function showGrade(g, acc, label) {
   const miss = D.grades.miss;
   G.bigGrade = { text: g ? g.name : miss.name, col: g ? g.col : miss.col, acc, label, t: 0 };
 }
+/** Nom de la super en gros au centre, à la couleur du personnage. */
+export function superBanner(name, col) { G.superBanner = { name, col, t: 0 }; }
 export function addFx(f) { G.fx.push({ t: 0, ...f }); }
 export function vibrate(pattern) { if (navigator.vibrate) try { navigator.vibrate(pattern); } catch (_) {} }
 export function trainInfo(text) { G.trainMsg = text; }

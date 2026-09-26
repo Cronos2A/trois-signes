@@ -6,43 +6,60 @@
     "scorePerXp": 5,
     "minXpPerGame": 5
   },
+  "superGauge": {
+    "max": 100,
+    "gain": { "OK": 4, "Good": 7, "Very Good": 10, "Excellent": 12, "Perfect": 15 },
+    "comboBonus": 10
+  },
   "statLabels": ["Dégâts", "Vitesse", "Résistance"],
   "characters": [
     {
       "id": "aldric", "name": "Aldric", "role": "Chevalier", "title": "Le Chevalier",
-      "weapon": "epee", "weaponLabel": "Épée", "color": "#FF8C32", "skinColor": "#FF5A3C",
-      "traits": ["Loyal", "Posé", "Trop sérieux"], "stats": [4, 3, 3],
-      "available": true, "hp": 150, "attack": 6
+      "weapon": "epee", "weaponLabel": "Épée", "color": "#FF8C32", "skinColor": "#FF5A3C", "accent": "#FF8C32",
+      "stats": [4, 3, 3],
+      "available": true, "hp": 150, "attack": 6,
+      "passive": { "name": "Équilibré", "text": "Le chevalier de référence : aucun point faible, aucun passif." },
+      "super": { "id": "rempart", "name": "Rempart", "text": "8\u00a0s de dégâts reçus divisés par 2, et un coup sur tous les ennemis (2\u00a0× l'attaque).", "duration": 8, "damageTaken": 0.5, "hitAll": 2 }
     },
     {
       "id": "nyra", "name": "Nyra", "role": "Assassine", "title": "L'Assassine",
-      "weapon": "dague", "weaponLabel": "Dague", "color": "#3DDC5B", "skinColor": "#9ACD32",
-      "traits": ["Rapide", "Solitaire", "Sarcastique"], "stats": [3, 5, 2],
-      "available": true, "hp": 150, "attack": 6
+      "weapon": "dague", "weaponLabel": "Dague", "color": "#3DDC5B", "skinColor": "#9ACD32", "accent": "#3DDC5B",
+      "stats": [3, 5, 2],
+      "available": true, "hp": 100, "attack": 8,
+      "passive": { "name": "Lame fragile", "text": "Frappe fort (attaque 8) mais n'encaisse pas (100\u00a0PV)." },
+      "super": { "id": "ombre", "name": "Ombre", "text": "Esquive totalement les 3 prochains coups, même sans rond, et +50\u00a0% d'attaque pendant 8\u00a0s.", "duration": 8, "autoDodges": 3, "attackMult": 1.5 }
     },
     {
       "id": "boran", "name": "Boran", "role": "Colosse", "title": "Le Colosse",
-      "weapon": "gantelets", "weaponLabel": "Gantelets", "color": "#1F7A3D", "skinColor": "#9ACD32",
-      "traits": ["Calme", "Increvable", "Protecteur"], "stats": [5, 1, 5],
-      "available": true, "hp": 150, "attack": 6
+      "weapon": "gantelets", "weaponLabel": "Gantelets", "color": "#1F7A3D", "skinColor": "#9ACD32", "accent": "#E8B04A",
+      "stats": [5, 1, 5],
+      "available": true, "hp": 190, "attack": 8,
+      "passive": { "name": "Force brute", "text": "Très solide et puissant, mais ne peut jamais déclencher de combo.", "noCombo": true },
+      "super": { "id": "geant", "name": "Géant", "text": "Grandit pendant 8\u00a0s et frappe tous les ennemis (2,5\u00a0× l'attaque).", "duration": 8, "scale": 1.4, "hitAll": 2.5 }
     },
     {
       "id": "ilwen", "name": "Ilwen", "role": "Sorcière", "title": "La Sorcière",
-      "weapon": "grimoire", "weaponLabel": "Grimoire", "color": "#FFD23F", "skinColor": "#FFD23F",
-      "traits": ["Étudieuse", "Impatiente", "Hautaine"], "stats": [4, 3, 2],
-      "available": true, "hp": 150, "attack": 6
+      "weapon": "grimoire", "weaponLabel": "Grimoire", "color": "#FFD23F", "skinColor": "#FFD23F", "accent": "#FFD23F",
+      "stats": [4, 3, 2],
+      "available": true, "hp": 125, "attack": 6,
+      "passive": { "name": "Incantation", "text": "Un combo ne demande que 3 gestes identiques de suite au lieu de 4.", "comboLength": 3 },
+      "super": { "id": "grimoire", "name": "Grimoire ouvert", "text": "Ses 4 prochaines attaques réussies comptent comme des combos de leur niveau.", "comboCharges": 4 }
     },
     {
       "id": "kestrel", "name": "Kestrel", "role": "Rôdeuse", "title": "La Rôdeuse",
-      "weapon": "arc", "weaponLabel": "Arc", "color": "#9ACD32", "skinColor": "#3DDC5B",
-      "traits": ["Vive", "Indépendante", "Pragmatique"], "stats": [4, 4, 2],
-      "available": true, "hp": 150, "attack": 6
+      "weapon": "arc", "weaponLabel": "Arc", "color": "#9ACD32", "skinColor": "#3DDC5B", "accent": "#9ACD32",
+      "stats": [4, 4, 2],
+      "available": true, "hp": 125, "attack": 6.6,
+      "passive": { "name": "Pas léger", "text": "Esquive de base 95\u00a0% au lieu de 80\u00a0% (toujours\u00a0× le niveau de réussite).", "dodgeBase": 0.95 },
+      "super": { "id": "faucon", "name": "Œil de faucon", "text": "Pendant 8\u00a0s, tout geste reconnu compte comme un Perfect.", "duration": 8 }
     },
     {
       "id": "mira", "name": "Mira", "role": "Soigneuse", "title": "La Soigneuse",
-      "weapon": "amulette", "weaponLabel": "Amulette", "color": "#FF5A3C", "skinColor": "#FF5A3C",
-      "traits": ["Douce", "Déterminée", "Optimiste"], "stats": [2, 3, 4],
-      "available": true, "hp": 150, "attack": 6
+      "weapon": "amulette", "weaponLabel": "Amulette", "color": "#FF5A3C", "skinColor": "#FF5A3C", "accent": "#FF5A3C",
+      "stats": [2, 3, 4],
+      "available": true, "hp": 200, "attack": 3,
+      "passive": { "name": "Soin", "text": "Chaque attaque réussie la soigne de 4\u00a0PV\u00a0× le multiplicateur de réussite.", "healPerHit": 4 },
+      "super": { "id": "renouveau", "name": "Renouveau", "text": "Récupère tous ses PV et double son attaque pendant 10\u00a0s.", "duration": 10, "healPct": 1, "attackMult": 2 }
     }
   ]
 }
