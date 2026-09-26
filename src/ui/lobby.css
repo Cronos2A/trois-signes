@@ -46,8 +46,12 @@
 .lb-panel{display:none;flex:1;min-height:0;flex-direction:column;gap:12px}
 .lb-panel.on{display:flex}
 #tab-play{gap:14px}
-#tab-char,#tab-shop{overflow-y:auto;margin:-6px -14px -14px;padding:6px 14px 18px;scrollbar-width:none}
-#tab-char::-webkit-scrollbar,#tab-shop::-webkit-scrollbar{display:none}
+/* Chaque onglet défile verticalement ; en-tête et barre d'onglets restent fixes.
+   La marge du bas dégage la dernière carte de l'onglet actif, remonté de 8 px au-dessus de la barre. */
+.lb-panel{overflow-y:auto;overflow-x:hidden;touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;margin:-6px -14px -14px;padding:6px 14px 34px;scrollbar-width:none}
+.lb-panel::-webkit-scrollbar{display:none}
+/* Pas de tassement des cartes : le surplus défile au lieu d'écraser le contenu. */
+#tab-char>*,#tab-shop>*{flex-shrink:0}
 
 /* Cartes crème communes */
 .stage-card,.char-card,.mini-card,.shop-item,.res-card{background:var(--color-bg);border:3px solid var(--ink)}
