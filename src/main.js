@@ -2,7 +2,7 @@
 import { D, loadData } from './data.js';
 import { G } from './game/state.js';
 import { attachInput } from './input/gestures.js';
-import { handleGesture, useSuper } from './game/combat.js';
+import { handleGesture, useSuper, updateSummons } from './game/combat.js';
 import { emptyStats } from './game/grades.js';
 import { updateEnemies, updateWaves } from './game/enemies.js';
 import { attackMult, grantXp } from './game/progress.js';
@@ -42,10 +42,10 @@ function resetGame(c) {
     // Passifs (data/characters.json) : pas de combo, combo plus court, esquive de base, soin par attaque.
     noCombo: !!P.noCombo, comboLength: P.comboLength || D.grades.comboLength,
     dodgeBase: P.dodgeBase ?? D.rules.dodge.base, healPerHit: P.healPerHit || 0,
-    super: c.super, gauge: 0, sp: null
+    super: c.super, gauge: 0, sp: null, summon: P.summon || null
   };
   Object.assign(G, {
-    enemies: [], loots: [], fx: [], pops: [], trails: [],
+    enemies: [], loots: [], summons: [], fx: [], pops: [], trails: [],
     time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
     streak: { name: null, n: 0 }, combos: 0, globalGap: 0, stats: emptyStats()
   });
@@ -63,6 +63,7 @@ function update(dt) {
   for (const l of G.loots) { l.t += dt; l.life -= dt; }
   G.loots = G.loots.filter(l => l.life > 0);
 
+  if (G.mode === 'play' || G.mode === 'train') updateSummons(dt);
   if (G.mode === 'train') { updateTraining(dt); return; }
   if (G.mode !== 'play') return;
   G.time += dt;

@@ -33,6 +33,7 @@ export function draw(ctx, dt) {
   const body = drawHero(ctx);
   const w = G.enemies.find(e => e.state === 'windup');
   if (w) drawWarning(ctx, body, w.t / w.T.wind);
+  drawSummons(ctx, body, dt);
   drawFx(ctx, body);
   drawProjectiles(ctx);
   drawImpacts(ctx);
@@ -273,7 +274,9 @@ function line(ctx, x1, y1, x2, y2, col, w) {
 function drawFx(ctx, body) {
   for (const f of G.fx) {
     const p = f.t / f.life;
-    if (f.kind === 'superHit') {                  // coup de super sur chaque ennemi (Rempart, Géant)
+    if (f.kind === 'bite') {                      // morsure d'une invocation de Mira
+      ring(ctx, f.x, f.y, (8 + p * 18) * k, '#1A1420', 3, 1 - p);
+    } else if (f.kind === 'superHit') {                  // coup de super sur chaque ennemi (Rempart, Géant)
       ring(ctx, f.x, f.y, (20 + p * 50) * k, f.col, 6, 1 - p);
       const r = 30 * k, q = Math.min(1, p * 4);
       ctx.globalAlpha = 1 - p;
@@ -290,6 +293,42 @@ function drawFx(ctx, body) {
       line(ctx, x0, y0, f.x2, f.y2, '#FF5A3C', 5);
       ctx.globalAlpha = 1;
     }
+  }
+}
+
+/**
+ * Invocations de Mira : boule noire aux yeux blancs (en attendant un vrai sprite).
+ * Elles apparaissent près du héros, volent vers leur cible, mordent à chaque dégât et s'effacent à la fin.
+ */
+const summonPos = new WeakMap();
+function drawSummons(ctx, body, dt) {
+  for (const s of G.summons) {
+    const e = s.target && G.enemies.includes(s.target) ? s.target : null;
+    const ang = s.id * 2.4 + A.t * 1.3;
+    let gx, gy;
+    if (e) { const f = enemyFoot(e); gx = f.x + Math.cos(ang) * 38 * k; gy = f.y - f.h * 0.55 + Math.sin(ang) * 22 * k; }
+    else { gx = body.x + Math.cos(ang) * 72 * k; gy = body.y - 30 * k + Math.sin(ang) * 26 * k; }
+    let p = summonPos.get(s);
+    if (!p) { p = { x: body.x, y: body.y }; summonPos.set(s, p); }
+    const f = Math.min(1, dt * 5);
+    p.x += (gx - p.x) * f; p.y += (gy - p.y) * f;
+    const tick = s.t % 1, bite = e && tick < 0.2 ? Math.sin(Math.PI * tick / 0.2) : 0;   // petit coup vers la cible
+    let x = p.x, y = p.y + Math.sin(A.t * 7 + s.id) * 3 * k;
+    if (e) { const f2 = enemyFoot(e), vx = f2.x - x, vy = f2.y - f2.h * 0.5 - y, d = Math.hypot(vx, vy) || 1; x += vx / d * 12 * k * bite; y += vy / d * 12 * k * bite; }
+    const life = s.life - s.t, sc = Math.min(1, s.t / 0.3) * Math.min(1, life / 0.5), r = 12 * k * sc;
+    if (r <= 0.5) continue;
+    ctx.globalAlpha = Math.min(1, life / 0.5);
+    ctx.fillStyle = INK; ctx.globalAlpha *= 0.25;
+    ctx.beginPath(); ctx.ellipse(x, y + r * 1.6, r * 0.8, r * 0.25, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = Math.min(1, life / 0.5);
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = '#1A1420'; ctx.fill(); ctx.lineWidth = 2.5; ctx.strokeStyle = INK; ctx.stroke();
+    const lx = e ? Math.sign(enemyFoot(e).x - x) * r * 0.12 : 0;                // regard vers la cible
+    for (const sx of [-0.38, 0.38]) {
+      ctx.fillStyle = '#FFFFFF'; ctx.beginPath(); ctx.arc(x + sx * r, y - r * 0.15, r * 0.28, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#1A1420'; ctx.beginPath(); ctx.arc(x + sx * r + lx, y - r * 0.1, r * 0.12, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
   }
 }
 
