@@ -51,7 +51,11 @@ src/
   game/enemies.js  vagues, IA ennemie, boss
   game/progress.js XP, niveaux, stuff
   story/story.js   cinématiques
-  ui/hud.js        affichage
+  ui/hud.js        rendu canvas du combat (sprites, anneau d'alerte, tracés, textes de réussite)
+  ui/combat-hud.js interface HTML du combat (vie, Quitter, vague / chrono / score, série)
+  ui/combat-art.js sprites et décor rastérisés une fois hors écran (fluide sur petit Android)
+  ui/anim.js       animations visuelles (attente, attaque, coup reçu, esquive, ennemi vaincu)
+  ui/sprites.js    sprites de combat et décor Forêt de Mousse (repris de la maquette combat)
   game/state.js    état partagé de la partie (lu par ui/)
   game/effects.js  textes flottants, effets, vibrations
   ui/lobby.js      lobby 3 onglets (Jouer / Personnage / Boutique) + fenêtre de résultats
@@ -63,7 +67,7 @@ data/
   characters.json enemies.json waves.json grades.json items.json story.json
   rules.json       règles de combat (esquive, ramassage, score, entraînement)
   shop.json        objets affichés dans la boutique (pas encore achetables)
-design/            exports Claude Design (référence : planche de personnages, maquette du lobby)
+design/            exports Claude Design (référence : planche de personnages, maquette du lobby, écran de combat)
 ```
 
 Étapes 1 et 2 faites (septembre 2026), puis lobby intégré. Lancer avec `py -m http.server 8123` (les modules et les JSON ne se chargent pas en `file://`).
@@ -73,7 +77,8 @@ design/            exports Claude Design (référence : planche de personnages, 
 - Style cartoon low-poly : fond vert vif facetté, contours épais `#15301E`, boutons orange/jaune avec ombre portée, cartes crème, polices Caprasimo (titres) et Figtree (texte) du design system Organic.
 - Personnages : ceux de la planche (Aldric le Chevalier, Nyra l'Assassine, Boran le Colosse, Ilwen la Sorcière, Kestrel la Rôdeuse, Mira la Soigneuse). Seul Aldric est jouable pour l'instant.
 - Ce qui n'est pas encore codé (autres héros, armes, skins, boutique, Duel) est affiché et marqué « Bientôt ». Pas de monnaie premium (gemmes) : pas de pay-to-win.
-- Le rendu du combat (canvas, `ui/hud.js`) garde pour l'instant son ancien style.
+- Combat : `design/ecran-de-combat-trois-signes` (décor Forêt de Mousse, sprites de ¾ dos pour le héros choisi dans le lobby, sbire / brute / boss, interface restylée). Les animations ne font que transformer les sprites (aucune nouvelle image) et sont déduites de l'état du jeu, sans toucher à la logique.
+- Les seuils de réussite affichés dans cette maquette (« seuils proposés ») ne sont pas repris : seules les couleurs par palier l'ont été.
 
 ## Ordre de travail
 1. Découper le prototype dans cette structure, sans changer le ressenti de jeu.

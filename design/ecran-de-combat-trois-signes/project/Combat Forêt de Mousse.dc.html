@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/styles.css">
+<script src="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/_ds_bundle.js"></script>
+<script src="./sprites.js"></script>
+<style>body{margin:0;background:var(--color-bg);}a{color:#1F7A3D;}a:hover{color:#FF5A3C;}*{box-sizing:border-box;}</style>
+</helmet>
+<section style="padding:56px 64px 80px;font-family:var(--font-body);color:#15301E;min-width:1400px">
+  <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:40px">
+    <div style="font-size:13px;font-weight:800;letter-spacing:.12em;color:#1F7A3D">TROIS SIGNES · CHAPITRE 1</div>
+    <div style="font-family:var(--font-heading);font-size:44px;line-height:1">Combat — Forêt de Mousse</div>
+    <div style="font-size:17px;font-weight:600;color:#3d5a45;max-width:900px;text-wrap:pretty">120 s, 4 vagues. Le centre de l'arène reste uni pour le tracé : triangle = attaquer, rond = esquiver, tap = ramasser. Sprites isolés : <a href="Trois Signes - Sprites.dc.html">planche de sprites</a>.</div>
+  </div>
+  <div style="display:flex;gap:56px;align-items:flex-start">
+
+    <!-- 01 CALME -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:var(--font-heading);font-size:22px">01 · Calme</span><span style="font-size:14px;font-weight:700;color:#3d5a45">Vague 1, deux sbires, tracé en cours</span></div>
+      <div data-screen-label="01 Calme" style="position:relative;box-sizing:content-box;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:#2FA24A;box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        <div style="position:absolute;inset:0">{{ bg }}</div>
+        <sc-for list="{{ s1.items }}" as="it" hint-placeholder-count="1"><div style="position:absolute;left:{{ it.l }}px;top:{{ it.t }}px">{{ it.art }}</div></sc-for>
+        <sc-for list="{{ s1.foes }}" as="e" hint-placeholder-count="2">
+          <div style="position:absolute;left:{{ e.l }}px;top:{{ e.t }}px;width:{{ e.w }}px;height:{{ e.h }}px">
+            {{ e.art }}
+            <div style="position:absolute;left:{{ e.barL }}px;top:{{ e.barT }}px;width:{{ e.barW }}px;height:12px;border:2.5px solid #15301E;border-radius:999px;background:#2A1F36;overflow:hidden;box-shadow:0 2px 0 #15301E"><div style="height:100%;width:{{ e.hp }}%;background:linear-gradient(180deg,#FF8A70 0 45%,#FF5A3C 45%);border-right:2.5px solid #15301E"></div></div>
+          </div>
+        </sc-for>
+        <div style="position:absolute;left:{{ hero.l }}px;top:{{ hero.t }}px">{{ hero.art }}</div>
+        <div style="position:absolute;inset:0;pointer-events:none">{{ s1.trace }}</div>
+
+        <div style="position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:40px;color:#15301E;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #15301E;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#15301E;border-radius:1px"></div></div>
+        </div>
+        <div style="position:absolute;top:46px;left:14px;right:14px;display:flex;align-items:center;gap:10px">
+          <div style="position:relative;width:52px;height:52px;flex-shrink:0;border-radius:50%;border:4px solid #15301E;background:#FF8C32;overflow:hidden;box-shadow:0 4px 0 #15301E;display:flex;align-items:center;justify-content:center">{{ facet }}<span style="position:relative;font-family:var(--font-heading);font-size:24px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">A</span></div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:6px"><span style="font-family:var(--font-heading);font-size:18px;line-height:1;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill;text-shadow:0 2px 0 #15301E">Aldric</span><span style="font-size:12px;font-weight:800">400 / 400</span></div>
+            <div style="height:18px;border:3px solid #15301E;border-radius:999px;background:#17532C;overflow:hidden"><div style="height:100%;width:100%;background:linear-gradient(180deg,#8CF09A 0 45%,#3DDC5B 45%)"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;height:38px;padding:0 14px 0 10px;border-radius:999px;border:3px solid #15301E;background:#174A28;box-shadow:0 3px 0 #15301E;cursor:pointer;flex-shrink:0" style-hover="filter:brightness(1.15)" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E6FAD8" stroke-width="3.5" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg><span style="font-weight:800;font-size:13px;color:#E6FAD8">Quitter</span>
+          </div>
+        </div>
+        <div style="position:absolute;top:110px;left:14px;right:14px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;padding:9px 14px 10px;background:var(--color-bg);border:3px solid #15301E;border-radius:20px;box-shadow:0 4px 0 #15301E">
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;align-items:baseline;gap:6px"><span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">VAGUE</span><span style="font-family:var(--font-heading);font-size:18px;line-height:1">1 / 4</span></div>
+            <div style="display:flex;gap:4px"><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#FFD23F"></div><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#E4D3B4"></div><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#E4D3B4"></div><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#E4D3B4"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;height:42px;padding:0 14px 0 11px;border-radius:999px;border:3px solid #15301E;background:#174A28">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFD23F" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2"></path><path d="M10 2h4"></path></svg><span style="font-family:var(--font-heading);font-size:22px;line-height:1;color:#FFD23F">1:52</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px"><span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">SCORE</span><span style="font-family:var(--font-heading);font-size:20px;line-height:1">180</span></div>
+        </div>
+
+        <div style="position:absolute;top:774px;left:0;right:0;display:flex;justify-content:center">
+          <div style="display:flex;align-items:center;gap:6px;padding:4px 10px 4px 6px;border-radius:999px;background:#17532C;border:3px solid #15301E;box-shadow:0 3px 0 #15301E">
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#FFE27A 0 45%,#FFD23F 45%)"></div>
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:#0F3A1F"></div>
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:#0F3A1F"></div>
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:#0F3A1F"></div>
+            <span style="font-family:var(--font-heading);font-size:13px;color:#CFF2C0">1 / 4</span>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:8px;left:50%;width:130px;height:5px;margin-left:-65px;border-radius:999px;background:#15301E;opacity:.55"></div>
+      </div>
+    </div>
+
+    <!-- 02 INTENSE -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:var(--font-heading);font-size:22px">02 · Intense</span><span style="font-size:14px;font-weight:700;color:#3d5a45">Anneau rouge, « Excellent », série 3 / 4</span></div>
+      <div data-screen-label="02 Intense" style="position:relative;box-sizing:content-box;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:#2FA24A;box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        <div style="position:absolute;inset:0">{{ bg }}</div>
+        <sc-for list="{{ s2.items }}" as="it" hint-placeholder-count="3"><div style="position:absolute;left:{{ it.l }}px;top:{{ it.t }}px">{{ it.art }}</div></sc-for>
+        <sc-for list="{{ s2.foes }}" as="e" hint-placeholder-count="3">
+          <div style="position:absolute;left:{{ e.l }}px;top:{{ e.t }}px;width:{{ e.w }}px;height:{{ e.h }}px">
+            {{ e.art }}
+            <div style="position:absolute;left:{{ e.barL }}px;top:{{ e.barT }}px;width:{{ e.barW }}px;height:12px;border:2.5px solid #15301E;border-radius:999px;background:#2A1F36;overflow:hidden;box-shadow:0 2px 0 #15301E"><div style="height:100%;width:{{ e.hp }}%;background:linear-gradient(180deg,#FF8A70 0 45%,#FF5A3C 45%);border-right:2.5px solid #15301E"></div></div>
+          </div>
+        </sc-for>
+        <div style="position:absolute;inset:0;pointer-events:none">{{ s2.trace }}</div>
+        <div style="position:absolute;left:{{ hero.l }}px;top:{{ hero.t }}px">{{ hero.art }}</div>
+        <div style="position:absolute;left:80px;top:593px">{{ ring }}</div>
+
+        <div style="position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:40px;color:#15301E;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #15301E;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#15301E;border-radius:1px"></div></div>
+        </div>
+        <div style="position:absolute;top:46px;left:14px;right:14px;display:flex;align-items:center;gap:10px">
+          <div style="position:relative;width:52px;height:52px;flex-shrink:0;border-radius:50%;border:4px solid #15301E;background:#FF8C32;overflow:hidden;box-shadow:0 4px 0 #15301E;display:flex;align-items:center;justify-content:center">{{ facet }}<span style="position:relative;font-family:var(--font-heading);font-size:24px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">A</span></div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:6px"><span style="font-family:var(--font-heading);font-size:18px;line-height:1;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill;text-shadow:0 2px 0 #15301E">Aldric</span><span style="font-size:12px;font-weight:800">260 / 400</span></div>
+            <div style="height:18px;border:3px solid #15301E;border-radius:999px;background:#17532C;overflow:hidden"><div style="height:100%;width:65%;background:linear-gradient(180deg,#8CF09A 0 45%,#3DDC5B 45%);border-right:3px solid #15301E"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;height:38px;padding:0 14px 0 10px;border-radius:999px;border:3px solid #15301E;background:#174A28;box-shadow:0 3px 0 #15301E;cursor:pointer;flex-shrink:0" style-hover="filter:brightness(1.15)" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E6FAD8" stroke-width="3.5" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg><span style="font-weight:800;font-size:13px;color:#E6FAD8">Quitter</span>
+          </div>
+        </div>
+        <div style="position:absolute;top:110px;left:14px;right:14px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;padding:9px 14px 10px;background:var(--color-bg);border:3px solid #15301E;border-radius:20px;box-shadow:0 4px 0 #15301E">
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;align-items:baseline;gap:6px"><span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">VAGUE</span><span style="font-family:var(--font-heading);font-size:18px;line-height:1">2 / 4</span></div>
+            <div style="display:flex;gap:4px"><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#FF8C32"></div><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#FFD23F"></div><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#E4D3B4"></div><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#E4D3B4"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;height:42px;padding:0 14px 0 11px;border-radius:999px;border:3px solid #15301E;background:#174A28">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFD23F" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2"></path><path d="M10 2h4"></path></svg><span style="font-family:var(--font-heading);font-size:22px;line-height:1;color:#FFD23F">1:21</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px"><span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">SCORE</span><span style="font-family:var(--font-heading);font-size:20px;line-height:1">2 460</span></div>
+        </div>
+
+        <div style="position:absolute;top:410px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none">
+          <span style="font-family:var(--font-heading);font-size:60px;line-height:1;color:#FF8C32;-webkit-text-stroke:8px #15301E;paint-order:stroke fill;text-shadow:0 5px 0 #15301E;transform:rotate(-4deg)">Excellent</span>
+          <div style="display:flex;align-items:center;gap:7px;height:34px;padding:0 14px 0 9px;border-radius:999px;background:#174A28;border:3px solid #15301E;box-shadow:0 3px 0 #15301E">{{ ic.tri }}<span style="font-weight:800;font-size:15px;color:#FFF1D6">Attaque · 92 %</span></div>
+        </div>
+
+        <div style="position:absolute;top:774px;left:0;right:0;display:flex;justify-content:center">
+          <div style="display:flex;align-items:center;gap:6px;padding:4px 10px 4px 6px;border-radius:999px;background:#17532C;border:3px solid #15301E;box-shadow:0 3px 0 #15301E">
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#FFE27A 0 45%,#FFD23F 45%)"></div>
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#FFE27A 0 45%,#FFD23F 45%)"></div>
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#FFE27A 0 45%,#FFD23F 45%)"></div>
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:#0F3A1F"></div>
+            <span style="font-family:var(--font-heading);font-size:13px;color:#FFD23F">3 / 4</span>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:8px;left:50%;width:130px;height:5px;margin-left:-65px;border-radius:999px;background:#15301E;opacity:.55"></div>
+      </div>
+    </div>
+
+    <!-- 03 BOSS -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:var(--font-heading);font-size:22px">03 · Boss</span><span style="font-size:14px;font-weight:700;color:#3d5a45">Vague 4, esquive « Perfect », série pleine</span></div>
+      <div data-screen-label="03 Boss" style="position:relative;box-sizing:content-box;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:#2FA24A;box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        <div style="position:absolute;inset:0">{{ bg }}</div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(59,44,74,.28) 0%,rgba(59,44,74,0) 55%);pointer-events:none"></div>
+        <sc-for list="{{ s3.items }}" as="it" hint-placeholder-count="2"><div style="position:absolute;left:{{ it.l }}px;top:{{ it.t }}px">{{ it.art }}</div></sc-for>
+        <sc-for list="{{ s3.foes }}" as="e" hint-placeholder-count="1">
+          <div style="position:absolute;left:{{ e.l }}px;top:{{ e.t }}px;width:{{ e.w }}px;height:{{ e.h }}px">
+            {{ e.art }}
+            <div style="position:absolute;left:{{ e.barL }}px;top:{{ e.barT }}px;width:{{ e.barW }}px;height:14px;border:3px solid #15301E;border-radius:999px;background:#2A1F36;overflow:hidden;box-shadow:0 2px 0 #15301E"><div style="height:100%;width:{{ e.hp }}%;background:linear-gradient(180deg,#FF8A70 0 45%,#FF5A3C 45%);border-right:3px solid #15301E"></div></div>
+          </div>
+        </sc-for>
+        <div style="position:absolute;inset:0;pointer-events:none">{{ s3.trace }}</div>
+        <div style="position:absolute;left:{{ hero.l }}px;top:{{ hero.t }}px">{{ hero.art }}</div>
+
+        <div style="position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:40px;color:#15301E;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #15301E;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#15301E;border-radius:1px"></div></div>
+        </div>
+        <div style="position:absolute;top:46px;left:14px;right:14px;display:flex;align-items:center;gap:10px">
+          <div style="position:relative;width:52px;height:52px;flex-shrink:0;border-radius:50%;border:4px solid #15301E;background:#FF8C32;overflow:hidden;box-shadow:0 4px 0 #15301E;display:flex;align-items:center;justify-content:center">{{ facet }}<span style="position:relative;font-family:var(--font-heading);font-size:24px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">A</span></div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:6px"><span style="font-family:var(--font-heading);font-size:18px;line-height:1;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill;text-shadow:0 2px 0 #15301E">Aldric</span><span style="font-size:12px;font-weight:800">140 / 400</span></div>
+            <div style="height:18px;border:3px solid #15301E;border-radius:999px;background:#17532C;overflow:hidden"><div style="height:100%;width:35%;background:linear-gradient(180deg,#8CF09A 0 45%,#3DDC5B 45%);border-right:3px solid #15301E"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;height:38px;padding:0 14px 0 10px;border-radius:999px;border:3px solid #15301E;background:#174A28;box-shadow:0 3px 0 #15301E;cursor:pointer;flex-shrink:0" style-hover="filter:brightness(1.15)" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E6FAD8" stroke-width="3.5" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg><span style="font-weight:800;font-size:13px;color:#E6FAD8">Quitter</span>
+          </div>
+        </div>
+        <div style="position:absolute;top:110px;left:14px;right:14px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;padding:9px 14px 10px;background:var(--color-bg);border:3px solid #15301E;border-radius:20px;box-shadow:0 4px 0 #15301E">
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;align-items:baseline;gap:6px"><span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#C4481F">BOSS</span><span style="font-family:var(--font-heading);font-size:18px;line-height:1">4 / 4</span></div>
+            <div style="display:flex;gap:4px"><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#FF8C32"></div><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#FF8C32"></div><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#FF8C32"></div><div style="flex:1;height:10px;border-radius:999px;border:2.5px solid #15301E;background:#FF5A3C"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;height:42px;padding:0 14px 0 11px;border-radius:999px;border:3px solid #15301E;background:#174A28">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FF7A5E" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2"></path><path d="M10 2h4"></path></svg><span style="font-family:var(--font-heading);font-size:22px;line-height:1;color:#FF7A5E">0:24</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px"><span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">SCORE</span><span style="font-family:var(--font-heading);font-size:20px;line-height:1">7 930</span></div>
+        </div>
+
+        <div style="position:absolute;top:420px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none">
+          <span style="font-family:var(--font-heading);font-size:64px;line-height:1;color:#FFD23F;-webkit-text-stroke:8px #15301E;paint-order:stroke fill;text-shadow:0 5px 0 #15301E;transform:rotate(-4deg)">Perfect</span>
+          <div style="display:flex;align-items:center;gap:7px;height:34px;padding:0 14px 0 9px;border-radius:999px;background:#174A28;border:3px solid #15301E;box-shadow:0 3px 0 #15301E">{{ ic.circle }}<span style="font-weight:800;font-size:15px;color:#FFF1D6">Esquive · 97 %</span></div>
+        </div>
+
+        <div style="position:absolute;top:774px;left:0;right:0;display:flex;justify-content:center">
+          <div style="display:flex;align-items:center;gap:6px;padding:4px 10px 4px 6px;border-radius:999px;background:#FF8C32;border:3px solid #15301E;box-shadow:0 3px 0 #15301E,0 0 0 4px rgba(255,210,63,.55)">
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#FFE27A 0 45%,#FFD23F 45%)"></div>
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#FFE27A 0 45%,#FFD23F 45%)"></div>
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#FFE27A 0 45%,#FFD23F 45%)"></div>
+            <div style="width:20px;height:20px;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#FFE27A 0 45%,#FFD23F 45%)"></div>
+            <span style="font-family:var(--font-heading);font-size:13px;color:#fff;-webkit-text-stroke:3px #15301E;paint-order:stroke fill">Série ×2</span>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:8px;left:50%;width:130px;height:5px;margin-left:-65px;border-radius:999px;background:#15301E;opacity:.55"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:18px;margin-top:56px;padding:28px 36px 32px;border-radius:36px;background:#2BA84A;border:4px solid #15301E;box-shadow:0 8px 0 #15301E;max-width:1282px">
+    <div style="display:flex;align-items:baseline;gap:14px"><span style="font-family:var(--font-heading);font-size:26px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">Textes de réussite</span><span style="font-size:14px;font-weight:700;color:#E6FAD8">Couleur par palier · seuils proposés</span></div>
+    <div style="display:flex;flex-wrap:wrap;gap:36px;align-items:flex-end">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="font-family:var(--font-heading);font-size:44px;line-height:1;color:#FFD23F;-webkit-text-stroke:7px #15301E;paint-order:stroke fill;text-shadow:0 4px 0 #15301E">Perfect</span><span style="font-size:13px;font-weight:800;color:#E6FAD8">≥ 95 %</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="font-family:var(--font-heading);font-size:44px;line-height:1;color:#FF8C32;-webkit-text-stroke:7px #15301E;paint-order:stroke fill;text-shadow:0 4px 0 #15301E">Excellent</span><span style="font-size:13px;font-weight:800;color:#E6FAD8">88 – 94 %</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="font-family:var(--font-heading);font-size:44px;line-height:1;color:#8CF09A;-webkit-text-stroke:7px #15301E;paint-order:stroke fill;text-shadow:0 4px 0 #15301E">Very Good</span><span style="font-size:13px;font-weight:800;color:#E6FAD8">78 – 87 %</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="font-family:var(--font-heading);font-size:44px;line-height:1;color:#F3E6C8;-webkit-text-stroke:7px #15301E;paint-order:stroke fill;text-shadow:0 4px 0 #15301E">Good</span><span style="font-size:13px;font-weight:800;color:#E6FAD8">65 – 77 %</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="font-family:var(--font-heading);font-size:44px;line-height:1;color:#B7C3CE;-webkit-text-stroke:7px #15301E;paint-order:stroke fill;text-shadow:0 4px 0 #15301E">OK</span><span style="font-size:13px;font-weight:800;color:#E6FAD8">50 – 64 %</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="font-family:var(--font-heading);font-size:44px;line-height:1;color:#FF5A3C;-webkit-text-stroke:7px #15301E;paint-order:stroke fill;text-shadow:0 4px 0 #15301E">Raté</span><span style="font-size:13px;font-weight:800;color:#E6FAD8">&lt; 50 %</span></div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showTrace&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Rendu&quot;},&quot;centerCalm&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:1,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Rendu&quot;},&quot;outline&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:11,&quot;min&quot;:6,&quot;max&quot;:16,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Rendu&quot;}}">
+class Component extends DCLogic {
+  state = { ok: !!window.TS };
+  componentDidMount() { if (!window.TS) this._i = setInterval(() => { if (window.TS) { clearInterval(this._i); this.setState({ ok: true }); } }, 40); }
+  componentWillUnmount() { clearInterval(this._i); }
+  renderVals() {
+    const TS = window.TS; if (!TS) return {};
+    const tr = this.props.showTrace ?? true, calm = this.props.centerCalm ?? 1, ol = this.props.outline ?? 11;
+    const key = [tr, calm, ol].join('|'); if (this._k === key) return this._v; this._k = key;
+    const el = (s, st) => { const m = s.match(/width="([\d.]+)" height="([\d.]+)"/); return React.createElement('img', { src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s), width: m ? m[1] : undefined, height: m ? m[2] : undefined, draggable: false, style: Object.assign({ display: 'block' }, st || {}) }); };
+    const R = Math.round;
+    const foe = (n, fx, fy, sc, hp, bw = 46) => { const r = TS.sprite(n, { scale: sc, outline: ol }); return { art: el(r.svg), l: R(fx - r.fx), t: R(fy - r.fy), w: R(r.w), h: R(r.h), barL: R(r.hx - bw / 2), barT: R(r.hy - 22), barW: bw, hp }; };
+    const item = (n, fx, fy, sc = .22) => { const r = TS.sprite(n, { scale: sc, outline: ol }); return { art: el(r.svg), l: R(fx - r.fx), t: R(fy - r.fy) }; };
+    const h = TS.sprite('aldric', { scale: .37, outline: ol });
+    const trace = (pts, id, op, tip) => tr ? el(TS.trace(pts, { id, op, tip })) : null;
+    this._v = {
+      bg: el(TS.bg({ calm }), { width: '100%', height: '100%' }),
+      facet: el(TS.facets(3, 3, 3, .24), { position: 'absolute', inset: 0, width: '100%', height: '100%' }),
+      hero: { art: el(h.svg), l: R(195 - h.fx), t: R(752 - h.fy) },
+      ring: el(TS.ring(100, 54)),
+      ic: { tri: el(TS.glyph('tri', '#FF5A3C', 22)), circle: el(TS.glyph('circle', '#3DDC5B', 22)) },
+      s1: {
+        foes: [foe('sbire', 112, 360, .42, 100), foe('sbire', 272, 388, .42, 70)],
+        items: [item('coin', 314, 642)],
+        trace: trace(TS.hand([[142, 598], [198, 462], [256, 592]], .8, 3), 't1', 1, true)
+      },
+      s2: {
+        foes: [foe('sbire', 66, 372, .4, 100), foe('brute', 184, 400, .44, 55, 64), foe('sbire', 306, 352, .4, 40)],
+        items: [item('heart', 76, 632, .2), item('coin', 316, 598), item('coin', 344, 626)],
+        trace: trace(TS.hand([[128, 612], [196, 480], [266, 604], [134, 618]], 1, 7), 't2', .5, false)
+      },
+      s3: {
+        foes: [foe('boss', 196, 402, .55, 62, 120)],
+        items: [item('heart', 316, 650, .2), item('coin', 70, 600)],
+        trace: trace(TS.arc(195, 574, 58, -100, 335, 44, 9), 't3', .6, false)
+      }
+    };
+    return this._v;
+  }
+}
+</script>
+</body>
+</html>

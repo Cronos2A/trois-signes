@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/styles.css">
+<script src="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/_ds_bundle.js"></script>
+<script src="./sprites.js"></script>
+<style>body{margin:0;background:var(--color-bg);}a{color:#1F7A3D;}a:hover{color:#FF5A3C;}*{box-sizing:border-box;}</style>
+</helmet>
+<div style="padding:48px;display:flex">
+<div data-screen-label="Sprites" style="width:1680px;padding:64px 72px 56px;border-radius:44px;background:linear-gradient(172deg,#F2F9E8 0%,#DFF0CE 55%,#CBE7B3 100%);display:flex;flex-direction:column;gap:48px;box-shadow:var(--shadow-lg);font-family:var(--font-body);color:#17251B">
+
+  <header style="display:flex;flex-direction:column;gap:14px">
+    <div style="font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#1F7A3D">Trois Signes · Sprites de combat</div>
+    <h1 style="margin:0;font-family:var(--font-heading);font-weight:400;font-size:80px;line-height:.95">Planche de sprites</h1>
+    <p style="margin:0;font-size:19px;line-height:1.45;max-width:760px;color:#2D3B2F;text-wrap:pretty">Fond transparent, un SVG par sprite (dossier <b>sprites/</b>, ou bouton de téléchargement sur chaque carte). Héros de ¾ dos sur socle, Ombracés de face, lumière haut-gauche.</p>
+  </header>
+
+  <section style="display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:baseline;gap:20px"><h2 style="margin:0;font-family:var(--font-heading);font-weight:400;font-size:44px">Les héros</h2><span style="font-size:16px;color:#2D3B2F">Pose de combat, ¾ dos, tournés vers l'arène</span></div>
+    <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px">
+      <sc-for list="{{ heroes }}" as="s" hint-placeholder-count="6">
+        <div style="display:flex;flex-direction:column;gap:10px;padding:10px 10px 12px;background:var(--color-bg);border:3px solid #15301E;border-radius:26px;box-shadow:0 5px 0 #15301E">
+          <div style="height:300px;border-radius:18px;border:2.5px solid #15301E;background-color:#FFFFFF;background-image:conic-gradient(#E6EEDC 25%,transparent 0 50%,#E6EEDC 0 75%,transparent 0);background-size:18px 18px;display:flex;align-items:center;justify-content:center;overflow:hidden">{{ s.art }}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 4px">
+            <div style="display:flex;flex-direction:column;min-width:0"><span style="font-family:var(--font-heading);font-size:24px;line-height:1.1">{{ s.name }}</span><span style="font-size:12px;font-weight:700;color:#3d5a45">{{ s.file }}</span></div>
+            <div onClick="{{ s.dl }}" title="Télécharger le SVG" style="width:38px;height:38px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="filter:brightness(1.06)" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"></path><path d="m7 10 5 5 5-5"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></svg></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <div style="display:flex;gap:40px;align-items:flex-start">
+    <section style="display:flex;flex-direction:column;gap:20px;padding:32px 36px 36px;border-radius:40px;background:rgba(59,44,74,.1)">
+      <div style="display:flex;align-items:baseline;gap:20px"><h2 style="margin:0;font-family:var(--font-heading);font-weight:400;font-size:44px">Les Ombracés</h2><span style="font-size:16px;color:#2D3B2F">Teintes froides et ternes, regard incandescent</span></div>
+      <div style="display:flex;gap:20px;align-items:flex-end">
+        <sc-for list="{{ foes }}" as="s" hint-placeholder-count="3">
+          <div style="width:{{ s.cw }}px;display:flex;flex-direction:column;gap:10px;padding:10px 10px 12px;background:var(--color-bg);border:3px solid #15301E;border-radius:26px;box-shadow:0 5px 0 #15301E">
+            <div style="height:{{ s.ch }}px;border-radius:18px;border:2.5px solid #15301E;background-color:#FFFFFF;background-image:conic-gradient(#E6EEDC 25%,transparent 0 50%,#E6EEDC 0 75%,transparent 0);background-size:18px 18px;display:flex;align-items:center;justify-content:center;overflow:hidden">{{ s.art }}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 4px">
+              <div style="display:flex;flex-direction:column;min-width:0"><span style="font-family:var(--font-heading);font-size:24px;line-height:1.1">{{ s.name }}</span><span style="font-size:12px;font-weight:700;color:#3d5a45">{{ s.sub }} · {{ s.file }}</span></div>
+              <div onClick="{{ s.dl }}" title="Télécharger le SVG" style="width:38px;height:38px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="filter:brightness(1.06)" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"></path><path d="m7 10 5 5 5-5"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></svg></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:20px;padding-top:32px">
+      <h2 style="margin:0;font-family:var(--font-heading);font-weight:400;font-size:44px">Objets</h2>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <sc-for list="{{ items }}" as="s" hint-placeholder-count="2">
+          <div style="width:190px;display:flex;flex-direction:column;gap:10px;padding:10px 10px 12px;background:var(--color-bg);border:3px solid #15301E;border-radius:26px;box-shadow:0 5px 0 #15301E">
+            <div style="height:150px;border-radius:18px;border:2.5px solid #15301E;background-color:#FFFFFF;background-image:conic-gradient(#E6EEDC 25%,transparent 0 50%,#E6EEDC 0 75%,transparent 0);background-size:18px 18px;display:flex;align-items:center;justify-content:center;overflow:hidden">{{ s.art }}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 4px">
+              <div style="display:flex;flex-direction:column;min-width:0"><span style="font-family:var(--font-heading);font-size:22px;line-height:1.1">{{ s.name }}</span><span style="font-size:12px;font-weight:700;color:#3d5a45">{{ s.file }}</span></div>
+              <div onClick="{{ s.dl }}" title="Télécharger le SVG" style="width:38px;height:38px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"></path><path d="m7 10 5 5 5-5"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></svg></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:20px;padding-top:32px">
+      <h2 style="margin:0;font-family:var(--font-heading);font-weight:400;font-size:44px">Décor</h2>
+      <div style="width:262px;display:flex;flex-direction:column;gap:10px;padding:10px 10px 12px;background:var(--color-bg);border:3px solid #15301E;border-radius:26px;box-shadow:0 5px 0 #15301E">
+        <div style="border-radius:18px;border:2.5px solid #15301E;overflow:hidden;line-height:0">{{ decor.art }}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 4px">
+          <div style="display:flex;flex-direction:column;min-width:0"><span style="font-family:var(--font-heading);font-size:22px;line-height:1.1">Forêt de Mousse</span><span style="font-size:12px;font-weight:700;color:#3d5a45">390 × 844 · {{ decor.file }}</span></div>
+          <div onClick="{{ decor.dl }}" title="Télécharger le SVG" style="width:38px;height:38px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"></path><path d="m7 10 5 5 5-5"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></svg></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer style="display:flex;justify-content:space-between;font-size:14px;color:#2D3B2F"><span>Trois Signes · Sprites combat v1 · <a href="Combat Forêt de Mousse.dc.html">voir les écrans de combat</a></span><span>Septembre 2026</span></footer>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;outline&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:11,&quot;min&quot;:6,&quot;max&quot;:16,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Rendu&quot;},&quot;socles&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Rendu&quot;}}">
+class Component extends DCLogic {
+  state = { ok: !!window.TS };
+  componentDidMount() { if (!window.TS) this._i = setInterval(() => { if (window.TS) { clearInterval(this._i); this.setState({ ok: true }); } }, 40); }
+  componentWillUnmount() { clearInterval(this._i); }
+  renderVals() {
+    const TS = window.TS; if (!TS) return {};
+    const ol = this.props.outline ?? 11, soc = this.props.socles ?? true;
+    const key = ol + '|' + soc; if (this._k === key) return this._v; this._k = key;
+    const img = (s, sc) => { const m = s.match(/width="([\d.]+)" height="([\d.]+)"/); return React.createElement('img', { src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s), width: Math.round(m[1] * sc), height: Math.round(m[2] * sc), draggable: false, style: { display: 'block' } }); };
+    const dl = (file, s) => () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([s], { type: 'image/svg+xml' })); a.download = file; document.body.appendChild(a); a.click(); a.remove(); };
+    const card = (id, name, file, sc, extra) => { const s = TS.sprite(id, { outline: ol, socle: extra && extra.enemy ? false : soc }).svg; return Object.assign({ name, file, art: img(s, sc), dl: dl(file, s) }, extra || {}); };
+    const bg = TS.bg({});
+    this._v = {
+      heroes: TS.heroes.map(([id, name]) => card(id, name, `hero-${id}.svg`, .82)),
+      foes: [['sbire', 'Sbire', 'Petit, rond, rapide', .95, 250, 300], ['brute', 'Brute', 'Large, lente, massive', .95, 320, 340], ['boss', 'Boss', 'Couronne, menace frontale', .8, 290, 380]]
+        .map(([id, name, sub, sc, cw, ch]) => card(id, name, `ennemi-${id}.svg`, sc, { enemy: true, sub, cw, ch })),
+      items: [['coin', 'Pièce', 'objet-piece.svg'], ['heart', 'Cœur', 'objet-coeur.svg']].map(([id, name, file]) => card(id, name, file, .7)),
+      decor: { file: 'decor-foret-de-mousse.svg', art: img(bg, 236 / 390), dl: dl('decor-foret-de-mousse.svg', bg) }
+    };
+    return this._v;
+  }
+}
+</script>
+</body>
+</html>

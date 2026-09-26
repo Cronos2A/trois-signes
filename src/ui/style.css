@@ -1,17 +1,54 @@
 /* Page et habillage autour du canvas de jeu. Le lobby a sa propre feuille (lobby.css). */
-html,body{margin:0;height:100%;background:#17123A;-webkit-user-select:none;user-select:none;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#2FA24A;-webkit-user-select:none;user-select:none;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
 /* Blocage du défilement réservé au combat (partie ou entraînement) : classe posée par main.js.
    Dans le lobby, chaque onglet défile lui-même (lobby.css). */
 html.in-game,html.in-game body{overflow:hidden;touch-action:none}
 canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#bg{pointer-events:none}
 #safe{position:fixed;top:0;left:0;width:1px;height:env(safe-area-inset-top,0px);pointer-events:none}
 .hidden{display:none!important}
 
-/* Bouton Quitter pendant la partie, dans le style du lobby */
-#quit{position:fixed;right:12px;top:calc(10px + env(safe-area-inset-top,0px));z-index:4;font-family:var(--font-heading);font-size:14px;color:var(--ink);padding:6px 14px;border-radius:999px;border:3px solid var(--ink);background:var(--color-bg);box-shadow:0 3px 0 var(--ink);cursor:pointer}
-#quit:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
-
-#trainPanel{position:fixed;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:3;text-align:center;pointer-events:none;font-family:var(--font-body);font-size:14px;color:#9C93C9;padding:0 16px}
+/* Interface du combat, d'après design/ecran-de-combat-trois-signes (maquette « Combat Forêt de Mousse ») */
+.hud{position:fixed;inset:0;z-index:3;pointer-events:none;font-family:var(--font-body);color:var(--ink)}
+.hud *{box-sizing:border-box}
+.hud-top{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));left:14px;right:14px;display:flex;align-items:center;gap:10px}
+.hud-av{position:relative;width:52px;height:52px;flex-shrink:0;border-radius:50%;border:4px solid var(--ink);overflow:hidden;box-shadow:0 4px 0 var(--ink);display:flex;align-items:center;justify-content:center}
+.hud-av .ol{position:relative;font-size:24px}
+.hud-life{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.hud-life-top{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.hud-name{font-family:var(--font-heading);font-size:18px;line-height:1;color:#fff;-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;text-shadow:0 2px 0 var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:2px 2px 0}
+.hud-hp{font-size:12px;font-weight:700;white-space:nowrap}
+.hud-bar{height:18px;border:3px solid var(--ink);border-radius:999px;background:#17532C;overflow:hidden}
+.hud-bar i{display:block;height:100%;background:linear-gradient(180deg,#8CF09A 0 45%,#3DDC5B 45%);border-right:3px solid var(--ink);transition:width .2s}
+.hud-bar i.low{background:linear-gradient(180deg,#FF8A70 0 45%,#FF5A3C 45%)}
+.hud-quit{pointer-events:auto;display:flex;align-items:center;gap:6px;height:38px;padding:0 14px 0 10px;border-radius:999px;border:3px solid var(--ink);background:#174A28;box-shadow:0 3px 0 var(--ink);flex-shrink:0;font:700 13px var(--font-body);color:#E6FAD8;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hud-quit:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.hud-card,.hud-train{position:absolute;top:calc(76px + env(safe-area-inset-top,0px));left:14px;right:14px;background:var(--color-bg);border:3px solid var(--ink);border-radius:20px;box-shadow:0 4px 0 var(--ink)}
+.hud-card{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;padding:9px 14px 10px}
+.hud-wave{display:flex;flex-direction:column;gap:5px}
+.hud-kv{display:flex;align-items:baseline;gap:6px}
+.hud-k{font-size:11px;font-weight:700;letter-spacing:.08em;color:#1F7A3D}
+.hud-k.boss{color:#C4481F}
+.hud-v{font-family:var(--font-heading);font-size:18px;line-height:1;white-space:nowrap}
+.hud-pips{display:flex;gap:4px}
+.hud-pips i{flex:1;height:10px;border-radius:999px;border:2.5px solid var(--ink);background:#E4D3B4}
+.hud-pips i.done{background:#FF8C32}
+.hud-pips i.cur{background:#FFD23F}
+.hud-pips i.boss{background:#FF5A3C}
+.hud-timer{display:flex;align-items:center;gap:6px;height:42px;padding:0 14px 0 11px;border-radius:999px;border:3px solid var(--ink);background:#174A28;color:#FFD23F}
+.hud-timer.hot{color:#FF7A5E}
+.hud-timer span{font-family:var(--font-heading);font-size:22px;line-height:1;font-variant-numeric:tabular-nums}
+.hud-score{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.hud-score .hud-v{font-size:20px}
+.hud-train{padding:10px 14px;font-size:14px;font-weight:700;line-height:1.3;text-align:center}
+.hud.train .hud-card,.hud:not(.train) .hud-train{display:none}
+.hud-streak{position:absolute;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:4px 10px 4px 6px;border-radius:999px;background:#17532C;border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);white-space:nowrap}
+.hud-streak i{width:20px;height:20px;border-radius:50%;border:3px solid var(--ink);background:#0F3A1F}
+.hud-streak i.on{background:linear-gradient(180deg,#FFE27A 0 45%,#FFD23F 45%)}
+.hud-streak span{font-family:var(--font-heading);font-size:13px;color:#CFF2C0}
+.hud-streak.near span{color:#FFD23F}
+.hud-streak.full{background:#FF8C32;box-shadow:0 3px 0 var(--ink),0 0 0 4px rgba(255,210,63,.55)}
+.hud-streak.full span{color:#fff;-webkit-text-stroke:3px var(--ink);paint-order:stroke fill}
 
 #loadErr{position:fixed;left:16px;right:16px;top:calc(16px + env(safe-area-inset-top,0px));z-index:20;margin:0;padding:12px 16px;border-radius:20px;border:3px solid var(--ink);background:var(--color-bg);color:var(--coral);font-family:var(--font-body);font-weight:700;font-size:14px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
