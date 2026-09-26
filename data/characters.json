@@ -1,0 +1,12 @@
+{
+  "progression": {
+    "firstLevelXp": 100,
+    "growth": 1.25,
+    "attackBonusPerLevel": 0.03,
+    "scorePerXp": 5,
+    "minXpPerGame": 5
+  },
+  "characters": [
+    { "id": "chevalier", "name": "Chevalier", "hp": 150, "attack": 6 }
+  ]
+}

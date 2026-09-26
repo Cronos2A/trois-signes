@@ -1,0 +1,13 @@
+{
+  "dodge": { "base": 0.8, "shieldDuration": 0.9, "perfectScore": 30 },
+  "pickup": {
+    "radius": 55,
+    "accuracyLossPerPx": 0.9,
+    "missLifeCap": 0.3,
+    "lootLife": 4.5,
+    "coinValue": 20,
+    "heartHeal": 15
+  },
+  "score": { "perDamage": 4 },
+  "training": { "lootInterval": 1.6, "maxLoot": 2, "lootLife": 5 }
+}

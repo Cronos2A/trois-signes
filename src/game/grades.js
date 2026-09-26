@@ -1,0 +1,40 @@
+// Niveaux de réussite et combos.
+import { D } from '../data.js';
+import { G, heroPos } from './state.js';
+import { pop, addFx, vibrate } from './effects.js';
+import { fmt } from '../util.js';
+
+export function gradeOf(acc) {
+  for (const g of D.grades.levels) if (acc >= g.min) return g;
+  return null;
+}
+export const gradeByName = name => D.grades.levels.find(g => g.name === name);
+
+export function emptyStats() {
+  const s = {};
+  for (const g of D.grades.levels) s[g.name] = 0;
+  s[D.grades.miss.name] = 0;
+  return s;
+}
+
+/** Enregistre un geste dans la série. Renvoie le multiplicateur de combo (1 si pas de combo). */
+export function registerGrade(g) {
+  G.stats[g ? g.name : D.grades.miss.name]++;
+  if (!g) { G.streak = { name: null, n: 0 }; return 1; }
+  if (G.streak.name === g.name) G.streak.n++;
+  else G.streak = { name: g.name, n: 1 };
+  if (G.streak.n < D.grades.comboLength) return 1;
+
+  const cm = g.combo;
+  G.streak = { name: null, n: 0 };
+  G.combos++;
+  G.score += D.grades.comboScore;
+  const h = heroPos();
+  pop(G.W / 2, G.H * 0.5, 'Combo ' + g.name, 'effet ×' + fmt(cm), g.col, 1.4, 30);
+  addFx({ kind: 'burst', x: h.x, y: h.y, col: g.col, life: 0.8, r: 40 });
+  vibrate([30, 40, 30]);
+  return cm;
+}
+
+export const streakTxt = () =>
+  G.streak.n > 0 ? '. Série ' + G.streak.name + ' : ' + G.streak.n + '/' + D.grades.comboLength : '';

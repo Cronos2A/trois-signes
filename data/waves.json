@@ -1,0 +1,15 @@
+{
+  "timeLimit": 120,
+  "globalGap": 1.2,
+  "firstWaveDelay": 0.6,
+  "betweenWaves": 1.2,
+  "endLootWait": 3,
+  "firstAttack": [0.6, 1.6],
+  "attackStagger": 0.7,
+  "waves": [
+    { "enemies": ["grunt", "grunt"] },
+    { "enemies": ["grunt", "grunt", "grunt"] },
+    { "enemies": ["brute", "grunt", "grunt"] },
+    { "enemies": ["boss"], "title": "Le boss arrive", "color": "#B259FF" }
+  ]
+}

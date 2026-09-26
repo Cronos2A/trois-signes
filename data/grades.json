@@ -1,0 +1,12 @@
+{
+  "comboLength": 4,
+  "comboScore": 100,
+  "miss": { "name": "Raté", "col": "#8A84B0" },
+  "levels": [
+    { "name": "Perfect",   "min": 90, "mult": 1.5, "combo": 3,    "bonus": 50, "col": "#FF8BD8" },
+    { "name": "Excellent", "min": 80, "mult": 1.2, "combo": 2.5,  "bonus": 25, "col": "#FFC94A" },
+    { "name": "Very Good", "min": 68, "mult": 1,   "combo": 2,    "bonus": 12, "col": "#3FD7C4" },
+    { "name": "Good",      "min": 55, "mult": 0.7, "combo": 1.75, "bonus": 5,  "col": "#7FD6FF" },
+    { "name": "OK",        "min": 40, "mult": 0.4, "combo": 1.5,  "bonus": 0,  "col": "#C9C3EA" }
+  ]
+}
