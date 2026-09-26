@@ -36,7 +36,7 @@ export function updateAnims(dt, foot, gradeByName) {
   for (const f of G.fx) {
     if (seen.has(f)) continue;
     seen.add(f);
-    if (f.kind === 'slash') A.hero = { kind: 'attack', t: 0, dur: 0.38, tx: f.x2, ty: f.y2 };
+    if (f.kind === 'slash') A.hero = { kind: 'attack', t: 0, dur: 0.5, tx: f.x2, ty: f.y2 };
     else if (f.kind === 'ring') {
       const w = G.enemies.find(e => e.state === 'windup');
       A.dodgeDir = w ? (w.x > G.W / 2 ? -1 : 1) : -A.dodgeDir;
@@ -85,25 +85,34 @@ export function updateAnims(dt, foot, gradeByName) {
   if (A.combo && (A.combo.t += dt) > 1.3) A.combo = null;
 }
 
+const easeIn = p => p * p;
 const easeOut = p => 1 - (1 - p) * (1 - p);
 const easeInOut = p => p < 0.5 ? 2 * p * p : 1 - 2 * (1 - p) * (1 - p);
 
 /**
- * Transformation du héros pour cette image : { dx, dy, rot, sx, sy, shake, red }.
+ * Transformation du héros pour cette image : { dx, dy, rot, sx, sy, shake, red, arm, swing }.
+ * arm : rotation du bras armé autour de l'épaule ; swing : avancement de la traînée de lame (0 = aucune).
  * home : position des pieds au repos ; k : échelle de l'écran.
  */
 export function heroPose(home, k) {
   const bob = (1 - Math.cos(A.t * 5)) / 2;                  // attente : léger rebond continu
-  const P = { dx: 0, dy: -bob * 4 * k, rot: 0, sx: 1 + 0.02 * (1 - bob), sy: 1 - 0.02 * (1 - bob) + 0.02 * bob };
+  const P = { dx: 0, dy: -bob * 4 * k, rot: 0, sx: 1 + 0.02 * (1 - bob), sy: 1 - 0.02 * (1 - bob) + 0.02 * bob, arm: 0, swing: 0 };
   const a = A.hero;
-  if (a && a.kind === 'attack') {                           // attaque : bond vers la cible puis retour
-    const p = a.t / a.dur, go = p < 0.45 ? easeOut(p / 0.45) : 1 - easeInOut((p - 0.45) / 0.55);
+  if (a && a.kind === 'attack') {                           // attaque : ruée, coup d'arme, retour
+    const p = a.t / a.dur;
+    const go = p < 0.35 ? easeOut(p / 0.35) : p < 0.62 ? 1 : 1 - easeInOut((p - 0.62) / 0.38);
     const vx = a.tx - home.x, vy = a.ty - home.y, d = Math.hypot(vx, vy) || 1;
-    const reach = Math.min(d * 0.55, 190 * k);
+    const reach = Math.min(d * 0.7, 250 * k);
     P.dx += vx / d * reach * go;
-    P.dy += vy / d * reach * go - Math.sin(Math.PI * Math.min(1, p / 0.9)) * 26 * k;
-    P.rot = (vx / d) * 0.18 * go;
-    P.sx *= 1 - 0.08 * go; P.sy *= 1 + 0.1 * go;
+    P.dy += vy / d * reach * go - Math.sin(Math.PI * Math.min(1, p / 0.62)) * 22 * k;
+    // Bras armé : armé en arrière pendant la ruée, frappe rapide à l'arrivée, puis retour.
+    P.arm = p < 0.3 ? -0.8 * easeOut(p / 0.3)
+      : p < 0.46 ? -0.8 + 2.5 * easeIn((p - 0.3) / 0.16)
+      : 1.7 * (1 - easeInOut(Math.min(1, (p - 0.46) / 0.4)));
+    P.swing = p >= 0.3 && p < 0.66 ? (p - 0.3) / 0.36 : 0;
+    const lean = p >= 0.3 && p < 0.62 ? Math.sin(Math.PI * (p - 0.3) / 0.32) : 0;
+    P.rot = (vx / d) * 0.12 * go + 0.1 * lean;
+    P.sx *= 1 - 0.06 * go; P.sy *= 1 + 0.08 * go - 0.06 * lean;
   } else if (a && a.kind === 'dodge') {                     // esquive : glissement latéral
     const p = a.t / a.dur, go = p < 0.3 ? easeOut(p / 0.3) : 1 - easeInOut((p - 0.3) / 0.7);
     P.dx += a.dir * 70 * k * go;

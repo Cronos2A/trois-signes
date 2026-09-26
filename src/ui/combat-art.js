@@ -12,7 +12,8 @@ export const artScale = (W, H) => Math.min(W / REF_W, H / REF_H);
 /** Taille de chaque sprite dans la maquette « Combat Forêt de Mousse ». */
 export const SPRITE_SCALE = { hero: 0.37, sbire: 0.42, brute: 0.44, boss: 0.55, coin: 0.22, heart: 0.2 };
 
-/** Sprites prêts, lus par le rendu : { img, red, white, w, h, fx, fy, hx, hy } en px CSS. */
+/** Sprites prêts, lus par le rendu : { img, red, white, w, h, fx, fy, hx, hy } en px CSS.
+ *  Le héros est en deux calques alignés quand son sprite le permet : hero (corps) + heroArm (bras armé). */
 export const ART = {};
 let bakedKey = '', bakeSeq = 0;
 
@@ -41,14 +42,15 @@ function tinted(src, col) {
   return c;
 }
 
-async function bakeSprite(name, scale, dpr) {
-  const r = TS.sprite(name, { scale: scale * dpr, outline: OUTLINE });
+async function bakeSprite(name, scale, dpr, part) {
+  const r = TS.sprite(name, { scale: scale * dpr, outline: OUTLINE, part });
   const img = await loadSvg(r.svg);
   const c = canvasOf(r.w, r.h);
   c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
   return {
     img: c, red: tinted(c, '#FF5A3C'), white: tinted(c, '#FFFFFF'),
-    w: r.w / dpr, h: r.h / dpr, fx: r.fx / dpr, fy: r.fy / dpr, hx: r.hx / dpr, hy: r.hy / dpr
+    w: r.w / dpr, h: r.h / dpr, fx: r.fx / dpr, fy: r.fy / dpr, hx: r.hx / dpr, hy: r.hy / dpr,
+    px: r.px / dpr, py: r.py / dpr   // épaule du bras armé (calque 'weapon')
   };
 }
 
@@ -70,8 +72,10 @@ export async function prepareCombatArt(heroId, W, H, dpr, enemySprites) {
   if (key === bakedKey) return;
   const seq = ++bakeSeq;
   const names = [...new Set(enemySprites)];
+  const split = !!TS.sprite(heroId, { part: 'weapon' }).px;
   const jobs = {
-    hero: bakeSprite(heroId, SPRITE_SCALE.hero * k, dpr),
+    hero: bakeSprite(heroId, SPRITE_SCALE.hero * k, dpr, split ? 'body' : undefined),
+    heroArm: split ? bakeSprite(heroId, SPRITE_SCALE.hero * k, dpr, 'weapon') : Promise.resolve(null),
     coin: bakeSprite('coin', SPRITE_SCALE.coin * k, dpr),
     heart: bakeSprite('heart', SPRITE_SCALE.heart * k, dpr),
     ring: bakeFixed(TS.ring(100, 54), 230 * k, dpr),

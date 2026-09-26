@@ -6,7 +6,7 @@ import { G } from '../game/state.js';
 import { facets } from './icons.js';
 
 /** Bas de la carte Vague / chrono / score, sous la zone sûre (px CSS) : les ennemis restent dessous. */
-export const HUD_BOTTOM = 147;
+export const HUD_BOTTOM = 128;
 
 const $ = id => document.getElementById(id);
 const nf = n => Math.round(n).toLocaleString('fr-FR').replace(/\s/g, ' ');
