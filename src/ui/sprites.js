@@ -1,6 +1,7 @@
 // Sprites de combat (héros, ennemis, objets, décor de la Forêt de Mousse), repris tels quels
 // de l'export Claude Design design/ecran-de-combat-trois-signes/project/sprites.js.
-// Seul changement : module ES (export TS) au lieu de window.TS. Chaque fonction renvoie du SVG.
+// Changements : module ES (export TS) au lieu de window.TS, et option part (corps / bras armé)
+// pour animer le coup d'arme. Chaque fonction renvoie du SVG.
 const OL = '#17251B';
 const f1 = v => (+v).toFixed(1);
 function engine(o) {
@@ -105,11 +106,12 @@ function defs(E) {
       S.push({ p: [[122, 176], [136, 202], [108, 202]], c: Y, sw: 3 });
       S.push({ p: ngon(96, 134, 18, 14, 6), c: st });
       headBack(S, 122, 90, 36, sk, '#6B3E22');
+      const w0 = S.length;
       sword(S, [184, 122], [214, 26], { bw: 14, guard: 20, col: '#DCE5EC', guardCol: A });
       S.push({ p: ngon(150, 134, 18, 14, 6), c: st });
       arm(S, [150, 140], [178, 152], [184, 122], { u: st, hand: sk, w: 18, hr: 11 });
       spark(S, 206, 44, 9, '#FFF6D8');
-      return { S, base: [122, 290, 80] };
+      return { S, base: [122, 290, 80], weapon: [w0, S.length], pivot: [150, 140] };
     },
     nyra: () => {
       const S = [], sk = '#E8AE82', A = '#3DDC5B', cl = '#2F3A44', cl2 = '#3E4B58', bt = '#1E252C';
@@ -123,10 +125,12 @@ function defs(E) {
       S.push({ p: ngon(124, 144, 26, 11, 7), c: A });
       S.push({ p: [[90, 114], [92, 84], [108, 62], [132, 52], [156, 66], [166, 94], [162, 124], [144, 142], [106, 142]], c: cl2 });
       S.push({ raw: `<polyline points="132,56 128,100 124,138" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round"/>` });
+      const w0 = S.length;
       sword(S, [196, 150], [232, 112], { bw: 11, guard: 10, col: '#CFF5D6', guardCol: A, edge: A });
       arm(S, [148, 154], [178, 172], [196, 150], { u: cl, hand: sk, w: 15, hr: 10 });
+      const w1 = S.length;
       S.push({ raw: `<g stroke="${A}" stroke-width="4" stroke-linecap="round"><line x1="26" y1="196" x2="48" y2="196"/><line x1="18" y1="212" x2="44" y2="212"/></g>` });
-      return { S, base: [120, 290, 80] };
+      return { S, base: [120, 290, 80], weapon: [w0, w1], pivot: [148, 154] };
     },
     boran: () => {
       const S = [], sk = '#C98657', A = '#1F7A3D', L = '#9ACD32', tu = '#8A5A34', pa = '#4B3A2C', bt = '#2E241C';
@@ -143,9 +147,11 @@ function defs(E) {
       headBack(S, 120, 86, 33, sk, null);
       S.push({ p: [[138, 104], [154, 98], [152, 124], [136, 126]], c: '#6B3E22' });
       S.push({ raw: `<polygon points="${P(ngon(106, 66, 9, 5, 5))}" fill="#fff" opacity=".45"/>` });
+      const w0 = S.length;
       arm(S, [168, 142], [206, 166], [194, 116], { u: sk, l: A, hand: A, w: 30, hr: 25 });
+      const w1 = S.length;
       [[184, 108], [194, 102], [204, 110], [36, 110], [46, 104], [56, 112]].forEach(([x, y]) => S.push({ p: ngon(x, y, 4.5, 4.5, 5), c: L, sw: 2.5, sil: false }));
-      return { S, base: [121, 290, 86] };
+      return { S, base: [121, 290, 86], weapon: [w0, w1], pivot: [168, 142] };
     },
     ilwen: () => {
       const S = [], sk = '#F7D2B4', A = '#FFD23F', rb = '#5B3B6E', rb2 = '#4A2E5C', hr = '#E6E0F0';
@@ -158,13 +164,15 @@ function defs(E) {
       S.push({ p: ngon(121, 64, 56, 13, 10), c: rb2 });
       S.push({ p: [[98, 62], [146, 60], [142, 36], [176, 8], [124, 22]], c: rb });
       S.push({ p: [[98, 62], [146, 60], [144, 50], [100, 52]], c: A, sw: 3.5 });
+      const w0 = S.length;
       glow(S, 198, 112, 46, A, .35); glow(S, 198, 112, 28, '#FFF1A8', .5);
       arm(S, [142, 140], [170, 150], [186, 126], { u: rb, hand: sk, w: 15, hr: 9 });
       S.push({ p: [[168, 108], [198, 96], [218, 120], [186, 134]], c: '#8A3B22' });
       S.push({ p: [[186, 134], [218, 120], [219, 127], [188, 141]], c: '#F8EED6', sw: 3 });
       S.push({ raw: `<polygon points="193,106 201,121 185,121" fill="${A}" stroke="${OL}" stroke-width="2"/>` });
+      const w1 = S.length;
       spark(S, 52, 208, 8, A); spark(S, 178, 78, 9, A); spark(S, 222, 84, 11, A); spark(S, 232, 128, 6, '#FF8C32');
-      return { S, base: [121, 290, 80] };
+      return { S, base: [121, 290, 80], weapon: [w0, w1], pivot: [142, 140] };
     },
     kestrel: () => {
       const S = [], sk = '#F6C9A0', A = '#9ACD32', tu = '#6E4A2E', pa = '#4A3B2E', bt = '#5C3A22', hr = '#D9622B';
@@ -201,13 +209,15 @@ function defs(E) {
       S.push({ p: limb([122, 112], [122, 134], 16, 18), c: sk });
       S.push({ p: ngon(88, 64, 17, 17, 7), c: hr }); S.push({ p: ngon(156, 62, 17, 17, 7), c: hr });
       headBack(S, 122, 92, 35, sk, hr);
+      const w0 = S.length;
       glow(S, 186, 78, 50, A, .28); glow(S, 186, 78, 30, Y, .45);
       S.push({ p: ngon(140, 142, 13, 11, 6), c: dr });
       arm(S, [140, 146], [170, 132], [180, 104], { u: dr, l: sk, hand: sk, w: 14, hr: 9 });
       S.push({ raw: `<polyline points="178,100 184,90" fill="none" stroke="#D9A62A" stroke-width="3"/>` });
       S.push({ p: ngon(186, 76, 16, 19, 6, Math.PI / 2), c: Y }); S.push({ p: ngon(186, 76, 10, 12, 6, Math.PI / 2), c: A, sw: 3 });
+      const w1 = S.length;
       spark(S, 222, 60, 9, Y); spark(S, 222, 104, 6, A); spark(S, 156, 40, 7, Y);
-      return { S, base: [122, 290, 78] };
+      return { S, base: [122, 290, 78], weapon: [w0, w1], pivot: [140, 146] };
     },
     sbire: () => {
       const S = [], E1 = '#4B3F5C', E2 = '#625476', D = '#2A2233';
@@ -299,8 +309,15 @@ TS.sprite = (name, opts = {}) => {
   const [cx, y, rx] = C.base;
   const soc = !C.item && (opts.socle ?? !C.enemy);
   let inner = soc ? E.socle(cx, y, rx, C.enemy ? '#2E8A4A' : '#3DDC5B', C.enemy ? '#14502A' : '#1F7A3D') : E.shadow(cx, y, rx);
-  inner += E.parts(C.S);
-  return E.out(inner, C.flip, opts.scale || 1, [cx, y], C.head || [cx, y - 220]);
+  // opts.part = 'body' | 'weapon' : le héros en deux calques alignés (corps / bras armé) pour animer la frappe.
+  const W = opts.part && C.weapon;
+  if (W) {
+    const body = E.parts([...C.S.slice(0, W[0]), ...C.S.slice(W[1])]), arm = E.parts(C.S.slice(W[0], W[1]));
+    inner = opts.part === 'weapon' ? arm : inner + body;
+  } else inner += E.parts(C.S);
+  const s = opts.scale || 1, r = E.out(inner, C.flip, s, [cx, y], C.head || [cx, y - 220]);
+  if (W) { r.px = (C.pivot[0] - cx) * s + r.fx; r.py = (C.pivot[1] - y) * s + r.fy; }
+  return r;
 };
 
 TS.bg = (o = {}) => {

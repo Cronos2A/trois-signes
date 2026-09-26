@@ -71,8 +71,9 @@ function sprite(ctx, S, x, y, sx, sy, rot, red, white) {
 function drawHero(ctx) {
   const S = ART.hero, home = heroFoot();
   if (!S) return { x: home.x, y: home.y - 60 };
-  const P = heroPose(home, k), x = home.x + P.dx + P.shake, y = home.y + P.dy;
-  sprite(ctx, S, x, y, P.sx, P.sy, P.rot, P.red, 0);
+  const P = heroPose(home, k), x = home.x + P.dx + P.shake, y = home.y + P.dy, Arm = ART.heroArm;
+  // Sans calque de bras armé (arc de Kestrel), c'est tout le sprite qui s'incline pour frapper.
+  heroSprite(ctx, S, Arm, x, y, P.sx, P.sy, P.rot + (Arm ? 0 : P.arm * 0.15), P);
   const body = { x, y: y - S.h * 0.5 };
   if ((G.mode === 'play' || G.mode === 'train') && G.time < G.hero.shieldUntil) {
     ring(ctx, body.x, body.y, 64 * k, '#3DDC5B', 4, 0.9);
@@ -81,6 +82,31 @@ function drawHero(ctx) {
     ctx.globalAlpha = 1;
   }
   return body;
+}
+
+/** Héros : corps, puis bras armé qui pivote autour de l'épaule, avec une traînée de lame pendant la frappe. */
+function heroSprite(ctx, S, Arm, x, y, sx, sy, rot, P) {
+  ctx.save();
+  ctx.translate(x, y);
+  if (rot) ctx.rotate(rot);
+  ctx.scale(sx, sy);
+  ctx.drawImage(S.img, -S.fx, -S.fy, S.w, S.h);
+  if (P.red > 0) { ctx.globalAlpha = Math.min(1, P.red); ctx.drawImage(S.red, -S.fx, -S.fy, S.w, S.h); ctx.globalAlpha = 1; }
+  if (Arm) {
+    ctx.translate(-Arm.fx + Arm.px, -Arm.fy + Arm.py);
+    if (P.swing > 0) {
+      const R = S.h * 0.44, a1 = -1.06 + P.arm, a0 = Math.max(-1.06 - 0.8, a1 - 1.6), fade = 1 - P.swing * P.swing;
+      ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.arc(0, 0, R, a0, a1);
+      ctx.globalAlpha = 0.45 * fade; ctx.strokeStyle = '#FFD23F'; ctx.lineWidth = 16 * k; ctx.stroke();
+      ctx.globalAlpha = 0.95 * fade; ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 6 * k; ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+    ctx.rotate(P.arm);
+    ctx.drawImage(Arm.img, -Arm.px, -Arm.py, Arm.w, Arm.h);
+    if (P.red > 0) { ctx.globalAlpha = Math.min(1, P.red); ctx.drawImage(Arm.red, -Arm.px, -Arm.py, Arm.w, Arm.h); }
+  }
+  ctx.restore();
 }
 
 function drawEnemy(ctx, e, p) {
@@ -182,9 +208,9 @@ function drawFx(ctx, body) {
   for (const f of G.fx) {
     const p = f.t / f.life;
     if (f.kind === 'slash') {                    // entaille sur la cible, quand le héros l'atteint
-      const q = Math.min(1, Math.max(0, (p - 0.3) * 3)), r = 34 * k;
+      const q = Math.min(1, Math.max(0, (p - 0.45) * 4)), r = 34 * k;
       if (q <= 0) continue;
-      ctx.globalAlpha = 1 - Math.max(0, p - 0.6) / 0.4;
+      ctx.globalAlpha = 1 - Math.max(0, p - 0.7) / 0.3;
       line(ctx, f.x2 - r, f.y2 - r, f.x2 - r + 2 * r * q, f.y2 - r + 2 * r * q, f.col, 7);
       line(ctx, f.x2 + r * 0.8, f.y2 - r * 0.6, f.x2 + r * 0.8 - 1.6 * r * q, f.y2 - r * 0.6 + 1.2 * r * q, '#FFFFFF', 4);
       ctx.globalAlpha = 1;
