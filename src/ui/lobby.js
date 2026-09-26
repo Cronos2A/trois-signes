@@ -2,7 +2,7 @@
 // Recréé d'après la maquette Claude Design design/trois-signes-maquette-lobby,
 // portraits tirés de la planche design/planche-de-personnages-trois-signes.
 import { D } from '../data.js';
-import { prog, levelInfo } from '../game/progress.js';
+import { prog, levelInfo, charXp, saveActive } from '../game/progress.js';
 import { art } from './art.js';
 import { glyph, wIcon, trailIcon, facets } from './icons.js';
 
@@ -30,6 +30,8 @@ export function initLobby(a) {
     '<nav class="lb-tabs" id="lbTabs"></nav>' +
     '<div class="lb-modal hidden" id="results" role="dialog" aria-modal="true"></div>';
   root.addEventListener('click', onClick);
+  const saved = chars().findIndex(c => c.id === prog.active && c.available);
+  if (saved >= 0) ui.active = saved;
   render();
 }
 
@@ -49,7 +51,7 @@ function onClick(e) {
     case 'view': ui.view = +arg; render(); break;
     case 'prev': ui.view = (ui.view + chars().length - 1) % chars().length; render(); break;
     case 'next': ui.view = (ui.view + 1) % chars().length; render(); break;
-    case 'select': ui.active = ui.view; render(); break;
+    case 'select': ui.active = ui.view; saveActive(chars()[ui.active].id); render(); break;
     case 'filter': ui.filter = arg; render(); break;
     case 'solo': actions.solo(); break;
     case 'train': actions.train(); break;
@@ -73,7 +75,7 @@ function render() {
 
 /* ---------- Haut de page commun ---------- */
 function headHtml() {
-  const c = chars()[ui.active], L = levelInfo(prog.xp);
+  const c = chars()[ui.active], L = levelInfo(charXp(c.id));
   return `<div class="avatar-wrap">
       <div class="avatar" style="background:${c.color}">${facets.small()}<span class="ol ol-4">${c.name[0]}</span></div>
       <div class="lvl-badge">${L.lvl}</div>
@@ -126,7 +128,7 @@ function playHtml() {
 
 /* ---------- 02 · Personnage ---------- */
 function charHtml() {
-  const list = chars(), N = list.length, vi = ui.view, v = list[vi], L = levelInfo(prog.xp);
+  const list = chars(), N = list.length, vi = ui.view, v = list[vi], L = levelInfo(charXp(v.id));
   const car = list.map((c, i) => {
     let off = ((i - vi) % N + N) % N;
     if (off > N / 2) off -= N;
@@ -219,7 +221,7 @@ function shopHtml() {
 export function showResults(r) {
   ui.tab = 'play';
   render();
-  const L = levelInfo(prog.xp);
+  const L = levelInfo(charXp(activeCharacter().id));
   const title = r.why === 'win' ? 'Victoire' : r.why === 'ko' ? 'KO' : 'Temps écoulé';
   const colOf = name => (D.grades.levels.find(g => g.name === name) || D.grades.miss).col;
   const rows = Object.keys(r.stats).map(k =>

@@ -18,31 +18,31 @@
       "id": "nyra", "name": "Nyra", "role": "Assassine", "title": "L'Assassine",
       "weapon": "dague", "weaponLabel": "Dague", "color": "#3DDC5B", "skinColor": "#9ACD32",
       "traits": ["Rapide", "Solitaire", "Sarcastique"], "stats": [3, 5, 2],
-      "available": false
+      "available": true, "hp": 150, "attack": 6
     },
     {
       "id": "boran", "name": "Boran", "role": "Colosse", "title": "Le Colosse",
       "weapon": "gantelets", "weaponLabel": "Gantelets", "color": "#1F7A3D", "skinColor": "#9ACD32",
       "traits": ["Calme", "Increvable", "Protecteur"], "stats": [5, 1, 5],
-      "available": false
+      "available": true, "hp": 150, "attack": 6
     },
     {
       "id": "ilwen", "name": "Ilwen", "role": "Sorcière", "title": "La Sorcière",
       "weapon": "grimoire", "weaponLabel": "Grimoire", "color": "#FFD23F", "skinColor": "#FFD23F",
       "traits": ["Étudieuse", "Impatiente", "Hautaine"], "stats": [4, 3, 2],
-      "available": false
+      "available": true, "hp": 150, "attack": 6
     },
     {
       "id": "kestrel", "name": "Kestrel", "role": "Rôdeuse", "title": "La Rôdeuse",
       "weapon": "arc", "weaponLabel": "Arc", "color": "#9ACD32", "skinColor": "#3DDC5B",
       "traits": ["Vive", "Indépendante", "Pragmatique"], "stats": [4, 4, 2],
-      "available": false
+      "available": true, "hp": 150, "attack": 6
     },
     {
       "id": "mira", "name": "Mira", "role": "Soigneuse", "title": "La Soigneuse",
       "weapon": "amulette", "weaponLabel": "Amulette", "color": "#FF5A3C", "skinColor": "#FF5A3C",
       "traits": ["Douce", "Déterminée", "Optimiste"], "stats": [2, 3, 4],
-      "available": false
+      "available": true, "hp": 150, "attack": 6
     }
   ]
 }
