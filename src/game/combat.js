@@ -52,6 +52,7 @@ function tryPickup(x, y) {
   const acc = Math.round(clamp(100 - bd * P.accuracyLossPerPx, 0, 100));
   const g = gradeFor(acc);
   const cm = registerGrade(g);
+  summon(g);
   showGrade(g, acc, 'Ramassage');
   if (!g) { best.life = Math.min(best.life, P.missLifeCap); return true; }
   G.loots.splice(G.loots.indexOf(best), 1);
@@ -68,12 +69,14 @@ function tryPickup(x, y) {
   return true;
 }
 
-function hitEnemy(e, dmg, col, bySuper) {
+/** by : undefined (attaque du héros), 'super' (coup de super sur tous) ou 'summon' (invocation de Mira). */
+function hitEnemy(e, dmg, col, by) {
   const h = heroPos();
   e.hp -= dmg; e.hit = 0.25;
-  if (bySuper) addFx({ kind: 'superHit', x: e.x, y: e.y, col, life: 0.6 });
+  if (by === 'super') addFx({ kind: 'superHit', x: e.x, y: e.y, col, life: 0.6 });
+  else if (by === 'summon') addFx({ kind: 'bite', x: e.x, y: e.y, col, life: 0.35 });
   else addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: e.x, y2: e.y, col, life: 0.35 });
-  pop(e.x, e.y - e.T.r - 14, '-' + dmg, '', col, 0.9, 24);
+  pop(e.x, e.y - e.T.r - 14, '-' + dmg, '', col, 0.9, by === 'summon' ? 16 : 24);
   G.score += Math.round(dmg * D.rules.score.perDamage);
   if (e.hp > 0) return;
   G.score += e.T.pts;
@@ -106,9 +109,32 @@ export function useSuper() {
   if (S.healPct) pop(p.x, p.y - 90, 'PV au max', '', '#8CF09A', 1.2, 24);
   if (S.hitAll) {
     const dmg = round1(G.hero.atk * G.atkMult * S.hitAll);
-    for (const e of G.enemies.filter(e => e.hp > 0)) hitEnemy(e, dmg, h.col, true);
+    for (const e of G.enemies.filter(e => e.hp > 0)) hitEnemy(e, dmg, h.col, 'super');
   }
   return true;
+}
+
+/** Mira : chaque geste du niveau voulu (Perfect) invoque un petit monstre, dans la limite de max. */
+function summon(g) {
+  const S = G.hero.summon;
+  if (!S || !g || g.name !== S.on || G.summons.length >= S.max) return;
+  G.summons.push({ id: ++summonId, t: 0, life: S.duration, next: S.interval, target: null });
+}
+let summonId = 0;
+
+/** Chaque invocation frappe la cible du moment toutes les `interval` s, puis disparaît au bout de `duration` s. */
+export function updateSummons(dt) {
+  const S = G.hero.summon;
+  if (!S) return;
+  for (const s of G.summons) {
+    s.t += dt;
+    if (s.t < s.next) continue;
+    s.next += S.interval;
+    const e = pickTarget();
+    s.target = e;
+    if (e) hitEnemy(e, S.damage, G.hero.col, 'summon');
+  }
+  G.summons = G.summons.filter(s => s.t < s.life);
 }
 
 /** Un ennemi porte son coup sur le héros. */
@@ -147,6 +173,7 @@ export function handleGesture(res) {
   }
   const g = gradeFor(res.acc);
   let cm = registerGrade(g);
+  summon(g);
   const label = res.type === 'triangle' ? 'Attaque' : 'Esquive';
   showGrade(g, res.acc, label);
   if (!g) {

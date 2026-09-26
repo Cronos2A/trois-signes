@@ -3,10 +3,10 @@
   "comboScore": 100,
   "miss": { "name": "Raté", "col": "#FF5A3C" },
   "levels": [
-    { "name": "Perfect",   "min": 90, "mult": 1.5, "combo": 3,    "bonus": 50, "col": "#FFD23F" },
-    { "name": "Excellent", "min": 80, "mult": 1.2, "combo": 2.5,  "bonus": 25, "col": "#FF8C32" },
-    { "name": "Very Good", "min": 68, "mult": 1,   "combo": 2,    "bonus": 12, "col": "#8CF09A" },
-    { "name": "Good",      "min": 55, "mult": 0.7, "combo": 1.75, "bonus": 5,  "col": "#F3E6C8" },
-    { "name": "OK",        "min": 40, "mult": 0.4, "combo": 1.5,  "bonus": 0,  "col": "#B7C3CE" }
+    { "name": "Perfect",   "min": 95, "mult": 1.5, "combo": 3,    "bonus": 50, "col": "#FFD23F" },
+    { "name": "Excellent", "min": 88, "mult": 1.2, "combo": 2.5,  "bonus": 25, "col": "#FF8C32" },
+    { "name": "Very Good", "min": 80, "mult": 1,   "combo": 2,    "bonus": 12, "col": "#8CF09A" },
+    { "name": "Good",      "min": 70, "mult": 0.7, "combo": 1.75, "bonus": 5,  "col": "#F3E6C8" },
+    { "name": "OK",        "min": 60, "mult": 0.4, "combo": 1.5,  "bonus": 0,  "col": "#B7C3CE" }
   ]
 }

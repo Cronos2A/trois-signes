@@ -12,12 +12,13 @@ Prototype jouable actuel : `prototype/trois-signes-prototype.html` (un seul fich
 - **5 niveaux de réussite** selon la précision du tracé (0 à 100 %) :
   | Niveau | Précision | Multiplicateur |
   |---|---|---|
-  | Raté | < 40 % | aucun effet, casse la série |
-  | OK | 40-54 % | ×0,4 |
-  | Good | 55-67 % | ×0,7 |
-  | Very Good | 68-79 % | ×1 |
-  | Excellent | 80-89 % | ×1,2 |
-  | Perfect | 90 % et + | ×1,5 |
+  | Raté | < 60 % | aucun effet, casse la série |
+  | OK | 60-69 % | ×0,4 |
+  | Good | 70-79 % | ×0,7 |
+  | Very Good | 80-87 % | ×1 |
+  | Excellent | 88-94 % | ×1,2 |
+  | Perfect | 95 % et + | ×1,5 |
+  (Seuils durcis à la demande en septembre 2026 : auparavant 40 / 55 / 68 / 80 / 90.)
 - **Combos** : 4 fois de suite le même niveau → le 4e geste est multiplié (OK ×1,5, Good ×1,75, Very Good ×2, Excellent ×2,5, Perfect ×3). Esquive en combo = esquive totale + riposte. La série repart à zéro après un combo, un raté ou un niveau différent.
 - **Esquive** : part évitée = min(100 %, 80 % × multiplicateur × combo).
 - **6 personnages** (Chevalier, Assassin, Colosse, Sorcier, Ranger, Soigneur), chacun avec son niveau et son XP, gagnés seulement en le jouant.
@@ -26,12 +27,12 @@ Prototype jouable actuel : `prototype/trois-signes-prototype.html` (un seul fich
 - **Histoire** : cinématiques en images fixes + texte, un fragment débloqué à chaque boss.
 
 ## Passifs et super-attaques (valeurs de départ, à rééquilibrer dans `data/characters.json`)
-- Aldric 150 PV / 6, aucun passif. Nyra 100 / 8. Boran 190 / 8, jamais de combo. Mira 200 / 3, soin 4 PV × multiplicateur par attaque réussie. Kestrel 125 / 6,6, esquive de base 95 %. Ilwen 125 / 6, combo en 3 gestes.
+- Aldric 130 PV / 4, aucun passif. Nyra 80 / 6. Boran 170 / 6, jamais de combo. Mira 180 / 3, soin 4 PV × multiplicateur par attaque réussie, et chaque Perfect invoque un petit monstre (1 dégât/s pendant 10 s, 6 au plus). Kestrel 105 / 4,6, esquive de base 120 %. Ilwen 105 / 4, combo en 3 gestes.
 - Jauge : OK +4, Good +7, Very Good +10, Excellent +12, Perfect +15, combo +10, pleine à 100. Bouton rond en bas à droite (l'appui n'est jamais un geste).
-- Supers : Rempart (8 s, dégâts reçus −50 %, coup sur tous ×2), Ombre (3 esquives auto, attaque +50 % 8 s), Géant (×1,4 pendant 8 s, coup sur tous ×2,5), Grimoire ouvert (4 attaques traitées en combo), Œil de faucon (8 s de Perfect), Renouveau (PV au max, attaque ×2 10 s).
+- Supers : Rempart (8 s, dégâts reçus −50 %, coup sur tous ×2), Ombre (3 esquives auto, attaque +50 % 8 s), Géant (×1,4 pendant 8 s, coup sur tous ×2,5), Grimoire ouvert (2 attaques traitées en combo), Œil de faucon (8 s de Perfect), Renouveau (PV au max, attaque ×2 10 s).
 
 ## Équilibrage actuel (version 2 du prototype)
-Héros 150 PV, attaque de base 6. Sbire 10 PV / 6 dégâts, brute 18 PV / 9 dégâts, boss 50 PV / 12 dégâts.
+Héros : voir « Passifs » ci-dessus (Aldric 130 PV, attaque 4). Sbire 20 PV / 6 dégâts, brute 28 PV / 9 dégâts, boss 60 PV / 12 dégâts.
 Alerte avant un coup : 1,3 à 1,5 s. Pause d'au moins 1,2 s entre deux coups ennemis. Partie de 120 s.
 Ces valeurs doivent vivre dans des fichiers JSON, jamais en dur dans le code.
 

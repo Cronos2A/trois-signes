@@ -5,7 +5,7 @@ export const G = {
   time: 0, waveIdx: 0, waveDelay: 0, score: 0, shake: 0,
   streak: { name: null, n: 0 }, combos: 0, globalGap: 0,
   hero: null, atkMult: 1, charId: 'aldric',
-  enemies: [], loots: [],
+  enemies: [], loots: [], summons: [],
   fx: [], pops: [], trails: [], bigGrade: null, superBanner: null, drawing: null,
   stats: {}, trainSpawn: 0, trainMsg: ''
 };
