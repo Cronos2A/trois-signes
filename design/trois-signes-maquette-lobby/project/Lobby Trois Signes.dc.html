@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/styles.css">
+<script src="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:var(--color-bg);}a{color:#1F7A3D;}a:hover{color:#FF5A3C;}*{box-sizing:border-box;}</style>
+</helmet>
+<section style="padding:56px 64px 80px;font-family:var(--font-body);color:#15301E;min-width:1400px">
+  <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:40px">
+    <div style="font-family:var(--font-heading);font-size:44px;line-height:1">Trois Signes — Lobby principal</div>
+    <div style="font-size:17px;font-weight:600;color:#3d5a45">Trois onglets, même haut de page, même barre d'onglets. Cliquez les portraits de l'écran 02 et les filtres de l'écran 03.</div>
+  </div>
+  <div style="display:flex;gap:56px;align-items:flex-start">
+
+    <!-- ========== 01 JOUER ========== -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">01 · Jouer</div>
+      <div data-screen-label="01 Jouer" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:linear-gradient(180deg,#3DDC5B 0%,#2BA84A 45%,#1F7A3D 100%);box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        {{ bg }}
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#fff;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #fff;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#fff;border-radius:1px"></div></div>
+        </div>
+        <div style="position:relative;display:flex;align-items:center;gap:12px;padding:10px 14px 0">
+          <div style="position:relative;width:60px;height:60px;flex-shrink:0">
+            <div style="position:relative;width:60px;height:60px;border-radius:50%;border:4px solid #15301E;background:{{ active.color }};overflow:hidden;box-shadow:0 4px 0 #15301E;display:flex;align-items:center;justify-content:center">
+              {{ facetSmall }}
+              <span style="position:relative;font-family:var(--font-heading);font-size:26px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">{{ active.initial }}</span>
+            </div>
+            <div style="position:absolute;right:-7px;bottom:-6px;min-width:28px;height:28px;padding:0 5px;border-radius:999px;background:#FFD23F;border:3px solid #15301E;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:13px;color:#15301E">{{ active.lvl }}</div>
+          </div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+            <div style="font-family:var(--font-heading);font-size:19px;line-height:1;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill;text-shadow:0 2px 0 #15301E">{{ active.name }}</div>
+            <div style="height:15px;border:3px solid #15301E;border-radius:999px;background:#17532C;overflow:hidden"><div style="height:100%;width:{{ active.xpPct }}%;background:linear-gradient(180deg,#C8EA70 0 45%,#9ACD32 45%);border-right:3px solid #15301E"></div></div>
+            <div style="font-size:11px;font-weight:800;color:#E6FAD8">{{ active.xpLabel }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+            <div style="display:flex;align-items:center;gap:5px;height:30px;padding:0 12px 0 3px;border-radius:999px;background:#174A28;border:3px solid #15301E;box-shadow:0 3px 0 #15301E">{{ coin }}<span style="font-family:var(--font-heading);font-size:15px;color:#FFD23F">12 450</span></div>
+            <div style="display:flex;align-items:center;gap:5px;height:30px;padding:0 12px 0 3px;border-radius:999px;background:#174A28;border:3px solid #15301E;box-shadow:0 3px 0 #15301E">{{ gem }}<span style="font-family:var(--font-heading);font-size:15px;color:#FFB7A6">85</span></div>
+          </div>
+        </div>
+
+        <div style="position:absolute;top:120px;bottom:106px;left:14px;right:14px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-direction:column;gap:8px;padding:10px 14px 12px;background:var(--color-bg);border:3px solid #15301E;border-radius:20px;box-shadow:0 4px 0 #15301E">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:8px">
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <div style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">SOLO · ÉTAPE 3</div>
+                <div style="font-family:var(--font-heading);font-size:17px;line-height:1">Forêt de Mousse</div>
+              </div>
+              <div style="font-family:var(--font-heading);font-size:15px;color:#C4481F">Vague 7 / 10</div>
+            </div>
+            <div style="display:flex;gap:4px">
+              <sc-for list="{{ wavePips }}" as="p" hint-placeholder-count="10">
+                <div style="flex:1;height:11px;border-radius:999px;border:2.5px solid #15301E;background:{{ p.bg }}"></div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="flex:1;position:relative;min-height:0">
+            <sc-for list="{{ chars }}" as="c" hint-placeholder-count="1">
+              <div style="position:absolute;inset:0;display:{{ c.showActive }}">
+                <div style="position:absolute;left:50%;top:46%;transform:translate(-50%,-50%)">{{ c.disc }}</div>
+                <div style="position:absolute;left:50%;top:46%;width:210px;height:210px;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;border:4px solid #15301E">
+                  <image-slot id="hero-{{ c.id }}" shape="circle" fit="contain" placeholder="Art de {{ c.name }} — pose dynamique"></image-slot>
+                </div>
+              </div>
+            </sc-for>
+            <sc-if value="{{ showDecor }}" hint-placeholder-val="{{ true }}">
+              <div style="position:absolute;left:8px;top:18px;transform:rotate(-14deg)">{{ deco.tri }}</div>
+              <div style="position:absolute;right:10px;top:54px">{{ deco.circle }}</div>
+              <div style="position:absolute;left:30px;bottom:90px">{{ deco.dot }}</div>
+            </sc-if>
+            <div style="position:absolute;left:50%;bottom:4px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:7px 16px 7px 8px;background:var(--color-bg);border:3px solid #15301E;border-radius:999px;box-shadow:0 4px 0 #15301E;white-space:nowrap">
+              <div style="width:34px;height:34px;border-radius:50%;border:3px solid #15301E;background:{{ active.color }};display:flex;align-items:center;justify-content:center">{{ active.wIconSm }}</div>
+              <div style="display:flex;flex-direction:column">
+                <span style="font-family:var(--font-heading);font-size:17px;line-height:1.05">{{ active.name }}</span>
+                <span style="font-size:12px;font-weight:700;color:#3d5a45">{{ active.wLine }}</span>
+              </div>
+            </div>
+          </div>
+
+          <sc-if value="{{ isDuo }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:12px">
+              <div style="flex:1;height:124px;border-radius:26px;border:4px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 7px 0 #15301E;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:12px 14px;cursor:pointer;position:relative;overflow:hidden" style-active="transform:translateY(4px);box-shadow:0 3px 0 #15301E" style-hover="filter:brightness(1.05)">
+                <span style="font-size:11px;font-weight:800;letter-spacing:.08em;padding:3px 9px;border-radius:999px;background:#15301E;color:#FFD23F">PVE</span>
+                <div style="display:flex;flex-direction:column;gap:2px">
+                  <span style="font-family:var(--font-heading);font-size:32px;line-height:1;color:#fff;-webkit-text-stroke:5px #15301E;paint-order:stroke fill;text-shadow:0 3px 0 #15301E">Solo</span>
+                  <span style="font-size:12px;font-weight:800;color:#15301E">Vagues & boss</span>
+                </div>
+                <div style="position:absolute;right:10px;top:10px">{{ btnTri }}</div>
+              </div>
+              <div style="flex:1;height:124px;border-radius:26px;border:4px solid #15301E;background:linear-gradient(180deg,#FF7A5E 0 46%,#FF5A3C 46%);box-shadow:0 7px 0 #15301E;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:12px 14px;cursor:pointer;position:relative;overflow:hidden" style-active="transform:translateY(4px);box-shadow:0 3px 0 #15301E" style-hover="filter:brightness(1.05)">
+                <span style="font-size:11px;font-weight:800;letter-spacing:.08em;padding:3px 9px;border-radius:999px;background:#15301E;color:#FFD23F">PVP · ARGENT II</span>
+                <div style="display:flex;flex-direction:column;gap:2px">
+                  <span style="font-family:var(--font-heading);font-size:32px;line-height:1;color:#fff;-webkit-text-stroke:5px #15301E;paint-order:stroke fill;text-shadow:0 3px 0 #15301E">Duel</span>
+                  <span style="font-size:12px;font-weight:800;color:#15301E">En ligne · tour par tour</span>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isSingle }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;gap:6px;padding:5px;border-radius:999px;background:#17532C;border:3px solid #15301E;align-self:center">
+                <sc-for list="{{ modes }}" as="m" hint-placeholder-count="2">
+                  <div onClick="{{ m.onClick }}" style="padding:7px 20px;border-radius:999px;border:3px solid {{ m.border }};background:{{ m.bg }};color:#15301E;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap">{{ m.label }}</div>
+                </sc-for>
+              </div>
+              <div style="height:96px;border-radius:30px;border:4px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 7px 0 #15301E;display:flex;align-items:center;justify-content:center;gap:14px;cursor:pointer" style-active="transform:translateY(4px);box-shadow:0 3px 0 #15301E">
+                {{ btnTri }}
+                <span style="font-family:var(--font-heading);font-size:40px;line-height:1;color:#fff;-webkit-text-stroke:6px #15301E;paint-order:stroke fill;text-shadow:0 4px 0 #15301E">Jouer</span>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="position:absolute;left:0;right:0;bottom:0;display:flex;gap:10px;align-items:flex-end;padding:16px 14px 24px;background:#17532C;border-top:4px solid #15301E">
+          <div style="flex:1;height:64px;border-radius:20px;border:3px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 5px 0 #15301E;transform:translateY(-8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px">{{ tab.triOn }}<span style="font-family:var(--font-heading);font-size:15px;color:#fff;-webkit-text-stroke:3px #15301E;paint-order:stroke fill">Jouer</span></div>
+          <div style="flex:1;height:58px;border-radius:20px;border:3px solid #15301E;background:linear-gradient(180deg,#379C52 0 46%,#2B8745 46%);box-shadow:0 4px 0 #15301E;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer" style-hover="filter:brightness(1.12)">{{ tab.circleOff }}<span style="font-family:var(--font-heading);font-size:14px;color:#CFF2C0">Personnage</span></div>
+          <div style="flex:1;height:58px;border-radius:20px;border:3px solid #15301E;background:linear-gradient(180deg,#379C52 0 46%,#2B8745 46%);box-shadow:0 4px 0 #15301E;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer" style-hover="filter:brightness(1.12)">{{ tab.dotOff }}<span style="font-family:var(--font-heading);font-size:14px;color:#CFF2C0">Boutique</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 02 PERSONNAGE ========== -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">02 · Personnage</div>
+      <div data-screen-label="02 Personnage" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:linear-gradient(180deg,#3DDC5B 0%,#2BA84A 45%,#1F7A3D 100%);box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        {{ bg }}
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#fff;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #fff;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#fff;border-radius:1px"></div></div>
+        </div>
+        <div style="position:relative;display:flex;align-items:center;gap:12px;padding:10px 14px 0">
+          <div style="position:relative;width:60px;height:60px;flex-shrink:0">
+            <div style="position:relative;width:60px;height:60px;border-radius:50%;border:4px solid #15301E;background:{{ active.color }};overflow:hidden;box-shadow:0 4px 0 #15301E;display:flex;align-items:center;justify-content:center">
+              {{ facetSmall }}
+              <span style="position:relative;font-family:var(--font-heading);font-size:26px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">{{ active.initial }}</span>
+            </div>
+            <div style="position:absolute;right:-7px;bottom:-6px;min-width:28px;height:28px;padding:0 5px;border-radius:999px;background:#FFD23F;border:3px solid #15301E;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:13px;color:#15301E">{{ active.lvl }}</div>
+          </div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+            <div style="font-family:var(--font-heading);font-size:19px;line-height:1;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill;text-shadow:0 2px 0 #15301E">{{ active.name }}</div>
+            <div style="height:15px;border:3px solid #15301E;border-radius:999px;background:#17532C;overflow:hidden"><div style="height:100%;width:{{ active.xpPct }}%;background:linear-gradient(180deg,#C8EA70 0 45%,#9ACD32 45%);border-right:3px solid #15301E"></div></div>
+            <div style="font-size:11px;font-weight:800;color:#E6FAD8">{{ active.xpLabel }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+            <div style="display:flex;align-items:center;gap:5px;height:30px;padding:0 12px 0 3px;border-radius:999px;background:#174A28;border:3px solid #15301E;box-shadow:0 3px 0 #15301E">{{ coin }}<span style="font-family:var(--font-heading);font-size:15px;color:#FFD23F">12 450</span></div>
+            <div style="display:flex;align-items:center;gap:5px;height:30px;padding:0 12px 0 3px;border-radius:999px;background:#174A28;border:3px solid #15301E;box-shadow:0 3px 0 #15301E">{{ gem }}<span style="font-family:var(--font-heading);font-size:15px;color:#FFB7A6">85</span></div>
+          </div>
+        </div>
+
+        <div style="position:absolute;top:120px;bottom:106px;left:14px;right:14px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:4px;height:100px">
+            <div onClick="{{ prev }}" style="width:30px;height:30px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px">
+              <sc-for list="{{ chars }}" as="c" hint-placeholder-count="5">
+                <div onClick="{{ c.onView }}" style="order:{{ c.order }};display:{{ c.carDisplay }};flex-direction:column;align-items:center;gap:4px;cursor:pointer">
+                  <div style="position:relative;width:{{ c.size }}px;height:{{ c.size }}px;border-radius:50%;border:4px solid #15301E;background:{{ c.color }};overflow:hidden;box-shadow:{{ c.ring }};display:flex;align-items:center;justify-content:center">
+                    {{ facetSmall }}
+                    <span style="position:relative;font-family:var(--font-heading);font-size:{{ c.letterSize }}px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">{{ c.initial }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div onClick="{{ next }}" style="width:30px;height:30px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px;padding:12px;background:var(--color-bg);border:3px solid #15301E;border-radius:24px;box-shadow:0 5px 0 #15301E">
+            <div style="position:relative;width:138px;height:188px;flex-shrink:0;border-radius:18px;border:3px solid #15301E;background:{{ view.color }};overflow:hidden">
+              {{ facetMed }}
+              <sc-for list="{{ chars }}" as="c" hint-placeholder-count="1">
+                <div style="position:absolute;inset:0;display:{{ c.showView }}">
+                  <image-slot id="full-{{ c.id }}" shape="rect" fit="contain" placeholder="Art de {{ c.name }}"></image-slot>
+                </div>
+              </sc-for>
+            </div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:9px">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div style="font-family:var(--font-heading);font-size:26px;line-height:1">{{ view.name }}</div>
+                <div style="display:flex;gap:5px;flex-wrap:wrap">
+                  <span style="font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;background:#9ACD32;border:2px solid #15301E">{{ view.role }}</span>
+                  <span style="font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;background:#FFD23F;border:2px solid #15301E">Nv {{ view.lvl }}</span>
+                </div>
+              </div>
+              <sc-for list="{{ statRows }}" as="s" hint-placeholder-count="3">
+                <div style="display:flex;flex-direction:column;gap:3px">
+                  <span style="font-size:12px;font-weight:800;color:#3d5a45">{{ s.label }}</span>
+                  <div style="display:flex;gap:4px">
+                    <sc-for list="{{ s.pips }}" as="p" hint-placeholder-count="5">
+                      <div style="flex:1;height:13px;border-radius:999px;border:2.5px solid #15301E;background:{{ p.bg }}"></div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px">
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;padding:10px;background:var(--color-bg);border:3px solid #15301E;border-radius:22px;box-shadow:0 5px 0 #15301E">
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">{{ deco.triXs }}ARME</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <div style="position:relative;width:50px;height:50px;flex-shrink:0;border-radius:14px;border:3px solid #15301E;background:{{ view.color }};overflow:hidden;display:flex;align-items:center;justify-content:center">{{ facetSmall }}<div style="position:relative">{{ view.wIcon }}</div></div>
+                <div style="display:flex;flex-direction:column;min-width:0">
+                  <span style="font-size:13px;font-weight:800;line-height:1.15">{{ view.wName }}</span>
+                  <span style="font-size:11px;font-weight:700;color:#3d5a45">{{ view.weaponLabel }}</span>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-family:var(--font-heading);font-size:11px;padding:2px 7px;border-radius:999px;background:#FFD23F;border:2px solid #15301E;white-space:nowrap">Nv {{ view.wLvl }}</span>
+                <div style="flex:1;height:11px;border:2.5px solid #15301E;border-radius:999px;background:#E4D3B4;overflow:hidden"><div style="height:100%;width:{{ view.wPct }}%;background:#FFD23F;border-right:2.5px solid #15301E"></div></div>
+              </div>
+              <div style="font-size:10.5px;font-weight:800;color:#3d5a45;margin-top:-4px">{{ view.wXpLabel }}</div>
+              <div style="height:34px;border-radius:999px;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;cursor:pointer" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">Changer</div>
+            </div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;padding:10px;background:var(--color-bg);border:3px solid #15301E;border-radius:22px;box-shadow:0 5px 0 #15301E">
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">{{ deco.circleXs }}COSMÉTIQUE</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <div style="width:50px;height:50px;flex-shrink:0;border-radius:14px;border:3px solid #15301E;background:#1F7A3D;display:flex;align-items:center;justify-content:center">{{ view.skinIcon }}</div>
+                <div style="display:flex;flex-direction:column;min-width:0">
+                  <span style="font-size:13px;font-weight:800;line-height:1.15">{{ view.skin }}</span>
+                  <span style="font-size:11px;font-weight:700;color:#3d5a45">Skin · {{ view.skinRarity }}</span>
+                </div>
+              </div>
+              <div style="flex:1;display:flex;align-items:center;font-size:11px;font-weight:800;color:#3d5a45">{{ view.skinLine }}</div>
+              <div style="height:34px;border-radius:999px;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;cursor:pointer" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">Changer</div>
+            </div>
+          </div>
+
+          <sc-if value="{{ viewIsActive }}" hint-placeholder-val="{{ true }}">
+            <div style="height:54px;border-radius:999px;border:3px dashed #15301E;background:#2B8745;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-heading);font-size:18px;color:#CFF2C0">{{ deco.circleXs }}Personnage actif</div>
+          </sc-if>
+          <sc-if value="{{ viewNotActive }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ select }}" style="height:54px;border-radius:999px;border:4px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 6px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(4px);box-shadow:0 2px 0 #15301E">
+              <span style="font-family:var(--font-heading);font-size:21px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill;text-shadow:0 2px 0 #15301E">Jouer avec {{ view.name }}</span>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="position:absolute;left:0;right:0;bottom:0;display:flex;gap:10px;align-items:flex-end;padding:16px 14px 24px;background:#17532C;border-top:4px solid #15301E">
+          <div style="flex:1;height:58px;border-radius:20px;border:3px solid #15301E;background:linear-gradient(180deg,#379C52 0 46%,#2B8745 46%);box-shadow:0 4px 0 #15301E;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer" style-hover="filter:brightness(1.12)">{{ tab.triOff }}<span style="font-family:var(--font-heading);font-size:14px;color:#CFF2C0">Jouer</span></div>
+          <div style="flex:1;height:64px;border-radius:20px;border:3px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 5px 0 #15301E;transform:translateY(-8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px">{{ tab.circleOn }}<span style="font-family:var(--font-heading);font-size:15px;color:#fff;-webkit-text-stroke:3px #15301E;paint-order:stroke fill">Personnage</span></div>
+          <div style="flex:1;height:58px;border-radius:20px;border:3px solid #15301E;background:linear-gradient(180deg,#379C52 0 46%,#2B8745 46%);box-shadow:0 4px 0 #15301E;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer" style-hover="filter:brightness(1.12)">{{ tab.dotOff }}<span style="font-family:var(--font-heading);font-size:14px;color:#CFF2C0">Boutique</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 03 BOUTIQUE ========== -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">03 · Boutique</div>
+      <div data-screen-label="03 Boutique" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:linear-gradient(180deg,#3DDC5B 0%,#2BA84A 45%,#1F7A3D 100%);box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        {{ bg }}
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#fff;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #fff;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#fff;border-radius:1px"></div></div>
+        </div>
+        <div style="position:relative;display:flex;align-items:center;gap:12px;padding:10px 14px 0">
+          <div style="position:relative;width:60px;height:60px;flex-shrink:0">
+            <div style="position:relative;width:60px;height:60px;border-radius:50%;border:4px solid #15301E;background:{{ active.color }};overflow:hidden;box-shadow:0 4px 0 #15301E;display:flex;align-items:center;justify-content:center">
+              {{ facetSmall }}
+              <span style="position:relative;font-family:var(--font-heading);font-size:26px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">{{ active.initial }}</span>
+            </div>
+            <div style="position:absolute;right:-7px;bottom:-6px;min-width:28px;height:28px;padding:0 5px;border-radius:999px;background:#FFD23F;border:3px solid #15301E;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:13px;color:#15301E">{{ active.lvl }}</div>
+          </div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
+            <div style="font-family:var(--font-heading);font-size:19px;line-height:1;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill;text-shadow:0 2px 0 #15301E">{{ active.name }}</div>
+            <div style="height:15px;border:3px solid #15301E;border-radius:999px;background:#17532C;overflow:hidden"><div style="height:100%;width:{{ active.xpPct }}%;background:linear-gradient(180deg,#C8EA70 0 45%,#9ACD32 45%);border-right:3px solid #15301E"></div></div>
+            <div style="font-size:11px;font-weight:800;color:#E6FAD8">{{ active.xpLabel }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+            <div style="display:flex;align-items:center;gap:5px;height:30px;padding:0 12px 0 3px;border-radius:999px;background:#174A28;border:3px solid #15301E;box-shadow:0 3px 0 #15301E">{{ coin }}<span style="font-family:var(--font-heading);font-size:15px;color:#FFD23F">12 450</span></div>
+            <div style="display:flex;align-items:center;gap:5px;height:30px;padding:0 12px 0 3px;border-radius:999px;background:#174A28;border:3px solid #15301E;box-shadow:0 3px 0 #15301E">{{ gem }}<span style="font-family:var(--font-heading);font-size:15px;color:#FFB7A6">85</span></div>
+          </div>
+        </div>
+
+        <div style="position:absolute;top:120px;bottom:106px;left:14px;right:14px;display:flex;flex-direction:column;gap:12px">
+          <div style="position:relative;display:flex;gap:8px;padding:14px;min-height:178px;background:#FFD23F;border:4px solid #15301E;border-radius:26px;box-shadow:0 6px 0 #15301E;overflow:hidden">
+            {{ facetMed }}
+            <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+              <span style="font-size:10.5px;font-weight:800;letter-spacing:.08em;padding:3px 9px;border-radius:999px;background:#15301E;color:#FFD23F">OFFRE DU MOMENT</span>
+              <div style="font-family:var(--font-heading);font-size:22px;line-height:1.05">Coffre des Trois Signes</div>
+              <div style="font-size:12px;font-weight:700;line-height:1.3">3 cosmétiques, dont 1 rare garanti</div>
+              <div style="flex:1"></div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="height:44px;padding:0 16px 0 10px;border-radius:999px;border:4px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 5px 0 #15301E;display:flex;align-items:center;gap:8px;cursor:pointer" style-active="transform:translateY(3px);box-shadow:0 2px 0 #15301E">
+                  {{ gem }}<span style="font-family:var(--font-heading);font-size:18px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">Ouvrir · 60</span>
+                </div>
+              </div>
+              <span style="font-size:11px;font-weight:800;color:#6b3a14">Fin dans 11 h 24</span>
+            </div>
+            <div style="position:relative;width:104px;flex-shrink:0">
+              <div style="position:absolute;left:4px;top:4px;transform:rotate(-10deg)">{{ loot.tri }}</div>
+              <div style="position:absolute;right:0;top:56px">{{ loot.circle }}</div>
+              <div style="position:absolute;left:12px;bottom:10px">{{ loot.dot }}</div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:6px">
+            <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="4">
+              <div onClick="{{ ch.onClick }}" style="padding:7px 13px;border-radius:999px;border:3px solid #15301E;background:{{ ch.bg }};box-shadow:0 3px 0 #15301E;font-weight:800;font-size:12.5px;color:#15301E;cursor:pointer;white-space:nowrap">{{ ch.label }}</div>
+            </sc-for>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+            <sc-for list="{{ items }}" as="it" hint-placeholder-count="6">
+              <div style="display:flex;flex-direction:column;gap:5px;padding:6px 6px 8px;background:var(--color-bg);border:3px solid #15301E;border-radius:18px;box-shadow:0 4px 0 #15301E;cursor:pointer" style-hover="transform:translateY(-2px)">
+                <div style="position:relative;height:76px;border-radius:12px;border:2.5px solid #15301E;background:{{ it.thumbBg }};overflow:hidden;display:flex;align-items:center;justify-content:center">{{ facetSmall }}<div style="position:relative">{{ it.thumb }}</div></div>
+                <div style="display:flex;flex-direction:column;padding:0 2px">
+                  <span style="font-size:12.5px;font-weight:800;line-height:1.15">{{ it.name }}</span>
+                  <span style="font-size:10.5px;font-weight:700;color:#5b5048">{{ it.type }}</span>
+                </div>
+                <sc-if value="{{ it.owned }}" hint-placeholder-val="{{ false }}">
+                  <div style="height:26px;border-radius:999px;border:2.5px solid #15301E;background:#9ACD32;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800">Possédé</div>
+                </sc-if>
+                <sc-if value="{{ it.forSale }}" hint-placeholder-val="{{ true }}">
+                  <div style="height:26px;border-radius:999px;border:2.5px solid #15301E;background:#174A28;display:flex;align-items:center;justify-content:center;gap:4px;opacity:{{ it.op }}">{{ it.curIcon }}<span style="font-family:var(--font-heading);font-size:13px;color:{{ it.priceColor }}">{{ it.price }}</span></div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="position:absolute;left:0;right:0;bottom:0;display:flex;gap:10px;align-items:flex-end;padding:16px 14px 24px;background:#17532C;border-top:4px solid #15301E">
+          <div style="flex:1;height:58px;border-radius:20px;border:3px solid #15301E;background:linear-gradient(180deg,#379C52 0 46%,#2B8745 46%);box-shadow:0 4px 0 #15301E;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer" style-hover="filter:brightness(1.12)">{{ tab.triOff }}<span style="font-family:var(--font-heading);font-size:14px;color:#CFF2C0">Jouer</span></div>
+          <div style="flex:1;height:58px;border-radius:20px;border:3px solid #15301E;background:linear-gradient(180deg,#379C52 0 46%,#2B8745 46%);box-shadow:0 4px 0 #15301E;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer" style-hover="filter:brightness(1.12)">{{ tab.circleOff }}<span style="font-family:var(--font-heading);font-size:14px;color:#CFF2C0">Personnage</span></div>
+          <div style="flex:1;height:64px;border-radius:20px;border:3px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 5px 0 #15301E;transform:translateY(-8px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px">{{ tab.dotOn }}<span style="font-family:var(--font-heading);font-size:15px;color:#fff;-webkit-text-stroke:3px #15301E;paint-order:stroke fill">Boutique</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;playLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;duo&quot;,&quot;single&quot;],&quot;default&quot;:&quot;duo&quot;,&quot;tsType&quot;:&quot;'duo'|'single'&quot;,&quot;section&quot;:&quot;Onglet Jouer&quot;},&quot;facetIntensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0,&quot;max&quot;:0.3,&quot;step&quot;:0.02,&quot;default&quot;:0.12,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Style&quot;},&quot;showDecor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Style&quot;}}">
+const h = React.createElement;
+const INK = '#15301E';
+function mix(hex, t) {
+  const n = parseInt(hex.slice(1), 16);
+  let r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  const T = t < 0 ? 0 : 255, a = Math.min(1, Math.abs(t));
+  r = Math.round(r + (T - r) * a); g = Math.round(g + (T - g) * a); b = Math.round(b + (T - b) * a);
+  return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+}
+function rng(seed) { let s = seed; return () => { s = (s * 16807) % 2147483647; return s / 2147483647; }; }
+const LIGHT = -Math.PI * 0.75;
+function glyph(type, color, size, opt = {}) {
+  const out = opt.outline ?? (size < 40 ? 2 : 3.5);
+  const sw = out * 24 / size;
+  const polys = []; let outline;
+  const shade = (ang, base = 0) => mix(color, Math.cos(ang - LIGHT) * 0.3 + base);
+  if (type === 'tri') {
+    const A = [12, 2], B = [22.5, 20.5], C = [1.5, 20.5], G = [12, 14.3];
+    const mAB = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2], mBC = [12, 20.5], mCA = [(C[0] + A[0]) / 2, (C[1] + A[1]) / 2];
+    const f = (pts, v) => polys.push([pts.map(p => p.join(',')).join(' '), mix(color, v)]);
+    f([A, mAB, G], 0.12); f([mAB, B, G], -0.08); f([B, mBC, G], -0.3); f([mBC, C, G], -0.2); f([C, mCA, G], 0.3); f([mCA, A, G], 0.4);
+    outline = [A, B, C].map(p => p.join(',')).join(' ');
+  } else {
+    const n = opt.n ?? (type === 'circle' ? 8 : 6), R = type === 'circle' ? 10.5 : 6.5, ri = R * 0.55;
+    const O = [], I = [];
+    for (let i = 0; i < n; i++) {
+      const a = i * 2 * Math.PI / n - Math.PI / 2;
+      O.push([12 + R * Math.cos(a), 12 + R * Math.sin(a)]);
+      const b = a + Math.PI / n; I.push([12 + ri * Math.cos(b), 12 + ri * Math.sin(b)]);
+    }
+    const P = pts => pts.map(p => p[0].toFixed(2) + ',' + p[1].toFixed(2)).join(' ');
+    for (let i = 0; i < n; i++) {
+      const a = i * 2 * Math.PI / n - Math.PI / 2, j = (i + 1) % n, k = (i - 1 + n) % n;
+      polys.push([P([O[i], O[j], I[i]]), shade(a + Math.PI / n, -0.06)]);
+      polys.push([P([I[k], O[i], I[i]]), shade(a, 0.02)]);
+      polys.push([P([[12, 12], I[i], I[j]]), shade(a + 2 * Math.PI / n, 0.14)]);
+    }
+    outline = P(O);
+  }
+  return h('svg', { width: size, height: size, viewBox: '0 0 24 24', style: { display: 'block', overflow: 'visible' } },
+    polys.map((p, i) => h('polygon', { key: i, points: p[0], fill: p[1], stroke: p[1], strokeWidth: 0.3, strokeLinejoin: 'round' })),
+    h('polygon', { key: 'o', points: outline, fill: 'none', stroke: INK, strokeWidth: sw, strokeLinejoin: 'round' }));
+}
+function gemIcon(size) {
+  const c = '#FF5A3C';
+  const f = [['4,9 12,3 12,9', mix(c, .4)], ['12,3 20,9 12,9', mix(c, .1)], ['4,9 12,9 12,21', c], ['12,9 20,9 12,21', mix(c, -.3)]];
+  return h('svg', { width: size, height: size, viewBox: '0 0 24 24', style: { display: 'block' } },
+    f.map((p, i) => h('polygon', { key: i, points: p[0], fill: p[1], stroke: p[1], strokeWidth: .3 })),
+    h('polygon', { key: 'o', points: '4,9 12,3 20,9 12,21', fill: 'none', stroke: INK, strokeWidth: 2.2, strokeLinejoin: 'round' }));
+}
+const W = {
+  epee: [['M8 16 L19 5 L19 8 L10 18', 1], ['M5.5 13.5 L10.5 18.5'], ['M7 17 L4 20']],
+  dague: [['M10 14 L17.5 6.5 L17 10 L12 16', 1], ['M8 12 L14 18'], ['M9.5 15.5 L6 19']],
+  arc: [['M8 3 C 19 7 19 17 8 21'], ['M8 3 L8 21'], ['M4 12 L18.5 12'], ['M15.5 9 L19 12 L15.5 15', 1]],
+  marteau: [['M5 19.5 L13 11.5'], ['M11 7.5 L16.5 13 L20 9.5 L14.5 4 Z', 1]],
+  baton: [['M5.5 20 L15.5 9'], ['M18 3.5 L21 6.5 L18 9.5 L15 6.5 Z', 1]],
+  lance: [['M4 20 L15 9'], ['M13 7 L20.5 3.5 L17 11 Z', 1]],
+};
+function wIcon(kind, size) {
+  return h('svg', { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: INK, strokeWidth: 2.75, strokeLinecap: 'round', strokeLinejoin: 'round', style: { display: 'block' } },
+    W[kind].map((p, i) => h('path', { key: i, d: p[0], fill: p[1] ? '#FFF1D6' : 'none' })));
+}
+function trailIcon(color, size) {
+  const pts = '3,18 8,9 13,15 19,5';
+  return h('svg', { width: size, height: size, viewBox: '0 0 24 24', style: { display: 'block', overflow: 'visible' } },
+    h('polyline', { key: 'a', points: pts, fill: 'none', stroke: INK, strokeWidth: 6, strokeLinecap: 'round', strokeLinejoin: 'round' }),
+    h('polyline', { key: 'b', points: pts, fill: 'none', stroke: color, strokeWidth: 2.8, strokeLinecap: 'round', strokeLinejoin: 'round' }),
+    h('g', { key: 'c', transform: 'translate(12.5,-6.5) scale(.55)' }, h('polygon', { points: '12,5 18,9 18,15 12,19 6,15 6,9', fill: '#FFD23F', stroke: INK, strokeWidth: 3.5, strokeLinejoin: 'round' })));
+}
+function facetSvg(cols, rows, seed, alpha) {
+  const r = rng(seed), P = [];
+  for (let y = 0; y <= rows; y++) for (let x = 0; x <= cols; x++) {
+    const jx = x > 0 && x < cols ? (r() - .5) * .8 : 0, jy = y > 0 && y < rows ? (r() - .5) * .8 : 0;
+    P.push([(x + jx) * 100 / cols, (y + jy) * 100 / rows]);
+  }
+  const id = (x, y) => P[y * (cols + 1) + x].map(v => v.toFixed(2)).join(','), tris = [];
+  for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+    const a = id(x, y), b = id(x + 1, y), c = id(x + 1, y + 1), d = id(x, y + 1);
+    if ((x + y) % 2) { tris.push(a + ' ' + b + ' ' + c, a + ' ' + c + ' ' + d); } else { tris.push(a + ' ' + b + ' ' + d, b + ' ' + c + ' ' + d); }
+  }
+  return h('svg', { viewBox: '0 0 100 100', preserveAspectRatio: 'none', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', display: 'block' } },
+    tris.map((t, i) => { const w = r() > .5; return h('polygon', { key: i, points: t, fill: w ? '#fff' : '#000', fillOpacity: r() * alpha * (w ? 1.2 : .8) }); }));
+}
+const CH = [
+  { id: 'kael', name: 'Kaël', role: 'Duelliste', weapon: 'epee', weaponLabel: 'Épée', wName: "Lame d'Ambre", wLvl: 6, wXp: 420, wMax: 800, color: '#FF8C32', skin: 'Tenue Braise', skinColor: '#FF5A3C', skinRarity: 'Rare', skinCount: '3 / 8', stats: [4, 3, 3], lvl: 14, xp: 2340, xpMax: 3000 },
+  { id: 'nyra', name: 'Nyra', role: 'Ombre', weapon: 'dague', weaponLabel: 'Dague', wName: 'Croc de Lune', wLvl: 4, wXp: 180, wMax: 600, color: '#7A8A5E', skin: 'Voile Lierre', skinColor: '#9ACD32', skinRarity: 'Commun', skinCount: '2 / 8', stats: [3, 5, 2], lvl: 11, xp: 1200, xpMax: 2400 },
+  { id: 'soren', name: 'Soren', role: 'Archer', weapon: 'arc', weaponLabel: 'Arc', wName: 'Arc des Cimes', wLvl: 5, wXp: 510, wMax: 700, color: '#9ACD32', skin: 'Cape Sève', skinColor: '#3DDC5B', skinRarity: 'Commun', skinCount: '1 / 8', stats: [4, 4, 2], lvl: 9, xp: 900, xpMax: 2000 },
+  { id: 'brakka', name: 'Brakka', role: 'Colosse', weapon: 'marteau', weaponLabel: 'Marteau', wName: 'Masse de Roc', wLvl: 7, wXp: 90, wMax: 900, color: '#C67139', skin: 'Armure Argile', skinColor: '#FF8C32', skinRarity: 'Épique', skinCount: '4 / 8', stats: [5, 1, 5], lvl: 16, xp: 400, xpMax: 3400 },
+  { id: 'ilo', name: 'Ilo', role: 'Mystique', weapon: 'baton', weaponLabel: 'Bâton', wName: 'Bâton Solaire', wLvl: 3, wXp: 260, wMax: 500, color: '#FFD23F', skin: 'Robe Aurore', skinColor: '#FFD23F', skinRarity: 'Rare', skinCount: '2 / 8', stats: [3, 3, 3], lvl: 7, xp: 700, xpMax: 1600 },
+  { id: 'vesna', name: 'Vesna', role: 'Gardienne', weapon: 'lance', weaponLabel: 'Lance', wName: 'Pique Corail', wLvl: 5, wXp: 330, wMax: 700, color: '#FF5A3C', skin: 'Parure Récif', skinColor: '#FF5A3C', skinRarity: 'Commun', skinCount: '1 / 8', stats: [3, 2, 4], lvl: 10, xp: 1500, xpMax: 2200 },
+];
+const SHOP = [
+  { name: 'Lame Braise', type: "Skin d'arme", kind: 'weapon', w: 'epee', color: '#FF5A3C', price: 1200, cur: 'coin' },
+  { name: 'Arc Corail', type: "Skin d'arme", kind: 'weapon', w: 'arc', color: '#FF8C32', price: 90, cur: 'gem' },
+  { name: 'Teinte Lagon', type: 'Couleur', kind: 'color', color: '#3DDC5B', price: 800, cur: 'coin', owned: true },
+  { name: 'Teinte Soleil', type: 'Couleur', kind: 'color', color: '#FFD23F', price: 60, cur: 'gem' },
+  { name: 'Tracé Étincelle', type: 'Effet de tracé', kind: 'trail', color: '#FFD23F', price: 1500, cur: 'coin' },
+  { name: 'Tracé Lierre', type: 'Effet de tracé', kind: 'trail', color: '#9ACD32', price: 45, cur: 'gem' },
+];
+const BAL = { coin: 12450, gem: 85 };
+const fmt = n => n.toLocaleString('fr-FR').replace(/\u202f|\u00a0/g, ' ');
+
+class Component extends DCLogic {
+  state = { active: 0, view: 0, filter: 'all', mode: 'solo' };
+  memo = {};
+  cache(key, fn) { return this.memo[key] || (this.memo[key] = fn()); }
+  renderVals() {
+    const fi = this.props.facetIntensity ?? 0.12;
+    const layout = this.props.playLayout ?? 'duo';
+    const { active: ai, view: vi, filter, mode } = this.state;
+    const deco = (c) => ({ ...c, initial: c.name[0], xpPct: Math.round(c.xp / c.xpMax * 100), xpLabel: fmt(c.xp) + ' / ' + fmt(c.xpMax) + ' XP',
+      wPct: Math.round(c.wXp / c.wMax * 100), wXpLabel: c.wXp + ' / ' + c.wMax + ' XP arme', wLine: c.wName + ' · Nv ' + c.wLvl, skinLine: c.skinCount + ' skins débloqués',
+      wIcon: this.cache('wi' + c.id, () => wIcon(c.weapon, 30)), wIconSm: this.cache('ws' + c.id, () => wIcon(c.weapon, 20)),
+      skinIcon: this.cache('sk' + c.id, () => glyph('circle', c.skinColor, 34)) });
+    const chars = CH.map((c, i) => {
+      let off = ((i - vi) % 6 + 6) % 6; if (off > 3) off -= 6;
+      const size = off === 0 ? 78 : Math.abs(off) === 1 ? 54 : 40;
+      return { ...deco(c), order: off + 3, size, carDisplay: off === 3 ? 'none' : 'flex', letterSize: Math.round(size * 0.46),
+        ring: off === 0 ? '0 0 0 4px #FFD23F, 0 0 0 7px #15301E, 0 7px 0 4px #15301E' : '0 3px 0 #15301E',
+        onView: () => this.setState({ view: i }), showActive: i === ai ? 'block' : 'none', showView: i === vi ? 'block' : 'none',
+        disc: this.cache('d' + c.id, () => glyph('circle', c.color, 290, { n: 12, outline: 5 })) };
+    });
+    const view = deco(CH[vi]);
+    const items = SHOP.filter(s => filter === 'all' || s.kind === filter).map(s => {
+      const afford = s.owned || BAL[s.cur] >= s.price;
+      return { ...s, price: fmt(s.price), forSale: !s.owned, op: afford ? 1 : 0.5, priceColor: s.cur === 'coin' ? '#FFD23F' : '#FFB7A6',
+        curIcon: s.cur === 'coin' ? this.cache('coin14', () => glyph('circle', '#FFD23F', 15)) : this.cache('gem14', () => gemIcon(15)),
+        thumbBg: s.kind === 'weapon' ? s.color : '#1F7A3D',
+        thumb: this.cache('t' + s.name, () => s.kind === 'weapon' ? wIcon(s.w, 42) : s.kind === 'color' ? glyph('circle', s.color, 46) : trailIcon(s.color, 44)) };
+    });
+    return {
+      bg: this.cache('bg' + fi, () => facetSvg(6, 13, 7, fi)),
+      facetSmall: this.cache('fs' + fi, () => facetSvg(3, 3, 3, fi * 2)),
+      facetMed: this.cache('fm' + fi, () => facetSvg(5, 4, 11, fi * 1.6)),
+      coin: this.cache('coin', () => glyph('circle', '#FFD23F', 22)),
+      gem: this.cache('gem', () => gemIcon(22)),
+      btnTri: this.cache('bt', () => glyph('tri', '#FFD23F', 34)),
+      tab: this.cache('tab', () => ({
+        triOn: glyph('tri', '#FFD23F', 22), circleOn: glyph('circle', '#FFD23F', 22), dotOn: glyph('dot', '#FFD23F', 22),
+        triOff: glyph('tri', '#9ACD32', 20), circleOff: glyph('circle', '#9ACD32', 20), dotOff: glyph('dot', '#9ACD32', 20) })),
+      deco: this.cache('deco', () => ({ tri: glyph('tri', '#FFD23F', 40), circle: glyph('circle', '#FF5A3C', 34), dot: glyph('dot', '#FF8C32', 30),
+        triXs: glyph('tri', '#FF8C32', 14, { outline: 1.6 }), circleXs: glyph('circle', '#9ACD32', 14, { outline: 1.6 }) })),
+      loot: this.cache('loot', () => ({ tri: glyph('tri', '#FF5A3C', 66, { outline: 3.5 }), circle: glyph('circle', '#3DDC5B', 58, { outline: 3.5 }), dot: glyph('dot', '#FF8C32', 50, { outline: 3.5 }) })),
+      showDecor: this.props.showDecor ?? true,
+      active: deco(CH[ai]), view, chars,
+      wavePips: Array.from({ length: 10 }, (_, i) => ({ bg: i < 6 ? '#FF8C32' : i === 6 ? '#FFD23F' : i === 9 ? '#FF5A3C' : '#E4D3B4' })),
+      isDuo: layout === 'duo', isSingle: layout === 'single',
+      modes: [['solo', 'Solo · Vague 7'], ['duel', 'Duel · en ligne']].map(([k, l]) => ({ label: l, bg: mode === k ? '#9ACD32' : '#2B8745', border: mode === k ? INK : '#2B8745', onClick: () => this.setState({ mode: k }) })),
+      statRows: ['Dégâts', 'Vitesse', 'Résistance'].map((l, k) => ({ label: l, pips: [0, 1, 2, 3, 4].map(j => ({ bg: j < CH[vi].stats[k] ? '#FF8C32' : '#E4D3B4' })) })),
+      viewIsActive: vi === ai, viewNotActive: vi !== ai,
+      select: () => this.setState({ active: vi }),
+      prev: () => this.setState({ view: (vi + 5) % 6 }), next: () => this.setState({ view: (vi + 1) % 6 }),
+      chips: [['all', 'Tout'], ['weapon', 'Armes'], ['color', 'Couleurs'], ['trail', 'Tracés']].map(([k, l]) => ({ label: l, bg: filter === k ? '#9ACD32' : 'var(--color-bg)', onClick: () => this.setState({ filter: k }) })),
+      items,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -54,13 +54,26 @@ src/
   ui/hud.js        affichage
   game/state.js    état partagé de la partie (lu par ui/)
   game/effects.js  textes flottants, effets, vibrations
-  ui/style.css     styles des écrans
+  ui/lobby.js      lobby 3 onglets (Jouer / Personnage / Boutique) + fenêtre de résultats
+  ui/art.js        dessins low-poly des héros et ennemis (repris de la planche)
+  ui/icons.js      signes à facettes, armes, fonds facettés (repris de la maquette lobby)
+  ui/organic.css   design system Organic (copie telle quelle, ne pas modifier)
+  ui/lobby.css     styles du lobby ; ui/style.css : page, canvas, bouton Quitter
 data/
   characters.json enemies.json waves.json grades.json items.json story.json
   rules.json       règles de combat (esquive, ramassage, score, entraînement)
+  shop.json        objets affichés dans la boutique (pas encore achetables)
+design/            exports Claude Design (référence : planche de personnages, maquette du lobby)
 ```
 
-Étapes 1 et 2 faites (septembre 2026). Lancer avec `py -m http.server 8123` (les modules et les JSON ne se chargent pas en `file://`).
+Étapes 1 et 2 faites (septembre 2026), puis lobby intégré. Lancer avec `py -m http.server 8123` (les modules et les JSON ne se chargent pas en `file://`).
+
+## Direction artistique (retenue en septembre 2026)
+- Référence : `design/trois-signes-maquette-lobby` et `design/planche-de-personnages-trois-signes`, reproduites telles quelles. Elles remplacent la DA de l'ancien PDF « Bible ».
+- Style cartoon low-poly : fond vert vif facetté, contours épais `#15301E`, boutons orange/jaune avec ombre portée, cartes crème, polices Caprasimo (titres) et Figtree (texte) du design system Organic.
+- Personnages : ceux de la planche (Aldric le Chevalier, Nyra l'Assassine, Boran le Colosse, Ilwen la Sorcière, Kestrel la Rôdeuse, Mira la Soigneuse). Seul Aldric est jouable pour l'instant.
+- Ce qui n'est pas encore codé (autres héros, armes, skins, boutique, Duel) est affiché et marqué « Bientôt ». Pas de monnaie premium (gemmes) : pas de pay-to-win.
+- Le rendu du combat (canvas, `ui/hud.js`) garde pour l'instant son ancien style.
 
 ## Ordre de travail
 1. Découper le prototype dans cette structure, sans changer le ressenti de jeu.
@@ -73,6 +86,6 @@ data/
 
 ## Conventions
 - Textes du jeu en français.
-- Chaque étape doit rester jouable sur téléphone : tester en 390 × 800.
+- Chaque étape doit rester jouable sur téléphone : tester en 390 × 800 et en 360 × 640.
 - Ne jamais rendre les gestes plus exigeants sans le demander : le premier test a montré que les seuils trop hauts rendaient le jeu injouable.
 - L'interface (menus, personnages, monstres) pourra venir de maquettes Claude Design : garder le rendu séparé de la logique pour les intégrer facilement.

@@ -1,4 +1,5 @@
 {
+  "chapter": { "kicker": "SOLO · CHAPITRE 1", "name": "Forêt de Mousse" },
   "timeLimit": 120,
   "globalGap": 1.2,
   "firstWaveDelay": 0.6,

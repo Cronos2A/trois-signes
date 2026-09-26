@@ -1,7 +1,7 @@
 // Toutes les valeurs d'équilibrage viennent de data/*.json.
 export const D = {};
 
-const FILES = ['grades', 'characters', 'enemies', 'waves', 'rules'];
+const FILES = ['grades', 'characters', 'enemies', 'waves', 'rules', 'shop'];
 
 export async function loadData() {
   await Promise.all(FILES.map(async f => {

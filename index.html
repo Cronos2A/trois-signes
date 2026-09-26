@@ -3,44 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#17123A">
+<meta name="theme-color" content="#2BA84A">
 <title>Trois Signes</title>
+<link rel="stylesheet" href="src/ui/organic.css">
+<link rel="stylesheet" href="src/ui/lobby.css">
 <link rel="stylesheet" href="src/ui/style.css">
 </head>
 <body>
 <div id="safe"></div>
 <canvas id="c"></canvas>
 
-<div id="menu" class="screen">
-  <h1>Trois <span>Signes</span></h1>
-  <p>Un chevalier, trois vagues d'ennemis et un boss. Tracez les signes avec le doigt, n'importe où sur l'écran.</p>
-  <div class="legend">
-    <div class="sign"><svg viewBox="0 0 44 44"><path d="M22 7 L38 36 L6 36 Z" fill="none" stroke="#FF5D73" stroke-width="4" stroke-linejoin="round"/></svg><b>Triangle</b><small>Attaquer</small></div>
-    <div class="sign"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="15" fill="none" stroke="#3FD7C4" stroke-width="4"/></svg><b>Rond</b><small>Esquiver</small></div>
-    <div class="sign"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="7" fill="#FFC94A"/><circle cx="22" cy="22" r="14" fill="none" stroke="#FFC94A" stroke-width="2" opacity=".5"/></svg><b>Tap</b><small>Ramasser</small></div>
-  </div>
-  <p>Quand un anneau rouge se resserre sur vous, tracez un rond pour esquiver. Tapez sur les pièces et les cœurs pour les ramasser. Enchaînez 4 fois le même niveau de réussite pour déclencher un combo.</p>
-  <p id="loadErr" class="hidden"></p>
-  <div class="xp" id="xpBox"></div>
-  <div class="btns">
-    <button id="bPlay">Jouer</button>
-    <button id="bTrain" class="alt">Entraînement</button>
-  </div>
-</div>
-
-<div id="end" class="screen hidden">
-  <h2 id="endTitle">Victoire</h2>
-  <p id="endSub"></p>
-  <table id="endTable"></table>
-  <div class="xp" id="xpBox2"></div>
-  <div class="btns">
-    <button id="bAgain">Rejouer</button>
-    <button id="bMenu" class="alt">Menu</button>
-  </div>
-</div>
+<div id="lobby" class="lobby"></div>
 
 <button id="quit" class="hidden">Quitter</button>
 <div id="trainPanel" class="hidden"></div>
+<p id="loadErr" class="hidden"></p>
 
 <script type="module" src="src/main.js"></script>
 <script>

@@ -21,12 +21,14 @@ export function attackMult() {
   return 1 + D.characters.progression.attackBonusPerLevel * (levelInfo(prog.xp).lvl - 1);
 }
 
-/** Ajoute l'XP d'une partie. Renvoie {gain, before, after} (niveaux). */
+/** Ajoute l'XP d'une partie et retient le record. Renvoie {gain, before, after, record}. */
 export function grantXp(score) {
   const P = D.characters.progression;
   const gain = Math.max(P.minXpPerGame, Math.round(score / P.scorePerXp));
   const before = levelInfo(prog.xp).lvl;
   prog.xp += gain;
+  const record = score > (prog.best || 0);
+  if (record) prog.best = score;
   store.set(KEY, prog);
-  return { gain, before, after: levelInfo(prog.xp).lvl };
+  return { gain, before, after: levelInfo(prog.xp).lvl, record };
 }
