@@ -177,5 +177,6 @@ export function attachInput(cv, { isActive, onDraw, onGesture }) {
   };
   cv.addEventListener('pointerup', finish);
   cv.addEventListener('pointercancel', finish);
-  document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+  // Bloque le défilement natif seulement pendant une partie ou l'entraînement : le lobby doit défiler.
+  document.addEventListener('touchmove', e => { if (isActive()) e.preventDefault(); }, { passive: false });
 }

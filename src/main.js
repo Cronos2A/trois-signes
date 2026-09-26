@@ -83,6 +83,7 @@ function onGesture(res, pts) {
 
 /** En partie : lobby masqué, bouton Quitter visible. */
 function setInGame(on) {
+  document.documentElement.classList.toggle('in-game', on);
   $('quit').classList.toggle('hidden', !on);
   $('trainPanel').classList.toggle('hidden', G.mode !== 'train');
   if (on) hideLobby(); else showLobby();
@@ -102,6 +103,7 @@ function endGame(why) {
   G.mode = 'end';
   const { gain, before, after, record } = grantXp(G.score);
   $('quit').classList.add('hidden');
+  document.documentElement.classList.remove('in-game');
   showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos });
 }
 

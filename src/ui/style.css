@@ -1,6 +1,9 @@
 /* Page et habillage autour du canvas de jeu. Le lobby a sa propre feuille (lobby.css). */
-html,body{margin:0;height:100%;background:#17123A;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
-canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+html,body{margin:0;height:100%;background:#17123A;-webkit-user-select:none;user-select:none;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+/* Blocage du défilement réservé au combat (partie ou entraînement) : classe posée par main.js.
+   Dans le lobby, chaque onglet défile lui-même (lobby.css). */
+html.in-game,html.in-game body{overflow:hidden;touch-action:none}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
 #safe{position:fixed;top:0;left:0;width:1px;height:env(safe-area-inset-top,0px);pointer-events:none}
 .hidden{display:none!important}
 
