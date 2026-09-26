@@ -34,10 +34,9 @@ function prepareArt(c) {
 
 /* ---------- Partie ---------- */
 function resetGame(c) {
-  // Les personnages sans stats propres reprennent celles du premier (seul Aldric est jouable pour l'instant).
-  const base = D.characters.characters[0], C = { hp: c.hp ?? base.hp, attack: c.attack ?? base.attack };
-  G.atkMult = attackMult();
-  G.hero = { hp: C.hp, max: C.hp, atk: C.attack, shieldUntil: -1, shieldAvoid: 0, flash: 0 };
+  G.charId = c.id;
+  G.atkMult = attackMult(c.id);
+  G.hero = { hp: c.hp, max: c.hp, atk: c.attack, shieldUntil: -1, shieldAvoid: 0, flash: 0 };
   Object.assign(G, {
     enemies: [], loots: [], fx: [], pops: [], trails: [],
     time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, shake: 0, bigGrade: null, trainSpawn: 0,
@@ -111,7 +110,7 @@ async function start(mode) {
   try { await prepareArt(c); } catch (_) { /* sans sprites, le combat reste jouable */ }
   starting = false;
   resetGame(c);
-  resetAnims();
+  resetAnims(c.id);
   setupHud(c);
   G.mode = mode;
   setInGame(true);
@@ -121,7 +120,7 @@ async function start(mode) {
 function endGame(why) {
   if (G.mode !== 'play') return;
   G.mode = 'end';
-  const { gain, before, after, record } = grantXp(G.score);
+  const { gain, before, after, record } = grantXp(G.score, G.charId);
   $('hud').classList.add('hidden');
   document.documentElement.classList.remove('in-game');
   showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos });

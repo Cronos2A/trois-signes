@@ -10,9 +10,29 @@ const SHARDS = {
   boss: ['#3B2C4A', '#55406A', '#FFD23F', '#FF5A3C']
 };
 
+/**
+ * Style d'attaque de chaque héros. Corps à corps : ruée puis coup d'arme.
+ * À distance : le héros reste en place, arme son geste et tire un projectile dessiné
+ * (flèche ou sort) depuis sa main (muzzle, en unités du sprite, par rapport aux pieds).
+ */
+const ATTACK = {
+  aldric: { style: 'melee' }, nyra: { style: 'melee' }, boran: { style: 'melee' },
+  kestrel: { style: 'arrow', col: '#FFD23F', muzzle: [132, -187] },
+  ilwen: { style: 'magic', col: '#FFD23F', muzzle: [77, -178] },
+  mira: { style: 'magic', col: '#FF8C32', muzzle: [64, -214] }
+};
+
+/** Durées des mouvements (s). La logique applique les dégâts tout de suite ; ce n'est que l'image. */
+export const DUR = { melee: 0.75, ranged: 0.6, dodge: 0.7, shot: 0.28, impact: 0.4 };
+
+let attack = ATTACK.aldric;
+export const heroAttack = () => attack;
+
 export const A = {
   t: 0,
-  hero: null,          // { kind: 'attack' | 'dodge', t, dur, tx, ty, dir }
+  hero: null,          // { kind: 'attack' | 'dodge', style, t, dur, tx, ty, col, fired, dir }
+  projectiles: [],     // flèches et sorts en vol
+  impacts: [],         // entailles, éclats de sort ou de flèche sur la cible
   dodgeDir: 1,
   lunge: new WeakMap(), // ennemi -> temps écoulé depuis son coup
   dying: [],            // ennemis vaincus en train de disparaître
@@ -23,8 +43,9 @@ export const A = {
 const seen = new WeakSet();
 let prevEnemies = [], lastCombos = 0, lastStreak = null;
 
-export function resetAnims() {
-  Object.assign(A, { hero: null, lunge: new WeakMap(), dying: [], shards: [], combo: null });
+export function resetAnims(heroId) {
+  attack = ATTACK[heroId] || ATTACK.aldric;
+  Object.assign(A, { hero: null, projectiles: [], impacts: [], lunge: new WeakMap(), dying: [], shards: [], combo: null });
   prevEnemies = []; lastCombos = G.combos; lastStreak = null;
 }
 
@@ -36,11 +57,14 @@ export function updateAnims(dt, foot, gradeByName) {
   for (const f of G.fx) {
     if (seen.has(f)) continue;
     seen.add(f);
-    if (f.kind === 'slash') A.hero = { kind: 'attack', t: 0, dur: 0.5, tx: f.x2, ty: f.y2 };
+    if (f.kind === 'slash') {
+      const melee = attack.style === 'melee';
+      A.hero = { kind: 'attack', style: attack.style, t: 0, dur: melee ? DUR.melee : DUR.ranged, tx: f.x2, ty: f.y2, col: f.col, fired: false };
+    }
     else if (f.kind === 'ring') {
       const w = G.enemies.find(e => e.state === 'windup');
       A.dodgeDir = w ? (w.x > G.W / 2 ? -1 : 1) : -A.dodgeDir;
-      A.hero = { kind: 'dodge', t: 0, dur: 0.5, dir: A.dodgeDir };
+      A.hero = { kind: 'dodge', t: 0, dur: DUR.dodge, dir: A.dodgeDir };
     } else if (f.kind === 'bolt') {
       let best = null, bd = 1e9;
       for (const e of G.enemies) { const d = Math.hypot(e.x - f.x1, e.y - f.y1); if (d < bd) { bd = d; best = e; } }
@@ -48,6 +72,12 @@ export function updateAnims(dt, foot, gradeByName) {
     }
   }
   if (A.hero && (A.hero.t += dt) >= A.hero.dur) A.hero = null;
+  for (const p of A.projectiles) {
+    if ((p.t += dt) >= DUR.shot) A.impacts.push({ kind: p.kind, x: p.tx, y: p.ty, col: p.col, t: 0 });
+  }
+  A.projectiles = A.projectiles.filter(p => p.t < DUR.shot);
+  for (const i of A.impacts) i.t += dt;
+  A.impacts = A.impacts.filter(i => i.t < DUR.impact);
 
   // Ennemis qui viennent de tomber : ils rétrécissent et éclatent en facettes.
   for (const e of prevEnemies) {
@@ -98,7 +128,16 @@ export function heroPose(home, k) {
   const bob = (1 - Math.cos(A.t * 5)) / 2;                  // attente : léger rebond continu
   const P = { dx: 0, dy: -bob * 4 * k, rot: 0, sx: 1 + 0.02 * (1 - bob), sy: 1 - 0.02 * (1 - bob) + 0.02 * bob, arm: 0, swing: 0 };
   const a = A.hero;
-  if (a && a.kind === 'attack') {                           // attaque : ruée, coup d'arme, retour
+  if (a && a.kind === 'attack' && a.style !== 'melee') {    // à distance : on arme, on tire, léger recul
+    const p = a.t / a.dur, vx = a.tx - home.x, vy = a.ty - home.y, d = Math.hypot(vx, vy) || 1;
+    const wind = p < 0.4 ? easeOut(p / 0.4) : 1 - easeInOut(Math.min(1, (p - 0.4) / 0.6));
+    const recoil = p >= 0.4 ? Math.sin(Math.PI * Math.min(1, (p - 0.4) / 0.35)) : 0;
+    P.arm = -0.55 * wind;
+    P.dx -= vx / d * 12 * k * recoil;
+    P.dy -= vy / d * 12 * k * recoil + 5 * k * wind;
+    P.rot = -0.05 * wind + 0.04 * recoil;
+    P.sx *= 1 + 0.03 * wind; P.sy *= 1 + 0.04 * wind - 0.05 * recoil;
+  } else if (a && a.kind === 'attack') {                    // corps à corps : ruée, coup d'arme, retour
     const p = a.t / a.dur;
     const go = p < 0.35 ? easeOut(p / 0.35) : p < 0.62 ? 1 : 1 - easeInOut((p - 0.62) / 0.38);
     const vx = a.tx - home.x, vy = a.ty - home.y, d = Math.hypot(vx, vy) || 1;

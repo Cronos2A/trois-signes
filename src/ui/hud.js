@@ -4,8 +4,8 @@
 // série du bas sont en HTML (ui/combat-hud.js). Ne modifie jamais l'état du jeu.
 import { G, heroPos } from '../game/state.js';
 import { gradeByName } from '../game/grades.js';
-import { ART, artScale } from './combat-art.js';
-import { A, updateAnims, heroPose } from './anim.js';
+import { ART, artScale, SPRITE_SCALE } from './combat-art.js';
+import { A, DUR, updateAnims, heroPose, heroAttack } from './anim.js';
 import { updateHud, HUD_BOTTOM } from './combat-hud.js';
 
 const INK = '#15301E';
@@ -28,14 +28,16 @@ export function draw(ctx, dt) {
   const list = G.enemies.map(e => ({ e, p: enemyFoot(e) })).sort((a, b) => a.p.y - b.p.y);
   for (const d of A.dying) drawDying(ctx, d);
   for (const { e, p } of list) drawEnemy(ctx, e, p);
+  drawGrade(ctx, W, H);        // sous le héros : le texte de réussite ne cache pas l'attaque
   const body = drawHero(ctx);
   const w = G.enemies.find(e => e.state === 'windup');
   if (w) drawWarning(ctx, body, w.t / w.T.wind);
   drawFx(ctx, body);
+  drawProjectiles(ctx);
+  drawImpacts(ctx);
   drawShards(ctx);
   drawTrails(ctx);
   drawPops(ctx);
-  drawGrade(ctx, W, H);
   ctx.restore();
 }
 
@@ -74,6 +76,7 @@ function drawHero(ctx) {
   const P = heroPose(home, k), x = home.x + P.dx + P.shake, y = home.y + P.dy, Arm = ART.heroArm;
   // Sans calque de bras armé (arc de Kestrel), c'est tout le sprite qui s'incline pour frapper.
   heroSprite(ctx, S, Arm, x, y, P.sx, P.sy, P.rot + (Arm ? 0 : P.arm * 0.15), P);
+  fireAttack(x, y, P);
   const body = { x, y: y - S.h * 0.5 };
   if ((G.mode === 'play' || G.mode === 'train') && G.time < G.hero.shieldUntil) {
     ring(ctx, body.x, body.y, 64 * k, '#3DDC5B', 4, 0.9);
@@ -82,6 +85,21 @@ function drawHero(ctx) {
     ctx.globalAlpha = 1;
   }
   return body;
+}
+
+/** Déclenche l'effet de l'attaque au bon moment : entaille (corps à corps) ou projectile (à distance). */
+function fireAttack(x, y, P) {
+  const a = A.hero;
+  if (!a || a.kind !== 'attack' || a.fired) return;
+  const p = a.t / a.dur, style = a.style;
+  if (style === 'melee' && p >= 0.46) {
+    a.fired = true;
+    A.impacts.push({ kind: 'slash', x: a.tx, y: a.ty, col: a.col, t: 0 });
+  } else if (style !== 'melee' && p >= 0.4) {
+    a.fired = true;
+    const m = heroAttack().muzzle, s = SPRITE_SCALE.hero * k;
+    A.projectiles.push({ kind: style, x0: x + m[0] * s * P.sx, y0: y + m[1] * s * P.sy, tx: a.tx, ty: a.ty, col: heroAttack().col, t: 0 });
+  }
 }
 
 /** Héros : corps, puis bras armé qui pivote autour de l'épaule, avec une traînée de lame pendant la frappe. */
@@ -207,14 +225,7 @@ function line(ctx, x1, y1, x2, y2, col, w) {
 function drawFx(ctx, body) {
   for (const f of G.fx) {
     const p = f.t / f.life;
-    if (f.kind === 'slash') {                    // entaille sur la cible, quand le héros l'atteint
-      const q = Math.min(1, Math.max(0, (p - 0.45) * 4)), r = 34 * k;
-      if (q <= 0) continue;
-      ctx.globalAlpha = 1 - Math.max(0, p - 0.7) / 0.3;
-      line(ctx, f.x2 - r, f.y2 - r, f.x2 - r + 2 * r * q, f.y2 - r + 2 * r * q, f.col, 7);
-      line(ctx, f.x2 + r * 0.8, f.y2 - r * 0.6, f.x2 + r * 0.8 - 1.6 * r * q, f.y2 - r * 0.6 + 1.2 * r * q, '#FFFFFF', 4);
-      ctx.globalAlpha = 1;
-    } else if (f.kind === 'burst') {
+    if (f.kind === 'burst') {           // (l'entaille 'slash' est dessinée par drawImpacts, au moment du coup)
       ring(ctx, f.x, f.y, f.r * k + p * 60 * k, f.col, 5, 1 - p);
     } else if (f.kind === 'ring') {
       ring(ctx, body.x, body.y, (56 + p * 34) * k, '#3DDC5B', 4, 1 - p);
@@ -222,6 +233,63 @@ function drawFx(ctx, body) {
       ctx.globalAlpha = 1 - p;
       const x0 = f.x1 + (f.x2 - f.x1) * 0.7, y0 = f.y1 + (f.y2 - f.y1) * 0.7;
       line(ctx, x0, y0, f.x2, f.y2, '#FF5A3C', 5);
+      ctx.globalAlpha = 1;
+    }
+  }
+}
+
+/** Flèche (Kestrel) ou sort (Ilwen, Mira) en vol vers la cible. */
+function drawProjectiles(ctx) {
+  for (const p of A.projectiles) {
+    const u = p.t / DUR.shot, ang = Math.atan2(p.ty - p.y0, p.tx - p.x0);
+    const x = p.x0 + (p.tx - p.x0) * u, y = p.y0 + (p.ty - p.y0) * u - Math.sin(Math.PI * u) * 18 * k;
+    ctx.save();
+    ctx.translate(x, y);
+    if (p.kind === 'arrow') {
+      ctx.rotate(ang);
+      const L = 34 * k, hw = 6 * k, hl = 11 * k;
+      line(ctx, -L, 0, -hl * 0.5, 0, '#8A5530', 3);
+      ctx.beginPath(); ctx.moveTo(4 * k, 0); ctx.lineTo(-hl, -hw); ctx.lineTo(-hl, hw); ctx.closePath();
+      ctx.fillStyle = '#DCE5EC'; ctx.fill(); ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.strokeStyle = INK; ctx.stroke();
+      for (const sg of [-1, 1]) {
+        ctx.beginPath(); ctx.moveTo(-L, 0); ctx.lineTo(-L - 7 * k, sg * 6 * k); ctx.lineTo(-L + 8 * k, 0); ctx.closePath();
+        ctx.fillStyle = '#9ACD32'; ctx.fill(); ctx.stroke();
+      }
+    } else {
+      for (let i = 3; i >= 1; i--) {                 // traînée de lumière
+        ctx.globalAlpha = 0.18 * (4 - i);
+        ctx.fillStyle = p.col;
+        ctx.beginPath(); ctx.arc(-Math.cos(ang) * i * 12 * k, -Math.sin(ang) * i * 12 * k, (10 - i * 2) * k, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 0.35; ctx.fillStyle = p.col;
+      ctx.beginPath(); ctx.arc(0, 0, 18 * k, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 1; ctx.rotate(A.t * 8);
+      ctx.beginPath(); ctx.moveTo(0, -11 * k); ctx.lineTo(8 * k, 0); ctx.lineTo(0, 11 * k); ctx.lineTo(-8 * k, 0); ctx.closePath();
+      ctx.fillStyle = p.col; ctx.fill(); ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.strokeStyle = INK; ctx.stroke();
+      ctx.fillStyle = '#FFFFFF'; ctx.beginPath(); ctx.arc(0, 0, 3.5 * k, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+/** Sur la cible : entaille d'arme, impact de flèche ou éclat de sort. */
+function drawImpacts(ctx) {
+  for (const i of A.impacts) {
+    const p = i.t / DUR.impact;
+    if (i.kind === 'slash') {
+      const q = Math.min(1, p * 4), r = 34 * k;
+      ctx.globalAlpha = 1 - Math.max(0, p - 0.6) / 0.4;
+      line(ctx, i.x - r, i.y - r, i.x - r + 2 * r * q, i.y - r + 2 * r * q, i.col, 7);
+      line(ctx, i.x + r * 0.8, i.y - r * 0.6, i.x + r * 0.8 - 1.6 * r * q, i.y - r * 0.6 + 1.2 * r * q, '#FFFFFF', 4);
+      ctx.globalAlpha = 1;
+    } else {
+      ring(ctx, i.x, i.y, (12 + p * 34) * k, i.col, 4, 1 - p);
+      ctx.globalAlpha = 1 - p;
+      const n = i.kind === 'magic' ? 6 : 4, r0 = (10 + p * 30) * k, r1 = r0 + 12 * k;
+      for (let j = 0; j < n; j++) {
+        const a = j * 2 * Math.PI / n + (i.kind === 'magic' ? A.t : Math.PI / 4);
+        line(ctx, i.x + Math.cos(a) * r0, i.y + Math.sin(a) * r0, i.x + Math.cos(a) * r1, i.y + Math.sin(a) * r1, i.kind === 'magic' ? i.col : '#FFFFFF', 3);
+      }
       ctx.globalAlpha = 1;
     }
   }
