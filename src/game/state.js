@@ -6,7 +6,7 @@ export const G = {
   streak: { name: null, n: 0 }, combos: 0, globalGap: 0,
   hero: null, atkMult: 1, charId: 'aldric',
   enemies: [], loots: [],
-  fx: [], pops: [], trails: [], bigGrade: null, drawing: null,
+  fx: [], pops: [], trails: [], bigGrade: null, superBanner: null, drawing: null,
   stats: {}, trainSpawn: 0, trainMsg: ''
 };
 

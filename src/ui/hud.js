@@ -7,6 +7,7 @@ import { gradeByName } from '../game/grades.js';
 import { ART, artScale, SPRITE_SCALE } from './combat-art.js';
 import { A, DUR, updateAnims, heroPose, heroAttack } from './anim.js';
 import { updateHud, HUD_BOTTOM } from './combat-hud.js';
+import { superActive } from '../game/supers.js';
 
 const INK = '#15301E';
 const HEAD = 'Caprasimo, system-ui, sans-serif', BODY = 'Figtree, system-ui, sans-serif';
@@ -39,6 +40,7 @@ export function draw(ctx, dt) {
   drawTrails(ctx);
   drawPops(ctx);
   ctx.restore();
+  drawSuperLaunch(ctx, W, H);
 }
 
 /* ---------- Placement ---------- */
@@ -74,10 +76,13 @@ function drawHero(ctx) {
   const S = ART.hero, home = heroFoot();
   if (!S) return { x: home.x, y: home.y - 60 };
   const P = heroPose(home, k), x = home.x + P.dx + P.shake, y = home.y + P.dy, Arm = ART.heroArm;
+  const sp = superActive() ? G.hero.sp : null, g = giant(sp);
+  const body = { x, y: y - S.h * 0.5 * g };
+  if (sp) aura(ctx, body, S.h * 0.5 * g, sp.col, false);
   // Sans calque de bras armé (arc de Kestrel), c'est tout le sprite qui s'incline pour frapper.
-  heroSprite(ctx, S, Arm, x, y, P.sx, P.sy, P.rot + (Arm ? 0 : P.arm * 0.15), P);
+  heroSprite(ctx, S, Arm, x, y, P.sx * g, P.sy * g, P.rot + (Arm ? 0 : P.arm * 0.15), P);
+  if (sp) aura(ctx, body, S.h * 0.5 * g, sp.col, true);
   fireAttack(x, y, P);
-  const body = { x, y: y - S.h * 0.5 };
   if ((G.mode === 'play' || G.mode === 'train') && G.time < G.hero.shieldUntil) {
     ring(ctx, body.x, body.y, 64 * k, '#3DDC5B', 4, 0.9);
     ctx.globalAlpha = 0.16; ctx.fillStyle = '#3DDC5B';
@@ -85,6 +90,49 @@ function drawHero(ctx) {
     ctx.globalAlpha = 1;
   }
   return body;
+}
+
+/** Géant (Boran) : taille du sprite, avec 0,3 s de croissance au début et de retour à la fin. */
+function giant(sp) {
+  if (!sp || sp.scale === 1 || G.time >= sp.until) return 1;
+  const env = Math.max(0, Math.min(1, (G.time - sp.start) / 0.3, (sp.until - G.time) / 0.3));
+  return 1 + (sp.scale - 1) * env;
+}
+
+/** Aura de super à la couleur du personnage : halo derrière le héros, anneau qui pulse devant. */
+function aura(ctx, body, r, col, front) {
+  const pulse = 0.5 + 0.5 * Math.sin(A.t * 6);
+  if (!front) {
+    ctx.globalAlpha = 0.18 + 0.12 * pulse; ctx.fillStyle = col;
+    ctx.beginPath(); ctx.arc(body.x, body.y, r * 1.25, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = 1;
+    return;
+  }
+  ring(ctx, body.x, body.y, r * (1.15 + 0.1 * pulse), col, 4, 0.55 + 0.35 * pulse);
+  for (let i = 0; i < 4; i++) {                       // étincelles qui tournent autour du héros
+    const a = A.t * 2.4 + i * Math.PI / 2, rr = r * 1.2;
+    const sx = body.x + Math.cos(a) * rr, sy = body.y + Math.sin(a) * rr * 0.6, s = 7 * k;
+    ctx.beginPath(); ctx.moveTo(sx, sy - s); ctx.lineTo(sx + s * 0.5, sy); ctx.lineTo(sx, sy + s); ctx.lineTo(sx - s * 0.5, sy); ctx.closePath();
+    ctx.fillStyle = col; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = INK; ctx.stroke();
+  }
+}
+
+/** Lancement d'une super : flash plein écran puis nom de la super en gros au centre. */
+function drawSuperLaunch(ctx, W, H) {
+  const b = G.superBanner;
+  if (!b) return;
+  if (b.t < 0.5) {
+    ctx.globalAlpha = 0.45 * (1 - b.t / 0.5); ctx.fillStyle = b.col;
+    ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1;
+  }
+  const q = b.t / 1.6, size = 50 * Math.min(1, W / 390);
+  const sc = q < 0.1 ? 0.5 + q / 0.1 * 0.65 : q < 0.18 ? 1.15 - (q - 0.1) / 0.08 * 0.15 : 1;
+  ctx.save();
+  ctx.globalAlpha = q > 0.75 ? (1 - q) / 0.25 : 1;
+  ctx.translate(W / 2, H * 0.42); ctx.scale(sc, sc); ctx.rotate(-3 * Math.PI / 180);
+  outlined(ctx, 'SUPER', 0, -size * 0.8, 18, '#FFFFFF', 5, 0, BODY, 700);
+  outlined(ctx, b.name, 0, 0, size, b.col, 9, 5);
+  ctx.restore();
 }
 
 /** Déclenche l'effet de l'attaque au bon moment : entaille (corps à corps) ou projectile (à distance). */
@@ -225,7 +273,14 @@ function line(ctx, x1, y1, x2, y2, col, w) {
 function drawFx(ctx, body) {
   for (const f of G.fx) {
     const p = f.t / f.life;
-    if (f.kind === 'burst') {           // (l'entaille 'slash' est dessinée par drawImpacts, au moment du coup)
+    if (f.kind === 'superHit') {                  // coup de super sur chaque ennemi (Rempart, Géant)
+      ring(ctx, f.x, f.y, (20 + p * 50) * k, f.col, 6, 1 - p);
+      const r = 30 * k, q = Math.min(1, p * 4);
+      ctx.globalAlpha = 1 - p;
+      line(ctx, f.x - r, f.y - r * q, f.x + r, f.y + r * q, '#FFFFFF', 5);
+      line(ctx, f.x + r, f.y - r * q, f.x - r, f.y + r * q, f.col, 5);
+      ctx.globalAlpha = 1;
+    } else if (f.kind === 'burst') {    // (l'entaille 'slash' est dessinée par drawImpacts, au moment du coup)
       ring(ctx, f.x, f.y, f.r * k + p * 60 * k, f.col, 5, 1 - p);
     } else if (f.kind === 'ring') {
       ring(ctx, body.x, body.y, (56 + p * 34) * k, '#3DDC5B', 4, 1 - p);

@@ -2,7 +2,7 @@
 import { D, loadData } from './data.js';
 import { G } from './game/state.js';
 import { attachInput } from './input/gestures.js';
-import { handleGesture } from './game/combat.js';
+import { handleGesture, useSuper } from './game/combat.js';
 import { emptyStats } from './game/grades.js';
 import { updateEnemies, updateWaves } from './game/enemies.js';
 import { attackMult, grantXp } from './game/progress.js';
@@ -36,10 +36,17 @@ function prepareArt(c) {
 function resetGame(c) {
   G.charId = c.id;
   G.atkMult = attackMult(c.id);
-  G.hero = { hp: c.hp, max: c.hp, atk: c.attack, shieldUntil: -1, shieldAvoid: 0, flash: 0 };
+  const P = c.passive || {};
+  G.hero = {
+    hp: c.hp, max: c.hp, atk: c.attack, shieldUntil: -1, shieldAvoid: 0, flash: 0, col: c.accent || c.color,
+    // Passifs (data/characters.json) : pas de combo, combo plus court, esquive de base, soin par attaque.
+    noCombo: !!P.noCombo, comboLength: P.comboLength || D.grades.comboLength,
+    dodgeBase: P.dodgeBase ?? D.rules.dodge.base, healPerHit: P.healPerHit || 0,
+    super: c.super, gauge: 0, sp: null
+  };
   Object.assign(G, {
     enemies: [], loots: [], fx: [], pops: [], trails: [],
-    time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, shake: 0, bigGrade: null, trainSpawn: 0,
+    time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
     streak: { name: null, n: 0 }, combos: 0, globalGap: 0, stats: emptyStats()
   });
 }
@@ -50,6 +57,7 @@ function update(dt) {
     for (let i = a.length - 1; i >= 0; i--) if (a[i].t >= a[i].life) a.splice(i, 1);
   }
   if (G.bigGrade) { G.bigGrade.t += dt; if (G.bigGrade.t > 1.1) G.bigGrade = null; }
+  if (G.superBanner) { G.superBanner.t += dt; if (G.superBanner.t > 1.6) G.superBanner = null; }
   G.shake = Math.max(0, G.shake - dt * 2);
   G.hero.flash = Math.max(0, G.hero.flash - dt * 3);
   for (const l of G.loots) { l.t += dt; l.life -= dt; }
@@ -144,6 +152,11 @@ async function init() {
   });
   initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play') });
   $('quit').onclick = toLobby;
+  // Bouton de super : réagit dès l'appui, et l'appui n'atteint jamais le canvas (pas de tap ni de tracé).
+  $('superBtn').addEventListener('pointerdown', e => {
+    e.preventDefault(); e.stopPropagation();
+    if (G.mode === 'play' || G.mode === 'train') useSuper();
+  });
   resetGame(activeCharacter());
   toLobby();
   // Sprites préparés juste après le premier affichage du lobby, pour ne pas le retarder.

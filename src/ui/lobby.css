@@ -129,6 +129,14 @@
 
 .mini-row{display:flex;gap:10px;flex-shrink:0}
 .mini-card{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:22px;box-shadow:0 5px 0 var(--ink)}
+/* Passif et super du personnage (onglet Personnage) */
+.mini-card.skill{gap:5px}
+.skill-name{font-family:var(--font-heading);font-size:16px;line-height:1.05}
+.mini-card.super{background:linear-gradient(180deg,var(--color-bg) 0 70%,color-mix(in srgb,var(--acc) 25%,var(--color-bg)))}
+.mini-card.super .skill-name{color:var(--acc);-webkit-text-stroke:3.5px var(--ink);paint-order:stroke fill;text-shadow:0 2px 0 var(--ink)}
+.skill-text{font-size:11.5px;font-weight:700;line-height:1.3;color:var(--text-soft)}
+.skill-stats{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto;padding-top:2px}
+.skill-stats span{font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px;border:2px solid var(--ink);background:var(--sun)}
 .mini-kicker{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--moss)}
 .mini-item{display:flex;gap:8px;align-items:center}
 .mini-thumb{position:relative;width:50px;height:50px;flex-shrink:0;border-radius:14px;border:3px solid var(--ink);overflow:hidden;display:flex;align-items:center;justify-content:center;box-sizing:border-box}

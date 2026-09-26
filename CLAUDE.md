@@ -25,6 +25,11 @@ Prototype jouable actuel : `prototype/trois-signes-prototype.html` (un seul fich
 - **PVP tour par tour** : vague 1 jouée en même temps (même seed), le meilleur score commence, chaque score durcit la vague de l'adversaire, KO avant le boss = défaite, sinon le plus gros score gagne.
 - **Histoire** : cinématiques en images fixes + texte, un fragment débloqué à chaque boss.
 
+## Passifs et super-attaques (valeurs de départ, à rééquilibrer dans `data/characters.json`)
+- Aldric 150 PV / 6, aucun passif. Nyra 100 / 8. Boran 190 / 8, jamais de combo. Mira 200 / 3, soin 4 PV × multiplicateur par attaque réussie. Kestrel 125 / 6,6, esquive de base 95 %. Ilwen 125 / 6, combo en 3 gestes.
+- Jauge : OK +4, Good +7, Very Good +10, Excellent +12, Perfect +15, combo +10, pleine à 100. Bouton rond en bas à droite (l'appui n'est jamais un geste).
+- Supers : Rempart (8 s, dégâts reçus −50 %, coup sur tous ×2), Ombre (3 esquives auto, attaque +50 % 8 s), Géant (×1,4 pendant 8 s, coup sur tous ×2,5), Grimoire ouvert (4 attaques traitées en combo), Œil de faucon (8 s de Perfect), Renouveau (PV au max, attaque ×2 10 s).
+
 ## Équilibrage actuel (version 2 du prototype)
 Héros 150 PV, attaque de base 6. Sbire 10 PV / 6 dégâts, brute 18 PV / 9 dégâts, boss 50 PV / 12 dégâts.
 Alerte avant un coup : 1,3 à 1,5 s. Pause d'au moins 1,2 s entre deux coups ennemis. Partie de 120 s.
@@ -50,6 +55,7 @@ src/
   game/combat.js   attaque, esquive, ramassage
   game/enemies.js  vagues, IA ennemie, boss
   game/progress.js XP, niveaux, stuff
+  game/supers.js   jauge et super-attaques (valeurs dans characters.json)
   story/story.js   cinématiques
   ui/hud.js        rendu canvas du combat (sprites, anneau d'alerte, tracés, textes de réussite)
   ui/combat-hud.js interface HTML du combat (vie, Quitter, vague / chrono / score, série)
@@ -75,7 +81,7 @@ design/            exports Claude Design (référence : planche de personnages, 
 ## Direction artistique (retenue en septembre 2026)
 - Référence : `design/trois-signes-maquette-lobby` et `design/planche-de-personnages-trois-signes`, reproduites telles quelles. Elles remplacent la DA de l'ancien PDF « Bible ».
 - Style cartoon low-poly : fond vert vif facetté, contours épais `#15301E`, boutons orange/jaune avec ombre portée, cartes crème, polices Caprasimo (titres) et Figtree (texte) du design system Organic.
-- Personnages : ceux de la planche (Aldric le Chevalier, Nyra l'Assassine, Boran le Colosse, Ilwen la Sorcière, Kestrel la Rôdeuse, Mira la Soigneuse). Les 6 sont jouables, chacun avec son XP et son niveau (même PV / attaque pour l'instant, dans `data/characters.json`).
+- Personnages : ceux de la planche (Aldric le Chevalier, Nyra l'Assassine, Boran le Colosse, Ilwen la Sorcière, Kestrel la Rôdeuse, Mira la Soigneuse). Les 6 sont jouables, chacun avec son XP et son niveau, ses PV / attaque, un passif et une super-attaque (tout dans `data/characters.json` : `passive`, `super`, `superGauge`, couleur `accent`).
 - Ce qui n'est pas encore codé (armes, skins, boutique, Duel) est affiché et marqué « Bientôt ». Pas de monnaie premium (gemmes) : pas de pay-to-win.
 - Combat : `design/ecran-de-combat-trois-signes` (décor Forêt de Mousse, sprites de ¾ dos pour le héros choisi dans le lobby, sbire / brute / boss, interface restylée). Les animations ne font que transformer les sprites (aucune nouvelle image) et sont déduites de l'état du jeu, sans toucher à la logique. Attaque au corps à corps (Aldric, Nyra, Boran) : ruée + coup d'arme (bras armé en calque séparé) ; à distance (Kestrel flèche, Ilwen et Mira sort) : tir d'un projectile dessiné, sans ruée.
 - Les seuils de réussite affichés dans cette maquette (« seuils proposés ») ne sont pas repris : seules les couleurs par palier l'ont été.

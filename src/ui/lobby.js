@@ -160,6 +160,19 @@ function charHtml() {
       </div>
     </div>
     <div class="mini-row">
+      <div class="mini-card skill">
+        <div class="mini-kicker">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}PASSIF</div>
+        <div class="skill-name">${v.passive.name}</div>
+        <div class="skill-text">${v.passive.text}</div>
+        <div class="skill-stats"><span>${v.hp} PV</span><span>Attaque ${String(v.attack).replace('.', ',')}</span></div>
+      </div>
+      <div class="mini-card skill super" style="--acc:${v.accent || v.color}">
+        <div class="mini-kicker">${glyph('tri', v.accent || v.color, 14, { outline: 1.6 })}SUPER</div>
+        <div class="skill-name">${v.super.name}</div>
+        <div class="skill-text">${v.super.text}</div>
+      </div>
+    </div>
+    <div class="mini-row">
       <div class="mini-card">
         <div class="mini-kicker">${glyph('tri', '#FF8C32', 14, { outline: 1.6 })}ARME</div>
         <div class="mini-item">
