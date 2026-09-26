@@ -1,178 +1,302 @@
-// Rendu canvas : arène, héros, ennemis, effets, HUD. Ne modifie jamais l'état du jeu.
-import { D } from '../data.js';
+// Rendu canvas du combat, d'après la maquette design/ecran-de-combat-trois-signes :
+// sprites (héros choisi, sbires, brute, boss, objets), anneau d'alerte, tracés, textes de réussite.
+// Le décor est peint une fois dans un canvas de fond (ui/combat-art.js) ; les barres du haut et la
+// série du bas sont en HTML (ui/combat-hud.js). Ne modifie jamais l'état du jeu.
 import { G, heroPos } from '../game/state.js';
-import { rand } from '../util.js';
 import { gradeByName } from '../game/grades.js';
+import { ART, artScale } from './combat-art.js';
+import { A, updateAnims, heroPose } from './anim.js';
+import { updateHud, HUD_BOTTOM } from './combat-hud.js';
 
-export function draw(ctx) {
+const INK = '#15301E';
+const HEAD = 'Caprasimo, system-ui, sans-serif', BODY = 'Figtree, system-ui, sans-serif';
+const BAR = { sbire: [46, 12], brute: [64, 12], boss: [120, 14] };   // barres de vie : largeur, hauteur
+const GLYPH = { Attaque: 'gTri', Esquive: 'gCircle', Ramassage: 'gDot' };
+
+let k = 1;
+
+export function draw(ctx, dt) {
   const { W, H } = G;
-  const inGame = G.mode === 'play' || G.mode === 'train';
+  k = artScale(W, H);
+  updateAnims(dt, enemyFoot, gradeByName);
+  updateHud(A);
+  ctx.clearRect(0, 0, W, H);
   ctx.save();
-  if (G.shake > 0) ctx.translate(rand(-8, 8) * G.shake, rand(-8, 8) * G.shake);
-  drawArena(ctx, W, H);
-  const h = heroPos();
+  if (G.shake > 0) ctx.translate((Math.random() - 0.5) * 16 * G.shake, (Math.random() - 0.5) * 16 * G.shake);
+  if (G.enemies.some(e => e.T.sprite === 'boss')) bossShade(ctx, W, H);
   drawLoots(ctx);
-  for (const e of G.enemies) drawEnemy(ctx, e, h);
-  drawHero(ctx, h, inGame && G.time < G.hero.shieldUntil);
-  drawFx(ctx, h);
+  const list = G.enemies.map(e => ({ e, p: enemyFoot(e) })).sort((a, b) => a.p.y - b.p.y);
+  for (const d of A.dying) drawDying(ctx, d);
+  for (const { e, p } of list) drawEnemy(ctx, e, p);
+  const body = drawHero(ctx);
+  const w = G.enemies.find(e => e.state === 'windup');
+  if (w) drawWarning(ctx, body, w.t / w.T.wind);
+  drawFx(ctx, body);
+  drawShards(ctx);
   drawTrails(ctx);
-  drawTexts(ctx, W, H);
-  if (G.mode === 'play') drawHud(ctx, W);
-  if (inGame && G.streak.n > 0) drawStreak(ctx, W, H);
+  drawPops(ctx);
+  drawGrade(ctx, W, H);
   ctx.restore();
 }
 
-function drawArena(ctx, W, H) {
-  ctx.fillStyle = '#17123A'; ctx.fillRect(-20, -20, W + 40, H + 40);
-  const g = ctx.createRadialGradient(W / 2, H * 0.55, 10, W / 2, H * 0.55, Math.max(W, H) * 0.7);
-  g.addColorStop(0, '#2E2470'); g.addColorStop(1, '#17123A');
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.ellipse(W / 2, H * 0.78 + 34, Math.min(W * 0.42, 200), 26, 0, 0, Math.PI * 2); ctx.stroke();
+/* ---------- Placement ---------- */
+
+/** Pieds de l'ennemi à l'écran. La logique donne le centre ; on garde la tête sous le bandeau du haut. */
+function enemyFoot(e) {
+  const S = ART[e.T.sprite];
+  if (!S) return { x: e.x, y: e.y, h: 0 };
+  const ty = e.sy * G.H;
+  const minFoot = G.safeTop + HUD_BOTTOM + 34 + (S.fy - S.hy);
+  return { x: e.x, y: Math.max(ty + 0.45 * S.h, minFoot) + (e.y - ty), h: S.h };
+}
+
+function heroFoot() {
+  const h = heroPos(), S = ART.hero;
+  return { x: h.x, y: Math.min(h.y + 0.55 * (S ? S.h : 0), G.H - 70) };
+}
+
+/* ---------- Sprites ---------- */
+
+function sprite(ctx, S, x, y, sx, sy, rot, red, white) {
+  ctx.save();
+  ctx.translate(x, y);
+  if (rot) ctx.rotate(rot);
+  if (sx !== 1 || sy !== 1) ctx.scale(sx, sy);
+  ctx.drawImage(S.img, -S.fx, -S.fy, S.w, S.h);
+  if (red > 0) { ctx.globalAlpha = Math.min(1, red); ctx.drawImage(S.red, -S.fx, -S.fy, S.w, S.h); }
+  if (white > 0) { ctx.globalAlpha = Math.min(1, white); ctx.drawImage(S.white, -S.fx, -S.fy, S.w, S.h); }
+  ctx.restore();
+}
+
+function drawHero(ctx) {
+  const S = ART.hero, home = heroFoot();
+  if (!S) return { x: home.x, y: home.y - 60 };
+  const P = heroPose(home, k), x = home.x + P.dx + P.shake, y = home.y + P.dy;
+  sprite(ctx, S, x, y, P.sx, P.sy, P.rot, P.red, 0);
+  const body = { x, y: y - S.h * 0.5 };
+  if ((G.mode === 'play' || G.mode === 'train') && G.time < G.hero.shieldUntil) {
+    ring(ctx, body.x, body.y, 64 * k, '#3DDC5B', 4, 0.9);
+    ctx.globalAlpha = 0.16; ctx.fillStyle = '#3DDC5B';
+    ctx.beginPath(); ctx.arc(body.x, body.y, 64 * k, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  return body;
+}
+
+function drawEnemy(ctx, e, p) {
+  const S = ART[e.T.sprite];
+  if (!S) return;
+  const walk = e.state === 'walk', wind = e.state === 'windup' ? Math.min(1, e.t / e.T.wind) : 0;
+  const bob = (1 - Math.cos(A.t * (walk ? 11 : 4) + e.sx * 9)) / 2;   // attente : léger rebond continu
+  let dx = 0, dy = -bob * (walk ? 6 : 3) * k, sx = 1 + 0.025 * (1 - bob), sy = 1 - 0.025 * (1 - bob);
+  let rot = 0, red = 0, white = 0;
+  const hero = heroPos(), side = Math.sign(hero.x - e.x) || 1;
+  if (wind > 0) {                                                       // préparation d'un coup
+    sx *= 1 + 0.07 * wind; sy *= 1 + 0.07 * wind; rot = -side * 0.07 * wind;
+    red = (0.18 + 0.4 * wind) * (0.65 + 0.35 * Math.sin(A.t * 18));
+  }
+  const l = A.lunge.get(e);
+  if (l !== undefined) {                                                // coup porté : petit bond vers le héros
+    const go = Math.sin(Math.PI * l / 0.3), vx = hero.x - e.x, vy = hero.y - p.y, d = Math.hypot(vx, vy) || 1;
+    dx += vx / d * 34 * k * go; dy += vy / d * 34 * k * go;
+  }
+  if (e.hit > 0) { white = e.hit / 0.25 * 0.85; dx += Math.sin(A.t * 80) * 4 * k * e.hit / 0.25; }
+  sprite(ctx, S, p.x + dx, p.y + dy, sx, sy, rot, red, white);
+
+  const [bw, bh] = BAR[e.T.sprite] || BAR.sbire;
+  const hx = p.x + dx + (S.hx - S.fx) * sx, top = p.y + dy - (S.fy - S.hy) * sy - 22;
+  hpBar(ctx, hx, top, bw * Math.max(0.8, k), bh, Math.max(0, e.hp / e.max), e.T.sprite === 'boss' ? 3 : 2.5);
+  if (wind > 0) outlined(ctx, '!', hx, top - 16, 26, '#FFD23F', 6, 2);
+}
+
+function drawDying(ctx, d) {
+  const S = ART[d.sprite];
+  if (!S) return;
+  const p = d.t / 0.4, s = 1 - p * p;                                   // vaincu : il rétrécit…
+  ctx.globalAlpha = 1 - p * 0.5;
+  sprite(ctx, S, d.x, d.y - S.h * 0.3 * p, s, s, p * 0.5, 0, 0.6 * (1 - p));
+  ctx.globalAlpha = 1;
+}
+
+function drawShards(ctx) {                                              // …et éclate en facettes
+  for (const s of A.shards) {
+    const a = 1 - s.t / s.life, r = s.s * k;
+    ctx.save();
+    ctx.translate(s.x, s.y); ctx.rotate(s.rot);
+    ctx.globalAlpha = a;
+    ctx.beginPath(); ctx.moveTo(0, -r); ctx.lineTo(r * 0.9, r * 0.7); ctx.lineTo(-r * 0.9, r * 0.6); ctx.closePath();
+    ctx.fillStyle = s.col; ctx.fill();
+    ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.strokeStyle = INK; ctx.stroke();
+    ctx.restore();
+  }
+}
+
+/** Anneau rouge qui se resserre sur le héros pendant la préparation d'un coup ennemi. */
+function drawWarning(ctx, body, wind) {
+  const R = ART.ring;
+  if (!R) return;
+  const s = 1.3 - 0.42 * wind;
+  ctx.save();
+  ctx.globalAlpha = 0.35 + 0.65 * wind;
+  ctx.translate(body.x, body.y); ctx.rotate(A.t * 0.6); ctx.scale(s * 0.9, s * 0.9);
+  ctx.drawImage(R.img, -R.w / 2, -R.h / 2, R.w, R.h);
+  ctx.restore();
 }
 
 function drawLoots(ctx) {
   for (const l of G.loots) {
-    const blink = l.life < 1.2 && Math.floor(l.t * 8) % 2 === 0;
-    if (blink) continue;
-    const bob = Math.sin(l.t * 4) * 4;
-    ctx.save(); ctx.translate(l.x, l.y + bob);
-    ctx.strokeStyle = 'rgba(255,201,74,.35)'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(0, 0, 26 + Math.sin(l.t * 5) * 3, 0, Math.PI * 2); ctx.stroke();
-    if (l.type === 'coin') {
-      ctx.fillStyle = '#FFC94A'; ctx.beginPath(); ctx.arc(0, 0, 14, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#C98F10'; ctx.fillRect(-2, -7, 4, 14);
-    } else {
-      ctx.fillStyle = '#FF6F9B'; ctx.beginPath(); ctx.moveTo(0, 10);
-      ctx.bezierCurveTo(-18, -2, -9, -17, 0, -7); ctx.bezierCurveTo(9, -17, 18, -2, 0, 10); ctx.fill();
-    }
-    ctx.restore();
-  }
-}
-
-function drawEnemy(ctx, e, h) {
-  const r = e.T.r, crown = e.T.shape === 'crown';
-  const wind = e.state === 'windup' ? e.t / e.T.wind : 0;
-  const top = -r - (crown ? r * 0.4 : 0);
-  ctx.save(); ctx.translate(e.x, e.y);
-  if (wind > 0) {
-    ctx.fillStyle = 'rgba(255,93,115,' + (0.15 + 0.25 * wind) + ')';
-    ctx.beginPath(); ctx.arc(0, 0, r + 10 + 6 * Math.sin(e.t * 20), 0, Math.PI * 2); ctx.fill();
-  }
-  ctx.fillStyle = e.hit > 0 ? '#FFFFFF' : e.T.col;
-  ctx.beginPath();
-  if (crown) {
-    ctx.moveTo(-r, r * 0.6); ctx.lineTo(-r, -r * 0.4); ctx.lineTo(-r * 0.6, -r * 1.1); ctx.lineTo(-r * 0.25, -r * 0.6);
-    ctx.lineTo(0, -r * 1.25); ctx.lineTo(r * 0.25, -r * 0.6); ctx.lineTo(r * 0.6, -r * 1.1); ctx.lineTo(r, -r * 0.4);
-    ctx.lineTo(r, r * 0.6); ctx.quadraticCurveTo(0, r * 1.1, -r, r * 0.6);
-  } else if (ctx.roundRect) ctx.roundRect(-r, -r, r * 2, r * 2, r * 0.5);
-  else ctx.rect(-r, -r, r * 2, r * 2);
-  ctx.fill();
-  ctx.fillStyle = '#17123A'; ctx.beginPath();
-  ctx.arc(-r * 0.35, -r * 0.1, r * 0.16, 0, Math.PI * 2); ctx.arc(r * 0.35, -r * 0.1, r * 0.16, 0, Math.PI * 2); ctx.fill();
-  // Barre de vie
-  const bw = r * 2;
-  ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(-bw / 2, top - 14, bw, 5);
-  ctx.fillStyle = e.T.col; ctx.fillRect(-bw / 2, top - 14, bw * Math.max(0, e.hp / e.max), 5);
-  if (wind > 0) { ctx.fillStyle = '#FFFFFF'; ctx.font = '900 22px system-ui'; ctx.textAlign = 'center'; ctx.fillText('!', 0, top - 22); }
-  ctx.restore();
-  // Anneau d'alerte qui se resserre sur le héros
-  if (wind > 0) {
-    const rr = 34 + (1 - wind) * 80;
-    ctx.strokeStyle = 'rgba(255,93,115,' + (0.4 + 0.6 * wind) + ')'; ctx.lineWidth = 3 + wind * 3;
-    ctx.beginPath(); ctx.arc(h.x, h.y, rr, 0, Math.PI * 2); ctx.stroke();
-  }
-}
-
-function drawHero(ctx, h, shielded) {
-  ctx.save(); ctx.translate(h.x, h.y);
-  if (shielded) {
-    ctx.fillStyle = 'rgba(63,215,196,.18)'; ctx.strokeStyle = 'rgba(63,215,196,.9)'; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.arc(0, 0, 48, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-  }
-  ctx.fillStyle = G.hero.flash > 0 ? '#FF5D73' : '#E9E3FF';
-  ctx.beginPath(); ctx.arc(0, -6, 24, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = '#17123A'; ctx.fillRect(-14, -12, 28, 6);
-  ctx.fillStyle = '#FFC94A'; ctx.beginPath(); ctx.moveTo(18, 4); ctx.lineTo(36, 4); ctx.lineTo(36, 18);
-  ctx.quadraticCurveTo(27, 30, 18, 18); ctx.closePath(); ctx.fill();
-  ctx.strokeStyle = '#E9E3FF'; ctx.lineWidth = 4; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(-26, 10); ctx.lineTo(-40, -26); ctx.stroke();
-  ctx.restore();
-}
-
-function drawFx(ctx, h) {
-  for (const f of G.fx) {
-    const k = f.t / f.life;
-    ctx.strokeStyle = f.col; ctx.globalAlpha = 1 - k;
-    if (f.kind === 'slash' || f.kind === 'bolt') {
-      const p = Math.min(1, k * 3);
-      ctx.lineWidth = f.kind === 'slash' ? 6 : 4; ctx.lineCap = 'round';
-      ctx.beginPath(); ctx.moveTo(f.x1, f.y1); ctx.lineTo(f.x1 + (f.x2 - f.x1) * p, f.y1 + (f.y2 - f.y1) * p); ctx.stroke();
-    } else if (f.kind === 'burst') {
-      ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(f.x, f.y, f.r + k * 50, 0, Math.PI * 2); ctx.stroke();
-    } else if (f.kind === 'ring') {
-      ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(h.x, h.y, 48 + k * 30, 0, Math.PI * 2); ctx.stroke();
-    }
+    if (l.life < 1.2 && Math.floor(l.t * 8) % 2 === 0) continue;       // clignote avant de disparaître
+    const S = ART[l.type === 'coin' ? 'coin' : 'heart'], bob = Math.sin(l.t * 4) * 4;
+    ctx.globalAlpha = 0.5 + 0.25 * Math.sin(l.t * 5);
+    ctx.lineWidth = 3; ctx.strokeStyle = '#FFD23F';
+    ctx.beginPath(); ctx.arc(l.x, l.y + bob, 30 * k + Math.sin(l.t * 5) * 3, 0, Math.PI * 2); ctx.stroke();
     ctx.globalAlpha = 1;
+    if (S) ctx.drawImage(S.img, l.x - S.w / 2, l.y - S.h / 2 + bob, S.w, S.h);
   }
 }
 
-function strokePts(ctx, p, col, w) {
-  if (p.length < 2) return;
-  ctx.strokeStyle = col; ctx.lineWidth = w;
-  ctx.beginPath(); ctx.moveTo(p[0].x, p[0].y);
-  for (let i = 1; i < p.length; i++) ctx.lineTo(p[i].x, p[i].y);
-  ctx.stroke();
+function bossShade(ctx, W, H) {
+  const g = ctx.createLinearGradient(0, 0, 0, H * 0.55);
+  g.addColorStop(0, 'rgba(59,44,74,.28)'); g.addColorStop(1, 'rgba(59,44,74,0)');
+  ctx.fillStyle = g; ctx.fillRect(-20, -20, W + 40, H * 0.55 + 20);
+}
+
+/* ---------- Effets ---------- */
+
+function ring(ctx, x, y, r, col, w, a) {
+  ctx.globalAlpha = a;
+  ctx.lineWidth = w + 4; ctx.strokeStyle = INK;
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+  ctx.lineWidth = w; ctx.strokeStyle = col; ctx.stroke();
+  ctx.globalAlpha = 1;
+}
+
+function line(ctx, x1, y1, x2, y2, col, w) {
+  ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+  ctx.lineWidth = w + 5; ctx.strokeStyle = INK; ctx.stroke();
+  ctx.lineWidth = w; ctx.strokeStyle = col; ctx.stroke();
+}
+
+function drawFx(ctx, body) {
+  for (const f of G.fx) {
+    const p = f.t / f.life;
+    if (f.kind === 'slash') {                    // entaille sur la cible, quand le héros l'atteint
+      const q = Math.min(1, Math.max(0, (p - 0.3) * 3)), r = 34 * k;
+      if (q <= 0) continue;
+      ctx.globalAlpha = 1 - Math.max(0, p - 0.6) / 0.4;
+      line(ctx, f.x2 - r, f.y2 - r, f.x2 - r + 2 * r * q, f.y2 - r + 2 * r * q, f.col, 7);
+      line(ctx, f.x2 + r * 0.8, f.y2 - r * 0.6, f.x2 + r * 0.8 - 1.6 * r * q, f.y2 - r * 0.6 + 1.2 * r * q, '#FFFFFF', 4);
+      ctx.globalAlpha = 1;
+    } else if (f.kind === 'burst') {
+      ring(ctx, f.x, f.y, f.r * k + p * 60 * k, f.col, 5, 1 - p);
+    } else if (f.kind === 'ring') {
+      ring(ctx, body.x, body.y, (56 + p * 34) * k, '#3DDC5B', 4, 1 - p);
+    } else if (f.kind === 'bolt') {              // impact du coup ennemi sur le héros
+      ctx.globalAlpha = 1 - p;
+      const x0 = f.x1 + (f.x2 - f.x1) * 0.7, y0 = f.y1 + (f.y2 - f.y1) * 0.7;
+      line(ctx, x0, y0, f.x2, f.y2, '#FF5A3C', 5);
+      ctx.globalAlpha = 1;
+    }
+  }
+}
+
+/* ---------- Tracés (comme TS.trace de la maquette : halo, ombre, cœur doré, fil blanc) ---------- */
+
+function trace(ctx, pts, a, glow, tip) {
+  if (pts.length < 2) return;
+  const path = new Path2D();
+  path.moveTo(pts[0].x, pts[0].y);
+  for (let i = 1; i < pts.length; i++) path.lineTo(pts[i].x, pts[i].y);
+  const last = pts[pts.length - 1];
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.globalAlpha = a * 0.35; ctx.strokeStyle = glow; ctx.lineWidth = 30 * k; ctx.stroke(path);
+  ctx.globalAlpha = a * 0.3; ctx.strokeStyle = INK; ctx.lineWidth = 19 * k; ctx.stroke(path);
+  const g = ctx.createLinearGradient(pts[0].x, pts[0].y, last.x, last.y);
+  g.addColorStop(0, 'rgba(255,210,63,.45)'); g.addColorStop(1, '#FFF4C4');
+  ctx.globalAlpha = a; ctx.strokeStyle = g; ctx.lineWidth = 14 * k; ctx.stroke(path);
+  ctx.globalAlpha = a * 0.9; ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 5 * k; ctx.stroke(path);
+  if (tip) {
+    ctx.globalAlpha = a * 0.4; ctx.fillStyle = '#FFD23F';
+    ctx.beginPath(); ctx.arc(last.x, last.y, 24 * k, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = a; ctx.lineWidth = 3.5; ctx.strokeStyle = '#FFD23F';
+    ctx.beginPath(); ctx.arc(last.x, last.y, 13 * k, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = '#FFFFFF'; ctx.beginPath(); ctx.arc(last.x, last.y, 8 * k, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
 }
 
 function drawTrails(ctx) {
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-  for (const t of G.trails) { ctx.globalAlpha = 1 - t.t / t.life; strokePts(ctx, t.pts, t.col, 7); }
-  ctx.globalAlpha = 1;
-  if (G.drawing) strokePts(ctx, G.drawing.pts, '#FFC94A', 8);
+  for (const t of G.trails) trace(ctx, t.pts, 0.7 * (1 - t.t / t.life), t.col, false);
+  if (G.drawing) trace(ctx, G.drawing.pts, 1, '#FFD23F', true);
 }
 
-function drawTexts(ctx, W, H) {
-  ctx.textAlign = 'center';
+/* ---------- Textes ---------- */
+
+function outlined(ctx, text, x, y, size, fill, stroke, shadow, font = HEAD, weight = 400) {
+  ctx.font = weight + ' ' + size + 'px ' + font;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+  ctx.lineWidth = stroke; ctx.strokeStyle = INK;
+  if (shadow) { ctx.fillStyle = INK; ctx.strokeText(text, x, y + shadow); ctx.fillText(text, x, y + shadow); }
+  ctx.strokeText(text, x, y);
+  ctx.fillStyle = fill; ctx.fillText(text, x, y);
+}
+
+function drawPops(ctx) {
   for (const p of G.pops) {
-    const k = p.t / p.life;
-    ctx.globalAlpha = 1 - k * k; ctx.fillStyle = p.col;
-    ctx.font = '900 ' + p.size + 'px system-ui'; ctx.fillText(p.text, p.x, p.y - k * 30);
-    if (p.sub) { ctx.font = '600 13px system-ui'; ctx.fillText(p.sub, p.x, p.y - k * 30 + 18); }
+    const q = p.t / p.life, y = p.y - q * 30;
+    ctx.globalAlpha = 1 - q * q;
+    outlined(ctx, p.text, p.x, y, p.size, p.col, Math.max(5, p.size * 0.26), 2);
+    if (p.sub) outlined(ctx, p.sub, p.x, y + p.size * 0.5 + 10, 13, '#FFF1D6', 4, 0, BODY, 700);
   }
   ctx.globalAlpha = 1;
+}
+
+/** Grand texte de réussite (« Excellent », « Perfect »…) et pastille « Attaque · 92 % ». */
+function drawGrade(ctx, W, H) {
   const b = G.bigGrade;
-  if (b) {
-    const k = b.t / 1.1, sc = k < 0.15 ? 0.7 + k * 2 : 1;
-    ctx.save(); ctx.translate(W / 2, H * 0.6); ctx.scale(sc, sc); ctx.globalAlpha = k > 0.7 ? (1 - k) / 0.3 : 1;
-    ctx.fillStyle = b.col; ctx.font = '900 40px system-ui'; ctx.fillText(b.text, 0, 0);
-    ctx.font = '600 15px system-ui'; ctx.fillStyle = '#F4EEFF';
-    ctx.fillText(b.label + (b.acc != null ? ' · ' + b.acc + ' %' : ''), 0, 24);
+  if (!b) return;
+  const q = b.t / 1.1, size = 60 * Math.min(1, W / 390);
+  const sc = q < 0.12 ? 0.6 + q / 0.12 * 0.5 : q < 0.2 ? 1.1 - (q - 0.12) / 0.08 * 0.1 : 1;
+  ctx.save();
+  ctx.globalAlpha = q > 0.7 ? (1 - q) / 0.3 : 1;
+  ctx.translate(W / 2, H * 0.5); ctx.scale(sc, sc);
+  ctx.save(); ctx.rotate(-4 * Math.PI / 180);
+  outlined(ctx, b.text, 0, 0, size, b.col, 8, 5);
+  ctx.restore();
+  const label = b.label + (b.acc != null ? ' · ' + b.acc + ' %' : ''), gl = ART[GLYPH[b.label]];
+  ctx.font = '700 15px ' + BODY;
+  const tw = ctx.measureText(label).width, gw = gl ? 22 + 7 : 0, pw = 9 + gw + tw + 14, ph = 34, py = size * 0.55 + 12;
+  rr(ctx, -pw / 2, py + 3, pw, ph, ph / 2); ctx.fillStyle = INK; ctx.fill();
+  rr(ctx, -pw / 2, py, pw, ph, ph / 2); ctx.fillStyle = '#174A28'; ctx.fill();
+  ctx.lineWidth = 3; ctx.strokeStyle = INK; ctx.stroke();
+  if (gl) ctx.drawImage(gl.img, -pw / 2 + 9, py + (ph - 22) / 2, 22, 22);
+  ctx.fillStyle = '#FFF1D6'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  ctx.fillText(label, -pw / 2 + 9 + gw, py + ph / 2 + 1);
+  ctx.restore();
+}
+
+/* ---------- Formes ---------- */
+
+function rr(ctx, x, y, w, h, r) {
+  r = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function hpBar(ctx, cx, top, w, h, ratio, border) {
+  const x = cx - w / 2;
+  rr(ctx, x, top + 2, w, h, h / 2); ctx.fillStyle = INK; ctx.fill();
+  rr(ctx, x, top, w, h, h / 2); ctx.fillStyle = '#2A1F36'; ctx.fill();
+  if (ratio > 0) {
+    ctx.save(); ctx.clip();
+    ctx.fillStyle = '#FF5A3C'; ctx.fillRect(x, top, w * ratio, h);
+    ctx.fillStyle = '#FF8A70'; ctx.fillRect(x, top, w * ratio, h * 0.45);
+    ctx.fillStyle = INK; ctx.fillRect(x + w * ratio - border / 2, top, border, h);
     ctx.restore();
   }
-}
-
-function drawHud(ctx, W) {
-  const top = G.safeTop + 14, hero = G.hero, nWaves = D.waves.waves.length;
-  ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.fillRect(16, top, 150, 12);
-  ctx.fillStyle = hero.hp > 30 ? '#3FD7C4' : '#FF5D73'; ctx.fillRect(16, top, 150 * hero.hp / hero.max, 12);
-  ctx.fillStyle = '#F4EEFF'; ctx.font = '700 13px system-ui'; ctx.textAlign = 'left';
-  ctx.fillText(Math.ceil(hero.hp) + ' PV', 16, top + 30);
-  ctx.textAlign = 'center'; ctx.font = '900 20px system-ui';
-  ctx.fillText(Math.max(0, Math.ceil(D.waves.timeLimit - G.time)) + ' s', W / 2, top + 12);
-  ctx.font = '600 12px system-ui'; ctx.fillStyle = '#9C93C9';
-  ctx.fillText('Vague ' + Math.min(G.waveIdx, nWaves) + ' / ' + nWaves, W / 2, top + 30);
-  ctx.textAlign = 'left'; ctx.fillStyle = '#FFC94A'; ctx.font = '900 18px system-ui';
-  ctx.fillText(G.score + ' pts', 16, top + 52);
-}
-
-function drawStreak(ctx, W, H) {
-  const g = gradeByName(G.streak.name), y = H * 0.78 + 62, n = D.grades.comboLength;
-  ctx.textAlign = 'center'; ctx.font = '700 13px system-ui'; ctx.fillStyle = g.col;
-  ctx.fillText('Série ' + G.streak.name, W / 2, y);
-  for (let i = 0; i < n; i++) {
-    ctx.beginPath(); ctx.arc(W / 2 - 9 * (n - 1) + i * 18, y + 14, 5, 0, Math.PI * 2);
-    if (i < G.streak.n) { ctx.fillStyle = g.col; ctx.fill(); }
-    else { ctx.strokeStyle = g.col; ctx.lineWidth = 1.5; ctx.stroke(); }
-  }
+  rr(ctx, x, top, w, h, h / 2); ctx.lineWidth = border; ctx.strokeStyle = INK; ctx.stroke();
 }

@@ -11,12 +11,32 @@
 </head>
 <body>
 <div id="safe"></div>
+<canvas id="bg"></canvas>
 <canvas id="c"></canvas>
+
+<div id="hud" class="hud hidden">
+  <div class="hud-top">
+    <div class="hud-av" id="hudAv"></div>
+    <div class="hud-life">
+      <div class="hud-life-top"><span class="hud-name" id="hudName"></span><span class="hud-hp" id="hudHp"></span></div>
+      <div class="hud-bar"><i id="hudBar"></i></div>
+    </div>
+    <button id="quit" class="hud-quit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E6FAD8" stroke-width="3.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Quitter</button>
+  </div>
+  <div class="hud-card" id="hudCard">
+    <div class="hud-wave">
+      <div class="hud-kv"><span class="hud-k" id="hudWaveK">VAGUE</span><span class="hud-v" id="hudWave"></span></div>
+      <div class="hud-pips" id="hudPips"></div>
+    </div>
+    <div class="hud-timer" id="hudTimer"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M10 2h4"/></svg><span id="hudTime"></span></div>
+    <div class="hud-score"><span class="hud-k">SCORE</span><span class="hud-v" id="hudScore"></span></div>
+  </div>
+  <div id="trainPanel" class="hud-train"></div>
+  <div class="hud-streak" id="hudStreak"></div>
+</div>
 
 <div id="lobby" class="lobby"></div>
 
-<button id="quit" class="hidden">Quitter</button>
-<div id="trainPanel" class="hidden"></div>
 <p id="loadErr" class="hidden"></p>
 
 <script type="module" src="src/main.js"></script>

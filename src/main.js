@@ -8,22 +8,34 @@ import { updateEnemies, updateWaves } from './game/enemies.js';
 import { attackMult, grantXp } from './game/progress.js';
 import { rand } from './util.js';
 import { draw } from './ui/hud.js';
-import { initLobby, showLobby, hideLobby, showResults } from './ui/lobby.js';
+import { prepareCombatArt, paintBackground } from './ui/combat-art.js';
+import { setupHud } from './ui/combat-hud.js';
+import { resetAnims } from './ui/anim.js';
+import { initLobby, showLobby, hideLobby, showResults, activeCharacter } from './ui/lobby.js';
 
 const $ = id => document.getElementById(id);
 const cv = $('c'), ctx = cv.getContext('2d');
+let dpr = 1;
 
 function resize() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
   G.W = innerWidth; G.H = innerHeight;
   cv.width = Math.round(G.W * dpr); cv.height = Math.round(G.H * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   G.safeTop = $('safe').offsetHeight || 0;
+  if (D.enemies) prepareArt(activeCharacter()).catch(() => {});
+}
+
+/** Décor et sprites du combat, préparés à la taille de l'écran (voir ui/combat-art.js). */
+function prepareArt(c) {
+  paintBackground($('bg'), G.W, G.H, dpr).catch(() => {});
+  return prepareCombatArt(c.id, G.W, G.H, dpr, Object.values(D.enemies).map(e => e.sprite));
 }
 
 /* ---------- Partie ---------- */
-function resetGame() {
-  const C = D.characters.characters[0];
+function resetGame(c) {
+  // Les personnages sans stats propres reprennent celles du premier (seul Aldric est jouable pour l'instant).
+  const base = D.characters.characters[0], C = { hp: c.hp ?? base.hp, attack: c.attack ?? base.attack };
   G.atkMult = attackMult();
   G.hero = { hp: C.hp, max: C.hp, atk: C.attack, shieldUntil: -1, shieldAvoid: 0, flash: 0 };
   Object.assign(G, {
@@ -68,31 +80,39 @@ function loop(now) {
   const dt = Math.min(0.05, (now - last) / 1000);
   last = now;
   update(dt);
-  draw(ctx);
+  if (G.mode === 'play' || G.mode === 'train') draw(ctx, dt);
   if (G.trainMsg !== shownMsg) { shownMsg = G.trainMsg; $('trainPanel').textContent = shownMsg; }
   requestAnimationFrame(loop);
 }
 
 /* ---------- Écrans ---------- */
-const TRAIL_COL = { triangle: '#FF5D73', circle: '#3FD7C4' };
+const TRAIL_COL = { triangle: '#FF5A3C', circle: '#3DDC5B' };
 
 function onGesture(res, pts) {
-  if (res.type !== 'tap') G.trails.push({ pts, t: 0, life: 0.6, col: TRAIL_COL[res.type] || '#8A84B0' });
+  if (res.type !== 'tap') G.trails.push({ pts, t: 0, life: 0.6, col: TRAIL_COL[res.type] || '#B7C3CE' });
   handleGesture(res);
 }
 
-/** En partie : lobby masqué, bouton Quitter visible. */
+/** En partie : lobby masqué, interface de combat visible. */
 function setInGame(on) {
   document.documentElement.classList.toggle('in-game', on);
-  $('quit').classList.toggle('hidden', !on);
-  $('trainPanel').classList.toggle('hidden', G.mode !== 'train');
+  $('hud').classList.toggle('hidden', !on);
+  $('hud').classList.toggle('train', G.mode === 'train');
   if (on) hideLobby(); else showLobby();
 }
 
 function toLobby() { G.mode = 'menu'; setInGame(false); }
 
-function start(mode) {
-  resetGame();
+let starting = false;
+async function start(mode) {
+  if (starting) return;
+  starting = true;
+  const c = activeCharacter();
+  try { await prepareArt(c); } catch (_) { /* sans sprites, le combat reste jouable */ }
+  starting = false;
+  resetGame(c);
+  resetAnims();
+  setupHud(c);
   G.mode = mode;
   setInGame(true);
   if (mode === 'train') G.trainMsg = 'Tracez des triangles et des ronds, tapez sur les objets. La précision s’affiche à chaque geste.';
@@ -102,7 +122,7 @@ function endGame(why) {
   if (G.mode !== 'play') return;
   G.mode = 'end';
   const { gain, before, after, record } = grantXp(G.score);
-  $('quit').classList.add('hidden');
+  $('hud').classList.add('hidden');
   document.documentElement.classList.remove('in-game');
   showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos });
 }
@@ -125,8 +145,11 @@ async function init() {
   });
   initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play') });
   $('quit').onclick = toLobby;
-  resetGame();
+  resetGame(activeCharacter());
   toLobby();
+  // Sprites préparés juste après le premier affichage du lobby, pour ne pas le retarder.
+  setTimeout(() => prepareArt(activeCharacter()).catch(() => {}), 50);
+  if (document.fonts) document.fonts.load('60px Caprasimo').catch(() => {});
   window.__tsReady = true;
   requestAnimationFrame(loop);
 }

@@ -11,6 +11,6 @@
     { "enemies": ["grunt", "grunt"] },
     { "enemies": ["grunt", "grunt", "grunt"] },
     { "enemies": ["brute", "grunt", "grunt"] },
-    { "enemies": ["boss"], "title": "Le boss arrive", "color": "#B259FF" }
+    { "enemies": ["boss"], "title": "Le boss arrive", "color": "#FF5A3C" }
   ]
 }

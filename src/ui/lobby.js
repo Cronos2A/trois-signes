@@ -33,6 +33,9 @@ export function initLobby(a) {
   render();
 }
 
+/** Personnage choisi dans l'onglet Personnage (celui qui combat). */
+export const activeCharacter = () => chars()[ui.active];
+
 export function showLobby() { render(); $('lobby').classList.remove('hidden'); }
 export function hideLobby() { $('lobby').classList.add('hidden'); hideResults(); }
 export function hideResults() { $('results').classList.add('hidden'); }
