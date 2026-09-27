@@ -28,7 +28,7 @@ Prototype jouable actuel : `prototype/trois-signes-prototype.html` (un seul fich
 
 ## Passifs et super-attaques (valeurs de départ, à rééquilibrer dans `data/characters.json`)
 - Aldric 130 PV / 4, aucun passif. Nyra 80 / 6. Boran 170 / 6, jamais de combo. Mira 180 / 3, soin 4 PV × multiplicateur par attaque réussie, et chaque Perfect invoque un petit monstre (1 dégât/s pendant 10 s, 6 au plus). Kestrel 105 / 4,6, esquive de base 120 %. Ilwen 105 / 4, combo en 3 gestes.
-- Jauge : OK +4, Good +7, Very Good +10, Excellent +12, Perfect +15, combo +10, pleine à 100. Bouton rond en bas à droite (l'appui n'est jamais un geste).
+- Jauge : OK +2, Good +3, Very Good +5, Excellent +6, Perfect +8, combo +5, pleine à 100 ; elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui n'est jamais un geste).
 - Supers : Rempart (8 s, dégâts reçus −50 %, coup sur tous ×2), Ombre (3 esquives auto, attaque +50 % 8 s), Géant (×1,4 pendant 8 s, coup sur tous ×2,5), Grimoire ouvert (2 attaques traitées en combo), Œil de faucon (8 s de Perfect), Renouveau (PV au max, attaque ×2 10 s).
 
 ## Équilibrage actuel (version 2 du prototype)
