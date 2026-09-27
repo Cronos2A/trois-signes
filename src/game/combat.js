@@ -72,6 +72,7 @@ function tryPickup(x, y) {
 /** by : undefined (attaque du héros), 'super' (coup de super sur tous) ou 'summon' (invocation de Mira). */
 function hitEnemy(e, dmg, col, by) {
   const h = heroPos();
+  if (G.time < e.guardUntil) dmg = round1(dmg * D.rules.story.eldan.guardDamageTaken);   // Eldan protégé (Rond)
   e.hp -= dmg; e.hit = 0.25;
   if (by === 'super') addFx({ kind: 'superHit', x: e.x, y: e.y, col, life: 0.6 });
   else if (by === 'summon') addFx({ kind: 'bite', x: e.x, y: e.y, col, life: 0.35 });

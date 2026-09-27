@@ -12,10 +12,17 @@ import { prepareCombatArt, paintBackground } from './ui/combat-art.js';
 import { setupHud } from './ui/combat-hud.js';
 import { resetAnims } from './ui/anim.js';
 import { initLobby, showLobby, hideLobby, showResults, activeCharacter } from './ui/lobby.js';
+import { initStory, openStory, maybePrologue } from './story/story.js';
 
 const $ = id => document.getElementById(id);
 const cv = $('c'), ctx = cv.getContext('2d');
-let dpr = 1;
+let dpr = 1, curChar = null, curBattle = null;
+
+/** Combat Solo (Forêt de Mousse) : vagues et durée de data/waves.json. */
+const soloBattle = () => ({
+  waves: D.waves.waves.map(w => ({ ...w, boss: w.enemies.includes('boss') })),
+  types: {}, art: [], timeLimit: D.waves.timeLimit, label: 'Vague', lieu: null
+});
 
 function resize() {
   dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -23,18 +30,19 @@ function resize() {
   cv.width = Math.round(G.W * dpr); cv.height = Math.round(G.H * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   G.safeTop = $('safe').offsetHeight || 0;
-  if (D.enemies) prepareArt(activeCharacter()).catch(() => {});
+  if (D.enemies) prepareArt(curChar || activeCharacter(), curBattle || soloBattle()).catch(() => {});
 }
 
-/** Décor et sprites du combat, préparés à la taille de l'écran (voir ui/combat-art.js). */
-function prepareArt(c) {
-  paintBackground($('bg'), G.W, G.H, dpr).catch(() => {});
-  return prepareCombatArt(c.id, G.W, G.H, dpr, Object.values(D.enemies).map(e => e.sprite));
+/** Décor (lieu du combat en Histoire) et sprites, préparés à la taille de l'écran (voir ui/combat-art.js). */
+function prepareArt(c, battle) {
+  paintBackground($('bg'), G.W, G.H, dpr, battle.lieu).catch(() => {});
+  return prepareCombatArt(c.id, G.W, G.H, dpr, Object.values(D.enemies).map(e => e.sprite), battle.art);
 }
 
 /* ---------- Partie ---------- */
-function resetGame(c) {
+function resetGame(c, battle) {
   G.charId = c.id;
+  G.battle = battle;
   G.atkMult = attackMult(c.id);
   const P = c.passive || {};
   G.hero = {
@@ -67,7 +75,7 @@ function update(dt) {
   if (G.mode === 'train') { updateTraining(dt); return; }
   if (G.mode !== 'play') return;
   G.time += dt;
-  if (G.time >= D.waves.timeLimit) return endGame('time');
+  if (G.battle.timeLimit && G.time >= G.battle.timeLimit) return endGame('time');
   updateEnemies(dt);
   if (updateWaves(dt)) return endGame('win');
   if (G.hero.hp <= 0) return endGame('ko');
@@ -109,16 +117,24 @@ function setInGame(on) {
   if (on) hideLobby(); else showLobby();
 }
 
-function toLobby() { G.mode = 'menu'; setInGame(false); }
+function toLobby() {
+  const b = G.battle;
+  G.mode = 'menu';
+  setInGame(false);
+  curChar = null; curBattle = null;
+  if (b && b.onQuit) b.onQuit();          // Histoire : « Quitter » ramène au chemin des combats
+}
 
 let starting = false;
-async function start(mode) {
+/** opts.char : héros imposé (Histoire), sinon celui du lobby ; opts.battle : combat, sinon Solo. */
+async function start(mode, opts = {}) {
   if (starting) return;
   starting = true;
-  const c = activeCharacter();
-  try { await prepareArt(c); } catch (_) { /* sans sprites, le combat reste jouable */ }
+  const c = opts.char || activeCharacter(), battle = opts.battle || soloBattle();
+  curChar = c; curBattle = battle;
+  try { await prepareArt(c, battle); } catch (_) { /* sans sprites, le combat reste jouable */ }
   starting = false;
-  resetGame(c);
+  resetGame(c, battle);
   resetAnims(c.id);
   setupHud(c);
   G.mode = mode;
@@ -129,9 +145,12 @@ async function start(mode) {
 function endGame(why) {
   if (G.mode !== 'play') return;
   G.mode = 'end';
-  const { gain, before, after, record } = grantXp(G.score, G.charId);
+  const { gain, before, after, record } = grantXp(G.score, G.charId, !G.battle.onEnd);
   $('hud').classList.add('hidden');
   document.documentElement.classList.remove('in-game');
+  const b = G.battle;
+  curChar = null; curBattle = null;
+  if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score }); return; }
   showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos });
 }
 
@@ -151,20 +170,22 @@ async function init() {
     onDraw: d => { G.drawing = d; },
     onGesture
   });
-  initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play') });
+  initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play'), story: openStory });
+  initStory({ startBattle: opts => start('play', opts), toLobby: showLobby });
   $('quit').onclick = toLobby;
   // Bouton de super : réagit dès l'appui, et l'appui n'atteint jamais le canvas (pas de tap ni de tracé).
   $('superBtn').addEventListener('pointerdown', e => {
     e.preventDefault(); e.stopPropagation();
     if (G.mode === 'play' || G.mode === 'train') useSuper();
   });
-  resetGame(activeCharacter());
+  resetGame(activeCharacter(), soloBattle());
   toLobby();
   // Sprites préparés juste après le premier affichage du lobby, pour ne pas le retarder.
-  setTimeout(() => prepareArt(activeCharacter()).catch(() => {}), 50);
+  setTimeout(() => prepareArt(activeCharacter(), soloBattle()).catch(() => {}), 50);
   if (document.fonts) document.fonts.load('60px Caprasimo').catch(() => {});
   window.__tsReady = true;
   requestAnimationFrame(loop);
+  maybePrologue();
 }
 
 init();

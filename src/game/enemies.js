@@ -1,21 +1,50 @@
-// Vagues, IA ennemie, boss.
+// Vagues, IA ennemie, boss. Le combat en cours est décrit par G.battle (Solo : data/waves.json ;
+// Histoire : combat de data/story_mode.json), avec ses propres types d'ennemis (boss d'histoire, Eldan).
 import { D } from '../data.js';
 import { G } from './state.js';
 import { rand } from '../util.js';
 import { pop } from './effects.js';
 import { strike } from './combat.js';
 
-export function spawnWave(i) {
-  const W = D.waves, wave = W.waves[i], list = wave.enemies;
-  list.forEach((type, k) => {
-    const T = D.enemies[type];
-    const sx = T.centered ? 0.5 : (k + 1) / (list.length + 1);
-    G.enemies.push({
-      type, T, hp: T.hp, max: T.hp, sx, sy: T.row, x: sx * G.W, y: -60 - k * 40,
-      state: 'walk', cd: rand(W.firstAttack[0], W.firstAttack[1]) + k * W.attackStagger, t: 0, hit: 0
-    });
+const typeOf = type => G.battle.types[type] || D.enemies[type];
+
+function addEnemy(type, sx, k, delay) {
+  const W = D.waves, T = typeOf(type);
+  G.enemies.push({
+    type, T, hp: T.hp, max: T.hp, sx, sy: T.row, x: sx * G.W, y: -60 - k * 40,
+    state: 'walk', cd: rand(W.firstAttack[0], W.firstAttack[1]) + delay, t: 0, hit: 0, guardUntil: -1
   });
-  pop(G.W / 2, G.H * 0.5, wave.title || 'Vague ' + (i + 1), '', wave.color || '#F4EEFF', 1.4, 30);
+}
+
+export function spawnWave(i) {
+  const W = D.waves, wave = G.battle.waves[i], list = wave.enemies;
+  list.forEach((type, k) => addEnemy(type, typeOf(type).centered ? 0.5 : (k + 1) / (list.length + 1), k, k * W.attackStagger));
+  G.roundSummons = 0;
+  pop(G.W / 2, G.H * 0.5, wave.title || G.battle.label + ' ' + (i + 1), '', wave.color || '#F4EEFF', 1.4, 30);
+}
+
+/**
+ * Eldan l'Oublié utilise les trois signes (valeurs dans data/rules.json, story.eldan) :
+ * Triangle = coup normal ; Rond = se protège (dégâts reçus réduits, cercle visible) ;
+ * Toucher = appelle un sbire, un nombre limité de fois par round et jamais plus de maxExtra ennemis avec lui.
+ */
+function eldanAction(e) {
+  const R = D.rules.story.eldan, w = R.actions;
+  const canGuard = G.time >= e.guardUntil;
+  const canCall = G.roundSummons < R.summonsPerRound && G.enemies.filter(o => o !== e && o.hp > 0).length < R.maxExtra;
+  const opts = [['attack', w.attack], ['guard', canGuard ? w.guard : 0], ['summon', canCall ? w.summon : 0]];
+  let r = Math.random() * opts.reduce((a, o) => a + o[1], 0);
+  const pick = opts.find(o => (r -= o[1]) < 0)[0];
+  if (pick === 'attack') { e.state = 'windup'; e.t = 0; return; }
+  e.cd = rand(e.T.cd[0], e.T.cd[1]) * 0.6;
+  if (pick === 'guard') {
+    e.guardUntil = G.time + R.guardDuration;
+    pop(e.x, e.y - e.T.r - 30, 'Rond', 'il se protège', '#8CF09A', 1.1, 24);
+  } else {
+    G.roundSummons++;
+    addEnemy(R.summonType, e.x < G.W / 2 ? 0.8 : 0.2, 0, 0.8);
+    pop(e.x, e.y - e.T.r - 30, 'Toucher', 'il appelle un Ombracé', '#FFD23F', 1.1, 24);
+  }
 }
 
 /** Déplacement, préparation et coups des ennemis. Un seul ennemi prépare un coup à la fois. */
@@ -48,7 +77,8 @@ export function updateEnemies(dt) {
     const ready = G.enemies.filter(e => e.state === 'idle' && e.cd <= 0);
     if (ready.length) {
       const e = ready[Math.floor(Math.random() * ready.length)];
-      e.state = 'windup'; e.t = 0;
+      if (e.T.mech === 'eldan') eldanAction(e);
+      else { e.state = 'windup'; e.t = 0; }
     }
   }
 }
@@ -57,7 +87,7 @@ export function updateEnemies(dt) {
 export function updateWaves(dt) {
   if (G.enemies.length) return false;
   const W = D.waves;
-  if (G.waveIdx >= W.waves.length) {
+  if (G.waveIdx >= G.battle.waves.length) {
     if (G.loots.length === 0 || G.waveDelay < -W.endLootWait) return true;
     G.waveDelay -= dt;
     return false;

@@ -57,7 +57,7 @@ src/
   game/enemies.js  vagues, IA ennemie, boss
   game/progress.js XP, niveaux, stuff
   game/supers.js   jauge et super-attaques (valeurs dans characters.json)
-  story/story.js   cinématiques
+  story/story.js   mode Histoire : déroulé (prologue, ouvertures, combats, fins, fragments, épilogue)
   ui/hud.js        rendu canvas du combat (sprites, anneau d'alerte, tracés, textes de réussite)
   ui/combat-hud.js interface HTML du combat (vie, Quitter, vague / chrono / score, série)
   ui/combat-art.js sprites et décor rastérisés une fois hors écran (fluide sur petit Android)
@@ -66,6 +66,10 @@ src/
   game/state.js    état partagé de la partie (lu par ui/)
   game/effects.js  textes flottants, effets, vibrations
   ui/lobby.js      lobby 3 onglets (Jouer / Personnage / Boutique) + fenêtre de résultats
+  ui/cutscene.js   lecteur unique de cinématiques et dialogues (lettre par lettre, « Passer »)
+  ui/story-ui.js   écrans Histoire : choix des 6 histoires, chemin des 10 combats, défaite, fragment
+  ui/assets.js     images du mode Histoire (assets/) et replis (neutre, humain, pastille, dégradé)
+  ui/story.css     styles du mode Histoire et du lecteur
   ui/art.js        dessins low-poly des héros et ennemis (repris de la planche)
   ui/icons.js      signes à facettes, armes, fonds facettés (repris de la maquette lobby)
   ui/organic.css   design system Organic (copie telle quelle, ne pas modifier)
@@ -74,10 +78,14 @@ data/
   characters.json enemies.json waves.json grades.json items.json story.json
   rules.json       règles de combat (esquive, ramassage, score, entraînement)
   shop.json        objets affichés dans la boutique (pas encore achetables)
+  story_mode.json  tout le texte du mode Histoire (ne pas réécrire : affiché tel quel)
+assets/            images du mode Histoire (facultatives, le mode est jouable sans) :
+  portraits/{id}_{expression}.svg, portraits/{bossId}_ombrace.svg / _humain.svg
+  ennemis/{id}.svg (sprite de combat des boss et d'Eldan), decors/{id}.svg
 design/            exports Claude Design (référence : planche de personnages, maquette du lobby, écran de combat)
 ```
 
-Étapes 1 et 2 faites (septembre 2026), puis lobby intégré. Lancer avec `py -m http.server 8123` (les modules et les JSON ne se chargent pas en `file://`).
+Étapes 1 et 2 faites (septembre 2026), puis lobby intégré, puis mode Histoire (étape 5). Lancer avec `py -m http.server 8123` (les modules et les JSON ne se chargent pas en `file://`).
 
 ## Direction artistique (retenue en septembre 2026)
 - Référence : `design/trois-signes-maquette-lobby` et `design/planche-de-personnages-trois-signes`, reproduites telles quelles. Elles remplacent la DA de l'ancien PDF « Bible ».
@@ -86,6 +94,12 @@ design/            exports Claude Design (référence : planche de personnages, 
 - Ce qui n'est pas encore codé (armes, skins, boutique, Duel) est affiché et marqué « Bientôt ». Pas de monnaie premium (gemmes) : pas de pay-to-win.
 - Combat : `design/ecran-de-combat-trois-signes` (décor Forêt de Mousse, sprites de ¾ dos pour le héros choisi dans le lobby, sbire / brute / boss, interface restylée). Les animations ne font que transformer les sprites (aucune nouvelle image) et sont déduites de l'état du jeu, sans toucher à la logique. Attaque au corps à corps (Aldric, Nyra, Boran) : ruée + coup d'arme (bras armé en calque séparé) ; à distance (Kestrel flèche, Ilwen et Mira sort) : tir d'un projectile dessiné, sans ruée.
 - Les seuils de réussite affichés dans cette maquette (« seuils proposés ») ne sont pas repris : seules les couleurs par palier l'ont été.
+
+## Mode Histoire (septembre 2026)
+- Bouton « Histoire » dans l'onglet Jouer ; 6 histoires de 10 combats (`data/story_mode.json`), carte d'Eldan verrouillée puis « Bientôt disponible » après l'épilogue.
+- Héros imposé ; rounds = `vagues` ; sbire/brute = ennemis existants, les autres ids = boss de `ennemis_speciaux` (valeurs par rang). Eldan l'Oublié : Triangle (coup), Rond (garde 2 s, −50 %), Toucher (appelle un sbire).
+- Réglages dans `data/rules.json` → `story` (XP de première victoire, pas de limite de temps, noms et couleurs des PNJ, libellés des types, mécanique d'Eldan, vitesse du texte).
+- Sauvegarde : `prog.story` (combats gagnés par histoire, scènes vues, fragments, prologue, épilogue).
 
 ## Ordre de travail
 1. Découper le prototype dans cette structure, sans changer le ressenti de jeu.

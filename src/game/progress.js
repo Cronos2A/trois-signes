@@ -13,7 +13,21 @@ export const prog = store.get(KEY, {});
 // Une ancienne sauvegarde (XP commune) revient à Aldric, seul jouable jusque-là.
 if (!prog.chars) { prog.chars = { aldric: { xp: prog.xp || 0 } }; delete prog.xp; }
 
+// Mode Histoire : combats gagnés par histoire, cinématiques vues, fragments de mémoire.
+if (!prog.story) prog.story = { done: {}, seen: {}, fragments: [], prologue: false, epilogue: false };
+
+export const saveProg = () => store.set(KEY, prog);
+
 export const charXp = id => (prog.chars[id] && prog.chars[id].xp) || 0;
+
+/** XP ajoutée hors partie (bonus de première victoire en Histoire). Renvoie {before, after} (niveaux). */
+export function addXp(id, n) {
+  const c = prog.chars[id] || (prog.chars[id] = { xp: 0 });
+  const before = levelInfo(c.xp).lvl;
+  c.xp += n;
+  saveProg();
+  return { before, after: levelInfo(c.xp).lvl };
+}
 
 /** Retient le personnage choisi dans le lobby pour les prochaines sessions. */
 export function saveActive(id) { prog.active = id; store.set(KEY, prog); }
@@ -30,13 +44,13 @@ export function attackMult(id) {
 }
 
 /** Ajoute l'XP d'une partie au personnage joué et retient le record. Renvoie {gain, before, after, record}. */
-export function grantXp(score, id) {
+export function grantXp(score, id, countRecord = true) {   // record : Solo seulement
   const P = D.characters.progression;
   const gain = Math.max(P.minXpPerGame, Math.round(score / P.scorePerXp));
   const c = prog.chars[id] || (prog.chars[id] = { xp: 0 });
   const before = levelInfo(c.xp).lvl;
   c.xp += gain;
-  const record = score > (prog.best || 0);
+  const record = countRecord && score > (prog.best || 0);
   if (record) prog.best = score;
   store.set(KEY, prog);
   return { gain, before, after: levelInfo(c.xp).lvl, record };

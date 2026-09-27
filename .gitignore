@@ -4,3 +4,5 @@ __pycache__/
 Thumbs.db
 .DS_Store
 docs/*.pdf
+!docs/Scenario_Mode_Histoire.pdf
+!docs/Mode_Histoire_Trois_Signes.pdf

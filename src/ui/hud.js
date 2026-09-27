@@ -24,7 +24,7 @@ export function draw(ctx, dt) {
   ctx.clearRect(0, 0, W, H);
   ctx.save();
   if (G.shake > 0) ctx.translate((Math.random() - 0.5) * 16 * G.shake, (Math.random() - 0.5) * 16 * G.shake);
-  if (G.enemies.some(e => e.T.sprite === 'boss')) bossShade(ctx, W, H);
+  if (G.enemies.some(e => e.T.sprite === 'boss' || e.T.special)) bossShade(ctx, W, H);
   drawLoots(ctx);
   const list = G.enemies.map(e => ({ e, p: enemyFoot(e) })).sort((a, b) => a.p.y - b.p.y);
   for (const d of A.dying) drawDying(ctx, d);
@@ -196,10 +196,24 @@ function drawEnemy(ctx, e, p) {
   if (e.hit > 0) { white = e.hit / 0.25 * 0.85; dx += Math.sin(A.t * 80) * 4 * k * e.hit / 0.25; }
   sprite(ctx, S, p.x + dx, p.y + dy, sx, sy, rot, red, white);
 
-  const [bw, bh] = BAR[e.T.sprite] || BAR.sbire;
+  const big = e.T.special || e.T.sprite === 'boss';
+  const [bw, bh] = big ? BAR.boss : BAR[e.T.sprite] || BAR.sbire;
   const hx = p.x + dx + (S.hx - S.fx) * sx, top = p.y + dy - (S.fy - S.hy) * sy - 22;
-  hpBar(ctx, hx, top, bw * Math.max(0.8, k), bh, Math.max(0, e.hp / e.max), e.T.sprite === 'boss' ? 3 : 2.5);
+  if (G.time < e.guardUntil) drawGuard(ctx, p.x + dx, p.y + dy - (S.fy - S.hy) * 0.5, Math.min(S.fy - S.hy, 260 * k) * 0.6);
+  hpBar(ctx, hx, top, bw * Math.max(0.8, k), bh, Math.max(0, e.hp / e.max), big ? 3 : 2.5);
+  if (e.T.special) outlined(ctx, e.T.name, p.x + dx, p.y + dy + 16, 15, '#FFFFFF', 4, 1.5);   // nom du boss d'histoire, sous ses pieds
   if (wind > 0) outlined(ctx, '!', hx, top - 16, 26, '#FFD23F', 6, 2);
+}
+
+/** Eldan l'Oublié se protège (Rond) : cercle visible autour de lui, dégâts reçus réduits. */
+function drawGuard(ctx, x, y, r) {
+  ctx.save();
+  ctx.globalAlpha = 0.85 + 0.15 * Math.sin(A.t * 10);
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(140,240,154,0.28)'; ctx.fill();
+  ctx.lineWidth = 11; ctx.strokeStyle = INK; ctx.stroke();
+  ctx.lineWidth = 6; ctx.strokeStyle = '#8CF09A'; ctx.stroke();
+  ctx.restore();
 }
 
 function drawDying(ctx, d) {

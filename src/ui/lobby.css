@@ -220,3 +220,12 @@
   .lb-tabs{padding-top:14px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
   .deco-dot{display:none}
 }
+
+/* Trois modes côte à côte (Solo, Histoire, Duel) */
+.mode-row.three{gap:8px}
+.mode-row.three .mode-btn{padding:10px 8px;min-width:0}
+.mode-row.three .mode-title{font-size:clamp(17px,5.4vw,24px)}
+.mode-row.three .mode-sub{font-size:10.5px}
+.mode-row.three .badge{font-size:9.5px;padding:3px 7px}
+.mode-row.three .mode-tri{right:6px;top:6px;transform:scale(.75);transform-origin:top right}
+.mode-btn.story{background:var(--btn-lime)}

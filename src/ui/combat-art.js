@@ -1,6 +1,7 @@
 // Images du combat. Les SVG de ui/sprites.js (maquette Claude Design) sont rastérisés une seule
 // fois dans des canvas hors écran, à la bonne taille pour l'écran. Le rendu ne fait ensuite que
 // copier ces images (drawImage + transformations) : léger, même sur un téléphone d'entrée de gamme.
+import { decorUrl, placeName } from './assets.js';
 import { TS } from './sprites.js';
 
 const OUTLINE = 11;                 // épaisseur du contour, comme la maquette
@@ -54,6 +55,15 @@ async function bakeSprite(name, scale, dpr, part) {
   };
 }
 
+/** Image d'un fichier (assets/ennemis/{id}.svg) à la hauteur voulue ; pieds en bas au centre, tête en haut. */
+async function bakeImage(url, height, dpr) {
+  const img = await new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = url; });
+  const h = height, w = h * (img.naturalWidth || 1) / (img.naturalHeight || 1);
+  const c = canvasOf(w * dpr, h * dpr);
+  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+  return { img: c, red: tinted(c, '#FF5A3C'), white: tinted(c, '#FFFFFF'), w, h, fx: w / 2, fy: h * 0.96, hx: w / 2, hy: h * 0.04 };
+}
+
 /** SVG à taille fixe (anneau, glyphes) : on force sa taille en pixels. */
 async function bakeFixed(svg, size, dpr) {
   const px = Math.round(size * dpr);
@@ -67,8 +77,8 @@ async function bakeFixed(svg, size, dpr) {
  * Prépare tous les sprites du combat pour cet écran et ce héros.
  * Ne refait rien si rien n'a changé ; sinon remplace les images une fois prêtes.
  */
-export async function prepareCombatArt(heroId, W, H, dpr, enemySprites) {
-  const k = artScale(W, H), key = [heroId, k.toFixed(3), dpr].join('|');
+export async function prepareCombatArt(heroId, W, H, dpr, enemySprites, extra = []) {
+  const k = artScale(W, H), key = [heroId, k.toFixed(3), dpr, ...extra.map(a => a.key)].join('|');
   if (key === bakedKey) return;
   const seq = ++bakeSeq;
   const names = [...new Set(enemySprites)];
@@ -84,23 +94,48 @@ export async function prepareCombatArt(heroId, W, H, dpr, enemySprites) {
     gDot: bakeFixed(TS.glyph('dot', '#FFD23F', 22), 22, dpr)
   };
   for (const n of names) jobs[n] = bakeSprite(n, (SPRITE_SCALE[n] || SPRITE_SCALE.sbire) * k, dpr);
+  for (const a of extra) jobs[a.key] = bakeImage(a.url, a.height * k, dpr).catch(() => null);   // boss d'histoire
   const done = await Promise.all(Object.entries(jobs).map(async ([n, p]) => [n, await p]));
   if (seq !== bakeSeq) return;        // une préparation plus récente (autre écran ou héros) l'emporte
   for (const [n, s] of done) ART[n] = s;
+  for (const a of extra) if (!ART[a.key]) ART[a.key] = ART[a.fallback];   // image illisible : sprite du rang
   bakedKey = key;
 }
 
 let bgKey = '';
 
-/** Dessine le décor de la Forêt de Mousse dans le canvas de fond (au démarrage et au redimensionnement). */
-export async function paintBackground(cv, W, H, dpr) {
-  const pw = Math.round(W * dpr), ph = Math.round(H * dpr), key = pw + 'x' + ph;
+/**
+ * Dessine le décor dans le canvas de fond (au démarrage et au redimensionnement) : la Forêt de Mousse,
+ * ou en Histoire le lieu du combat (assets/decors/{lieu}.svg, sinon dégradé vert du lobby et nom du lieu).
+ */
+export async function paintBackground(cv, W, H, dpr, lieu) {
+  const pw = Math.round(W * dpr), ph = Math.round(H * dpr), key = pw + 'x' + ph + '|' + (lieu || '');
   if (key === bgKey) return;
   bgKey = key;
+  if (lieu) return paintPlace(cv, pw, ph, dpr, lieu, key);
   // Le SVG du décor est en « slice » : à la taille de l'écran, il le couvre comme la maquette.
   const svg = TS.bg({}).replace('width="390" height="844"', `width="${pw}" height="${ph}"`);
   const img = await loadSvg(svg);
   if (key !== bgKey) return;          // un autre redimensionnement est passé entre-temps
   cv.width = pw; cv.height = ph;
   cv.getContext('2d').drawImage(img, 0, 0, pw, ph);
+}
+
+async function paintPlace(cv, pw, ph, dpr, lieu, key) {
+  const url = await decorUrl(lieu);
+  const img = url ? await new Promise(ok => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = url; }) : null;
+  if (key !== bgKey) return;
+  cv.width = pw; cv.height = ph;
+  const x = cv.getContext('2d');
+  if (img) {                                                       // image en « cover »
+    const s = Math.max(pw / img.naturalWidth, ph / img.naturalHeight), w = img.naturalWidth * s, h = img.naturalHeight * s;
+    x.drawImage(img, (pw - w) / 2, (ph - h) / 2, w, h);
+    return;
+  }
+  const g = x.createLinearGradient(0, 0, 0, ph);
+  g.addColorStop(0, '#3DDC5B'); g.addColorStop(0.45, '#2BA84A'); g.addColorStop(1, '#1F7A3D');
+  x.fillStyle = g; x.fillRect(0, 0, pw, ph);
+  x.font = `700 ${12 * dpr}px Figtree, sans-serif`;
+  x.textAlign = 'center'; x.fillStyle = 'rgba(21,48,30,0.55)';
+  x.fillText(placeName(lieu), pw / 2, 150 * dpr);        // sous le bandeau du haut
 }

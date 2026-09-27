@@ -9,5 +9,28 @@
     "heartHeal": 15
   },
   "score": { "perDamage": 4 },
-  "training": { "lootInterval": 1.6, "maxLoot": 2, "lootLife": 5 }
+  "training": { "lootInterval": 1.6, "maxLoot": 2, "lootLife": 5 },
+  "story": {
+    "firstWinXp": 40,
+    "timeLimit": 0,
+    "roundLabel": "Round",
+    "enemyMap": { "sbire": "grunt", "brute": "brute" },
+    "rankTemplate": "boss",
+    "rankSprite": { "mini_boss": "brute", "lieutenant": "boss", "boss_final": "boss" },
+    "rankPoints": { "mini_boss": 120, "lieutenant": 200, "boss_final": 400 },
+    "rankHeight": { "mini_boss": 150, "lieutenant": 180, "boss_final": 210 },
+    "eldan": {
+      "guardDuration": 2, "guardDamageTaken": 0.5, "summonsPerRound": 1, "maxExtra": 2, "summonType": "grunt",
+      "actions": { "attack": 0.5, "guard": 0.25, "summon": 0.25 }
+    },
+    "typeLabels": { "normal": "Combat", "mini_boss": "Mini-boss", "rencontre": "Rencontre", "lieutenant": "Lieutenant", "boss_final": "Boss final" },
+    "npc": {
+      "eldan": { "name": "Eldan", "color": "#8FB9E8" }, "eldan_oublie": { "name": "Eldan l'Oublié", "color": "#B7C3CE" },
+      "maud": { "name": "Maud", "color": "#C98657" }, "pip": { "name": "Pip", "color": "#FFB347" },
+      "lili": { "name": "Lili", "color": "#FF8BA7" }, "aubin": { "name": "Aubin", "color": "#A67C52" },
+      "fabre": { "name": "Fabre", "color": "#9C8A7A" }, "sbire": { "name": "Ombracé", "color": "#625476" }
+    },
+    "bossColor": "#8C8A99",
+    "lettersPerSecond": 40
+  }
 }
