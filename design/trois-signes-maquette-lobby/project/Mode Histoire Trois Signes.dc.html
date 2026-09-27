@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/styles.css">
+<script src="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--color-bg);}a{color:#1F7A3D;}a:hover{color:#FF5A3C;}*{box-sizing:border-box;}
+@keyframes ts-pulse{0%{transform:translate(-50%,-50%) scale(1);opacity:.9}100%{transform:translate(-50%,-50%) scale(1.9);opacity:0}}
+@keyframes ts-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@keyframes ts-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes ts-float{0%,100%{transform:translate(-50%,-50%) rotate(-4deg)}50%{transform:translate(-50%,-56%) rotate(3deg)}}</style>
+</helmet>
+<section style="padding:56px 64px 80px;font-family:var(--font-body);color:#15301E;min-width:2700px">
+  <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:40px">
+    <div style="font-family:var(--font-heading);font-size:44px;line-height:1">Trois Signes — Mode Histoire</div>
+    <div style="font-size:17px;font-weight:600;color:#3d5a45">Cliquez une carte en 01 pour changer l'histoire affichée en 02 ; cliquez une étape en 02 ; touchez la cinématique 03 pour faire défiler l'ouverture d'Aldric.</div>
+  </div>
+  <div style="display:flex;gap:48px;align-items:flex-start">
+
+    <!-- ========== 01 CHOIX ========== -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">01 · Choix des histoires</div>
+      <div data-screen-label="01 Choix des histoires" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:linear-gradient(180deg,#3DDC5B 0%,#2BA84A 45%,#1F7A3D 100%);box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        {{ bg }}
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#fff;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #fff;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#fff;border-radius:1px"></div></div>
+        </div>
+        <div style="position:relative;display:flex;flex-direction:column;gap:12px;padding:10px 14px 0">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:40px;height:40px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+            </div>
+            <div style="font-family:var(--font-heading);font-size:28px;line-height:1;color:#fff;-webkit-text-stroke:5px #15301E;paint-order:stroke fill;text-shadow:0 3px 0 #15301E">Mode Histoire</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#174A28;border:3px solid #15301E;border-radius:20px;box-shadow:0 4px 0 #15301E">
+            <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0">
+              <span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#CFF2C0">FRAGMENTS DE MÉMOIRE</span>
+              <span style="font-family:var(--font-heading);font-size:22px;line-height:1;color:#FFD23F">{{ fragCount }} / 6</span>
+            </div>
+            <div style="display:flex;gap:5px">
+              <sc-for list="{{ fragPips }}" as="f" hint-placeholder-count="6"><div>{{ f.icon }}</div></sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="position:absolute;top:196px;left:14px;right:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+          <sc-for list="{{ stories }}" as="s" hint-placeholder-count="6">
+            <div onClick="{{ s.onPick }}" style="position:relative;display:flex;flex-direction:column;gap:7px;padding:10px 11px 11px;background:var(--color-bg);border:3px solid #15301E;border-radius:22px;box-shadow:{{ s.shadow }};cursor:pointer" style-hover="transform:translateY(-2px)" style-active="transform:translateY(3px)">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div style="position:relative;width:54px;height:54px;border-radius:50%;border:3.5px solid #15301E;background:{{ s.color }};overflow:hidden;box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center">
+                  {{ facetSmall }}
+                  <span style="position:relative;font-family:var(--font-heading);font-size:25px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">{{ s.initial }}</span>
+                </div>
+                <sc-if value="{{ s.done }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;gap:4px;padding:3px 8px 3px 4px;border-radius:999px;background:#FFD23F;border:2.5px solid #15301E">{{ fragXs }}<span style="font-size:10.5px;font-weight:800">Retrouvé</span></div>
+                </sc-if>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:2px;min-height:48px">
+                <span style="font-family:var(--font-heading);font-size:18px;line-height:1.05">{{ s.name }}</span>
+                <span style="font-size:12px;font-weight:700;line-height:1.2;color:#3d5a45;text-wrap:pretty">{{ s.title }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <div style="flex:1;height:12px;border:2.5px solid #15301E;border-radius:999px;background:#E4D3B4;overflow:hidden"><div style="height:100%;width:{{ s.pct }}%;background:{{ s.barColor }};border-right:2.5px solid #15301E"></div></div>
+                <span style="font-family:var(--font-heading);font-size:13px;white-space:nowrap">{{ s.prog }} / 10</span>
+              </div>
+            </div>
+          </sc-for>
+          <div style="grid-column:1 / -1;display:flex;align-items:center;gap:14px;padding:10px 14px;background:#CBC3B5;border:3px dashed #15301E;border-radius:22px">
+            <div style="width:76px;height:76px;flex-shrink:0;border-radius:50%;border:3.5px solid #15301E;background:#9C95A3;overflow:hidden;display:flex;align-items:flex-end;justify-content:center">{{ silGrey }}</div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+              <span style="font-family:var(--font-heading);font-size:24px;line-height:1;color:#4c4658">???</span>
+              <span style="font-size:13px;font-weight:800;color:#3b3644">Termine les six histoires</span>
+            </div>
+            <div style="width:38px;height:38px;border-radius:50%;border:3px solid #15301E;background:#E4DCCD;display:flex;align-items:center;justify-content:center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 02 HISTOIRE ========== -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">02 · Chemin de l'histoire</div>
+      <div data-screen-label="02 Chemin de l'histoire" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:#2B8745;box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        {{ mapDecor }}
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(246,244,250,.95) 0%,rgba(236,233,242,.7) 16%,rgba(236,233,242,0) 36%);pointer-events:none"></div>
+        {{ mapPath }}
+        <sc-for list="{{ steps }}" as="n" hint-placeholder-count="10">
+          <div style="position:absolute;left:{{ n.x }}px;top:{{ n.y }}px;width:0;height:0">
+            {{ n.pulse }}
+            <div onClick="{{ n.onPick }}" style="position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:{{ n.size }}px;height:{{ n.size }}px;border-radius:50%;border:4px solid #15301E;background:{{ n.bg }};box-shadow:{{ n.ring }};display:flex;align-items:center;justify-content:center;cursor:pointer">
+              {{ n.icon }}
+              <div style="position:absolute;left:-9px;top:-9px;width:24px;height:24px;border-radius:50%;border:2.5px solid #15301E;background:#FFF1D6;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:12px">{{ n.n }}</div>
+              <sc-if value="{{ n.won }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;right:-8px;bottom:-6px;width:22px;height:22px;border-radius:50%;border:2.5px solid #15301E;background:#FFD23F;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></div>
+              </sc-if>
+              <sc-if value="{{ n.locked }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;right:-8px;bottom:-6px;width:22px;height:22px;border-radius:50%;border:2.5px solid #15301E;background:#E4DCCD;display:flex;align-items:center;justify-content:center"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
+              </sc-if>
+            </div>
+            <div style="position:absolute;top:0;left:{{ n.labelL }};right:{{ n.labelR }};transform:translateY(-50%);display:flex;flex-direction:column;padding:4px 10px 5px;background:{{ n.labelBg }};border:2.5px solid #15301E;border-radius:14px;box-shadow:0 2px 0 #15301E;white-space:nowrap;pointer-events:none">
+              <span style="font-size:12.5px;font-weight:800;line-height:1.15;color:{{ n.labelInk }}">{{ n.title }}</span>
+              <span style="font-size:10.5px;font-weight:800;color:{{ n.typeInk }}">{{ n.typeLabel }}</span>
+            </div>
+          </div>
+        </sc-for>
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#15301E;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #15301E;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#15301E;border-radius:1px"></div></div>
+        </div>
+        <div style="position:relative;display:flex;align-items:center;gap:10px;padding:8px 14px 0">
+          <div style="width:40px;height:40px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+          </div>
+          <div style="flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:5px 12px 5px 5px;background:var(--color-bg);border:3px solid #15301E;border-radius:999px;box-shadow:0 3px 0 #15301E">
+            <div style="position:relative;width:38px;height:38px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:{{ cur.color }};overflow:hidden;display:flex;align-items:center;justify-content:center">{{ facetSmall }}<span style="position:relative;font-family:var(--font-heading);font-size:18px;color:#fff;-webkit-text-stroke:3px #15301E;paint-order:stroke fill">{{ cur.initial }}</span></div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+              <span style="font-size:10.5px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">HISTOIRE DE {{ cur.upper }}</span>
+              <span style="font-family:var(--font-heading);font-size:17px;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cur.title }}</span>
+            </div>
+            <span style="font-family:var(--font-heading);font-size:15px;color:#C4481F;white-space:nowrap">{{ cur.prog }} / 10</span>
+          </div>
+        </div>
+        <div style="position:absolute;left:14px;right:14px;bottom:22px;display:flex;flex-direction:column;gap:10px;padding:12px 14px 14px;background:var(--color-bg);border:3px solid #15301E;border-radius:24px;box-shadow:0 5px 0 #15301E">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:46px;height:46px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:{{ sel.bg }};display:flex;align-items:center;justify-content:center">{{ sel.icon }}</div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px">
+              <span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:{{ sel.kickerInk }}">ÉTAPE {{ sel.n }} · {{ sel.typeUpper }}</span>
+              <span style="font-family:var(--font-heading);font-size:19px;line-height:1.05">{{ sel.title }}</span>
+              <span style="font-size:12px;font-weight:700;color:#3d5a45">{{ sel.meta }}</span>
+            </div>
+          </div>
+          <sc-if value="{{ sel.playable }}" hint-placeholder-val="{{ true }}">
+            <div style="height:52px;border-radius:999px;border:4px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 5px 0 #15301E;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer" style-active="transform:translateY(3px);box-shadow:0 2px 0 #15301E">
+              {{ btnTri }}<span style="font-family:var(--font-heading);font-size:22px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill;text-shadow:0 2px 0 #15301E">{{ sel.cta }}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ sel.isLocked }}" hint-placeholder-val="{{ false }}">
+            <div style="height:52px;border-radius:999px;border:3px dashed #15301E;background:#E4DCCD;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#4c4658">Termine l'étape {{ sel.prevN }} pour débloquer</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 03 CINÉMATIQUE ========== -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">03 · Cinématique — dialogue</div>
+      <div data-screen-label="03 Cinématique dialogue" onClick="{{ advance }}" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:#FFC078;box-shadow:0 10px 0 #15301E;flex-shrink:0;cursor:pointer;user-select:none">
+        {{ cineDecor }}
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#15301E;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #15301E;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#15301E;border-radius:1px"></div></div>
+        </div>
+        <div style="position:absolute;top:56px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;gap:5px">
+            <sc-for list="{{ linePips }}" as="p" hint-placeholder-count="5"><div style="width:{{ p.w }}px;height:8px;border-radius:999px;border:2px solid #15301E;background:{{ p.bg }}"></div></sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:999px;background:var(--color-bg);border:3px solid #15301E;box-shadow:0 3px 0 #15301E;font-weight:800;font-size:14px" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">
+            Passer<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg>
+          </div>
+        </div>
+        <sc-for list="{{ busts }}" as="b" hint-placeholder-count="2">
+          <div style="position:absolute;bottom:150px;left:{{ b.x }}px;width:156px;height:214px;transform:translateX(-50%) scale({{ b.scale }});transform-origin:50% 100%;filter:{{ b.filter }};z-index:{{ b.z }};transition:transform .25s,filter .25s">
+            <div style="position:absolute;inset:0;border-radius:999px 999px 26px 26px;border:4px solid #15301E;background:{{ b.color }};overflow:hidden;display:flex;align-items:center;justify-content:center">
+              {{ facetMed }}
+              <sc-if value="{{ b.isEldan }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center">{{ silColor }}</div></sc-if>
+              <sc-if value="{{ b.isHero }}" hint-placeholder-val="{{ true }}"><span style="position:relative;font-family:var(--font-heading);font-size:74px;color:#fff;-webkit-text-stroke:7px #15301E;paint-order:stroke fill;margin-top:-30px">{{ b.initial }}</span></sc-if>
+            </div>
+            <div style="position:absolute;left:50%;top:14px;transform:translateX(-50%);padding:2px 8px;border-radius:999px;background:rgba(21,48,30,.8);color:#FFF1D6;font-size:10.5px;font-weight:800;white-space:nowrap">{{ b.file }}</div>
+          </div>
+        </sc-for>
+        <sc-if value="{{ line.isDialogue }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;left:12px;right:12px;bottom:26px;z-index:5;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;padding:28px 20px 14px;background:var(--color-bg);border:4px solid #15301E;border-radius:28px;box-shadow:0 6px 0 #15301E">
+            <div style="position:absolute;left:18px;top:-20px;height:38px;padding:0 16px;border-radius:999px;background:{{ line.color }};border:3px solid #15301E;box-shadow:0 3px 0 #15301E;display:flex;align-items:center">
+              <span style="font-family:var(--font-heading);font-size:18px;color:#fff;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">{{ line.name }}</span>
+            </div>
+            <div style="font-size:17px;font-weight:700;line-height:1.42;text-wrap:pretty">{{ line.text }}</div>
+            <div style="display:flex;justify-content:flex-end;align-items:center;gap:6px;font-size:11px;font-weight:800;color:#5b5048">toucher pour continuer{{ tapChevron }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ line.isNarr }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:12px;right:12px;bottom:26px;z-index:5;min-height:130px;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:20px 22px 14px;background:rgba(21,48,30,.78);border:2.5px solid rgba(255,241,214,.55);border-radius:28px">
+            <div style="font-size:17px;font-weight:600;font-style:italic;line-height:1.5;color:#FFF1D6;text-align:center;text-wrap:pretty">{{ line.text }}</div>
+            <div style="display:flex;justify-content:center;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#CFF2C0">toucher pour continuer{{ tapChevronLight }}</div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- ========== 04 NARRATION ========== -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">04 · Cinématique — narration</div>
+      <div data-screen-label="04 Cinématique narration" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:#A9A3B8;box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        {{ mistDecor }}
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#15301E;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #15301E;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#15301E;border-radius:1px"></div></div>
+        </div>
+        <div style="position:absolute;top:56px;left:16px;right:16px;display:flex;justify-content:flex-end">
+          <div style="display:flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:999px;background:var(--color-bg);border:3px solid #15301E;box-shadow:0 3px 0 #15301E;font-weight:800;font-size:14px;cursor:pointer">
+            Passer<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg>
+          </div>
+        </div>
+        <div style="position:absolute;left:12px;right:12px;bottom:26px;min-height:130px;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:20px 22px 14px;background:rgba(21,48,30,.78);border:2.5px solid rgba(255,241,214,.55);border-radius:28px">
+          <div style="font-size:17px;font-weight:600;font-style:italic;line-height:1.5;color:#FFF1D6;text-align:center;text-wrap:pretty">Ce matin-là, une brume grise est descendue de la montagne.</div>
+          <div style="display:flex;justify-content:center;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#CFF2C0">toucher pour continuer{{ tapChevronLight }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 05 FIN D'HISTOIRE ========== -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">05 · Fin d'histoire</div>
+      <div data-screen-label="05 Fin d'histoire" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:linear-gradient(180deg,#1F7A3D 0%,#17532C 100%);box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        {{ bgDark }}
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#fff;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #fff;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#fff;border-radius:1px"></div></div>
+        </div>
+        <div style="position:absolute;top:84px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 24px;text-align:center">
+          <span style="font-size:11.5px;font-weight:800;letter-spacing:.08em;padding:4px 12px;border-radius:999px;background:#15301E;color:#FFD23F">LE DERNIER ÉLÈVE · TERMINÉE</span>
+          <div style="font-family:var(--font-heading);font-size:36px;line-height:1.02;color:#fff;-webkit-text-stroke:6px #15301E;paint-order:stroke fill;text-shadow:0 4px 0 #15301E;text-wrap:balance">Fragment de mémoire retrouvé</div>
+        </div>
+        <div style="position:absolute;left:50%;top:400px;width:0;height:0">
+          {{ rays }}
+          <div style="position:absolute;left:0;top:0;width:250px;height:250px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,236,150,.85) 0%,rgba(255,210,63,.35) 40%,rgba(255,210,63,0) 70%)"></div>
+          {{ bigFrag }}
+        </div>
+        <div style="position:absolute;left:24px;right:24px;top:560px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center">
+          <span style="font-size:15px;font-style:italic;font-weight:600;line-height:1.4;color:#FFF1D6">« Aldric… Tu tiens toujours ton épée trop haut. »</span>
+          <span style="font-size:12px;font-weight:800;color:#CFF2C0">Un souvenir revient à Maître Eldan</span>
+        </div>
+        <div style="position:absolute;left:14px;right:14px;bottom:26px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#174A28;border:3px solid #15301E;border-radius:20px;box-shadow:0 4px 0 #15301E">
+            <div style="display:flex;flex-direction:column;gap:2px;flex:1">
+              <span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#CFF2C0">FRAGMENTS DE MÉMOIRE</span>
+              <span style="font-family:var(--font-heading);font-size:22px;line-height:1;color:#FFD23F">3 / 6</span>
+            </div>
+            <div style="display:flex;gap:5px"><sc-for list="{{ endPips }}" as="f" hint-placeholder-count="6"><div>{{ f.icon }}</div></sc-for></div>
+          </div>
+          <div style="height:60px;border-radius:999px;border:4px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 6px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(4px);box-shadow:0 2px 0 #15301E">
+            <span style="font-family:var(--font-heading);font-size:24px;color:#fff;-webkit-text-stroke:5px #15301E;paint-order:stroke fill;text-shadow:0 3px 0 #15301E">Continuer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 06 DÉBLOCAGE ========== -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">06 · Déblocage final</div>
+      <div data-screen-label="06 Déblocage Eldan" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:linear-gradient(180deg,#3DDC5B 0%,#2BA84A 45%,#1F7A3D 100%);box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        {{ bg }}
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#fff;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #fff;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#fff;border-radius:1px"></div></div>
+        </div>
+        <div style="position:absolute;top:84px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 24px;text-align:center">
+          <span style="font-size:11.5px;font-weight:800;letter-spacing:.08em;padding:4px 12px;border-radius:999px;background:#15301E;color:#FFD23F">NOUVEAU PERSONNAGE</span>
+          <div style="font-family:var(--font-heading);font-size:40px;line-height:1.02;color:#fff;-webkit-text-stroke:6px #15301E;paint-order:stroke fill;text-shadow:0 4px 0 #15301E">Eldan</div>
+          <div style="font-family:var(--font-heading);font-size:22px;line-height:1;color:#FFD23F;-webkit-text-stroke:4px #15301E;paint-order:stroke fill">le Maître</div>
+        </div>
+        <div style="position:absolute;left:50%;top:410px;width:0;height:0">
+          {{ raysBig }}
+          <div style="position:absolute;left:0;top:0;transform:translate(-50%,-50%)">{{ eldanDisc }}</div>
+          <div style="position:absolute;left:0;top:0;width:236px;height:236px;transform:translate(-50%,-50%);border-radius:50%;border:5px solid #15301E;background:#FFF1D6;overflow:hidden;display:flex;align-items:flex-end;justify-content:center">
+            {{ facetMed }}
+            <div style="position:relative">{{ silReveal }}</div>
+          </div>
+          <div style="position:absolute;left:-150px;top:-120px;transform:rotate(-14deg)">{{ deco.tri }}</div>
+          <div style="position:absolute;left:112px;top:-140px">{{ deco.circle }}</div>
+          <div style="position:absolute;left:120px;top:90px">{{ deco.dot }}</div>
+        </div>
+        <div style="position:absolute;left:24px;right:24px;top:568px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+          <div style="display:flex;gap:5px"><sc-for list="{{ allPips }}" as="f" hint-placeholder-count="6"><div>{{ f.icon }}</div></sc-for></div>
+          <span style="font-size:14px;font-weight:800;color:#15301E;padding:6px 14px;border-radius:999px;background:var(--color-bg);border:3px solid #15301E">Son histoire sera bientôt disponible</span>
+        </div>
+        <div style="position:absolute;left:14px;right:14px;bottom:26px;display:flex;flex-direction:column;gap:10px">
+          <div style="height:60px;border-radius:999px;border:4px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 6px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(4px);box-shadow:0 2px 0 #15301E">
+            <span style="font-family:var(--font-heading);font-size:22px;color:#fff;-webkit-text-stroke:5px #15301E;paint-order:stroke fill;text-shadow:0 3px 0 #15301E">Voir le personnage</span>
+          </div>
+          <div style="height:44px;border-radius:999px;border:3px solid #15301E;background:#2B8745;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:16px;color:#CFF2C0;cursor:pointer" style-hover="filter:brightness(1.12)">Plus tard</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;storyHero&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;aldric&quot;,&quot;nyra&quot;,&quot;boran&quot;,&quot;ilwen&quot;,&quot;kestrel&quot;,&quot;mira&quot;],&quot;default&quot;:&quot;aldric&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Écran 02&quot;},&quot;facetIntensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0,&quot;max&quot;:0.3,&quot;step&quot;:0.02,&quot;default&quot;:0.12,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Style&quot;}}">
+const h = React.createElement;
+const INK = '#15301E';
+function mix(hex, t) {
+  const n = parseInt(hex.slice(1), 16);
+  let r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  const T = t < 0 ? 0 : 255, a = Math.min(1, Math.abs(t));
+  r = Math.round(r + (T - r) * a); g = Math.round(g + (T - g) * a); b = Math.round(b + (T - b) * a);
+  return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+}
+function rng(seed) { let s = seed; return () => { s = (s * 16807) % 2147483647; return s / 2147483647; }; }
+const LIGHT = -Math.PI * 0.75;
+function glyph(type, color, size, opt = {}) {
+  const out = opt.outline ?? (size < 40 ? 2 : 3.5), sw = out * 24 / size, polys = []; let outline;
+  const shade = (ang, base = 0) => mix(color, Math.cos(ang - LIGHT) * 0.3 + base);
+  if (type === 'tri') {
+    const A = [12, 2], B = [22.5, 20.5], C = [1.5, 20.5], G = [12, 14.3];
+    const mAB = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2], mBC = [12, 20.5], mCA = [(C[0] + A[0]) / 2, (C[1] + A[1]) / 2];
+    const f = (pts, v) => polys.push([pts.map(p => p.join(',')).join(' '), mix(color, v)]);
+    f([A, mAB, G], 0.12); f([mAB, B, G], -0.08); f([B, mBC, G], -0.3); f([mBC, C, G], -0.2); f([C, mCA, G], 0.3); f([mCA, A, G], 0.4);
+    outline = [A, B, C].map(p => p.join(',')).join(' ');
+  } else {
+    const n = opt.n ?? (type === 'circle' ? 8 : 6), R = type === 'circle' ? 10.5 : 6.5, ri = R * 0.55, O = [], I = [];
+    for (let i = 0; i < n; i++) {
+      const a = i * 2 * Math.PI / n - Math.PI / 2;
+      O.push([12 + R * Math.cos(a), 12 + R * Math.sin(a)]);
+      const b = a + Math.PI / n; I.push([12 + ri * Math.cos(b), 12 + ri * Math.sin(b)]);
+    }
+    const P = pts => pts.map(p => p[0].toFixed(2) + ',' + p[1].toFixed(2)).join(' ');
+    for (let i = 0; i < n; i++) {
+      const a = i * 2 * Math.PI / n - Math.PI / 2, j = (i + 1) % n, k = (i - 1 + n) % n;
+      polys.push([P([O[i], O[j], I[i]]), shade(a + Math.PI / n, -0.06)]);
+      polys.push([P([I[k], O[i], I[i]]), shade(a, 0.02)]);
+      polys.push([P([[12, 12], I[i], I[j]]), shade(a + 2 * Math.PI / n, 0.14)]);
+    }
+    outline = P(O);
+  }
+  return h('svg', { width: size, height: size, viewBox: '0 0 24 24', style: { display: 'block', overflow: 'visible' } },
+    polys.map((p, i) => h('polygon', { key: i, points: p[0], fill: p[1], stroke: p[1], strokeWidth: 0.3, strokeLinejoin: 'round' })),
+    h('polygon', { key: 'o', points: outline, fill: 'none', stroke: INK, strokeWidth: sw, strokeLinejoin: 'round' }));
+}
+function facetSvg(cols, rows, seed, alpha) {
+  const r = rng(seed), P = [];
+  for (let y = 0; y <= rows; y++) for (let x = 0; x <= cols; x++) {
+    const jx = x > 0 && x < cols ? (r() - .5) * .8 : 0, jy = y > 0 && y < rows ? (r() - .5) * .8 : 0;
+    P.push([(x + jx) * 100 / cols, (y + jy) * 100 / rows]);
+  }
+  const id = (x, y) => P[y * (cols + 1) + x].map(v => v.toFixed(2)).join(','), tris = [];
+  for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+    const a = id(x, y), b = id(x + 1, y), c = id(x + 1, y + 1), d = id(x, y + 1);
+    if ((x + y) % 2) tris.push(a + ' ' + b + ' ' + c, a + ' ' + c + ' ' + d); else tris.push(a + ' ' + b + ' ' + d, b + ' ' + c + ' ' + d);
+  }
+  return h('svg', { viewBox: '0 0 100 100', preserveAspectRatio: 'none', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', display: 'block' } },
+    tris.map((t, i) => { const w = r() > .5; return h('polygon', { key: i, points: t, fill: w ? '#fff' : '#000', fillOpacity: r() * alpha * (w ? 1.2 : .8) }); }));
+}
+// low-poly landscape: sky + faceted ridges
+const PAL = {
+  dawn: { sky: ['#FFB870', '#FFE7B0'], sun: '#FFF3C4', layers: [['#C49A7A', 330, 120, 5], ['#7FC24A', 520, 60, 6], ['#3E9E45', 640, 40, 7], ['#2B8745', 740, 26, 8]], house: true },
+  mist: { sky: ['#A7A1B6', '#D6D2DE'], layers: [['#8C8699', 330, 120, 5], ['#9C98A6', 520, 60, 6], ['#827E90', 640, 40, 7], ['#6E6A7C', 740, 26, 8]], fog: true, house: true },
+  map: { sky: ['#E9E6EF', '#F3EFE6'], layers: [['#B7B0C4', 150, 70, 5], ['#A9C27A', 270, 60, 6], ['#7FC24A', 420, 50, 6], ['#4BAF4F', 560, 40, 7], ['#2B8745', 700, 30, 8]] },
+};
+function landscape(key, fi) {
+  const p = PAL[key], r = rng(key.length * 97 + 13), els = [], gid = 'sky-' + key;
+  els.push(h('defs', { key: 'd' }, h('linearGradient', { id: gid, x1: 0, y1: 0, x2: 0, y2: 1 }, h('stop', { offset: 0, stopColor: p.sky[0] }), h('stop', { offset: .6, stopColor: p.sky[1] }))));
+  els.push(h('rect', { key: 's', width: 390, height: 844, fill: `url(#${gid})` }));
+  if (p.sun) els.push(h('circle', { key: 'sun', cx: 285, cy: 300, r: 54, fill: p.sun, stroke: INK, strokeWidth: 4 }));
+  p.layers.forEach(([col, base, amp, cnt], li) => {
+    const pts = []; const step = 430 / (cnt * 2);
+    for (let i = 0; i <= cnt * 2; i++) pts.push([-20 + i * step + (r() - .5) * step * .5, base - (i % 2 ? amp * (.55 + r() * .45) : amp * r() * .25)]);
+    const g = [];
+    for (let i = 1; i < pts.length; i += 2) {
+      const [a, pk, b] = [pts[i - 1], pts[i], pts[i + 1] || [410, base]], by = base + amp * .5;
+      g.push(h('polygon', { key: 'l' + i, points: `${a[0]},${a[1]} ${pk[0]},${pk[1]} ${pk[0] + (r() - .5) * 20},${by}`, fill: mix(col, .14) }));
+      g.push(h('polygon', { key: 'r' + i, points: `${pk[0]},${pk[1]} ${b[0]},${b[1]} ${pk[0] + (r() - .5) * 20},${by}`, fill: mix(col, -.1) }));
+    }
+    const d = 'M' + pts.map(q => q.join(',')).join(' L') + ' L410,844 L-20,844 Z';
+    els.push(h('g', { key: 'L' + li }, h('path', { d, fill: col, stroke: INK, strokeWidth: 4, strokeLinejoin: 'round' }), ...g,
+      h('path', { d, fill: 'none', stroke: INK, strokeWidth: 4, strokeLinejoin: 'round' })));
+    if (p.house && li === 1) [[70, base - 34], [120, base - 22], [300, base - 30]].forEach(([x, y], k) => {
+      els.push(h('g', { key: 'h' + k, transform: `translate(${x},${y})` },
+        h('rect', { x: -18, y: 0, width: 36, height: 30, fill: key === 'mist' ? '#A6A1AE' : '#D8CBB5', stroke: INK, strokeWidth: 3.5, strokeLinejoin: 'round' }),
+        h('polygon', { points: '-24,2 0,-20 24,2', fill: key === 'mist' ? '#9A8C9E' : '#FF8C32', stroke: INK, strokeWidth: 3.5, strokeLinejoin: 'round' }),
+        h('rect', { x: -5, y: 14, width: 10, height: 16, fill: INK })));
+    });
+  });
+  if (p.fog) els.push(h('rect', { key: 'fog', width: 390, height: 844, fill: '#E6E2EC', fillOpacity: .38 }));
+  return h('div', { style: { position: 'absolute', inset: 0 } },
+    h('svg', { viewBox: '0 0 390 844', preserveAspectRatio: 'xMidYMid slice', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' } }, els),
+    facetSvg(5, 10, 21, fi));
+}
+function fragIcon(lit, size) {
+  const c = lit ? '#FFE58A' : '#3c6b48';
+  return h('svg', { width: size, height: size * 1.15, viewBox: '0 0 24 28', style: { display: 'block', overflow: 'visible', filter: lit ? 'drop-shadow(0 0 4px rgba(255,220,100,.9))' : 'none' } },
+    h('polygon', { points: '3,3 17,2 21,7 20,25 14,22 9,26 3,23', fill: c, stroke: INK, strokeWidth: 2.4, strokeLinejoin: 'round' }),
+    lit ? h('polygon', { points: '3,3 17,2 11,14 3,23', fill: '#FFF6CF' }) : null,
+    h('polygon', { points: '3,3 17,2 21,7 20,25 14,22 9,26 3,23', fill: 'none', stroke: INK, strokeWidth: 2.4, strokeLinejoin: 'round' }));
+}
+function bigFragment() {
+  const O = [[20, 18], [118, 10], [150, 42], [146, 150], [112, 136], [84, 162], [52, 142], [16, 156]];
+  const C = [80, 80], cols = ['#FFF8DC', '#FFF1C2', '#FFE89E', '#FFF4CF', '#FFE08A', '#FFEDB3', '#FFF6D6', '#FFE699'];
+  const P = pts => pts.map(p => p.join(',')).join(' ');
+  return h('div', { style: { position: 'absolute', left: 0, top: 0, animation: 'ts-float 4s ease-in-out infinite' } },
+    h('svg', { width: 170, height: 180, viewBox: '0 0 170 180', style: { display: 'block', overflow: 'visible', filter: 'drop-shadow(0 0 18px rgba(255,226,120,.95))' } },
+      O.map((p, i) => h('polygon', { key: i, points: P([p, O[(i + 1) % O.length], C]), fill: cols[i], stroke: cols[i], strokeWidth: .5 })),
+      h('polygon', { key: 'o', points: P(O), fill: 'none', stroke: INK, strokeWidth: 5, strokeLinejoin: 'round' }),
+      h('g', { key: 'g', transform: 'translate(34,44) scale(1.6)' }, h('polygon', { points: '12,2 22.5,20.5 1.5,20.5', fill: 'none', stroke: '#C4481F', strokeWidth: 2.6, strokeLinejoin: 'round' })),
+      h('circle', { key: 'c', cx: 108, cy: 62, r: 17, fill: 'none', stroke: '#1F7A3D', strokeWidth: 4.2 }),
+      [98, 112, 124].map((y, i) => h('path', { key: 't' + i, d: `M34 ${y} L${[120, 108, 90][i]} ${y}`, stroke: '#C9A55A', strokeWidth: 4, strokeLinecap: 'round' }))));
+}
+function rays(size, alpha) {
+  return h('div', { style: { position: 'absolute', left: 0, top: 0, width: size, height: size, borderRadius: '50%', transform: 'translate(-50%,-50%)',
+    background: `repeating-conic-gradient(rgba(255,230,140,${alpha}) 0 9deg, rgba(255,230,140,0) 9deg 22deg)`,
+    WebkitMaskImage: 'radial-gradient(circle, #000 25%, transparent 70%)', maskImage: 'radial-gradient(circle, #000 25%, transparent 70%)',
+    animation: 'ts-spin 40s linear infinite' } });
+}
+function silhouette(mode, w) {
+  const g = mode === 'grey', robe = g ? '#6F6979' : '#EFE4CC', skin = g ? '#6F6979' : '#F1C7A1', hair = g ? '#625C6C' : '#F7F4EC';
+  const s = { stroke: INK, strokeWidth: 3.5, strokeLinejoin: 'round' };
+  return h('svg', { width: w, height: w * 1.1, viewBox: '0 0 100 110', style: { display: 'block' } },
+    h('path', { d: 'M6 112 C8 82 26 70 50 70 C74 70 92 82 94 112 Z', fill: robe, ...s }),
+    !g && h('polygon', { points: '30,96 37,84 44,96', fill: '#FF8C32', stroke: INK, strokeWidth: 2.2, strokeLinejoin: 'round' }),
+    !g && h('circle', { cx: 64, cy: 91, r: 6, fill: '#3DDC5B', stroke: INK, strokeWidth: 2.2 }),
+    h('path', { d: 'M28 42 C26 20 38 12 50 12 C62 12 74 20 72 42 C74 52 70 58 66 58 L34 58 C30 58 26 52 28 42 Z', fill: hair, ...s }),
+    h('circle', { cx: 50, cy: 40, r: 17, fill: skin, ...s }),
+    h('path', { d: 'M33 44 C34 64 42 78 50 84 C58 78 66 64 67 44 C60 52 40 52 33 44 Z', fill: hair, ...s }),
+    !g && h('circle', { cx: 44, cy: 38, r: 2.3, fill: INK }), !g && h('circle', { cx: 56, cy: 38, r: 2.3, fill: INK }),
+    !g && h('path', { d: 'M39 32 L47 33 M53 33 L61 32', stroke: '#F7F4EC', strokeWidth: 3.6, strokeLinecap: 'round' }));
+}
+const ICO = {
+  normal: ['M14.5 17.5 3 6V3h3l11.5 11.5', 'M13 19l6-6', 'M16 16l4 4', 'M19 21l2-2', 'M14.5 6.5 18 3h3v3l-3.5 3.5', 'M5 14l4 4', 'M7 17l-3 3', 'M3 19l2 2'],
+  mini_boss: ['M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z', 'M12 8v5', 'M12 16.5v.5'],
+  rencontre: ['M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2', 'M9 3a4 4 0 1 0 0 8a4 4 0 1 0 0-8', 'M22 21v-2a4 4 0 0 0-3-3.87', 'M16 3.13a4 4 0 0 1 0 7.75'],
+  lieutenant: ['M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z', 'M5 21h14'],
+  boss_final: ['M12 7v14', 'M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z'],
+};
+const TYPE = { normal: 'Combat', mini_boss: 'Mini-boss', rencontre: 'Rencontre', lieutenant: 'Lieutenant', boss_final: 'Boss final' };
+function icon(type, size, color) {
+  return h('svg', { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: color, strokeWidth: 2.75, strokeLinecap: 'round', strokeLinejoin: 'round', style: { display: 'block', position: 'relative' } },
+    ICO[type].map((d, i) => h('path', { key: i, d })));
+}
+const HEROES = {
+  aldric: { name: 'Aldric', t: 'Le dernier élève', c: '#FF8C32', prog: 3 },
+  nyra: { name: 'Nyra', t: 'La dette', c: '#3DDC5B', prog: 10 },
+  boran: { name: 'Boran', t: 'Le champ silencieux', c: '#1F7A3D', prog: 10 },
+  ilwen: { name: 'Ilwen', t: 'La maladie de la mémoire', c: '#FFD23F', prog: 6 },
+  kestrel: { name: 'Kestrel', t: 'La carte du Silence', c: '#9ACD32', prog: 1 },
+  mira: { name: 'Mira', t: "Ceux qu'on peut sauver", c: '#FF5A3C', prog: 0 },
+};
+const B = [['normal', 3], ['normal', 3], ['normal', 3], ['normal', 4], ['mini_boss', 4], ['rencontre', 3], ['normal', 4], ['normal', 4], ['lieutenant', 4], ['boss_final', 4]];
+const STEPS = {
+  aldric: ['Pierrelune', 'La nuit du Silence', 'La maison vide', 'Le pont des Brumes', 'Le Gardien du pont', 'Rencontre : Nyra', "L'école des signes", 'Les élèves oubliés', 'Sire Corvin', 'Le Cœur du Silence'],
+  nyra: ['Les toits de Vélis', 'Le marché qui oublie', 'La planque', 'La piste du vieil homme', 'La Cheffe de guilde', 'Rencontre : Aldric', 'Le registre', 'Les ombres qui imitent', 'Le Reflet', 'Le Cœur du Silence'],
+  boran: ['La moisson', 'Les voisins changés', 'La grange assiégée', 'Le chemin des collines', 'Le Taureau de pierre', 'Rencontre : Mira', 'Le camp des réfugiés', 'La longue garde', 'Le Laboureur', 'Le Cœur du Silence'],
+  ilwen: ["La bibliothèque d'Aubelle", 'Les pages vivantes', 'Le bibliothécaire', "L'expérience", "L'Archiviste", 'Rencontre : Kestrel', "La tour d'observation", 'Les échos', 'La Plume sans encre', 'Le Cœur du Silence'],
+  kestrel: ['La lisière grise', 'Le camp des éclaireurs', 'La carte déchirée', 'Le col des Vents', 'Le Traqueur', 'Rencontre : Ilwen', 'Le centre de la carte', "La forêt qui s'efface", 'Le Guetteur', 'Le Cœur du Silence'],
+  mira: ['La maison de soins', 'La fièvre grise', 'Le premier sauvé', 'La route des villages', "L'Herboriste", 'Rencontre : Boran', 'Le camp des réfugiés', 'Les soins impossibles', 'La Veilleuse', 'Le Cœur du Silence'],
+};
+const XS = [118, 232, 290, 214, 104, 98, 200, 288, 226, 150];
+const MAP_Y = i => 622 - i * 52 - (i === 9 ? 4 : 0);
+const CHARS = { eldan: { name: 'Maître Eldan', c: '#FFF1D6' }, aldric: { name: 'Aldric', c: '#FF8C32' } };
+const LINES = [
+  { who: 'narrateur', text: "À Pierrelune, chaque matin commence par une leçon.", subj: ['eldan:neutre', 'aldric:neutre'] },
+  { who: 'eldan', text: 'Le Rond te garde. Le Triangle te défend. Le Toucher te relie aux autres. Trois gestes, Aldric. Pas un de plus.', subj: ['eldan:neutre', 'aldric:neutre'] },
+  { who: 'aldric', text: 'Et quand je les connaîtrai par cœur, maître ?', subj: ['eldan:neutre', 'aldric:determine'] },
+  { who: 'eldan', text: "Alors tu devras les apprendre à quelqu'un d'autre. C'est la seule façon de ne pas les perdre.", subj: ['eldan:joie', 'aldric:surprise'] },
+  { who: 'narrateur', text: "Ce matin-là, une brume grise est descendue de la montagne. Et le maître n'a jamais terminé sa leçon.", subj: ['aldric:surprise'] },
+];
+const SLOTS = { 1: [190], 2: [112, 268], 3: [84, 190, 296] };
+
+class Component extends DCLogic {
+  state = { hero: null, sel: null, line: 3 };
+  memo = {};
+  cache(k, fn) { return this.memo[k] || (this.memo[k] = fn()); }
+  renderVals() {
+    const fi = this.props.facetIntensity ?? 0.12;
+    const hero = this.state.hero ?? this.props.storyHero ?? 'aldric';
+    const H = HEROES[hero], prog = H.prog;
+    const done = Object.values(HEROES).filter(x => x.prog === 10).length;
+    const selI = this.state.sel ?? Math.min(prog, 9);
+    const pips = n => Array.from({ length: 6 }, (_, i) => ({ icon: this.cache('fp' + (i < n), () => fragIcon(i < n, 20)) }));
+    const stories = Object.entries(HEROES).map(([id, x]) => ({
+      name: x.name, title: x.t, color: x.c, initial: x.name[0], prog: x.prog, pct: x.prog * 10, done: x.prog === 10,
+      barColor: x.prog === 10 ? '#FFD23F' : '#FF8C32', shadow: id === hero ? '0 4px 0 #15301E, 0 0 0 4px #FFD23F' : '0 4px 0 #15301E',
+      onPick: () => this.setState({ hero: id, sel: null }),
+    }));
+    const pos = STEPS[hero].map((_, i) => [XS[i], MAP_Y(i)]);
+    const curve = pts => pts.map((p, i) => {
+      if (!i) return 'M' + p.join(',');
+      const a = pts[i - 2] || pts[i - 1], b = pts[i - 1], c = p, d = pts[i + 1] || p;
+      return `C${b[0] + (c[0] - a[0]) / 6},${b[1] + (c[1] - a[1]) / 6} ${c[0] - (d[0] - b[0]) / 6},${c[1] - (d[1] - b[1]) / 6} ${c[0]},${c[1]}`;
+    }).join(' ');
+    const full = curve(pos), doneD = prog > 0 ? curve(pos.slice(0, Math.min(prog + 1, 10))) : '';
+    const mapPath = h('svg', { viewBox: '0 0 380 834', style: { position: 'absolute', left: 0, top: 0, width: 380, height: 834, pointerEvents: 'none' } },
+      h('path', { d: full, fill: 'none', stroke: INK, strokeWidth: 16, strokeLinecap: 'round' }),
+      h('path', { d: full, fill: 'none', stroke: '#E4D3B4', strokeWidth: 8, strokeLinecap: 'round' }),
+      h('path', { d: full, fill: 'none', stroke: '#A89A82', strokeWidth: 3, strokeDasharray: '2 11', strokeLinecap: 'round' }),
+      doneD && h('path', { d: doneD, fill: 'none', stroke: '#FFD23F', strokeWidth: 8, strokeLinecap: 'round' }));
+    const stateOf = i => i < prog ? 'won' : i === prog ? 'avail' : 'locked';
+    const nodeBg = (st, type) => st === 'won' ? 'linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%)' : st === 'avail' ? 'linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%)' : type === 'boss_final' ? '#E6E2EC' : '#C9C1B3';
+    const steps = STEPS[hero].map((title, i) => {
+      const [type, waves] = B[i], st = stateOf(i), boss = type === 'boss_final', size = boss ? 62 : 50, [x, y] = pos[i], right = x < 200;
+      return { n: i + 1, x, y, size, title, typeLabel: TYPE[type], won: st === 'won', locked: st === 'locked',
+        bg: nodeBg(st, type), ring: i === selI ? '0 0 0 4px #FFF1D6, 0 0 0 7px #15301E' : '0 4px 0 #15301E',
+        icon: this.cache(`ic${type}${st}`, () => icon(type, boss ? 28 : 22, st === 'locked' ? (boss ? '#6B6478' : '#6d665c') : INK)),
+        pulse: st === 'avail' ? this.cache('pulse' + size, () => h('div', { style: { position: 'absolute', left: 0, top: 0, width: size + 8, height: size + 8, borderRadius: '50%', border: '4px solid #FFD23F', animation: 'ts-pulse 1.4s ease-out infinite', pointerEvents: 'none' } })) : null,
+        labelL: right ? (size / 2 + 10) + 'px' : 'auto', labelR: right ? 'auto' : (size / 2 + 10) + 'px',
+        labelBg: st === 'locked' ? 'rgba(228,220,205,.92)' : 'var(--color-bg)', labelInk: st === 'locked' ? '#5b5048' : INK,
+        typeInk: boss ? '#6B4F8F' : type === 'normal' ? '#3d5a45' : '#C4481F',
+        onPick: () => this.setState({ sel: i }) };
+    });
+    const [sType, sWaves] = B[selI], sSt = stateOf(selI);
+    const sel = { n: selI + 1, title: STEPS[hero][selI], typeUpper: TYPE[sType].toUpperCase(), bg: nodeBg(sSt, sType),
+      icon: this.cache(`ic${sType}${sSt}`, () => icon(sType, sType === 'boss_final' ? 28 : 22, sSt === 'locked' ? '#6d665c' : INK)),
+      meta: sType === 'rencontre' ? sWaves + ' vagues · un autre héros rejoint le combat' : sWaves + ' vagues' + (sType !== 'normal' ? ' · ' + TYPE[sType].toLowerCase() + ' à la dernière' : ''),
+      kickerInk: sType === 'boss_final' ? '#6B4F8F' : '#1F7A3D', playable: sSt !== 'locked', isLocked: sSt === 'locked', prevN: selI, cta: sSt === 'won' ? 'Rejouer' : 'Jouer' };
+    const L = LINES[this.state.line], isNarr = L.who === 'narrateur';
+    const subj = L.subj.map(s => s.split(':')), slots = SLOTS[subj.length];
+    const busts = subj.map(([who, expr], k) => {
+      const speaking = who === L.who, dim = !isNarr && !speaking;
+      return { x: slots[k], color: CHARS[who].c, initial: CHARS[who].name.replace('Maître ', '')[0], isEldan: who === 'eldan', isHero: who !== 'eldan', file: who + '_' + expr,
+        scale: speaking ? 1.08 : dim ? .9 : 1, z: speaking ? 3 : 1, filter: dim ? 'brightness(.55) saturate(.75)' : 'none' };
+    });
+    const chev = c => h('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: c, strokeWidth: 3.5, strokeLinecap: 'round', strokeLinejoin: 'round', style: { display: 'block', animation: 'ts-bob 1s ease-in-out infinite' } }, h('path', { d: 'm6 9 6 6 6-6' }));
+    return {
+      bg: this.cache('bg' + fi, () => facetSvg(6, 13, 7, fi)),
+      bgDark: this.cache('bgd' + fi, () => facetSvg(6, 13, 5, fi * .8)),
+      facetSmall: this.cache('fs' + fi, () => facetSvg(3, 3, 3, fi * 2)),
+      facetMed: this.cache('fm' + fi, () => facetSvg(5, 4, 11, fi * 1.6)),
+      mapDecor: this.cache('md' + fi, () => landscape('map', fi)),
+      cineDecor: this.cache('cd' + fi, () => landscape(this.state.line === 4 ? 'mist' : 'dawn', fi)),
+      mistDecor: this.cache('mi' + fi, () => landscape('mist', fi)),
+      fragCount: done, fragPips: pips(done), endPips: pips(3), allPips: pips(6),
+      fragXs: this.cache('fx', () => fragIcon(true, 13)),
+      silGrey: this.cache('sg', () => silhouette('grey', 70)),
+      silColor: this.cache('sc', () => silhouette('color', 150)),
+      silReveal: this.cache('sr', () => silhouette('color', 210)),
+      eldanDisc: this.cache('ed', () => glyph('circle', '#FFD23F', 290, { n: 12, outline: 5 })),
+      bigFrag: this.cache('bf', () => h('div', { style: { position: 'absolute', left: 0, top: 0 } }, bigFragment())),
+      rays: this.cache('ry', () => rays(520, .32)), raysBig: this.cache('ryb', () => rays(620, .4)),
+      btnTri: this.cache('bt', () => glyph('tri', '#FFD23F', 28)),
+      deco: this.cache('deco', () => ({ tri: glyph('tri', '#FFD23F', 44), circle: glyph('circle', '#FF5A3C', 38), dot: glyph('dot', '#FF8C32', 32) })),
+      tapChevron: this.cache('chv', () => chev('#5b5048')), tapChevronLight: this.cache('chl', () => chev('#CFF2C0')),
+      stories, steps, mapPath, sel,
+      cur: { color: H.c, initial: H.name[0], upper: H.name.toUpperCase(), title: H.t, prog },
+      line: { isNarr, isDialogue: !isNarr, text: L.text, name: isNarr ? '' : CHARS[L.who].name, color: isNarr ? '' : L.who === 'eldan' ? '#C9A55A' : CHARS[L.who].c },
+      busts,
+      linePips: LINES.map((_, i) => ({ w: i === this.state.line ? 22 : 10, bg: i <= this.state.line ? '#FFF1D6' : 'rgba(21,48,30,.35)' })),
+      advance: () => { delete this.memo['cd' + fi]; this.setState(s => ({ line: (s.line + 1) % LINES.length })); },
+    };
+  }
+}
+</script>
+</body>
+</html>

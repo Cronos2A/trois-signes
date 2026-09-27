@@ -13,7 +13,7 @@
   "story": {
     "firstWinXp": 40,
     "timeLimit": 0,
-    "roundLabel": "Round",
+    "roundLabel": "Vague",
     "enemyMap": { "sbire": "grunt", "brute": "brute" },
     "rankTemplate": "boss",
     "rankSprite": { "mini_boss": "brute", "lieutenant": "boss", "boss_final": "boss" },
@@ -25,7 +25,7 @@
     },
     "typeLabels": { "normal": "Combat", "mini_boss": "Mini-boss", "rencontre": "Rencontre", "lieutenant": "Lieutenant", "boss_final": "Boss final" },
     "npc": {
-      "eldan": { "name": "Eldan", "color": "#8FB9E8" }, "eldan_oublie": { "name": "Eldan l'Oublié", "color": "#B7C3CE" },
+      "eldan": { "name": "Maître Eldan", "color": "#C9A55A", "bust": "#FFF1D6" }, "eldan_oublie": { "name": "Eldan l'Oublié", "color": "#B7C3CE" },
       "maud": { "name": "Maud", "color": "#C98657" }, "pip": { "name": "Pip", "color": "#FFB347" },
       "lili": { "name": "Lili", "color": "#FF8BA7" }, "aubin": { "name": "Aubin", "color": "#A67C52" },
       "fabre": { "name": "Fabre", "color": "#9C8A7A" }, "sbire": { "name": "Ombracé", "color": "#625476" }
