@@ -16,7 +16,7 @@ let actions = {};
 
 const chars = () => D.characters.characters;
 
-/** actions : { solo(), train(), again(), home() } */
+/** actions : { solo(), train(), again(), story() } */
 export function initLobby(a) {
   actions = a;
   const root = $('lobby');
@@ -55,6 +55,7 @@ function onClick(e) {
     case 'filter': ui.filter = arg; render(); break;
     case 'solo': actions.solo(); break;
     case 'train': actions.train(); break;
+    case 'story': actions.story(); break;
     case 'again': actions.again(); break;
     case 'home': hideResults(); ui.tab = 'play'; render(); break;
   }
@@ -113,14 +114,18 @@ function playHtml() {
         <div class="np-txt"><span class="np-name">${c.name}</span><span class="np-line">${c.title} · ${c.weaponLabel}</span></div>
       </div>
     </div>
-    <div class="mode-row">
+    <div class="mode-row three">
       <button class="mode-btn solo" data-act="solo">
         <span class="badge">PVE</span>
         <span class="mode-txt"><span class="mode-title ol ol-5">Solo</span><span class="mode-sub">Vagues &amp; boss</span></span>
         <span class="mode-tri">${glyph('tri', '#FFD23F', 34)}</span>
       </button>
+      <button class="mode-btn story" data-act="story">
+        <span class="badge">PVE</span>
+        <span class="mode-txt"><span class="mode-title ol ol-5">Histoire</span><span class="mode-sub">6 héros · 10 combats</span></span>
+      </button>
       <button class="mode-btn duel" disabled aria-disabled="true">
-        <span class="badge">PVP · BIENTÔT</span>
+        <span class="badge">BIENTÔT</span>
         <span class="mode-txt"><span class="mode-title ol ol-5">Duel</span><span class="mode-sub">En ligne · tour par tour</span></span>
       </button>
     </div>`;

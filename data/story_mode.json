@@ -1,0 +1,4045 @@
+{
+  "version": 1,
+  "note": "Mode Histoire de Trois Signes. Toutes les valeurs de combat sont des valeurs de départ, à équilibrer.",
+  "prologue_commun": [
+    {
+      "qui": "narrateur",
+      "texte": "Il y a longtemps, trois gestes simples protégeaient les gens : le Rond pour se garder, le Triangle pour frapper, le Toucher pour soigner et relier.",
+      "decor": "prologue_monde"
+    },
+    {
+      "qui": "narrateur",
+      "texte": "On les appelait l'Empreinte. Un vieux maître, Eldan, les enseignait à qui voulait bien les apprendre.",
+      "decor": "prologue_monde",
+      "sujets": [
+        "eldan:joie"
+      ]
+    },
+    {
+      "qui": "narrateur",
+      "texte": "Puis le Silence est arrivé. Il n'a pas cassé les portes : il a effacé les souvenirs.",
+      "decor": "prologue_silence"
+    },
+    {
+      "qui": "narrateur",
+      "texte": "Ceux qui oublient tout deviennent des Ombracés. Des formes grises, vides… qui n'ont jamais été des monstres.",
+      "decor": "prologue_silence",
+      "sujets": [
+        "sbire:ombrace"
+      ]
+    },
+    {
+      "qui": "narrateur",
+      "texte": "Six personnes se souviennent encore des trois signes. Voici leurs histoires.",
+      "decor": "prologue_heros",
+      "sujets": [
+        "aldric:determine",
+        "nyra:neutre",
+        "boran:neutre",
+        "ilwen:neutre",
+        "kestrel:neutre",
+        "mira:joie"
+      ]
+    }
+  ],
+  "arrivee_coeur": {
+    "note": "Cinématique commune, jouée avant le combat 10 de chaque histoire, juste avant le dialogue_avant du combat 10.",
+    "cinematique": [
+      {
+        "qui": "narrateur",
+        "texte": "Au centre du monde, une clairière blanche. Sans vent, sans bruit, sans couleur.",
+        "decor": "coeur_silence"
+      },
+      {
+        "qui": "narrateur",
+        "texte": "Au milieu, un vieil homme trace des signes dans le vide. Encore, et encore.",
+        "decor": "coeur_silence",
+        "sujets": [
+          "eldan_oublie:ombrace"
+        ]
+      },
+      {
+        "qui": "eldan_oublie",
+        "expression": "ombrace",
+        "texte": "Rond… triangle… toucher… À quoi ça servait, déjà ?",
+        "decor": "coeur_silence",
+        "sujets": [
+          "eldan_oublie:ombrace"
+        ]
+      }
+    ]
+  },
+  "epilogue_final": {
+    "condition": "Les six histoires terminées.",
+    "cinematique": [
+      {
+        "qui": "narrateur",
+        "texte": "Six fragments. Six héros. Et enfin, un souvenir entier.",
+        "decor": "coeur_silence_gueri",
+        "sujets": [
+          "aldric:joie",
+          "nyra:joie",
+          "boran:joie",
+          "ilwen:joie",
+          "kestrel:joie",
+          "mira:joie"
+        ]
+      },
+      {
+        "qui": "eldan",
+        "expression": "surprise",
+        "texte": "Je m'appelle Eldan. Je suis… j'étais… un maître.",
+        "decor": "coeur_silence_gueri",
+        "sujets": [
+          "eldan:surprise"
+        ]
+      },
+      {
+        "qui": "aldric",
+        "expression": "joie",
+        "texte": "Vous l'êtes toujours.",
+        "decor": "coeur_silence_gueri",
+        "sujets": [
+          "eldan:surprise",
+          "aldric:joie"
+        ]
+      },
+      {
+        "qui": "nyra",
+        "expression": "neutre",
+        "texte": "Et vous nous devez des explications.",
+        "decor": "coeur_silence_gueri",
+        "sujets": [
+          "eldan:joie",
+          "nyra:neutre"
+        ]
+      },
+      {
+        "qui": "eldan",
+        "expression": "joie",
+        "texte": "Alors asseyez-vous. C'est une longue histoire. Et cette fois, je vais la transmettre.",
+        "decor": "coeur_silence_gueri",
+        "sujets": [
+          "eldan:joie",
+          "aldric:joie",
+          "nyra:joie",
+          "boran:joie",
+          "ilwen:joie",
+          "kestrel:joie",
+          "mira:joie"
+        ]
+      },
+      {
+        "qui": "narrateur",
+        "texte": "Nouveau personnage débloqué : Eldan, le Maître. Son histoire sera bientôt disponible.",
+        "decor": "coeur_silence_gueri",
+        "sujets": [
+          "eldan:determine"
+        ]
+      }
+    ]
+  },
+  "ennemis_speciaux": {
+    "valeurs_de_depart": {
+      "mini_boss": {
+        "hp": 35,
+        "degats": 10,
+        "alerte_s": 1.4
+      },
+      "lieutenant": {
+        "hp": 60,
+        "degats": 12,
+        "alerte_s": 1.3
+      },
+      "boss_final": {
+        "hp": 90,
+        "degats": 14,
+        "alerte_s": 1.2
+      }
+    },
+    "liste": [
+      {
+        "id": "bram",
+        "nom": "Bram, le Gardien du pont",
+        "rang": "mini_boss",
+        "histoire": "aldric",
+        "apparence": "Forgeron trapu, tablier de cuir, énorme marteau de pierre grise."
+      },
+      {
+        "id": "corvin",
+        "nom": "Sire Corvin",
+        "rang": "lieutenant",
+        "histoire": "aldric",
+        "apparence": "Chevalier élancé, armure ancienne, grande lame grise fissurée comme du verre."
+      },
+      {
+        "id": "sorel",
+        "nom": "Madame Sorel, la Cheffe de guilde",
+        "rang": "mini_boss",
+        "histoire": "nyra",
+        "apparence": "Voleuse âgée, longue capuche, deux dagues grises, masque de chat."
+      },
+      {
+        "id": "reflet",
+        "nom": "Le Reflet",
+        "rang": "lieutenant",
+        "histoire": "nyra",
+        "apparence": "Copie exacte de Nyra, entièrement grise et translucide, comme du verre."
+      },
+      {
+        "id": "tonnerre",
+        "nom": "Tonnerre, le Taureau de pierre",
+        "rang": "mini_boss",
+        "histoire": "boran",
+        "apparence": "Taureau massif, cornes en pierre grise facettée, poil devenu gris."
+      },
+      {
+        "id": "oren",
+        "nom": "Oren, le Laboureur",
+        "rang": "lieutenant",
+        "histoire": "boran",
+        "apparence": "Jeune fermier mince, fourche grise, chapeau de paille délavé, air de famille avec Boran."
+      },
+      {
+        "id": "archiviste",
+        "nom": "L'Archiviste",
+        "rang": "mini_boss",
+        "histoire": "ilwen",
+        "apparence": "Grand vieillard voûté, lunettes rondes, bras chargés de livres aux pages blanches."
+      },
+      {
+        "id": "selena",
+        "nom": "Séléna, la Plume sans encre",
+        "rang": "lieutenant",
+        "histoire": "ilwen",
+        "apparence": "Jeune savante, plume géante comme arme, carnets blancs qui flottent autour d'elle."
+      },
+      {
+        "id": "traqueur",
+        "nom": "Le Traqueur (Pieter)",
+        "rang": "mini_boss",
+        "histoire": "kestrel",
+        "apparence": "Éclaireur encapuchonné, arc gris, insigne des Éclaireurs du Col au cou."
+      },
+      {
+        "id": "hardel",
+        "nom": "Capitaine Hardel, le Guetteur",
+        "rang": "lieutenant",
+        "histoire": "kestrel",
+        "apparence": "Capitaine robuste, longue-vue et vieille boussole, manteau d'éclaireur délavé."
+      },
+      {
+        "id": "helo",
+        "nom": "Tante Hélo, l'Herboriste",
+        "rang": "mini_boss",
+        "histoire": "mira",
+        "apparence": "Vieille herboriste, panier de plantes grises, chapeau à larges bords."
+      },
+      {
+        "id": "veilleuse",
+        "nom": "La Veilleuse",
+        "rang": "lieutenant",
+        "histoire": "mira",
+        "apparence": "Infirmière sous une capuche grise, lanterne pâle, gestes doux et inquiétants."
+      },
+      {
+        "id": "eldan_oublie",
+        "nom": "Maître Eldan, l'Oublié",
+        "rang": "boss_final",
+        "histoire": "toutes",
+        "apparence": "Vieux maître aux longs cheveux blancs, robe grise usée, entouré de fragments de pages du Codex qui flottent.",
+        "mecanique_proposee": "Il utilise les trois signes : Triangle = coup normal ; Rond = se protège 2 s (dégâts reçus −50 %, signalé par un cercle autour de lui) ; Toucher = appelle un sbire (une fois par round, max 2 ennemis en plus de lui)."
+      }
+    ]
+  },
+  "personnages_dialogue": {
+    "expressions_heros": [
+      "neutre",
+      "joie",
+      "colere",
+      "tristesse",
+      "surprise",
+      "determine"
+    ],
+    "expressions_pnj": [
+      "neutre",
+      "joie",
+      "tristesse",
+      "surprise",
+      "ombrace"
+    ],
+    "heros": [
+      "aldric",
+      "nyra",
+      "boran",
+      "ilwen",
+      "kestrel",
+      "mira"
+    ],
+    "pnj": {
+      "eldan": "Maître Eldan, avant et après le Silence (vieil homme bienveillant, barbe blanche, robe claire)",
+      "eldan_oublie": "Maître Eldan sous l'emprise du Silence (voir ennemis spéciaux)",
+      "maud": "Villageoise âgée de Pierrelune",
+      "pip": "Gamin des rues de Vélis",
+      "lili": "Petite fille des Hautes-Gerbes",
+      "aubin": "Vieux bibliothécaire d'Aubelle, mentor d'Ilwen",
+      "fabre": "Premier patient de Mira, homme âgé au dos voûté",
+      "sbire": "Ombracé ordinaire (même design que l'ennemi sbire)"
+    },
+    "note": "Les boss (bram, corvin, sorel, reflet, tonnerre, oren, archiviste, selena, traqueur, hardel, helo, veilleuse) parlent aussi : leur portrait 'ombrace' est leur forme d'ennemi, 'neutre'/'tristesse'/'joie' leur forme humaine retrouvée un instant."
+  },
+  "decors": {
+    "prologue_monde": "Paysage lumineux, un vieux maître enseigne à des enfants sur une colline verte",
+    "prologue_silence": "Le même paysage, mangé par une brume grise",
+    "prologue_heros": "Les six héros alignés, de dos, face à l'horizon gris",
+    "pierrelune_aube": "Village de montagne au lever du soleil, maisons en pierre, toits orange",
+    "pierrelune_brume": "Le même village envahi par la brume grise",
+    "maison_maitre": "Intérieur chaleureux mais vide : table en bois, parchemins, bougie éteinte",
+    "pont_brumes": "Vieux pont de pierre au-dessus d'un ravin rempli de brume",
+    "route_ecole": "Chemin forestier entre des rochers gravés de triangles et de ronds",
+    "ecole_ruines": "Grandes ruines de pierre couvertes de signes gravés et d'un mur de noms",
+    "velis_toits": "Toits d'une cité serrée la nuit, lanternes, lune",
+    "velis_marche": "Grand marché couvert, étals colorés en train de griser",
+    "planque_chats": "Repaire de voleurs sous les toits, coussins, butin, lanternes",
+    "archives_velis": "Salle d'archives, étagères de registres, poussière dans la lumière",
+    "velis_porte": "Grande porte Est de la cité, ouverte sur une plaine grise",
+    "hautes_gerbes": "Champs de blé doré, ferme et grange rouge, ciel d'été",
+    "hautes_gerbes_gris": "Les mêmes champs devenus gris, ciel bas",
+    "chemin_collines": "Sentier dans les collines, convoi de charrettes au loin",
+    "camp_refugies": "Camp de tentes derrière une palissade en bois, tente de soins",
+    "palissade_nuit": "La palissade du camp la nuit, feux de garde",
+    "aubelle_biblio": "Immense bibliothèque, étagères jusqu'au plafond, livres qui perdent leurs mots",
+    "aubelle_rues": "Rues pavées d'une ville savante, tours et coupoles",
+    "reserve_interdite": "Salle secrète, grilles, un seul livre lumineux sur un pupitre",
+    "tour_guet": "Sommet d'une tour de guet, vue sur tout le pays avec une tache blanche au centre",
+    "lisiere": "Lisière d'une forêt dont une moitié est verte et l'autre grise",
+    "camp_eclaireurs": "Camp d'éclaireurs : tentes, cartes épinglées, feu de camp",
+    "col_vents": "Col de montagne venteux, drapeaux de prière, neige",
+    "foret_effacee": "Forêt dont les arbres s'effacent en fragments de facettes",
+    "fontclaire": "Petit village autour d'une fontaine, fleurs, maisons blanches",
+    "maison_soins": "Maison de soins : fioles, plantes suspendues, lits simples",
+    "route_villages": "Route de campagne entre plusieurs petits villages",
+    "coeur_silence": "Clairière entièrement blanche, sans couleur, fragments de pages qui flottent",
+    "coeur_silence_gueri": "La même clairière qui retrouve ses couleurs, herbe verte, lumière chaude"
+  },
+  "histoires": [
+    {
+      "id": "aldric",
+      "titre": "Le dernier élève",
+      "couleur": "#FF8C32",
+      "resume": "Aldric perd son village, suit la trace de son maître et découvre qu'il n'était pas le seul à avoir appris les trois signes.",
+      "cinematique_ouverture": [
+        {
+          "qui": "narrateur",
+          "texte": "À Pierrelune, chaque matin commence par une leçon.",
+          "decor": "pierrelune_aube",
+          "sujets": [
+            "eldan:neutre",
+            "aldric:neutre"
+          ]
+        },
+        {
+          "qui": "eldan",
+          "expression": "neutre",
+          "texte": "Le Rond te garde. Le Triangle te défend. Le Toucher te relie aux autres. Trois gestes, Aldric. Pas un de plus.",
+          "decor": "pierrelune_aube",
+          "sujets": [
+            "eldan:neutre",
+            "aldric:neutre"
+          ]
+        },
+        {
+          "qui": "aldric",
+          "expression": "determine",
+          "texte": "Et quand je les connaîtrai par cœur, maître ?",
+          "decor": "pierrelune_aube",
+          "sujets": [
+            "eldan:neutre",
+            "aldric:determine"
+          ]
+        },
+        {
+          "qui": "eldan",
+          "expression": "joie",
+          "texte": "Alors tu devras les apprendre à quelqu'un d'autre. C'est la seule façon de ne pas les perdre.",
+          "decor": "pierrelune_aube",
+          "sujets": [
+            "eldan:joie",
+            "aldric:surprise"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Ce matin-là, une brume grise est descendue de la montagne. Et le maître n'a jamais terminé sa leçon.",
+          "decor": "pierrelune_brume",
+          "sujets": [
+            "aldric:surprise"
+          ]
+        }
+      ],
+      "combats": [
+        {
+          "n": 1,
+          "titre": "Pierrelune",
+          "type": "normal",
+          "lieu": "pierrelune_brume",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "aldric",
+              "expression": "surprise",
+              "texte": "Des silhouettes aux portes du village… Elles n'ont pas de visage !"
+            },
+            {
+              "qui": "eldan",
+              "expression": "colere",
+              "texte": "Aldric ! Les signes, comme je te les ai appris !"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "aldric",
+              "expression": "surprise",
+              "texte": "Maître ? Maître, où êtes-vous ?"
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Personne ne répond. La brume a emporté la voix du maître."
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "titre": "La nuit du Silence",
+          "type": "normal",
+          "lieu": "pierrelune_brume",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "La nuit tombe sur Pierrelune, et les couleurs s'éteignent une à une."
+            },
+            {
+              "qui": "aldric",
+              "expression": "determine",
+              "texte": "Restez derrière moi. Personne d'autre ne disparaît ce soir."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "maud",
+              "expression": "neutre",
+              "texte": "Aldric… comment s'appelait mon mari, déjà ?"
+            },
+            {
+              "qui": "aldric",
+              "expression": "tristesse",
+              "texte": "Il s'appelait Jorran, Maud. Je vous le rappellerai tous les jours, s'il le faut."
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "titre": "La maison vide",
+          "type": "normal",
+          "lieu": "maison_maitre",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "aldric",
+              "expression": "neutre",
+              "texte": "La porte du maître est ouverte. Ça ne lui ressemble pas."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Sur la table : une page arrachée du Codex, et une carte griffonnée à la hâte."
+            },
+            {
+              "qui": "aldric",
+              "expression": "surprise",
+              "texte": "« Le pont des Brumes, puis l'école. » Quelle école ?"
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "titre": "Le pont des Brumes",
+          "type": "normal",
+          "lieu": "pont_brumes",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "aldric",
+              "expression": "neutre",
+              "texte": "Le seul pont encore debout. Si je le traverse, je ne pourrai plus faire demi-tour."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "aldric",
+              "expression": "determine",
+              "texte": "Pierrelune, je reviendrai. Avec le maître."
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "titre": "Le Gardien du pont",
+          "type": "mini_boss",
+          "lieu": "pont_brumes",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "bram"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "bram",
+              "expression": "ombrace",
+              "texte": "…forger… il fallait… forger quoi, déjà…"
+            },
+            {
+              "qui": "aldric",
+              "expression": "tristesse",
+              "texte": "Bram ? C'est toi qui as forgé mon épée…"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "aldric",
+              "expression": "tristesse",
+              "texte": "Repose-toi, Bram."
+            }
+          ],
+          "boss": "bram",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "L'Ombracé s'effondre. Un instant, ses yeux redeviennent ceux du vieux forgeron.",
+              "decor": "pont_brumes",
+              "sujets": [
+                "bram:neutre",
+                "aldric:tristesse"
+              ]
+            },
+            {
+              "qui": "bram",
+              "expression": "neutre",
+              "texte": "Aldric… ton épée… tu la tiens toujours trop haut.",
+              "decor": "pont_brumes",
+              "sujets": [
+                "bram:neutre",
+                "aldric:tristesse"
+              ]
+            },
+            {
+              "qui": "aldric",
+              "expression": "tristesse",
+              "texte": "Je sais, Bram. Je sais.",
+              "decor": "pont_brumes",
+              "sujets": [
+                "aldric:tristesse"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Puis la brume l'emporte, et le pont s'ouvre enfin devant lui.",
+              "decor": "pont_brumes",
+              "sujets": [
+                "aldric:determine"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "titre": "Rencontre : Nyra",
+          "type": "rencontre",
+          "lieu": "route_ecole",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "nyra",
+              "expression": "joie",
+              "texte": "Joli manteau, le chevalier. Tu cherches aussi un vieil homme qui trace des ronds dans l'air ?"
+            },
+            {
+              "qui": "aldric",
+              "expression": "colere",
+              "texte": "Tu parles de mon maître. Qui es-tu ?"
+            },
+            {
+              "qui": "nyra",
+              "expression": "neutre",
+              "texte": "Quelqu'un à qui il doit quelque chose. Et on est encerclés, donc les présentations attendront."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "nyra",
+              "expression": "joie",
+              "texte": "Pas mal, pour quelqu'un d'aussi raide."
+            },
+            {
+              "qui": "aldric",
+              "expression": "neutre",
+              "texte": "On fait route ensemble jusqu'à l'école. Ensuite, on verra."
+            }
+          ]
+        },
+        {
+          "n": 7,
+          "titre": "L'école des signes",
+          "type": "normal",
+          "lieu": "ecole_ruines",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Des ruines immenses, couvertes de triangles et de ronds gravés dans la pierre."
+            },
+            {
+              "qui": "aldric",
+              "expression": "surprise",
+              "texte": "Il y a des centaines de noms sur ce mur… Tous ses élèves ?"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "aldric",
+              "expression": "tristesse",
+              "texte": "Il ne m'a jamais dit que j'avais des frères et des sœurs d'armes."
+            },
+            {
+              "qui": "nyra",
+              "expression": "neutre",
+              "texte": "Il ne m'a jamais dit grand-chose non plus."
+            }
+          ]
+        },
+        {
+          "n": 8,
+          "titre": "Les élèves oubliés",
+          "type": "normal",
+          "lieu": "ecole_ruines",
+          "rounds": 4,
+          "vagues": [
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "sbire",
+              "expression": "ombrace",
+              "texte": "…rond… triangle… rond… pourquoi… pourquoi ça ne marche plus…"
+            },
+            {
+              "qui": "aldric",
+              "expression": "tristesse",
+              "texte": "Ils tracent encore les signes. Mais il n'y a plus rien dedans."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "aldric",
+              "expression": "determine",
+              "texte": "Un signe sans souvenir, ce n'est qu'un geste. Le maître avait raison."
+            }
+          ]
+        },
+        {
+          "n": 9,
+          "titre": "Sire Corvin",
+          "type": "lieutenant",
+          "lieu": "ecole_ruines",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "corvin"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "corvin",
+              "expression": "ombrace",
+              "texte": "Le petit dernier. Il t'a appris la même leçon qu'à moi ? « Trois gestes, pas un de plus » ?"
+            },
+            {
+              "qui": "aldric",
+              "expression": "surprise",
+              "texte": "Vous… vous vous souvenez ?"
+            },
+            {
+              "qui": "corvin",
+              "expression": "colere",
+              "texte": "Je me souviens de tout. Sauf de pourquoi ça comptait."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "aldric",
+              "expression": "determine",
+              "texte": "Alors je m'en souviendrai pour nous deux."
+            }
+          ],
+          "boss": "corvin",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Corvin tombe à genoux. Sa lame grise se fissure comme du verre.",
+              "decor": "ecole_ruines",
+              "sujets": [
+                "corvin:tristesse",
+                "aldric:neutre"
+              ]
+            },
+            {
+              "qui": "corvin",
+              "expression": "tristesse",
+              "texte": "Il nous a tout donné… et on l'a laissé seul avec ses souvenirs.",
+              "decor": "ecole_ruines",
+              "sujets": [
+                "corvin:tristesse"
+              ]
+            },
+            {
+              "qui": "corvin",
+              "expression": "neutre",
+              "texte": "Il est au Cœur, gamin. Là où tout a commencé à s'éteindre.",
+              "decor": "ecole_ruines",
+              "sujets": [
+                "corvin:neutre",
+                "aldric:surprise"
+              ]
+            },
+            {
+              "qui": "aldric",
+              "expression": "determine",
+              "texte": "Alors c'est là que je vais.",
+              "decor": "ecole_ruines",
+              "sujets": [
+                "aldric:determine",
+                "nyra:neutre"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 10,
+          "titre": "Le Cœur du Silence",
+          "type": "boss_final",
+          "lieu": "coeur_silence",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "eldan_oublie"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "eldan_oublie",
+              "expression": "ombrace",
+              "texte": "…un élève… encore un élève… je vous ai tous oubliés…"
+            },
+            {
+              "qui": "aldric",
+              "expression": "surprise",
+              "texte": "Maître ?!"
+            }
+          ],
+          "dialogue_apres": [],
+          "boss": "eldan_oublie"
+        }
+      ],
+      "fin": [
+        {
+          "qui": "narrateur",
+          "texte": "Le dernier signe d'Aldric traverse le Silence comme un rayon de soleil.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "aldric:determine",
+            "eldan:tristesse"
+          ]
+        },
+        {
+          "qui": "eldan",
+          "expression": "tristesse",
+          "texte": "Aldric… Tu tiens toujours ton épée trop haut.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:tristesse",
+            "aldric:surprise"
+          ]
+        },
+        {
+          "qui": "aldric",
+          "expression": "joie",
+          "texte": "C'est ce que Bram disait aussi.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie",
+            "aldric:joie"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Un fragment de mémoire revient au maître.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nyra",
+      "titre": "La dette",
+      "couleur": "#3DDC5B",
+      "resume": "Nyra court après une dette, perd sa guilde et découvre que c'est elle qui devait tout au maître.",
+      "cinematique_ouverture": [
+        {
+          "qui": "narrateur",
+          "texte": "Vélis, la cité des mille toits. Et Nyra, la voleuse la plus rapide de tous.",
+          "decor": "velis_toits",
+          "sujets": [
+            "nyra:joie"
+          ]
+        },
+        {
+          "qui": "nyra",
+          "expression": "joie",
+          "texte": "Une bourse, deux bourses… Franchement, c'est presque trop facile.",
+          "decor": "velis_toits",
+          "sujets": [
+            "nyra:joie"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Dans sa poche, toujours, un vieux papier plié. Une dette, écrite de la main d'un inconnu.",
+          "decor": "velis_toits",
+          "sujets": [
+            "nyra:neutre"
+          ]
+        },
+        {
+          "qui": "nyra",
+          "expression": "neutre",
+          "texte": "« Eldan ». Un jour, je te trouverai, le vieux. Et on sera quittes.",
+          "decor": "velis_toits",
+          "sujets": [
+            "nyra:determine"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Cette nuit-là, pour la première fois, les gardes qui la poursuivaient n'avaient pas de visage.",
+          "decor": "velis_toits",
+          "sujets": [
+            "nyra:surprise"
+          ]
+        }
+      ],
+      "combats": [
+        {
+          "n": 1,
+          "titre": "Les toits de Vélis",
+          "type": "normal",
+          "lieu": "velis_toits",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "nyra",
+              "expression": "surprise",
+              "texte": "D'habitude, les gardes crient. Ceux-là ne disent rien…"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "nyra",
+              "expression": "neutre",
+              "texte": "Bon. Nouvelle règle : on ne vole rien aux gens sans visage."
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "titre": "Le marché qui oublie",
+          "type": "normal",
+          "lieu": "velis_marche",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Le grand marché de Vélis. Les marchands ne se souviennent plus de ce qu'ils vendent."
+            },
+            {
+              "qui": "sbire",
+              "expression": "ombrace",
+              "texte": "…des pommes… non… qu'est-ce que c'est, une pomme…"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "nyra",
+              "expression": "tristesse",
+              "texte": "Le vieux Tobbin me faisait crédit depuis mes six ans. Il ne m'a même pas reconnue."
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "titre": "La planque",
+          "type": "normal",
+          "lieu": "planque_chats",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "nyra",
+              "expression": "neutre",
+              "texte": "La guilde saura quoi faire. La guilde sait toujours quoi faire."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "nyra",
+              "expression": "colere",
+              "texte": "Les Chats de Vélis… Tous. Il ne reste que moi."
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "titre": "La piste du vieil homme",
+          "type": "normal",
+          "lieu": "velis_porte",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "pip",
+              "expression": "neutre",
+              "texte": "Un vieux monsieur traçait des ronds de lumière, près de la porte Est. Il disait qu'il cherchait ses souvenirs."
+            },
+            {
+              "qui": "nyra",
+              "expression": "surprise",
+              "texte": "Eldan…"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "nyra",
+              "expression": "determine",
+              "texte": "Porte Est. Cette fois, le vieux ne m'échappera pas."
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "titre": "La Cheffe de guilde",
+          "type": "mini_boss",
+          "lieu": "planque_chats",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "sorel"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "sorel",
+              "expression": "ombrace",
+              "texte": "…une petite… il y avait une petite… plus rapide que tous les autres…"
+            },
+            {
+              "qui": "nyra",
+              "expression": "tristesse",
+              "texte": "C'était moi, Sorel. C'était moi."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "nyra",
+              "expression": "colere",
+              "texte": "Ma dette… pas ce que je crois ? Qu'est-ce qu'elle voulait dire ?"
+            }
+          ],
+          "boss": "sorel",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Madame Sorel s'effondre, une dague grise encore à la main.",
+              "decor": "planque_chats",
+              "sujets": [
+                "sorel:tristesse",
+                "nyra:tristesse"
+              ]
+            },
+            {
+              "qui": "sorel",
+              "expression": "neutre",
+              "texte": "Nyra… ta dette… elle n'est pas ce que tu crois…",
+              "decor": "planque_chats",
+              "sujets": [
+                "sorel:neutre"
+              ]
+            },
+            {
+              "qui": "nyra",
+              "expression": "surprise",
+              "texte": "Quoi ? Sorel, attends !",
+              "decor": "planque_chats",
+              "sujets": [
+                "nyra:surprise"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Trop tard. Le Silence l'a reprise.",
+              "decor": "planque_chats",
+              "sujets": [
+                "nyra:tristesse"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "titre": "Rencontre : Aldric",
+          "type": "rencontre",
+          "lieu": "route_ecole",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "aldric",
+              "expression": "neutre",
+              "texte": "Toi. Tu suis la même piste que moi."
+            },
+            {
+              "qui": "nyra",
+              "expression": "joie",
+              "texte": "Et toi, tu marches comme une armoire. Un vieil homme, des ronds de lumière, ça te dit quelque chose ?"
+            },
+            {
+              "qui": "aldric",
+              "expression": "neutre",
+              "texte": "C'est mon maître."
+            },
+            {
+              "qui": "nyra",
+              "expression": "neutre",
+              "texte": "Alors on a un problème en commun. Et une douzaine d'Ombracés, aussi."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "nyra",
+              "expression": "joie",
+              "texte": "Tu te bats bien, pour une armoire."
+            },
+            {
+              "qui": "aldric",
+              "expression": "surprise",
+              "texte": "… Merci ?"
+            }
+          ]
+        },
+        {
+          "n": 7,
+          "titre": "Le registre",
+          "type": "normal",
+          "lieu": "archives_velis",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Dans les archives de Vélis, un vieux registre des enfants trouvés."
+            },
+            {
+              "qui": "nyra",
+              "expression": "neutre",
+              "texte": "Il doit y avoir une trace de ma dette, quelque part…"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "nyra",
+              "expression": "surprise",
+              "texte": "« Enfant de quatre ans, sauvée d'un incendie par le voyageur Eldan. Aucune somme due. »"
+            },
+            {
+              "qui": "nyra",
+              "expression": "tristesse",
+              "texte": "Ce n'était pas une dette. C'était un rappel. Pour que je ne l'oublie pas."
+            }
+          ]
+        },
+        {
+          "n": 8,
+          "titre": "Les ombres qui imitent",
+          "type": "normal",
+          "lieu": "velis_toits",
+          "rounds": 4,
+          "vagues": [
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "nyra",
+              "expression": "surprise",
+              "texte": "Ils bougent comme moi… Ils ont appris en me regardant ?"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "nyra",
+              "expression": "determine",
+              "texte": "Copier les gestes, c'est facile. Savoir pourquoi on les fait, c'est autre chose."
+            }
+          ]
+        },
+        {
+          "n": 9,
+          "titre": "Le Reflet",
+          "type": "lieutenant",
+          "lieu": "velis_porte",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "reflet"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "reflet",
+              "expression": "ombrace",
+              "texte": "Sans lui, tu serais morte dans l'incendie. Ou tu serais moi. Seule, rapide… et vide."
+            },
+            {
+              "qui": "nyra",
+              "expression": "colere",
+              "texte": "Seule et rapide, d'accord. Mais pas vide."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "nyra",
+              "expression": "determine",
+              "texte": "Adieu, moi."
+            }
+          ],
+          "boss": "reflet",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Le Reflet se brise en mille éclats de verre gris.",
+              "decor": "velis_porte",
+              "sujets": [
+                "reflet:tristesse",
+                "nyra:neutre"
+              ]
+            },
+            {
+              "qui": "reflet",
+              "expression": "neutre",
+              "texte": "…alors souviens-toi… pour nous deux…",
+              "decor": "velis_porte",
+              "sujets": [
+                "reflet:neutre"
+              ]
+            },
+            {
+              "qui": "nyra",
+              "expression": "determine",
+              "texte": "C'est prévu.",
+              "decor": "velis_porte",
+              "sujets": [
+                "nyra:determine"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Au loin, derrière la porte Est, une clairière blanche où plus rien ne pousse.",
+              "decor": "velis_porte",
+              "sujets": [
+                "nyra:neutre",
+                "aldric:neutre"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 10,
+          "titre": "Le Cœur du Silence",
+          "type": "boss_final",
+          "lieu": "coeur_silence",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "eldan_oublie"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "eldan_oublie",
+              "expression": "ombrace",
+              "texte": "…une petite fille… un incendie… je l'ai portée… comment s'appelait-elle…"
+            },
+            {
+              "qui": "nyra",
+              "expression": "tristesse",
+              "texte": "Nyra. Elle s'appelle Nyra, vieux fou. Et elle est venue te rendre la pareille."
+            }
+          ],
+          "dialogue_apres": [],
+          "boss": "eldan_oublie"
+        }
+      ],
+      "fin": [
+        {
+          "qui": "narrateur",
+          "texte": "La dague de Nyra ne frappe pas le maître. Elle tranche le Silence autour de lui.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "nyra:determine",
+            "eldan:surprise"
+          ]
+        },
+        {
+          "qui": "eldan",
+          "expression": "surprise",
+          "texte": "Nyra… Tu as grandi.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:surprise",
+            "nyra:neutre"
+          ]
+        },
+        {
+          "qui": "nyra",
+          "expression": "joie",
+          "texte": "Et toi, tu as vieilli. On est quittes, maintenant.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie",
+            "nyra:joie"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Un fragment de mémoire revient au maître.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boran",
+      "titre": "Le champ silencieux",
+      "couleur": "#1F7A3D",
+      "resume": "Boran perd sa terre, protège ceux qui restent et apprend, grâce à Mira, qu'on peut parfois sauver au lieu de vaincre.",
+      "cinematique_ouverture": [
+        {
+          "qui": "narrateur",
+          "texte": "Aux Hautes-Gerbes, les blés montent jusqu'aux épaules. Sauf à celles de Boran.",
+          "decor": "hautes_gerbes",
+          "sujets": [
+            "boran:joie"
+          ]
+        },
+        {
+          "qui": "oren",
+          "expression": "joie",
+          "texte": "Dernière gerbe de la saison, grand frère ! Après ça, on dort une semaine.",
+          "decor": "hautes_gerbes",
+          "sujets": [
+            "oren:joie",
+            "boran:neutre"
+          ]
+        },
+        {
+          "qui": "boran",
+          "expression": "joie",
+          "texte": "Toi, tu dors. Moi, je répare la grange.",
+          "decor": "hautes_gerbes",
+          "sujets": [
+            "oren:joie",
+            "boran:joie"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Enfant, Boran avait appris trois gestes d'un vieux voyageur, comme un jeu. Il croyait les avoir oubliés.",
+          "decor": "hautes_gerbes",
+          "sujets": [
+            "boran:neutre"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Ce soir-là, les blés sont devenus gris. Et Oren a cessé de rire.",
+          "decor": "hautes_gerbes_gris",
+          "sujets": [
+            "boran:surprise"
+          ]
+        }
+      ],
+      "combats": [
+        {
+          "n": 1,
+          "titre": "La moisson",
+          "type": "normal",
+          "lieu": "hautes_gerbes_gris",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "boran",
+              "expression": "neutre",
+              "texte": "Des gens dans le champ. Ils marchent sur le blé…"
+            },
+            {
+              "qui": "boran",
+              "expression": "colere",
+              "texte": "Hors de mon champ."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "oren",
+              "expression": "tristesse",
+              "texte": "Boran… j'ai froid…"
+            },
+            {
+              "qui": "boran",
+              "expression": "surprise",
+              "texte": "Oren ?"
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "titre": "Les voisins changés",
+          "type": "normal",
+          "lieu": "hautes_gerbes_gris",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Les voisins de toujours avancent vers la ferme. Sans un mot."
+            },
+            {
+              "qui": "boran",
+              "expression": "tristesse",
+              "texte": "Père Lucas. Madame Anselme. Je vous ai porté vos sacs de farine pendant dix ans…"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "boran",
+              "expression": "neutre",
+              "texte": "Ils ne me reconnaissent plus. Mais moi, je me souviens d'eux. Ça comptera."
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "titre": "La grange assiégée",
+          "type": "normal",
+          "lieu": "hautes_gerbes_gris",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "lili",
+              "expression": "surprise",
+              "texte": "Boran ! On est tous dans la grange, ils vont entrer !"
+            },
+            {
+              "qui": "boran",
+              "expression": "determine",
+              "texte": "Personne n'entre."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "lili",
+              "expression": "joie",
+              "texte": "T'es le plus fort du monde."
+            },
+            {
+              "qui": "boran",
+              "expression": "joie",
+              "texte": "Non. Juste le plus lourd."
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "titre": "Le chemin des collines",
+          "type": "normal",
+          "lieu": "chemin_collines",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "boran",
+              "expression": "neutre",
+              "texte": "On part vers les collines. Les enfants devant, moi derrière."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Derrière eux, la ferme disparaît dans la brume grise. Boran ne se retourne pas."
+            },
+            {
+              "qui": "boran",
+              "expression": "tristesse",
+              "texte": "Oren est resté là-bas."
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "titre": "Le Taureau de pierre",
+          "type": "mini_boss",
+          "lieu": "chemin_collines",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "tonnerre"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Tonnerre, le taureau du domaine, charge le convoi. Ses cornes sont devenues de pierre grise."
+            },
+            {
+              "qui": "boran",
+              "expression": "neutre",
+              "texte": "Tonnerre. Doucement, mon grand. C'est moi."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "boran",
+              "expression": "surprise",
+              "texte": "Qu'est-ce que je viens de faire ?"
+            }
+          ],
+          "boss": "tonnerre",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Boran attrape les cornes du taureau et tient bon. Longtemps.",
+              "decor": "chemin_collines",
+              "sujets": [
+                "boran:determine",
+                "tonnerre:ombrace"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Puis, au lieu de frapper, il pose la main sur son front. Le Toucher.",
+              "decor": "chemin_collines",
+              "sujets": [
+                "boran:neutre",
+                "tonnerre:ombrace"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Un souffle chaud. Pendant une seconde, Tonnerre redevient brun, et le regarde.",
+              "decor": "chemin_collines",
+              "sujets": [
+                "boran:surprise",
+                "tonnerre:neutre"
+              ]
+            },
+            {
+              "qui": "boran",
+              "expression": "surprise",
+              "texte": "Le jeu du vieux voyageur… Ce n'était pas un jeu.",
+              "decor": "chemin_collines",
+              "sujets": [
+                "boran:surprise"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "titre": "Rencontre : Mira",
+          "type": "rencontre",
+          "lieu": "camp_refugies",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "mira",
+              "expression": "surprise",
+              "texte": "Ne frappez pas ! Celui-là, je peux encore le soigner !"
+            },
+            {
+              "qui": "boran",
+              "expression": "neutre",
+              "texte": "Il nous attaque."
+            },
+            {
+              "qui": "mira",
+              "expression": "determine",
+              "texte": "Il a peur. Ce n'est pas pareil. Tenez les autres à distance, je m'occupe du reste."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "L'Ombracé soigné par Mira regarde ses mains, sourit, puis s'éteint doucement."
+            },
+            {
+              "qui": "boran",
+              "expression": "surprise",
+              "texte": "Vous l'avez sauvé ?"
+            },
+            {
+              "qui": "mira",
+              "expression": "tristesse",
+              "texte": "Un instant. Parfois, un instant, c'est déjà beaucoup."
+            }
+          ]
+        },
+        {
+          "n": 7,
+          "titre": "Le camp des réfugiés",
+          "type": "normal",
+          "lieu": "camp_refugies",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "mira",
+              "expression": "neutre",
+              "texte": "Le camp est plein. Il nous faut quelqu'un pour garder la palissade."
+            },
+            {
+              "qui": "boran",
+              "expression": "neutre",
+              "texte": "Je suis là."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "lili",
+              "expression": "neutre",
+              "texte": "Boran, tu restes avec nous, hein ?"
+            },
+            {
+              "qui": "boran",
+              "expression": "joie",
+              "texte": "Tant qu'il faudra."
+            }
+          ]
+        },
+        {
+          "n": 8,
+          "titre": "La longue garde",
+          "type": "normal",
+          "lieu": "palissade_nuit",
+          "rounds": 4,
+          "vagues": [
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "La nuit la plus longue. Boran, seul devant la palissade."
+            },
+            {
+              "qui": "boran",
+              "expression": "determine",
+              "texte": "Jusqu'à l'aube."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Le soleil se lève. La palissade tient. Boran aussi."
+            }
+          ]
+        },
+        {
+          "n": 9,
+          "titre": "Le Laboureur",
+          "type": "lieutenant",
+          "lieu": "hautes_gerbes_gris",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "oren"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "oren",
+              "expression": "ombrace",
+              "texte": "…un frère… j'avais un frère… grand… lent…"
+            },
+            {
+              "qui": "boran",
+              "expression": "tristesse",
+              "texte": "Toujours aussi insolent, Oren."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "boran",
+              "expression": "joie",
+              "texte": "Dors, petit frère."
+            }
+          ],
+          "boss": "oren",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Boran retire ses gantelets. Il n'a plus envie de frapper.",
+              "decor": "hautes_gerbes_gris",
+              "sujets": [
+                "boran:tristesse",
+                "oren:ombrace"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Il pose la main sur le front de son frère, comme avec Tonnerre. Le Toucher.",
+              "decor": "hautes_gerbes_gris",
+              "sujets": [
+                "boran:neutre",
+                "oren:ombrace"
+              ]
+            },
+            {
+              "qui": "oren",
+              "expression": "neutre",
+              "texte": "Grand frère… la grange… tu l'as réparée ?",
+              "decor": "hautes_gerbes_gris",
+              "sujets": [
+                "oren:neutre",
+                "boran:tristesse"
+              ]
+            },
+            {
+              "qui": "boran",
+              "expression": "joie",
+              "texte": "Pas encore. Je t'attendais.",
+              "decor": "hautes_gerbes_gris",
+              "sujets": [
+                "oren:joie",
+                "boran:joie"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Oren s'endort, apaisé. Au loin, Mira montre du doigt une clairière blanche.",
+              "decor": "hautes_gerbes_gris",
+              "sujets": [
+                "boran:determine",
+                "mira:neutre"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 10,
+          "titre": "Le Cœur du Silence",
+          "type": "boss_final",
+          "lieu": "coeur_silence",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "eldan_oublie"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "eldan_oublie",
+              "expression": "ombrace",
+              "texte": "…un enfant… des champs de blé… je lui ai appris un jeu…"
+            },
+            {
+              "qui": "boran",
+              "expression": "surprise",
+              "texte": "C'était vous. Le vieux voyageur."
+            }
+          ],
+          "dialogue_apres": [],
+          "boss": "eldan_oublie"
+        }
+      ],
+      "fin": [
+        {
+          "qui": "narrateur",
+          "texte": "Boran ne frappe pas le dernier coup. Il tend la main.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "boran:neutre",
+            "eldan:surprise"
+          ]
+        },
+        {
+          "qui": "eldan",
+          "expression": "joie",
+          "texte": "Le petit des Hautes-Gerbes… Tu as bien grandi. Beaucoup grandi.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie",
+            "boran:joie"
+          ]
+        },
+        {
+          "qui": "boran",
+          "expression": "joie",
+          "texte": "Vous m'avez appris un jeu. Il m'a servi.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie",
+            "boran:joie"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Un fragment de mémoire revient au maître.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ilwen",
+      "titre": "La maladie de la mémoire",
+      "couleur": "#FFD23F",
+      "resume": "Ilwen voit ses livres s'effacer, étudie le Silence et comprend qu'il ne se guérit pas dans les livres, mais en transmettant.",
+      "cinematique_ouverture": [
+        {
+          "qui": "narrateur",
+          "texte": "La grande bibliothèque d'Aubelle. Cent mille livres, et Ilwen les a presque tous lus.",
+          "decor": "aubelle_biblio",
+          "sujets": [
+            "ilwen:neutre"
+          ]
+        },
+        {
+          "qui": "ilwen",
+          "expression": "neutre",
+          "texte": "Presque. Il m'en reste quarante-deux. Ce qui est une honte.",
+          "decor": "aubelle_biblio",
+          "sujets": [
+            "ilwen:neutre"
+          ]
+        },
+        {
+          "qui": "aubin",
+          "expression": "joie",
+          "texte": "Ilwen, tu devrais sortir un peu. Voir le monde.",
+          "decor": "aubelle_biblio",
+          "sujets": [
+            "aubin:joie",
+            "ilwen:neutre"
+          ]
+        },
+        {
+          "qui": "ilwen",
+          "expression": "neutre",
+          "texte": "Le monde est dans les livres, maître Aubin.",
+          "decor": "aubelle_biblio",
+          "sujets": [
+            "aubin:joie",
+            "ilwen:neutre"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Ce soir-là, en ouvrant le quarante-troisième livre, Ilwen trouve des pages blanches.",
+          "decor": "aubelle_biblio",
+          "sujets": [
+            "ilwen:surprise"
+          ]
+        },
+        {
+          "qui": "ilwen",
+          "expression": "surprise",
+          "texte": "Ce livre était plein hier. Qui a effacé les mots ?",
+          "decor": "aubelle_biblio",
+          "sujets": [
+            "ilwen:surprise"
+          ]
+        }
+      ],
+      "combats": [
+        {
+          "n": 1,
+          "titre": "La bibliothèque d'Aubelle",
+          "type": "normal",
+          "lieu": "aubelle_biblio",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Les étagères se vident. Les mots s'envolent comme de la poussière grise."
+            },
+            {
+              "qui": "ilwen",
+              "expression": "colere",
+              "texte": "Personne ne touche à mes livres."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "ilwen",
+              "expression": "neutre",
+              "texte": "Ce n'est pas un voleur. C'est… une maladie."
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "titre": "Les pages vivantes",
+          "type": "normal",
+          "lieu": "aubelle_biblio",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "ilwen",
+              "expression": "surprise",
+              "texte": "Les pages effacées… elles bougent !"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "ilwen",
+              "expression": "joie",
+              "texte": "Fascinant. Terrifiant, mais fascinant. Il faut que je prenne des notes."
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "titre": "Le bibliothécaire",
+          "type": "normal",
+          "lieu": "aubelle_biblio",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "aubin",
+              "expression": "neutre",
+              "texte": "Mademoiselle ? Vous êtes une lectrice ? Je suis le… comment je m'appelle, déjà ?"
+            },
+            {
+              "qui": "ilwen",
+              "expression": "tristesse",
+              "texte": "Vous êtes maître Aubin. Vous m'avez appris à lire."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "ilwen",
+              "expression": "determine",
+              "texte": "Je vais trouver un remède. Et je vous le rapporterai."
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "titre": "L'expérience",
+          "type": "normal",
+          "lieu": "aubelle_rues",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "ilwen",
+              "expression": "neutre",
+              "texte": "Hypothèse : les trois signes des vieux grimoires sont un remède. Méthode : essayer."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "ilwen",
+              "expression": "joie",
+              "texte": "Résultat : ça marche. Un peu. C'est un début."
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "titre": "L'Archiviste",
+          "type": "mini_boss",
+          "lieu": "reserve_interdite",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "archiviste"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "archiviste",
+              "expression": "ombrace",
+              "texte": "…classer… tout classer… effacer ce qui dérange…"
+            },
+            {
+              "qui": "ilwen",
+              "expression": "colere",
+              "texte": "Vous gardez la réserve interdite. Écartez-vous."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "ilwen",
+              "expression": "surprise",
+              "texte": "Eldan… Qui êtes-vous ?"
+            }
+          ],
+          "boss": "archiviste",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Dans la réserve interdite, un seul livre a gardé ses mots.",
+              "decor": "reserve_interdite",
+              "sujets": [
+                "ilwen:surprise"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Sur la couverture, un nom : Eldan. Et un titre : Le Codex des trois signes.",
+              "decor": "reserve_interdite",
+              "sujets": [
+                "ilwen:surprise"
+              ]
+            },
+            {
+              "qui": "ilwen",
+              "expression": "surprise",
+              "texte": "Il manque la moitié des pages… Arrachées, avec soin.",
+              "decor": "reserve_interdite",
+              "sujets": [
+                "ilwen:surprise"
+              ]
+            },
+            {
+              "qui": "ilwen",
+              "expression": "determine",
+              "texte": "Quelqu'un a caché ce livre en morceaux. Il faut retrouver les autres.",
+              "decor": "reserve_interdite",
+              "sujets": [
+                "ilwen:determine"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "titre": "Rencontre : Kestrel",
+          "type": "rencontre",
+          "lieu": "lisiere",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Tu fais beaucoup de bruit, pour une savante."
+            },
+            {
+              "qui": "ilwen",
+              "expression": "neutre",
+              "texte": "Et vous, peu de phrases, pour une éclaireuse. Cette carte… Montrez-la-moi."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Les zones grises. Je les note depuis un an."
+            },
+            {
+              "qui": "ilwen",
+              "expression": "surprise",
+              "texte": "Elles forment un cercle… Le Silence part d'un point précis !"
+            }
+          ]
+        },
+        {
+          "n": 7,
+          "titre": "La tour d'observation",
+          "type": "normal",
+          "lieu": "tour_guet",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "ilwen",
+              "expression": "neutre",
+              "texte": "Il nous faut de la hauteur pour vérifier."
+            },
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "La tour de guet. Trois cents marches."
+            },
+            {
+              "qui": "ilwen",
+              "expression": "colere",
+              "texte": "… Évidemment."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Du sommet, on voit tout : une tache blanche au centre du monde, qui grandit lentement."
+            }
+          ]
+        },
+        {
+          "n": 8,
+          "titre": "Les échos",
+          "type": "normal",
+          "lieu": "foret_effacee",
+          "rounds": 4,
+          "vagues": [
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "sbire",
+              "expression": "ombrace",
+              "texte": "…on n'a rien appris à personne… rien transmis…"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "ilwen",
+              "expression": "tristesse",
+              "texte": "Je comprends enfin. Le Silence grandit quand on cesse de transmettre. Garder le savoir pour soi… c'est déjà commencer à l'oublier."
+            },
+            {
+              "qui": "ilwen",
+              "expression": "neutre",
+              "texte": "Et moi qui n'ai jamais prêté un livre à personne."
+            }
+          ]
+        },
+        {
+          "n": 9,
+          "titre": "La Plume sans encre",
+          "type": "lieutenant",
+          "lieu": "reserve_interdite",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "selena"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "selena",
+              "expression": "ombrace",
+              "texte": "Ilwen. Toujours la deuxième."
+            },
+            {
+              "qui": "ilwen",
+              "expression": "neutre",
+              "texte": "Séléna. Tu as toujours écrit plus vite que moi."
+            },
+            {
+              "qui": "selena",
+              "expression": "colere",
+              "texte": "J'ai tout écrit. Et je n'ai jamais rien montré à personne. Regarde ce qu'il en reste."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "ilwen",
+              "expression": "tristesse",
+              "texte": "Je ne ferai pas la même erreur, Séléna."
+            }
+          ],
+          "boss": "selena",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Les carnets de Séléna s'ouvrent. Ils sont tous blancs.",
+              "decor": "reserve_interdite",
+              "sujets": [
+                "selena:tristesse",
+                "ilwen:tristesse"
+              ]
+            },
+            {
+              "qui": "selena",
+              "expression": "neutre",
+              "texte": "Toi… apprends à quelqu'un. N'importe qui…",
+              "decor": "reserve_interdite",
+              "sujets": [
+                "selena:neutre"
+              ]
+            },
+            {
+              "qui": "ilwen",
+              "expression": "tristesse",
+              "texte": "Je te le promets.",
+              "decor": "reserve_interdite",
+              "sujets": [
+                "ilwen:tristesse"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Ilwen arrache une page de son propre grimoire et la tend à Kestrel. Le premier savoir qu'elle ait jamais partagé.",
+              "decor": "reserve_interdite",
+              "sujets": [
+                "ilwen:joie",
+                "kestrel:surprise"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 10,
+          "titre": "Le Cœur du Silence",
+          "type": "boss_final",
+          "lieu": "coeur_silence",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "eldan_oublie"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "eldan_oublie",
+              "expression": "ombrace",
+              "texte": "…un livre… j'ai caché un livre… en morceaux… dans ma tête…"
+            },
+            {
+              "qui": "ilwen",
+              "expression": "determine",
+              "texte": "Le Codex. Vous l'avez caché dans votre mémoire. Et elle a fini par se refermer sur vous."
+            }
+          ],
+          "dialogue_apres": [],
+          "boss": "eldan_oublie"
+        }
+      ],
+      "fin": [
+        {
+          "qui": "narrateur",
+          "texte": "Ilwen ouvre son grimoire et lit à voix haute les pages retrouvées.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "ilwen:determine",
+            "eldan:surprise"
+          ]
+        },
+        {
+          "qui": "eldan",
+          "expression": "surprise",
+          "texte": "Ces mots… ce sont les miens.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:surprise",
+            "ilwen:neutre"
+          ]
+        },
+        {
+          "qui": "ilwen",
+          "expression": "joie",
+          "texte": "Je sais. Je les ai relus quarante-trois fois.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie",
+            "ilwen:joie"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Un fragment de mémoire revient au maître.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kestrel",
+      "titre": "La carte du Silence",
+      "couleur": "#9ACD32",
+      "resume": "Kestrel cartographie le Silence, perd son unité et découvre que toutes les zones grises mènent au même endroit.",
+      "cinematique_ouverture": [
+        {
+          "qui": "narrateur",
+          "texte": "Les Éclaireurs du Col. Leur mission : cartographier le monde. Leur meilleure recrue : Kestrel.",
+          "decor": "lisiere",
+          "sujets": [
+            "kestrel:neutre",
+            "hardel:neutre"
+          ]
+        },
+        {
+          "qui": "hardel",
+          "expression": "joie",
+          "texte": "Kestrel. Tu pars devant. Comme d'habitude.",
+          "decor": "camp_eclaireurs",
+          "sujets": [
+            "hardel:joie",
+            "kestrel:neutre"
+          ]
+        },
+        {
+          "qui": "kestrel",
+          "expression": "neutre",
+          "texte": "Comme d'habitude.",
+          "decor": "camp_eclaireurs",
+          "sujets": [
+            "kestrel:neutre"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Depuis un an, la carte de Kestrel se couvre de taches grises. Personne ne sait ce que c'est.",
+          "decor": "camp_eclaireurs",
+          "sujets": [
+            "kestrel:neutre"
+          ]
+        },
+        {
+          "qui": "kestrel",
+          "expression": "neutre",
+          "texte": "Elles grandissent.",
+          "decor": "camp_eclaireurs",
+          "sujets": [
+            "kestrel:neutre",
+            "hardel:neutre"
+          ]
+        },
+        {
+          "qui": "hardel",
+          "expression": "neutre",
+          "texte": "Alors note-les. Une bonne carte, c'est ce qui sépare les vivants des perdus.",
+          "decor": "camp_eclaireurs",
+          "sujets": [
+            "hardel:neutre",
+            "kestrel:determine"
+          ]
+        }
+      ],
+      "combats": [
+        {
+          "n": 1,
+          "titre": "La lisière grise",
+          "type": "normal",
+          "lieu": "lisiere",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Quelque chose bouge dans les arbres gris."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Hostiles. Noté."
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "titre": "Le camp des éclaireurs",
+          "type": "normal",
+          "lieu": "camp_eclaireurs",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "De retour au camp, la nuit. Trop calme."
+            },
+            {
+              "qui": "kestrel",
+              "expression": "surprise",
+              "texte": "Capitaine ?"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "kestrel",
+              "expression": "tristesse",
+              "texte": "Le camp est vide. Le capitaine a disparu."
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "titre": "La carte déchirée",
+          "type": "normal",
+          "lieu": "camp_eclaireurs",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "kestrel",
+              "expression": "colere",
+              "texte": "Ma carte. Déchirée. Les morceaux sont partout."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Pièce par pièce, Kestrel reconstitue un an de travail."
+            },
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Tout est là. Presque."
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "titre": "Le col des Vents",
+          "type": "normal",
+          "lieu": "col_vents",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "kestrel",
+              "expression": "determine",
+              "texte": "Le col se referme. Maintenant ou jamais."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Passé. De justesse."
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "titre": "Le Traqueur",
+          "type": "mini_boss",
+          "lieu": "col_vents",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "traqueur"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Depuis trois jours, une silhouette grise suit Kestrel à la trace."
+            },
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Tu es bon. Mais pas assez."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "kestrel",
+              "expression": "determine",
+              "texte": "Je ne laisserai plus personne derrière."
+            }
+          ],
+          "boss": "traqueur",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Le Traqueur tombe. Autour de son cou, un insigne des Éclaireurs du Col.",
+              "decor": "col_vents",
+              "sujets": [
+                "traqueur:tristesse",
+                "kestrel:surprise"
+              ]
+            },
+            {
+              "qui": "kestrel",
+              "expression": "surprise",
+              "texte": "Pieter… Tu étais dans mon unité.",
+              "decor": "col_vents",
+              "sujets": [
+                "kestrel:surprise"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Il ne la chassait pas. Il essayait de la suivre, comme avant, sans savoir pourquoi.",
+              "decor": "col_vents",
+              "sujets": [
+                "traqueur:neutre",
+                "kestrel:tristesse"
+              ]
+            },
+            {
+              "qui": "kestrel",
+              "expression": "tristesse",
+              "texte": "Repose-toi. Je continue pour nous deux.",
+              "decor": "col_vents",
+              "sujets": [
+                "kestrel:tristesse"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "titre": "Rencontre : Ilwen",
+          "type": "rencontre",
+          "lieu": "lisiere",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "ilwen",
+              "expression": "colere",
+              "texte": "Vous, là ! Votre carte. J'en ai besoin."
+            },
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Non."
+            },
+            {
+              "qui": "ilwen",
+              "expression": "colere",
+              "texte": "C'est pour la science !"
+            },
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Alors suis-moi. Et tais-toi."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "ilwen",
+              "expression": "colere",
+              "texte": "Vous êtes très désagréable."
+            },
+            {
+              "qui": "kestrel",
+              "expression": "joie",
+              "texte": "Mais c'est moi qui ai la carte."
+            }
+          ]
+        },
+        {
+          "n": 7,
+          "titre": "Le centre de la carte",
+          "type": "normal",
+          "lieu": "tour_guet",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Toutes les zones convergent. Un seul point."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Au centre de la carte, Kestrel dessine une étoile. Puis elle hésite, et écrit : « Cœur »."
+            }
+          ]
+        },
+        {
+          "n": 8,
+          "titre": "La forêt qui s'efface",
+          "type": "normal",
+          "lieu": "foret_effacee",
+          "rounds": 4,
+          "vagues": [
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "kestrel",
+              "expression": "determine",
+              "texte": "Les arbres disparaissent derrière nous. Ne vous retournez pas."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "kestrel",
+              "expression": "neutre",
+              "texte": "Pas de retour possible. Tant mieux. On avance."
+            }
+          ]
+        },
+        {
+          "n": 9,
+          "titre": "Le Guetteur",
+          "type": "lieutenant",
+          "lieu": "foret_effacee",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "hardel"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "hardel",
+              "expression": "ombrace",
+              "texte": "…une recrue… la meilleure… elle partait toujours devant…"
+            },
+            {
+              "qui": "kestrel",
+              "expression": "tristesse",
+              "texte": "Capitaine. C'est moi."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "kestrel",
+              "expression": "determine",
+              "texte": "Je la finis pour vous, capitaine."
+            }
+          ],
+          "boss": "hardel",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Le capitaine Hardel pose genou à terre. Dans sa main, une vieille boussole.",
+              "decor": "foret_effacee",
+              "sujets": [
+                "hardel:tristesse",
+                "kestrel:tristesse"
+              ]
+            },
+            {
+              "qui": "hardel",
+              "expression": "neutre",
+              "texte": "Kestrel… une bonne carte… sépare les vivants… des perdus…",
+              "decor": "foret_effacee",
+              "sujets": [
+                "hardel:neutre"
+              ]
+            },
+            {
+              "qui": "kestrel",
+              "expression": "tristesse",
+              "texte": "Je sais, capitaine.",
+              "decor": "foret_effacee",
+              "sujets": [
+                "kestrel:tristesse"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "La boussole ne pointe plus le nord. Elle pointe le Cœur.",
+              "decor": "foret_effacee",
+              "sujets": [
+                "kestrel:determine",
+                "ilwen:neutre"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 10,
+          "titre": "Le Cœur du Silence",
+          "type": "boss_final",
+          "lieu": "coeur_silence",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "eldan_oublie"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "eldan_oublie",
+              "expression": "ombrace",
+              "texte": "…tant de chemins… je ne sais plus lequel mène chez moi…"
+            },
+            {
+              "qui": "kestrel",
+              "expression": "determine",
+              "texte": "Moi, je sais. J'ai la carte."
+            }
+          ],
+          "dialogue_apres": [],
+          "boss": "eldan_oublie"
+        }
+      ],
+      "fin": [
+        {
+          "qui": "narrateur",
+          "texte": "Kestrel déroule sa carte devant le maître. Un an de travail.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "kestrel:neutre",
+            "eldan:surprise"
+          ]
+        },
+        {
+          "qui": "eldan",
+          "expression": "surprise",
+          "texte": "C'est… tout le chemin que j'ai parcouru.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:surprise"
+          ]
+        },
+        {
+          "qui": "kestrel",
+          "expression": "joie",
+          "texte": "Alors vous n'êtes plus perdu.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie",
+            "kestrel:joie"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Un fragment de mémoire revient au maître.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mira",
+      "titre": "Ceux qu'on peut sauver",
+      "couleur": "#FF5A3C",
+      "resume": "Mira voit ses patients oublier, prouve qu'un Ombracé peut retrouver un souvenir et affronte ceux qui préfèrent l'oubli à la douleur.",
+      "cinematique_ouverture": [
+        {
+          "qui": "narrateur",
+          "texte": "Fontclaire, son eau claire, et sa petite maison de soins au bout du chemin.",
+          "decor": "fontclaire",
+          "sujets": [
+            "mira:joie"
+          ]
+        },
+        {
+          "qui": "mira",
+          "expression": "joie",
+          "texte": "Une tisane pour la toux, un baume pour les genoux, et un sourire pour tout le monde !",
+          "decor": "maison_soins",
+          "sujets": [
+            "mira:joie"
+          ]
+        },
+        {
+          "qui": "helo",
+          "expression": "neutre",
+          "texte": "Mira, tu soignes trop vite. Un jour, tu tomberas sur quelque chose que tu ne pourras pas guérir.",
+          "decor": "maison_soins",
+          "sujets": [
+            "helo:neutre",
+            "mira:joie"
+          ]
+        },
+        {
+          "qui": "mira",
+          "expression": "determine",
+          "texte": "Alors je chercherai jusqu'à trouver !",
+          "decor": "maison_soins",
+          "sujets": [
+            "helo:joie",
+            "mira:determine"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Ce matin-là, son premier patient ne se souvenait plus de la raison de sa visite.",
+          "decor": "maison_soins",
+          "sujets": [
+            "fabre:ombrace",
+            "mira:surprise"
+          ]
+        },
+        {
+          "qui": "mira",
+          "expression": "surprise",
+          "texte": "Monsieur Fabre ? Vous êtes venu pour votre dos… vous vous souvenez ?",
+          "decor": "maison_soins",
+          "sujets": [
+            "fabre:ombrace",
+            "mira:surprise"
+          ]
+        }
+      ],
+      "combats": [
+        {
+          "n": 1,
+          "titre": "La maison de soins",
+          "type": "normal",
+          "lieu": "maison_soins",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Un à un, les patients deviennent gris."
+            },
+            {
+              "qui": "mira",
+              "expression": "determine",
+              "texte": "Tout le monde reste calme ! Personne ne quitte la salle d'attente !"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "mira",
+              "expression": "tristesse",
+              "texte": "Ils ne savent plus qui ils sont… Ce n'est pas une maladie que je connais."
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "titre": "La fièvre grise",
+          "type": "normal",
+          "lieu": "fontclaire",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Le Silence se répand dans Fontclaire comme une fièvre."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "mira",
+              "expression": "neutre",
+              "texte": "Ça ne se soigne pas avec des tisanes. Il me faut autre chose."
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "titre": "Le premier sauvé",
+          "type": "normal",
+          "lieu": "fontclaire",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "mira",
+              "expression": "determine",
+              "texte": "Grand-mère disait : « Une main posée au bon endroit soigne plus qu'un remède. » Essayons."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "fabre",
+              "expression": "surprise",
+              "texte": "… Mira ? Mon dos me fait mal."
+            },
+            {
+              "qui": "mira",
+              "expression": "joie",
+              "texte": "Il se souvient ! Il se souvient de son dos !"
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Puis le gris revient, doucement. Mais Mira a vu ce qu'elle devait voir."
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "titre": "La route des villages",
+          "type": "normal",
+          "lieu": "route_villages",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "mira",
+              "expression": "joie",
+              "texte": "Si ça marche ici, ça marchera ailleurs. En route !"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "mira",
+              "expression": "joie",
+              "texte": "Trois villages, onze souvenirs rendus ! Quelques secondes à chaque fois, d'accord. Mais c'est un début !"
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "titre": "L'Herboriste",
+          "type": "mini_boss",
+          "lieu": "route_villages",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "helo"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "helo",
+              "expression": "ombrace",
+              "texte": "…des plantes… je connaissais toutes les plantes…"
+            },
+            {
+              "qui": "mira",
+              "expression": "tristesse",
+              "texte": "Tante Hélo… C'est vous qui m'avez tout appris."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "mira",
+              "expression": "determine",
+              "texte": "Soigner ceux que je peux. Me souvenir des autres. D'accord."
+            }
+          ],
+          "boss": "helo",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Mira pose les deux mains sur le front de sa mentore.",
+              "decor": "route_villages",
+              "sujets": [
+                "mira:determine",
+                "helo:ombrace"
+              ]
+            },
+            {
+              "qui": "helo",
+              "expression": "neutre",
+              "texte": "Mira… Tu soignes toujours trop vite.",
+              "decor": "route_villages",
+              "sujets": [
+                "helo:neutre",
+                "mira:tristesse"
+              ]
+            },
+            {
+              "qui": "mira",
+              "expression": "tristesse",
+              "texte": "Et vous aviez raison. Certains, je ne peux pas les guérir.",
+              "decor": "route_villages",
+              "sujets": [
+                "mira:tristesse"
+              ]
+            },
+            {
+              "qui": "helo",
+              "expression": "joie",
+              "texte": "Alors soigne ceux que tu peux. Et souviens-toi des autres.",
+              "decor": "route_villages",
+              "sujets": [
+                "helo:joie",
+                "mira:tristesse"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "titre": "Rencontre : Boran",
+          "type": "rencontre",
+          "lieu": "camp_refugies",
+          "rounds": 3,
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "mira",
+              "expression": "surprise",
+              "texte": "Arrêtez ! Ne frappez pas celui-là !"
+            },
+            {
+              "qui": "boran",
+              "expression": "neutre",
+              "texte": "Il nous attaque."
+            },
+            {
+              "qui": "mira",
+              "expression": "determine",
+              "texte": "Parce qu'il a peur. Couvrez-moi, grand gaillard !"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "boran",
+              "expression": "surprise",
+              "texte": "Vous l'avez sauvé ?"
+            },
+            {
+              "qui": "mira",
+              "expression": "tristesse",
+              "texte": "Un instant. Et un instant, c'est déjà un souvenir."
+            }
+          ]
+        },
+        {
+          "n": 7,
+          "titre": "Le camp des réfugiés",
+          "type": "normal",
+          "lieu": "camp_refugies",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "mira",
+              "expression": "joie",
+              "texte": "Deux cents réfugiés, un seul garde. Heureusement, il compte pour dix."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Sous la tente de soins, Mira travaille toute la nuit. Dehors, Boran veille."
+            }
+          ]
+        },
+        {
+          "n": 8,
+          "titre": "Les soins impossibles",
+          "type": "normal",
+          "lieu": "palissade_nuit",
+          "rounds": 4,
+          "vagues": [
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Certains Ombracés ne réagissent plus au Toucher. Plus du tout."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "mira",
+              "expression": "tristesse",
+              "texte": "Je ne peux pas tous les sauver."
+            },
+            {
+              "qui": "boran",
+              "expression": "neutre",
+              "texte": "Non. Mais vous vous souvenez d'eux. Ça compte."
+            },
+            {
+              "qui": "mira",
+              "expression": "joie",
+              "texte": "… C'est ma phrase, ça."
+            }
+          ]
+        },
+        {
+          "n": 9,
+          "titre": "La Veilleuse",
+          "type": "lieutenant",
+          "lieu": "camp_refugies",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "veilleuse"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "veilleuse",
+              "expression": "ombrace",
+              "texte": "Pourquoi les faire souffrir, soigneuse ? L'oubli ne fait pas mal. Je les soulage."
+            },
+            {
+              "qui": "mira",
+              "expression": "colere",
+              "texte": "Vous ne les soulagez pas. Vous les effacez."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "mira",
+              "expression": "determine",
+              "texte": "Je vais au Cœur."
+            }
+          ],
+          "boss": "veilleuse",
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "La Veilleuse chancelle. Sous sa capuche grise, le visage d'une ancienne infirmière.",
+              "decor": "camp_refugies",
+              "sujets": [
+                "veilleuse:tristesse",
+                "mira:tristesse"
+              ]
+            },
+            {
+              "qui": "veilleuse",
+              "expression": "neutre",
+              "texte": "Je voulais seulement… que plus personne n'ait mal…",
+              "decor": "camp_refugies",
+              "sujets": [
+                "veilleuse:neutre"
+              ]
+            },
+            {
+              "qui": "mira",
+              "expression": "tristesse",
+              "texte": "Je sais. Moi aussi. Mais la douleur fait partie des souvenirs.",
+              "decor": "camp_refugies",
+              "sujets": [
+                "mira:tristesse"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Mira lui tient la main jusqu'au bout. Puis elle se lève, et marche vers le Cœur.",
+              "decor": "camp_refugies",
+              "sujets": [
+                "mira:determine",
+                "boran:neutre"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 10,
+          "titre": "Le Cœur du Silence",
+          "type": "boss_final",
+          "lieu": "coeur_silence",
+          "rounds": 4,
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "eldan_oublie"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "eldan_oublie",
+              "expression": "ombrace",
+              "texte": "…ça fait mal… de se souvenir… laisse-moi oublier…"
+            },
+            {
+              "qui": "mira",
+              "expression": "determine",
+              "texte": "Non. Pas vous. Vous, je peux encore vous soigner."
+            }
+          ],
+          "dialogue_apres": [],
+          "boss": "eldan_oublie"
+        }
+      ],
+      "fin": [
+        {
+          "qui": "narrateur",
+          "texte": "Mira pose les mains sur le front du maître. Le Toucher, de toutes ses forces.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "mira:determine",
+            "eldan:surprise"
+          ]
+        },
+        {
+          "qui": "eldan",
+          "expression": "joie",
+          "texte": "C'est chaud… comme une tisane…",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie",
+            "mira:joie"
+          ]
+        },
+        {
+          "qui": "mira",
+          "expression": "joie",
+          "texte": "Avec du miel. C'est le secret.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie",
+            "mira:joie"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Un fragment de mémoire revient au maître.",
+          "decor": "coeur_silence",
+          "sujets": [
+            "eldan:joie"
+          ]
+        }
+      ]
+    }
+  ]
+}

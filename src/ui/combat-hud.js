@@ -41,15 +41,16 @@ export function updateHud(A) {
   set('low', $('hudBar'), 'class', ratio <= 0.3 ? 'low' : '');
 
   if (G.mode === 'play') {
-    const n = D.waves.waves.length, cur = Math.max(1, Math.min(G.waveIdx, n)), boss = cur === n;
-    set('waveK', $('hudWaveK'), 'text', boss ? 'BOSS' : 'VAGUE');
+    const B = G.battle, n = B.waves.length, cur = Math.max(1, Math.min(G.waveIdx, n)), boss = !!B.waves[cur - 1].boss;
+    set('waveK', $('hudWaveK'), 'text', boss ? 'BOSS' : B.label.toUpperCase());
     set('waveKc', $('hudWaveK'), 'class', 'hud-k' + (boss ? ' boss' : ''));
     set('wave', $('hudWave'), 'text', cur + ' / ' + n);
-    set('pips', $('hudPips'), 'html', D.waves.waves.map((w, i) =>
+    set('pips', $('hudPips'), 'html', B.waves.map((w, i) =>
       `<i class="${i < cur - 1 ? 'done' : i === cur - 1 ? (boss ? 'boss' : 'cur') : ''}"></i>`).join(''));
-    const left = Math.max(0, Math.ceil(D.waves.timeLimit - G.time));
+    // Chrono : compte à rebours si le combat a une durée, sinon temps écoulé (Histoire).
+    const left = B.timeLimit ? Math.max(0, Math.ceil(B.timeLimit - G.time)) : Math.floor(G.time);
     set('time', $('hudTime'), 'text', Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0'));
-    set('timeC', $('hudTimer'), 'class', 'hud-timer' + (boss || left <= 20 ? ' hot' : ''));
+    set('timeC', $('hudTimer'), 'class', 'hud-timer' + (boss || (B.timeLimit && left <= 20) ? ' hot' : ''));
     set('score', $('hudScore'), 'text', nf(G.score));
   }
 
