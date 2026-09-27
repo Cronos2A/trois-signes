@@ -67,7 +67,8 @@ src/
   game/effects.js  textes flottants, effets, vibrations
   ui/lobby.js      lobby 3 onglets (Jouer / Personnage / Boutique) + fenêtre de résultats
   ui/cutscene.js   lecteur unique de cinématiques et dialogues (lettre par lettre, « Passer »)
-  ui/story-ui.js   écrans Histoire : choix des 6 histoires, chemin des 10 combats, défaite, fragment
+  ui/story-ui.js   écrans Histoire : choix des 6 histoires, chemin des 10 combats, défaite, fin d'histoire, déblocage d'Eldan
+  ui/story-art.js  dessins de la maquette Mode Histoire (paysage de la carte, fragments, silhouette d'Eldan, icônes)
   ui/assets.js     images du mode Histoire (assets/) et replis (neutre, humain, pastille, dégradé)
   ui/story.css     styles du mode Histoire et du lecteur
   ui/art.js        dessins low-poly des héros et ennemis (repris de la planche)
@@ -79,7 +80,7 @@ data/
   rules.json       règles de combat (esquive, ramassage, score, entraînement)
   shop.json        objets affichés dans la boutique (pas encore achetables)
   story_mode.json  tout le texte du mode Histoire (ne pas réécrire : affiché tel quel)
-assets/            images du mode Histoire (facultatives, le mode est jouable sans) :
+assets/            images du mode Histoire (facultatives, le mode est jouable sans ; liste et état dans assets/IMAGES.md) :
   portraits/{id}_{expression}.svg, portraits/{bossId}_ombrace.svg / _humain.svg
   ennemis/{id}.svg (sprite de combat des boss et d'Eldan), decors/{id}.svg
 design/            exports Claude Design (référence : planche de personnages, maquette du lobby, écran de combat)
@@ -96,6 +97,8 @@ design/            exports Claude Design (référence : planche de personnages, 
 - Les seuils de réussite affichés dans cette maquette (« seuils proposés ») ne sont pas repris : seules les couleurs par palier l'ont été.
 
 ## Mode Histoire (septembre 2026)
+- Écrans : `design/trois-signes-maquette-lobby/project/Mode Histoire Trois Signes.dc.html` (01 choix, 02 chemin, 03-04 cinématique, 05 fin d'histoire, 06 déblocage d'Eldan), reproduits tels quels.
+- Portraits `_neutre` des 6 héros et `sbire_ombrace` : tirés de la planche de personnages, recadrés en buste.
 - Bouton « Histoire » dans l'onglet Jouer ; 6 histoires de 10 combats (`data/story_mode.json`), carte d'Eldan verrouillée puis « Bientôt disponible » après l'épilogue.
 - Héros imposé ; rounds = `vagues` ; sbire/brute = ennemis existants, les autres ids = boss de `ennemis_speciaux` (valeurs par rang). Eldan l'Oublié : Triangle (coup), Rond (garde 2 s, −50 %), Toucher (appelle un sbire).
 - Réglages dans `data/rules.json` → `story` (XP de première victoire, pas de limite de temps, noms et couleurs des PNJ, libellés des types, mécanique d'Eldan, vitesse du texte).

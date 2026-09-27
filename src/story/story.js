@@ -5,7 +5,7 @@
 import { D } from '../data.js';
 import { prog, saveProg, addXp } from '../game/progress.js';
 import { playScene } from '../ui/cutscene.js';
-import { renderChoice, renderMap, renderDefeat, renderFragment, hideStory } from '../ui/story-ui.js';
+import { renderChoice, renderMap, renderDefeat, renderFragment, renderUnlock, hideStory } from '../ui/story-ui.js';
 import { enemyUrl, who, bossInfo } from '../ui/assets.js';
 
 let api = {};   // { startBattle({ char, battle }), toLobby() } fourni par main.js
@@ -26,8 +26,9 @@ export async function maybePrologue() {
 }
 
 /** Bouton « Histoire » du lobby : écran de choix. */
-export function openStory() {
+export function openStory(toEldan) {
   renderChoice(st(), { back: () => { hideStory(); api.toLobby(); }, pick: id => openHistory(story(id)) });
+  if (toEldan === true) document.querySelector('#story .st-eldan')?.scrollIntoView({ block: 'center' });
 }
 
 async function openHistory(h) {
@@ -102,6 +103,9 @@ async function afterCombat(h, k, why, res) {
       await playScene(SM().epilogue_final.cinematique);
       st().epilogue = true;
       saveProg();
+      // Eldan débloqué (« Bientôt disponible ») : voir sa carte dans le choix des histoires, ou revenir au lobby.
+      renderUnlock({ see: () => openStory(true), later: () => { hideStory(); api.toLobby(); } });
+      return;
     }
     openStory();
     return;
