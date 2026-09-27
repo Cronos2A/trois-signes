@@ -8,8 +8,8 @@
   },
   "superGauge": {
     "max": 100,
-    "gain": { "OK": 4, "Good": 7, "Very Good": 10, "Excellent": 12, "Perfect": 15 },
-    "comboBonus": 10
+    "gain": { "OK": 2, "Good": 3, "Very Good": 5, "Excellent": 6, "Perfect": 8 },
+    "comboBonus": 5
   },
   "statLabels": ["Dégâts", "Vitesse", "Résistance"],
   "characters": [

@@ -5,10 +5,13 @@ import { G } from './state.js';
 
 const gauge = () => D.characters.superGauge;
 
-/** Après un geste réussi : remplit la jauge selon le niveau (+ bonus si combo). Un raté n'ajoute rien. */
+/**
+ * Après un geste réussi : remplit la jauge selon le niveau (+ bonus si combo). Un raté n'ajoute rien,
+ * et la jauge reste vide tant qu'une super est en cours (durée ou charges restantes).
+ */
 export function addGauge(g, combo) {
   const h = G.hero, J = gauge();
-  if (!g || !h) return;
+  if (!g || !h || superActive()) return;
   h.gauge = Math.min(J.max, h.gauge + (combo ? J.comboBonus : J.gain[g.name] || 0));
 }
 

@@ -33,8 +33,11 @@ export function registerGrade(g) {
   return comboHit(g);
 }
 
-/** Déclenche un combo du niveau g (série pleine, ou attaque du Grimoire ouvert). Renvoie son multiplicateur. */
-export function comboHit(g) {
+/**
+ * Déclenche un combo du niveau g (série pleine, ou attaque du Grimoire ouvert). Renvoie son multiplicateur.
+ * fromSuper : combo offert par la super, qui ne remplit pas la jauge.
+ */
+export function comboHit(g, fromSuper) {
   const cm = g.combo;
   G.streak = { name: null, n: 0 };
   G.combos++;
@@ -43,7 +46,7 @@ export function comboHit(g) {
   pop(G.W / 2, G.H * 0.5, 'Combo ' + g.name, 'effet ×' + fmt(cm), g.col, 1.4, 30);
   addFx({ kind: 'burst', x: h.x, y: h.y, col: g.col, life: 0.8, r: 40 });
   vibrate([30, 40, 30]);
-  addGauge(g, true);
+  if (!fromSuper) addGauge(g, true);
   return cm;
 }
 

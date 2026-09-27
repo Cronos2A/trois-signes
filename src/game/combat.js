@@ -182,7 +182,7 @@ export function handleGesture(res) {
   }
   if (res.type === 'triangle') {
     // Grimoire ouvert : l'attaque compte comme un combo de son propre niveau.
-    if (useComboCharge() && cm === 1) cm = comboHit(g);
+    if (useComboCharge() && cm === 1) cm = comboHit(g, true);
     if (G.hero.healPerHit) heal(G.hero.healPerHit * g.mult);
     if (G.mode === 'play') doAttack(g, cm);
     else addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: h.x, y2: h.y - 200, col: g.col, life: 0.35 });
