@@ -7,6 +7,7 @@ import { G, heroPos } from './state.js';
 import { pop } from './effects.js';
 import { reachArena } from './progress.js';
 import { enemyUrl, who } from '../ui/assets.js';
+import { placeMusic } from '../audio/audio.js';
 
 const V = () => D.voyage;
 const ARENAS = () => V().arenas.length;
@@ -73,6 +74,7 @@ export async function voyageBattle(hooks) {
       if (st.stage !== entered) {                                   // nouvelle arène (normalement au 1er round)
         entered = st.stage;
         B.lieu = info.decor;
+        B.music = placeMusic(info.id);
         B.bg = st.stage === 0 ? null : { tint: info.tint, title: info.name };
         const heal = i > 0 ? V().healBetweenArenas : 0;
         if (heal) {

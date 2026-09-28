@@ -2,7 +2,8 @@
 import { D } from '../data.js';
 import { G, heroPos, addScore } from './state.js';
 import { clamp, dist, rand, fmt } from '../util.js';
-import { gradeOf, registerGrade, comboHit, streakTxt } from './grades.js';
+import { gradeOf, registerGrade, comboHit, streakTxt, toleranceOffset } from './grades.js';
+import { sfx } from '../audio/audio.js';
 import { startSuper, superAttackMult, damageTakenMult, perfectMode, useAutoDodge, useComboCharge } from './supers.js';
 import { pop, showGrade, addFx, vibrate, trainInfo, superBanner } from './effects.js';
 
@@ -27,6 +28,7 @@ function doAttack(g, cm) {
   const e = pickTarget(), h = heroPos();
   const dmg = round1(heroAtk() * g.mult * cm);
   addScore(g.bonus);
+  sfx('attaque');
   if (!e) { pop(h.x, h.y - 70, 'Aucune cible', '', g.col, 0.9, 18); return; }
   hitEnemy(e, dmg, g.col);
 }
@@ -37,6 +39,7 @@ function doDodge(g, cm) {
   G.hero.shieldUntil = G.time + D.rules.dodge.shieldDuration;
   G.hero.shieldAvoid = dodgeShare(g, cm);
   addFx({ kind: 'ring', col: '#3FD7C4', life: 0.75 });
+  sfx('esquive');
   // Esquive en combo : riposte
   if (cm > 1 && G.mode === 'play') {
     const e = pickTarget();
@@ -56,6 +59,7 @@ function tryPickup(x, y) {
   showGrade(g, acc, 'Ramassage');
   if (!g) { best.life = Math.min(best.life, P.missLifeCap); return true; }
   G.loots.splice(G.loots.indexOf(best), 1);
+  sfx(best.type === 'coin' ? 'piece' : 'coeur');
   if (best.type === 'coin') {
     const v = Math.round(P.coinValue * g.mult * cm);
     addScore(v + g.bonus);
@@ -80,6 +84,7 @@ function hitEnemy(e, dmg, col, by) {
   pop(e.x, e.y - e.T.r - 14, '-' + dmg, '', col, 0.9, by === 'summon' ? 16 : 24);
   addScore(dmg * D.rules.score.perDamage);
   if (e.hp > 0) return;
+  sfx('ennemi_vaincu');
   addScore(e.T.pts);
   addFx({ kind: 'burst', x: e.x, y: e.y, col: e.T.col, life: 0.6, r: e.T.r });
   const L = e.T.loot, n = L.count;
@@ -107,6 +112,7 @@ export function useSuper() {
   const h = G.hero, p = heroPos();
   superBanner(S.name, h.col);
   vibrate([40, 30, 70]);
+  sfx('super_' + G.charId);
   if (S.healPct) pop(p.x, p.y - 90, 'PV au max', '', '#8CF09A', 1.2, 24);
   if (S.hitAll) {
     const dmg = round1(G.hero.atk * G.atkMult * S.hitAll);
@@ -150,6 +156,7 @@ export function strike(e) {
   else if (avoid > 0) pop(h.x, h.y - 80, 'Esquive ' + Math.round(avoid * 100) + ' %', avoid >= 1 ? 'aucun dégât' : '', '#3FD7C4', 1, 20);
   if (avoid >= 1) addScore(D.rules.dodge.perfectScore);
   if (taken > 0) {
+    sfx('coup_recu');
     G.hero.hp = Math.max(0, G.hero.hp - taken);
     G.hero.flash = 1; G.shake = 0.5;
     pop(h.x + 40, h.y - 40, '-' + taken, '', '#FF5D73', 0.9, 26);
@@ -178,7 +185,7 @@ export function handleGesture(res) {
   const label = res.type === 'triangle' ? 'Attaque' : 'Esquive';
   showGrade(g, res.acc, label);
   if (!g) {
-    if (train) trainInfo(label + ' ratée : précision ' + res.acc + ' % (' + D.grades.levels[D.grades.levels.length - 1].min + ' % minimum). Série remise à zéro.');
+    if (train) trainInfo(label + ' ratée : précision ' + res.acc + ' % (' + (D.grades.levels[D.grades.levels.length - 1].min - toleranceOffset()) + ' % minimum). Série remise à zéro.');
     return;
   }
   if (res.type === 'triangle') {
@@ -186,7 +193,7 @@ export function handleGesture(res) {
     if (useComboCharge() && cm === 1) cm = comboHit(g, true);
     if (G.hero.healPerHit) heal(G.hero.healPerHit * g.mult);
     if (G.mode === 'play') doAttack(g, cm);
-    else addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: h.x, y2: h.y - 200, col: g.col, life: 0.35 });
+    else { addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: h.x, y2: h.y - 200, col: g.col, life: 0.35 }); sfx('attaque'); }
     if (train) trainInfo('Attaque ' + g.name + ' : ' + fmt(round1(heroAtk() * g.mult * cm)) + ' dégâts' + (cm > 1 ? ' (combo ×' + fmt(cm) + ')' : '') + streakTxt());
   } else {
     doDodge(g, cm);

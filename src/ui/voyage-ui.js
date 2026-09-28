@@ -4,6 +4,7 @@
 import { D } from '../data.js';
 import { decorUrl } from './assets.js';
 import { facets, INK } from './icons.js';
+import { sfx } from '../audio/audio.js';
 
 const $ = id => document.getElementById(id);
 let el = null, close = null, finish = null, gen = 0;
@@ -65,6 +66,7 @@ export async function showTransition(info) {
     </div><span class="vy-tap">toucher pour passer</span>`, bg, T.duration);
   if (!info.first || g !== gen) return hide();
   const C = D.voyage.chest;
+  sfx('deblocage');
   await screen(`${facets.bg()}<div class="vy-in">
       <span class="vy-kick">ARÈNE DÉCOUVERTE</span>
       <h1 class="vy-name small">${info.name}</h1>

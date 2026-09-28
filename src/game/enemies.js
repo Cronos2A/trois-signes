@@ -5,6 +5,7 @@ import { G } from './state.js';
 import { rand } from '../util.js';
 import { pop } from './effects.js';
 import { strike } from './combat.js';
+import { sfx, music } from '../audio/audio.js';
 
 const typeOf = type => G.battle.types[type] || D.enemies[type];
 
@@ -20,6 +21,8 @@ export function spawnWave(i) {
   const W = D.waves, wave = G.battle.waves[i], list = wave.enemies;
   list.forEach((type, k) => addEnemy(type, typeOf(type).centered ? 0.5 : (k + 1) / (list.length + 1), k, k * W.attackStagger));
   G.roundSummons = 0;
+  if (wave.boss) { sfx('boss_apparition'); music('musique_boss'); }
+  else if (G.battle.music) music(G.battle.music);
   pop(G.W / 2, G.H * 0.5, wave.title || G.battle.label + ' ' + (i + 1), '', wave.color || '#F4EEFF', 1.4, 30);
 }
 
@@ -35,7 +38,7 @@ function eldanAction(e) {
   const opts = [['attack', w.attack], ['guard', canGuard ? w.guard : 0], ['summon', canCall ? w.summon : 0]];
   let r = Math.random() * opts.reduce((a, o) => a + o[1], 0);
   const pick = opts.find(o => (r -= o[1]) < 0)[0];
-  if (pick === 'attack') { e.state = 'windup'; e.t = 0; return; }
+  if (pick === 'attack') { e.state = 'windup'; e.t = 0; sfx('alerte'); return; }
   e.cd = rand(e.T.cd[0], e.T.cd[1]) * 0.6;
   if (pick === 'guard') {
     e.guardUntil = G.time + R.guardDuration;
@@ -78,7 +81,7 @@ export function updateEnemies(dt) {
     if (ready.length) {
       const e = ready[Math.floor(Math.random() * ready.length)];
       if (e.T.mech === 'eldan') eldanAction(e);
-      else { e.state = 'windup'; e.t = 0; }
+      else { e.state = 'windup'; e.t = 0; sfx('alerte'); }
     }
   }
 }

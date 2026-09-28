@@ -7,6 +7,7 @@ import { prog, saveProg, addXp } from '../game/progress.js';
 import { playScene } from '../ui/cutscene.js';
 import { renderChoice, renderMap, renderDefeat, renderFragment, renderUnlock, hideStory } from '../ui/story-ui.js';
 import { enemyUrl, who, bossInfo } from '../ui/assets.js';
+import { music, placeMusic, sfx } from '../audio/audio.js';
 
 let api = {};   // { startBattle({ char, battle }), toLobby() } fourni par main.js
 const SM = () => D.story_mode;
@@ -20,13 +21,16 @@ export function initStory(a) { api = a; }
 /** Premier lancement du jeu : prologue commun. */
 export async function maybePrologue() {
   if (st().prologue) return;
+  music(placeMusic(SM().prologue_commun[0].decor));
   await playScene(SM().prologue_commun);
   st().prologue = true;
   saveProg();
+  music('musique_lobby');
 }
 
 /** Bouton « Histoire » du lobby : écran de choix. */
 export function openStory(toEldan) {
+  music('musique_lobby');
   renderChoice(st(), { back: () => { hideStory(); api.toLobby(); }, pick: id => openHistory(story(id)) });
   if (toEldan === true) document.querySelector('#story .st-eldan')?.scrollIntoView({ block: 'center' });
 }
@@ -35,6 +39,7 @@ async function openHistory(h) {
   const key = h.id + ':ouverture';
   if (!st().seen[key]) {
     hideStory();
+    music(placeMusic(h.combats[0].lieu));
     await playScene(h.cinematique_ouverture);
     st().seen[key] = true;
     saveProg();
@@ -43,6 +48,7 @@ async function openHistory(h) {
 }
 
 function showMap(h, toast) {
+  music('musique_lobby');
   renderMap(h, st(), { back: openStory, play: n => launch(h, combat(h, n), true) }, toast);
 }
 
@@ -50,6 +56,7 @@ function showMap(h, toast) {
 async function launch(h, k, withDialogue) {
   hideStory();
   if (withDialogue) {
+    music(placeMusic(k.lieu));
     if (k.n === 10) await playScene(SM().arrivee_coeur.cinematique, { decor: k.lieu });
     await playScene(k.dialogue_avant, { decor: k.lieu });
   }
@@ -79,11 +86,13 @@ async function buildBattle(k) {
     const boss = list.find(id => !R.enemyMap[id]);
     return { enemies: list.map(id => R.enemyMap[id] || id), title: boss ? who(boss).name : undefined, color: boss ? '#FF5A3C' : undefined, boss: !!boss };
   });
-  return { waves, types, art, timeLimit: R.timeLimit, label: R.roundLabel, lieu: k.lieu };
+  return { waves, types, art, timeLimit: R.timeLimit, label: R.roundLabel, lieu: k.lieu, music: placeMusic(k.lieu) };
 }
 
 async function afterCombat(h, k, why, res) {
+  sfx(why === 'win' ? 'victoire' : 'defaite');
   if (why !== 'win') {
+    music('musique_lobby');
     renderDefeat(k, { retry: () => launch(h, k, false), review: () => launch(h, k, true), back: () => showMap(h) });
     return;
   }
@@ -92,17 +101,25 @@ async function afterCombat(h, k, why, res) {
   let bonus = 0;
   if (first) { done.push(k.n); bonus = D.rules.story.firstWinXp; addXp(h.id, bonus); }
   saveProg();
+  music(placeMusic(k.lieu));
   await playScene(k.dialogue_apres, { decor: k.lieu });
-  if (k.cinematique_apres) await playScene(k.cinematique_apres, { decor: k.lieu });
+  if (k.cinematique_apres) {
+    // Après un mini-boss ou un lieutenant : musique triste (data/audio.json → sadAfter).
+    if (D.audio.sadAfter.includes(k.type)) music('musique_triste');
+    await playScene(k.cinematique_apres, { decor: k.lieu });
+  }
   if (k.n === 10) {
+    music('musique_epilogue');
     await playScene(h.fin, { decor: k.lieu });
     if (!st().fragments.includes(h.id)) { st().fragments.push(h.id); saveProg(); }
+    sfx('deblocage');
     await renderFragment(st().fragments.length, h);
     if (st().fragments.length >= SM().histoires.length && !st().epilogue) {
       hideStory();
       await playScene(SM().epilogue_final.cinematique);
       st().epilogue = true;
       saveProg();
+      sfx('deblocage');
       // Eldan débloqué (« Bientôt disponible ») : voir sa carte dans le choix des histoires, ou revenir au lobby.
       renderUnlock({ see: () => openStory(true), later: () => { hideStory(); api.toLobby(); } });
       return;

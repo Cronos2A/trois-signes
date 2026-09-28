@@ -1,0 +1,28 @@
+{
+  "note": "Sons du jeu. Les fichiers se branchent seuls : assets/audio/sfx/{id}.mp3 et assets/audio/musique/{id}.mp3. Tant qu'un fichier manque, un son provisoire est synthétisé en code.",
+  "paths": { "sfx": "assets/audio/sfx/", "music": "assets/audio/musique/", "ext": ".mp3" },
+  "sfx": ["ui_clic", "ui_onglet", "texte", "page", "trace", "geste_rate", "attaque", "coup_recu", "esquive", "alerte",
+    "ennemi_vaincu", "piece", "coeur", "combo", "super_pleine", "super_aldric", "super_nyra", "super_boran", "super_ilwen",
+    "super_kestrel", "super_mira", "boss_apparition", "nouvelle_arene", "victoire", "defaite", "deblocage"],
+  "music": ["musique_lobby", "musique_tuto", "musique_nature", "musique_cite", "musique_hauteurs", "musique_coeur",
+    "musique_boss", "musique_triste", "musique_epilogue"],
+  "volumes": { "music": 0.6, "sfx": 0.8, "sfxGain": { "texte": 0.35, "trace": 0.45, "ui_clic": 0.7, "grades": 0.7 } },
+  "crossfade": 1,
+  "loopFade": 1,
+  "seamless": [],
+  "dialogueDuck": 0.5,
+  "duckTime": 0.35,
+  "traceFade": 0.08,
+  "textTickEvery": 2,
+  "musicByPlace": {
+    "default": "musique_nature",
+    "nature": ["foret_mousse", "prologue_monde", "prologue_silence", "prologue_heros", "pierrelune_aube", "pierrelune_brume",
+      "maison_maitre", "pont_brumes", "route_ecole", "hautes_gerbes", "hautes_gerbes_gris", "chemin_collines", "camp_refugies",
+      "palissade_nuit", "lisiere", "camp_eclaireurs", "foret_effacee", "fontclaire", "maison_soins", "route_villages"],
+    "cite": ["velis_toits", "velis_marche", "planque_chats", "archives_velis", "velis_porte", "aubelle_biblio", "aubelle_rues", "reserve_interdite"],
+    "hauteurs": ["col_vents", "tour_guet", "ecole_ruines"],
+    "coeur": ["coeur_silence", "coeur_silence_gueri", "au_dela"]
+  },
+  "moods": { "nature": "musique_nature", "cite": "musique_cite", "hauteurs": "musique_hauteurs", "coeur": "musique_coeur" },
+  "sadAfter": ["mini_boss", "lieutenant"]
+}

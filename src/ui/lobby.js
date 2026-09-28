@@ -5,6 +5,8 @@ import { D } from '../data.js';
 import { prog, levelInfo, charXp, saveActive } from '../game/progress.js';
 import { art } from './art.js';
 import { glyph, wIcon, trailIcon, facets } from './icons.js';
+import { settings, setSetting } from '../game/settings.js';
+import { sfx } from '../audio/audio.js';
 
 const $ = id => document.getElementById(id);
 const nf = n => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
@@ -28,8 +30,18 @@ export function initLobby(a) {
     '<section class="lb-panel" id="tab-shop"></section>' +
     '</main>' +
     '<nav class="lb-tabs" id="lbTabs"></nav>' +
-    '<div class="lb-modal hidden" id="results" role="dialog" aria-modal="true"></div>';
+    '<div class="lb-modal hidden" id="results" role="dialog" aria-modal="true"></div>' +
+    '<div class="lb-modal hidden" id="settings" role="dialog" aria-modal="true" aria-label="Réglages"></div>';
   root.addEventListener('click', onClick);
+  // Curseurs de volume : appliqués en direct (game/settings.js prévient le gestionnaire audio).
+  root.addEventListener('input', e => {
+    const k = e.target.dataset.vol;
+    if (!k) return;
+    setSetting(k, e.target.value / 100);
+    e.target.nextElementSibling.textContent = e.target.value + ' %';
+    e.target.style.setProperty('--v', e.target.value + '%');
+  });
+  root.addEventListener('change', e => { if (e.target.dataset.vol === 'sfx') sfx('ui_clic'); });
   const saved = chars().findIndex(c => c.id === prog.active && c.available);
   if (saved >= 0) ui.active = saved;
   render();
@@ -46,6 +58,7 @@ function onClick(e) {
   const el = e.target.closest('[data-act]');
   if (!el || el.disabled) return;
   const arg = el.dataset.arg;
+  sfx(el.dataset.act === 'tab' ? 'ui_onglet' : 'ui_clic');
   switch (el.dataset.act) {
     case 'tab': ui.tab = arg; if (arg === 'char') ui.view = ui.active; render(); break;
     case 'view': ui.view = +arg; render(); break;
@@ -58,6 +71,9 @@ function onClick(e) {
     case 'story': actions.story(); break;
     case 'again': actions.again(); break;
     case 'home': hideResults(); ui.tab = 'play'; render(); break;
+    case 'settings': renderSettings(); $('settings').classList.remove('hidden'); break;
+    case 'set': setSetting(el.dataset.key, el.dataset.key === 'vibrate' ? arg === '1' : arg); renderSettings(); break;
+    case 'closeSettings': $('settings').classList.add('hidden'); break;
   }
 }
 
@@ -88,7 +104,8 @@ function headHtml() {
     </div>
     <div class="head-pills">
       <div class="cur-pill" title="Meilleur score">${glyph('tri', '#FFD23F', 22)}<small>Record</small><span>${nf(prog.best || 0)}</span></div>
-    </div>`;
+    </div>
+    <button class="gear-btn" data-act="settings" aria-label="Réglages">${gearIcon(22)}</button>`;
 }
 
 /* ---------- 01 · Jouer ---------- */
@@ -234,6 +251,38 @@ function shopHtml() {
     </div>
     <div class="chips">${chips}</div>
     <div class="shop-grid">${items}</div>`;
+}
+
+/* ---------- Réglages (engrenage du haut de page) ---------- */
+/** Engrenage à 8 dents, contour épais comme les autres icônes du lobby. */
+function gearIcon(s) {
+  const teeth = Array.from({ length: 8 }, (_, i) => {
+    const a = i * Math.PI / 4, p = (r, d) => `${(12 + r * Math.cos(a + d)).toFixed(2)} ${(12 + r * Math.sin(a + d)).toFixed(2)}`;
+    return `L${p(8.2, -0.2)} L${p(10.6, -0.13)} L${p(10.6, 0.13)} L${p(8.2, 0.2)}`;
+  }).join(' ');
+  return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path d="M${teeth.slice(1)} Z" fill="#FFD23F" stroke="#15301E" stroke-width="2.2" stroke-linejoin="round"/>
+    <circle cx="12" cy="12" r="3.2" fill="#2B8745" stroke="#15301E" stroke-width="2.2"/></svg>`;
+}
+
+function renderSettings() {
+  const vol = (k, label) => {
+    const v = Math.round(settings[k] * 100);
+    return `<div class="set-row"><span class="set-label">${label}</span>
+      <div class="set-vol"><input type="range" min="0" max="100" step="5" value="${v}" data-vol="${k}" aria-label="Volume ${label}" style="--v:${v}%"><b>${v} %</b></div></div>`;
+  };
+  const pick = (key, label, opts, note = '') => `<div class="set-row"><span class="set-label">${label}</span>
+      <div class="chips set-chips">${opts.map(([val, txt, on]) =>
+        `<button class="chip${on ? ' on' : ''}" data-act="set" data-key="${key}" data-arg="${val}" aria-pressed="${on}">${txt}</button>`).join('')}</div>${note}</div>`;
+  const large = settings.tolerance === 'large';
+  $('settings').innerHTML = `<div class="res-card set-card">
+      <div class="res-title ol ol-5 set-title">Réglages</div>
+      ${vol('music', 'Musique')}
+      ${vol('sfx', 'Effets')}
+      ${pick('vibrate', 'Vibrations', [['1', 'Oui', settings.vibrate], ['0', 'Non', !settings.vibrate]])}
+      ${pick('tolerance', 'Tolérance des gestes', [['normale', 'Normale', !large], ['large', 'Large', large]],
+        `<span class="set-note">Large : seuils de réussite abaissés de ${D.grades.toleranceLarge} points.</span>`)}
+      <button class="res-again" data-act="closeSettings"><span class="ol ol-4">Fermer</span></button>
+    </div>`;
 }
 
 /* ---------- Résultats de partie ---------- */

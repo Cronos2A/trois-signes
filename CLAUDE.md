@@ -57,6 +57,9 @@ src/
   game/enemies.js  vagues, IA ennemie, boss
   game/progress.js XP, niveaux, stuff
   game/supers.js   jauge et super-attaques (valeurs dans characters.json)
+  game/settings.js réglages du joueur (volumes, vibrations, tolérance des gestes), sauvegardés localement
+  audio/audio.js   gestionnaire audio unique : canaux Musique / Effets, fichiers branchés seuls, fondus, déblocage mobile
+  audio/synth.js   sons synthétisés : notes de réussite (définitives) et sons / musiques provisoires
   game/voyage.js   Le Voyage (Solo infini) : arènes, rounds, gardiens, renforcement, multiplicateur de score
   story/story.js   mode Histoire : déroulé (prologue, ouvertures, combats, fins, fragments, épilogue)
   ui/hud.js        rendu canvas du combat (sprites, anneau d'alerte, tracés, textes de réussite)
@@ -83,10 +86,12 @@ data/
   rules.json       règles de combat (esquive, ramassage, score, entraînement)
   shop.json        objets affichés dans la boutique (pas encore achetables)
   story_mode.json  tout le texte du mode Histoire (ne pas réécrire : affiché tel quel)
+  audio.json       sons : ids d'effets et de musiques, volumes, fondus, lieu → musique
   voyage.json      Le Voyage : 8 arènes (décor, teinte, vagues, gardien), renforcement, score, soin, coffres
 assets/            images du mode Histoire (facultatives, le mode est jouable sans ; liste et état dans assets/IMAGES.md) :
   portraits/{id}_{expression}.svg, portraits/{bossId}_ombrace.svg / _humain.svg
   ennemis/{id}.svg (sprite de combat des boss et d'Eldan), decors/{id}.svg
+  audio/sfx/{id}.mp3, audio/musique/{id}.mp3 (facultatifs : son provisoire synthétisé tant qu'ils manquent ; état dans assets/audio/SONS.md)
 design/            exports Claude Design (référence : planche de personnages, maquette du lobby, écran de combat, portraits du mode Histoire)
 ```
 
@@ -114,6 +119,13 @@ design/            exports Claude Design (référence : planche de personnages, 
 - Toutes les valeurs dans `data/voyage.json` (renforcement par arène et par round, multiplicateur de score, 3 ennemis au plus, +30 % PV entre deux arènes). `data/waves.json` ne sert plus que pour les délais communs (pause entre deux coups, première attaque).
 - Gardiens et décors repris du mode Histoire (`assets/`) ; si une image manque : sprite du boss du Solo, fond à la teinte de l'arène avec son nom en grand. La Forêt de Mousse garde le décor du Solo.
 - Sauvegarde : `prog.best` (record), `prog.voyage` (arène la plus lointaine, arènes découvertes). Coffres de cosmétiques : emplacement et message seulement.
+
+## Son et réglages (septembre 2026)
+- Un seul module `src/audio/audio.js`, deux canaux (Musique, Effets). Fichiers `assets/audio/sfx/{id}.mp3` et `assets/audio/musique/{id}.mp3` : ids et état dans `assets/audio/SONS.md`. Un fichier manquant → son provisoire de `src/audio/synth.js`, jamais d'erreur.
+- Notes de réussite définitives, en code : une mélodie qui monte d'une note par niveau (OK 1 note … Perfect 5 notes + accord brillant avec écho). Le raté joue `geste_rate`.
+- Musiques : lobby, Entraînement (`musique_tuto`), lieu du combat ou de l'arène (`musicByPlace` dans `data/audio.json`), `musique_boss` sur tout round de gardien ou de boss, `musique_triste` après un mini-boss ou un lieutenant, `musique_epilogue` pour les fins et l'épilogue. Fondu enchaîné de 1 s, fondu à la boucle (sauf ids listés dans `seamless`), musique baissée de moitié pendant les dialogues.
+- Effets chargés au démarrage, musiques à la demande ; audio débloqué au premier toucher, suspendu en arrière-plan.
+- Réglages (engrenage du lobby) : volumes Musique / Effets, Vibrations, Tolérance des gestes (Large = seuils abaissés de `toleranceLarge` points, `data/grades.json`). Sauvegarde : clé `ts_settings`.
 
 ## Ordre de travail
 1. Découper le prototype dans cette structure, sans changer le ressenti de jeu.
