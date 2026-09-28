@@ -131,6 +131,7 @@ design/            exports Claude Design (référence : planche de personnages, 
 
 ## Son et réglages (septembre 2026)
 - Un seul module `src/audio/audio.js`, deux canaux (Musique, Effets). Fichiers `assets/audio/sfx/{id}.mp3` et `assets/audio/musique/{id}.mp3` : ids et état dans `assets/audio/SONS.md`. Un fichier manquant → son provisoire de `src/audio/synth.js`, jamais d'erreur.
+- Fichiers reçus le 28/09/2026 (ElevenLabs pour les effets, Suno Pro pour les musiques ; sources et licences dans `CREDITS.md`) : silence de début coupé (et de fin pour les musiques), volume ramené à ≈ -16 LUFS. Manquent `ui_clic`, `ui_onglet` et `musique_triste` (sons provisoires). Tout nouveau fichier : même traitement, et mettre à jour `SONS.md` et `CREDITS.md`.
 - Notes de réussite définitives, en code : une mélodie qui monte d'une note par niveau (OK 1 note … Perfect 5 notes + accord brillant avec écho). Le raté joue `geste_rate`.
 - Musiques : lobby, Entraînement (`musique_tuto`), lieu du combat ou de l'arène (`musicByPlace` dans `data/audio.json`), `musique_boss` sur tout round de gardien ou de boss, `musique_triste` après un mini-boss ou un lieutenant, `musique_epilogue` pour les fins et l'épilogue. Fondu enchaîné de 1 s, fondu à la boucle (sauf ids listés dans `seamless`), musique baissée de moitié pendant les dialogues.
 - Effets chargés au démarrage, musiques à la demande ; audio débloqué au premier toucher, suspendu en arrière-plan.
