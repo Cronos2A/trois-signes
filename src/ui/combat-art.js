@@ -61,7 +61,7 @@ async function bakeImage(url, height, dpr) {
   const h = height, w = h * (img.naturalWidth || 1) / (img.naturalHeight || 1);
   const c = canvasOf(w * dpr, h * dpr);
   c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-  return { img: c, red: tinted(c, '#FF5A3C'), white: tinted(c, '#FFFFFF'), w, h, fx: w / 2, fy: h * 0.96, hx: w / 2, hy: h * 0.04 };
+  return { img: c, red: tinted(c, '#FF5A3C'), white: tinted(c, '#FFFFFF'), w, h, fx: w / 2, fy: h * 0.965, hx: w / 2, hy: h * 0.08 };   // maquette : pieds à 10/300 du bas
 }
 
 /** SVG à taille fixe (anneau, glyphes) : on force sa taille en pixels. */

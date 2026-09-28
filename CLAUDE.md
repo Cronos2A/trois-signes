@@ -87,7 +87,7 @@ data/
 assets/            images du mode Histoire (facultatives, le mode est jouable sans ; liste et état dans assets/IMAGES.md) :
   portraits/{id}_{expression}.svg, portraits/{bossId}_ombrace.svg / _humain.svg
   ennemis/{id}.svg (sprite de combat des boss et d'Eldan), decors/{id}.svg
-design/            exports Claude Design (référence : planche de personnages, maquette du lobby, écran de combat)
+design/            exports Claude Design (référence : planche de personnages, maquette du lobby, écran de combat, portraits du mode Histoire)
 ```
 
 Étapes 1 et 2 faites (septembre 2026), puis lobby intégré, puis mode Histoire (étape 5). Lancer avec `py -m http.server 8123` (les modules et les JSON ne se chargent pas en `file://`).
@@ -102,7 +102,7 @@ design/            exports Claude Design (référence : planche de personnages, 
 
 ## Mode Histoire (septembre 2026)
 - Écrans : `design/trois-signes-maquette-lobby/project/Mode Histoire Trois Signes.dc.html` (01 choix, 02 chemin, 03-04 cinématique, 05 fin d'histoire, 06 déblocage d'Eldan), reproduits tels quels.
-- Portraits `_neutre` des 6 héros et `sbire_ombrace` : tirés de la planche de personnages, recadrés en buste.
+- Portraits (6 héros × 6 expressions, Eldan, personnages secondaires, 12 boss + Eldan l'Oublié) et sprites de combat des boss : `design/trois-signes-character-sheet`, générés par `project/tools/story-engine.js` (Claude Design). Seul `sbire_ombrace` reste provisoire (tiré de la planche de combat). Il ne manque plus que les décors (`assets/IMAGES.md`).
 - Bouton « Histoire » dans l'onglet Jouer ; 6 histoires de 10 combats (`data/story_mode.json`), carte d'Eldan verrouillée puis « Bientôt disponible » après l'épilogue.
 - Héros imposé ; rounds = `vagues` ; sbire/brute = ennemis existants, les autres ids = boss de `ennemis_speciaux` (valeurs par rang). Eldan l'Oublié : Triangle (coup), Rond (garde 2 s, −50 %), Toucher (appelle un sbire).
 - Réglages dans `data/rules.json` → `story` (XP de première victoire, pas de limite de temps, noms et couleurs des PNJ, libellés des types, mécanique d'Eldan, vitesse du texte).
