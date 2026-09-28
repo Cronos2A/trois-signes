@@ -7,7 +7,7 @@ Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS
 Trois signes : **Triangle** = attaquer, **Rond** = esquiver, **Toucher** (tap) = ramasser.
 
 Modes jouables aujourd'hui : **Solo = Le Voyage** (infini), **Histoire** (6 × 10 combats), **Entraînement**, **La première leçon** (tutoriel).
-Chaque héros a une arme qui progresse (niveaux 1 à 10). À venir : cosmétiques / boutique, **Duel** (multijoueur).
+Chaque héros a 3 armes qui progressent (niveaux 1 à 10) et un emplacement de talisman. À venir : cosmétiques / boutique, **Duel** (multijoueur).
 
 Lancer : `py -m http.server 8123` dans ce dossier, puis http://localhost:8123 (les modules et les JSON ne se chargent pas en `file://`).
 Sur téléphone : `py -m http.server 8123 --bind 0.0.0.0`. Tester en 390 × 800 et en 360 × 640.
@@ -162,7 +162,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
-  `src/data.js` charge : grades, characters, enemies, waves, rules, shop, story_mode, voyage, audio, tutorial, credits, weapons.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, shop, story_mode, voyage, audio, tutorial, credits, weapons, talismans.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
