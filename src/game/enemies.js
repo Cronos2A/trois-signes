@@ -83,16 +83,20 @@ export function updateEnemies(dt) {
   }
 }
 
-/** Enchaîne les vagues. Renvoie true quand la dernière est vaincue (et le butin ramassé ou expiré). */
+/** Enchaîne les vagues. Renvoie true quand la dernière est vaincue (et le butin ramassé ou expiré) ;
+ *  jamais dans le Voyage, qui continue jusqu'au KO. */
 export function updateWaves(dt) {
   if (G.enemies.length) return false;
-  const W = D.waves;
-  if (G.waveIdx >= G.battle.waves.length) {
+  const W = D.waves, B = G.battle;
+  if (!B.endless && G.waveIdx >= B.waves.length) {
     if (G.loots.length === 0 || G.waveDelay < -W.endLootWait) return true;
     G.waveDelay -= dt;
     return false;
   }
   G.waveDelay -= dt;
-  if (G.waveDelay <= 0) { spawnWave(G.waveIdx); G.waveIdx++; G.waveDelay = W.betweenWaves; }
+  if (G.waveDelay <= 0) {
+    if (B.endless && !B.prepare(G.waveIdx)) return false;   // Voyage : écran de transition d'arène en cours
+    spawnWave(G.waveIdx); G.waveIdx++; G.waveDelay = B.betweenRounds ?? W.betweenWaves;
+  }
   return false;
 }

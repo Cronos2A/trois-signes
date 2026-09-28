@@ -93,13 +93,15 @@ function headHtml() {
 
 /* ---------- 01 · Jouer ---------- */
 function playHtml() {
-  const c = chars()[ui.active], W = D.waves, n = W.waves.length;
-  const pips = W.waves.map((w, i) => `<i style="background:${i === n - 1 ? '#FF5A3C' : '#E4D3B4'}"></i>`).join('');
+  const c = chars()[ui.active], V = D.voyage, max = prog.voyage.maxArena;
+  const far = max < 0 ? null : max < V.arenas.length ? V.arenas[max] : V.beyond;
+  // Le Voyage : record et arène la plus lointaine ; une pastille par arène, à sa teinte une fois atteinte.
+  const pips = V.arenas.map((a, i) => `<i style="background:${i <= max ? a.tint : '#E4D3B4'}"></i>`).join('');
   return `<div class="stage-card">
       <div class="stage-top">
-        <div class="stage-titles"><div class="kicker">${W.chapter.kicker}</div><div class="stage-name">${W.chapter.name}</div></div>
-        <div class="stage-waves">${n} vagues</div>
+        <div class="stage-titles"><div class="kicker">SOLO · ${V.name.toUpperCase()}</div><div class="stage-name">${V.name} : record ${nf(prog.best || 0)}</div></div>
       </div>
+      <div class="stage-far">Arène max : <b>${far ? far.name : 'aucune'}</b></div>
       <div class="pips">${pips}</div>
     </div>
     <div class="hero-zone">
@@ -117,7 +119,7 @@ function playHtml() {
     <div class="mode-row three">
       <button class="mode-btn solo" data-act="solo">
         <span class="badge">PVE</span>
-        <span class="mode-txt"><span class="mode-title ol ol-5">Solo</span><span class="mode-sub">Vagues &amp; boss</span></span>
+        <span class="mode-txt"><span class="mode-title ol ol-5">Solo</span><span class="mode-sub">Le Voyage</span></span>
         <span class="mode-tri">${glyph('tri', '#FFD23F', 34)}</span>
       </button>
       <button class="mode-btn story" data-act="story">
@@ -240,7 +242,8 @@ export function showResults(r) {
   ui.tab = 'play';
   render();
   const L = levelInfo(charXp(activeCharacter().id));
-  const title = r.why === 'win' ? 'Victoire' : r.why === 'ko' ? 'KO' : 'Temps écoulé';
+  const V = r.voyage;
+  const title = V ? 'Fin du voyage' : r.why === 'win' ? 'Victoire' : r.why === 'ko' ? 'KO' : 'Temps écoulé';
   const colOf = name => (D.grades.levels.find(g => g.name === name) || D.grades.miss).col;
   const rows = Object.keys(r.stats).map(k =>
     `<div class="res-row"><span><i style="background:${colOf(k)}"></i>${k}</span><b>${r.stats[k]}</b></div>`).join('') +
@@ -248,7 +251,10 @@ export function showResults(r) {
   const m = $('results');
   m.innerHTML = `<div class="res-card">
       <div class="res-title ol ol-5 ${r.why === 'win' ? 'win' : 'lose'}">${title}</div>
-      <div class="res-sub">${nf(r.score)} points en ${Math.round(r.time)} s${r.record ? ' · nouveau record !' : ''}</div>
+      ${V ? `<div class="res-score">${nf(r.score)} <small>points</small></div>
+      ${r.record ? '<div class="res-record">Nouveau record !</div>' : ''}
+      <div class="res-sub">${V.stage < V.total ? 'Arène ' + (V.stage + 1) + ' / ' + V.total : 'Sans fin'} : ${V.name} · round ${V.round + 1} / ${V.rounds}</div>`
+      : `<div class="res-sub">${nf(r.score)} points en ${Math.round(r.time)} s${r.record ? ' · nouveau record !' : ''}</div>`}
       <div class="res-table">${rows}</div>
       <div class="res-xp">
         <div class="res-xp-top"><span>+${r.gain} XP</span><span>${r.levelUp ? 'Niveau ' + L.lvl + ' atteint !' : 'Niveau ' + L.lvl}</span></div>

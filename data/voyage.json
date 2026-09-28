@@ -1,0 +1,64 @@
+{
+  "note": "Le Voyage : mode Solo infini. Valeurs de départ, à rééquilibrer ici (jamais dans le code).",
+  "name": "Le Voyage",
+  "roundsPerArena": 4,
+  "maxEnemies": 3,
+  "firstWaveDelay": 0.6,
+  "betweenRounds": 1.2,
+  "healBetweenArenas": 0.3,
+  "transition": { "duration": 2.6, "discoveryMin": 0.6 },
+  "scaling": {
+    "hpPerArena": 0.15,
+    "dmgPerArena": 0.10,
+    "windPerArena": 0.03,
+    "minWind": 0.9,
+    "beyondHpPerRound": 0.06,
+    "beyondDmgPerRound": 0.04
+  },
+  "score": { "perArena": 0.25, "beyondBase": 3, "beyondPerRound": 0.1 },
+  "guardian": { "hp": 60, "dmg": 12, "wind": 1.3, "pts": 200 },
+  "guardianEldan": { "hp": 90, "dmg": 14, "wind": 1.2, "pts": 400 },
+  "guardianHeight": 190,
+  "arenas": [
+    {
+      "id": "foret_mousse", "name": "Forêt de Mousse", "decor": null, "tint": "#2BA84A", "guardian": "boss",
+      "waves": [["grunt", "grunt"], ["grunt", "grunt", "grunt"], ["brute", "grunt", "grunt"]], "escort": []
+    },
+    {
+      "id": "hautes_gerbes", "name": "Hautes-Gerbes", "decor": "hautes_gerbes", "tint": "#C9A227", "guardian": "tonnerre",
+      "waves": [["grunt", "grunt", "grunt"], ["brute", "grunt", "grunt"], ["brute", "grunt", "grunt"]], "escort": []
+    },
+    {
+      "id": "fontclaire", "name": "Fontclaire", "decor": "fontclaire", "tint": "#3AA6B9", "guardian": "helo",
+      "waves": [["brute", "grunt", "grunt"], ["brute", "grunt", "grunt"], ["brute", "brute", "grunt"]], "escort": []
+    },
+    {
+      "id": "velis_toits", "name": "Toits de Vélis", "decor": "velis_toits", "tint": "#C0572F", "guardian": "sorel",
+      "waves": [["brute", "grunt", "grunt"], ["brute", "brute", "grunt"], ["brute", "brute", "grunt"]], "escort": ["grunt"]
+    },
+    {
+      "id": "aubelle_biblio", "name": "Bibliothèque d'Aubelle", "decor": "aubelle_biblio", "tint": "#7A5AA6", "guardian": "archiviste",
+      "waves": [["brute", "brute", "grunt"], ["brute", "brute", "grunt"], ["brute", "brute", "grunt"]], "escort": ["grunt"]
+    },
+    {
+      "id": "col_vents", "name": "Col des Vents", "decor": "col_vents", "tint": "#7F97B0", "guardian": "traqueur",
+      "waves": [["brute", "brute", "grunt"], ["brute", "brute", "grunt"], ["brute", "brute", "brute"]], "escort": ["grunt"]
+    },
+    {
+      "id": "ecole_ruines", "name": "École des Signes", "decor": "ecole_ruines", "tint": "#9B7E5C", "guardian": "corvin",
+      "waves": [["brute", "brute", "grunt"], ["brute", "brute", "brute"], ["brute", "brute", "brute"]], "escort": ["brute"]
+    },
+    {
+      "id": "coeur_silence", "name": "Le Cœur du Silence", "decor": "coeur_silence", "tint": "#4B4660", "guardian": "eldan_oublie",
+      "waves": [["brute", "brute", "grunt"], ["brute", "brute", "brute"], ["brute", "brute", "brute"]], "escort": []
+    }
+  ],
+  "beyond": {
+    "id": "au_dela", "name": "Au-delà du Silence", "decor": "coeur_silence", "tint": "#2E2A3F",
+    "bruteShare": 0.7, "enemies": 3, "escort": ["brute"]
+  },
+  "chest": {
+    "title": "Coffre de cosmétiques",
+    "soon": "Les cosmétiques de cette arène arrivent bientôt : ton coffre t'attend."
+  }
+}

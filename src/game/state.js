@@ -5,9 +5,15 @@ export const G = {
   time: 0, waveIdx: 0, waveDelay: 0, score: 0, shake: 0,
   streak: { name: null, n: 0 }, combos: 0, globalGap: 0,
   hero: null, atkMult: 1, charId: 'aldric', battle: null, roundSummons: 0,
+  scoreMult: 1,            // Voyage : multiplicateur de score de l'arène (1 ailleurs)
+  paused: false,           // Voyage : écran de transition entre deux arènes
+  voyage: null,            // Voyage : { stage, round, name, total } (lu par le HUD et l'écran de fin)
   enemies: [], loots: [], summons: [],
   fx: [], pops: [], trails: [], bigGrade: null, superBanner: null, drawing: null,
   stats: {}, trainSpawn: 0, trainMsg: ''
 };
+
+/** Ajoute des points au score, multipliés par le multiplicateur en cours (Voyage). */
+export function addScore(n) { G.score += Math.round(n * G.scoreMult); }
 
 export const heroPos = () => ({ x: G.W / 2, y: G.H * 0.78 });

@@ -33,7 +33,7 @@ Prototype jouable actuel : `prototype/trois-signes-prototype.html` (un seul fich
 
 ## Équilibrage actuel (version 2 du prototype)
 Héros : voir « Passifs » ci-dessus (Aldric 130 PV, attaque 4). Sbire 20 PV / 6 dégâts, brute 28 PV / 9 dégâts, boss 60 PV / 12 dégâts.
-Alerte avant un coup : 1,3 à 1,5 s. Pause d'au moins 1,2 s entre deux coups ennemis. Partie de 120 s.
+Alerte avant un coup : 1,3 à 1,5 s (raccourcie dans les arènes lointaines du Voyage, jamais sous 0,9 s). Pause d'au moins 1,2 s entre deux coups ennemis. Le Solo n'a plus de chrono : c'est le Voyage, qui dure jusqu'au KO.
 Ces valeurs doivent vivre dans des fichiers JSON, jamais en dur dans le code.
 
 ## Choix techniques
@@ -57,6 +57,7 @@ src/
   game/enemies.js  vagues, IA ennemie, boss
   game/progress.js XP, niveaux, stuff
   game/supers.js   jauge et super-attaques (valeurs dans characters.json)
+  game/voyage.js   Le Voyage (Solo infini) : arènes, rounds, gardiens, renforcement, multiplicateur de score
   story/story.js   mode Histoire : déroulé (prologue, ouvertures, combats, fins, fragments, épilogue)
   ui/hud.js        rendu canvas du combat (sprites, anneau d'alerte, tracés, textes de réussite)
   ui/combat-hud.js interface HTML du combat (vie, Quitter, vague / chrono / score, série)
@@ -71,6 +72,8 @@ src/
   ui/story-art.js  dessins de la maquette Mode Histoire (paysage de la carte, fragments, silhouette d'Eldan, icônes)
   ui/assets.js     images du mode Histoire (assets/) et replis (neutre, humain, pastille, dégradé)
   ui/story.css     styles du mode Histoire et du lecteur
+  ui/voyage-ui.js  écrans du Voyage : transition d'arène (+30 % PV), « Arène découverte » et son coffre
+  ui/voyage.css    styles de ces écrans et du HUD du Voyage (nom de l'arène, multiplicateur)
   ui/art.js        dessins low-poly des héros et ennemis (repris de la planche)
   ui/icons.js      signes à facettes, armes, fonds facettés (repris de la maquette lobby)
   ui/organic.css   design system Organic (copie telle quelle, ne pas modifier)
@@ -80,6 +83,7 @@ data/
   rules.json       règles de combat (esquive, ramassage, score, entraînement)
   shop.json        objets affichés dans la boutique (pas encore achetables)
   story_mode.json  tout le texte du mode Histoire (ne pas réécrire : affiché tel quel)
+  voyage.json      Le Voyage : 8 arènes (décor, teinte, vagues, gardien), renforcement, score, soin, coffres
 assets/            images du mode Histoire (facultatives, le mode est jouable sans ; liste et état dans assets/IMAGES.md) :
   portraits/{id}_{expression}.svg, portraits/{bossId}_ombrace.svg / _humain.svg
   ennemis/{id}.svg (sprite de combat des boss et d'Eldan), decors/{id}.svg
@@ -103,6 +107,12 @@ design/            exports Claude Design (référence : planche de personnages, 
 - Héros imposé ; rounds = `vagues` ; sbire/brute = ennemis existants, les autres ids = boss de `ennemis_speciaux` (valeurs par rang). Eldan l'Oublié : Triangle (coup), Rond (garde 2 s, −50 %), Toucher (appelle un sbire).
 - Réglages dans `data/rules.json` → `story` (XP de première victoire, pas de limite de temps, noms et couleurs des PNJ, libellés des types, mécanique d'Eldan, vitesse du texte).
 - Sauvegarde : `prog.story` (combats gagnés par histoire, scènes vues, fragments, prologue, épilogue).
+
+## Le Voyage (Solo infini, septembre 2026)
+- Le bouton Solo lance le Voyage : 8 arènes de 4 rounds (3 vagues puis le gardien), puis « Au-delà du Silence » sans fin (gardien au hasard tous les 4 rounds). Fin au KO.
+- Toutes les valeurs dans `data/voyage.json` (renforcement par arène et par round, multiplicateur de score, 3 ennemis au plus, +30 % PV entre deux arènes). `data/waves.json` ne sert plus que pour les délais communs (pause entre deux coups, première attaque).
+- Gardiens et décors repris du mode Histoire (`assets/`) ; tant que les images manquent : sprite du boss du Solo, fond à la teinte de l'arène avec son nom en grand.
+- Sauvegarde : `prog.best` (record), `prog.voyage` (arène la plus lointaine, arènes découvertes). Coffres de cosmétiques : emplacement et message seulement.
 
 ## Ordre de travail
 1. Découper le prototype dans cette structure, sans changer le ressenti de jeu.
