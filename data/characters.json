@@ -1,11 +1,4 @@
 {
-  "progression": {
-    "firstLevelXp": 100,
-    "growth": 1.25,
-    "attackBonusPerLevel": 0.03,
-    "scorePerXp": 5,
-    "minXpPerGame": 5
-  },
   "superGauge": {
     "max": 100,
     "gain": { "OK": 2, "Good": 3, "Very Good": 5, "Excellent": 6, "Perfect": 8 },

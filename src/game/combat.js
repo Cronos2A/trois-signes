@@ -130,7 +130,7 @@ function hitEnemy(e, dmg, col, by) {
   if (e.hp > 0) return;
   sfx('ennemi_vaincu');
   if (e.T.special) gainWeaponXp(xpFor('bossKill'));   // gardien du Voyage ou boss d'histoire
-  if (e.T.guardianOf && G.mode === 'play') beatGuardian(e.T.guardianOf);   // Voyage : talisman du gardien
+  if (e.T.guardianOf && G.mode === 'play') { beatGuardian(e.T.guardianOf); G.guardiansBeaten++; }   // Voyage : talisman, XP du héros
   if (style().gaugePerKill) addGaugeFlat(style().gaugePerKill);           // Couteaux de lancer
   addScore(e.T.pts);
   addFx({ kind: 'burst', x: e.x, y: e.y, col: e.T.col, life: 0.6, r: e.T.r });

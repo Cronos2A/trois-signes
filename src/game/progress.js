@@ -12,6 +12,7 @@ export const prog = store.get(KEY, {});
 // Chaque personnage a son XP et son niveau, gagnés seulement en le jouant.
 // Une ancienne sauvegarde (XP commune) revient à Aldric, seul jouable jusque-là.
 if (!prog.chars) { prog.chars = { aldric: { xp: prog.xp || 0 } }; delete prog.xp; }
+// Depuis la version 2 : prog.chars[id] = { lvl, xp } (XP dans le niveau) ; conversion dans migrateProgress().
 
 // Mode Histoire : combats gagnés par histoire, cinématiques vues, fragments de mémoire.
 if (!prog.story) prog.story = { done: {}, seen: {}, fragments: [], prologue: false, epilogue: false };
@@ -25,42 +26,73 @@ if (!prog.armory) prog.armory = { weapons: [], talismans: [], equipped: {}, tali
 
 export const saveProg = () => store.set(KEY, prog);
 
-export const charXp = id => (prog.chars[id] && prog.chars[id].xp) || 0;
+const PR = () => D.progression;
 
-/** XP ajoutée hors partie (bonus de première victoire en Histoire). Renvoie {before, after} (niveaux). */
-export function addXp(id, n) {
-  const c = prog.chars[id] || (prog.chars[id] = { xp: 0 });
-  const before = levelInfo(c.xp).lvl;
-  c.xp += n;
+/** XP pour passer du niveau n au niveau n+1 (data/progression.json → levelXp). */
+export const levelNeed = n => PR().levelXp.base + PR().levelXp.perLevel * n;
+
+/**
+ * Convertit une fois les sauvegardes d'avant (XP totale, ancienne courbe) : le niveau est gardé, plafonné,
+ * et l'XP dans le niveau repart à zéro. À appeler après le chargement des données.
+ */
+export function migrateProgress() {
+  const L = PR().legacy;
+  if ((prog.heroSave || 0) >= L.saveVersion) return;
+  for (const c of Object.values(prog.chars)) {
+    let lvl = 1, need = L.firstLevelXp, x = c.xp || 0;
+    while (x >= need) { x -= need; lvl++; need = Math.round(need * L.growth); }
+    c.lvl = Math.min(PR().maxLevel, lvl);
+    c.xp = 0;
+  }
+  prog.heroSave = L.saveVersion;
   saveProg();
-  return { before, after: levelInfo(c.xp).lvl };
+}
+
+const hero = id => prog.chars[id] || (prog.chars[id] = { lvl: 1, xp: 0 });
+
+/** Niveau d'un héros : { lvl, cur (XP dans le niveau), need, max (niveau maximum atteint) }. */
+export function heroLevel(id) {
+  const c = prog.chars[id] || {}, lvl = c.lvl || 1, max = lvl >= PR().maxLevel;
+  return { lvl, cur: max ? 0 : c.xp || 0, need: levelNeed(lvl), max };
+}
+
+/** Ajoute n XP au héros (rien au niveau maximum). Renvoie { gain, before, after, max }. */
+export function addXp(id, n) {
+  const c = hero(id), before = c.lvl || 1, M = PR().maxLevel;
+  c.lvl = before;
+  let gain = 0;
+  if (c.lvl < M && n > 0) {
+    gain = n;
+    c.xp = (c.xp || 0) + n;
+    while (c.lvl < M && c.xp >= levelNeed(c.lvl)) { c.xp -= levelNeed(c.lvl); c.lvl++; }
+    if (c.lvl >= M) c.xp = 0;                   // plus d'XP accumulée au niveau maximum
+  }
+  saveProg();
+  return { gain, before, after: c.lvl, max: c.lvl >= M };
 }
 
 /** Retient le personnage choisi dans le lobby pour les prochaines sessions. */
 export function saveActive(id) { prog.active = id; store.set(KEY, prog); }
 
-export function levelInfo(xp) {
-  const P = D.characters.progression;
-  let lvl = 1, need = P.firstLevelXp, x = xp;
-  while (x >= need) { x -= need; lvl++; need = Math.round(need * P.growth); }
-  return { lvl, cur: x, need };
+/** Bonus de niveau : multiplicateurs d'attaque et de PV max. En Duel, neutralisés si bonus_en_duel vaut false. */
+export function levelBonuses(id, duel = false) {
+  if (duel && !PR().bonus_en_duel) return { atk: 1, hp: 1 };
+  const k = heroLevel(id).lvl - 1, B = PR().bonusPerLevel;
+  return { atk: 1 + B.attack * k, hp: 1 + B.hp * k };
 }
 
-export function attackMult(id) {
-  return 1 + D.characters.progression.attackBonusPerLevel * (levelInfo(charXp(id)).lvl - 1);
+/** XP d'une partie du Voyage : par round terminé et par gardien vaincu (data/progression.json → xp.voyage). */
+export function voyageXp(rounds, guardians) {
+  const X = PR().xp.voyage;
+  return X.perRound * rounds + X.perGuardian * guardians;
 }
 
-/** Ajoute l'XP d'une partie au personnage joué et retient le record. Renvoie {gain, before, after, record}. */
-export function grantXp(score, id, countRecord = true) {   // record : Solo seulement
-  const P = D.characters.progression;
-  const gain = Math.max(P.minXpPerGame, Math.round(score / P.scorePerXp));
-  const c = prog.chars[id] || (prog.chars[id] = { xp: 0 });
-  const before = levelInfo(c.xp).lvl;
-  c.xp += gain;
+/** Ajoute l'XP d'une partie et retient le record (Voyage seulement). Renvoie { gain, before, after, max, record }. */
+export function grantXp(id, xp, score, countRecord = true) {
+  const r = addXp(id, xp);
   const record = countRecord && score > (prog.best || 0);
-  if (record) prog.best = score;
-  store.set(KEY, prog);
-  return { gain, before, after: levelInfo(c.xp).lvl, record };
+  if (record) { prog.best = score; saveProg(); }
+  return { ...r, record };
 }
 
 /** Le Voyage : note l'arène atteinte. Renvoie true la première fois qu'elle est découverte. */

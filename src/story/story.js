@@ -101,10 +101,12 @@ async function afterCombat(h, k, why, res) {
   }
   const done = st().done[h.id] || (st().done[h.id] = []);
   const first = !done.includes(k.n);
-  let bonus = 0;
-  if (first) { done.push(k.n); bonus = D.rules.story.firstWinXp; addXp(h.id, bonus); }
+  // XP du héros (data/progression.json → xp.story) : plus à la première victoire, moins aux suivantes.
+  const X = D.progression.xp.story;
+  if (first) done.push(k.n);
+  const xp = addXp(h.id, first ? X.firstWin : X.repeatWin);
   saveProg();
-  await renderVictory(k, res.gain + bonus, res.weapon);
+  await renderVictory(k, xp, res.weapon);
   await showRewards(syncRewards());          // combats 5 et 10 : armes alternatives du héros
   hideStory();
   music(placeMusic(k.lieu));

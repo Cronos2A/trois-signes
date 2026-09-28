@@ -11,7 +11,6 @@
   "score": { "perDamage": 4 },
   "training": { "lootInterval": 1.6, "maxLoot": 2, "lootLife": 5 },
   "story": {
-    "firstWinXp": 40,
     "timeLimit": 0,
     "roundLabel": "Vague",
     "enemyMap": { "sbire": "grunt", "brute": "brute" },

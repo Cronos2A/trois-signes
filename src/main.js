@@ -5,7 +5,7 @@ import { attachInput } from './input/gestures.js';
 import { handleGesture, useSuper, updateSummons } from './game/combat.js';
 import { emptyStats } from './game/grades.js';
 import { updateEnemies, updateWaves } from './game/enemies.js';
-import { attackMult, grantXp, prog } from './game/progress.js';
+import { levelBonuses, grantXp, voyageXp, migrateProgress, prog } from './game/progress.js';
 import { weaponBonuses, grantWeaponXp, equippedWeapon, startWeapon } from './game/weapons.js';
 import { talismanEffect } from './game/talismans.js';
 import { syncRewards } from './game/rewards.js';
@@ -64,10 +64,11 @@ function resetGame(c, battle) {
   const Wb = weaponBonuses(wid, duel);
   G.weapon = { ...Wb, gain: 0 };
   G.talisman = battle.tutorial ? {} : talismanEffect(c.id, duel);
-  G.atkMult = attackMult(c.id) * Wb.atk;
+  const Lb = levelBonuses(c.id, duel);                 // niveau du héros (data/progression.json)
+  G.atkMult = Lb.atk * Wb.atk;
   const P = c.passive || {};
   G.hero = {
-    hp: c.hp, max: c.hp, atk: c.attack, shieldUntil: -1, shieldAvoid: 0, flash: 0, col: c.accent || c.color,
+    hp: Math.round(c.hp * Lb.hp), max: Math.round(c.hp * Lb.hp), atk: c.attack, shieldUntil: -1, shieldAvoid: 0, flash: 0, col: c.accent || c.color,
     // Passifs (data/characters.json) : pas de combo, combo plus court, esquive de base, soin par attaque.
     noCombo: !!P.noCombo, comboLength: P.comboLength || D.grades.comboLength,
     dodgeBase: P.dodgeBase ?? D.rules.dodge.base, healPerHit: P.healPerHit || 0,
@@ -77,7 +78,7 @@ function resetGame(c, battle) {
   Object.assign(G, {
     enemies: [], loots: [], summons: [], fx: [], pops: [], trails: [],
     time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, scoreMult: 1, paused: false, voyage: null, listen: null, tuto: null, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
-    streak: { name: null, n: 0 }, missForgiven: 0, combos: 0, globalGap: 0, stats: emptyStats()
+    streak: { name: null, n: 0 }, roundsCleared: 0, guardiansBeaten: 0, missForgiven: 0, combos: 0, globalGap: 0, stats: emptyStats()
   });
 }
 
@@ -177,7 +178,9 @@ async function start(mode, opts = {}) {
 function endGame(why) {
   if (G.mode !== 'play') return;
   G.mode = 'end';
-  const { gain, before, after, record } = grantXp(G.score, G.charId, !G.battle.onEnd);
+  // XP du héros : le Voyage compte les rounds terminés et les gardiens vaincus ; l'Histoire donne la sienne après la victoire.
+  const xp = G.battle.xpMode === 'voyage' ? voyageXp(G.roundsCleared, G.guardiansBeaten) : 0;
+  const { gain, before, after, max, record } = grantXp(G.charId, xp, G.score, !G.battle.onEnd);
   const weapon = grantWeaponXp();
   $('hud').classList.add('hidden');
   document.documentElement.classList.remove('in-game');
@@ -187,7 +190,7 @@ function endGame(why) {
   if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score, weapon }); return; }
   sfx(why === 'win' ? 'victoire' : 'defaite');
   music('musique_lobby');
-  showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos, voyage: G.voyage, weapon });
+  showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, max, record, stats: G.stats, combos: G.combos, voyage: G.voyage, weapon });
   showRewards(syncRewards());              // talisman d'un gardien battu juste avant le KO
 }
 
@@ -202,6 +205,7 @@ async function init() {
     $('loadErr').classList.remove('hidden');
     return;
   }
+  migrateProgress();                       // anciennes sauvegardes : niveau gardé, XP dans le niveau à zéro
   initAudio();                             // effets chargés maintenant, musiques à la demande
   attachInput(cv, {
     isActive: () => G.mode === 'play' || G.mode === 'train',
