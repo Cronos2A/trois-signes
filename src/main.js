@@ -9,13 +9,14 @@ import { levelBonuses, grantXp, voyageXp, migrateProgress, prog } from './game/p
 import { weaponBonuses, grantWeaponXp, equippedWeapon, startWeapon } from './game/weapons.js';
 import { talismanEffect } from './game/talismans.js';
 import { syncRewards } from './game/rewards.js';
-import { voyageGold, addGold, syncGems } from './game/economy.js';
+import { coinGold, arenaGold, voyageEndGold, addGold, syncGems } from './game/economy.js';
 import { look } from './game/cosmetics.js';
 import { combatLook } from './ui/looks.js';
 import { initAds, tickPlay, flushPlay, noteVoyageEnd, showRewarded } from './ads/ads.js';
 import { askChoice, adToast } from './ui/ad-ui.js';
 import { showRewards } from './ui/reward-ui.js';
 import { rand } from './util.js';
+import { pop } from './game/effects.js';
 import { draw } from './ui/hud.js';
 import { prepareCombatArt, paintBackground } from './ui/combat-art.js';
 import { setupHud } from './ui/combat-hud.js';
@@ -84,7 +85,7 @@ function resetGame(c, battle) {
   Object.assign(G, {
     enemies: [], loots: [], summons: [], fx: [], pops: [], trails: [],
     time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, scoreMult: 1, paused: false, voyage: null, listen: null, tuto: null, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
-    streak: { name: null, n: 0 }, secondChances: 0, coins: 0, roundsCleared: 0, guardiansBeaten: 0, missForgiven: 0, combos: 0, globalGap: 0, stats: emptyStats()
+    streak: { name: null, n: 0 }, secondChances: 0, coins: 0, goldGain: 0, gemGains: [], paid: { rounds: 0, coins: 0, arenas: 0 }, roundsCleared: 0, guardiansBeaten: 0, missForgiven: 0, combos: 0, globalGap: 0, stats: emptyStats()
   });
 }
 
@@ -108,8 +109,34 @@ function update(dt) {
   if (G.battle.tutorial) { updateEnemies(dt); return; }   // leçon : mannequin seul, déroulé dans game/tutorial.js
   if (G.battle.timeLimit && G.time >= G.battle.timeLimit) return endGame('time');
   updateEnemies(dt);
-  if (updateWaves(dt)) return endGame('win');
+  const won = updateWaves(dt);
+  if (G.roundsCleared > G.paid.rounds) payRounds();         // or et gemmes versés dès qu'un round est terminé
+  if (won) return endGame('win');
   if (G.hero.hp <= 0) return koOrSecondChance();
+}
+
+/**
+ * Gains versés round par round (Voyage et Histoire), acquis même si le joueur quitte ensuite :
+ * pièces ramassées, arènes traversées (Voyage), gemmes des gardiens battus pour la première fois.
+ * all : fin de partie normale, on verse aussi les pièces du round en cours.
+ */
+function payRounds(all = false) {
+  const b = G.battle, P = G.paid;
+  if (!b || (b.xpMode !== 'voyage' && b.xpMode !== 'story') || b.duel) return;
+  let gold = coinGold(G.coins - P.coins);
+  P.coins = G.coins;
+  if (b.xpMode === 'voyage') {
+    const arenas = Math.min(Math.floor(G.roundsCleared / D.voyage.roundsPerArena), D.voyage.arenas.length);
+    gold += arenaGold(arenas - P.arenas);
+    P.arenas = arenas;
+    G.gemGains.push(...syncGems());
+  }
+  P.rounds = G.roundsCleared;
+  if (gold > 0) {
+    addGold(gold);
+    G.goldGain += gold;
+    if (!all) pop(G.W / 2, G.H * 0.3, '+' + gold + ' or', '', '#FFD23F', 1.2, 24);
+  }
 }
 
 function updateTraining(dt) {
@@ -153,6 +180,7 @@ function setInGame(on) {
 function toLobby() {
   const b = G.battle;
   flushPlay();                              // temps de jeu (pubs plein écran)
+  const gems = G.gemGains || [];             // abandon : l'or et les gemmes des rounds terminés restent acquis
   G.mode = 'menu';
   setInGame(false);
   curChar = null; curBattle = null;
@@ -160,6 +188,7 @@ function toLobby() {
   traceStop();
   if (b && b.onQuit) b.onQuit();          // Histoire : « Quitter » ramène au chemin des combats
   else music('musique_lobby');
+  if (gems.length || (b && b.xpMode === 'voyage')) showRewards([...syncRewards(), ...gems]);   // talisman, gemmes déjà versées
 }
 
 let starting = false;
@@ -208,19 +237,23 @@ function endGame(why) {
   const { gain, before, after, max, record } = grantXp(G.charId, xp, G.score, !G.battle.onEnd);
   const weapon = grantWeaponXp();
   // Or : le Voyage le donne ici (base, arènes traversées, record, pièces) ; l'Histoire après le combat (story.js).
-  const goldGain = G.battle.xpMode === 'voyage' ? voyageGold(G.voyage ? G.voyage.stage : 0, record, G.coins) : 0;
-  if (goldGain) addGold(goldGain);
+  // Or : déjà versé round par round ; en fin normale, les pièces du round en cours et le bonus de fin (Voyage : base + record ;
+  // Histoire : bonus de victoire, dans story.js). Un abandon (toLobby) ne passe pas par ici.
+  payRounds(true);
+  const bonus = G.battle.xpMode === 'voyage' ? voyageEndGold(record) : 0;
+  if (bonus) addGold(bonus);
+  const goldGain = G.goldGain + bonus;
   $('hud').classList.add('hidden');
   document.documentElement.classList.remove('in-game');
   const b = G.battle;
   curChar = null; curBattle = null;
   traceStop();
   if (G.battle.xpMode === 'voyage') noteVoyageEnd(b); else flushPlay();   // pubs : partie comptée, temps de jeu
-  if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score, weapon, coins: G.coins }); return; }
+  if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score, weapon, gold: G.goldGain }); return; }
   sfx(why === 'win' ? 'victoire' : 'defaite');
   music('musique_lobby');
   showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, max, record, stats: G.stats, combos: G.combos, voyage: G.voyage, weapon, gold: goldGain });
-  showRewards([...syncRewards(), ...syncGems()]);   // talisman et gemmes d'un gardien battu pendant la partie
+  showRewards([...syncRewards(), ...G.gemGains, ...syncGems()]);   // talisman et gemmes (déjà versées) d'un gardien battu
 }
 
 /* ---------- Démarrage ---------- */

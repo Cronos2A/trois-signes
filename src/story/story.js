@@ -4,7 +4,7 @@
 // Après le 10e : fin, fragment de mémoire, et l'épilogue quand les six sont terminées.
 import { D } from '../data.js';
 import { prog, saveProg, addXp } from '../game/progress.js';
-import { storyGold, addGold, syncGems } from '../game/economy.js';
+import { storyWinGold, addGold, syncGems } from '../game/economy.js';
 import { playScene } from '../ui/cutscene.js';
 import { renderChoice, renderMap, renderDefeat, renderVictory, renderFragment, renderUnlock, hideStory } from '../ui/story-ui.js';
 import { enemyUrl, who, bossInfo } from '../ui/assets.js';
@@ -97,9 +97,8 @@ async function afterCombat(h, k, why, res) {
   sfx(why === 'win' ? 'victoire' : 'defaite');
   if (why !== 'win') {
     music('musique_lobby');
-    const lost = storyGold(false, false, res.coins || 0);            // les pièces ramassées restent acquises
-    if (lost) addGold(lost);
-    renderDefeat(k, { retry: () => launch(h, k, false), review: () => launch(h, k, true), back: () => showMap(h) }, res.weapon, lost);
+    // L'or des rounds terminés et des pièces est déjà versé (main.js → payRounds) ; pas de bonus de victoire.
+    renderDefeat(k, { retry: () => launch(h, k, false), review: () => launch(h, k, true), back: () => showMap(h) }, res.weapon, res.gold || 0);
     return;
   }
   const done = st().done[h.id] || (st().done[h.id] = []);
@@ -108,8 +107,9 @@ async function afterCombat(h, k, why, res) {
   const X = D.progression.xp.story;
   if (first) done.push(k.n);
   const xp = addXp(h.id, first ? X.firstWin : X.repeatWin);
-  const gold = storyGold(true, first, res.coins || 0);            // data/economy.json → gold.story
-  addGold(gold);
+  const bonus = storyWinGold(first);                                // data/economy.json → gold.story
+  addGold(bonus);
+  const gold = (res.gold || 0) + bonus;                            // + l'or déjà versé round par round
   saveProg();
   await renderVictory(k, xp, res.weapon, gold);
   await showRewards(syncRewards());          // combats 5 et 10 : armes alternatives du héros

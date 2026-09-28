@@ -1,5 +1,5 @@
 {
-  "note": "Économie : pièces d'or (gagnées en jouant) et gemmes (gagnées en jouant ; achat réel plus tard, dans l'application). Les cosmétiques ne donnent jamais d'avantage. Les gains s'ajoutent en fin de partie seulement (perdus si on quitte).",
+  "note": "Économie : pièces d'or (gagnées en jouant) et gemmes (gagnées en jouant ; achat réel plus tard, dans l'application). Les cosmétiques ne donnent jamais d'avantage. Versé round par round dès qu'un round est terminé (pièces, arène traversée, gardien battu), acquis même si le joueur quitte ; seuls les bonus de fin (Voyage : base + record ; Histoire : victoire) demandent une fin normale.",
   "icons": { "gold": "assets/icones/monnaies/or.svg", "gems": "assets/icones/monnaies/gemme.svg" },
   "gold": {
     "goldPerCoin": 2,

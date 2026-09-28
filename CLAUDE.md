@@ -115,9 +115,12 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Bâton de sève (Mira tombe plus tôt à faible précision). Mira ne tombe presque jamais (180 PV + soin) : équilibre des héros à revoir.
 
 ## Économie et cosmétiques — `data/economy.json`, `data/cosmetics.json` — **fait**
-- **Or** (en fin de partie, perdu si on quitte) : Voyage 10 + 5 par arène traversée + 20 si record ; Histoire 30 à la 1re victoire
-  d'un combat, 5 ensuite ; chaque pièce ramassée = 2 or (Voyage et Histoire). **Gemmes** : 10 par gardien du Voyage battu la
-  1re fois, 30 par histoire terminée, 50 pour l'épilogue ; `syncGems()` les donne une seule fois (`prog.eco.granted`), rétroactives au lancement.
+- **Versé round par round** (`main.js` → `payRounds`, Voyage et Histoire) dès qu'un round est terminé, **acquis même en abandonnant** :
+  2 or par pièce ramassée, +5 or par arène du Voyage traversée, gemmes d'un gardien battu la 1re fois (10). Les pièces du round en
+  cours ne comptent qu'en fin normale. **Bonus de fin, seulement en fin normale** (pas en abandon) : Voyage 10 + 20 si record (KO) ;
+  Histoire 30 à la 1re victoire d'un combat, 5 ensuite. Autres **gemmes** : 30 par histoire terminée, 50 pour l'épilogue ;
+  `syncGems()` donne chaque gain une seule fois (`prog.eco.granted`), rétroactif au lancement.
+  Testé le 28/09/2026 en quittant au milieu d'un round (Voyage et Histoire).
 - **Catalogue** (40 objets, commun / rare / épique ≈ 55 / 30 / 15 %) : 3 couleurs par héros (Teinte Lagon, Soleil, Rubis ; recolorations
   `recolor` couleur d'origine → nouvelle), 6 skins d'arme (un par arme de départ : Lame Braise, Dague Givre, Poings de Lave, Grimoire Jade,
   Arc Corail, Amulette Aurore), 10 tracés (Étincelle, Lierre, Arc-en-ciel, Étoiles, Bulles, Flammes, Confettis, Encre, Pixels, Notes),

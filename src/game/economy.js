@@ -19,16 +19,19 @@ function pay(p) { prog.eco.gold -= p.gold || 0; prog.eco.gems -= p.gems || 0; }
 /** Or des pièces ramassées pendant la partie. */
 export const coinGold = coins => coins * E().gold.goldPerCoin;
 
-/** Voyage : base + par arène traversée + bonus de record + pièces. */
-export function voyageGold(arenas, record, coins) {
+/** Voyage, or d'une arène traversée (versé dès que son dernier round est terminé). */
+export const arenaGold = n => n * E().gold.voyage.perArena;
+
+/** Voyage, bonus de fin de partie normale (KO) : base + record. Rien en cas d'abandon. */
+export function voyageEndGold(record) {
   const V = E().gold.voyage;
-  return V.base + V.perArena * arenas + (record ? V.record : 0) + coinGold(coins);
+  return V.base + (record ? V.record : 0);
 }
 
-/** Histoire : première victoire ou suivante (rien en cas de défaite, sauf les pièces). */
-export function storyGold(win, first, coins) {
+/** Histoire, bonus de victoire : première victoire ou suivante. Rien en cas de défaite ou d'abandon. */
+export function storyWinGold(first) {
   const S = E().gold.story;
-  return (win ? (first ? S.firstWin : S.repeatWin) : 0) + coinGold(coins);
+  return first ? S.firstWin : S.repeatWin;
 }
 
 /**
