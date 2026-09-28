@@ -208,8 +208,9 @@ src/
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman »)
          organic.css (ne pas modifier)  lobby.css  style.css  story.css  tutorial.css  voyage.css
 data/    characters grades enemies waves rules shop story_mode voyage tutorial audio credits weapons talismans progression (.json)
-assets/  portraits/  ennemis/  decors/  icones/armes/  icones/talismans/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
+assets/  portraits/  ennemis/  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
+tools/boutique-art/  générateur des images de la boutique et des skins (gen.mjs), planches (planches.mjs → design/planches-boutique/)
 prototype/ prototype d'origine
 ```
 
@@ -237,6 +238,8 @@ prototype/ prototype d'origine
      l'application »).
    - Onglet Personnage : carte Cosmétique pour équiper couleur ou skin, skin d'arme, tracé, avec aperçu ; affichés en combat,
      lobby et histoire.
+   - **Images déjà prêtes** (septembre 2026, voir `assets/IMAGES.md`) : or, gemme, 4 packs, 2 coffres fermés / ouverts, 3 cadres,
+     1 skin épique par héros (lobby + combat). Les skins d'arme, couleurs et tracés restent à faire en code.
    - Mode test caché (développement seulement) pour se donner or et gemmes. Tester achats, 30 coffres sans doublon, garantie,
      probabilités. Publier sur main.
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.

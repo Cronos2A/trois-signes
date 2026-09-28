@@ -184,3 +184,18 @@ Sans fichier, le jeu dessine une icône de repli (signe à facettes).
 - ✅ `assets/icones/talismans/plume_vent.svg` — Plume de vent — provisoire
 - ✅ `assets/icones/talismans/craie_ancienne.svg` — Craie ancienne — provisoire
 - ✅ `assets/icones/talismans/page_codex.svg` — Page du Codex — provisoire
+
+## Boutique et skins (générés en code)
+
+Générés par `node tools/boutique-art/gen.mjs` (même moteur low-poly que `src/ui/art.js` et `src/ui/sprites.js`), fond transparent,
+sans texte. Planches de présentation : `node tools/boutique-art/planches.mjs` → `design/planches-boutique/`.
+Un vrai dessin déposé au même nom les remplace. Pas encore utilisés par le jeu (tâche Économie).
+
+- ✅ `assets/icones/monnaies/or.svg`, `assets/icones/monnaies/gemme.svg`
+- ✅ `assets/boutique/pack_gemmes_1.svg` à `pack_gemmes_4.svg` (poignée, bourse, coffret, grand coffre)
+- ✅ `assets/boutique/coffre_simple_ferme.svg`, `coffre_simple_ouvert.svg`
+- ✅ `assets/boutique/coffre_trois_signes_ferme.svg`, `coffre_trois_signes_ouvert.svg`
+- ✅ `assets/boutique/cadre_commun.svg`, `cadre_rare.svg`, `cadre_epique.svg` (centre transparent, 120 × 126)
+- ✅ Skins épiques, `assets/skins/{heros}_{skin}.svg` (lobby, repère 240 × 320 de `art.js` avec 10 de marge : viewBox -10 -10 260 344)
+  et `assets/skins/{heros}_{skin}_combat.svg` (sprite de combat, ¾ dos) :
+  `aldric_hiver`, `nyra_carnaval`, `boran_moisson`, `ilwen_etoiles`, `kestrel_automne`, `mira_printemps`.
