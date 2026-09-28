@@ -7,7 +7,7 @@ Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS
 Trois signes : **Triangle** = attaquer, **Rond** = esquiver, **Toucher** (tap) = ramasser.
 
 Modes jouables aujourd'hui : **Solo = Le Voyage** (infini), **Histoire** (6 × 10 combats), **Entraînement**, **La première leçon** (tutoriel).
-Chaque héros a 3 armes qui progressent (niveaux 1 à 10) et un emplacement de talisman. À venir : cosmétiques / boutique, **Duel** (multijoueur).
+Chaque héros a 3 armes qui progressent (niveaux 1 à 10) et un emplacement de talisman. Économie : or, gemmes, coffres et cosmétiques. À venir : **Duel** (multijoueur).
 
 Lancer : `py -m http.server 8123` dans ce dossier, puis http://localhost:8123 (les modules et les JSON ne se chargent pas en `file://`).
 Sur téléphone : `py -m http.server 8123 --bind 0.0.0.0`. Tester en 390 × 800 et en 360 × 640.
@@ -30,7 +30,7 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
 - Seuils « proposés » affichés dans la maquette de combat : **non repris** (seules les couleurs par palier le sont).
 - Combat : sprites de ¾ dos pour le héros, animations = simples transformations des sprites, déduites de l'état du jeu
   (`src/ui/anim.js`). Corps à corps (Aldric, Nyra, Boran) : ruée + coup d'arme ; à distance (Kestrel, Ilwen, Mira) : projectile.
-- Ce qui n'est pas codé (skins, boutique, Duel) est affiché et marqué « Bientôt ». Pas de monnaie premium : pas de pay-to-win.
+- Ce qui n'est pas codé (Duel) est affiché et marqué « Bientôt ». Gemmes (achat réel plus tard) : **cosmétiques seulement, jamais d'avantage en jeu**.
 
 ## Règles de combat (valeurs dans `data/`)
 - **Niveaux de réussite** (`data/grades.json`), selon la précision du tracé :
@@ -114,6 +114,33 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   nettement au-dessus ; Couteaux de lancer relevés (jauge 10 → 15 par ennemi vaincu) ; à surveiller : Arbalète (+12 à 17 % de score),
   Bâton de sève (Mira tombe plus tôt à faible précision). Mira ne tombe presque jamais (180 PV + soin) : équilibre des héros à revoir.
 
+## Économie et cosmétiques — `data/economy.json`, `data/cosmetics.json` — **fait**
+- **Or** (en fin de partie, perdu si on quitte) : Voyage 10 + 5 par arène traversée + 20 si record ; Histoire 30 à la 1re victoire
+  d'un combat, 5 ensuite ; chaque pièce ramassée = 2 or (Voyage et Histoire). **Gemmes** : 10 par gardien du Voyage battu la
+  1re fois, 30 par histoire terminée, 50 pour l'épilogue ; `syncGems()` les donne une seule fois (`prog.eco.granted`), rétroactives au lancement.
+- **Catalogue** (40 objets, commun / rare / épique ≈ 55 / 30 / 15 %) : 3 couleurs par héros (Teinte Lagon, Soleil, Rubis ; recolorations
+  `recolor` couleur d'origine → nouvelle), 6 skins d'arme (un par arme de départ : Lame Braise, Dague Givre, Poings de Lave, Grimoire Jade,
+  Arc Corail, Amulette Aurore), 10 tracés (Étincelle, Lierre, Arc-en-ciel, Étoiles, Bulles, Flammes, Confettis, Encre, Pixels, Notes),
+  6 skins complets épiques (`assets/skins/`). Prix : or pour commun / rare, gemmes pour l'épique.
+- **Apparence** : `src/game/cosmetics.js` (possédés, équipement par héros : `tint`, `weapon`, `trail`, `skin` ; `look(hero)`),
+  `src/ui/looks.js` (lobby et combat), option `recolor` de `art.js` / `sprites.js` (le socle n'est jamais recoloré),
+  skin complet en combat = un seul calque (`combat-art.js` → `bakeSkin`, placé d'après le sprite d'origine), tracés dans `hud.js`.
+  Un skin complet remplace la couleur et le skin d'arme. La leçon garde l'apparence d'origine. Limite : l'Arc Corail recolore aussi
+  la ceinture et le bandeau de Kestrel (même couleur dans le sprite), les Poings de Lave aussi ses épaulières.
+- **Coffres** (gemmes) : simple 60 (70 / 25 / 5 %, épique garanti au plus tard au 10e coffre sans épique : `prog.eco.pity`),
+  Trois Signes 150 (3 objets, au moins 1 rare). Jamais un objet déjà possédé ; « Collection complète » quand il n'en reste plus assez.
+  **Probabilités affichées à côté du bouton**, bouton « Probabilités » (chances, garanties, liste complète). Ouverture animée, son selon
+  la meilleure rareté (`rarities[].sound`). Pays sans coffres payants (`noPaidChests`, commence par BE ; langue du navigateur ou fuseau
+  horaire) : coffres désactivés, tout reste achetable directement.
+- **Boutique** (`src/ui/shop-ui.js`, `shop.css`) : onglets Coffres, Cosmétiques (Tout, Armes, Couleurs, Tracés, Skins ; achat avec
+  confirmation, puis « Équiper »), Gemmes (4 packs 80 / 450 / 1000 / 2200, désactivés « Disponible dans l'application »).
+  Compteurs or / gemmes en haut du lobby (le « + » mène aux Gemmes) ; le record reste sur la carte du Voyage.
+- **Onglet Personnage** : carte Cosmétiques (skin, couleur, skin d'arme, tracé ; « Voir la boutique »).
+- **Mode test** (développement : `localhost`, `127.0.0.1` ou `?test`) dans Réglages : +1000 or, +500 gemmes, pays BE / FR, remise à zéro.
+- Testé le 28/09/2026 : 30 coffres sans doublon, garantie au 10e, probabilités mesurées sur 4000 tirages (69 / 26 / 4,5 %),
+  Trois Signes jamais sans rare, collection complète après 40 objets, Belgique bloquée, achats refusés sans assez d'or ou en double.
+- Sauvegarde : `prog.eco = { gold, gems, granted, owned, equipped, pity, opened }`.
+
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
   `src/ui/cutscene.js` (lecteur de cinématiques et dialogues, lettre par lettre, « Passer »).
@@ -170,7 +197,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
-  `src/data.js` charge : grades, characters, enemies, waves, rules, shop, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -199,15 +226,16 @@ src/
   input/gestures.js  reconnaissance des gestes + précision
   game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP et niveaux des héros, sauvegarde)
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
-         talismans.js  rewards.js (récompenses méritées, rétroactives)
+         talismans.js  rewards.js (récompenses méritées, rétroactives)  economy.js (or, gemmes, coffres)  cosmetics.js
   story/story.js     déroulé du mode Histoire
   audio/ audio.js  synth.js
   ui/    lobby.js (+ réglages, crédits, résultats)  hud.js (rendu canvas)  combat-hud.js  combat-art.js  anim.js  sprites.js
          art.js  icons.js  assets.js (images + replis)  cutscene.js  story-ui.js  story-art.js
          tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (cartes Armes / Talisman, XP de fin de partie)
-         reward-ui.js (écran « Nouvelle arme / Nouveau talisman »)
-         organic.css (ne pas modifier)  lobby.css  style.css  story.css  tutorial.css  voyage.css
-data/    characters grades enemies waves rules shop story_mode voyage tutorial audio credits weapons talismans progression (.json)
+         reward-ui.js (écran « Nouvelle arme / Nouveau talisman / Gemmes »)  shop-ui.js (boutique, coffres, carte Cosmétiques)
+         looks.js (apparence des héros)  money.js (or et gemmes)
+         organic.css (ne pas modifier)  lobby.css  shop.css  style.css  story.css  tutorial.css  voyage.css
+data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics (.json)
 assets/  portraits/  ennemis/  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
 tools/boutique-art/  générateur provisoire des skins épiques (gen.mjs) et de leur planche (planches.mjs → design/planches-boutique/)
@@ -220,33 +248,10 @@ prototype/ prototype d'origine
   pas de défilement horizontal, tous les boutons restent visibles et utilisables, aucune erreur dans la console.
 
 ## Prochaines tâches (dans cet ordre)
-0. **Économie (demande du 28/09/2026, pas encore commencée)** — elle remplacera la règle « pas de gemmes » de la Direction artistique :
-   Résumé du message :
-   - Données dans `data/economy.json` et `data/cosmetics.json` ; les cosmétiques ne donnent jamais d'avantage.
-   - Or : fin de Voyage 10 + 5/arène + 20 si record ; Histoire 30 (1re victoire) / 5 ; les pièces ramassées deviennent de l'or.
-     Gemmes : 10 par gardien battu la 1re fois, 30 par histoire terminée, 50 pour l'épilogue (rétroactif au lancement).
-     Compteurs or/gemmes en haut du lobby, « + » sur les gemmes → onglet Gemmes.
-   - Catalogue : 3 couleurs par héros (recolorations en code, garder Teinte Lagon et Teinte Soleil), 10 tracés en code
-     (dont Étincelle et Lierre, + arc-en-ciel, étoiles, bulles, flammes, confettis, encre, pixels, notes), 1 skin d'arme par arme
-     de départ (garder Lame Braise et Arc Corail ; signaler si le sprite ne permet pas), 1 emplacement de skin complet
-     épique par héros (`assets/skins/{heros}_{skin}.svg`, repli habituel). Raretés ≈ 60/30/10 %.
-   - Coffres : simple 60 gemmes (commun 70 / rare 25 / épique 5), Trois Signes 150 gemmes (3 objets, ≥ 1 rare), pas de doublon,
-     « Collection complète », garantie épique après 10 coffres simples sans épique, **probabilités et liste affichées à côté du
-     bouton d'achat (Google Play)**, animation + son selon la rareté, liste de pays sans coffres payants (commencer par "BE").
-   - Boutique : onglets Coffres (bouton Probabilités), Cosmétiques (Tout, Armes, Couleurs, Tracés, Skins ; achat or/gemmes
-     avec confirmation), Gemmes (4 packs 80/0,99 €, 450/4,99 €, 1000/9,99 €, 2200/19,99 €, désactivés « Disponible dans
-     l'application »).
-   - Onglet Personnage : carte Cosmétique pour équiper couleur ou skin, skin d'arme, tracé, avec aperçu ; affichés en combat,
-     lobby et histoire.
-   - **Images déjà prêtes** (28/09/2026, voir `assets/IMAGES.md`) : or, gemme, 4 packs, 2 coffres fermés / ouverts, 3 cadres
-     (Claude Design) ; 1 skin épique par héros, lobby + combat (générés en code, en attendant des dessins Claude Design).
-     Les skins d'arme, couleurs et tracés restent à faire en code.
-   - Mode test caché (développement seulement) pour se donner or et gemmes. Tester achats, 30 coffres sans doublon, garantie,
-     probabilités. Publier sur main.
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
 2. **Multijoueur (Duel)** : tour par tour, sans serveur temps réel (Firebase ou Supabase : seeds, scores, contrôle de cohérence).
    Vague 1 jouée en même temps (même seed), le meilleur score commence, chaque score durcit la vague de l'adversaire,
    KO avant le boss = défaite, sinon le plus gros score gagne. **Bonus d'armes neutralisés en Duel** : déjà prévu,
    il suffit de marquer le combat `duel: true` (voir « Armes, talismans et récompenses ») ; décider aussi si le Duel rapporte de l'XP d'arme.
 
-Plus tard : cosmétiques / boutique (tout s'obtient en jouant), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.
+Plus tard : achat réel des gemmes (dans l'application), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.

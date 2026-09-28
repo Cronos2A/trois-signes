@@ -4,6 +4,7 @@
 // Après le 10e : fin, fragment de mémoire, et l'épilogue quand les six sont terminées.
 import { D } from '../data.js';
 import { prog, saveProg, addXp } from '../game/progress.js';
+import { storyGold, addGold, syncGems } from '../game/economy.js';
 import { playScene } from '../ui/cutscene.js';
 import { renderChoice, renderMap, renderDefeat, renderVictory, renderFragment, renderUnlock, hideStory } from '../ui/story-ui.js';
 import { enemyUrl, who, bossInfo } from '../ui/assets.js';
@@ -96,7 +97,9 @@ async function afterCombat(h, k, why, res) {
   sfx(why === 'win' ? 'victoire' : 'defaite');
   if (why !== 'win') {
     music('musique_lobby');
-    renderDefeat(k, { retry: () => launch(h, k, false), review: () => launch(h, k, true), back: () => showMap(h) }, res.weapon);
+    const lost = storyGold(false, false, res.coins || 0);            // les pièces ramassées restent acquises
+    if (lost) addGold(lost);
+    renderDefeat(k, { retry: () => launch(h, k, false), review: () => launch(h, k, true), back: () => showMap(h) }, res.weapon, lost);
     return;
   }
   const done = st().done[h.id] || (st().done[h.id] = []);
@@ -105,8 +108,10 @@ async function afterCombat(h, k, why, res) {
   const X = D.progression.xp.story;
   if (first) done.push(k.n);
   const xp = addXp(h.id, first ? X.firstWin : X.repeatWin);
+  const gold = storyGold(true, first, res.coins || 0);            // data/economy.json → gold.story
+  addGold(gold);
   saveProg();
-  await renderVictory(k, xp, res.weapon);
+  await renderVictory(k, xp, res.weapon, gold);
   await showRewards(syncRewards());          // combats 5 et 10 : armes alternatives du héros
   hideStory();
   music(placeMusic(k.lieu));
@@ -122,11 +127,13 @@ async function afterCombat(h, k, why, res) {
     if (!st().fragments.includes(h.id)) { st().fragments.push(h.id); saveProg(); }
     sfx('deblocage');
     await renderFragment(st().fragments.length, h);
+    await showRewards(syncGems());           // gemmes : histoire terminée
     if (st().fragments.length >= SM().histoires.length && !st().epilogue) {
       hideStory();
       await playScene(SM().epilogue_final.cinematique);
       st().epilogue = true;
       saveProg();
+      await showRewards(syncGems());         // gemmes : épilogue
       sfx('deblocage');
       // Eldan débloqué (« Bientôt disponible ») : voir sa carte dans le choix des histoires, ou revenir au lobby.
       renderUnlock({ see: () => openStory(true), later: () => { hideStory(); api.toLobby(); } });
@@ -135,5 +142,5 @@ async function afterCombat(h, k, why, res) {
     openStory();
     return;
   }
-  showMap(h, `Victoire ! +${res.gain + bonus} XP${bonus ? ` (dont ${bonus} de première victoire)` : ''}`);
+  showMap(h, `Victoire ! +${xp.gain} XP · +${gold} or`);
 }

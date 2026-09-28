@@ -1,0 +1,122 @@
+/* Boutique, monnaies, coffres et cosmétiques (ui/shop-ui.js). Même style que le lobby (lobby.css). */
+.money-ic{display:block;flex-shrink:0;object-fit:contain}
+.price{display:inline-flex;align-items:center;gap:4px}
+.price b{font-family:var(--font-heading);font-weight:400}
+.price.gold b{color:var(--sun)}
+.price.gems b{color:#E6CCFF}
+
+/* Compteurs du haut */
+.cur-pill.gold span{color:var(--sun)}
+.cur-pill.gems{position:relative;padding-right:24px}
+.cur-pill.gems span{color:#E6CCFF}
+.cur-pill .plus{position:absolute;right:-8px;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:var(--btn-lime);border:3px solid var(--ink);box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--font-heading);font-size:15px;line-height:1;color:var(--ink)}
+.head-pills .cur-pill{min-width:84px;justify-content:flex-start}
+
+/* Onglets de la boutique */
+.shop-tabs .chip.sub{flex:1;font-size:13.5px}
+.shop-tabs .chip.sub.on{background:var(--sun)}
+.shop-note{padding:10px 12px;border-radius:16px;border:3px solid var(--ink);background:var(--mint);font-weight:800;font-size:12.5px;line-height:1.3;flex-shrink:0}
+.shop-note.warn{background:#FFE0D6}
+.shop-note.soft{background:none;border:0;padding:0 4px;color:#E6FAD8;text-align:center}
+
+/* Coffres */
+.chest-card{position:relative;display:flex;gap:6px;padding:14px;min-height:170px;background:var(--color-bg);border:4px solid var(--ink);border-radius:26px;box-shadow:0 6px 0 var(--ink);overflow:hidden;flex-shrink:0;box-sizing:border-box}
+.chest-card.gold{background:var(--sun)}
+.chest-txt{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;align-items:flex-start;z-index:1}
+.chest-name{font-family:var(--font-heading);font-size:21px;line-height:1.05}
+.chest-desc{font-size:12px;font-weight:700;line-height:1.3}
+.chest-odds{display:flex;flex-wrap:wrap;gap:4px}
+.chest-odds span{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:999px;border:2px solid var(--ink);background:color-mix(in srgb,var(--rc) 30%,#fff);white-space:nowrap}
+.chest-pity{font-size:11px;font-weight:800;color:#6B3FA0}
+.chest-btns{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.chest-btns .offer-btn{gap:6px;padding:0 14px 0 8px;height:42px}
+.chest-btns .offer-btn .ol{font-size:17px}
+.chest-btns .offer-btn:disabled{filter:saturate(.5);opacity:.7}
+.odds-btn{padding:0 12px;height:34px;background:var(--color-bg)}
+.chest-why{font-size:11px;font-weight:800;color:#8E1F3A}
+.chest-img{position:relative;width:118px;height:118px;align-self:center;object-fit:contain;flex-shrink:0;margin-right:-6px}
+
+/* Cosmétiques */
+.shop-grid .shop-item{position:relative}
+.shop-txt em{font-style:normal;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.shop-price.buy{color:#fff;cursor:pointer}
+.shop-price.buy .price b{font-size:13px}
+.shop-price.poor{opacity:.55}
+.shop-price.owned{background:var(--lime);color:var(--ink);font-family:var(--font-body);font-weight:800;font-size:11.5px}
+.th{position:relative;width:100%;aspect-ratio:1;max-width:var(--th);margin:0 auto;border-radius:14px;overflow:hidden;background:color-mix(in srgb,var(--tc) 45%,#1F7A3D);display:flex;align-items:center;justify-content:center}
+.th .facets{border-radius:14px}
+.th-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.th-ic{position:relative;display:flex}
+.th-hero{position:relative;width:78%;height:92%;margin-top:6%}
+.th-hero svg{width:100%;height:100%}
+.th-skin{position:relative;width:86%;height:86%;object-fit:contain;margin-top:8%}
+
+/* Gemmes */
+.pack-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pack{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px;border-radius:20px;border:3px solid var(--ink);background:var(--color-bg);box-shadow:0 4px 0 var(--ink)}
+.pack img{width:92px;height:92px;object-fit:contain}
+.pack-n{display:flex;align-items:center;gap:5px;font-family:var(--font-heading);font-size:18px}
+.pack .shop-price{align-self:stretch;opacity:.6}
+
+/* Fenêtres */
+.shop-card{gap:10px;align-items:stretch}
+.shop-big{display:flex;justify-content:center}
+.shop-big .th{width:120px}
+.shop-line{margin:0;text-align:center;font-weight:700;font-size:14px;display:flex;flex-direction:column;gap:2px}
+.shop-line span{font-size:12px;color:var(--text-soft)}
+.shop-line em{font-style:normal;font-weight:800}
+.odds-card{max-height:calc(100% - 20px)}
+.odds-row{font-size:13px;display:flex;flex-direction:column;gap:4px}
+.odds-group ul{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px}
+.odds-group li{font-size:12.5px;font-weight:800;display:flex;justify-content:space-between;gap:6px}
+.odds-group li small{font-weight:700;color:var(--text-soft);text-align:right}
+.odds-group li.have{opacity:.55}
+.odds-rar{font-family:var(--font-heading);font-size:16px;-webkit-text-stroke:.5px var(--ink)}
+
+/* Ouverture d'un coffre */
+.lb-modal.chest{background:color-mix(in srgb,var(--ink) 90%,transparent)}
+.chest-open{position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;cursor:pointer}
+.co-chest{width:min(62vw,230px);height:auto}
+.co-chest.shake{animation:coShake .9s ease-in-out infinite}
+.co-chest.pop{width:min(46vw,170px);animation:coPop .4s ease-out}
+.co-tap{font-size:20px;animation:coBlink 1.2s ease-in-out infinite}
+.co-glow{position:absolute;left:50%;top:36%;width:320px;height:320px;margin:-160px 0 0 -160px;border-radius:50%;background:radial-gradient(circle,rgba(255,230,140,.75),rgba(255,230,140,0) 65%);pointer-events:none;animation:coGlow 1.6s ease-out}
+.chest-open.r-rare .co-glow{background:radial-gradient(circle,rgba(120,180,255,.8),rgba(120,180,255,0) 65%)}
+.chest-open.r-epique .co-glow{background:radial-gradient(circle,rgba(200,140,255,.9),rgba(200,140,255,0) 65%)}
+.co-items{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:360px}
+.co-item{width:104px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 6px;border-radius:18px;border:3px solid var(--ink);background:var(--color-bg);box-shadow:0 4px 0 var(--ink);text-align:center;opacity:0;animation:coItem .45s ease-out forwards}
+.co-item .th{width:88px}
+.co-item b{font-size:12px;line-height:1.1}
+.co-item span{font-size:10px;font-weight:700;color:var(--text-soft)}
+.co-item em{font-style:normal;font-size:10px;font-weight:800;text-transform:uppercase}
+.co-item.r-epique{box-shadow:0 4px 0 var(--ink),0 0 18px 4px rgba(200,140,255,.8)}
+.co-ok{width:min(300px,86vw);animation:coItem .4s ease-out 1.3s both}
+@keyframes coShake{0%,100%{transform:rotate(0)}15%{transform:rotate(-6deg) scale(1.03)}30%{transform:rotate(5deg)}45%{transform:rotate(-4deg) scale(1.05)}60%{transform:rotate(3deg)}75%{transform:rotate(0) scale(1)}}
+@keyframes coPop{from{transform:scale(.6)}to{transform:scale(1)}}
+@keyframes coBlink{50%{opacity:.5}}
+@keyframes coGlow{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes coItem{from{opacity:0;transform:translateY(16px) scale(.8)}to{opacity:1;transform:none}}
+
+/* Carte Cosmétiques (onglet Personnage) */
+.mini-card.cos-card{flex:1 1 auto;min-width:0;gap:10px}
+.cos-row{display:flex;flex-direction:column;gap:5px}
+.cos-label{font-family:var(--font-heading);font-size:15px;display:flex;align-items:baseline;gap:8px}
+.cos-label small{font-family:var(--font-body);font-size:11px;font-weight:800;color:var(--text-soft)}
+.cos-opts{display:flex;flex-wrap:wrap;gap:6px}
+.cos-opt{display:flex;align-items:center;gap:5px;padding:5px 10px 5px 6px;border-radius:999px;border:2.5px solid var(--ink);background:var(--color-bg);box-shadow:0 2px 0 var(--ink);font-weight:800;font-size:11.5px}
+.cos-opt.on{background:var(--sun)}
+.cos-note{font-size:11px;font-weight:700;color:#6B3FA0;margin-top:-4px}
+
+/* Gains de fin de partie */
+.money-gain{display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-heading);font-size:17px;color:#8A5A10}
+.money-gain b{font-weight:400}
+
+/* Mode test */
+.test-row{padding-top:8px;border-top:2px dashed var(--sand)}
+.test-cur{align-self:center;font-size:12px;font-weight:800;white-space:nowrap}
+@media (max-height:700px){
+  .co-chest.pop{width:min(38vw,130px)}
+  .co-item{width:94px;padding:6px 4px}
+  .co-item .th{width:72px}
+  .chest-open{gap:10px}
+}

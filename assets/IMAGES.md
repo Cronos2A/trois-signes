@@ -189,7 +189,7 @@ Sans fichier, le jeu dessine une icône de repli (signe à facettes).
 ## Boutique, monnaies et skins
 
 Boutique et monnaies : Claude Design (`design/trois-signes-maquette-lobby`, dossiers `boutique/` et `icones/monnaies/`),
-reçues le 28/09/2026, avec leur certificat C2PA. Pas encore utilisées par le jeu (tâche Économie).
+reçues le 28/09/2026, avec leur certificat C2PA. Utilisées par la boutique (`src/ui/shop-ui.js`) et `data/economy.json`.
 
 - ✅ `assets/icones/monnaies/or.svg`, `assets/icones/monnaies/gemme.svg`
 - ✅ `assets/boutique/pack_gemmes_1.svg` à `pack_gemmes_4.svg` (poignée, bourse, coffret, grand coffre)

@@ -1,0 +1,98 @@
+{
+  "note": "Économie : pièces d'or (gagnées en jouant) et gemmes (gagnées en jouant ; achat réel plus tard, dans l'application). Les cosmétiques ne donnent jamais d'avantage. Les gains s'ajoutent en fin de partie seulement (perdus si on quitte).",
+  "icons": { "gold": "assets/icones/monnaies/or.svg", "gems": "assets/icones/monnaies/gemme.svg" },
+  "gold": {
+    "goldPerCoin": 2,
+    "voyage": { "base": 10, "perArena": 5, "record": 20 },
+    "story": { "firstWin": 30, "repeatWin": 5 }
+  },
+  "gems": {
+    "guardianFirst": 10,
+    "storyComplete": 30,
+    "epilogue": 50
+  },
+  "chests": {
+    "simple": {
+      "name": "Coffre simple", "price": 60, "count": 1,
+      "odds": { "commun": 70, "rare": 25, "epique": 5 },
+      "guaranteeEpicAfter": 10,
+      "image": { "closed": "assets/boutique/coffre_simple_ferme.svg", "open": "assets/boutique/coffre_simple_ouvert.svg" },
+      "text": "1 cosmétique au hasard"
+    },
+    "trois_signes": {
+      "name": "Coffre des Trois Signes", "price": 150, "count": 3,
+      "odds": { "commun": 70, "rare": 25, "epique": 5 },
+      "minRare": 1,
+      "image": { "closed": "assets/boutique/coffre_trois_signes_ferme.svg", "open": "assets/boutique/coffre_trois_signes_ouvert.svg" },
+      "text": "3 cosmétiques, dont au moins 1 rare"
+    }
+  },
+  "rarities": {
+    "commun": { "name": "Commun", "color": "#5CC44A", "frame": "assets/boutique/cadre_commun.svg", "sound": "piece" },
+    "rare": { "name": "Rare", "color": "#3D8BFF", "frame": "assets/boutique/cadre_rare.svg", "sound": "combo" },
+    "epique": { "name": "Épique", "color": "#8B4DE8", "frame": "assets/boutique/cadre_epique.svg", "sound": "deblocage" }
+  },
+  "gemPacks": [
+    { "id": "pack_1", "gems": 80, "price": "0,99 €", "image": "assets/boutique/pack_gemmes_1.svg" },
+    { "id": "pack_2", "gems": 450, "price": "4,99 €", "image": "assets/boutique/pack_gemmes_2.svg" },
+    { "id": "pack_3", "gems": 1000, "price": "9,99 €", "image": "assets/boutique/pack_gemmes_3.svg" },
+    { "id": "pack_4", "gems": 2200, "price": "19,99 €", "image": "assets/boutique/pack_gemmes_4.svg" }
+  ],
+  "noPaidChests": {
+    "note": "Pays où les coffres payants (loot boxes) sont interdits : les coffres y sont désactivés, chaque cosmétique reste achetable directement. Pays lu dans la langue du navigateur (fr-BE…) ou son fuseau horaire.",
+    "countries": ["BE"],
+    "timezones": { "Europe/Brussels": "BE" }
+  },
+  "test": {
+    "note": "Mode test (développement seulement) : visible dans Réglages quand le jeu tourne sur ces hôtes, ou avec ?test dans l'adresse.",
+    "hosts": ["localhost", "127.0.0.1"],
+    "param": "test",
+    "gold": 1000,
+    "gems": 500
+  },
+  "ui": {
+    "tabs": [["chests", "Coffres"], ["cosmetics", "Cosmétiques"], ["gems", "Gemmes"]],
+    "filters": [["all", "Tout"], ["weapon", "Armes"], ["color", "Couleurs"], ["trail", "Tracés"], ["skin", "Skins"]],
+    "open": "Ouvrir",
+    "odds": "Probabilités",
+    "oddsTitle": "Probabilités",
+    "oddsIntro": "Chaque coffre donne des cosmétiques que tu n'as pas encore, sans doublon. Les cosmétiques ne donnent aucun avantage en jeu.",
+    "oddsGuarantee": "Coffre simple : un objet épique garanti après {n} coffres sans épique.",
+    "oddsMinRare": "Coffre des Trois Signes : au moins 1 objet rare ou épique.",
+    "pityLeft": "Épique garanti dans {n} coffres",
+    "pityNow": "Épique garanti au prochain coffre",
+    "complete": "Collection complète",
+    "banned": "Coffres indisponibles dans ton pays : chaque cosmétique s'achète directement.",
+    "notEnough": "Pas assez de gemmes",
+    "notEnoughGold": "Pas assez d'or",
+    "buy": "Acheter",
+    "owned": "Possédé",
+    "equipped": "Équipé",
+    "equip": "Équiper",
+    "confirmTitle": "Confirmer l'achat",
+    "confirmText": "Acheter {name} pour {price} ?",
+    "confirmOk": "Acheter",
+    "cancel": "Annuler",
+    "chestTitle": "Ouverture",
+    "chestTap": "Toucher pour ouvrir",
+    "chestOk": "Super !",
+    "newItem": "Nouveau !",
+    "packsTitle": "Gemmes",
+    "packsNote": "Disponible dans l'application",
+    "packsFree": "Les gemmes se gagnent aussi en jouant : gardiens du Voyage battus, histoires terminées, épilogue.",
+    "gain": "+{n}",
+    "gemsName": "+{n} gemmes",
+    "gemsReward": "GEMMES GAGNÉES",
+    "gemsFor": {
+      "guardian": "Gardien de {name} battu",
+      "story": "Histoire de {name} terminée",
+      "epilogue": "Épilogue de l'histoire"
+    },
+    "gemsOk": "Continuer",
+    "testTitle": "Mode test",
+    "testGold": "+{n} or",
+    "testGems": "+{n} gemmes",
+    "testCountry": "Pays",
+    "testReset": "Remettre la boutique à zéro"
+  }
+}

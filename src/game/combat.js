@@ -94,6 +94,7 @@ function tryPickup(x, y) {
   if (best.type === 'coin') {
     const v = Math.round(P.coinValue * g.mult * cm * (T.coinMult || 1));   // Épi d'or
     addScore(v + g.bonus);
+    G.coins++;                                                             // pièces → or en fin de partie
     pop(best.x, best.y - 20, '+' + v, 'points', g.col, 0.9, 22);
   } else {
     const v = Math.round(P.heartHeal * g.mult * cm * (T.heartMult || 1));  // Goutte claire

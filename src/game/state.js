@@ -9,7 +9,7 @@ export const G = {
   paused: false,           // Voyage : écran de transition entre deux arènes
   voyage: null,            // Voyage : { stage, round, name, total } (lu par le HUD et l'écran de fin)
   enemies: [], loots: [], summons: [],
-  fx: [], pops: [], trails: [], bigGrade: null, superBanner: null, drawing: null,
+  fx: [], pops: [], trails: [], trailStyle: null, bigGrade: null, superBanner: null, drawing: null,
   stats: {}, trainSpawn: 0, trainMsg: '',
   listen: null             // Leçon : écoute les événements du combat (game/tutorial.js)
 };

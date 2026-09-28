@@ -443,32 +443,79 @@ function drawImpacts(ctx) {
 
 /* ---------- Tracés (comme TS.trace de la maquette : halo, ombre, cœur doré, fil blanc) ---------- */
 
-function trace(ctx, pts, a, glow, tip) {
+// st : tracé cosmétique (data/cosmetics.json → trail) : couleurs du cœur, fil, petites formes posées le long du trait.
+function trace(ctx, pts, a, glow, tip, st) {
   if (pts.length < 2) return;
   const path = new Path2D();
   path.moveTo(pts[0].x, pts[0].y);
   for (let i = 1; i < pts.length; i++) path.lineTo(pts[i].x, pts[i].y);
-  const last = pts[pts.length - 1];
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  const last = pts[pts.length - 1], core = st ? st.core : null;
+  ctx.lineCap = st && st.square ? 'square' : 'round'; ctx.lineJoin = st && st.square ? 'miter' : 'round';
   ctx.globalAlpha = a * 0.35; ctx.strokeStyle = glow; ctx.lineWidth = 30 * k; ctx.stroke(path);
   ctx.globalAlpha = a * 0.3; ctx.strokeStyle = INK; ctx.lineWidth = 19 * k; ctx.stroke(path);
   const g = ctx.createLinearGradient(pts[0].x, pts[0].y, last.x, last.y);
-  g.addColorStop(0, 'rgba(255,210,63,.45)'); g.addColorStop(1, '#FFF4C4');
+  if (core) core.forEach((c, i) => g.addColorStop(core.length > 1 ? i / (core.length - 1) : 0, c));
+  else { g.addColorStop(0, 'rgba(255,210,63,.45)'); g.addColorStop(1, '#FFF4C4'); }
   ctx.globalAlpha = a; ctx.strokeStyle = g; ctx.lineWidth = 14 * k; ctx.stroke(path);
-  ctx.globalAlpha = a * 0.9; ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 5 * k; ctx.stroke(path);
+  ctx.globalAlpha = a * 0.9; ctx.strokeStyle = (st && st.wire) || '#FFFFFF'; ctx.lineWidth = 5 * k; ctx.stroke(path);
+  if (st && st.particle) trailBits(ctx, pts, a, st);
+  const tipCol = core ? core[0] : '#FFD23F';
   if (tip) {
-    ctx.globalAlpha = a * 0.4; ctx.fillStyle = '#FFD23F';
+    ctx.globalAlpha = a * 0.4; ctx.fillStyle = tipCol;
     ctx.beginPath(); ctx.arc(last.x, last.y, 24 * k, 0, Math.PI * 2); ctx.fill();
-    ctx.globalAlpha = a; ctx.lineWidth = 3.5; ctx.strokeStyle = '#FFD23F';
+    ctx.globalAlpha = a; ctx.lineWidth = 3.5; ctx.strokeStyle = tipCol;
     ctx.beginPath(); ctx.arc(last.x, last.y, 13 * k, 0, Math.PI * 2); ctx.stroke();
     ctx.fillStyle = '#FFFFFF'; ctx.beginPath(); ctx.arc(last.x, last.y, 8 * k, 0, Math.PI * 2); ctx.fill();
   }
   ctx.globalAlpha = 1;
 }
 
+/** Petites formes le long du tracé, tous les ~26 px, décalées de part et d'autre (toujours au même endroit). */
+function trailBits(ctx, pts, a, st) {
+  const step = 26 * k, cols = st.pcolors || ['#FFFFFF'];
+  let run = step * 0.5, n = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const p0 = pts[i - 1], p1 = pts[i], dx = p1.x - p0.x, dy = p1.y - p0.y, d = Math.hypot(dx, dy);
+    if (!d) continue;
+    run += d;
+    while (run >= step) {
+      run -= step;
+      const t = 1 - run / d, side = n % 2 ? 1 : -1, off = (9 + (n * 7) % 6) * k;
+      const x = p0.x + dx * t - dy / d * off * side, y = p0.y + dy * t + dx / d * off * side;
+      bit(ctx, st.particle, x, y, (4 + (n % 3)) * k, cols[n % cols.length], a, n);
+      n++;
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+function bit(ctx, kind, x, y, r, col, a, n) {
+  ctx.globalAlpha = a; ctx.fillStyle = col; ctx.strokeStyle = INK; ctx.lineWidth = 1.6 * k;
+  ctx.beginPath();
+  if (kind === 'spark' || kind === 'star') {
+    const pts = kind === 'star' ? 5 : 4;
+    for (let i = 0; i < pts * 2; i++) { const t = i * Math.PI / pts - Math.PI / 2, rr = i % 2 ? r * 0.42 : r * 1.3; ctx.lineTo(x + Math.cos(t) * rr, y + Math.sin(t) * rr); }
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+  } else if (kind === 'bubble') {
+    ctx.arc(x, y, r, 0, Math.PI * 2); ctx.globalAlpha = a * 0.5; ctx.fill(); ctx.globalAlpha = a; ctx.strokeStyle = col; ctx.stroke();
+  } else if (kind === 'square') {
+    const s = r * 1.3, t = n * 0.9; ctx.save(); ctx.translate(x, y); ctx.rotate(t); ctx.rect(-s / 2, -s / 2, s, s); ctx.fill(); ctx.stroke(); ctx.restore();
+  } else if (kind === 'leaf') {
+    ctx.ellipse(x, y, r * 1.3, r * 0.6, n * 0.8, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  } else if (kind === 'flame' || kind === 'drop') {
+    const up = kind === 'flame' ? -1 : 1;
+    ctx.moveTo(x, y + up * r * 1.6); ctx.quadraticCurveTo(x + r, y, x, y - up * r * 0.8); ctx.quadraticCurveTo(x - r, y, x, y + up * r * 1.6);
+    ctx.fill(); ctx.stroke();
+  } else if (kind === 'note') {
+    ctx.ellipse(x, y, r * 0.8, r * 0.6, -0.4, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x + r * 0.7, y); ctx.lineTo(x + r * 0.7, y - r * 2.2); ctx.lineTo(x + r * 1.5, y - r * 1.7);
+    ctx.lineWidth = 2 * k; ctx.strokeStyle = col; ctx.stroke();
+  }
+}
+
 function drawTrails(ctx) {
-  for (const t of G.trails) trace(ctx, t.pts, 0.7 * (1 - t.t / t.life), t.col, false);
-  if (G.drawing) trace(ctx, G.drawing.pts, 1, '#FFD23F', true);
+  for (const t of G.trails) trace(ctx, t.pts, 0.7 * (1 - t.t / t.life), t.col, false, G.trailStyle);
+  if (G.drawing) trace(ctx, G.drawing.pts, 1, (G.trailStyle && G.trailStyle.core[0]) || '#FFD23F', true, G.trailStyle);
 }
 
 /* ---------- Textes ---------- */

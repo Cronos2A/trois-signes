@@ -9,6 +9,9 @@ import { levelBonuses, grantXp, voyageXp, migrateProgress, prog } from './game/p
 import { weaponBonuses, grantWeaponXp, equippedWeapon, startWeapon } from './game/weapons.js';
 import { talismanEffect } from './game/talismans.js';
 import { syncRewards } from './game/rewards.js';
+import { voyageGold, addGold, syncGems } from './game/economy.js';
+import { look } from './game/cosmetics.js';
+import { combatLook } from './ui/looks.js';
 import { showRewards } from './ui/reward-ui.js';
 import { rand } from './util.js';
 import { draw } from './ui/hud.js';
@@ -51,7 +54,7 @@ function resize() {
 /** Décor (lieu du combat en Histoire) et sprites, préparés à la taille de l'écran (voir ui/combat-art.js). */
 function prepareArt(c, battle) {
   paintBackground($('bg'), G.W, G.H, dpr, battle.lieu, battle.bg).catch(() => {});
-  return prepareCombatArt(c.id, G.W, G.H, dpr, Object.values(D.enemies).map(e => e.sprite), battle.art);
+  return prepareCombatArt(c.id, G.W, G.H, dpr, Object.values(D.enemies).map(e => e.sprite), battle.art, battle.tutorial ? null : combatLook(c.id));
 }
 
 /* ---------- Partie ---------- */
@@ -64,6 +67,7 @@ function resetGame(c, battle) {
   const Wb = weaponBonuses(wid, duel);
   G.weapon = { ...Wb, gain: 0 };
   G.talisman = battle.tutorial ? {} : talismanEffect(c.id, duel);
+  G.trailStyle = battle.tutorial ? null : look(c.id).trail;          // tracé cosmétique (la leçon garde le tracé d'origine)
   const Lb = levelBonuses(c.id, duel);                 // niveau du héros (data/progression.json)
   G.atkMult = Lb.atk * Wb.atk;
   const P = c.passive || {};
@@ -78,7 +82,7 @@ function resetGame(c, battle) {
   Object.assign(G, {
     enemies: [], loots: [], summons: [], fx: [], pops: [], trails: [],
     time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, scoreMult: 1, paused: false, voyage: null, listen: null, tuto: null, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
-    streak: { name: null, n: 0 }, roundsCleared: 0, guardiansBeaten: 0, missForgiven: 0, combos: 0, globalGap: 0, stats: emptyStats()
+    streak: { name: null, n: 0 }, coins: 0, roundsCleared: 0, guardiansBeaten: 0, missForgiven: 0, combos: 0, globalGap: 0, stats: emptyStats()
   });
 }
 
@@ -182,16 +186,19 @@ function endGame(why) {
   const xp = G.battle.xpMode === 'voyage' ? voyageXp(G.roundsCleared, G.guardiansBeaten) : 0;
   const { gain, before, after, max, record } = grantXp(G.charId, xp, G.score, !G.battle.onEnd);
   const weapon = grantWeaponXp();
+  // Or : le Voyage le donne ici (base, arènes traversées, record, pièces) ; l'Histoire après le combat (story.js).
+  const goldGain = G.battle.xpMode === 'voyage' ? voyageGold(G.voyage ? G.voyage.stage : 0, record, G.coins) : 0;
+  if (goldGain) addGold(goldGain);
   $('hud').classList.add('hidden');
   document.documentElement.classList.remove('in-game');
   const b = G.battle;
   curChar = null; curBattle = null;
   traceStop();
-  if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score, weapon }); return; }
+  if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score, weapon, coins: G.coins }); return; }
   sfx(why === 'win' ? 'victoire' : 'defaite');
   music('musique_lobby');
-  showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, max, record, stats: G.stats, combos: G.combos, voyage: G.voyage, weapon });
-  showRewards(syncRewards());              // talisman d'un gardien battu juste avant le KO
+  showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, max, record, stats: G.stats, combos: G.combos, voyage: G.voyage, weapon, gold: goldGain });
+  showRewards([...syncRewards(), ...syncGems()]);   // talisman et gemmes d'un gardien battu pendant la partie
 }
 
 /* ---------- Démarrage ---------- */
@@ -232,7 +239,7 @@ async function init() {
   // Sinon : récompenses déjà méritées et pas encore reçues (sauvegardes d'avant les armes alternatives et talismans).
   maybePrologue().then(first => {
     if (first && !prog.tutorial) return startTutorial();
-    return showRewards(syncRewards()).then(showLobby);
+    return showRewards([...syncRewards(), ...syncGems()]).then(showLobby);
   });
 }
 

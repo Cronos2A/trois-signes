@@ -1,0 +1,190 @@
+// Boutique (onglet 03) : Coffres, Cosmétiques, Gemmes ; fenêtres d'achat, d'ouverture de coffre et de probabilités ;
+// carte Cosmétique de l'onglet Personnage. Textes et valeurs : data/economy.json et data/cosmetics.json.
+import { D } from '../data.js';
+import { prog } from '../game/progress.js';
+import { items, item, owned, forHero, equipped, equip, slotOf } from '../game/cosmetics.js';
+import { buy, canAfford, chestState, openChest, pityLeft, chestsAllowed } from '../game/economy.js';
+import { heroArt } from './art.js';
+import { heroLobbyHtml } from './looks.js';
+import { glyph, trailIcon, facets } from './icons.js';
+import { itemIcon, tpl } from './weapon-ui.js';
+import { moneyIcon, priceHtml, nf } from './money.js';
+import { sfx } from '../audio/audio.js';
+
+const U = () => D.economy.ui;
+const R = r => D.economy.rarities[r];
+const heroName = id => (D.characters.characters.find(c => c.id === id) || {}).name || '';
+const oddsLine = odds => ['commun', 'rare', 'epique'].map(r => `<span style="--rc:${R(r).color}">${R(r).name} ${odds[r]} %</span>`).join('');
+
+/* ---------- Vignettes ---------- */
+/** Vignette d'un cosmétique (aperçu + cadre de rareté). */
+export function thumbHtml(it, size = 76) {
+  let inner;
+  if (it.kind === 'color') inner = `<div class="th-hero">${heroArt(it.hero, it.recolor)}</div>`;
+  else if (it.kind === 'weapon') inner = `<div class="th-ic">${itemIcon('armes', it.weapon, Math.round(size * 0.56))}</div>`;
+  else if (it.kind === 'trail') inner = `<div class="th-ic">${trailIcon(it.color, Math.round(size * 0.56))}</div>`;
+  else inner = `<img class="th-skin" src="assets/skins/${it.id}.svg" alt="" draggable="false">`;
+  return `<div class="th" style="--th:${size}px;--tc:${it.color}">${facets.small()}${inner}<img class="th-frame" src="${R(it.rarity).frame}" alt="" draggable="false"></div>`;
+}
+const subLine = it => `${D.cosmetics.types[it.kind].name}${it.hero ? ' · ' + heroName(it.hero) : ''}`;
+
+/* ---------- Onglet Boutique ---------- */
+export function shopHtml(ui) {
+  const tabs = U().tabs.map(([k, label]) => `<button class="chip sub${ui.shopTab === k ? ' on' : ''}" data-act="shopTab" data-arg="${k}" aria-pressed="${ui.shopTab === k}">${label}</button>`).join('');
+  const body = ui.shopTab === 'cosmetics' ? cosmeticsHtml(ui) : ui.shopTab === 'gems' ? gemsHtml() : chestsHtml();
+  return `<div class="chips shop-tabs">${tabs}</div>${body}`;
+}
+
+function chestsHtml() {
+  const allowed = chestsAllowed();
+  const card = (id, C) => {
+    const st = chestState(id), gold = id === 'trois_signes';
+    const why = st.reason === 'complete' ? U().complete : st.reason === 'money' ? U().notEnough : st.reason === 'banned' ? '' : '';
+    const pity = id === 'simple' && C.guaranteeEpicAfter ? `<div class="chest-pity">${pityLeft() <= 1 ? U().pityNow : tpl(U().pityLeft, { n: pityLeft() })}</div>` : '';
+    return `<div class="chest-card${gold ? ' gold' : ''}">
+        ${facets.med()}
+        <div class="chest-txt">
+          <div class="chest-name">${C.name}</div>
+          <div class="chest-desc">${C.text}</div>
+          <div class="chest-odds">${oddsLine(C.odds)}</div>
+          ${pity}
+          <div class="grow"></div>
+          <div class="chest-btns">
+            <button class="offer-btn" data-act="openChest" data-arg="${id}" ${st.can ? '' : 'disabled'}>${moneyIcon('gems', 22)}<span class="ol ol-4">${U().open} · ${C.price}</span></button>
+            <button class="mini-btn odds-btn" data-act="odds">${U().odds}</button>
+          </div>
+          ${why ? `<span class="chest-why">${why}</span>` : ''}
+        </div>
+        <img class="chest-img" src="${C.image.closed}" alt="" draggable="false">
+      </div>`;
+  };
+  const C = D.economy.chests;
+  return (allowed ? '' : `<div class="shop-note warn">${U().banned}</div>`) + card('trois_signes', C.trois_signes) + card('simple', C.simple);
+}
+
+function cosmeticsHtml(ui) {
+  const chips = U().filters.map(([k, label]) => `<button class="chip${ui.filter === k ? ' on' : ''}" data-act="filter" data-arg="${k}" aria-pressed="${ui.filter === k}">${label}</button>`).join('');
+  const list = items().filter(i => ui.filter === 'all' || i.kind === ui.filter).map(it => {
+    const have = owned(it.id);
+    const btn = have ? `<div class="shop-price owned">${U().owned}</div>`
+      : `<button class="shop-price buy${canAfford(it.price) ? '' : ' poor'}" data-act="buy" data-arg="${it.id}">${priceHtml(it.price, 15)}</button>`;
+    return `<div class="shop-item r-${it.rarity}">
+        ${thumbHtml(it)}
+        <div class="shop-txt"><b>${it.name}</b><span>${subLine(it)}</span><em style="color:${R(it.rarity).color}">${R(it.rarity).name}</em></div>
+        ${btn}
+      </div>`;
+  }).join('');
+  return `<div class="chips">${chips}</div><div class="shop-grid">${list}</div>`;
+}
+
+function gemsHtml() {
+  const packs = D.economy.gemPacks.map(p => `<div class="pack">
+      <img src="${p.image}" alt="" draggable="false">
+      <div class="pack-n">${moneyIcon('gems', 18)}<b>${nf(p.gems)}</b></div>
+      <button class="shop-price" disabled>${p.price}</button>
+    </div>`).join('');
+  return `<div class="shop-note">${U().packsFree}</div><div class="pack-grid">${packs}</div><div class="shop-note soft">${U().packsNote}</div>`;
+}
+
+/* ---------- Fenêtres (dans #shopModal du lobby) ---------- */
+/** Confirmation d'achat. */
+export function confirmHtml(id) {
+  const it = item(id), p = it.price;
+  const price = p.gems ? `${nf(p.gems)} gemmes` : `${nf(p.gold)} or`;
+  return `<div class="res-card shop-card">
+      <div class="res-title ol ol-5 set-title">${U().confirmTitle}</div>
+      <div class="shop-big">${thumbHtml(it, 120)}</div>
+      <div class="shop-line"><b>${it.name}</b><span>${subLine(it)} · <em style="color:${R(it.rarity).color}">${R(it.rarity).name}</em></span></div>
+      <div class="shop-line">${tpl(U().confirmText, { name: it.name, price })}</div>
+      <button class="res-again" data-act="buyOk" data-arg="${id}"><span class="ol ol-4">${U().confirmOk}</span></button>
+      <button class="mini-btn" data-act="closeShop">${U().cancel}</button>
+    </div>`;
+}
+
+/** Achat fait : proposer d'équiper tout de suite. hero : héros pour qui équiper (tracés : héros actif). */
+export function boughtHtml(id, hero) {
+  const it = item(id);
+  return `<div class="res-card shop-card">
+      <div class="res-title ol ol-5 win">${U().newItem}</div>
+      <div class="shop-big">${thumbHtml(it, 120)}</div>
+      <div class="shop-line"><b>${it.name}</b><span>${subLine(it)}</span></div>
+      <button class="res-again" data-act="equipNow" data-arg="${id}" data-hero="${hero}"><span class="ol ol-4">${U().equip}${it.kind === 'trail' ? ' · ' + heroName(hero) : ''}</span></button>
+      <button class="mini-btn" data-act="closeShop">${U().chestOk}</button>
+    </div>`;
+}
+
+export function doBuy(id) {
+  const r = buy(id);
+  if (r.ok) sfx(R(r.item.rarity).sound);
+  return r;
+}
+
+/** Probabilités affichées (Google Play) : chances par rareté, garanties, liste de tous les objets. */
+export function oddsHtml() {
+  const C = D.economy.chests;
+  const lines = Object.values(C).map(c => `<div class="odds-row"><b>${c.name}</b> · ${c.price} gemmes<div class="chest-odds">${oddsLine(c.odds)}</div></div>`).join('');
+  const groups = ['epique', 'rare', 'commun'].map(r => {
+    const list = items().filter(i => i.rarity === r);
+    return `<div class="odds-group"><div class="odds-rar" style="color:${R(r).color}">${R(r).name} · ${list.length}</div>
+      <ul>${list.map(i => `<li class="${owned(i.id) ? 'have' : ''}">${i.name}<small>${subLine(i)}${owned(i.id) ? ' · ' + U().owned : ''}</small></li>`).join('')}</ul></div>`;
+  }).join('');
+  return `<div class="res-card shop-card odds-card">
+      <div class="res-title ol ol-5 set-title">${U().oddsTitle}</div>
+      <p class="shop-line">${U().oddsIntro}</p>
+      ${lines}
+      <p class="shop-line">${tpl(U().oddsGuarantee, { n: C.simple.guaranteeEpicAfter })}<br>${U().oddsMinRare}</p>
+      ${groups}
+      <button class="res-again" data-act="closeShop"><span class="ol ol-4">OK</span></button>
+    </div>`;
+}
+
+/** Ouverture d'un coffre : coffre fermé qui tremble, puis ouvert avec les objets. Renvoie le HTML de l'étape 1. */
+export function chestIntroHtml(id) {
+  const C = D.economy.chests[id];
+  return `<div class="chest-open" data-act="chestReveal" data-arg="${id}">
+      <img class="co-chest shake" src="${C.image.closed}" alt="" draggable="false">
+      <div class="co-tap ol ol-4">${U().chestTap}</div>
+    </div>`;
+}
+
+/** Étape 2 : tire les objets, joue le son de la meilleure rareté. */
+export function chestRevealHtml(id) {
+  const C = D.economy.chests[id], res = openChest(id);
+  if (res.error) return null;
+  const best = ['epique', 'rare', 'commun'].find(r => res.items.some(i => i.rarity === r)) || 'commun';
+  sfx(R(best).sound);
+  const cards = res.items.map((it, n) => `<div class="co-item r-${it.rarity}" style="animation-delay:${0.25 + n * 0.35}s">
+      ${thumbHtml(it, 96)}
+      <b>${it.name}</b><span>${subLine(it)}</span><em style="color:${R(it.rarity).color}">${R(it.rarity).name}</em>
+    </div>`).join('');
+  return `<div class="chest-open done r-${best}">
+      <div class="co-glow"></div>
+      <img class="co-chest pop" src="${C.image.open}" alt="" draggable="false">
+      <div class="co-items">${cards}</div>
+      <button class="res-again co-ok" data-act="closeShop"><span class="ol ol-4">${U().chestOk}</span></button>
+    </div>`;
+}
+
+/* ---------- Carte Cosmétique (onglet Personnage) ---------- */
+export function cosmeticCardHtml(hero) {
+  const e = equipped(hero), T = D.cosmetics.types, Dft = D.cosmetics.defaults;
+  const row = kind => {
+    const slot = slotOf(kind), mine = forHero(hero, kind).filter(i => owned(i.id));
+    const opt = (id, label, sw) => `<button class="cos-opt${(e[slot] || null) === id ? ' on' : ''}" data-act="equipC" data-slot="${slot}" data-arg="${id || ''}" aria-pressed="${(e[slot] || null) === id}">${sw}<span>${label}</span></button>`;
+    const sw = it => it.kind === 'trail' ? trailIcon(it.color, 18) : glyph('circle', it.color, 16);
+    const opts = [opt(null, Dft[slot], glyph('circle', '#E4D3B4', 16)), ...mine.map(it => opt(it.id, it.name, sw(it)))].join('');
+    const locked = forHero(hero, kind).length - mine.length;
+    return `<div class="cos-row"><div class="cos-label">${T[kind].name}${locked ? `<small>${tpl(D.cosmetics.ui.locked, { n: locked })}</small>` : ''}</div><div class="cos-opts">${opts}</div></div>`;
+  };
+  const skinOn = !!(e.skin && owned(e.skin));
+  return `<div class="mini-row"><div class="mini-card wide cos-card">
+      <div class="mini-kicker">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}${D.cosmetics.ui.kicker}</div>
+      ${row('skin')}
+      ${row('color')}${skinOn ? `<div class="cos-note">${D.cosmetics.ui.skinNote}</div>` : ''}
+      ${row('weapon')}
+      ${row('trail')}
+      <button class="mini-btn" data-act="toShop">${D.cosmetics.ui.toShop}</button>
+    </div></div>`;
+}
+
+export { heroLobbyHtml, equip, item, owned };

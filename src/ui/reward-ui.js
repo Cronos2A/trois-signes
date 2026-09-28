@@ -6,6 +6,7 @@ import { talismanData } from '../game/talismans.js';
 import { sfx } from '../audio/audio.js';
 import { facets } from './icons.js';
 import { itemIcon, tpl } from './weapon-ui.js';
+import { moneyIcon } from './money.js';
 
 let el = null;
 
@@ -20,12 +21,16 @@ function build() {
   for (const t of ['pointerdown', 'pointermove', 'pointerup', 'touchstart', 'touchmove', 'touchend']) el.addEventListener(t, e => e.stopPropagation());
 }
 
-/** r : { kind: 'weapon' | 'talisman', id, hero? } (voir game/rewards.js). */
+/** r : { kind: 'weapon' | 'talisman', id, hero? } (voir game/rewards.js) ou { kind: 'gems', n, text } (game/economy.js). */
 export function rewardHtml(r) {
   if (r.kind === 'weapon') {
     const w = weaponData(r.id), U = D.weapons.ui, h = D.characters.characters.find(c => c.id === r.hero);
     return { kick: U.rewardKick, name: w.name, sub: h ? tpl(U.rewardFor, { hero: h.name }) : '', text: styleText(r.id, 1),
       icon: itemIcon('armes', r.id, 64), bg: h ? h.color : '#FF8C32', ok: U.rewardOk };
+  }
+  if (r.kind === 'gems') {
+    const U = D.economy.ui;
+    return { kick: U.gemsReward, name: tpl(U.gemsName, { n: r.n }), sub: '', text: r.text, icon: moneyIcon('gems', 64), bg: '#6B3FA0', ok: U.gemsOk, sound: 'piece' };
   }
   const t = talismanData(r.id), U = D.talismans.ui;
   return { kick: U.rewardKick, name: t.name, sub: '', text: t.text, icon: itemIcon('talismans', r.id, 64), bg: '#1F7A3D', ok: U.rewardOk };
@@ -42,7 +47,7 @@ function one(r) {
       <button class="res-again" data-rw="ok"><span class="ol ol-4">${R.ok}</span></button>
     </div>`;
   el.classList.remove('hidden');
-  sfx(D.weapons.unlockSound);
+  sfx(R.sound || D.weapons.unlockSound);
   return new Promise(resolve => {
     el.querySelector('[data-rw=ok]').addEventListener('click', () => { sfx('ui_clic'); resolve(); }, { once: true });
   });

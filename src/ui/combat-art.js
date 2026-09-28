@@ -43,8 +43,8 @@ function tinted(src, col) {
   return c;
 }
 
-async function bakeSprite(name, scale, dpr, part) {
-  const r = TS.sprite(name, { scale: scale * dpr, outline: OUTLINE, part });
+async function bakeSprite(name, scale, dpr, part, recolor) {
+  const r = TS.sprite(name, { scale: scale * dpr, outline: OUTLINE, part, recolor });
   const img = await loadSvg(r.svg);
   const c = canvasOf(r.w, r.h);
   c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
@@ -64,6 +64,24 @@ async function bakeImage(url, height, dpr) {
   return { img: c, red: tinted(c, '#FF5A3C'), white: tinted(c, '#FFFFFF'), w, h, fx: w / 2, fy: h * 0.965, hx: w / 2, hy: h * 0.08 };   // maquette : pieds à 10/300 du bas
 }
 
+/**
+ * Skin complet (assets/skins/{skin}_combat.svg) : dessiné dans le même repère que le sprite du héros (ui/sprites.js),
+ * donc on reprend ses pieds et sa tête depuis le sprite d'origine. Un seul calque (pas de bras armé séparé).
+ */
+async function bakeSkin(url, heroId, scale, dpr) {
+  const txt = await (await fetch(url)).text();
+  const vb = s => (/viewBox="([-\d.]+)[ ,]+([-\d.]+)[ ,]+([-\d.]+)[ ,]+([-\d.]+)"/.exec(s) || []).slice(1).map(Number);
+  const [x0, y0, ws, hs] = vb(txt), r0 = TS.sprite(heroId, { scale: 1, outline: OUTLINE }), [ox, oy] = vb(r0.svg);
+  if (!(ws > 0 && hs > 0)) throw new Error('skin sans viewBox');
+  const px = scale * dpr, open = (/<svg[^>]*>/.exec(txt) || [''])[0];
+  const svg = txt.replace(open, open.replace(/\s(width|height)="[^"]*"/g, '').replace('<svg', `<svg width="${(ws * px).toFixed(1)}" height="${(hs * px).toFixed(1)}"`));
+  const img = await loadSvg(svg), c = canvasOf(ws * px, hs * px);
+  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+  const at = (v, o0, a0) => (o0 + v - a0) * scale;           // point du sprite d'origine → repère du skin
+  return { img: c, red: tinted(c, '#FF5A3C'), white: tinted(c, '#FFFFFF'), w: ws * scale, h: hs * scale,
+    fx: at(r0.fx, ox, x0), fy: at(r0.fy, oy, y0), hx: at(r0.hx, ox, x0), hy: at(r0.hy, oy, y0) };
+}
+
 /** SVG à taille fixe (anneau, glyphes) : on force sa taille en pixels. */
 async function bakeFixed(svg, size, dpr) {
   const px = Math.round(size * dpr);
@@ -77,15 +95,25 @@ async function bakeFixed(svg, size, dpr) {
  * Prépare tous les sprites du combat pour cet écran et ce héros.
  * Ne refait rien si rien n'a changé ; sinon remplace les images une fois prêtes.
  */
-export async function prepareCombatArt(heroId, W, H, dpr, enemySprites, extra = []) {
-  const k = artScale(W, H), key = [heroId, k.toFixed(3), dpr, ...extra.map(a => a.key)].join('|');
+export async function prepareCombatArt(heroId, W, H, dpr, enemySprites, extra = [], look = null) {
+  const k = artScale(W, H), key = [heroId, k.toFixed(3), dpr, ...extra.map(a => a.key), JSON.stringify(look)].join('|');
   if (key === bakedKey) return;
   const seq = ++bakeSeq;
   const names = [...new Set(enemySprites)];
-  const split = !!TS.sprite(heroId, { part: 'weapon' }).px;
+  // Apparence (game/cosmetics.js → look) : couleurs remplacées, ou skin complet en un seul calque.
+  const rec = look && look.recolor, hs = SPRITE_SCALE.hero * k;
+  const plain = () => {
+    const split = !!TS.sprite(heroId, { part: 'weapon' }).px;
+    return [bakeSprite(heroId, hs, dpr, split ? 'body' : undefined, rec), split ? bakeSprite(heroId, hs, dpr, 'weapon', rec) : Promise.resolve(null)];
+  };
+  let heroJobs;
+  if (look && look.skinUrl) {
+    const skin = bakeSkin(look.skinUrl, heroId, hs, dpr).catch(() => null);
+    heroJobs = [skin.then(r => r || plain()[0]), skin.then(r => r ? null : plain()[1])];
+  } else heroJobs = plain();
   const jobs = {
-    hero: bakeSprite(heroId, SPRITE_SCALE.hero * k, dpr, split ? 'body' : undefined),
-    heroArm: split ? bakeSprite(heroId, SPRITE_SCALE.hero * k, dpr, 'weapon') : Promise.resolve(null),
+    hero: heroJobs[0],
+    heroArm: heroJobs[1],
     coin: bakeSprite('coin', SPRITE_SCALE.coin * k, dpr),
     heart: bakeSprite('heart', SPRITE_SCALE.heart * k, dpr),
     ring: bakeFixed(TS.ring(100, 54), 230 * k, dpr),

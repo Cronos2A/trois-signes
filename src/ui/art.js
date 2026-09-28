@@ -29,13 +29,15 @@ function buildArt(o) {
       }
       return s;
     };
-    const parts = S => {
+    // Cosmétiques : o.recolor remplace des couleurs d'origine (#RRGGBB majuscules) ; le socle n'est jamais recoloré.
+    const rc = c => (o.recolor && o.recolor[c.toUpperCase()]) || c;
+    const parts = (S, keep) => {
       let sil = '', body = '';
       for (const q of S) {
         if (q.raw !== undefined) { body += q.raw; continue; }
-        const pp = P(q.p);
+        const pp = P(q.p), c = keep ? q.c : rc(q.c);
         if (q.sil !== false) sil += `<polygon points="${pp}" fill="${OL}" stroke="${OL}" stroke-width="${o.ol}" stroke-linejoin="round"/>`;
-        body += `<g${q.o != null ? ` opacity="${q.o}"` : ''}><polygon points="${pp}" fill="${q.c}" stroke="${q.sw === 0 ? 'none' : OL}" stroke-width="${q.sw ?? 4.5}" stroke-linejoin="round"/>${facets(q.p, q.c)}</g>`;
+        body += `<g${q.o != null ? ` opacity="${q.o}"` : ''}><polygon points="${pp}" fill="${c}" stroke="${q.sw === 0 ? 'none' : OL}" stroke-width="${q.sw ?? 4.5}" stroke-linejoin="round"/>${facets(q.p, c)}</g>`;
       }
       return sil + body;
     };
@@ -43,7 +45,7 @@ function buildArt(o) {
       const t = ngon(cx, y, rx, rx * .2, 10, 0), fr = t.slice(0, 6);
       const B = [{ p: [...fr, ...fr.map(p => [p[0], p[1] + 18]).reverse()], c: side }, { p: t, c: top }];
       [[-.62, .1], [.5, .14], [.78, .02]].forEach(([u, v]) => { const x = cx + u * rx, yy = y + v * rx; B.push({ p: [[x - 7, yy], [x - 2, yy - 13], [x + 1, yy - 4], [x + 5, yy - 11], [x + 8, yy]], c: '#9ACD32', sw: 3, sil: false }); });
-      return parts(B) + `<polygon points="${P(ngon(cx + rx * .1, y + 1, rx * .6, rx * .12, 9))}" fill="${OL}" opacity=".3"/>`;
+      return parts(B, true) + `<polygon points="${P(ngon(cx + rx * .1, y + 1, rx * .6, rx * .12, 9))}" fill="${OL}" opacity=".3"/>`;
     };
     const svg = (C) => {
       LX = C.flip ? .55 : -.55;
@@ -313,4 +315,14 @@ let cache = null;
 /** { aldric, nyra, boran, ilwen, kestrel, mira, sbire, brute, boss } → chaîne SVG */
 export function art() {
   return cache || (cache = buildArt({ ol: 11, fc: 1, socles: true }));
+}
+
+const upper = m => Object.fromEntries(Object.entries(m).map(([k, v]) => [k.toUpperCase(), v]));
+const recolored = new Map();
+/** Dessin d'un héros avec des couleurs remplacées ({ '#RRGGBB': '#RRGGBB' }) ; sans carte, le dessin d'origine. */
+export function heroArt(id, recolor) {
+  if (!recolor || !Object.keys(recolor).length) return art()[id];
+  const key = id + JSON.stringify(recolor);
+  if (!recolored.has(key)) recolored.set(key, buildArt({ ol: 11, fc: 1, socles: true, recolor: upper(recolor) })[id]);
+  return recolored.get(key);
 }

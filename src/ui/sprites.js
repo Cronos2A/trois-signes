@@ -35,13 +35,15 @@ function engine(o) {
     }
     return s;
   };
-  const parts = (S, ol) => {
+  // Cosmétiques : o.recolor remplace des couleurs d'origine (#RRGGBB majuscules) ; le socle n'est jamais recoloré.
+  const rc = c => (o.recolor && o.recolor[c.toUpperCase()]) || c;
+  const parts = (S, ol, keep) => {
     ol = ol ?? o.ol; let sil = '', body = '';
     for (const q of S) {
       if (q.raw !== undefined) { body += q.raw; continue; }
-      track(q.p); const pp = P(q.p);
+      track(q.p); const pp = P(q.p), c = keep ? q.c : rc(q.c);
       if (q.sil !== false) sil += `<polygon points="${pp}" fill="${OL}" stroke="${OL}" stroke-width="${ol}" stroke-linejoin="round"/>`;
-      body += `<g${q.o != null ? ` opacity="${q.o}"` : ''}><polygon points="${pp}" fill="${q.c}" stroke="${q.sw === 0 ? 'none' : OL}" stroke-width="${q.sw ?? 4.5}" stroke-linejoin="round"/>${facets(q.p, q.c)}</g>`;
+      body += `<g${q.o != null ? ` opacity="${q.o}"` : ''}><polygon points="${pp}" fill="${c}" stroke="${q.sw === 0 ? 'none' : OL}" stroke-width="${q.sw ?? 4.5}" stroke-linejoin="round"/>${facets(q.p, c)}</g>`;
     }
     return sil + body;
   };
@@ -49,7 +51,7 @@ function engine(o) {
     const t = ngon(cx, y, rx, rx * .2, 10, 0), fr = t.slice(0, 6);
     const B = [{ p: [...fr, ...fr.map(p => [p[0], p[1] + 18]).reverse()], c: side }, { p: t, c: top }];
     [[-.62, .1], [.5, .14], [.78, .02]].forEach(([u, v]) => { const x = cx + u * rx, yy = y + v * rx; B.push({ p: [[x - 7, yy], [x - 2, yy - 13], [x + 1, yy - 4], [x + 5, yy - 11], [x + 8, yy]], c: '#9ACD32', sw: 3, sil: false }); });
-    return parts(B) + `<polygon points="${P(ngon(cx + rx * .1, y + 1, rx * .6, rx * .12, 9))}" fill="${OL}" opacity=".3"/>`;
+    return parts(B, undefined, true) + `<polygon points="${P(ngon(cx + rx * .1, y + 1, rx * .6, rx * .12, 9))}" fill="${OL}" opacity=".3"/>`;
   };
   const shadow = (cx, y, rx) => { const p = ngon(cx + rx * .1, y + 1, rx * .6, rx * .12, 9); track(p); return `<polygon points="${P(p)}" fill="${OL}" opacity=".3"/>`; };
   const arm = (S, s, e, h, a) => { const w = a.w; S.push({ p: limb(s, e, w, w * .92), c: a.u }); S.push({ p: ngon(e[0], e[1], w * .5, w * .5, 6), c: a.u }); S.push({ p: limb(e, h, w * .9, w * .8), c: a.l || a.u }); S.push({ p: ngon(h[0], h[1], a.hr, a.hr * 1.05, 7, .3), c: a.hand }); };
@@ -303,7 +305,8 @@ function defs(E) {
 export const TS = {};
 TS.heroes = [['aldric', 'Aldric', 'Le Chevalier · Épée'], ['nyra', 'Nyra', "L'Assassine · Dague"], ['boran', 'Boran', 'Le Colosse · Gantelets'], ['ilwen', 'Ilwen', 'La Sorcière · Grimoire'], ['kestrel', 'Kestrel', 'La Rôdeuse · Arc'], ['mira', 'Mira', 'La Soigneuse · Amulette']];
 TS.sprite = (name, opts = {}) => {
-  const E = engine({ ol: opts.outline ?? 11, fc: opts.facets ?? 1 });
+  const rec = opts.recolor && Object.fromEntries(Object.entries(opts.recolor).map(([k, v]) => [k.toUpperCase(), v]));
+  const E = engine({ ol: opts.outline ?? 11, fc: opts.facets ?? 1, recolor: rec });   // opts.recolor : cosmétiques
   const C = defs(E)[name]();
   E.LX = C.flip ? .55 : -.55;
   const [cx, y, rx] = C.base;

@@ -3,20 +3,23 @@
 // portraits tirés de la planche design/planche-de-personnages-trois-signes.
 import { D } from '../data.js';
 import { prog, heroLevel, saveActive } from '../game/progress.js';
-import { art } from './art.js';
-import { glyph, wIcon, trailIcon, facets } from './icons.js';
+import { glyph, facets } from './icons.js';
 import { settings, setSetting } from '../game/settings.js';
 import { sfx } from '../audio/audio.js';
 import { weaponsCardHtml, talismanCardHtml, weaponGainHtml, playWeaponGain, itemIcon } from './weapon-ui.js';
 import { equipWeapon, equippedWeapon, weaponData } from '../game/weapons.js';
 import { equipTalisman } from '../game/talismans.js';
+import { wallet, testMode, addGold, addGems, resetShop, countries } from '../game/economy.js';
+import { shopHtml, confirmHtml, boughtHtml, doBuy, oddsHtml, chestIntroHtml, chestRevealHtml, cosmeticCardHtml, heroLobbyHtml, equip, item } from './shop-ui.js';
+import { onSkinReady } from './looks.js';
+import { moneyIcon, goldGainHtml } from './money.js';
 
 const $ = id => document.getElementById(id);
 const nf = n => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
 const pct = (a, b) => Math.round(100 * a / b);
 
 const TABS = [['play', 'tri', 'Jouer'], ['char', 'circle', 'Personnage'], ['shop', 'dot', 'Boutique']];
-const ui = { tab: 'play', active: 0, view: 0, filter: 'all', tal: null };
+const ui = { tab: 'play', active: 0, view: 0, filter: 'all', tal: null, shopTab: 'chests' };
 let actions = {};
 
 const chars = () => D.characters.characters;
@@ -37,7 +40,9 @@ export function initLobby(a) {
     '</main>' +
     '<nav class="lb-tabs" id="lbTabs"></nav>' +
     '<div class="lb-modal hidden" id="results" role="dialog" aria-modal="true"></div>' +
-    '<div class="lb-modal hidden" id="settings" role="dialog" aria-modal="true" aria-label="Réglages"></div>';
+    '<div class="lb-modal hidden" id="settings" role="dialog" aria-modal="true" aria-label="Réglages"></div>' +
+    '<div class="lb-modal hidden" id="shopModal" role="dialog" aria-modal="true"></div>';
+  onSkinReady(() => { if (!$('lobby').classList.contains('hidden')) render(); });   // skin chargé : on le montre
   root.addEventListener('click', onClick);
   // Curseurs de volume : appliqués en direct (game/settings.js prévient le gestionnaire audio).
   root.addEventListener('input', e => {
@@ -59,6 +64,9 @@ export const activeCharacter = () => chars()[ui.active];
 export function showLobby() { render(); $('lobby').classList.remove('hidden'); }
 export function hideLobby() { $('lobby').classList.add('hidden'); hideResults(); }
 export function hideResults() { $('results').classList.add('hidden'); }
+const slotOfKind = kind => D.cosmetics.types[kind].slot;
+function modal(html, cls = '') { const m = $('shopModal'); m.innerHTML = html; m.className = 'lb-modal ' + cls; }
+function closeModal() { $('shopModal').className = 'lb-modal hidden'; $('shopModal').innerHTML = ''; }
 
 function onClick(e) {
   const el = e.target.closest('[data-act]');
@@ -87,6 +95,28 @@ function onClick(e) {
     case 'tal': ui.tal = arg; render(); break;
     case 'equipT': equipTalisman(chars()[ui.view].id, arg); render(); break;
     case 'unequipT': equipTalisman(chars()[ui.view].id, null); render(); break;
+    // Boutique (ui/shop-ui.js, game/economy.js)
+    case 'shopTab': ui.shopTab = arg; render(); break;
+    case 'gemsPlus': ui.tab = 'shop'; ui.shopTab = 'gems'; render(); break;
+    case 'toShop': ui.tab = 'shop'; ui.shopTab = 'cosmetics'; render(); break;
+    case 'buy': modal(confirmHtml(arg)); break;
+    case 'buyOk': {
+      const r = doBuy(arg);
+      if (r.ok) { const it = r.item; modal(boughtHtml(arg, it.hero || chars()[ui.active].id)); render(); }
+      else closeModal();
+      break;
+    }
+    case 'equipNow': { const it = item(arg); equip(el.dataset.hero, slotOfKind(it.kind), arg); closeModal(); render(); break; }
+    case 'equipC': equip(chars()[ui.view].id, el.dataset.slot, arg || null); render(); break;
+    case 'odds': modal(oddsHtml()); break;
+    case 'openChest': modal(chestIntroHtml(arg), 'chest'); break;
+    case 'chestReveal': { const h = chestRevealHtml(arg); if (h) modal(h, 'chest'); else closeModal(); render(); break; }
+    case 'closeShop': closeModal(); render(); break;
+    // Mode test (développement)
+    case 'testGold': addGold(D.economy.test.gold); renderSettings(); render(); break;
+    case 'testGems': addGems(D.economy.test.gems); renderSettings(); render(); break;
+    case 'testCountry': wallet().testCountry = arg; addGold(0); renderSettings(); render(); break;
+    case 'testReset': resetShop(); renderSettings(); render(); break;
   }
 }
 
@@ -100,7 +130,7 @@ function render() {
   for (const [k] of TABS) $('tab-' + k).classList.toggle('on', ui.tab === k);
   $('tab-play').innerHTML = playHtml();
   $('tab-char').innerHTML = charHtml();
-  $('tab-shop').innerHTML = shopHtml();
+  $('tab-shop').innerHTML = shopHtml(ui);
 }
 
 /* ---------- Niveau du héros (textes dans data/progression.json → ui) ---------- */
@@ -122,7 +152,8 @@ function headHtml() {
       <div class="head-xp">${L.max ? lvlText(L) : nf(L.cur) + ' / ' + nf(L.need) + ' XP'}</div>
     </div>
     <div class="head-pills">
-      <div class="cur-pill" title="Meilleur score">${glyph('tri', '#FFD23F', 22)}<small>Record</small><span>${nf(prog.best || 0)}</span></div>
+      <div class="cur-pill gold" title="Or">${moneyIcon('gold', 22)}<span>${nf(wallet().gold)}</span></div>
+      <button class="cur-pill gems" data-act="gemsPlus" title="Gemmes">${moneyIcon('gems', 22)}<span>${nf(wallet().gems)}</span><i class="plus">+</i></button>
     </div>
     <button class="gear-btn" data-act="settings" aria-label="Réglages">${gearIcon(22)}</button>`;
 }
@@ -142,7 +173,7 @@ function playHtml() {
     </div>
     <div class="hero-zone">
       <div class="hero-disc">${glyph('circle', c.color, 290, { n: 12, outline: 5, fluid: true })}</div>
-      <div class="hero-portrait">${art()[c.id]}</div>
+      <div class="hero-portrait">${heroLobbyHtml(c.id)}</div>
       <div class="deco deco-tri">${glyph('tri', '#FFD23F', 40)}</div>
       <div class="deco deco-circle">${glyph('circle', '#FF5A3C', 34)}</div>
       <div class="deco deco-dot">${glyph('dot', '#FF8C32', 30)}</div>
@@ -194,7 +225,7 @@ function charHtml() {
       <button class="car-arrow" data-act="next" aria-label="Personnage suivant"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
     <div class="char-card">
-      <div class="char-art${L.max ? ' lvl-max' : ''}" style="background:${v.color}">${facets.med()}${art()[v.id]}</div>
+      <div class="char-art${L.max ? ' lvl-max' : ''}" style="background:${v.color}">${facets.med()}${heroLobbyHtml(v.id)}</div>
       <div class="char-info">
         <div>
           <div class="char-name">${v.name}</div>
@@ -218,51 +249,8 @@ function charHtml() {
     </div>
     ${weaponsCardHtml(v.id, v.color)}
     ${talismanCardHtml(v.id, ui.tal)}
-    <div class="mini-row">
-      <div class="mini-card">
-        <div class="mini-kicker">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}COSMÉTIQUE</div>
-        <div class="mini-item">
-          <div class="mini-thumb" style="background:#1F7A3D">${glyph('circle', v.skinColor, 34)}</div>
-          <div class="mini-txt"><b>Tenue d'origine</b><span>Skin · Commun</span></div>
-        </div>
-        <div class="mini-note grow">1 skin débloqué</div>
-        <button class="mini-btn" disabled>Bientôt</button>
-      </div>
-    </div>
+    ${cosmeticCardHtml(v.id)}
     ${bottom}`;
-}
-
-/* ---------- 03 · Boutique ---------- */
-function shopHtml() {
-  const S = D.shop;
-  const chips = S.filters.map(([k, label]) =>
-    `<button class="chip${ui.filter === k ? ' on' : ''}" data-act="filter" data-arg="${k}" aria-pressed="${ui.filter === k}">${label}</button>`).join('');
-  const items = S.items.filter(s => ui.filter === 'all' || s.kind === ui.filter).map(s => {
-    const thumb = s.kind === 'weapon' ? wIcon(s.icon, 42) : s.kind === 'color' ? glyph('circle', s.color, 46) : trailIcon(s.color, 44);
-    return `<div class="shop-item">
-        <div class="shop-thumb" style="background:${s.kind === 'weapon' ? s.color : '#1F7A3D'}">${facets.small()}<div class="rel">${thumb}</div></div>
-        <div class="shop-txt"><b>${s.name}</b><span>${s.type}</span></div>
-        <div class="shop-price">Bientôt</div>
-      </div>`;
-  }).join('');
-  return `<div class="offer">
-      ${facets.med()}
-      <div class="offer-txt">
-        <span class="badge">${S.offer.kicker}</span>
-        <div class="offer-title">${S.offer.title}</div>
-        <div class="offer-desc">${S.offer.text}</div>
-        <div class="grow"></div>
-        <button class="offer-btn" disabled><span class="ol ol-4">Bientôt</span></button>
-        <span class="offer-foot">À gagner en jouant, sans achat</span>
-      </div>
-      <div class="offer-loot">
-        <div class="loot-tri">${glyph('tri', '#FF5A3C', 66, { outline: 3.5 })}</div>
-        <div class="loot-circle">${glyph('circle', '#3DDC5B', 58, { outline: 3.5 })}</div>
-        <div class="loot-dot">${glyph('dot', '#FF8C32', 50, { outline: 3.5 })}</div>
-      </div>
-    </div>
-    <div class="chips">${chips}</div>
-    <div class="shop-grid">${items}</div>`;
 }
 
 /* ---------- Réglages (engrenage du haut de page) ---------- */
@@ -274,6 +262,16 @@ function gearIcon(s) {
   }).join(' ');
   return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path d="M${teeth.slice(1)} Z" fill="#FFD23F" stroke="#15301E" stroke-width="2.2" stroke-linejoin="round"/>
     <circle cx="12" cy="12" r="3.2" fill="#2B8745" stroke="#15301E" stroke-width="2.2"/></svg>`;
+}
+
+/** Mode test (développement seulement, data/economy.json → test) : or, gemmes, pays, remise à zéro. */
+function testHtml() {
+  const T = D.economy.test, U = D.economy.ui, c = wallet().testCountry, cur = c === undefined ? (countries()[0] || '—') : (c || '—');
+  const opt = (v, label) => `<button class="chip${(c ?? null) === v ? ' on' : ''}" data-act="testCountry" data-arg="${v ?? ''}">${label}</button>`;
+  return `<div class="set-row test-row"><span class="set-label">${U.testTitle}</span>
+      <div class="chips set-chips"><button class="chip" data-act="testGold">${U.testGold.replace('{n}', T.gold)}</button><button class="chip" data-act="testGems">${U.testGems.replace('{n}', T.gems)}</button></div>
+      <div class="chips set-chips">${opt('BE', 'BE')}${opt('FR', 'FR')}<span class="test-cur">${U.testCountry} : ${cur}</span></div>
+      <button class="chip" data-act="testReset">${U.testReset}</button></div>`;
 }
 
 function renderSettings() {
@@ -291,6 +289,7 @@ function renderSettings() {
       ${vol('sfx', 'Effets')}
       ${pick('vibrate', 'Vibrations', [['1', 'Oui', settings.vibrate], ['0', 'Non', !settings.vibrate]])}
       <button class="mini-btn set-credits" data-act="credits">Crédits</button>
+      ${testMode() ? testHtml() : ''}
       <button class="res-again" data-act="closeSettings"><span class="ol ol-4">Fermer</span></button>
     </div>`;
 }
@@ -331,6 +330,7 @@ export function showResults(r) {
         <div class="wbar${L.max ? ' max' : ''}"><i style="width:${L.max ? 100 : pct(L.cur, L.need)}%"></i></div>
       </div>
       ${weaponGainHtml(r.weapon)}
+      ${goldGainHtml(r.gold)}
       <button class="res-again" data-act="again"><span class="ol ol-4">Rejouer</span></button>
       <button class="mini-btn res-home" data-act="home">Retour au lobby</button>
     </div>`;

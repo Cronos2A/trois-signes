@@ -6,6 +6,7 @@ import { D } from '../data.js';
 import { sfx } from '../audio/audio.js';
 import { glyph, facets, facetSvg } from './icons.js';
 import { weaponGainHtml, playWeaponGain } from './weapon-ui.js';
+import { goldGainHtml } from './money.js';
 import { landscape, fragIcon, fragPips, bigFragment, silhouette, typeIcon, lockIcon, checkIcon, backIcon } from './story-art.js';
 
 let root = null, handlers = {};
@@ -140,11 +141,12 @@ export function renderMap(h, st, on, toast) {
 }
 
 /* ---------- Défaite ---------- */
-export function renderDefeat(k, on, weapon) {
+export function renderDefeat(k, on, weapon, gold = 0) {
   show(`${facets.bg()}<div class="st-modal"><div class="st-card-big">
       <div class="res-title ol ol-5 lose">KO</div>
       <div class="st-sub">${k.titre}</div>
       ${weaponGainHtml(weapon)}
+      ${goldGainHtml(gold)}
       <button class="res-again" data-act="retry"><span class="ol ol-4">Réessayer</span></button>
       <button class="mini-btn st-btn" data-act="review">Revoir le dialogue</button>
       <button class="mini-btn st-btn alt" data-act="back">Retour</button>
@@ -154,13 +156,14 @@ export function renderDefeat(k, on, weapon) {
 
 /* ---------- Victoire : XP du héros et de son arme, avant le dialogue d'après ---------- */
 /** Résolue sur « Continuer ». xp : résultat de addXp (gain, max) ; au niveau maximum, « MAX » à la place de l'XP. */
-export function renderVictory(k, xp, weapon) {
+export function renderVictory(k, xp, weapon, gold = 0) {
   return new Promise(resolve => {
     show(`${facets.bg()}<div class="st-modal"><div class="st-card-big">
         <div class="res-title ol ol-5 win">Victoire</div>
         <div class="st-sub">${k.titre}</div>
         <div class="res-xp"><div class="res-xp-top"><span>Héros ${xp.max && !xp.gain ? D.progression.ui.barMax : '+' + xp.gain + ' XP'}</span></div></div>
         ${weaponGainHtml(weapon)}
+        ${goldGainHtml(gold)}
         <button class="res-again" data-act="ok"><span class="ol ol-4">Continuer</span></button>
       </div></div>`, { ok: resolve }, 'st-defeat');
     playWeaponGain(root, weapon);

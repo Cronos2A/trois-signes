@@ -23,6 +23,8 @@ if (!prog.voyage.beaten) prog.voyage.beaten = [];   // arènes dont le gardien a
 // Armes et talismans : XP par arme ; armes et talismans débloqués ; arme et talisman équipés par héros.
 if (!prog.weapons) prog.weapons = {};
 if (!prog.armory) prog.armory = { weapons: [], talismans: [], equipped: {}, talisman: {} };
+// Économie : or, gemmes, gains déjà donnés, cosmétiques possédés et équipés par héros, garantie des coffres.
+if (!prog.eco) prog.eco = { gold: 0, gems: 0, granted: [], owned: [], equipped: {}, pity: 0, opened: 0 };
 
 export const saveProg = () => store.set(KEY, prog);
 

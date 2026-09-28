@@ -1,0 +1,56 @@
+{
+  "note": "Catalogue des cosmétiques : aucun avantage en jeu. Raretés : commun / rare / épique (≈ 55 / 30 / 15 %). Couleurs et skins d'arme = recolorations des dessins d'origine (art.js et sprites.js : couleur d'origine → nouvelle couleur) ; tracés dessinés en code ; skins complets = fichiers assets/skins/{heros}_{skin}.svg (lobby, même repère que art.js) et _combat.svg (même repère que sprites.js). Un skin complet remplace la couleur et le skin d'arme.",
+  "types": {
+    "color": { "name": "Couleur", "slot": "tint" },
+    "weapon": { "name": "Skin d'arme", "slot": "weapon" },
+    "trail": { "name": "Effet de tracé", "slot": "trail" },
+    "skin": { "name": "Skin complet", "slot": "skin" }
+  },
+  "ui": { "kicker": "COSMÉTIQUES", "toShop": "Voir la boutique", "locked": "{n} à débloquer", "skinNote": "Le skin complet remplace la couleur et le skin d'arme tant qu'il est équipé." },
+  "defaults": { "tint": "Tenue d'origine", "weapon": "Arme d'origine", "trail": "Tracé d'origine", "skin": "Aucun" },
+  "items": [
+    { "id": "aldric_lagon", "kind": "color", "hero": "aldric", "name": "Teinte Lagon", "rarity": "commun", "price": { "gold": 500 }, "color": "#2EC4B6", "recolor": { "#FF8C32": "#2EC4B6", "#E0662A": "#1F9E8F" } },
+    { "id": "aldric_soleil", "kind": "color", "hero": "aldric", "name": "Teinte Soleil", "rarity": "commun", "price": { "gold": 500 }, "color": "#FFD23F", "recolor": { "#FF8C32": "#FFD23F", "#E0662A": "#E8A92A", "#FFD23F": "#FF8C32" } },
+    { "id": "aldric_rubis", "kind": "color", "hero": "aldric", "name": "Teinte Rubis", "rarity": "rare", "price": { "gold": 1200 }, "color": "#D9304F", "recolor": { "#FF8C32": "#D9304F", "#E0662A": "#8E1F3A", "#B7C3CE": "#C9CED8" } },
+    { "id": "nyra_lagon", "kind": "color", "hero": "nyra", "name": "Teinte Lagon", "rarity": "commun", "price": { "gold": 500 }, "color": "#2EC4B6", "recolor": { "#3DDC5B": "#2EC4B6", "#3E4B58": "#2E5A66" } },
+    { "id": "nyra_soleil", "kind": "color", "hero": "nyra", "name": "Teinte Soleil", "rarity": "commun", "price": { "gold": 500 }, "color": "#FFD23F", "recolor": { "#3DDC5B": "#FFD23F", "#3E4B58": "#5C4A2E", "#2F3A44": "#3F3526" } },
+    { "id": "nyra_rubis", "kind": "color", "hero": "nyra", "name": "Teinte Rubis", "rarity": "rare", "price": { "gold": 1200 }, "color": "#FF5A8C", "recolor": { "#3DDC5B": "#FF5A8C", "#3E4B58": "#5A1F3A", "#2F3A44": "#3A1428" } },
+    { "id": "boran_lagon", "kind": "color", "hero": "boran", "name": "Teinte Lagon", "rarity": "commun", "price": { "gold": 500 }, "color": "#2EC4B6", "recolor": { "#1F7A3D": "#1F8A8A", "#9ACD32": "#6FE0D0" } },
+    { "id": "boran_soleil", "kind": "color", "hero": "boran", "name": "Teinte Soleil", "rarity": "commun", "price": { "gold": 500 }, "color": "#FFD23F", "recolor": { "#1F7A3D": "#C9901E", "#9ACD32": "#FFE066" } },
+    { "id": "boran_rubis", "kind": "color", "hero": "boran", "name": "Teinte Rubis", "rarity": "rare", "price": { "gold": 1200 }, "color": "#D9304F", "recolor": { "#1F7A3D": "#8E1F3A", "#9ACD32": "#FF8FA3", "#8A5A34": "#5C3A4A" } },
+    { "id": "ilwen_lagon", "kind": "color", "hero": "ilwen", "name": "Teinte Lagon", "rarity": "commun", "price": { "gold": 500 }, "color": "#2EC4B6", "recolor": { "#5B3B6E": "#1F6F78", "#4A2E5C": "#185A62" } },
+    { "id": "ilwen_soleil", "kind": "color", "hero": "ilwen", "name": "Teinte Soleil", "rarity": "commun", "price": { "gold": 500 }, "color": "#FFD23F", "recolor": { "#5B3B6E": "#C9701E", "#4A2E5C": "#A85A18", "#FFD23F": "#FFF1A8" } },
+    { "id": "ilwen_rubis", "kind": "color", "hero": "ilwen", "name": "Teinte Rubis", "rarity": "rare", "price": { "gold": 1200 }, "color": "#D9304F", "recolor": { "#5B3B6E": "#8E1F3A", "#4A2E5C": "#6E1830" } },
+    { "id": "kestrel_lagon", "kind": "color", "hero": "kestrel", "name": "Teinte Lagon", "rarity": "commun", "price": { "gold": 500 }, "color": "#2EC4B6", "recolor": { "#2E7A3E": "#1F8A8A", "#9ACD32": "#6FE0D0" } },
+    { "id": "kestrel_soleil", "kind": "color", "hero": "kestrel", "name": "Teinte Soleil", "rarity": "commun", "price": { "gold": 500 }, "color": "#FFD23F", "recolor": { "#2E7A3E": "#C9901E", "#9ACD32": "#FFD23F" } },
+    { "id": "kestrel_rubis", "kind": "color", "hero": "kestrel", "name": "Teinte Rubis", "rarity": "rare", "price": { "gold": 1200 }, "color": "#D9304F", "recolor": { "#2E7A3E": "#8E1F3A", "#9ACD32": "#FF8FA3" } },
+    { "id": "mira_lagon", "kind": "color", "hero": "mira", "name": "Teinte Lagon", "rarity": "commun", "price": { "gold": 500 }, "color": "#2EC4B6", "recolor": { "#FF5A3C": "#2EC4B6", "#F3E6C8": "#DFF5F0" } },
+    { "id": "mira_soleil", "kind": "color", "hero": "mira", "name": "Teinte Soleil", "rarity": "commun", "price": { "gold": 500 }, "color": "#FFD23F", "recolor": { "#FF5A3C": "#FFB020", "#F3E6C8": "#FFF3C4" } },
+    { "id": "mira_rubis", "kind": "color", "hero": "mira", "name": "Teinte Rubis", "rarity": "rare", "price": { "gold": 1200 }, "color": "#D9304F", "recolor": { "#FF5A3C": "#8E1F3A", "#F3E6C8": "#F0D6E0" } },
+
+    { "id": "lame_braise", "kind": "weapon", "hero": "aldric", "weapon": "epee", "name": "Lame Braise", "rarity": "rare", "price": { "gold": 1500 }, "color": "#FF5A3C", "recolor": { "#DCE5EC": "#FF6A3D" } },
+    { "id": "dague_givre", "kind": "weapon", "hero": "nyra", "weapon": "dague", "name": "Dague Givre", "rarity": "rare", "price": { "gold": 1500 }, "color": "#8FD3FF", "recolor": { "#CFF5D6": "#BFE3FF" } },
+    { "id": "poings_lave", "kind": "weapon", "hero": "boran", "weapon": "gantelets", "name": "Poings de Lave", "rarity": "rare", "price": { "gold": 1500 }, "color": "#C2361B", "recolor": { "#1F7A3D": "#C2361B", "#9ACD32": "#FFB020" } },
+    { "id": "grimoire_jade", "kind": "weapon", "hero": "ilwen", "weapon": "grimoire", "name": "Grimoire Jade", "rarity": "rare", "price": { "gold": 1500 }, "color": "#1F8A5A", "recolor": { "#8A3B22": "#1F8A5A" } },
+    { "id": "arc_corail", "kind": "weapon", "hero": "kestrel", "weapon": "arc", "name": "Arc Corail", "rarity": "rare", "price": { "gold": 1500 }, "color": "#FF8C32", "recolor": { "#9ACD32": "#FF7F6E" } },
+    { "id": "amulette_aurore", "kind": "weapon", "hero": "mira", "weapon": "amulette", "name": "Amulette Aurore", "rarity": "rare", "price": { "gold": 1500 }, "color": "#FF8FD8", "recolor": { "#FFD23F": "#FF8FD8" } },
+
+    { "id": "etincelle", "kind": "trail", "name": "Tracé Étincelle", "rarity": "commun", "price": { "gold": 700 }, "color": "#FFD23F", "trail": { "core": ["#FFB020", "#FFF4C4"], "particle": "spark", "pcolors": ["#FFFFFF", "#FFE58A"] } },
+    { "id": "lierre", "kind": "trail", "name": "Tracé Lierre", "rarity": "commun", "price": { "gold": 700 }, "color": "#9ACD32", "trail": { "core": ["#2E8A3E", "#C8F07A"], "particle": "leaf", "pcolors": ["#3DAA4A", "#9ACD32"] } },
+    { "id": "arc_en_ciel", "kind": "trail", "name": "Tracé Arc-en-ciel", "rarity": "commun", "price": { "gold": 700 }, "color": "#FF5A8C", "trail": { "core": ["#FF5A3C", "#FFD23F", "#3DDC5B", "#3D8BFF", "#B070FF"], "particle": null } },
+    { "id": "etoiles", "kind": "trail", "name": "Tracé Étoiles", "rarity": "commun", "price": { "gold": 700 }, "color": "#6B7CFF", "trail": { "core": ["#4A5CE0", "#DDE3FF"], "particle": "star", "pcolors": ["#FFFFFF", "#FFE58A"] } },
+    { "id": "bulles", "kind": "trail", "name": "Tracé Bulles", "rarity": "commun", "price": { "gold": 700 }, "color": "#5CC8FF", "trail": { "core": ["#2FA8E8", "#E6F8FF"], "particle": "bubble", "pcolors": ["#E6F8FF", "#8FD3FF"] } },
+    { "id": "flammes", "kind": "trail", "name": "Tracé Flammes", "rarity": "commun", "price": { "gold": 700 }, "color": "#FF5A1F", "trail": { "core": ["#E8401F", "#FFD23F"], "particle": "flame", "pcolors": ["#FF8C32", "#FFD23F"] } },
+    { "id": "confettis", "kind": "trail", "name": "Tracé Confettis", "rarity": "commun", "price": { "gold": 700 }, "color": "#FF5A8C", "trail": { "core": ["#FF5A8C", "#FFE0EC"], "particle": "square", "pcolors": ["#FF5A3C", "#FFD23F", "#3DDC5B", "#3D8BFF", "#B070FF"] } },
+    { "id": "encre", "kind": "trail", "name": "Tracé Encre", "rarity": "commun", "price": { "gold": 700 }, "color": "#2A3A40", "trail": { "core": ["#15301E", "#4A5A60"], "wire": "#9AA8AE", "particle": "drop", "pcolors": ["#15301E", "#2A3A40"] } },
+    { "id": "pixels", "kind": "trail", "name": "Tracé Pixels", "rarity": "commun", "price": { "gold": 700 }, "color": "#3DDC5B", "trail": { "core": ["#1F9E3E", "#C8FFB0"], "particle": "square", "pcolors": ["#3DDC5B", "#C8FFB0"], "square": true } },
+    { "id": "notes", "kind": "trail", "name": "Tracé Notes", "rarity": "commun", "price": { "gold": 700 }, "color": "#B070FF", "trail": { "core": ["#8A4DE8", "#F0E0FF"], "particle": "note", "pcolors": ["#FFFFFF", "#E7C8FF"] } },
+
+    { "id": "aldric_hiver", "kind": "skin", "hero": "aldric", "name": "Aldric d'hiver", "rarity": "epique", "price": { "gems": 300 }, "color": "#4FA9E0" },
+    { "id": "nyra_carnaval", "kind": "skin", "hero": "nyra", "name": "Nyra du carnaval", "rarity": "epique", "price": { "gems": 300 }, "color": "#B8327A" },
+    { "id": "boran_moisson", "kind": "skin", "hero": "boran", "name": "Boran de la moisson", "rarity": "epique", "price": { "gems": 300 }, "color": "#3F72AE" },
+    { "id": "ilwen_etoiles", "kind": "skin", "hero": "ilwen", "name": "Ilwen des étoiles", "rarity": "epique", "price": { "gems": 300 }, "color": "#23306E" },
+    { "id": "kestrel_automne", "kind": "skin", "hero": "kestrel", "name": "Kestrel d'automne", "rarity": "epique", "price": { "gems": 300 }, "color": "#B5561F" },
+    { "id": "mira_printemps", "kind": "skin", "hero": "mira", "name": "Mira du printemps", "rarity": "epique", "price": { "gems": 300 }, "color": "#FF8FB8" }
+  ]
+}

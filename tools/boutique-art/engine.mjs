@@ -33,7 +33,7 @@ function patchBlock(code, start, end, t) {
 
 /** Héros du lobby (pleine pied, avec socle) : { aldric: '<svg…>', … }. t : transformation du bloc du héros. */
 export function lobbyArt(hero, t) {
-  let code = src('src/ui/art.js').replace('export function art()', 'function art()');
+  let code = src('src/ui/art.js').replace(/export function/g, 'function');
   if (t) code = patchBlock(code, `// ${hero.toUpperCase()}\n`, `C.${hero} = {`, t);
   return new Function(code + '\nreturn buildArt({ ol: 11, fc: 1, socles: true });')();
 }
