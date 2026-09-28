@@ -9,7 +9,7 @@ import { sfx, music } from '../audio/audio.js';
 
 const typeOf = type => G.battle.types[type] || D.enemies[type];
 
-function addEnemy(type, sx, k, delay) {
+export function addEnemy(type, sx, k, delay) {
   const W = D.waves, T = typeOf(type);
   G.enemies.push({
     type, T, hp: T.hp, max: T.hp, sx, sy: T.row, x: sx * G.W, y: -60 - k * 40,

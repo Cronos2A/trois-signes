@@ -51,7 +51,7 @@ function enemyFoot(e) {
   const S = ART[e.T.sprite];
   if (!S) return { x: e.x, y: e.y, h: 0 };
   const ty = e.sy * G.H;
-  const minFoot = G.safeTop + HUD_BOTTOM + (G.battle && G.battle.endless ? 44 : 34) + (S.fy - S.hy);   // Voyage : place pour le nom de l'arène
+  const minFoot = G.safeTop + HUD_BOTTOM + (G.battle && (G.battle.endless || G.battle.tutorial) ? 44 : 34) + (S.fy - S.hy);   // Voyage : place pour le nom de l'arène
   return { x: e.x, y: Math.max(ty + 0.45 * S.h, minFoot) + (e.y - ty), h: S.h };
 }
 
@@ -200,7 +200,7 @@ function drawEnemy(ctx, e, p) {
   const [bw, bh] = big ? BAR.boss : BAR[e.T.sprite] || BAR.sbire;
   const hx = p.x + dx + (S.hx - S.fx) * sx, top = p.y + dy - (S.fy - S.hy) * sy - 22;
   if (G.time < e.guardUntil) drawGuard(ctx, p.x + dx, p.y + dy - (S.fy - S.hy) * 0.5, Math.min(S.fy - S.hy, 260 * k) * 0.6);
-  hpBar(ctx, hx, top, bw * Math.max(0.8, k), bh, Math.max(0, e.hp / e.max), big ? 3 : 2.5);
+  if (!e.T.immortal) hpBar(ctx, hx, top, bw * Math.max(0.8, k), bh, Math.max(0, e.hp / e.max), big ? 3 : 2.5);   // mannequin : pas de vie
   if (e.T.special) outlined(ctx, e.T.name, p.x + dx, p.y + dy + 16, 15, '#FFFFFF', 4, 1.5);   // nom du boss d'histoire, sous ses pieds
   if (wind > 0) outlined(ctx, '!', hx, top - 16, 26, '#FFD23F', 6, 2);
 }

@@ -20,12 +20,13 @@ export function initStory(a) { api = a; }
 
 /** Premier lancement du jeu : prologue commun. */
 export async function maybePrologue() {
-  if (st().prologue) return;
+  if (st().prologue) return false;
   music(placeMusic(SM().prologue_commun[0].decor));
   await playScene(SM().prologue_commun);
   st().prologue = true;
   saveProg();
   music('musique_lobby');
+  return true;
 }
 
 /** Bouton « Histoire » du lobby : écran de choix. */

@@ -1,6 +1,6 @@
 // Attaque, esquive, ramassage, coups ennemis.
 import { D } from '../data.js';
-import { G, heroPos, addScore } from './state.js';
+import { G, heroPos, addScore, emit } from './state.js';
 import { clamp, dist, rand, fmt } from '../util.js';
 import { gradeOf, registerGrade, comboHit, streakTxt, toleranceOffset } from './grades.js';
 import { sfx } from '../audio/audio.js';
@@ -36,7 +36,8 @@ function doAttack(g, cm) {
 function dodgeShare(g, cm) { return Math.min(1, G.hero.dodgeBase * g.mult * cm); }
 
 function doDodge(g, cm) {
-  G.hero.shieldUntil = G.time + D.rules.dodge.shieldDuration;
+  // Leçon : la garde tient tout le long de l'anneau rouge, pour qu'un Rond tracé tôt compte quand même.
+  G.hero.shieldUntil = G.time + (G.battle.tutorial ? D.tutorial.shieldDuration : D.rules.dodge.shieldDuration);
   G.hero.shieldAvoid = dodgeShare(g, cm);
   addFx({ kind: 'ring', col: '#3FD7C4', life: 0.75 });
   sfx('esquive');
@@ -57,9 +58,10 @@ function tryPickup(x, y) {
   const cm = registerGrade(g);
   summon(g);
   showGrade(g, acc, 'Ramassage');
-  if (!g) { best.life = Math.min(best.life, P.missLifeCap); return true; }
+  if (!g) { best.life = Math.min(best.life, P.missLifeCap); emit('tapMiss'); return true; }
   G.loots.splice(G.loots.indexOf(best), 1);
   sfx(best.type === 'coin' ? 'piece' : 'coeur');
+  emit('pickup');
   if (best.type === 'coin') {
     const v = Math.round(P.coinValue * g.mult * cm);
     addScore(v + g.bonus);
@@ -83,6 +85,7 @@ function hitEnemy(e, dmg, col, by) {
   else addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: e.x, y2: e.y, col, life: 0.35 });
   pop(e.x, e.y - e.T.r - 14, '-' + dmg, '', col, 0.9, by === 'summon' ? 16 : 24);
   addScore(dmg * D.rules.score.perDamage);
+  if (e.T.immortal) { e.hp = e.max; return; }       // mannequin de la leçon
   if (e.hp > 0) return;
   sfx('ennemi_vaincu');
   addScore(e.T.pts);
@@ -113,6 +116,7 @@ export function useSuper() {
   superBanner(S.name, h.col);
   vibrate([40, 30, 70]);
   sfx('super_' + G.charId);
+  emit('super');
   if (S.healPct) pop(p.x, p.y - 90, 'PV au max', '', '#8CF09A', 1.2, 24);
   if (S.hitAll) {
     const dmg = round1(G.hero.atk * G.atkMult * S.hitAll);
@@ -155,6 +159,7 @@ export function strike(e) {
   if (auto) pop(h.x, h.y - 80, 'Ombre', 'esquive automatique', G.hero.col, 1, 22);
   else if (avoid > 0) pop(h.x, h.y - 80, 'Esquive ' + Math.round(avoid * 100) + ' %', avoid >= 1 ? 'aucun dégât' : '', '#3FD7C4', 1, 20);
   if (avoid >= 1) addScore(D.rules.dodge.perfectScore);
+  emit('strike', { avoid });
   if (taken > 0) {
     sfx('coup_recu');
     G.hero.hp = Math.max(0, G.hero.hp - taken);
@@ -170,12 +175,14 @@ export function handleGesture(res) {
   const train = G.mode === 'train';
   if (res.type === 'tap') {
     const ok = tryPickup(res.x, res.y);
+    if (!ok) emit('tapMiss');
     if (!ok && train) trainInfo('Tap sans objet : tapez sur une pièce ou un cœur.');
     return;
   }
   if (res.type === 'fail') {
     registerGrade(null);
     showGrade(null, null, res.reason);
+    emit('gesture', { type: 'fail', g: null, cm: 1 });
     if (train) trainInfo(res.reason + '. Série remise à zéro.');
     return;
   }
@@ -184,7 +191,9 @@ export function handleGesture(res) {
   summon(g);
   const label = res.type === 'triangle' ? 'Attaque' : 'Esquive';
   showGrade(g, res.acc, label);
+  const done = () => emit('gesture', { type: res.type, g, cm });
   if (!g) {
+    done();
     if (train) trainInfo(label + ' ratée : précision ' + res.acc + ' % (' + (D.grades.levels[D.grades.levels.length - 1].min - toleranceOffset()) + ' % minimum). Série remise à zéro.');
     return;
   }
@@ -194,9 +203,11 @@ export function handleGesture(res) {
     if (G.hero.healPerHit) heal(G.hero.healPerHit * g.mult);
     if (G.mode === 'play') doAttack(g, cm);
     else { addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: h.x, y2: h.y - 200, col: g.col, life: 0.35 }); sfx('attaque'); }
+    done();
     if (train) trainInfo('Attaque ' + g.name + ' : ' + fmt(round1(heroAtk() * g.mult * cm)) + ' dégâts' + (cm > 1 ? ' (combo ×' + fmt(cm) + ')' : '') + streakTxt());
   } else {
     doDodge(g, cm);
+    done();
     if (train) trainInfo('Esquive ' + g.name + ' : ' + Math.round(dodgeShare(g, cm) * 100) + ' % des dégâts évités' + (cm > 1 ? ' + riposte (combo)' : '') + streakTxt());
   }
 }

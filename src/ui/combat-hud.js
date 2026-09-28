@@ -21,6 +21,7 @@ function set(key, el, prop, value) {
   else if (prop === 'html') el.innerHTML = value;
   else if (prop === 'class') el.className = value;
   else if (prop === 'voyageClass') el.classList.toggle('voyage', value);
+  else if (prop === 'tutoClass') el.classList.toggle('tuto', value);
   else el.style[prop] = value;
 }
 
@@ -31,6 +32,7 @@ export function setupHud(c) {
   av.style.background = c.color;
   av.innerHTML = facets.small() + `<span class="ol ol-4">${c.name[0]}</span>`;
   $('hudName').textContent = c.name;
+  $('hudArena').className = 'hud-arena';
   $('hud').style.setProperty('--acc', c.accent || c.color);   // couleur d'accent : jauge, bouton et compteur de super
 }
 
@@ -41,7 +43,23 @@ export function updateHud(A) {
   set('bar', $('hudBar'), 'width', (ratio * 100).toFixed(1) + '%');
   set('low', $('hudBar'), 'class', ratio <= 0.3 ? 'low' : '');
 
-  if (G.mode === 'play' && G.battle.endless) {
+  const tuto = G.mode === 'play' && !!G.battle.tutorial;
+  set('tuto', $('hud'), 'tutoClass', tuto);
+  set('quitTxt', $('quitTxt'), 'text', tuto ? 'Passer' : 'Quitter');
+  if (tuto) {
+    // Leçon : « LEÇON 2 / 5 », objectif de l'étape (« 1 / 3 ») et consigne sous la carte.
+    const T = G.tuto || { step: 0, total: 5, count: 0, goal: 1, label: '', consigne: '' };
+    set('voyage', $('hud'), 'voyageClass', false);
+    set('waveK', $('hudWaveK'), 'text', 'LEÇON');
+    set('waveKc', $('hudWaveK'), 'class', 'hud-k');
+    set('wave', $('hudWave'), 'text', (T.step + 1) + ' / ' + T.total);
+    set('pips', $('hudPips'), 'html', Array.from({ length: T.total }, (_, i) =>
+      `<i class="${i < T.step ? 'done' : i === T.step ? 'cur' : ''}"></i>`).join(''));
+    set('time', $('hudTime'), 'text', T.label + ' ' + T.count + ' / ' + T.goal);
+    set('timeC', $('hudTimer'), 'class', 'hud-timer');
+    set('arena', $('hudArena'), 'text', T.help ? D.tutorial.handHint : T.consigne);   // après deux échecs : « Suis la main »
+    set('help', $('hudArena'), 'class', 'hud-arena' + (T.help ? ' help' : ''));
+  } else if (G.mode === 'play' && G.battle.endless) {
     // Le Voyage : « Round 2 / 4 », multiplicateur de score à la place du chrono, nom de l'arène dessous.
     const V = G.voyage, n = V ? V.rounds : 4, cur = V ? V.round + 1 : 1, boss = cur === n;
     set('voyage', $('hud'), 'voyageClass', true);

@@ -254,3 +254,5 @@
 .set-vol input::-moz-range-progress{height:10px;border-radius:999px;background:var(--lime)}
 .set-vol input::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-9px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);box-sizing:border-box}
 .set-vol input::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);box-sizing:border-box}
+.lesson-pill{right:auto;left:0}
+.hero-zone .deco-tri{top:52px}   /* place pour « Revoir la leçon » */

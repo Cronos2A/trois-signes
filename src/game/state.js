@@ -10,10 +10,14 @@ export const G = {
   voyage: null,            // Voyage : { stage, round, name, total } (lu par le HUD et l'écran de fin)
   enemies: [], loots: [], summons: [],
   fx: [], pops: [], trails: [], bigGrade: null, superBanner: null, drawing: null,
-  stats: {}, trainSpawn: 0, trainMsg: ''
+  stats: {}, trainSpawn: 0, trainMsg: '',
+  listen: null             // Leçon : écoute les événements du combat (game/tutorial.js)
 };
 
 /** Ajoute des points au score, multipliés par le multiplicateur en cours (Voyage). */
 export function addScore(n) { G.score += Math.round(n * G.scoreMult); }
+
+/** Événement du combat (geste, ramassage, coup reçu, super), pour la leçon guidée. */
+export function emit(ev, d) { if (G.listen) G.listen(ev, d); }
 
 export const heroPos = () => ({ x: G.W / 2, y: G.H * 0.78 });

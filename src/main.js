@@ -5,7 +5,7 @@ import { attachInput } from './input/gestures.js';
 import { handleGesture, useSuper, updateSummons } from './game/combat.js';
 import { emptyStats } from './game/grades.js';
 import { updateEnemies, updateWaves } from './game/enemies.js';
-import { attackMult, grantXp } from './game/progress.js';
+import { attackMult, grantXp, prog } from './game/progress.js';
 import { rand } from './util.js';
 import { draw } from './ui/hud.js';
 import { prepareCombatArt, paintBackground } from './ui/combat-art.js';
@@ -14,6 +14,7 @@ import { resetAnims } from './ui/anim.js';
 import { initLobby, showLobby, hideLobby, showResults, activeCharacter } from './ui/lobby.js';
 import { initStory, openStory, maybePrologue } from './story/story.js';
 import { voyageBattle } from './game/voyage.js';
+import { initTutorial, startTutorial } from './game/tutorial.js';
 import { showTransition, hideTransition } from './ui/voyage-ui.js';
 import { initAudio, sfx, music, placeMusic, traceStart, traceStop } from './audio/audio.js';
 
@@ -64,7 +65,7 @@ function resetGame(c, battle) {
   };
   Object.assign(G, {
     enemies: [], loots: [], summons: [], fx: [], pops: [], trails: [],
-    time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, scoreMult: 1, paused: false, voyage: null, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
+    time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, scoreMult: 1, paused: false, voyage: null, listen: null, tuto: null, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
     streak: { name: null, n: 0 }, combos: 0, globalGap: 0, stats: emptyStats()
   });
 }
@@ -86,6 +87,7 @@ function update(dt) {
   if (G.mode === 'train') { updateTraining(dt); return; }
   if (G.mode !== 'play') return;
   G.time += dt;
+  if (G.battle.tutorial) { updateEnemies(dt); return; }   // leçon : mannequin seul, déroulé dans game/tutorial.js
   if (G.battle.timeLimit && G.time >= G.battle.timeLimit) return endGame('time');
   updateEnemies(dt);
   if (updateWaves(dt)) return endGame('win');
@@ -193,7 +195,8 @@ async function init() {
     onDraw: d => { G.drawing = d; },
     onGesture
   });
-  initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play'), story: openStory });
+  initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play'), story: openStory, lesson: startTutorial });
+  initTutorial({ startBattle: opts => start('play', opts), quit: toLobby });
   initStory({ startBattle: opts => start('play', opts), toLobby: showLobby });
   $('quit').onclick = () => { sfx('ui_clic'); toLobby(); };
   // Bouton de super : réagit dès l'appui, et l'appui n'atteint jamais le canvas (pas de tap ni de tracé).
@@ -208,7 +211,8 @@ async function init() {
   if (document.fonts) document.fonts.load('60px Caprasimo').catch(() => {});
   window.__tsReady = true;
   requestAnimationFrame(loop);
-  maybePrologue();
+  // Premier démarrage : prologue, puis la première leçon.
+  maybePrologue().then(first => { if (first && !prog.tutorial) startTutorial(); });
 }
 
 init();
