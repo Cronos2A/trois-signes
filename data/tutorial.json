@@ -1,0 +1,134 @@
+{
+  "note": "La première leçon (docs/Son_et_Tutoriel.pdf, section 4) : souvenir, Maître Eldan enseigne à Aldric à Pierrelune, avant le Silence. Répliques d'Eldan reprises telles quelles du PDF.",
+  "title": "La première leçon",
+  "hero": "aldric",
+  "decor": "pierrelune_aube",
+  "music": "musique_tuto",
+  "tolerance": 20,
+  "failsBeforeHand": 2,
+  "pauseBetweenSteps": 0.9,
+  "shieldDuration": 4.5,
+  "dummy": {
+    "id": "mannequin",
+    "file": "assets/ennemis/mannequin.svg",
+    "height": 150,
+    "name": "Mannequin",
+    "hp": 999,
+    "dmg": 0,
+    "wind": 4.5,
+    "cd": [
+      1.2,
+      1.8
+    ],
+    "speed": 160,
+    "pts": 0,
+    "r": 26,
+    "col": "#C99A35",
+    "row": 0.36,
+    "centered": true,
+    "loot": {
+      "count": 0,
+      "hearts": 0,
+      "heartChance": 0
+    }
+  },
+  "coins": {
+    "count": 3,
+    "spread": 110,
+    "row": 0.56
+  },
+  "intro": {
+    "kicker": "SOUVENIR",
+    "title": "La première leçon",
+    "sub": "Pierrelune, avant le Silence",
+    "duration": 2.6
+  },
+  "steps": [
+    {
+      "id": "triangle",
+      "label": "Triangle",
+      "goal": 3,
+      "hand": "triangle",
+      "consigne": "Trace un triangle pour frapper le mannequin",
+      "eldan": [
+        {
+          "qui": "eldan",
+          "expression": "determine",
+          "texte": "Le Triangle te défend. Trace-le, d'un seul geste."
+        }
+      ]
+    },
+    {
+      "id": "rond",
+      "label": "Rond",
+      "goal": 2,
+      "hand": "circle",
+      "consigne": "Trace un rond quand l'anneau rouge se referme",
+      "eldan": [
+        {
+          "qui": "eldan",
+          "expression": "neutre",
+          "texte": "Quand le danger se resserre sur toi, trace le Rond."
+        }
+      ]
+    },
+    {
+      "id": "toucher",
+      "label": "Toucher",
+      "goal": 3,
+      "hand": "tap",
+      "consigne": "Touche les pièces pour les ramasser",
+      "eldan": [
+        {
+          "qui": "eldan",
+          "expression": "joie",
+          "texte": "Le Toucher relie. Ramasse ce qui brille."
+        }
+      ]
+    },
+    {
+      "id": "justesse",
+      "label": "Justesse",
+      "goal": 1,
+      "hand": "triangle",
+      "levels": true,
+      "consigne": "Enchaîne des gestes du même niveau pour un combo",
+      "eldan": [
+        {
+          "qui": "eldan",
+          "expression": "determine",
+          "texte": "Plus ton geste est pur, plus il est fort."
+        }
+      ]
+    },
+    {
+      "id": "super",
+      "label": "Super",
+      "goal": 1,
+      "hand": "button",
+      "fillGauge": true,
+      "consigne": "Touche le bouton SUPER en bas à droite",
+      "eldan": [
+        {
+          "qui": "eldan",
+          "expression": "neutre",
+          "texte": "Et quand ton cœur est plein… libère-le."
+        }
+      ]
+    }
+  ],
+  "levelsPanel": {
+    "title": "Les 5 niveaux de réussite",
+    "text": "Plus ton tracé est précis, plus ton geste porte.",
+    "miss": "Raté : aucun effet, la série repart à zéro.",
+    "button": "Compris"
+  },
+  "fin": [
+    {
+      "qui": "eldan",
+      "expression": "joie",
+      "texte": "Trois gestes. Pas un de plus. Et un jour, tu les apprendras à quelqu'un d'autre."
+    }
+  ],
+  "handHint": "Suis la main"
+}

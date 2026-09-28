@@ -18,7 +18,7 @@ let actions = {};
 
 const chars = () => D.characters.characters;
 
-/** actions : { solo(), train(), again(), story() } */
+/** actions : { solo(), train(), again(), story(), lesson() } */
 export function initLobby(a) {
   actions = a;
   const root = $('lobby');
@@ -68,6 +68,7 @@ function onClick(e) {
     case 'filter': ui.filter = arg; render(); break;
     case 'solo': actions.solo(); break;
     case 'train': actions.train(); break;
+    case 'lesson': actions.lesson(); break;
     case 'story': actions.story(); break;
     case 'again': actions.again(); break;
     case 'home': hideResults(); ui.tab = 'play'; render(); break;
@@ -127,6 +128,7 @@ function playHtml() {
       <div class="deco deco-tri">${glyph('tri', '#FFD23F', 40)}</div>
       <div class="deco deco-circle">${glyph('circle', '#FF5A3C', 34)}</div>
       <div class="deco deco-dot">${glyph('dot', '#FF8C32', 30)}</div>
+      <button class="train-pill lesson-pill" data-act="lesson">${glyph('tri', '#FFD23F', 18)}<span>Revoir la leçon</span></button>
       <button class="train-pill" data-act="train">${glyph('circle', '#3DDC5B', 18)}<span>Entraînement</span></button>
       <div class="name-pill">
         <div class="np-icon" style="background:${c.color}">${wIcon(c.weapon, 20)}</div>

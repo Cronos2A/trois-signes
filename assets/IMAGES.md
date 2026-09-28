@@ -114,6 +114,7 @@ Sans sprite, le boss prend celui de la brute (mini-boss) ou du boss de la Forêt
 - ✅ `assets/ennemis/helo.svg`
 - ✅ `assets/ennemis/veilleuse.svg`
 - ✅ `assets/ennemis/eldan_oublie.svg`
+- ⬜ `assets/ennemis/mannequin.svg` — mannequin de « La première leçon » (poteau de bois et sac de paille) ; en attendant, sprite provisoire dessiné en code (`src/ui/tutorial-art.js`)
 
 ## Décors (`assets/decors/`, plein écran, portrait 390 × 844 conseillé)
 

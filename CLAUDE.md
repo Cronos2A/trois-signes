@@ -4,7 +4,7 @@
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. Solo hors-ligne (PVE) et duel en ligne au tour par tour (PVP).
 Pas de graphismes complexes, pas d'histoire lourde : un jeu simple avec une vraie marge de progression.
 
-Référence complète : `docs/Dossier_conception_jeu_mobile.pdf` (version 2).
+Référence complète : `docs/Dossier_conception_jeu_mobile.pdf` (version 2). Son et tutoriel : `docs/Son_et_Tutoriel.pdf`.
 Prototype jouable actuel : `prototype/trois-signes-prototype.html` (un seul fichier, à lire avant toute chose).
 
 ## Les règles du jeu (à respecter)
@@ -60,6 +60,7 @@ src/
   game/settings.js réglages du joueur (volumes, vibrations, tolérance des gestes), sauvegardés localement
   audio/audio.js   gestionnaire audio unique : canaux Musique / Effets, fichiers branchés seuls, fondus, déblocage mobile
   audio/synth.js   sons synthétisés : notes de réussite (définitives) et sons / musiques provisoires
+  game/tutorial.js « La première leçon » : tutoriel guidé en 5 étapes (déroulé, réussites, main animée)
   game/voyage.js   Le Voyage (Solo infini) : arènes, rounds, gardiens, renforcement, multiplicateur de score
   story/story.js   mode Histoire : déroulé (prologue, ouvertures, combats, fins, fragments, épilogue)
   ui/hud.js        rendu canvas du combat (sprites, anneau d'alerte, tracés, textes de réussite)
@@ -75,6 +76,7 @@ src/
   ui/story-art.js  dessins de la maquette Mode Histoire (paysage de la carte, fragments, silhouette d'Eldan, icônes)
   ui/assets.js     images du mode Histoire (assets/) et replis (neutre, humain, pastille, dégradé)
   ui/story.css     styles du mode Histoire et du lecteur
+  ui/tutorial-ui.js écrans de la leçon (« Souvenir », 5 niveaux de réussite) et main animée ; ui/tutorial-art.js : mannequin provisoire et main ; ui/tutorial.css
   ui/voyage-ui.js  écrans du Voyage : transition d'arène (+30 % PV), « Arène découverte » et son coffre
   ui/voyage.css    styles de ces écrans et du HUD du Voyage (nom de l'arène, multiplicateur)
   ui/art.js        dessins low-poly des héros et ennemis (repris de la planche)
@@ -86,6 +88,7 @@ data/
   rules.json       règles de combat (esquive, ramassage, score, entraînement)
   shop.json        objets affichés dans la boutique (pas encore achetables)
   story_mode.json  tout le texte du mode Histoire (ne pas réécrire : affiché tel quel)
+  tutorial.json    « La première leçon » : répliques d'Eldan (texte exact du PDF), étapes, mannequin, tolérance
   audio.json       sons : ids d'effets et de musiques, volumes, fondus, lieu → musique
   voyage.json      Le Voyage : 8 arènes (décor, teinte, vagues, gardien), renforcement, score, soin, coffres
 assets/            images du mode Histoire (facultatives, le mode est jouable sans ; liste et état dans assets/IMAGES.md) :
@@ -119,6 +122,12 @@ design/            exports Claude Design (référence : planche de personnages, 
 - Toutes les valeurs dans `data/voyage.json` (renforcement par arène et par round, multiplicateur de score, 3 ennemis au plus, +30 % PV entre deux arènes). `data/waves.json` ne sert plus que pour les délais communs (pause entre deux coups, première attaque).
 - Gardiens et décors repris du mode Histoire (`assets/`) ; si une image manque : sprite du boss du Solo, fond à la teinte de l'arène avec son nom en grand. La Forêt de Mousse garde le décor du Solo.
 - Sauvegarde : `prog.best` (record), `prog.voyage` (arène la plus lointaine, arènes découvertes). Coffres de cosmétiques : emplacement et message seulement.
+
+## La première leçon (tutoriel, septembre 2026)
+- `docs/Son_et_Tutoriel.pdf` section 4 : un souvenir, Maître Eldan enseigne à Aldric à Pierrelune avant le Silence (décor `pierrelune_aube`, `musique_tuto`). Tout dans `data/tutorial.json` ; répliques d'Eldan telles quelles, dans le lecteur de dialogues.
+- 5 étapes : Triangle (3 réussites sur un mannequin), Rond (2 esquives, anneau de 4,5 s), Toucher (3 pièces), Justesse (tableau des 5 niveaux puis un combo), Super (jauge pleine d'office). Puis la réplique de fin et retour au lobby.
+- Impossible à rater : mannequin sans dégâts et immortel, seuils abaissés de `tolerance` points, garde du Rond qui tient tout l'anneau ; après 2 échecs de suite, main animée + « Suis la main ». HUD « LEÇON 2 / 5 », objectif, consigne ; « Passer » remplace « Quitter ».
+- Lancée d'office au premier démarrage juste après le prologue ; « Revoir la leçon » dans l'onglet Jouer. Sauvegarde : `prog.tutorial`. Sprite `assets/ennemis/mannequin.svg` s'il existe, sinon provisoire en code.
 
 ## Son et réglages (septembre 2026)
 - Un seul module `src/audio/audio.js`, deux canaux (Musique, Effets). Fichiers `assets/audio/sfx/{id}.mp3` et `assets/audio/musique/{id}.mp3` : ids et état dans `assets/audio/SONS.md`. Un fichier manquant → son provisoire de `src/audio/synth.js`, jamais d'erreur.

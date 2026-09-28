@@ -1,0 +1,31 @@
+/* Leçon guidée « La première leçon » : écran d'ouverture, tableau des niveaux, main animée, HUD de la leçon. */
+.tu-card{position:fixed;inset:0;z-index:25;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden;font-family:var(--font-body);color:var(--ink);animation:vyIn .25s ease-out}
+.tu-card.intro{cursor:pointer;background:linear-gradient(180deg,#FFD9A0 0%,#F4A96A 42%,#7A5A8C 100%)}
+.tu-card.levels{background:color-mix(in srgb,var(--ink) 55%,transparent)}
+.tu-in{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;padding:0 20px;text-align:center}
+.tu-sub{font-family:var(--font-heading);font-size:19px;color:#FFF1D6;text-shadow:0 2px 0 var(--ink);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill}
+.tu-levels{gap:10px}
+.tu-title{font-size:26px;color:var(--sun)}
+.tu-text{margin:0;text-align:center;font-size:14px;font-weight:700;color:var(--text-soft)}
+.tu-text.small{font-size:12.5px}
+.tu-lvls{display:flex;flex-direction:column;gap:6px}
+.tu-lvl{display:grid;grid-template-columns:18px 1fr auto 48px;align-items:center;gap:8px;padding:6px 12px;border-radius:14px;border:3px solid var(--ink);background:color-mix(in srgb,var(--c) 22%,var(--color-bg));animation:tuRise .35s both}
+.tu-lvl:nth-child(2){animation-delay:.08s}.tu-lvl:nth-child(3){animation-delay:.16s}.tu-lvl:nth-child(4){animation-delay:.24s}.tu-lvl:nth-child(5){animation-delay:.32s}
+.tu-lvl i{width:16px;height:16px;border-radius:50%;background:var(--c);border:2.5px solid var(--ink);box-sizing:border-box}
+.tu-lvl b{font-family:var(--font-heading);font-weight:400;font-size:17px}
+.tu-lvl span{font-size:13px;font-weight:800;color:var(--text-soft);font-variant-numeric:tabular-nums}
+.tu-lvl em{font-style:normal;font-family:var(--font-heading);font-size:16px;text-align:right}
+@keyframes tuRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.tu-hand{position:fixed;inset:0;z-index:4;pointer-events:none}
+.tu-trail{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tu-trail path{fill:none;stroke:#FFF1D6;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 16;filter:drop-shadow(0 2px 0 #15301E)}
+.tu-finger{position:absolute;left:0;top:0;transform-origin:14px 6px;filter:drop-shadow(0 4px 0 rgba(21,48,30,.45))}
+
+/* HUD pendant la leçon : étape « 2 / 5 », objectif de l'étape, consigne dessous, « Passer » à la place de « Quitter ». */
+.hud.tuto .hud-score{display:none}
+.hud.tuto .hud-card{grid-template-columns:minmax(0,1fr) auto}
+.hud.tuto .hud-timer svg{display:none}
+.hud.tuto .hud-timer{padding:0 12px}
+.hud.tuto .hud-arena{display:block;left:14px;right:14px;transform:none;width:max-content;max-width:calc(100% - 28px);margin:0 auto;white-space:normal;text-align:center}
+.hud.tuto .hud-arena.help{background:var(--sun);color:var(--ink);font-size:13px}
