@@ -12,6 +12,7 @@ import { syncRewards } from './game/rewards.js';
 import { coinGold, arenaGold, voyageEndGold, addGold, syncGems } from './game/economy.js';
 import { look } from './game/cosmetics.js';
 import { combatLook } from './ui/looks.js';
+import { showCover, hideCover } from './ui/cover.js';
 import { initAds, tickPlay, flushPlay, noteVoyageEnd, showRewarded } from './ads/ads.js';
 import { askChoice, adToast } from './ui/ad-ui.js';
 import { showRewards } from './ui/reward-ui.js';
@@ -38,7 +39,7 @@ const idleBattle = () => ({ waves: [], types: {}, art: [], timeLimit: 0, label: 
 /** Le Voyage (Solo infini) : à chaque arène, nouveau décor puis écran de transition. */
 const newVoyage = () => voyageBattle({
   onStage: info => {
-    paintBackground($('bg'), G.W, G.H, dpr, G.battle.lieu, G.battle.bg).catch(() => {});
+    paintBackground($('bg'), G.W, G.H, dpr, info.lieu, info.bg).catch(() => {});   // décor de l'arène annoncée
     music(placeMusic(info.id));
     sfx('nouvelle_arene');
     return showTransition(info);
@@ -56,8 +57,7 @@ function resize() {
 
 /** Décor (lieu du combat en Histoire) et sprites, préparés à la taille de l'écran (voir ui/combat-art.js). */
 function prepareArt(c, battle) {
-  paintBackground($('bg'), G.W, G.H, dpr, battle.lieu, battle.bg).catch(() => {});
-  return prepareCombatArt(c.id, G.W, G.H, dpr, Object.values(D.enemies).map(e => e.sprite), battle.art, battle.tutorial ? null : combatLook(c.id));
+  return Promise.all([paintBackground($('bg'), G.W, G.H, dpr, battle.lieu, battle.bg).catch(() => {}), prepareCombatArt(c.id, G.W, G.H, dpr, Object.values(D.enemies).map(e => e.sprite), battle.art, battle.tutorial ? null : combatLook(c.id))]);
 }
 
 /* ---------- Partie ---------- */
@@ -185,6 +185,7 @@ function toLobby() {
   setInGame(false);
   curChar = null; curBattle = null;
   hideTransition();
+  hideCover();
   traceStop();
   if (b && b.onQuit) b.onQuit();          // Histoire : « Quitter » ramène au chemin des combats
   else music('musique_lobby');
@@ -193,20 +194,26 @@ function toLobby() {
 
 let starting = false;
 /** opts.char : héros imposé (Histoire), sinon celui du lobby ; opts.battle : combat, sinon le Voyage. */
+// Ordre d'un lancement : écran de lancement (le lobby disparaît) → annonce de la partie (battle.intro : transition d'arène
+// du Voyage, souvenir de la leçon), pendant que sprites et décor se préparent → seulement ensuite l'arène et le combat.
 async function start(mode, opts = {}) {
   if (starting) return;
   starting = true;
+  showCover();
   const c = opts.char || activeCharacter();
   let battle = opts.battle || idleBattle();
-  if (mode === 'play' && !opts.battle) { try { battle = await newVoyage(); } catch (e) { starting = false; throw e; } }
+  if (mode === 'play' && !opts.battle) { try { battle = await newVoyage(); } catch (e) { starting = false; hideCover(); throw e; } }
   curChar = c; curBattle = battle;
+  const intro = battle.intro ? battle.intro() : null;               // l'annonce d'abord (elle fixe aussi le décor)
   try { await prepareArt(c, battle); } catch (_) { /* sans sprites, le combat reste jouable */ }
+  if (intro) await intro;
   starting = false;
   resetGame(c, battle);
   resetAnims(c.id);
   setupHud(c);
   G.mode = mode;
   setInGame(true);
+  hideCover();
   if (mode === 'train') music('musique_tuto');
   if (mode === 'train') G.trainMsg = 'Tracez des triangles et des ronds, tapez sur les objets. La précision s’affiche à chaque geste.';
 }

@@ -67,28 +67,35 @@ export async function voyageBattle(hooks) {
   };
 
   let entered = -1;                                                // dernière étape affichée
+  /** Entrée dans l'arène du round i : décor, musique, soin, coffre ; renvoie la promesse de l'écran d'annonce. */
+  const enter = i => {
+    const st = stageOf(i), info = stageInfo(st.stage);
+    entered = st.stage;
+    B.lieu = info.decor;
+    B.music = placeMusic(info.id);
+    B.bg = st.stage === 0 ? null : { tint: info.tint, title: info.name };
+    const heal = i > 0 ? V().healBetweenArenas : 0;
+    if (heal) {
+      const h = G.hero, p = heroPos();
+      h.hp = Math.min(h.max, h.hp + h.max * heal);
+      pop(p.x, p.y - 90, '+' + Math.round(heal * 100) + ' % PV', '', '#8CF09A', 1.4, 24);
+    }
+    // Coffre : le talisman du gardien qu'on vient de battre (écran « Arène découverte »).
+    const rewards = syncRewards().filter(r => r.kind === 'talisman');
+    const first = (reachArena(info.id, st.stage) && st.stage < ARENAS()) || rewards.length > 0;
+    return hooks.onStage({ ...info, heal, first, rewards, total: ARENAS(), lieu: B.lieu, bg: B.bg });
+  };
   const B = {
     endless: true, xpMode: 'voyage', label: 'Round', types: {}, waves: [], art, timeLimit: 0, lieu: null, bg: null,
     betweenRounds: V().betweenRounds,
+    /** Annonce de la partie : l'arène 1, montrée AVANT que l'arène soit visible (main.js → start). */
+    intro: () => enter(0),
     /** Prépare le round i. Renvoie false si un écran de transition vient de s'ouvrir (le round attend). */
     prepare(i) {
       const st = stageOf(i), info = stageInfo(st.stage), m = scaling(i);
-      if (st.stage !== entered) {                                   // nouvelle arène (normalement au 1er round)
-        entered = st.stage;
-        B.lieu = info.decor;
-        B.music = placeMusic(info.id);
-        B.bg = st.stage === 0 ? null : { tint: info.tint, title: info.name };
-        const heal = i > 0 ? V().healBetweenArenas : 0;
-        if (heal) {
-          const h = G.hero, p = heroPos();
-          h.hp = Math.min(h.max, h.hp + h.max * heal);
-          pop(p.x, p.y - 90, '+' + Math.round(heal * 100) + ' % PV', '', '#8CF09A', 1.4, 24);
-        }
-        // Coffre : le talisman du gardien qu'on vient de battre (écran « Arène découverte »).
-        const rewards = syncRewards().filter(r => r.kind === 'talisman');
-        const first = (reachArena(info.id, st.stage) && st.stage < ARENAS()) || rewards.length > 0;
+      if (st.stage !== entered) {                                   // nouvelle arène en cours de partie
         G.paused = true;
-        hooks.onStage({ ...info, heal, first, rewards, total: ARENAS() }).then(() => { G.paused = false; });
+        enter(i).then(() => { G.paused = false; });
         return false;
       }
       G.scoreMult = m.score;

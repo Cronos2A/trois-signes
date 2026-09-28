@@ -32,7 +32,8 @@ export async function startTutorial() {
   const battle = {
     tutorial: true, waves: [], types: { [T.dummy.id]: passive }, timeLimit: 0, label: 'Leçon', lieu: T.decor, bg: null, music: T.music,
     art: [{ key: passive.sprite, url: url || dummyUrl(), height: T.dummy.height, fallback: 'sbire' }],   // sprite provisoire si le fichier manque
-    onQuit: () => finish()
+    onQuit: () => finish(),
+    intro: () => showIntro()                                // « Souvenir » : annonce montrée avant l'arène (main.js → start)
   };
   music(T.music);
   await api.startBattle({ char: D.characters.characters.find(c => c.id === T.hero), battle });
@@ -42,7 +43,6 @@ export async function startTutorial() {
   const e = G.enemies[0];                                   // le mannequin est déjà planté
   e.state = 'idle'; e.cd = 1e9; e.x = e.sx * G.W; e.y = e.sy * G.H;
   G.tuto = { step: 0, total: T.steps.length, count: 0, goal: T.steps[0].goal, label: T.steps[0].label, consigne: '' };
-  await showIntro();
   for (let i = 0; i < T.steps.length; i++) {
     if (id !== run) return;
     await step(i, id);

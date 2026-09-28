@@ -11,6 +11,7 @@ import { enemyUrl, who, bossInfo } from '../ui/assets.js';
 import { music, placeMusic, sfx } from '../audio/audio.js';
 import { syncRewards } from '../game/rewards.js';
 import { showRewards } from '../ui/reward-ui.js';
+import { showCover } from '../ui/cover.js';
 
 let api = {};   // { startBattle({ char, battle }), toLobby() } fourni par main.js
 const SM = () => D.story_mode;
@@ -58,6 +59,7 @@ function showMap(h, toast) {
 
 /** Lance un combat ; withDialogue = false pour « Réessayer » (le dialogue d'avant n'est pas rejoué). */
 async function launch(h, k, withDialogue) {
+  showCover();                                             // le lobby ne réapparaît pas entre l'écran Histoire et l'arène
   hideStory();
   if (withDialogue) {
     music(placeMusic(k.lieu));

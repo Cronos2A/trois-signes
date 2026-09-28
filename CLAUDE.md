@@ -189,6 +189,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - Renforcement par arène puis par round (`scaling`), multiplicateur de score (`score`), 3 ennemis au plus, +30 % PV entre deux arènes,
   alerte raccourcie au loin (jamais sous 0,9 s).
 - Code : `src/game/voyage.js`, écrans `src/ui/voyage-ui.js` (transition d'arène, « Arène découverte » et son coffre).
+- **Ordre d'un lancement** (toutes les parties, `main.js` → `start`) : écran de lancement (`src/ui/cover.js`, le lobby disparaît) →
+  annonce de la partie (`battle.intro` : transition d'arène 1 du Voyage, « Souvenir » de la leçon ; en Histoire, les dialogues d'avant)
+  pendant que sprites et décor se préparent → seulement ensuite l'arène et le combat. Vérifié : Voyage, Rejouer, Histoire, Réessayer, leçon.
 - Gardiens et décors repris du mode Histoire ; la Forêt de Mousse garde le décor et le boss du Solo d'origine.
 - Coffres de cosmétiques : emplacement et message seulement (`chest`).
 - Sauvegarde : `prog.best` (record), `prog.voyage` (arène la plus lointaine, arènes découvertes).
@@ -256,7 +259,7 @@ src/
          art.js  icons.js  assets.js (images + replis)  cutscene.js  story-ui.js  story-art.js
          tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (cartes Armes / Talisman, XP de fin de partie)
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman / Gemmes »)  shop-ui.js (boutique, coffres, carte Cosmétiques)
-         looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)
+         looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)  cover.js (écran de lancement)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css
 data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads (.json)
 assets/  portraits/  ennemis/  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
