@@ -55,7 +55,14 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
 - **Délais communs à tous les combats** (`data/waves.json`) : pause de 1,2 s entre deux coups ennemis (`globalGap`), première attaque,
   décalage entre ennemis, délai entre deux vagues, attente du butin en fin de combat.
 - Reconnaissance des gestes maison, sans IA (`src/input/gestures.js`, objet `TUNING` : seuls chiffres gardés dans le code).
-- XP et niveaux par héros, gagnés seulement en le jouant (`characters.json` → `progression` : +3 % d'attaque par niveau).
+- **Progression des héros** (`data/progression.json`, code `src/game/progress.js`) : XP et niveau par héros, gagnés seulement en le jouant.
+  - Niveau 1 à **100** ; XP pour passer du niveau n au niveau n+1 = 100 + 25 × n. Sauvegarde : `prog.chars[id] = { lvl, xp }`
+    (XP dans le niveau). Les sauvegardes d'avant (XP totale) sont converties une fois (`legacy`, `prog.heroSave`) :
+    niveau gardé, plafonné à 100, XP remise à zéro.
+  - L'XP **ne dépend plus du score** : Voyage 10 XP par round terminé + 40 par gardien vaincu ; Histoire 40 XP à la première
+    victoire d'un combat, 10 aux suivantes, 0 en cas de défaite ; Entraînement et leçon 0. Quitter une partie ne rapporte rien.
+  - Bonus par niveau : +0,5 % d'attaque et +0,5 % de PV max (Nv 100 : +49,5 %). `bonus_en_duel: false` : neutralisés en Duel.
+  - Niveau 100 : plus d'XP accumulée, barre dorée « MAX », anneau doré autour du portrait (`maxRing`), « Nv 100 · MAX ».
 
 ## Les 6 héros (tous jouables) — `data/characters.json`
 Chaque héros : `hp`, `attack`, `passive`, `super`, couleurs `color` / `accent`, `stats` (affichage), `weapon`.
@@ -123,7 +130,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   1 par round, 2 ennemis en plus au maximum). Réglages : `rules.json` → `story.eldan`.
 - Fin d'une histoire : `fin` + un fragment de mémoire. Les 6 terminées → `epilogue_final`, qui **débloque Eldan** :
   sa carte apparaît dans le choix des histoires, marquée « Bientôt disponible » (pas encore jouable).
-- Autres réglages : `rules.json` → `story` (XP de première victoire 40, pas de limite de temps, PNJ, libellés, vitesse du texte).
+- Autres réglages : `rules.json` → `story` (pas de limite de temps, PNJ, libellés, vitesse du texte).
 - Sauvegarde : `prog.story` (combats gagnés par histoire, scènes vues, fragments, prologue, épilogue).
 
 ## Le Voyage (Solo infini) — `data/voyage.json`
@@ -163,7 +170,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
-  `src/data.js` charge : grades, characters, enemies, waves, rules, shop, story_mode, voyage, audio, tutorial, credits, weapons, talismans.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, shop, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -190,7 +197,7 @@ src/
   data.js            chargement de data/*.json
   util.js
   input/gestures.js  reconnaissance des gestes + précision
-  game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP, sauvegarde)
+  game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP et niveaux des héros, sauvegarde)
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
          talismans.js  rewards.js (récompenses méritées, rétroactives)
   story/story.js     déroulé du mode Histoire
@@ -200,7 +207,7 @@ src/
          tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (cartes Armes / Talisman, XP de fin de partie)
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman »)
          organic.css (ne pas modifier)  lobby.css  style.css  story.css  tutorial.css  voyage.css
-data/    characters grades enemies waves rules shop story_mode voyage tutorial audio credits weapons talismans (.json)
+data/    characters grades enemies waves rules shop story_mode voyage tutorial audio credits weapons talismans progression (.json)
 assets/  portraits/  ennemis/  decors/  icones/armes/  icones/talismans/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
 prototype/ prototype d'origine
