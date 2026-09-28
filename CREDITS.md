@@ -1,7 +1,7 @@
 # Crédits des sons
 
 Origine et licence de chaque fichier de `assets/audio/` (à garder à jour : c'est ce qu'un store demandera).
-Licences telles que décrites dans `docs/Son_et_Tutoriel.pdf` (vérifiées le 27/09/2026).
+Licences vérifiées le 27/09/2026.
 
 Tous les fichiers ont été retouchés pour le jeu le 28/09/2026 : silence de début coupé (et de fin pour les musiques),
 volume ramené à un niveau commun, ré-encodage MP3. Voir `assets/audio/SONS.md`.
@@ -37,7 +37,7 @@ Créés le 28/09/2026. Dossier `assets/audio/sfx/`.
 | `defaite.mp3` | ElevenLabs | 28/09/2026 |
 | `deblocage.mp3` | ElevenLabs | 28/09/2026 |
 
-Licence : plan gratuit ElevenLabs → crédit « elevenlabs.io » obligatoire (voir plus bas) ; plan payant → aucun crédit exigé.
+Licence : **plan payant** ElevenLabs → aucun crédit exigé (le jeu les cite quand même, voir plus bas).
 
 ## Musiques — Suno (plan Pro)
 
@@ -62,6 +62,6 @@ l'arrêt de l'abonnement. (Suno ne garantit pas que ses morceaux soient protég�
 - Notes des niveaux de réussite (OK → Perfect) : générées dans `src/audio/synth.js`, aucune licence.
 - Sons provisoires (tant qu'un fichier manque : aujourd'hui `ui_clic`, `ui_onglet`, `musique_triste`) : `src/audio/synth.js`, aucune licence.
 
-## Crédit à afficher dans le jeu
+## Écran Crédits du jeu
 
-Si les effets ElevenLabs viennent du plan gratuit : « Effets sonores : elevenlabs.io ».
+Réglages (engrenage du lobby) → Crédits. Texte dans `data/credits.json` : à tenir à jour avec ce fichier.

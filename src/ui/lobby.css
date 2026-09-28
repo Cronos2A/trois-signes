@@ -255,3 +255,8 @@
 .set-vol input::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);box-sizing:border-box}
 .lesson-pill{right:auto;left:0}
 .hero-zone .deco-tri{top:52px}   /* place pour « Revoir la leçon » */
+/* Crédits (Réglages → Crédits) */
+.set-credits{align-self:center;padding:0 22px}
+.cred-sec{display:flex;flex-direction:column;gap:3px}
+.cred-sec b{font-family:var(--font-heading);font-weight:400;font-size:17px;line-height:1.1}
+.cred-sec span{font-size:14px;line-height:1.3}

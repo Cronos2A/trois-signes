@@ -1,153 +1,185 @@
 # Trois Signes — brief pour Claude Code
 
+État du projet au 28/09/2026. À tenir à jour à chaque étape terminée.
+
 ## Le projet
-Petit jeu mobile à gestes, jouable au doigt, en parties courtes. Solo hors-ligne (PVE) et duel en ligne au tour par tour (PVP).
-Pas de graphismes complexes, pas d'histoire lourde : un jeu simple avec une vraie marge de progression.
+Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
+Trois signes : **Triangle** = attaquer, **Rond** = esquiver, **Toucher** (tap) = ramasser.
 
-Référence complète : `docs/Dossier_conception_jeu_mobile.pdf` (version 2). Son et tutoriel : `docs/Son_et_Tutoriel.pdf`.
-Prototype jouable actuel : `prototype/trois-signes-prototype.html` (un seul fichier, à lire avant toute chose).
+Modes jouables aujourd'hui : **Solo = Le Voyage** (infini), **Histoire** (6 × 10 combats), **Entraînement**, **La première leçon** (tutoriel).
+À venir : armes et leur XP, cosmétiques / boutique, **Duel** (multijoueur).
 
-## Les règles du jeu (à respecter)
-- **Triangle** = attaquer, **rond** = esquiver, **tap** = ramasser.
-- **5 niveaux de réussite** selon la précision du tracé (0 à 100 %) :
-  | Niveau | Précision | Multiplicateur |
-  |---|---|---|
-  | Raté | < 60 % | aucun effet, casse la série |
-  | OK | 60-69 % | ×0,4 |
-  | Good | 70-79 % | ×0,7 |
-  | Very Good | 80-87 % | ×1 |
-  | Excellent | 88-94 % | ×1,2 |
-  | Perfect | 95 % et + | ×1,5 |
-  (Seuils durcis à la demande en septembre 2026 : auparavant 40 / 55 / 68 / 80 / 90.)
-- **Combos** : 4 fois de suite le même niveau → le 4e geste est multiplié (OK ×1,5, Good ×1,75, Very Good ×2, Excellent ×2,5, Perfect ×3). Esquive en combo = esquive totale + riposte. La série repart à zéro après un combo, un raté ou un niveau différent.
-- **Esquive** : part évitée = min(100 %, 80 % × multiplicateur × combo).
-- **6 personnages** (Chevalier, Assassin, Colosse, Sorcier, Ranger, Soigneur), chacun avec son niveau et son XP, gagnés seulement en le jouant.
-- **Stuff** : un objet par personnage (dague, épée...), avec son propre niveau. Pas de pay-to-win : tout doit s'obtenir en jouant, bonus plafonné en PVP.
-- **PVP tour par tour** : vague 1 jouée en même temps (même seed), le meilleur score commence, chaque score durcit la vague de l'adversaire, KO avant le boss = défaite, sinon le plus gros score gagne.
-- **Histoire** : cinématiques en images fixes + texte, un fragment débloqué à chaque boss.
+Lancer : `py -m http.server 8123` dans ce dossier, puis http://localhost:8123 (les modules et les JSON ne se chargent pas en `file://`).
+Sur téléphone : `py -m http.server 8123 --bind 0.0.0.0`. Tester en 390 × 800 et en 360 × 640.
 
-## Passifs et super-attaques (valeurs de départ, à rééquilibrer dans `data/characters.json`)
-- Aldric 130 PV / 4, aucun passif. Nyra 80 / 6. Boran 170 / 6, jamais de combo. Mira 180 / 3, soin 4 PV × multiplicateur par attaque réussie, et chaque Perfect invoque un petit monstre (1 dégât/s pendant 10 s, 6 au plus). Kestrel 105 / 4,6, esquive de base 120 %. Ilwen 105 / 4, combo en 3 gestes.
-- Jauge : OK +2, Good +3, Very Good +5, Excellent +6, Perfect +8, combo +5, pleine à 100 ; elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui n'est jamais un geste).
-- Supers : Rempart (8 s, dégâts reçus −50 %, coup sur tous ×2), Ombre (3 esquives auto, attaque +50 % 8 s), Géant (×1,4 pendant 8 s, coup sur tous ×2,5), Grimoire ouvert (2 attaques traitées en combo), Œil de faucon (8 s de Perfect), Renouveau (PV au max, attaque ×2 10 s).
+Références :
+- PDF de `docs/` (dossier de conception v2, « Son et Tutoriel », mode Histoire) : documents de lecture, **gardés hors du dépôt**.
+  **Le code et les données ne doivent jamais en dépendre** : tout ce qui sert au jeu est recopié dans `data/*.json` ou dans ce fichier.
+- `prototype/trois-signes-prototype.html` : prototype d'origine (v2), gardé comme référence de ressenti.
 
-## Équilibrage actuel (version 2 du prototype)
-Héros : voir « Passifs » ci-dessus (Aldric 130 PV, attaque 4). Sbire 20 PV / 6 dégâts, brute 28 PV / 9 dégâts, boss 60 PV / 12 dégâts.
-Alerte avant un coup : 1,3 à 1,5 s (raccourcie dans les arènes lointaines du Voyage, jamais sous 0,9 s). Pause d'au moins 1,2 s entre deux coups ennemis. Le Solo n'a plus de chrono : c'est le Voyage, qui dure jusqu'au KO.
-Ces valeurs doivent vivre dans des fichiers JSON, jamais en dur dans le code.
+## Direction artistique : design system « Organic » (Claude Design)
+Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
+- Style cartoon low-poly : lobby vert vif facetté, contours épais `#15301E`, boutons orange / jaune avec ombre portée, cartes crème,
+  polices Caprasimo (titres) et Figtree (texte).
+- `src/ui/organic.css` : copie telle quelle du design system, **ne pas modifier**.
+- Maquettes de référence dans `design/` (exports Claude Design, à reproduire telles quelles) :
+  - `trois-signes-maquette-lobby` : lobby 3 onglets + `Mode Histoire Trois Signes.dc.html` (écrans 01 à 06 du mode Histoire) ;
+  - `planche-de-personnages-trois-signes` : les 6 héros (repris dans `src/ui/art.js`) ;
+  - `ecran-de-combat-trois-signes` : écran de combat (décor Forêt de Mousse, sprites, interface) et `project/decors.js` (générateur des 32 décors) ;
+  - `trois-signes-character-sheet` : `project/tools/story-engine.js`, générateur des portraits et sprites de boss.
+- Seuils « proposés » affichés dans la maquette de combat : **non repris** (seules les couleurs par palier le sont).
+- Combat : sprites de ¾ dos pour le héros, animations = simples transformations des sprites, déduites de l'état du jeu
+  (`src/ui/anim.js`). Corps à corps (Aldric, Nyra, Boran) : ruée + coup d'arme ; à distance (Kestrel, Ilwen, Mira) : projectile.
+- Ce qui n'est pas codé (armes, skins, boutique, Duel) est affiché et marqué « Bientôt ». Pas de monnaie premium : pas de pay-to-win.
 
-## Choix techniques
-- **PWA en HTML/JS** (canvas), installable, 100 % hors-ligne en solo (service worker).
-- Cible : presque tous les téléphones Android et iPhone, écrans à partir de 360 px de large.
-- Reconnaissance des gestes : maison, sans IA ni bibliothèque lourde (rééchantillonnage, Douglas-Peucker pour compter les coins, régularité du rayon pour les ronds). Reprendre celle du prototype.
-- Données dans `data/*.json` : personnages, ennemis, vagues, stuff, niveaux de réussite, combos, chapitres d'histoire.
-- Sauvegarde locale (localStorage ou IndexedDB), toujours dans un try/catch.
-- PVP : Firebase ou Supabase (seeds + scores + contrôle de cohérence). Pas de serveur temps réel.
+## Règles de combat (valeurs dans `data/`)
+- **Niveaux de réussite** (`data/grades.json`), selon la précision du tracé :
 
-## Structure cible
-```
-index.html
-manifest.webmanifest
-sw.js
-src/
-  main.js          boucle de jeu, écrans
-  input/gestures.js reconnaissance + calcul de précision
-  game/grades.js   niveaux de réussite et combos
-  game/combat.js   attaque, esquive, ramassage
-  game/enemies.js  vagues, IA ennemie, boss
-  game/progress.js XP, niveaux, stuff
-  game/supers.js   jauge et super-attaques (valeurs dans characters.json)
-  game/settings.js réglages du joueur (volumes, vibrations, tolérance des gestes), sauvegardés localement
-  audio/audio.js   gestionnaire audio unique : canaux Musique / Effets, fichiers branchés seuls, fondus, déblocage mobile
-  audio/synth.js   sons synthétisés : notes de réussite (définitives) et sons / musiques provisoires
-  game/tutorial.js « La première leçon » : tutoriel guidé en 5 étapes (déroulé, réussites, main animée)
-  game/voyage.js   Le Voyage (Solo infini) : arènes, rounds, gardiens, renforcement, multiplicateur de score
-  story/story.js   mode Histoire : déroulé (prologue, ouvertures, combats, fins, fragments, épilogue)
-  ui/hud.js        rendu canvas du combat (sprites, anneau d'alerte, tracés, textes de réussite)
-  ui/combat-hud.js interface HTML du combat (vie, Quitter, vague / chrono / score, série)
-  ui/combat-art.js sprites et décor rastérisés une fois hors écran (fluide sur petit Android)
-  ui/anim.js       animations visuelles (attente, attaque, coup reçu, esquive, ennemi vaincu)
-  ui/sprites.js    sprites de combat et décor Forêt de Mousse (repris de la maquette combat)
-  game/state.js    état partagé de la partie (lu par ui/)
-  game/effects.js  textes flottants, effets, vibrations
-  ui/lobby.js      lobby 3 onglets (Jouer / Personnage / Boutique) + fenêtre de résultats
-  ui/cutscene.js   lecteur unique de cinématiques et dialogues (lettre par lettre, « Passer »)
-  ui/story-ui.js   écrans Histoire : choix des 6 histoires, chemin des 10 combats, défaite, fin d'histoire, déblocage d'Eldan
-  ui/story-art.js  dessins de la maquette Mode Histoire (paysage de la carte, fragments, silhouette d'Eldan, icônes)
-  ui/assets.js     images du mode Histoire (assets/) et replis (neutre, humain, pastille, dégradé)
-  ui/story.css     styles du mode Histoire et du lecteur
-  ui/tutorial-ui.js écrans de la leçon (« Souvenir », 5 niveaux de réussite) et main animée ; ui/tutorial-art.js : mannequin provisoire et main ; ui/tutorial.css
-  ui/voyage-ui.js  écrans du Voyage : transition d'arène (+30 % PV), « Arène découverte » et son coffre
-  ui/voyage.css    styles de ces écrans et du HUD du Voyage (nom de l'arène, multiplicateur)
-  ui/art.js        dessins low-poly des héros et ennemis (repris de la planche)
-  ui/icons.js      signes à facettes, armes, fonds facettés (repris de la maquette lobby)
-  ui/organic.css   design system Organic (copie telle quelle, ne pas modifier)
-  ui/lobby.css     styles du lobby ; ui/style.css : page, canvas, bouton Quitter
-data/
-  characters.json enemies.json waves.json grades.json items.json story.json
-  rules.json       règles de combat (esquive, ramassage, score, entraînement)
-  shop.json        objets affichés dans la boutique (pas encore achetables)
-  story_mode.json  tout le texte du mode Histoire (ne pas réécrire : affiché tel quel)
-  tutorial.json    « La première leçon » : répliques d'Eldan (texte exact du PDF), étapes, mannequin, tolérance
-  audio.json       sons : ids d'effets et de musiques, volumes, fondus, lieu → musique
-  voyage.json      Le Voyage : 8 arènes (décor, teinte, vagues, gardien), renforcement, score, soin, coffres
-assets/            images du mode Histoire (facultatives, le mode est jouable sans ; liste et état dans assets/IMAGES.md) :
-  portraits/{id}_{expression}.svg, portraits/{bossId}_ombrace.svg / _humain.svg
-  ennemis/{id}.svg (sprite de combat des boss et d'Eldan), decors/{id}.svg
-  audio/sfx/{id}.mp3, audio/musique/{id}.mp3 (facultatifs : son provisoire synthétisé tant qu'ils manquent ; état dans assets/audio/SONS.md)
-design/            exports Claude Design (référence : planche de personnages, maquette du lobby, écran de combat, portraits du mode Histoire)
-```
+  | Niveau | Précision | Multiplicateur | Combo |
+  |---|---|---|---|
+  | Raté | < 60 % | aucun effet, casse la série | — |
+  | OK | 60-69 % | ×0,4 | ×1,5 |
+  | Good | 70-79 % | ×0,7 | ×1,75 |
+  | Very Good | 80-87 % | ×1 | ×2 |
+  | Excellent | 88-94 % | ×1,2 | ×2,5 |
+  | Perfect | 95 % et + | ×1,5 | ×3 |
 
-Étapes 1 et 2 faites (septembre 2026), puis lobby intégré, puis mode Histoire (étape 5). Lancer avec `py -m http.server 8123` (les modules et les JSON ne se chargent pas en `file://`).
+  **Seuils retenus : 60 / 70 / 80 / 88 / 95** (décision confirmée le 28/09/2026 ; anciens seuils : 40 / 55 / 68 / 80 / 90).
+  Mêmes seuils pour tous, sans réglage de tolérance ; seule la leçon guidée les abaisse (`data/tutorial.json` → `tolerance`).
+- **Combo** : 4 gestes de suite du même niveau (3 pour Ilwen, jamais pour Boran) → le dernier est multiplié. Esquive en combo = riposte.
+  La série repart à zéro après un combo, un raté ou un niveau différent.
+- **Esquive** : part évitée = min(100 %, base × multiplicateur × combo), base 80 % (`data/rules.json` → `dodge.base`).
+- **Ramassage** : précision selon la distance au doigt (`rules.json` → `pickup`). Pièce = points, cœur = PV.
+- **Ennemis** (`data/enemies.json`) : sbire 20 PV / 6, brute 28 PV / 9, boss 60 PV / 12. Alerte avant un coup 1,3 à 1,5 s,
+  un seul ennemi prépare un coup à la fois.
+- **Délais communs à tous les combats** (`data/waves.json`) : pause de 1,2 s entre deux coups ennemis (`globalGap`), première attaque,
+  décalage entre ennemis, délai entre deux vagues, attente du butin en fin de combat.
+- Reconnaissance des gestes maison, sans IA (`src/input/gestures.js`, objet `TUNING` : seuls chiffres gardés dans le code).
+- XP et niveaux par héros, gagnés seulement en le jouant (`characters.json` → `progression` : +3 % d'attaque par niveau).
 
-## Direction artistique (retenue en septembre 2026)
-- Référence : `design/trois-signes-maquette-lobby` et `design/planche-de-personnages-trois-signes`, reproduites telles quelles. Elles remplacent la DA de l'ancien PDF « Bible ».
-- Style cartoon low-poly : fond vert vif facetté, contours épais `#15301E`, boutons orange/jaune avec ombre portée, cartes crème, polices Caprasimo (titres) et Figtree (texte) du design system Organic.
-- Personnages : ceux de la planche (Aldric le Chevalier, Nyra l'Assassine, Boran le Colosse, Ilwen la Sorcière, Kestrel la Rôdeuse, Mira la Soigneuse). Les 6 sont jouables, chacun avec son XP et son niveau, ses PV / attaque, un passif et une super-attaque (tout dans `data/characters.json` : `passive`, `super`, `superGauge`, couleur `accent`).
-- Ce qui n'est pas encore codé (armes, skins, boutique, Duel) est affiché et marqué « Bientôt ». Pas de monnaie premium (gemmes) : pas de pay-to-win.
-- Combat : `design/ecran-de-combat-trois-signes` (décor Forêt de Mousse, sprites de ¾ dos pour le héros choisi dans le lobby, sbire / brute / boss, interface restylée). Les animations ne font que transformer les sprites (aucune nouvelle image) et sont déduites de l'état du jeu, sans toucher à la logique. Attaque au corps à corps (Aldric, Nyra, Boran) : ruée + coup d'arme (bras armé en calque séparé) ; à distance (Kestrel flèche, Ilwen et Mira sort) : tir d'un projectile dessiné, sans ruée.
-- Les seuils de réussite affichés dans cette maquette (« seuils proposés ») ne sont pas repris : seules les couleurs par palier l'ont été.
+## Les 6 héros (tous jouables) — `data/characters.json`
+Chaque héros : `hp`, `attack`, `passive`, `super`, couleurs `color` / `accent`, `stats` (affichage), `weapon`.
+Jauge de super (`superGauge`) : OK +2, Good +3, Very Good +5, Excellent +6, Perfect +8, combo +5, pleine à 100 ;
+elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui n'est jamais un geste). Code : `src/game/supers.js`.
 
-## Mode Histoire (septembre 2026)
-- Écrans : `design/trois-signes-maquette-lobby/project/Mode Histoire Trois Signes.dc.html` (01 choix, 02 chemin, 03-04 cinématique, 05 fin d'histoire, 06 déblocage d'Eldan), reproduits tels quels.
-- Portraits (6 héros × 6 expressions, Eldan, personnages secondaires, 12 boss + Eldan l'Oublié) et sprites de combat des boss : `design/trois-signes-character-sheet`, générés par `project/tools/story-engine.js` (Claude Design). Seul `sbire_ombrace` reste provisoire (tiré de la planche de combat).
-- Décors (32, 390 × 844, centre et bas dégagés pour le jeu) : `design/ecran-de-combat-trois-signes`, générés par `project/decors.js` ; utilisés en cinématique et en fond de combat (Histoire et arènes du Voyage). Toutes les images attendues sont présentes (`assets/IMAGES.md`).
-- Bouton « Histoire » dans l'onglet Jouer ; 6 histoires de 10 combats (`data/story_mode.json`), carte d'Eldan verrouillée puis « Bientôt disponible » après l'épilogue.
-- Héros imposé ; rounds = `vagues` ; sbire/brute = ennemis existants, les autres ids = boss de `ennemis_speciaux` (valeurs par rang). Eldan l'Oublié : Triangle (coup), Rond (garde 2 s, −50 %), Toucher (appelle un sbire).
-- Réglages dans `data/rules.json` → `story` (XP de première victoire, pas de limite de temps, noms et couleurs des PNJ, libellés des types, mécanique d'Eldan, vitesse du texte).
+| Héros | PV / Att. | Passif | Super |
+|---|---|---|---|
+| Aldric, Chevalier (épée) | 130 / 4 | Équilibré : aucun | **Rempart** : 8 s, dégâts reçus ×0,5, coup sur tous ×2 |
+| Nyra, Assassine (dague) | 80 / 6 | Lame fragile : la plus fragile | **Ombre** : 3 esquives auto, attaque +50 % pendant 8 s |
+| Boran, Colosse (gantelets) | 170 / 6 | Force brute : jamais de combo | **Géant** : 8 s, taille ×1,4, coup sur tous ×2,5 |
+| Ilwen, Sorcière (grimoire) | 105 / 4 | Incantation : combo en 3 gestes | **Grimoire ouvert** : 2 attaques comptées comme combos |
+| Kestrel, Rôdeuse (arc) | 105 / 4,6 | Pas léger : esquive de base 120 % | **Œil de faucon** : 8 s, tout geste reconnu = Perfect |
+| Mira, Soigneuse (amulette) | 180 / 3 | Soin 4 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : PV au max, attaque ×2 pendant 10 s |
+
+## Mode Histoire — `data/story_mode.json`
+- **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
+  `src/ui/cutscene.js` (lecteur de cinématiques et dialogues, lettre par lettre, « Passer »).
+- Prologue commun au premier lancement, puis **6 histoires de 10 combats**, une par héros (héros imposé) :
+  Aldric « Le dernier élève », Nyra « La dette », Boran « Le champ silencieux », Ilwen « La maladie de la mémoire »,
+  Kestrel « La carte du Silence », Mira « Ceux qu'on peut sauver ».
+- Chaque histoire : ouverture, combats `normal`, un `mini_boss`, une `rencontre` (un autre héros), un `lieutenant`,
+  puis le combat 10 au Cœur du Silence (cinématique commune `arrivee_coeur`) contre le **boss final Eldan l'Oublié**.
+  Chaque combat : `dialogue_avant` → combat → `dialogue_apres` → `cinematique_apres`.
+  Un round par tableau de `vagues` : le nombre de rounds est `vagues.length` (plus de champ `rounds`).
+- Boss : `ennemis_speciaux` (12 boss + `eldan_oublie`), valeurs par rang dans `valeurs_de_depart`
+  (mini-boss 35 / 10, lieutenant 60 / 12, boss final 90 / 14). Sbire / brute = ennemis de `enemies.json`.
+- Eldan l'Oublié utilise les trois signes : Triangle (coup), Rond (garde 2 s, dégâts reçus −50 %), Toucher (appelle un sbire,
+  1 par round, 2 ennemis en plus au maximum). Réglages : `rules.json` → `story.eldan`.
+- Fin d'une histoire : `fin` + un fragment de mémoire. Les 6 terminées → `epilogue_final`, qui **débloque Eldan** :
+  sa carte apparaît dans le choix des histoires, marquée « Bientôt disponible » (pas encore jouable).
+- Autres réglages : `rules.json` → `story` (XP de première victoire 40, pas de limite de temps, PNJ, libellés, vitesse du texte).
 - Sauvegarde : `prog.story` (combats gagnés par histoire, scènes vues, fragments, prologue, épilogue).
 
-## Le Voyage (Solo infini, septembre 2026)
-- Le bouton Solo lance le Voyage : 8 arènes de 4 rounds (3 vagues puis le gardien), puis « Au-delà du Silence » sans fin (gardien au hasard tous les 4 rounds). Fin au KO.
-- Toutes les valeurs dans `data/voyage.json` (renforcement par arène et par round, multiplicateur de score, 3 ennemis au plus, +30 % PV entre deux arènes). `data/waves.json` ne sert plus que pour les délais communs (pause entre deux coups, première attaque).
-- Gardiens et décors repris du mode Histoire (`assets/`) ; si une image manque : sprite du boss du Solo, fond à la teinte de l'arène avec son nom en grand. La Forêt de Mousse garde le décor du Solo.
-- Sauvegarde : `prog.best` (record), `prog.voyage` (arène la plus lointaine, arènes découvertes). Coffres de cosmétiques : emplacement et message seulement.
+## Le Voyage (Solo infini) — `data/voyage.json`
+- Bouton Solo. **8 arènes** de 4 rounds (3 vagues puis le gardien) : Forêt de Mousse, Hautes-Gerbes, Fontclaire, Toits de Vélis,
+  Bibliothèque d'Aubelle, Col des Vents, École des Signes, Le Cœur du Silence (gardien Eldan l'Oublié).
+  Puis **« Au-delà du Silence »** sans fin : vagues au hasard, un gardien tiré au sort tous les 4 rounds. Fin au KO uniquement.
+- Renforcement par arène puis par round (`scaling`), multiplicateur de score (`score`), 3 ennemis au plus, +30 % PV entre deux arènes,
+  alerte raccourcie au loin (jamais sous 0,9 s).
+- Code : `src/game/voyage.js`, écrans `src/ui/voyage-ui.js` (transition d'arène, « Arène découverte » et son coffre).
+- Gardiens et décors repris du mode Histoire ; la Forêt de Mousse garde le décor et le boss du Solo d'origine.
+- Coffres de cosmétiques : emplacement et message seulement (`chest`).
+- Sauvegarde : `prog.best` (record), `prog.voyage` (arène la plus lointaine, arènes découvertes).
 
-## La première leçon (tutoriel, septembre 2026)
-- `docs/Son_et_Tutoriel.pdf` section 4 : un souvenir, Maître Eldan enseigne à Aldric à Pierrelune avant le Silence (décor `pierrelune_aube`, `musique_tuto`). Tout dans `data/tutorial.json` ; répliques d'Eldan telles quelles, dans le lecteur de dialogues.
-- 5 étapes : Triangle (3 réussites sur un mannequin), Rond (2 esquives, anneau de 4,5 s), Toucher (3 pièces), Justesse (tableau des 5 niveaux puis un combo), Super (jauge pleine d'office). Puis la réplique de fin et retour au lobby.
-- Impossible à rater : mannequin sans dégâts et immortel, seuils abaissés de `tolerance` points, garde du Rond qui tient tout l'anneau ; après 2 échecs de suite, main animée + « Suis la main ». HUD « LEÇON 2 / 5 », objectif, consigne ; « Passer » remplace « Quitter ».
-- Lancée d'office au premier démarrage juste après le prologue ; « Revoir la leçon » dans l'onglet Jouer. Sauvegarde : `prog.tutorial`. Sprite `assets/ennemis/mannequin.svg` s'il existe, sinon provisoire en code.
+## La première leçon (tutoriel) — **fait** (sauf une image)
+- Souvenir : Maître Eldan enseigne à Aldric à Pierrelune avant le Silence. Tout dans `data/tutorial.json` (répliques d'Eldan telles quelles).
+  Code : `src/game/tutorial.js`, `src/ui/tutorial-ui.js`, `src/ui/tutorial-art.js`.
+- 5 étapes : Triangle (3 réussites sur un mannequin), Rond (2 esquives), Toucher (3 pièces), Justesse (tableau des 5 niveaux, puis un combo), Super.
+- Impossible à rater : mannequin immortel sans dégâts, seuils abaissés de `tolerance` (20 points), garde du Rond sur tout l'anneau ;
+  après 2 échecs de suite, main animée « Suis la main ». « Passer » remplace « Quitter ».
+- Lancée d'office au premier démarrage après le prologue ; « Revoir la leçon » dans l'onglet Jouer. Sauvegarde : `prog.tutorial`.
+- Manque : `assets/ennemis/mannequin.svg` (sprite provisoire dessiné en code en attendant).
 
-## Son et réglages (septembre 2026)
-- Un seul module `src/audio/audio.js`, deux canaux (Musique, Effets). Fichiers `assets/audio/sfx/{id}.mp3` et `assets/audio/musique/{id}.mp3` : ids et état dans `assets/audio/SONS.md`. Un fichier manquant → son provisoire de `src/audio/synth.js`, jamais d'erreur.
-- Fichiers reçus le 28/09/2026 (ElevenLabs pour les effets, Suno Pro pour les musiques ; sources et licences dans `CREDITS.md`) : silence de début coupé (et de fin pour les musiques), volume ramené à ≈ -16 LUFS. Manquent `ui_clic`, `ui_onglet` et `musique_triste` (sons provisoires). Tout nouveau fichier : même traitement, et mettre à jour `SONS.md` et `CREDITS.md`.
-- Notes de réussite définitives, en code : une mélodie qui monte d'une note par niveau (OK 1 note … Perfect 5 notes + accord brillant avec écho). Le raté joue `geste_rate`.
-- Musiques : lobby, Entraînement (`musique_tuto`), lieu du combat ou de l'arène (`musicByPlace` dans `data/audio.json`), `musique_boss` sur tout round de gardien ou de boss, `musique_triste` après un mini-boss ou un lieutenant, `musique_epilogue` pour les fins et l'épilogue. Fondu enchaîné de 1 s, fondu à la boucle (sauf ids listés dans `seamless`), musique baissée de moitié pendant les dialogues.
-- Effets chargés au démarrage, musiques à la demande ; audio débloqué au premier toucher, suspendu en arrière-plan.
-- Réglages (engrenage du lobby) : volumes Musique / Effets, Vibrations. Pas de réglage de tolérance des gestes (retiré : déséquilibre, futur multijoueur) ; tout le monde joue avec les seuils normaux, seule la leçon guidée les abaisse. Sauvegarde : clé `ts_settings` (les clés inconnues, dont une ancienne `tolerance`, sont ignorées et effacées).
+## Son — **partiel** (24 / 26 effets, 8 / 9 musiques)
+- Un seul module `src/audio/audio.js` (Web Audio), deux canaux Musique / Effets. Réglages dans `data/audio.json`
+  (ids, volumes, fondus, `musicByPlace`, `sadAfter`, `seamless`). Sons provisoires et notes de réussite : `src/audio/synth.js`.
+- Notes de réussite **définitives, en code** : une note de plus par niveau (OK 1 … Perfect 5 + accord). Le raté joue `geste_rate`.
+- Musiques : lobby, `musique_tuto` (Entraînement, leçon), musique du lieu, `musique_boss` sur tout round de gardien ou de boss,
+  `musique_triste` après un mini-boss ou un lieutenant, `musique_epilogue` pour les fins. Musique baissée de moitié pendant les dialogues.
+- Fichiers reçus le 28/09/2026 : effets ElevenLabs (**plan payant**, aucun crédit exigé), musiques Suno Pro ; normalisés à ≈ -16 LUFS.
+  État : `assets/audio/SONS.md`, sources et licences : `CREDITS.md`.
+- **Manquent** : `sfx/ui_clic`, `sfx/ui_onglet`, `musique/musique_triste`. `musique_lobby` ne dure que 19 s (boucle trop fréquente).
 
-## Ordre de travail
-1. Découper le prototype dans cette structure, sans changer le ressenti de jeu.
-2. Passer tous les chiffres dans `data/*.json`.
-3. Ajouter les 6 personnages et leur progression, avec un écran de sélection.
-4. Ajouter le stuff et ses niveaux.
-5. Ajouter l'histoire (intro + fragments après chaque boss).
-6. Rendre le jeu installable (manifest + service worker) et tester hors-ligne.
-7. PVP tour par tour en dernier.
+## Réglages et crédits
+- Engrenage du lobby (`src/ui/lobby.js` → `renderSettings`, `src/game/settings.js`, clé `ts_settings`) : volumes Musique / Effets, Vibrations,
+  bouton **Crédits**. Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
+- Écran Crédits : texte dans `data/credits.json` (`renderCredits`). À tenir à jour avec `CREDITS.md` à chaque nouvelle source.
 
 ## Conventions
-- Textes du jeu en français.
-- Chaque étape doit rester jouable sur téléphone : tester en 390 × 800 et en 360 × 640.
-- Ne jamais rendre les gestes plus exigeants sans le demander : le premier test a montré que les seuils trop hauts rendaient le jeu injouable.
-- L'interface (menus, personnages, monstres) pourra venir de maquettes Claude Design : garder le rendu séparé de la logique pour les intégrer facilement.
+- **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
+  `src/data.js` charge : grades, characters, enemies, waves, rules, shop, story_mode, voyage, audio, tutorial, credits.
+- **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
+  - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
+  - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
+  - `assets/ennemis/{id}.svg` (sprite de combat, de face, pieds en bas) ; `assets/decors/{id}.svg` (plein écran, 390 × 844).
+- **Noms de fichiers des sons** : `assets/audio/sfx/{id}.mp3` et `assets/audio/musique/{id}.mp3`, ids listés dans `data/audio.json`.
+  Tout nouveau son : couper le silence, normaliser (≈ -16 LUFS), mettre à jour `SONS.md`, `CREDITS.md` et, si la source est nouvelle, `data/credits.json`.
+- **Règles de repli quand un fichier manque** (jamais d'erreur, le jeu reste jouable) :
+  - expression manquante → `_neutre` ; boss → `_humain` pour tout sauf `ombrace` ; portrait manquant → pastille à la couleur du personnage ;
+  - décor manquant → dégradé vert du lobby + nom du lieu (Voyage : fond à la teinte de l'arène + nom en grand) ;
+  - sprite de boss manquant → sprite de la brute (mini-boss) ou du boss (autres rangs) ; mannequin → sprite provisoire en code ;
+  - son manquant → son provisoire synthétisé (`synth.js`).
+  Les fichiers se branchent seuls : les déposer avec le bon nom suffit.
+- Sauvegarde locale via `store` (`src/game/progress.js`), toujours dans un try/catch. Clés : `ts_prog`, `ts_settings`.
+- Garder le rendu séparé de la logique (`src/ui/` lit `G`, l'état partagé de `src/game/state.js`).
+- **Ne jamais rendre les gestes plus exigeants sans le demander.**
+- Chaque étape doit rester jouable sur téléphone (390 × 800 et 360 × 640).
+- **Publication directe sur `main`** : pas de branche ni de PR ; commit puis push sur `main`.
+
+## Structure
+```
+index.html
+src/
+  main.js            boucle de jeu, écrans, démarrage (prologue puis leçon au premier lancement)
+  data.js            chargement de data/*.json
+  util.js
+  input/gestures.js  reconnaissance des gestes + précision
+  game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP, sauvegarde)
+         supers.js  settings.js  tutorial.js  voyage.js
+  story/story.js     déroulé du mode Histoire
+  audio/ audio.js  synth.js
+  ui/    lobby.js (+ réglages, crédits, résultats)  hud.js (rendu canvas)  combat-hud.js  combat-art.js  anim.js  sprites.js
+         art.js  icons.js  assets.js (images + replis)  cutscene.js  story-ui.js  story-art.js
+         tutorial-ui.js  tutorial-art.js  voyage-ui.js
+         organic.css (ne pas modifier)  lobby.css  style.css  story.css  tutorial.css  voyage.css
+data/    characters grades enemies waves rules shop story_mode voyage tutorial audio credits (.json)
+assets/  portraits/  ennemis/  decors/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
+design/  exports Claude Design (voir Direction artistique)
+prototype/ prototype d'origine
+```
+
+## Avant publication
+À faire avant chaque commit publié sur `main` :
+- Tester dans le navigateur chaque écran ajouté ou modifié, en **390 × 800** et en **360 × 640** : rien ne déborde,
+  pas de défilement horizontal, tous les boutons restent visibles et utilisables, aucune erreur dans la console.
+
+## Prochaines tâches (dans cet ordre)
+1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
+2. **XP des armes** : chaque arme (une par héros) gagne son propre niveau en jouant ; valeurs dans un JSON ; remplacer le « Nv 1 / Bientôt »
+   de la carte Arme dans l'onglet Personnage.
+3. **Multijoueur (Duel)** : tour par tour, sans serveur temps réel (Firebase ou Supabase : seeds, scores, contrôle de cohérence).
+   Vague 1 jouée en même temps (même seed), le meilleur score commence, chaque score durcit la vague de l'adversaire,
+   KO avant le boss = défaite, sinon le plus gros score gagne. **Les bonus d'armes doivent pouvoir être neutralisés en Duel**
+   (équité, pas de pay-to-win).
+
+Plus tard : cosmétiques / boutique (tout s'obtient en jouant), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.

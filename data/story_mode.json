@@ -383,7 +383,6 @@
           "titre": "Pierrelune",
           "type": "normal",
           "lieu": "pierrelune_brume",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -428,7 +427,6 @@
           "titre": "La nuit du Silence",
           "type": "normal",
           "lieu": "pierrelune_brume",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -474,7 +472,6 @@
           "titre": "La maison vide",
           "type": "normal",
           "lieu": "maison_maitre",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -515,7 +512,6 @@
           "titre": "Le pont des Brumes",
           "type": "normal",
           "lieu": "pont_brumes",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -556,7 +552,6 @@
           "titre": "Le Gardien du pont",
           "type": "mini_boss",
           "lieu": "pont_brumes",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -639,7 +634,6 @@
           "titre": "Rencontre : Nyra",
           "type": "rencontre",
           "lieu": "route_ecole",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -691,7 +685,6 @@
           "titre": "L'école des signes",
           "type": "normal",
           "lieu": "ecole_ruines",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -741,7 +734,6 @@
           "titre": "Les élèves oubliés",
           "type": "normal",
           "lieu": "ecole_ruines",
-          "rounds": 4,
           "vagues": [
             [
               "brute",
@@ -787,7 +779,6 @@
           "titre": "Sire Corvin",
           "type": "lieutenant",
           "lieu": "ecole_ruines",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -878,7 +869,6 @@
           "titre": "Le Cœur du Silence",
           "type": "boss_final",
           "lieu": "coeur_silence",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -1009,7 +999,6 @@
           "titre": "Les toits de Vélis",
           "type": "normal",
           "lieu": "velis_toits",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -1045,7 +1034,6 @@
           "titre": "Le marché qui oublie",
           "type": "normal",
           "lieu": "velis_marche",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -1086,7 +1074,6 @@
           "titre": "La planque",
           "type": "normal",
           "lieu": "planque_chats",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -1123,7 +1110,6 @@
           "titre": "La piste du vieil homme",
           "type": "normal",
           "lieu": "velis_porte",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -1169,7 +1155,6 @@
           "titre": "La Cheffe de guilde",
           "type": "mini_boss",
           "lieu": "planque_chats",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -1251,7 +1236,6 @@
           "titre": "Rencontre : Aldric",
           "type": "rencontre",
           "lieu": "route_ecole",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -1308,7 +1292,6 @@
           "titre": "Le registre",
           "type": "normal",
           "lieu": "archives_velis",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -1358,7 +1341,6 @@
           "titre": "Les ombres qui imitent",
           "type": "normal",
           "lieu": "velis_toits",
-          "rounds": 4,
           "vagues": [
             [
               "brute",
@@ -1399,7 +1381,6 @@
           "titre": "Le Reflet",
           "type": "lieutenant",
           "lieu": "velis_porte",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -1483,7 +1464,6 @@
           "titre": "Le Cœur du Silence",
           "type": "boss_final",
           "lieu": "coeur_silence",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -1616,7 +1596,6 @@
           "titre": "La moisson",
           "type": "normal",
           "lieu": "hautes_gerbes_gris",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -1662,7 +1641,6 @@
           "titre": "Les voisins changés",
           "type": "normal",
           "lieu": "hautes_gerbes_gris",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -1703,7 +1681,6 @@
           "titre": "La grange assiégée",
           "type": "normal",
           "lieu": "hautes_gerbes_gris",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -1750,7 +1727,6 @@
           "titre": "Le chemin des collines",
           "type": "normal",
           "lieu": "chemin_collines",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -1795,7 +1771,6 @@
           "titre": "Le Taureau de pierre",
           "type": "mini_boss",
           "lieu": "chemin_collines",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -1877,7 +1852,6 @@
           "titre": "Rencontre : Mira",
           "type": "rencontre",
           "lieu": "camp_refugies",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -1933,7 +1907,6 @@
           "titre": "Le camp des réfugiés",
           "type": "normal",
           "lieu": "camp_refugies",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -1984,7 +1957,6 @@
           "titre": "La longue garde",
           "type": "normal",
           "lieu": "palissade_nuit",
-          "rounds": 4,
           "vagues": [
             [
               "brute",
@@ -2028,7 +2000,6 @@
           "titre": "Le Laboureur",
           "type": "lieutenant",
           "lieu": "hautes_gerbes_gris",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -2123,7 +2094,6 @@
           "titre": "Le Cœur du Silence",
           "type": "boss_final",
           "lieu": "coeur_silence",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -2266,7 +2236,6 @@
           "titre": "La bibliothèque d'Aubelle",
           "type": "normal",
           "lieu": "aubelle_biblio",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -2306,7 +2275,6 @@
           "titre": "Les pages vivantes",
           "type": "normal",
           "lieu": "aubelle_biblio",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -2343,7 +2311,6 @@
           "titre": "Le bibliothécaire",
           "type": "normal",
           "lieu": "aubelle_biblio",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -2385,7 +2352,6 @@
           "titre": "L'expérience",
           "type": "normal",
           "lieu": "aubelle_rues",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -2426,7 +2392,6 @@
           "titre": "L'Archiviste",
           "type": "mini_boss",
           "lieu": "reserve_interdite",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -2507,7 +2472,6 @@
           "titre": "Rencontre : Kestrel",
           "type": "rencontre",
           "lieu": "lisiere",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -2554,7 +2518,6 @@
           "titre": "La tour d'observation",
           "type": "normal",
           "lieu": "tour_guet",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -2604,7 +2567,6 @@
           "titre": "Les échos",
           "type": "normal",
           "lieu": "foret_effacee",
-          "rounds": 4,
           "vagues": [
             [
               "brute",
@@ -2650,7 +2612,6 @@
           "titre": "La Plume sans encre",
           "type": "lieutenant",
           "lieu": "reserve_interdite",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -2739,7 +2700,6 @@
           "titre": "Le Cœur du Silence",
           "type": "boss_final",
           "lieu": "coeur_silence",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -2884,7 +2844,6 @@
           "titre": "La lisière grise",
           "type": "normal",
           "lieu": "lisiere",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -2920,7 +2879,6 @@
           "titre": "Le camp des éclaireurs",
           "type": "normal",
           "lieu": "camp_eclaireurs",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -2961,7 +2919,6 @@
           "titre": "La carte déchirée",
           "type": "normal",
           "lieu": "camp_eclaireurs",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -3002,7 +2959,6 @@
           "titre": "Le col des Vents",
           "type": "normal",
           "lieu": "col_vents",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -3043,7 +2999,6 @@
           "titre": "Le Traqueur",
           "type": "mini_boss",
           "lieu": "col_vents",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -3125,7 +3080,6 @@
           "titre": "Rencontre : Ilwen",
           "type": "rencontre",
           "lieu": "lisiere",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -3182,7 +3136,6 @@
           "titre": "Le centre de la carte",
           "type": "normal",
           "lieu": "tour_guet",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -3222,7 +3175,6 @@
           "titre": "La forêt qui s'efface",
           "type": "normal",
           "lieu": "foret_effacee",
-          "rounds": 4,
           "vagues": [
             [
               "brute",
@@ -3263,7 +3215,6 @@
           "titre": "Le Guetteur",
           "type": "lieutenant",
           "lieu": "foret_effacee",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -3347,7 +3298,6 @@
           "titre": "Le Cœur du Silence",
           "type": "boss_final",
           "lieu": "coeur_silence",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -3491,7 +3441,6 @@
           "titre": "La maison de soins",
           "type": "normal",
           "lieu": "maison_soins",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -3531,7 +3480,6 @@
           "titre": "La fièvre grise",
           "type": "normal",
           "lieu": "fontclaire",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -3567,7 +3515,6 @@
           "titre": "Le premier sauvé",
           "type": "normal",
           "lieu": "fontclaire",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -3613,7 +3560,6 @@
           "titre": "La route des villages",
           "type": "normal",
           "lieu": "route_villages",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -3654,7 +3600,6 @@
           "titre": "L'Herboriste",
           "type": "mini_boss",
           "lieu": "route_villages",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -3739,7 +3684,6 @@
           "titre": "Rencontre : Boran",
           "type": "rencontre",
           "lieu": "camp_refugies",
-          "rounds": 3,
           "vagues": [
             [
               "sbire",
@@ -3791,7 +3735,6 @@
           "titre": "Le camp des réfugiés",
           "type": "normal",
           "lieu": "camp_refugies",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -3831,7 +3774,6 @@
           "titre": "Les soins impossibles",
           "type": "normal",
           "lieu": "palissade_nuit",
-          "rounds": 4,
           "vagues": [
             [
               "brute",
@@ -3881,7 +3823,6 @@
           "titre": "La Veilleuse",
           "type": "lieutenant",
           "lieu": "camp_refugies",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",
@@ -3965,7 +3906,6 @@
           "titre": "Le Cœur du Silence",
           "type": "boss_final",
           "lieu": "coeur_silence",
-          "rounds": 4,
           "vagues": [
             [
               "sbire",

@@ -1,16 +1,9 @@
 {
-  "chapter": { "kicker": "SOLO · CHAPITRE 1", "name": "Forêt de Mousse" },
-  "timeLimit": 120,
+  "note": "Délais communs à tous les combats (Voyage, Histoire, leçon). Les vagues elles-mêmes sont dans data/voyage.json et data/story_mode.json.",
   "globalGap": 1.2,
   "firstWaveDelay": 0.6,
   "betweenWaves": 1.2,
   "endLootWait": 3,
   "firstAttack": [0.6, 1.6],
-  "attackStagger": 0.7,
-  "waves": [
-    { "enemies": ["grunt", "grunt"] },
-    { "enemies": ["grunt", "grunt", "grunt"] },
-    { "enemies": ["brute", "grunt", "grunt"] },
-    { "enemies": ["boss"], "title": "Le boss arrive", "color": "#FF5A3C" }
-  ]
+  "attackStagger": 0.7
 }

@@ -75,6 +75,8 @@ function onClick(e) {
     case 'settings': renderSettings(); $('settings').classList.remove('hidden'); break;
     case 'set': setSetting(el.dataset.key, el.dataset.key === 'vibrate' ? arg === '1' : arg); renderSettings(); break;
     case 'closeSettings': $('settings').classList.add('hidden'); break;
+    case 'credits': renderCredits(); break;
+    case 'backSettings': renderSettings(); break;
   }
 }
 
@@ -280,7 +282,19 @@ function renderSettings() {
       ${vol('music', 'Musique')}
       ${vol('sfx', 'Effets')}
       ${pick('vibrate', 'Vibrations', [['1', 'Oui', settings.vibrate], ['0', 'Non', !settings.vibrate]])}
+      <button class="mini-btn set-credits" data-act="credits">Crédits</button>
       <button class="res-again" data-act="closeSettings"><span class="ol ol-4">Fermer</span></button>
+    </div>`;
+}
+
+/** Crédits (Réglages → Crédits) : textes dans data/credits.json. */
+function renderCredits() {
+  const C = D.credits;
+  const secs = C.sections.map(s => `<div class="cred-sec"><b>${s.title}</b>${s.lines.map(l => `<span>${l}</span>`).join('')}</div>`).join('');
+  $('settings').innerHTML = `<div class="res-card set-card">
+      <div class="res-title ol ol-5 set-title">${C.title}</div>
+      ${secs}
+      <button class="res-again" data-act="backSettings"><span class="ol ol-4">Retour</span></button>
     </div>`;
 }
 

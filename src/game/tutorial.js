@@ -1,4 +1,4 @@
-// Leçon guidée « La première leçon » (data/tutorial.json, docs/Son_et_Tutoriel.pdf section 4).
+// Leçon guidée « La première leçon » (tout le contenu dans data/tutorial.json).
 // Un souvenir : Maître Eldan enseigne à Aldric, à Pierrelune avant le Silence. Cinq étapes, chacune ouverte
 // par une réplique d'Eldan (lecteur de dialogues) : Triangle, Rond, Toucher, Justesse (5 niveaux puis un combo),
 // Super. Impossible à rater : mannequin sans dégâts, seuils plus tolérants (voir grades.js → toleranceOffset),
