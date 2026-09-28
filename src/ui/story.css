@@ -149,7 +149,7 @@
 /* ---------- 03-04 · Lecteur de cinématiques et de dialogues ---------- */
 .cs{position:fixed;inset:0;z-index:30;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;font-family:var(--font-body);color:var(--ink);cursor:pointer;overflow:hidden;background:#15301E}
 .cs .ol{color:#fff;font-family:var(--font-heading);paint-order:stroke fill}
-.cs-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.cs-bg{position:absolute;inset:0;background-size:cover;background-position:center;will-change:transform;transform:translateZ(0)}   /* décor sur sa propre couche : rastérisé une fois, pas à chaque lettre */
 .cs-bg.fallback{background:linear-gradient(180deg,#3DDC5B 0%,#2BA84A 45%,#1F7A3D 100%)}
 .cs-place{position:absolute;left:0;right:0;top:calc(104px + env(safe-area-inset-top,0px));text-align:center;font-size:12px;font-weight:800;letter-spacing:.06em;color:rgba(21,48,30,.6)}
 .cs-top{position:absolute;z-index:6;top:calc(16px + env(safe-area-inset-top,0px));left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;gap:10px}

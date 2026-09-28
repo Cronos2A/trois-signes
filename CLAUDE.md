@@ -102,7 +102,8 @@ design/            exports Claude Design (référence : planche de personnages, 
 
 ## Mode Histoire (septembre 2026)
 - Écrans : `design/trois-signes-maquette-lobby/project/Mode Histoire Trois Signes.dc.html` (01 choix, 02 chemin, 03-04 cinématique, 05 fin d'histoire, 06 déblocage d'Eldan), reproduits tels quels.
-- Portraits (6 héros × 6 expressions, Eldan, personnages secondaires, 12 boss + Eldan l'Oublié) et sprites de combat des boss : `design/trois-signes-character-sheet`, générés par `project/tools/story-engine.js` (Claude Design). Seul `sbire_ombrace` reste provisoire (tiré de la planche de combat). Il ne manque plus que les décors (`assets/IMAGES.md`).
+- Portraits (6 héros × 6 expressions, Eldan, personnages secondaires, 12 boss + Eldan l'Oublié) et sprites de combat des boss : `design/trois-signes-character-sheet`, générés par `project/tools/story-engine.js` (Claude Design). Seul `sbire_ombrace` reste provisoire (tiré de la planche de combat).
+- Décors (32, 390 × 844, centre et bas dégagés pour le jeu) : `design/ecran-de-combat-trois-signes`, générés par `project/decors.js` ; utilisés en cinématique et en fond de combat (Histoire et arènes du Voyage). Toutes les images attendues sont présentes (`assets/IMAGES.md`).
 - Bouton « Histoire » dans l'onglet Jouer ; 6 histoires de 10 combats (`data/story_mode.json`), carte d'Eldan verrouillée puis « Bientôt disponible » après l'épilogue.
 - Héros imposé ; rounds = `vagues` ; sbire/brute = ennemis existants, les autres ids = boss de `ennemis_speciaux` (valeurs par rang). Eldan l'Oublié : Triangle (coup), Rond (garde 2 s, −50 %), Toucher (appelle un sbire).
 - Réglages dans `data/rules.json` → `story` (XP de première victoire, pas de limite de temps, noms et couleurs des PNJ, libellés des types, mécanique d'Eldan, vitesse du texte).
@@ -111,7 +112,7 @@ design/            exports Claude Design (référence : planche de personnages, 
 ## Le Voyage (Solo infini, septembre 2026)
 - Le bouton Solo lance le Voyage : 8 arènes de 4 rounds (3 vagues puis le gardien), puis « Au-delà du Silence » sans fin (gardien au hasard tous les 4 rounds). Fin au KO.
 - Toutes les valeurs dans `data/voyage.json` (renforcement par arène et par round, multiplicateur de score, 3 ennemis au plus, +30 % PV entre deux arènes). `data/waves.json` ne sert plus que pour les délais communs (pause entre deux coups, première attaque).
-- Gardiens et décors repris du mode Histoire (`assets/`) ; tant que les images manquent : sprite du boss du Solo, fond à la teinte de l'arène avec son nom en grand.
+- Gardiens et décors repris du mode Histoire (`assets/`) ; si une image manque : sprite du boss du Solo, fond à la teinte de l'arène avec son nom en grand. La Forêt de Mousse garde le décor du Solo.
 - Sauvegarde : `prog.best` (record), `prog.voyage` (arène la plus lointaine, arènes découvertes). Coffres de cosmétiques : emplacement et message seulement.
 
 ## Ordre de travail
