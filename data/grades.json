@@ -1,6 +1,5 @@
 {
   "comboLength": 4,
-  "toleranceLarge": 10,
   "comboScore": 100,
   "miss": { "name": "Raté", "col": "#FF5A3C" },
   "levels": [

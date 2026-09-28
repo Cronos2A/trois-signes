@@ -244,7 +244,6 @@
 .set-title{color:var(--sun)}
 .set-row{display:flex;flex-direction:column;gap:6px}
 .set-label{font-family:var(--font-heading);font-size:17px;line-height:1}
-.set-note{font-size:12px;font-weight:700;color:var(--text-soft)}
 .set-chips .chip{flex:1;font-size:14px}
 .set-vol{display:flex;align-items:center;gap:10px}
 .set-vol b{width:50px;text-align:right;font-family:var(--font-heading);font-weight:400;font-size:15px}

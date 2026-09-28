@@ -135,7 +135,7 @@ design/            exports Claude Design (référence : planche de personnages, 
 - Notes de réussite définitives, en code : une mélodie qui monte d'une note par niveau (OK 1 note … Perfect 5 notes + accord brillant avec écho). Le raté joue `geste_rate`.
 - Musiques : lobby, Entraînement (`musique_tuto`), lieu du combat ou de l'arène (`musicByPlace` dans `data/audio.json`), `musique_boss` sur tout round de gardien ou de boss, `musique_triste` après un mini-boss ou un lieutenant, `musique_epilogue` pour les fins et l'épilogue. Fondu enchaîné de 1 s, fondu à la boucle (sauf ids listés dans `seamless`), musique baissée de moitié pendant les dialogues.
 - Effets chargés au démarrage, musiques à la demande ; audio débloqué au premier toucher, suspendu en arrière-plan.
-- Réglages (engrenage du lobby) : volumes Musique / Effets, Vibrations, Tolérance des gestes (Large = seuils abaissés de `toleranceLarge` points, `data/grades.json`). Sauvegarde : clé `ts_settings`.
+- Réglages (engrenage du lobby) : volumes Musique / Effets, Vibrations. Pas de réglage de tolérance des gestes (retiré : déséquilibre, futur multijoueur) ; tout le monde joue avec les seuils normaux, seule la leçon guidée les abaisse. Sauvegarde : clé `ts_settings` (les clés inconnues, dont une ancienne `tolerance`, sont ignorées et effacées).
 
 ## Ordre de travail
 1. Découper le prototype dans cette structure, sans changer le ressenti de jeu.
