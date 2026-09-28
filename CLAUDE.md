@@ -71,19 +71,40 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 | Kestrel, Rôdeuse (arc) | 105 / 4,6 | Pas léger : esquive de base 120 % | **Œil de faucon** : 8 s, tout geste reconnu = Perfect |
 | Mira, Soigneuse (amulette) | 180 / 3 | Soin 4 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : PV au max, attaque ×2 pendant 10 s |
 
-## Progression des armes — `data/weapons.json` — **fait**
-- Une arme par héros (`characters.json` → `weapon` : epee, dague, gantelets, grimoire, arc, amulette). L'XP appartient à l'arme,
-  pas au skin. Sauvegarde : `prog.weapons` (`{ epee: { xp } }`). Code : `src/game/weapons.js`, affichage `src/ui/weapon-ui.js`.
-- **Gain d'XP** (Voyage et Histoire seulement : `xpModes`, combats marqués `xpMode`) : attaque réussie OK 0, Good 1, Very Good 1,
-  Excellent 2, Perfect 3 ; combo +3 ; super lancée +3 ; gardien ou boss vaincu (ennemi `special`) +5.
-  Accumulée dans `G.weapon.gain`, ajoutée à la sauvegarde en fin de partie seulement (perdue si on quitte).
-- **Niveaux** 1 à 10 : 50 XP pour le niveau 2, puis +50 % par niveau (3 745 XP au total). +2 % d'attaque par niveau.
-  Niveau 3 : jauge de super ×1,1. Niveau 6 : talent de l'arme (épée : combo +5 PV ; dague : Perfect +15 % de dégâts ;
-  gantelets : −5 % de dégâts reçus ; grimoire : combo +0,25 ; arc : Perfect ×1,5 sur la jauge ; amulette : +1 PV de soin par attaque).
-  Niveau 10 : éclat doré de l'arme en combat (`gold_fx`, rendu dans `ui/hud.js`), sans autre bonus.
-- **Affichage** : carte Arme de l'onglet Personnage (niveau, barre, bonus actuels, prochain palier) ; fin de partie (résultats du Voyage,
-  écrans Victoire et KO de l'Histoire) : XP gagnée, animation de montée de niveau, son `deblocage` aux niveaux 3, 6 et 10.
-- **Duel** : `bonus_en_duel: false` neutralise tous les bonus d'armes dans un combat marqué `duel: true` (`bonusesOn`).
+## Armes, talismans et récompenses — `data/weapons.json`, `data/talismans.json` — **fait**
+- **3 armes par héros** (`weapons.json` → `heroes`) : l'arme de départ + 2 alternatives débloquées en Histoire
+  (combat 5 et combat 10 de l'histoire du héros, `unlock.story`, texte `lock`). Même puissance de base : une arme change
+  le **style**, pas la force. Arme équipée par héros ; les armes alternatives gardent le sprite de combat de l'arme de départ.
+  | Héros | Départ | Combat 5 | Combat 10 |
+  |---|---|---|---|
+  | Aldric | Épée (combo +5 PV) | Hache fendeuse (Perfect : 2e ennemi à 50 %) | Lance garde-fou (+30 % après une esquive réussie) |
+  | Nyra | Dague (Perfect +15 %) | Couteaux de lancer (ennemi le plus faible, +10 jauge par ennemi vaincu) | Lame d'ombre (esquive Perfect → contre-attaque 100 %) |
+  | Boran | Gantelets (−5 % reçus) | Masse de pierre (autres ennemis à 40 %, cible −10 %) | Bouclier-tour (−15 % reçus, −10 % infligés) |
+  | Ilwen | Grimoire (combo +0,25) | Bâton de braises (Perfect : 3 dégâts en 3 s) | Orbe miroir (renvoie 20 % des dégâts évités) |
+  | Kestrel | Arc (Perfect ×1,5 sur la jauge) | Arbalète (+20 % gardiens et boss, −10 % autres) | Fronde (tir de 3 dégâts à chaque ramassage) |
+  | Mira | Amulette (+1 PV par attaque) | Bâton de sève (pas de soin par attaque, 12 PV par combo) | Clochette (soin → bouclier, 20 au plus) |
+- **Effet de style** (`style.scale` : monte de 50 % au niveau 1 à 100 % au niveau 6 ; `style.fixed` : valeurs fixes).
+  « Esquive réussie » = un coup ennemi vraiment évité, pas le simple tracé d'un Rond.
+- **XP et niveaux** (chaque arme a les siens, `prog.weapons` = `{ epee: { xp } }`) : Voyage et Histoire seulement (`xpModes`) ;
+  attaque OK 0, Good 1, Very Good 1, Excellent 2, Perfect 3 ; combo +3 ; super +3 ; gardien ou boss vaincu +5. Ajoutée en fin
+  de partie seulement. Niveaux 1 à 10 : 50 XP pour le niveau 2, puis +50 % par niveau ; +2 % d'attaque par niveau ;
+  niveau 3 : jauge ×1,1 ; niveau 6 : style complet ; niveau 10 : éclat doré en combat (`gold_fx`).
+- **Talismans** (`talismans.json`, `src/game/talismans.js`) : 1 emplacement par héros, 8 talismans, un par gardien d'arène du
+  Voyage battu (Gland de mousse : ramassage +25 % ; Épi d'or : pièces +20 % ; Goutte claire : cœurs +25 % ; Clé des toits :
+  alerte 0,15 s plus tôt ; Marque-page : ramasser ne casse pas la série ; Plume de vent : jauge de départ 20 % ;
+  Craie ancienne : un raté pardonné par round ; Page du Codex : XP d'arme +10 %).
+- **Récompenses** (`src/game/rewards.js`, écran `src/ui/reward-ui.js`, son `deblocage`) : `syncRewards()` recalcule tout ce qui est
+  mérité d'après la sauvegarde (donc aussi les récompenses rétroactives, montrées au lancement). Affichées après la Victoire en
+  Histoire, en fin de Voyage, et dans le coffre de l'écran « Arène découverte ». Sauvegarde : `prog.armory`
+  (`weapons`, `talismans`, `equipped`, `talisman`) et `prog.voyage.beaten`.
+- **Affichage** : onglet Personnage, carte Armes (3 armes, niveau, XP, style à sa force actuelle, Équiper / verrou) et carte
+  Talisman (emplacement, grille des 8, Équiper / Retirer) ; pastille de l'arme équipée dans l'onglet Jouer ; XP d'arme et montée
+  de niveau en fin de partie. Icônes provisoires `assets/icones/armes/{id}.svg` et `assets/icones/talismans/{id}.svg`
+  (un vrai dessin au même nom les remplace).
+- **Duel** : `bonus_en_duel: false` neutralise les bonus de niveau dans un combat `duel: true` ; le style est alors pris à
+  `duel.stylePower` (100 %) pour tous. Armes : `autorise_en_duel: true`. Talismans : `autorise_en_duel: false`, **à décider**.
+- Équilibre vérifié en septembre 2026 par un bot à graine (plusieurs Voyages par arme au niveau 6, même réussite) : voir la note
+  en tête de `data/weapons.json`.
 
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
@@ -169,15 +190,17 @@ src/
   util.js
   input/gestures.js  reconnaissance des gestes + précision
   game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP, sauvegarde)
-         supers.js  settings.js  tutorial.js  voyage.js  weapons.js (XP, niveaux et bonus des armes)
+         supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
+         talismans.js  rewards.js (récompenses méritées, rétroactives)
   story/story.js     déroulé du mode Histoire
   audio/ audio.js  synth.js
   ui/    lobby.js (+ réglages, crédits, résultats)  hud.js (rendu canvas)  combat-hud.js  combat-art.js  anim.js  sprites.js
          art.js  icons.js  assets.js (images + replis)  cutscene.js  story-ui.js  story-art.js
-         tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (carte Arme, XP de fin de partie)
+         tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (cartes Armes / Talisman, XP de fin de partie)
+         reward-ui.js (écran « Nouvelle arme / Nouveau talisman »)
          organic.css (ne pas modifier)  lobby.css  style.css  story.css  tutorial.css  voyage.css
-data/    characters grades enemies waves rules shop story_mode voyage tutorial audio credits weapons (.json)
-assets/  portraits/  ennemis/  decors/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
+data/    characters grades enemies waves rules shop story_mode voyage tutorial audio credits weapons talismans (.json)
+assets/  portraits/  ennemis/  decors/  icones/armes/  icones/talismans/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
 prototype/ prototype d'origine
 ```
@@ -188,10 +211,30 @@ prototype/ prototype d'origine
   pas de défilement horizontal, tous les boutons restent visibles et utilisables, aucune erreur dans la console.
 
 ## Prochaines tâches (dans cet ordre)
+0. **Économie (demande du 28/09/2026, pas encore commencée)** — elle remplacera la règle « pas de gemmes » de la Direction artistique :
+   Résumé du message :
+   - Données dans `data/economy.json` et `data/cosmetics.json` ; les cosmétiques ne donnent jamais d'avantage.
+   - Or : fin de Voyage 10 + 5/arène + 20 si record ; Histoire 30 (1re victoire) / 5 ; les pièces ramassées deviennent de l'or.
+     Gemmes : 10 par gardien battu la 1re fois, 30 par histoire terminée, 50 pour l'épilogue (rétroactif au lancement).
+     Compteurs or/gemmes en haut du lobby, « + » sur les gemmes → onglet Gemmes.
+   - Catalogue : 3 couleurs par héros (recolorations en code, garder Teinte Lagon et Teinte Soleil), 10 tracés en code
+     (dont Étincelle et Lierre, + arc-en-ciel, étoiles, bulles, flammes, confettis, encre, pixels, notes), 1 skin d'arme par arme
+     de départ (garder Lame Braise et Arc Corail ; signaler si le sprite ne permet pas), 1 emplacement de skin complet
+     épique par héros (`assets/skins/{heros}_{skin}.svg`, repli habituel). Raretés ≈ 60/30/10 %.
+   - Coffres : simple 60 gemmes (commun 70 / rare 25 / épique 5), Trois Signes 150 gemmes (3 objets, ≥ 1 rare), pas de doublon,
+     « Collection complète », garantie épique après 10 coffres simples sans épique, **probabilités et liste affichées à côté du
+     bouton d'achat (Google Play)**, animation + son selon la rareté, liste de pays sans coffres payants (commencer par "BE").
+   - Boutique : onglets Coffres (bouton Probabilités), Cosmétiques (Tout, Armes, Couleurs, Tracés, Skins ; achat or/gemmes
+     avec confirmation), Gemmes (4 packs 80/0,99 €, 450/4,99 €, 1000/9,99 €, 2200/19,99 €, désactivés « Disponible dans
+     l'application »).
+   - Onglet Personnage : carte Cosmétique pour équiper couleur ou skin, skin d'arme, tracé, avec aperçu ; affichés en combat,
+     lobby et histoire.
+   - Mode test caché (développement seulement) pour se donner or et gemmes. Tester achats, 30 coffres sans doublon, garantie,
+     probabilités. Publier sur main.
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
 2. **Multijoueur (Duel)** : tour par tour, sans serveur temps réel (Firebase ou Supabase : seeds, scores, contrôle de cohérence).
    Vague 1 jouée en même temps (même seed), le meilleur score commence, chaque score durcit la vague de l'adversaire,
    KO avant le boss = défaite, sinon le plus gros score gagne. **Bonus d'armes neutralisés en Duel** : déjà prévu,
-   il suffit de marquer le combat `duel: true` (voir « Progression des armes ») ; décider aussi si le Duel rapporte de l'XP d'arme.
+   il suffit de marquer le combat `duel: true` (voir « Armes, talismans et récompenses ») ; décider aussi si le Duel rapporte de l'XP d'arme.
 
 Plus tard : cosmétiques / boutique (tout s'obtient en jouant), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.
