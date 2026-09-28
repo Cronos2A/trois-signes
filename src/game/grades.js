@@ -4,6 +4,7 @@ import { G, heroPos, addScore } from './state.js';
 import { pop, addFx, vibrate } from './effects.js';
 import { fmt } from '../util.js';
 import { addGauge } from './supers.js';
+import { gainWeaponXp, xpFor } from './weapons.js';
 import { gradeNotes, sfx } from '../audio/audio.js';
 
 /** Seuils identiques pour tous ; seule la leçon guidée les abaisse (data/tutorial.json → tolerance). */
@@ -43,11 +44,18 @@ export function registerGrade(g) {
  * fromSuper : combo offert par la super, qui ne remplit pas la jauge.
  */
 export function comboHit(g, fromSuper) {
-  const cm = g.combo;
+  const T = (G.weapon && G.weapon.talent) || {};
+  const cm = g.combo + (T.comboBonus || 0);          // Grimoire (talent) : multiplicateur de combo plus fort
   G.streak = { name: null, n: 0 };
   G.combos++;
   addScore(D.grades.comboScore);
+  gainWeaponXp(xpFor('combo'));
   const h = heroPos();
+  if (T.comboHeal && G.hero && G.hero.hp < G.hero.max) {   // Épée (talent) : chaque combo soigne
+    const got = Math.min(T.comboHeal, G.hero.max - G.hero.hp);
+    G.hero.hp += got;
+    pop(h.x - 44, h.y - 44, '+' + fmt(got) + ' PV', '', '#8CF09A', 0.9, 20);
+  }
   pop(G.W / 2, G.H * 0.5, 'Combo ' + g.name, 'effet ×' + fmt(cm), g.col, 1.4, 30);
   addFx({ kind: 'burst', x: h.x, y: h.y, col: g.col, life: 0.8, r: 40 });
   vibrate([30, 40, 30]);

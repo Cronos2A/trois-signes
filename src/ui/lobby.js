@@ -7,6 +7,7 @@ import { art } from './art.js';
 import { glyph, wIcon, trailIcon, facets } from './icons.js';
 import { settings, setSetting } from '../game/settings.js';
 import { sfx } from '../audio/audio.js';
+import { weaponCardHtml, weaponGainHtml, playWeaponGain } from './weapon-ui.js';
 
 const $ = id => document.getElementById(id);
 const nf = n => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
@@ -207,9 +208,7 @@ function charHtml() {
           <div class="mini-thumb" style="background:${v.color}">${facets.small()}<div class="rel">${wIcon(v.weapon, 30)}</div></div>
           <div class="mini-txt"><b>${v.weaponLabel}</b><span>Arme de départ</span></div>
         </div>
-        <div class="wlvl"><span class="tag-lvl">Nv 1</span><div class="wbar"><i style="width:0%"></i></div></div>
-        <div class="mini-note">Améliorations bientôt</div>
-        <button class="mini-btn" disabled>Bientôt</button>
+        ${weaponCardHtml(v.weapon)}
       </div>
       <div class="mini-card">
         <div class="mini-kicker">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}COSMÉTIQUE</div>
@@ -322,9 +321,11 @@ export function showResults(r) {
         <div class="res-xp-top"><span>+${r.gain} XP</span><span>${r.levelUp ? 'Niveau ' + L.lvl + ' atteint !' : 'Niveau ' + L.lvl}</span></div>
         <div class="wbar"><i style="width:${pct(L.cur, L.need)}%"></i></div>
       </div>
+      ${weaponGainHtml(r.weapon)}
       <button class="res-again" data-act="again"><span class="ol ol-4">Rejouer</span></button>
       <button class="mini-btn res-home" data-act="home">Retour au lobby</button>
     </div>`;
   m.classList.remove('hidden');
   $('lobby').classList.remove('hidden');
+  playWeaponGain(m, r.weapon);
 }

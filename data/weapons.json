@@ -1,0 +1,28 @@
+{
+  "note": "Progression des armes (une par héros, id = champ weapon de characters.json). L'XP appartient à l'arme, pas au skin. Valeurs de départ, à rééquilibrer ici.",
+  "bonus_en_duel": false,
+  "maxLevel": 10,
+  "firstLevelXp": 50,
+  "growth": 1.5,
+  "attackPerLevel": 0.02,
+  "xpModes": ["voyage", "story"],
+  "xp": {
+    "attack": { "OK": 0, "Good": 1, "Very Good": 1, "Excellent": 2, "Perfect": 3 },
+    "combo": 3,
+    "super": 3,
+    "bossKill": 5
+  },
+  "gauge": { "level": 3, "mult": 1.1, "label": "Jauge de super +10 % plus rapide" },
+  "talent": { "level": 6, "label": "Talent" },
+  "gold": { "level": 10, "label": "Éclat doré de l'arme en combat" },
+  "unlockSound": "deblocage",
+  "weapons": {
+    "epee": { "name": "Épée", "talent": { "text": "Chaque combo rend 5 PV.", "comboHeal": 5 } },
+    "dague": { "name": "Dague", "talent": { "text": "Attaques Perfect : +15 % de dégâts.", "perfectDamage": 0.15 } },
+    "gantelets": { "name": "Gantelets", "talent": { "text": "−5 % de dégâts reçus.", "damageTaken": 0.95 } },
+    "grimoire": { "name": "Grimoire", "talent": { "text": "Multiplicateur de combo +0,25.", "comboBonus": 0.25 } },
+    "arc": { "name": "Arc", "talent": { "text": "Chaque Perfect remplit la jauge de super de 50 % de plus.", "perfectGauge": 1.5 } },
+    "amulette": { "name": "Amulette", "talent": { "text": "+1 PV de soin à chaque attaque réussie.", "healPerHit": 1 } }
+  },
+  "gold_fx": { "color": "#FFD23F", "glow": 14, "sparks": 6 }
+}

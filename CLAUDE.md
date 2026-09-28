@@ -7,7 +7,7 @@ Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS
 Trois signes : **Triangle** = attaquer, **Rond** = esquiver, **Toucher** (tap) = ramasser.
 
 Modes jouables aujourd'hui : **Solo = Le Voyage** (infini), **Histoire** (6 × 10 combats), **Entraînement**, **La première leçon** (tutoriel).
-À venir : armes et leur XP, cosmétiques / boutique, **Duel** (multijoueur).
+Chaque héros a une arme qui progresse (niveaux 1 à 10). À venir : cosmétiques / boutique, **Duel** (multijoueur).
 
 Lancer : `py -m http.server 8123` dans ce dossier, puis http://localhost:8123 (les modules et les JSON ne se chargent pas en `file://`).
 Sur téléphone : `py -m http.server 8123 --bind 0.0.0.0`. Tester en 390 × 800 et en 360 × 640.
@@ -30,7 +30,7 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
 - Seuils « proposés » affichés dans la maquette de combat : **non repris** (seules les couleurs par palier le sont).
 - Combat : sprites de ¾ dos pour le héros, animations = simples transformations des sprites, déduites de l'état du jeu
   (`src/ui/anim.js`). Corps à corps (Aldric, Nyra, Boran) : ruée + coup d'arme ; à distance (Kestrel, Ilwen, Mira) : projectile.
-- Ce qui n'est pas codé (armes, skins, boutique, Duel) est affiché et marqué « Bientôt ». Pas de monnaie premium : pas de pay-to-win.
+- Ce qui n'est pas codé (skins, boutique, Duel) est affiché et marqué « Bientôt ». Pas de monnaie premium : pas de pay-to-win.
 
 ## Règles de combat (valeurs dans `data/`)
 - **Niveaux de réussite** (`data/grades.json`), selon la précision du tracé :
@@ -70,6 +70,20 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 | Ilwen, Sorcière (grimoire) | 105 / 4 | Incantation : combo en 3 gestes | **Grimoire ouvert** : 2 attaques comptées comme combos |
 | Kestrel, Rôdeuse (arc) | 105 / 4,6 | Pas léger : esquive de base 120 % | **Œil de faucon** : 8 s, tout geste reconnu = Perfect |
 | Mira, Soigneuse (amulette) | 180 / 3 | Soin 4 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : PV au max, attaque ×2 pendant 10 s |
+
+## Progression des armes — `data/weapons.json` — **fait**
+- Une arme par héros (`characters.json` → `weapon` : epee, dague, gantelets, grimoire, arc, amulette). L'XP appartient à l'arme,
+  pas au skin. Sauvegarde : `prog.weapons` (`{ epee: { xp } }`). Code : `src/game/weapons.js`, affichage `src/ui/weapon-ui.js`.
+- **Gain d'XP** (Voyage et Histoire seulement : `xpModes`, combats marqués `xpMode`) : attaque réussie OK 0, Good 1, Very Good 1,
+  Excellent 2, Perfect 3 ; combo +3 ; super lancée +3 ; gardien ou boss vaincu (ennemi `special`) +5.
+  Accumulée dans `G.weapon.gain`, ajoutée à la sauvegarde en fin de partie seulement (perdue si on quitte).
+- **Niveaux** 1 à 10 : 50 XP pour le niveau 2, puis +50 % par niveau (3 745 XP au total). +2 % d'attaque par niveau.
+  Niveau 3 : jauge de super ×1,1. Niveau 6 : talent de l'arme (épée : combo +5 PV ; dague : Perfect +15 % de dégâts ;
+  gantelets : −5 % de dégâts reçus ; grimoire : combo +0,25 ; arc : Perfect ×1,5 sur la jauge ; amulette : +1 PV de soin par attaque).
+  Niveau 10 : éclat doré de l'arme en combat (`gold_fx`, rendu dans `ui/hud.js`), sans autre bonus.
+- **Affichage** : carte Arme de l'onglet Personnage (niveau, barre, bonus actuels, prochain palier) ; fin de partie (résultats du Voyage,
+  écrans Victoire et KO de l'Histoire) : XP gagnée, animation de montée de niveau, son `deblocage` aux niveaux 3, 6 et 10.
+- **Duel** : `bonus_en_duel: false` neutralise tous les bonus d'armes dans un combat marqué `duel: true` (`bonusesOn`).
 
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
@@ -127,7 +141,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
-  `src/data.js` charge : grades, characters, enemies, waves, rules, shop, story_mode, voyage, audio, tutorial, credits.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, shop, story_mode, voyage, audio, tutorial, credits, weapons.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -155,14 +169,14 @@ src/
   util.js
   input/gestures.js  reconnaissance des gestes + précision
   game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP, sauvegarde)
-         supers.js  settings.js  tutorial.js  voyage.js
+         supers.js  settings.js  tutorial.js  voyage.js  weapons.js (XP, niveaux et bonus des armes)
   story/story.js     déroulé du mode Histoire
   audio/ audio.js  synth.js
   ui/    lobby.js (+ réglages, crédits, résultats)  hud.js (rendu canvas)  combat-hud.js  combat-art.js  anim.js  sprites.js
          art.js  icons.js  assets.js (images + replis)  cutscene.js  story-ui.js  story-art.js
-         tutorial-ui.js  tutorial-art.js  voyage-ui.js
+         tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (carte Arme, XP de fin de partie)
          organic.css (ne pas modifier)  lobby.css  style.css  story.css  tutorial.css  voyage.css
-data/    characters grades enemies waves rules shop story_mode voyage tutorial audio credits (.json)
+data/    characters grades enemies waves rules shop story_mode voyage tutorial audio credits weapons (.json)
 assets/  portraits/  ennemis/  decors/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
 prototype/ prototype d'origine
@@ -175,11 +189,9 @@ prototype/ prototype d'origine
 
 ## Prochaines tâches (dans cet ordre)
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
-2. **XP des armes** : chaque arme (une par héros) gagne son propre niveau en jouant ; valeurs dans un JSON ; remplacer le « Nv 1 / Bientôt »
-   de la carte Arme dans l'onglet Personnage.
-3. **Multijoueur (Duel)** : tour par tour, sans serveur temps réel (Firebase ou Supabase : seeds, scores, contrôle de cohérence).
+2. **Multijoueur (Duel)** : tour par tour, sans serveur temps réel (Firebase ou Supabase : seeds, scores, contrôle de cohérence).
    Vague 1 jouée en même temps (même seed), le meilleur score commence, chaque score durcit la vague de l'adversaire,
-   KO avant le boss = défaite, sinon le plus gros score gagne. **Les bonus d'armes doivent pouvoir être neutralisés en Duel**
-   (équité, pas de pay-to-win).
+   KO avant le boss = défaite, sinon le plus gros score gagne. **Bonus d'armes neutralisés en Duel** : déjà prévu,
+   il suffit de marquer le combat `duel: true` (voir « Progression des armes ») ; décider aussi si le Duel rapporte de l'XP d'arme.
 
 Plus tard : cosmétiques / boutique (tout s'obtient en jouant), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.

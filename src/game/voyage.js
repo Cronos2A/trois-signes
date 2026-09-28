@@ -66,7 +66,7 @@ export async function voyageBattle(hooks) {
 
   let entered = -1;                                                // dernière étape affichée
   const B = {
-    endless: true, label: 'Round', types: {}, waves: [], art, timeLimit: 0, lieu: null, bg: null,
+    endless: true, xpMode: 'voyage', label: 'Round', types: {}, waves: [], art, timeLimit: 0, lieu: null, bg: null,
     betweenRounds: V().betweenRounds,
     /** Prépare le round i. Renvoie false si un écran de transition vient de s'ouvrir (le round attend). */
     prepare(i) {

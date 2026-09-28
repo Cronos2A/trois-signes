@@ -6,6 +6,7 @@ import { handleGesture, useSuper, updateSummons } from './game/combat.js';
 import { emptyStats } from './game/grades.js';
 import { updateEnemies, updateWaves } from './game/enemies.js';
 import { attackMult, grantXp, prog } from './game/progress.js';
+import { weaponBonuses, bonusesOn, grantWeaponXp } from './game/weapons.js';
 import { rand } from './util.js';
 import { draw } from './ui/hud.js';
 import { prepareCombatArt, paintBackground } from './ui/combat-art.js';
@@ -54,7 +55,10 @@ function prepareArt(c, battle) {
 function resetGame(c, battle) {
   G.charId = c.id;
   G.battle = battle;
-  G.atkMult = attackMult(c.id);
+  // Arme du héros (data/weapons.json) : bonus de son niveau, neutralisés en Duel ; XP gagnée pendant la partie.
+  const Wb = weaponBonuses(c.weapon, !bonusesOn(battle));
+  G.weapon = { ...Wb, gain: 0 };
+  G.atkMult = attackMult(c.id) * Wb.atk;
   const P = c.passive || {};
   G.hero = {
     hp: c.hp, max: c.hp, atk: c.attack, shieldUntil: -1, shieldAvoid: 0, flash: 0, col: c.accent || c.color,
@@ -167,15 +171,16 @@ function endGame(why) {
   if (G.mode !== 'play') return;
   G.mode = 'end';
   const { gain, before, after, record } = grantXp(G.score, G.charId, !G.battle.onEnd);
+  const weapon = grantWeaponXp();
   $('hud').classList.add('hidden');
   document.documentElement.classList.remove('in-game');
   const b = G.battle;
   curChar = null; curBattle = null;
   traceStop();
-  if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score }); return; }
+  if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score, weapon }); return; }
   sfx(why === 'win' ? 'victoire' : 'defaite');
   music('musique_lobby');
-  showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos, voyage: G.voyage });
+  showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos, voyage: G.voyage, weapon });
 }
 
 /* ---------- Démarrage ---------- */

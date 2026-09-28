@@ -260,3 +260,20 @@
 .cred-sec{display:flex;flex-direction:column;gap:3px}
 .cred-sec b{font-family:var(--font-heading);font-weight:400;font-size:17px;line-height:1.1}
 .cred-sec span{font-size:14px;line-height:1.3}
+/* Progression des armes : carte Arme (onglet Personnage) et bloc de fin de partie */
+.wx-xp{font-size:10.5px;font-weight:800;color:var(--text-soft);margin-top:-4px}
+.wx-bonus{display:flex;flex-direction:column;gap:2px;font-size:11px;font-weight:700;line-height:1.25}
+.wx-bonus span::before{content:"+ ";color:var(--moss);font-weight:800}
+.wx-bonus span.none{color:var(--text-soft)}
+.wx-bonus span.none::before{content:none}
+.wx-next{font-size:10.5px;font-weight:800;line-height:1.25;color:var(--moss);padding-top:5px;border-top:2px dashed color-mix(in srgb,var(--ink) 25%,transparent)}
+.wx{display:flex;flex-direction:column;gap:5px}
+.wx .wbar{flex:none}
+.wx-bar i{transition:width .6s ease-out}
+.wx-msg{min-height:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
+.wx-msg b{font-family:var(--font-heading);font-weight:400;font-size:20px;color:var(--sun);-webkit-text-stroke:3.5px var(--ink);paint-order:stroke fill;text-shadow:0 2px 0 var(--ink)}
+.wx-msg span{font-size:12px;font-weight:800;color:var(--moss)}
+.wx.up .wx-msg{animation:wxUp .6s cubic-bezier(.3,1.6,.5,1)}
+.wx.up .wx-bar{animation:wxFlash .6s}
+@keyframes wxUp{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes wxFlash{0%,100%{box-shadow:none}40%{box-shadow:0 0 0 4px rgba(255,210,63,.8)}}

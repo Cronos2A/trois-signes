@@ -6,6 +6,7 @@ import { gradeOf, registerGrade, comboHit, streakTxt, toleranceOffset } from './
 import { sfx } from '../audio/audio.js';
 import { startSuper, superAttackMult, damageTakenMult, perfectMode, useAutoDodge, useComboCharge } from './supers.js';
 import { pop, showGrade, addFx, vibrate, trainInfo, superBanner } from './effects.js';
+import { gainWeaponXp, attackXp, xpFor } from './weapons.js';
 
 const round1 = v => Math.round(v * 10) / 10;
 
@@ -24,9 +25,14 @@ function pickTarget() {
   return alive.sort((a, b) => dist(a, h) - dist(b, h))[0];
 }
 
+/** Talent de l'arme au niveau 6 (data/weapons.json), ou {} avant. */
+const talent = () => (G.weapon && G.weapon.talent) || {};
+
 function doAttack(g, cm) {
   const e = pickTarget(), h = heroPos();
-  const dmg = round1(heroAtk() * g.mult * cm);
+  // Dague (talent) : les attaques du meilleur niveau (Perfect) frappent plus fort.
+  const perfect = g === D.grades.levels[0] ? 1 + (talent().perfectDamage || 0) : 1;
+  const dmg = round1(heroAtk() * g.mult * cm * perfect);
   addScore(g.bonus);
   sfx('attaque');
   if (!e) { pop(h.x, h.y - 70, 'Aucune cible', '', g.col, 0.9, 18); return; }
@@ -88,6 +94,7 @@ function hitEnemy(e, dmg, col, by) {
   if (e.T.immortal) { e.hp = e.max; return; }       // mannequin de la leçon
   if (e.hp > 0) return;
   sfx('ennemi_vaincu');
+  if (e.T.special) gainWeaponXp(xpFor('bossKill'));   // gardien du Voyage ou boss d'histoire
   addScore(e.T.pts);
   addFx({ kind: 'burst', x: e.x, y: e.y, col: e.T.col, life: 0.6, r: e.T.r });
   const L = e.T.loot, n = L.count;
@@ -117,6 +124,7 @@ export function useSuper() {
   vibrate([40, 30, 70]);
   sfx('super_' + G.charId);
   emit('super');
+  gainWeaponXp(xpFor('super'));
   if (S.healPct) pop(p.x, p.y - 90, 'PV au max', '', '#8CF09A', 1.2, 24);
   if (S.hitAll) {
     const dmg = round1(G.hero.atk * G.atkMult * S.hitAll);
@@ -154,7 +162,7 @@ export function strike(e) {
   let avoid = G.time < G.hero.shieldUntil ? G.hero.shieldAvoid : 0;
   const auto = avoid < 1 && useAutoDodge();        // Ombre : esquive totale sans tracer
   if (auto) avoid = 1;
-  const taken = Math.round(e.T.dmg * (1 - avoid) * damageTakenMult());
+  const taken = Math.round(e.T.dmg * (1 - avoid) * damageTakenMult() * (talent().damageTaken ?? 1));   // Gantelets (talent)
   addFx({ kind: 'bolt', x1: e.x, y1: e.y, x2: h.x, y2: h.y, col: '#FF5D73', life: 0.25 });
   if (auto) pop(h.x, h.y - 80, 'Ombre', 'esquive automatique', G.hero.col, 1, 22);
   else if (avoid > 0) pop(h.x, h.y - 80, 'Esquive ' + Math.round(avoid * 100) + ' %', avoid >= 1 ? 'aucun dégât' : '', '#3FD7C4', 1, 20);
@@ -200,7 +208,10 @@ export function handleGesture(res) {
   if (res.type === 'triangle') {
     // Grimoire ouvert : l'attaque compte comme un combo de son propre niveau.
     if (useComboCharge() && cm === 1) cm = comboHit(g, true);
-    if (G.hero.healPerHit) heal(G.hero.healPerHit * g.mult);
+    // Soin par attaque réussie : passif de Mira, + talent de l'amulette.
+    const cure = G.hero.healPerHit * g.mult + (talent().healPerHit || 0);
+    if (cure > 0) heal(cure);
+    gainWeaponXp(attackXp(g));
     if (G.mode === 'play') doAttack(g, cm);
     else { addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: h.x, y2: h.y - 200, col: g.col, life: 0.35 }); sfx('attaque'); }
     done();

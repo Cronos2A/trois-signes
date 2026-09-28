@@ -2,6 +2,7 @@
 // sprites (héros choisi, sbires, brute, boss, objets), anneau d'alerte, tracés, textes de réussite.
 // Le décor est peint une fois dans un canvas de fond (ui/combat-art.js) ; les barres du haut et la
 // série du bas sont en HTML (ui/combat-hud.js). Ne modifie jamais l'état du jeu.
+import { D } from '../data.js';
 import { G, heroPos } from '../game/state.js';
 import { gradeByName } from '../game/grades.js';
 import { ART, artScale, SPRITE_SCALE } from './combat-art.js';
@@ -81,7 +82,12 @@ function drawHero(ctx) {
   const body = { x, y: y - S.h * 0.5 * g };
   if (sp) aura(ctx, body, S.h * 0.5 * g, sp.col, false);
   // Sans calque de bras armé (arc de Kestrel), c'est tout le sprite qui s'incline pour frapper.
-  heroSprite(ctx, S, Arm, x, y, P.sx * g, P.sy * g, P.rot + (Arm ? 0 : P.arm * 0.15), P);
+  const gold = G.weapon && G.weapon.gold ? D.weapons.gold_fx : null;   // arme niveau 10 : éclat doré
+  heroSprite(ctx, S, Arm, x, y, P.sx * g, P.sy * g, P.rot + (Arm ? 0 : P.arm * 0.15), P, gold);
+  if (gold && !Arm) {                                  // arme dans le corps (arc) : lueur à la main qui tient l'arme
+    const m = heroAttack().muzzle, s = SPRITE_SCALE.hero * k * g;
+    if (m) goldGlow(ctx, x + m[0] * s * P.sx, y + m[1] * s * P.sy, 26 * k, gold);
+  }
   if (sp) aura(ctx, body, S.h * 0.5 * g, sp.col, true);
   fireAttack(x, y, P);
   if ((G.mode === 'play' || G.mode === 'train') && G.time < G.hero.shieldUntil) {
@@ -152,7 +158,31 @@ function fireAttack(x, y, P) {
 }
 
 /** Héros : corps, puis bras armé qui pivote autour de l'épaule, avec une traînée de lame pendant la frappe. */
-function heroSprite(ctx, S, Arm, x, y, sx, sy, rot, P) {
+/** Lueur dorée et étincelles qui montent autour d'un point (arme niveau 10). Purement décoratif. */
+function goldGlow(ctx, cx, cy, r, fx) {
+  const pulse = 0.5 + 0.5 * Math.sin(A.t * 4);
+  const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * (1.3 + 0.2 * pulse));
+  grd.addColorStop(0, fx.color + 'AA'); grd.addColorStop(1, fx.color + '00');
+  ctx.fillStyle = grd;
+  ctx.beginPath(); ctx.arc(cx, cy, r * (1.3 + 0.2 * pulse), 0, Math.PI * 2); ctx.fill();
+  goldSparks(ctx, cx, cy, r, fx);
+}
+
+function goldSparks(ctx, cx, cy, r, fx) {
+  for (let i = 0; i < fx.sparks; i++) {
+    const ph = (A.t * 0.7 + i / fx.sparks) % 1;                    // chaque étincelle monte puis s'éteint
+    const px = cx + Math.cos(i * 2.4 + A.t * 0.9) * r * 0.9, py = cy + r * 0.4 - ph * r * 1.8;
+    const s = (3 + 3 * Math.sin(Math.PI * ph)) * k;
+    ctx.globalAlpha = Math.sin(Math.PI * ph);
+    ctx.beginPath();
+    ctx.moveTo(px, py - s); ctx.lineTo(px + s * 0.35, py - s * 0.35); ctx.lineTo(px + s, py); ctx.lineTo(px + s * 0.35, py + s * 0.35);
+    ctx.lineTo(px, py + s); ctx.lineTo(px - s * 0.35, py + s * 0.35); ctx.lineTo(px - s, py); ctx.lineTo(px - s * 0.35, py - s * 0.35);
+    ctx.closePath(); ctx.fillStyle = i % 2 ? '#FFFFFF' : fx.color; ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function heroSprite(ctx, S, Arm, x, y, sx, sy, rot, P, gold) {
   ctx.save();
   ctx.translate(x, y);
   if (rot) ctx.rotate(rot);
@@ -170,7 +200,15 @@ function heroSprite(ctx, S, Arm, x, y, sx, sy, rot, P) {
       ctx.globalAlpha = 1;
     }
     ctx.rotate(P.arm);
+    if (gold) {                                        // arme niveau 10 : halo doré qui suit le bras armé
+      ctx.save();
+      ctx.shadowColor = gold.color; ctx.shadowBlur = gold.glow * k * (0.8 + 0.4 * Math.sin(A.t * 4));
+      ctx.drawImage(Arm.img, -Arm.px, -Arm.py, Arm.w, Arm.h);
+      ctx.drawImage(Arm.img, -Arm.px, -Arm.py, Arm.w, Arm.h);
+      ctx.restore();
+    }
     ctx.drawImage(Arm.img, -Arm.px, -Arm.py, Arm.w, Arm.h);
+    if (gold) goldSparks(ctx, Arm.w / 2 - Arm.px, Arm.h / 2 - Arm.py, Math.max(Arm.w, Arm.h) * 0.45, gold);
     if (P.red > 0) { ctx.globalAlpha = Math.min(1, P.red); ctx.drawImage(Arm.red, -Arm.px, -Arm.py, Arm.w, Arm.h); }
   }
   ctx.restore();

@@ -5,7 +5,7 @@
 import { D } from '../data.js';
 import { prog, saveProg, addXp } from '../game/progress.js';
 import { playScene } from '../ui/cutscene.js';
-import { renderChoice, renderMap, renderDefeat, renderFragment, renderUnlock, hideStory } from '../ui/story-ui.js';
+import { renderChoice, renderMap, renderDefeat, renderVictory, renderFragment, renderUnlock, hideStory } from '../ui/story-ui.js';
 import { enemyUrl, who, bossInfo } from '../ui/assets.js';
 import { music, placeMusic, sfx } from '../audio/audio.js';
 
@@ -87,14 +87,14 @@ async function buildBattle(k) {
     const boss = list.find(id => !R.enemyMap[id]);
     return { enemies: list.map(id => R.enemyMap[id] || id), title: boss ? who(boss).name : undefined, color: boss ? '#FF5A3C' : undefined, boss: !!boss };
   });
-  return { waves, types, art, timeLimit: R.timeLimit, label: R.roundLabel, lieu: k.lieu, music: placeMusic(k.lieu) };
+  return { waves, types, art, xpMode: 'story', timeLimit: R.timeLimit, label: R.roundLabel, lieu: k.lieu, music: placeMusic(k.lieu) };
 }
 
 async function afterCombat(h, k, why, res) {
   sfx(why === 'win' ? 'victoire' : 'defaite');
   if (why !== 'win') {
     music('musique_lobby');
-    renderDefeat(k, { retry: () => launch(h, k, false), review: () => launch(h, k, true), back: () => showMap(h) });
+    renderDefeat(k, { retry: () => launch(h, k, false), review: () => launch(h, k, true), back: () => showMap(h) }, res.weapon);
     return;
   }
   const done = st().done[h.id] || (st().done[h.id] = []);
@@ -102,6 +102,8 @@ async function afterCombat(h, k, why, res) {
   let bonus = 0;
   if (first) { done.push(k.n); bonus = D.rules.story.firstWinXp; addXp(h.id, bonus); }
   saveProg();
+  await renderVictory(k, res.gain + bonus, res.weapon);
+  hideStory();
   music(placeMusic(k.lieu));
   await playScene(k.dialogue_apres, { decor: k.lieu });
   if (k.cinematique_apres) {
