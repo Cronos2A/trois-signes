@@ -1,5 +1,5 @@
 {
-  "note": "Armes : 3 par héros (départ + 2 alternatives), chacune avec son XP et son niveau. Toutes les armes d'un héros ont la même puissance de base : elles changent le style, pas la force. Valeurs de départ, à équilibrer ici.",
+  "note": "Armes : 3 par héros (départ + 2 alternatives), chacune avec son XP et son niveau. Toutes les armes d'un héros ont la même puissance de base : elles changent le style, pas la force. Équilibre vérifié le 28/09/2026 par un bot à graine (4 Voyages par arme au niveau 6, précision 82 % puis 90 % ; Mira à 72 %) : aucune arme ne sort nettement du lot ; Couteaux de lancer relevés (jauge par ennemi vaincu 10 → 15) ; Arbalète (+12 à 17 % de score) et Bâton de sève (Mira tombe plus tôt à faible précision) à surveiller.",
   "bonus_en_duel": false,
   "maxLevel": 10,
   "firstLevelXp": 50,
