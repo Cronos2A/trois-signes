@@ -13,15 +13,22 @@ import { setupHud } from './ui/combat-hud.js';
 import { resetAnims } from './ui/anim.js';
 import { initLobby, showLobby, hideLobby, showResults, activeCharacter } from './ui/lobby.js';
 import { initStory, openStory, maybePrologue } from './story/story.js';
+import { voyageBattle } from './game/voyage.js';
+import { showTransition, hideTransition } from './ui/voyage-ui.js';
 
 const $ = id => document.getElementById(id);
 const cv = $('c'), ctx = cv.getContext('2d');
 let dpr = 1, curChar = null, curBattle = null;
 
-/** Combat Solo (Forêt de Mousse) : vagues et durée de data/waves.json. */
-const soloBattle = () => ({
-  waves: D.waves.waves.map(w => ({ ...w, boss: w.enemies.includes('boss') })),
-  types: {}, art: [], timeLimit: D.waves.timeLimit, label: 'Vague', lieu: null
+/** Décor de repos (lobby, entraînement) : la Forêt de Mousse, sans vagues. */
+const idleBattle = () => ({ waves: [], types: {}, art: [], timeLimit: 0, label: 'Vague', lieu: null, bg: null });
+
+/** Le Voyage (Solo infini) : à chaque arène, nouveau décor puis écran de transition. */
+const newVoyage = () => voyageBattle({
+  onStage: info => {
+    paintBackground($('bg'), G.W, G.H, dpr, G.battle.lieu, G.battle.bg).catch(() => {});
+    return showTransition(info);
+  }
 });
 
 function resize() {
@@ -30,12 +37,12 @@ function resize() {
   cv.width = Math.round(G.W * dpr); cv.height = Math.round(G.H * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   G.safeTop = $('safe').offsetHeight || 0;
-  if (D.enemies) prepareArt(curChar || activeCharacter(), curBattle || soloBattle()).catch(() => {});
+  if (D.enemies) prepareArt(curChar || activeCharacter(), curBattle || idleBattle()).catch(() => {});
 }
 
 /** Décor (lieu du combat en Histoire) et sprites, préparés à la taille de l'écran (voir ui/combat-art.js). */
 function prepareArt(c, battle) {
-  paintBackground($('bg'), G.W, G.H, dpr, battle.lieu).catch(() => {});
+  paintBackground($('bg'), G.W, G.H, dpr, battle.lieu, battle.bg).catch(() => {});
   return prepareCombatArt(c.id, G.W, G.H, dpr, Object.values(D.enemies).map(e => e.sprite), battle.art);
 }
 
@@ -54,7 +61,7 @@ function resetGame(c, battle) {
   };
   Object.assign(G, {
     enemies: [], loots: [], summons: [], fx: [], pops: [], trails: [],
-    time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
+    time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, scoreMult: 1, paused: false, voyage: null, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
     streak: { name: null, n: 0 }, combos: 0, globalGap: 0, stats: emptyStats()
   });
 }
@@ -71,6 +78,7 @@ function update(dt) {
   for (const l of G.loots) { l.t += dt; l.life -= dt; }
   G.loots = G.loots.filter(l => l.life > 0);
 
+  if (G.paused) return;                       // Voyage : écran de transition d'arène
   if (G.mode === 'play' || G.mode === 'train') updateSummons(dt);
   if (G.mode === 'train') { updateTraining(dt); return; }
   if (G.mode !== 'play') return;
@@ -122,15 +130,18 @@ function toLobby() {
   G.mode = 'menu';
   setInGame(false);
   curChar = null; curBattle = null;
+  hideTransition();
   if (b && b.onQuit) b.onQuit();          // Histoire : « Quitter » ramène au chemin des combats
 }
 
 let starting = false;
-/** opts.char : héros imposé (Histoire), sinon celui du lobby ; opts.battle : combat, sinon Solo. */
+/** opts.char : héros imposé (Histoire), sinon celui du lobby ; opts.battle : combat, sinon le Voyage. */
 async function start(mode, opts = {}) {
   if (starting) return;
   starting = true;
-  const c = opts.char || activeCharacter(), battle = opts.battle || soloBattle();
+  const c = opts.char || activeCharacter();
+  let battle = opts.battle || idleBattle();
+  if (mode === 'play' && !opts.battle) { try { battle = await newVoyage(); } catch (e) { starting = false; throw e; } }
   curChar = c; curBattle = battle;
   try { await prepareArt(c, battle); } catch (_) { /* sans sprites, le combat reste jouable */ }
   starting = false;
@@ -151,7 +162,7 @@ function endGame(why) {
   const b = G.battle;
   curChar = null; curBattle = null;
   if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score }); return; }
-  showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos });
+  showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos, voyage: G.voyage });
 }
 
 /* ---------- Démarrage ---------- */
@@ -178,10 +189,10 @@ async function init() {
     e.preventDefault(); e.stopPropagation();
     if (G.mode === 'play' || G.mode === 'train') useSuper();
   });
-  resetGame(activeCharacter(), soloBattle());
+  resetGame(activeCharacter(), idleBattle());
   toLobby();
   // Sprites préparés juste après le premier affichage du lobby, pour ne pas le retarder.
-  setTimeout(() => prepareArt(activeCharacter(), soloBattle()).catch(() => {}), 50);
+  setTimeout(() => prepareArt(activeCharacter(), idleBattle()).catch(() => {}), 50);
   if (document.fonts) document.fonts.load('60px Caprasimo').catch(() => {});
   window.__tsReady = true;
   requestAnimationFrame(loop);

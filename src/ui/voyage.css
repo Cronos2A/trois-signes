@@ -1,0 +1,21 @@
+/* Le Voyage : écran de transition d'arène, « Arène découverte », éléments du HUD. */
+.vy{position:fixed;inset:0;z-index:25;display:flex;flex-direction:column;align-items:center;justify-content:center;touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer;overflow:hidden;font-family:var(--font-body);color:var(--ink);animation:vyIn .25s ease-out}
+@keyframes vyIn{from{opacity:0}to{opacity:1}}
+.vy-in{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;padding:0 20px;text-align:center}
+.vy-kick{font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 14px;border-radius:999px;background:var(--ink);color:var(--sun)}
+.vy-name{margin:0;font-family:var(--font-heading);font-weight:400;font-size:clamp(34px,11vw,48px);line-height:1.02;color:#fff;-webkit-text-stroke:7px var(--ink);paint-order:stroke fill;text-shadow:0 5px 0 var(--ink);text-wrap:balance;animation:vyPop .45s cubic-bezier(.2,1.6,.4,1)}
+.vy-name.small{font-size:clamp(28px,8.5vw,36px)}
+@keyframes vyPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.vy-heal{font-family:var(--font-heading);font-size:22px;padding:6px 18px;border-radius:999px;background:#8CF09A;border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink)}
+.vy-tap{position:absolute;left:0;right:0;bottom:calc(28px + env(safe-area-inset-bottom,0px));text-align:center;font-size:12px;font-weight:800;color:#FFF1D6;text-shadow:0 1px 0 var(--ink)}
+.vy-chest{display:flex;flex-direction:column;align-items:center;gap:6px;width:min(300px,86vw);margin-top:6px;padding:16px 16px 18px;background:var(--color-bg);border:4px solid var(--ink);border-radius:26px;box-shadow:0 6px 0 var(--ink)}
+.vy-chest svg{animation:vyBob 1.6s ease-in-out infinite}
+@keyframes vyBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+.vy-chest b{font-family:var(--font-heading);font-weight:400;font-size:20px}
+.vy-chest span{font-size:13px;font-weight:700;color:var(--text-soft);line-height:1.35}
+
+/* HUD : nom de l'arène sous le bandeau, multiplicateur à la place du chrono */
+.hud-arena{position:absolute;top:calc(111px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);max-width:calc(100% - 40px);padding:2px 12px 3px;border-radius:999px;background:#174A28;border:2px solid var(--ink);color:#FFF1D6;font-size:11px;font-weight:800;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.hud:not(.voyage) .hud-arena,.hud.train .hud-arena{display:none}
+.hud.voyage .hud-timer svg{display:none}
+.hud.voyage .hud-timer{padding:0 12px}

@@ -106,13 +106,15 @@ let bgKey = '';
 
 /**
  * Dessine le décor dans le canvas de fond (au démarrage et au redimensionnement) : la Forêt de Mousse,
- * ou en Histoire le lieu du combat (assets/decors/{lieu}.svg, sinon dégradé vert du lobby et nom du lieu).
+ * ou le lieu du combat (assets/decors/{lieu}.svg). Sans image : dégradé vert du lobby et nom du lieu en petit
+ * (Histoire), ou, avec opts { tint, title } (arène provisoire du Voyage), dégradé de la teinte et nom en grand.
  */
-export async function paintBackground(cv, W, H, dpr, lieu) {
-  const pw = Math.round(W * dpr), ph = Math.round(H * dpr), key = pw + 'x' + ph + '|' + (lieu || '');
+export async function paintBackground(cv, W, H, dpr, lieu, opts = null) {
+  const pw = Math.round(W * dpr), ph = Math.round(H * dpr);
+  const key = pw + 'x' + ph + '|' + (lieu || '') + '|' + (opts ? opts.tint + opts.title : '');
   if (key === bgKey) return;
   bgKey = key;
-  if (lieu) return paintPlace(cv, pw, ph, dpr, lieu, key);
+  if (lieu) return paintPlace(cv, pw, ph, dpr, lieu, key, opts);
   // Le SVG du décor est en « slice » : à la taille de l'écran, il le couvre comme la maquette.
   const svg = TS.bg({}).replace('width="390" height="844"', `width="${pw}" height="${ph}"`);
   const img = await loadSvg(svg);
@@ -121,7 +123,14 @@ export async function paintBackground(cv, W, H, dpr, lieu) {
   cv.getContext('2d').drawImage(img, 0, 0, pw, ph);
 }
 
-async function paintPlace(cv, pw, ph, dpr, lieu, key) {
+/** Éclaircit (t > 0) ou assombrit (t < 0) une couleur #rrggbb. */
+function shade(hex, t) {
+  const n = parseInt(hex.slice(1), 16), T = t < 0 ? 0 : 255, a = Math.abs(t);
+  const c = [n >> 16, (n >> 8) & 255, n & 255].map(v => Math.round(v + (T - v) * a));
+  return 'rgb(' + c.join(',') + ')';
+}
+
+async function paintPlace(cv, pw, ph, dpr, lieu, key, opts) {
   const url = await decorUrl(lieu);
   const img = url ? await new Promise(ok => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = url; }) : null;
   if (key !== bgKey) return;
@@ -132,9 +141,20 @@ async function paintPlace(cv, pw, ph, dpr, lieu, key) {
     x.drawImage(img, (pw - w) / 2, (ph - h) / 2, w, h);
     return;
   }
-  const g = x.createLinearGradient(0, 0, 0, ph);
-  g.addColorStop(0, '#3DDC5B'); g.addColorStop(0.45, '#2BA84A'); g.addColorStop(1, '#1F7A3D');
+  const g = x.createLinearGradient(0, 0, 0, ph), t = opts && opts.tint;
+  if (t) { g.addColorStop(0, shade(t, 0.3)); g.addColorStop(0.45, t); g.addColorStop(1, shade(t, -0.4)); }
+  else { g.addColorStop(0, '#3DDC5B'); g.addColorStop(0.45, '#2BA84A'); g.addColorStop(1, '#1F7A3D'); }
   x.fillStyle = g; x.fillRect(0, 0, pw, ph);
+  if (opts && opts.title) {                                        // arène provisoire : son nom en grand
+    const size = Math.min(40, (pw / dpr) * 0.9 / Math.max(8, opts.title.length) * 1.9) * dpr;
+    x.font = `400 ${size}px Caprasimo, Georgia, serif`;
+    x.textAlign = 'center'; x.textBaseline = 'middle'; x.lineJoin = 'round';
+    x.globalAlpha = 0.5;
+    x.lineWidth = 6 * dpr; x.strokeStyle = '#15301E'; x.strokeText(opts.title, pw / 2, ph * 0.56);
+    x.fillStyle = '#FFFFFF'; x.fillText(opts.title, pw / 2, ph * 0.56);
+    x.globalAlpha = 1;
+    return;
+  }
   x.font = `700 ${12 * dpr}px Figtree, sans-serif`;
   x.textAlign = 'center'; x.fillStyle = 'rgba(21,48,30,0.55)';
   x.fillText(placeName(lieu), pw / 2, 150 * dpr);        // sous le bandeau du haut

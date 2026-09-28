@@ -20,6 +20,7 @@ function set(key, el, prop, value) {
   else if (prop.startsWith('--')) el.style.setProperty(prop, value);
   else if (prop === 'html') el.innerHTML = value;
   else if (prop === 'class') el.className = value;
+  else if (prop === 'voyageClass') el.classList.toggle('voyage', value);
   else el.style[prop] = value;
 }
 
@@ -40,7 +41,21 @@ export function updateHud(A) {
   set('bar', $('hudBar'), 'width', (ratio * 100).toFixed(1) + '%');
   set('low', $('hudBar'), 'class', ratio <= 0.3 ? 'low' : '');
 
-  if (G.mode === 'play') {
+  if (G.mode === 'play' && G.battle.endless) {
+    // Le Voyage : « Round 2 / 4 », multiplicateur de score à la place du chrono, nom de l'arène dessous.
+    const V = G.voyage, n = V ? V.rounds : 4, cur = V ? V.round + 1 : 1, boss = cur === n;
+    set('voyage', $('hud'), 'voyageClass', true);
+    set('waveK', $('hudWaveK'), 'text', boss ? 'GARDIEN' : 'ROUND');
+    set('waveKc', $('hudWaveK'), 'class', 'hud-k' + (boss ? ' boss' : ''));
+    set('wave', $('hudWave'), 'text', cur + ' / ' + n);
+    set('pips', $('hudPips'), 'html', Array.from({ length: n }, (_, i) =>
+      `<i class="${i < cur - 1 ? 'done' : i === cur - 1 ? (boss ? 'boss' : 'cur') : ''}"></i>`).join(''));
+    set('time', $('hudTime'), 'text', '×' + String(Math.round(G.scoreMult * 100) / 100).replace('.', ','));
+    set('timeC', $('hudTimer'), 'class', 'hud-timer' + (boss ? ' hot' : ''));
+    set('arena', $('hudArena'), 'text', V ? V.name : '');
+    set('score', $('hudScore'), 'text', nf(G.score));
+  } else if (G.mode === 'play') {
+    set('voyage', $('hud'), 'voyageClass', false);
     const B = G.battle, n = B.waves.length, cur = Math.max(1, Math.min(G.waveIdx, n)), boss = !!B.waves[cur - 1].boss;
     set('waveK', $('hudWaveK'), 'text', boss ? 'BOSS' : B.label.toUpperCase());
     set('waveKc', $('hudWaveK'), 'class', 'hud-k' + (boss ? ' boss' : ''));

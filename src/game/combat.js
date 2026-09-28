@@ -1,6 +1,6 @@
 // Attaque, esquive, ramassage, coups ennemis.
 import { D } from '../data.js';
-import { G, heroPos } from './state.js';
+import { G, heroPos, addScore } from './state.js';
 import { clamp, dist, rand, fmt } from '../util.js';
 import { gradeOf, registerGrade, comboHit, streakTxt } from './grades.js';
 import { startSuper, superAttackMult, damageTakenMult, perfectMode, useAutoDodge, useComboCharge } from './supers.js';
@@ -26,7 +26,7 @@ function pickTarget() {
 function doAttack(g, cm) {
   const e = pickTarget(), h = heroPos();
   const dmg = round1(heroAtk() * g.mult * cm);
-  G.score += g.bonus;
+  addScore(g.bonus);
   if (!e) { pop(h.x, h.y - 70, 'Aucune cible', '', g.col, 0.9, 18); return; }
   hitEnemy(e, dmg, g.col);
 }
@@ -58,7 +58,7 @@ function tryPickup(x, y) {
   G.loots.splice(G.loots.indexOf(best), 1);
   if (best.type === 'coin') {
     const v = Math.round(P.coinValue * g.mult * cm);
-    G.score += v + g.bonus;
+    addScore(v + g.bonus);
     pop(best.x, best.y - 20, '+' + v, 'points', g.col, 0.9, 22);
   } else {
     const v = Math.round(P.heartHeal * g.mult * cm);
@@ -78,9 +78,9 @@ function hitEnemy(e, dmg, col, by) {
   else if (by === 'summon') addFx({ kind: 'bite', x: e.x, y: e.y, col, life: 0.35 });
   else addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: e.x, y2: e.y, col, life: 0.35 });
   pop(e.x, e.y - e.T.r - 14, '-' + dmg, '', col, 0.9, by === 'summon' ? 16 : 24);
-  G.score += Math.round(dmg * D.rules.score.perDamage);
+  addScore(dmg * D.rules.score.perDamage);
   if (e.hp > 0) return;
-  G.score += e.T.pts;
+  addScore(e.T.pts);
   addFx({ kind: 'burst', x: e.x, y: e.y, col: e.T.col, life: 0.6, r: e.T.r });
   const L = e.T.loot, n = L.count;
   for (let i = 0; i < n; i++) {
@@ -148,7 +148,7 @@ export function strike(e) {
   addFx({ kind: 'bolt', x1: e.x, y1: e.y, x2: h.x, y2: h.y, col: '#FF5D73', life: 0.25 });
   if (auto) pop(h.x, h.y - 80, 'Ombre', 'esquive automatique', G.hero.col, 1, 22);
   else if (avoid > 0) pop(h.x, h.y - 80, 'Esquive ' + Math.round(avoid * 100) + ' %', avoid >= 1 ? 'aucun dégât' : '', '#3FD7C4', 1, 20);
-  if (avoid >= 1) G.score += D.rules.dodge.perfectScore;
+  if (avoid >= 1) addScore(D.rules.dodge.perfectScore);
   if (taken > 0) {
     G.hero.hp = Math.max(0, G.hero.hp - taken);
     G.hero.flash = 1; G.shake = 0.5;

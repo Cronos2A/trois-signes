@@ -1,6 +1,6 @@
 // Niveaux de réussite et combos.
 import { D } from '../data.js';
-import { G, heroPos } from './state.js';
+import { G, heroPos, addScore } from './state.js';
 import { pop, addFx, vibrate } from './effects.js';
 import { fmt } from '../util.js';
 import { addGauge } from './supers.js';
@@ -41,7 +41,7 @@ export function comboHit(g, fromSuper) {
   const cm = g.combo;
   G.streak = { name: null, n: 0 };
   G.combos++;
-  G.score += D.grades.comboScore;
+  addScore(D.grades.comboScore);
   const h = heroPos();
   pop(G.W / 2, G.H * 0.5, 'Combo ' + g.name, 'effet ×' + fmt(cm), g.col, 1.4, 30);
   addFx({ kind: 'burst', x: h.x, y: h.y, col: g.col, life: 0.8, r: 40 });

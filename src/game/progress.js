@@ -15,6 +15,9 @@ if (!prog.chars) { prog.chars = { aldric: { xp: prog.xp || 0 } }; delete prog.xp
 
 // Mode Histoire : combats gagnés par histoire, cinématiques vues, fragments de mémoire.
 if (!prog.story) prog.story = { done: {}, seen: {}, fragments: [], prologue: false, epilogue: false };
+// Le Voyage : arène la plus lointaine atteinte (index, 8 = Au-delà du Silence) et arènes déjà découvertes.
+// Le meilleur score reste prog.best.
+if (!prog.voyage) prog.voyage = { maxArena: -1, found: [] };
 
 export const saveProg = () => store.set(KEY, prog);
 
@@ -54,4 +57,13 @@ export function grantXp(score, id, countRecord = true) {   // record : Solo seul
   if (record) prog.best = score;
   store.set(KEY, prog);
   return { gain, before, after: levelInfo(c.xp).lvl, record };
+}
+
+/** Le Voyage : note l'arène atteinte. Renvoie true la première fois qu'elle est découverte. */
+export function reachArena(id, index) {
+  const V = prog.voyage, first = !V.found.includes(id);
+  if (first) V.found.push(id);
+  if (index > V.maxArena) V.maxArena = index;
+  saveProg();
+  return first;
 }
