@@ -1,0 +1,51 @@
+{
+  "note": "Talismans : un emplacement par héros ; un même talisman peut être équipé par plusieurs héros. Débloqués en battant pour la première fois le gardien d'une arène du Voyage. Valeurs de départ, à équilibrer ici.",
+  "autorise_en_duel_note": "À décider pour le Duel : false = talisman ignoré dans un combat marqué duel.",
+  "ui": {
+    "cardTitle": "TALISMAN",
+    "slotEmpty": "Aucun talisman",
+    "equip": "Équiper",
+    "unequip": "Retirer",
+    "equipped": "Équipé",
+    "locked": "Verrouillé",
+    "rewardKick": "NOUVEAU TALISMAN",
+    "chestTitle": "Coffre du gardien",
+    "chestOpened": "Gardien battu : {arena}",
+    "forgiven": "Raté pardonné",
+    "rewardOk": "Continuer"
+  },
+  "talismans": [
+    {
+      "id": "gland_mousse", "name": "Gland de mousse", "arena": "foret_mousse", "lock": "Bats le gardien de la Forêt de Mousse",
+      "text": "Portée de ramassage +25 %.", "effect": { "pickupRange": 1.25 }, "autorise_en_duel": false
+    },
+    {
+      "id": "epi_or", "name": "Épi d'or", "arena": "hautes_gerbes", "lock": "Bats le gardien de Hautes-Gerbes",
+      "text": "Pièces +20 %.", "effect": { "coinMult": 1.2 }, "autorise_en_duel": false
+    },
+    {
+      "id": "goutte_claire", "name": "Goutte claire", "arena": "fontclaire", "lock": "Bats le gardien de Fontclaire",
+      "text": "Les cœurs soignent 25 % de plus.", "effect": { "heartMult": 1.25 }, "autorise_en_duel": false
+    },
+    {
+      "id": "cle_toits", "name": "Clé des toits", "arena": "velis_toits", "lock": "Bats le gardien des Toits de Vélis",
+      "text": "L'anneau d'alerte ennemi apparaît 0,15 s plus tôt.", "effect": { "alertLead": 0.15 }, "autorise_en_duel": false
+    },
+    {
+      "id": "marque_page", "name": "Marque-page", "arena": "aubelle_biblio", "lock": "Bats le gardien de la Bibliothèque d'Aubelle",
+      "text": "Les ramassages ne cassent pas la série de combo.", "effect": { "pickupKeepsStreak": true }, "autorise_en_duel": false
+    },
+    {
+      "id": "plume_vent", "name": "Plume de vent", "arena": "col_vents", "lock": "Bats le gardien du Col des Vents",
+      "text": "La jauge de super démarre à 20 %.", "effect": { "gaugeStart": 0.2 }, "autorise_en_duel": false
+    },
+    {
+      "id": "craie_ancienne", "name": "Craie ancienne", "arena": "ecole_ruines", "lock": "Bats le gardien de l'École des Signes",
+      "text": "Un geste raté par round ne casse pas la série de combo.", "effect": { "missForgivenPerRound": 1 }, "autorise_en_duel": false
+    },
+    {
+      "id": "page_codex", "name": "Page du Codex", "arena": "coeur_silence", "lock": "Bats le gardien du Cœur du Silence",
+      "text": "+10 % d'XP d'arme.", "effect": { "weaponXpMult": 1.1 }, "autorise_en_duel": false
+    }
+  ]
+}

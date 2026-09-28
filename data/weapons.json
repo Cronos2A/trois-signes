@@ -1,5 +1,5 @@
 {
-  "note": "Progression des armes (une par héros, id = champ weapon de characters.json). L'XP appartient à l'arme, pas au skin. Valeurs de départ, à rééquilibrer ici.",
+  "note": "Armes : 3 par héros (départ + 2 alternatives), chacune avec son XP et son niveau. Toutes les armes d'un héros ont la même puissance de base : elles changent le style, pas la force. Valeurs de départ, à équilibrer ici.",
   "bonus_en_duel": false,
   "maxLevel": 10,
   "firstLevelXp": 50,
@@ -12,17 +12,117 @@
     "super": 3,
     "bossKill": 5
   },
+  "style": { "startPower": 0.5, "fullLevel": 6, "label": "Effet de style complet" },
   "gauge": { "level": 3, "mult": 1.1, "label": "Jauge de super +10 % plus rapide" },
-  "talent": { "level": 6, "label": "Talent" },
   "gold": { "level": 10, "label": "Éclat doré de l'arme en combat" },
+  "duel": { "stylePower": 1 },
+  "percentKeys": ["cleaveOnPerfect", "afterDodgeDamage", "perfectDamage", "perfectDodgeCounter", "damageReduction", "splash", "targetPenalty", "damagePenalty", "reflect", "perfectGaugeBonus", "bossDamage", "otherPenalty"],
   "unlockSound": "deblocage",
-  "weapons": {
-    "epee": { "name": "Épée", "talent": { "text": "Chaque combo rend 5 PV.", "comboHeal": 5 } },
-    "dague": { "name": "Dague", "talent": { "text": "Attaques Perfect : +15 % de dégâts.", "perfectDamage": 0.15 } },
-    "gantelets": { "name": "Gantelets", "talent": { "text": "−5 % de dégâts reçus.", "damageTaken": 0.95 } },
-    "grimoire": { "name": "Grimoire", "talent": { "text": "Multiplicateur de combo +0,25.", "comboBonus": 0.25 } },
-    "arc": { "name": "Arc", "talent": { "text": "Chaque Perfect remplit la jauge de super de 50 % de plus.", "perfectGauge": 1.5 } },
-    "amulette": { "name": "Amulette", "talent": { "text": "+1 PV de soin à chaque attaque réussie.", "healPerHit": 1 } }
+  "gold_fx": { "color": "#FFD23F", "glow": 14, "sparks": 6 },
+  "ui": {
+    "cardTitle": "ARMES",
+    "styleTitle": "Effet de style",
+    "stylePower": "Force {pct} %",
+    "equipped": "Équipée",
+    "equip": "Équiper",
+    "maxLevel": "Niveau max",
+    "level": "Niveau {n}",
+    "levelShort": "Nv {n}",
+    "levelUp": "Niveau {n} !",
+    "xp": "{cur} / {need} XP",
+    "gain": "{name} +{n} XP",
+    "noBonus": "Pas encore de bonus",
+    "attackBonus": "Attaque +{pct} %",
+    "next": "Niveau {n} : {text}",
+    "barrier": "bouclier",
+    "counter": "Contre-attaque",
+    "reflect": "Renvoi",
+    "burn": "Brûlure",
+    "shot": "Tir",
+    "rewardKick": "NOUVELLE ARME",
+    "rewardFor": "Pour {hero}",
+    "rewardOk": "Continuer"
   },
-  "gold_fx": { "color": "#FFD23F", "glow": 14, "sparks": 6 }
+  "heroes": {
+    "aldric": ["epee", "hache_fendeuse", "lance_garde_fou"],
+    "nyra": ["dague", "couteaux_lancer", "lame_ombre"],
+    "boran": ["gantelets", "masse_pierre", "bouclier_tour"],
+    "ilwen": ["grimoire", "baton_braises", "orbe_miroir"],
+    "kestrel": ["arc", "arbalete", "fronde"],
+    "mira": ["amulette", "baton_seve", "clochette"]
+  },
+  "weapons": {
+    "epee": {
+      "name": "Épée", "hero": "aldric", "unlock": null, "autorise_en_duel": true,
+      "style": { "text": "Chaque combo rend {comboHeal} PV.", "scale": { "comboHeal": 5 } }
+    },
+    "hache_fendeuse": {
+      "name": "Hache fendeuse", "hero": "aldric", "unlock": { "story": 5 }, "lock": "Gagne le combat 5 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Un Perfect touche aussi un 2e ennemi à {cleaveOnPerfect} % des dégâts.", "scale": { "cleaveOnPerfect": 0.5 } }
+    },
+    "lance_garde_fou": {
+      "name": "Lance garde-fou", "hero": "aldric", "unlock": { "story": 10 }, "lock": "Gagne le combat 10 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Après une esquive réussie, l'attaque suivante fait +{afterDodgeDamage} %.", "scale": { "afterDodgeDamage": 0.3 } }
+    },
+    "dague": {
+      "name": "Dague", "hero": "nyra", "unlock": null, "autorise_en_duel": true,
+      "style": { "text": "Attaques Perfect : +{perfectDamage} % de dégâts.", "scale": { "perfectDamage": 0.15 } }
+    },
+    "couteaux_lancer": {
+      "name": "Couteaux de lancer", "hero": "nyra", "unlock": { "story": 5 }, "lock": "Gagne le combat 5 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Vise toujours l'ennemi le plus faible ; chaque ennemi vaincu donne +{gaugePerKill} de jauge de super.", "scale": { "gaugePerKill": 10 }, "fixed": { "targetWeakest": true } }
+    },
+    "lame_ombre": {
+      "name": "Lame d'ombre", "hero": "nyra", "unlock": { "story": 10 }, "lock": "Gagne le combat 10 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Une esquive Perfect déclenche une contre-attaque gratuite ({perfectDodgeCounter} % des dégâts).", "scale": { "perfectDodgeCounter": 1 } }
+    },
+    "gantelets": {
+      "name": "Gantelets", "hero": "boran", "unlock": null, "autorise_en_duel": true,
+      "style": { "text": "−{damageReduction} % de dégâts reçus.", "scale": { "damageReduction": 0.05 } }
+    },
+    "masse_pierre": {
+      "name": "Masse de pierre", "hero": "boran", "unlock": { "story": 5 }, "lock": "Gagne le combat 5 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Chaque attaque touche aussi les autres ennemis à {splash} %, mais −{targetPenalty} % de dégâts sur la cible.", "scale": { "splash": 0.4, "targetPenalty": 0.1 } }
+    },
+    "bouclier_tour": {
+      "name": "Bouclier-tour", "hero": "boran", "unlock": { "story": 10 }, "lock": "Gagne le combat 10 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "−{damageReduction} % de dégâts reçus, −{damagePenalty} % de dégâts infligés.", "scale": { "damageReduction": 0.15, "damagePenalty": 0.1 } }
+    },
+    "grimoire": {
+      "name": "Grimoire", "hero": "ilwen", "unlock": null, "autorise_en_duel": true,
+      "style": { "text": "Multiplicateur de combo +{comboBonus}.", "scale": { "comboBonus": 0.25 } }
+    },
+    "baton_braises": {
+      "name": "Bâton de braises", "hero": "ilwen", "unlock": { "story": 5 }, "lock": "Gagne le combat 5 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Un Perfect enflamme l'ennemi : {burnOnPerfect} dégâts répartis sur {burnDuration} s.", "scale": { "burnOnPerfect": 3 }, "fixed": { "burnDuration": 3 } }
+    },
+    "orbe_miroir": {
+      "name": "Orbe miroir", "hero": "ilwen", "unlock": { "story": 10 }, "lock": "Gagne le combat 10 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Une esquive réussie renvoie {reflect} % des dégâts évités à l'attaquant.", "scale": { "reflect": 0.2 } }
+    },
+    "arc": {
+      "name": "Arc", "hero": "kestrel", "unlock": null, "autorise_en_duel": true,
+      "style": { "text": "Chaque Perfect remplit la jauge de super de {perfectGaugeBonus} % de plus.", "scale": { "perfectGaugeBonus": 0.5 } }
+    },
+    "arbalete": {
+      "name": "Arbalète", "hero": "kestrel", "unlock": { "story": 5 }, "lock": "Gagne le combat 5 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "+{bossDamage} % de dégâts sur les gardiens et boss, −{otherPenalty} % sur les autres.", "scale": { "bossDamage": 0.2, "otherPenalty": 0.1 } }
+    },
+    "fronde": {
+      "name": "Fronde", "hero": "kestrel", "unlock": { "story": 10 }, "lock": "Gagne le combat 10 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Chaque objet ramassé déclenche un tir automatique de {pickupShot} dégâts sur l'ennemi le plus proche.", "scale": { "pickupShot": 3 } }
+    },
+    "amulette": {
+      "name": "Amulette", "hero": "mira", "unlock": null, "autorise_en_duel": true,
+      "style": { "text": "+{healPerHit} PV de soin à chaque attaque réussie.", "scale": { "healPerHit": 1 } }
+    },
+    "baton_seve": {
+      "name": "Bâton de sève", "hero": "mira", "unlock": { "story": 5 }, "lock": "Gagne le combat 5 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Plus de soin à chaque attaque ; à la place, chaque combo rend {comboHeal} PV.", "scale": { "comboHeal": 12 }, "fixed": { "noHealPerHit": true } }
+    },
+    "clochette": {
+      "name": "Clochette", "hero": "mira", "unlock": { "story": 10 }, "lock": "Gagne le combat 10 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Le soin par attaque devient un bouclier qui absorbe les dégâts, cumulable jusqu'à {barrierMax}.", "scale": { "barrierMax": 20 }, "fixed": { "healToBarrier": true } }
+    }
+  }
 }

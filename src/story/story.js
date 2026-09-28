@@ -8,6 +8,8 @@ import { playScene } from '../ui/cutscene.js';
 import { renderChoice, renderMap, renderDefeat, renderVictory, renderFragment, renderUnlock, hideStory } from '../ui/story-ui.js';
 import { enemyUrl, who, bossInfo } from '../ui/assets.js';
 import { music, placeMusic, sfx } from '../audio/audio.js';
+import { syncRewards } from '../game/rewards.js';
+import { showRewards } from '../ui/reward-ui.js';
 
 let api = {};   // { startBattle({ char, battle }), toLobby() } fourni par main.js
 const SM = () => D.story_mode;
@@ -103,6 +105,7 @@ async function afterCombat(h, k, why, res) {
   if (first) { done.push(k.n); bonus = D.rules.story.firstWinXp; addXp(h.id, bonus); }
   saveProg();
   await renderVictory(k, res.gain + bonus, res.weapon);
+  await showRewards(syncRewards());          // combats 5 et 10 : armes alternatives du héros
   hideStory();
   music(placeMusic(k.lieu));
   await playScene(k.dialogue_apres, { decor: k.lieu });

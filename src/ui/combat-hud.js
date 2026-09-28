@@ -39,7 +39,7 @@ export function setupHud(c) {
 export function updateHud(A) {
   if (G.mode !== 'play' && G.mode !== 'train') return;
   const hero = G.hero, ratio = Math.max(0, hero.hp / hero.max);
-  set('hp', $('hudHp'), 'text', Math.ceil(hero.hp) + ' / ' + hero.max);
+  set('hp', $('hudHp'), 'text', Math.ceil(hero.hp) + ' / ' + hero.max + (hero.barrier > 0 ? ' +' + Math.ceil(hero.barrier) : ''));   // + bouclier (Clochette)
   set('bar', $('hudBar'), 'width', (ratio * 100).toFixed(1) + '%');
   set('low', $('hudBar'), 'class', ratio <= 0.3 ? 'low' : '');
 

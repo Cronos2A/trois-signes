@@ -7,14 +7,16 @@ import { art } from './art.js';
 import { glyph, wIcon, trailIcon, facets } from './icons.js';
 import { settings, setSetting } from '../game/settings.js';
 import { sfx } from '../audio/audio.js';
-import { weaponCardHtml, weaponGainHtml, playWeaponGain } from './weapon-ui.js';
+import { weaponsCardHtml, talismanCardHtml, weaponGainHtml, playWeaponGain, itemIcon } from './weapon-ui.js';
+import { equipWeapon, equippedWeapon, weaponData } from '../game/weapons.js';
+import { equipTalisman } from '../game/talismans.js';
 
 const $ = id => document.getElementById(id);
 const nf = n => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
 const pct = (a, b) => Math.round(100 * a / b);
 
 const TABS = [['play', 'tri', 'Jouer'], ['char', 'circle', 'Personnage'], ['shop', 'dot', 'Boutique']];
-const ui = { tab: 'play', active: 0, view: 0, filter: 'all' };
+const ui = { tab: 'play', active: 0, view: 0, filter: 'all', tal: null };
 let actions = {};
 
 const chars = () => D.characters.characters;
@@ -78,6 +80,10 @@ function onClick(e) {
     case 'closeSettings': $('settings').classList.add('hidden'); break;
     case 'credits': renderCredits(); break;
     case 'backSettings': renderSettings(); break;
+    case 'equipW': equipWeapon(chars()[ui.view].id, arg); render(); break;
+    case 'tal': ui.tal = arg; render(); break;
+    case 'equipT': equipTalisman(chars()[ui.view].id, arg); render(); break;
+    case 'unequipT': equipTalisman(chars()[ui.view].id, null); render(); break;
   }
 }
 
@@ -134,8 +140,8 @@ function playHtml() {
       <button class="train-pill lesson-pill" data-act="lesson">${glyph('tri', '#FFD23F', 18)}<span>Revoir la leçon</span></button>
       <button class="train-pill" data-act="train">${glyph('circle', '#3DDC5B', 18)}<span>Entraînement</span></button>
       <div class="name-pill">
-        <div class="np-icon" style="background:${c.color}">${wIcon(c.weapon, 20)}</div>
-        <div class="np-txt"><span class="np-name">${c.name}</span><span class="np-line">${c.title} · ${c.weaponLabel}</span></div>
+        <div class="np-icon" style="background:${c.color}">${itemIcon('armes', equippedWeapon(c.id), 20)}</div>
+        <div class="np-txt"><span class="np-name">${c.name}</span><span class="np-line">${c.title} · ${weaponData(equippedWeapon(c.id)).name}</span></div>
       </div>
     </div>
     <div class="mode-row three">
@@ -201,15 +207,9 @@ function charHtml() {
         <div class="skill-text">${v.super.text}</div>
       </div>
     </div>
+    ${weaponsCardHtml(v.id, v.color)}
+    ${talismanCardHtml(v.id, ui.tal)}
     <div class="mini-row">
-      <div class="mini-card">
-        <div class="mini-kicker">${glyph('tri', '#FF8C32', 14, { outline: 1.6 })}ARME</div>
-        <div class="mini-item">
-          <div class="mini-thumb" style="background:${v.color}">${facets.small()}<div class="rel">${wIcon(v.weapon, 30)}</div></div>
-          <div class="mini-txt"><b>${v.weaponLabel}</b><span>Arme de départ</span></div>
-        </div>
-        ${weaponCardHtml(v.weapon)}
-      </div>
       <div class="mini-card">
         <div class="mini-kicker">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}COSMÉTIQUE</div>
         <div class="mini-item">

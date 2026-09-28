@@ -13,11 +13,20 @@ const gauge = () => D.characters.superGauge;
 export function addGauge(g, combo) {
   const h = G.hero, J = gauge();
   if (!g || !h || superActive()) return;
-  const before = h.gauge, W = G.weapon || {}, T = W.talent || {};
-  // Arme : jauge plus rapide dès le niveau 3 ; Arc (talent) : un Perfect remplit davantage.
-  const perfect = !combo && g === D.grades.levels[0] ? (T.perfectGauge || 1) : 1;
+  const before = h.gauge, W = G.weapon || {}, T = W.style || {};
+  // Arme : jauge plus rapide dès le niveau 3 ; Arc (style) : un Perfect remplit davantage.
+  const perfect = !combo && g === D.grades.levels[0] ? 1 + (T.perfectGaugeBonus || 0) : 1;
   const add = (combo ? J.comboBonus : J.gain[g.name] || 0) * (W.gauge || 1) * perfect;
   h.gauge = Math.min(J.max, h.gauge + add);
+  if (before < J.max && h.gauge >= J.max) sfx('super_pleine');
+}
+
+/** Jauge ajoutée hors geste (Couteaux de lancer : ennemi vaincu), avec les mêmes règles que addGauge. */
+export function addGaugeFlat(n) {
+  const h = G.hero, J = gauge();
+  if (!h || !n || superActive()) return;
+  const before = h.gauge;
+  h.gauge = Math.min(J.max, h.gauge + n);
   if (before < J.max && h.gauge >= J.max) sfx('super_pleine');
 }
 

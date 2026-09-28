@@ -3,7 +3,7 @@
 // Le décor est peint une fois dans un canvas de fond (ui/combat-art.js) ; les barres du haut et la
 // série du bas sont en HTML (ui/combat-hud.js). Ne modifie jamais l'état du jeu.
 import { D } from '../data.js';
-import { G, heroPos } from '../game/state.js';
+import { G, heroPos, windOf } from '../game/state.js';
 import { gradeByName } from '../game/grades.js';
 import { ART, artScale, SPRITE_SCALE } from './combat-art.js';
 import { A, DUR, updateAnims, heroPose, heroAttack } from './anim.js';
@@ -33,7 +33,7 @@ export function draw(ctx, dt) {
   drawGrade(ctx, W, H);        // sous le héros : le texte de réussite ne cache pas l'attaque
   const body = drawHero(ctx);
   const w = G.enemies.find(e => e.state === 'windup');
-  if (w) drawWarning(ctx, body, w.t / w.T.wind);
+  if (w) drawWarning(ctx, body, w.t / windOf(w));
   drawSummons(ctx, body, dt);
   drawFx(ctx, body);
   drawProjectiles(ctx);
@@ -217,7 +217,7 @@ function heroSprite(ctx, S, Arm, x, y, sx, sy, rot, P, gold) {
 function drawEnemy(ctx, e, p) {
   const S = ART[e.T.sprite];
   if (!S) return;
-  const walk = e.state === 'walk', wind = e.state === 'windup' ? Math.min(1, e.t / e.T.wind) : 0;
+  const walk = e.state === 'walk', wind = e.state === 'windup' ? Math.min(1, e.t / windOf(e)) : 0;
   const bob = (1 - Math.cos(A.t * (walk ? 11 : 4) + e.sx * 9)) / 2;   // attente : léger rebond continu
   let dx = 0, dy = -bob * (walk ? 6 : 3) * k, sx = 1 + 0.025 * (1 - bob), sy = 1 - 0.025 * (1 - bob);
   let rot = 0, red = 0, white = 0;

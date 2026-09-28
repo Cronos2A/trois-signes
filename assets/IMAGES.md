@@ -150,3 +150,37 @@ Sans sprite, le boss prend celui de la brute (mini-boss) ou du boss de la Forêt
 - ✅ `assets/decors/route_villages.svg` — Route de campagne entre plusieurs petits villages
 - ✅ `assets/decors/coeur_silence.svg` — Clairière entièrement blanche, sans couleur, fragments de pages qui flottent
 - ✅ `assets/decors/coeur_silence_gueri.svg` — La même clairière qui retrouve ses couleurs, herbe verte, lumière chaude
+
+## Icônes des armes (`assets/icones/armes/`) et des talismans (`assets/icones/talismans/`)
+
+SVG carré (viewBox 24 × 24 conseillé), fond transparent. Les fichiers actuels sont des icônes **provisoires**
+dessinées dans le style du lobby ; un vrai dessin déposé sous le même nom les remplace sans rien changer au code.
+Sans fichier, le jeu dessine une icône de repli (signe à facettes).
+
+- ✅ `assets/icones/armes/epee.svg` — Épée (aldric) — provisoire
+- ✅ `assets/icones/armes/hache_fendeuse.svg` — Hache fendeuse (aldric) — provisoire
+- ✅ `assets/icones/armes/lance_garde_fou.svg` — Lance garde-fou (aldric) — provisoire
+- ✅ `assets/icones/armes/dague.svg` — Dague (nyra) — provisoire
+- ✅ `assets/icones/armes/couteaux_lancer.svg` — Couteaux de lancer (nyra) — provisoire
+- ✅ `assets/icones/armes/lame_ombre.svg` — Lame d'ombre (nyra) — provisoire
+- ✅ `assets/icones/armes/gantelets.svg` — Gantelets (boran) — provisoire
+- ✅ `assets/icones/armes/masse_pierre.svg` — Masse de pierre (boran) — provisoire
+- ✅ `assets/icones/armes/bouclier_tour.svg` — Bouclier-tour (boran) — provisoire
+- ✅ `assets/icones/armes/grimoire.svg` — Grimoire (ilwen) — provisoire
+- ✅ `assets/icones/armes/baton_braises.svg` — Bâton de braises (ilwen) — provisoire
+- ✅ `assets/icones/armes/orbe_miroir.svg` — Orbe miroir (ilwen) — provisoire
+- ✅ `assets/icones/armes/arc.svg` — Arc (kestrel) — provisoire
+- ✅ `assets/icones/armes/arbalete.svg` — Arbalète (kestrel) — provisoire
+- ✅ `assets/icones/armes/fronde.svg` — Fronde (kestrel) — provisoire
+- ✅ `assets/icones/armes/amulette.svg` — Amulette (mira) — provisoire
+- ✅ `assets/icones/armes/baton_seve.svg` — Bâton de sève (mira) — provisoire
+- ✅ `assets/icones/armes/clochette.svg` — Clochette (mira) — provisoire
+
+- ✅ `assets/icones/talismans/gland_mousse.svg` — Gland de mousse — provisoire
+- ✅ `assets/icones/talismans/epi_or.svg` — Épi d'or — provisoire
+- ✅ `assets/icones/talismans/goutte_claire.svg` — Goutte claire — provisoire
+- ✅ `assets/icones/talismans/cle_toits.svg` — Clé des toits — provisoire
+- ✅ `assets/icones/talismans/marque_page.svg` — Marque-page — provisoire
+- ✅ `assets/icones/talismans/plume_vent.svg` — Plume de vent — provisoire
+- ✅ `assets/icones/talismans/craie_ancienne.svg` — Craie ancienne — provisoire
+- ✅ `assets/icones/talismans/page_codex.svg` — Page du Codex — provisoire

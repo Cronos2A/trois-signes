@@ -20,4 +20,7 @@ export function addScore(n) { G.score += Math.round(n * G.scoreMult); }
 /** Événement du combat (geste, ramassage, coup reçu, super), pour la leçon guidée. */
 export function emit(ev, d) { if (G.listen) G.listen(ev, d); }
 
+/** Durée de l'alerte d'un ennemi : la sienne, + l'avance du talisman Clé des toits (même coup, visible plus tôt). */
+export const windOf = e => e.T.wind + (e.lead || 0);
+
 export const heroPos = () => ({ x: G.W / 2, y: G.H * 0.78 });

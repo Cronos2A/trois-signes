@@ -1,10 +1,12 @@
 // Le Voyage : écran de transition entre deux arènes (nom, décor, « +30 % PV », touchable pour passer),
-// puis, la première fois qu'une arène est atteinte, l'écran « Arène découverte » et son coffre de cosmétiques.
+// puis, la première fois qu'une arène est atteinte, l'écran « Arène découverte » et le coffre du gardien battu (talisman).
 // Ces écrans couvrent tout l'écran : leurs appuis ne deviennent jamais des gestes de jeu.
 import { D } from '../data.js';
 import { decorUrl } from './assets.js';
 import { facets, INK } from './icons.js';
 import { sfx } from '../audio/audio.js';
+import { talismanData } from '../game/talismans.js';
+import { itemIcon, tpl } from './weapon-ui.js';
 
 const $ = id => document.getElementById(id);
 let el = null, close = null, finish = null, gen = 0;
@@ -65,12 +67,15 @@ export async function showTransition(info) {
       ${info.heal ? `<span class="vy-heal">+${Math.round(info.heal * 100)} % PV</span>` : ''}
     </div><span class="vy-tap">toucher pour passer</span>`, bg, T.duration);
   if (!info.first || g !== gen) return hide();
-  const C = D.voyage.chest;
+  // Coffre du gardien qu'on vient de battre : son talisman (data/talismans.json). Sinon, simple découverte de l'arène.
+  const U = D.talismans.ui, prev = info.index > 0 ? D.voyage.arenas[info.index - 1] : null;
+  const loot = (info.rewards || []).map(r => talismanData(r.id)).filter(Boolean);
   sfx('deblocage');
   await screen(`${facets.bg()}<div class="vy-in">
       <span class="vy-kick">ARÈNE DÉCOUVERTE</span>
       <h1 class="vy-name small">${info.name}</h1>
-      <div class="vy-chest">${chest(info.tint)}<b>${C.title}</b><span>${C.soon}</span></div>
+      ${loot.length ? `<div class="vy-chest">${chest(info.tint)}<b>${U.chestTitle}</b>${prev ? `<span>${tpl(U.chestOpened, { arena: prev.name })}</span>` : ''}
+        ${loot.map(t => `<div class="vy-loot">${itemIcon('talismans', t.id, 40)}<div><b>${t.name}</b><span>${t.text}</span></div></div>`).join('')}</div>` : ''}
     </div><span class="vy-tap">toucher pour continuer</span>`, grad(info.tint), 0, T.discoveryMin);
   hide();
 }

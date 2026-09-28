@@ -56,9 +56,5 @@
   "beyond": {
     "id": "au_dela", "name": "Au-delà du Silence", "decor": "coeur_silence", "tint": "#2E2A3F",
     "bruteShare": 0.7, "enemies": 3, "escort": ["brute"]
-  },
-  "chest": {
-    "title": "Coffre de cosmétiques",
-    "soon": "Les cosmétiques de cette arène arrivent bientôt : ton coffre t'attend."
   }
 }

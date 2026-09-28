@@ -26,14 +26,29 @@ export function emptyStats() {
 /** Gestes identiques de suite pour un combo : 4, ou moins avec un passif (Ilwen). */
 export const comboLength = () => (G.hero && G.hero.comboLength) || D.grades.comboLength;
 
-/** Enregistre un geste dans la série et remplit la jauge. Renvoie le multiplicateur de combo (1 si pas de combo). */
-export function registerGrade(g) {
+/**
+ * Enregistre un geste dans la série et remplit la jauge. Renvoie le multiplicateur de combo (1 si pas de combo).
+ * source : 'gesture' (tracé) ou 'pickup' (ramassage), pour les talismans Marque-page et Craie ancienne.
+ */
+export function registerGrade(g, source = 'gesture') {
   G.stats[g ? g.name : D.grades.miss.name]++;
   if (g) gradeNotes(D.grades.levels.length - D.grades.levels.indexOf(g)); else sfx('geste_rate');
-  if (!g) { G.streak = { name: null, n: 0 }; return 1; }
+  const T = G.talisman || {}, keep = source === 'pickup' && !!T.pickupKeepsStreak;   // Marque-page
+  if (!g) {
+    if (keep) return 1;
+    if (source === 'gesture' && G.streak.n > 0 && (G.missForgiven || 0) < (T.missForgivenPerRound || 0)) {   // Craie ancienne
+      G.missForgiven = (G.missForgiven || 0) + 1;
+      const h = heroPos();
+      pop(h.x, h.y - 110, D.talismans.ui.forgiven, '', '#FFD23F', 1, 18);
+      return 1;
+    }
+    G.streak = { name: null, n: 0 };
+    return 1;
+  }
   addGauge(g);
   if (G.hero && G.hero.noCombo) return 1;          // Boran : jamais de combo, pas de série
   if (G.streak.name === g.name) G.streak.n++;
+  else if (keep && G.streak.n > 0) return 1;       // Marque-page : un ramassage d'un autre niveau laisse la série telle quelle
   else G.streak = { name: g.name, n: 1 };
   if (G.streak.n < comboLength()) return 1;
   return comboHit(g);
@@ -44,14 +59,14 @@ export function registerGrade(g) {
  * fromSuper : combo offert par la super, qui ne remplit pas la jauge.
  */
 export function comboHit(g, fromSuper) {
-  const T = (G.weapon && G.weapon.talent) || {};
-  const cm = g.combo + (T.comboBonus || 0);          // Grimoire (talent) : multiplicateur de combo plus fort
+  const T = (G.weapon && G.weapon.style) || {};
+  const cm = g.combo + (T.comboBonus || 0);          // Grimoire (style) : multiplicateur de combo plus fort
   G.streak = { name: null, n: 0 };
   G.combos++;
   addScore(D.grades.comboScore);
   gainWeaponXp(xpFor('combo'));
   const h = heroPos();
-  if (T.comboHeal && G.hero && G.hero.hp < G.hero.max) {   // Épée (talent) : chaque combo soigne
+  if (T.comboHeal && G.hero && G.hero.hp < G.hero.max) {   // Épée, Bâton de sève (style) : chaque combo soigne
     const got = Math.min(T.comboHeal, G.hero.max - G.hero.hp);
     G.hero.hp += got;
     pop(h.x - 44, h.y - 44, '+' + fmt(got) + ' PV', '', '#8CF09A', 0.9, 20);

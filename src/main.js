@@ -6,7 +6,10 @@ import { handleGesture, useSuper, updateSummons } from './game/combat.js';
 import { emptyStats } from './game/grades.js';
 import { updateEnemies, updateWaves } from './game/enemies.js';
 import { attackMult, grantXp, prog } from './game/progress.js';
-import { weaponBonuses, bonusesOn, grantWeaponXp } from './game/weapons.js';
+import { weaponBonuses, grantWeaponXp, equippedWeapon, startWeapon } from './game/weapons.js';
+import { talismanEffect } from './game/talismans.js';
+import { syncRewards } from './game/rewards.js';
+import { showRewards } from './ui/reward-ui.js';
 import { rand } from './util.js';
 import { draw } from './ui/hud.js';
 import { prepareCombatArt, paintBackground } from './ui/combat-art.js';
@@ -55,9 +58,12 @@ function prepareArt(c, battle) {
 function resetGame(c, battle) {
   G.charId = c.id;
   G.battle = battle;
-  // Arme du héros (data/weapons.json) : bonus de son niveau, neutralisés en Duel ; XP gagnée pendant la partie.
-  const Wb = weaponBonuses(c.weapon, !bonusesOn(battle));
+  // Arme équipée (data/weapons.json) et talisman (data/talismans.json) ; en Duel, bonus neutralisés selon les données.
+  // La leçon garde l'arme de départ, sans talisman.
+  const duel = !!battle.duel, wid = battle.tutorial ? startWeapon(c.id) : equippedWeapon(c.id);
+  const Wb = weaponBonuses(wid, duel);
   G.weapon = { ...Wb, gain: 0 };
+  G.talisman = battle.tutorial ? {} : talismanEffect(c.id, duel);
   G.atkMult = attackMult(c.id) * Wb.atk;
   const P = c.passive || {};
   G.hero = {
@@ -65,12 +71,13 @@ function resetGame(c, battle) {
     // Passifs (data/characters.json) : pas de combo, combo plus court, esquive de base, soin par attaque.
     noCombo: !!P.noCombo, comboLength: P.comboLength || D.grades.comboLength,
     dodgeBase: P.dodgeBase ?? D.rules.dodge.base, healPerHit: P.healPerHit || 0,
-    super: c.super, gauge: 0, sp: null, summon: P.summon || null
+    super: c.super, gauge: (G.talisman.gaugeStart || 0) * D.characters.superGauge.max, sp: null,   // Plume de vent
+    barrier: 0, dodgeBonus: 0, shieldGrade: null, summon: P.summon || null
   };
   Object.assign(G, {
     enemies: [], loots: [], summons: [], fx: [], pops: [], trails: [],
     time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, scoreMult: 1, paused: false, voyage: null, listen: null, tuto: null, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
-    streak: { name: null, n: 0 }, combos: 0, globalGap: 0, stats: emptyStats()
+    streak: { name: null, n: 0 }, missForgiven: 0, combos: 0, globalGap: 0, stats: emptyStats()
   });
 }
 
@@ -181,6 +188,7 @@ function endGame(why) {
   sfx(why === 'win' ? 'victoire' : 'defaite');
   music('musique_lobby');
   showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos, voyage: G.voyage, weapon });
+  showRewards(syncRewards());              // talisman d'un gardien battu juste avant le KO
 }
 
 /* ---------- Démarrage ---------- */
@@ -217,7 +225,11 @@ async function init() {
   window.__tsReady = true;
   requestAnimationFrame(loop);
   // Premier démarrage : prologue, puis la première leçon.
-  maybePrologue().then(first => { if (first && !prog.tutorial) startTutorial(); });
+  // Sinon : récompenses déjà méritées et pas encore reçues (sauvegardes d'avant les armes alternatives et talismans).
+  maybePrologue().then(first => {
+    if (first && !prog.tutorial) return startTutorial();
+    return showRewards(syncRewards()).then(showLobby);
+  });
 }
 
 init();

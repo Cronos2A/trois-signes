@@ -8,6 +8,7 @@ import { pop } from './effects.js';
 import { reachArena } from './progress.js';
 import { enemyUrl, who } from '../ui/assets.js';
 import { placeMusic } from '../audio/audio.js';
+import { syncRewards } from './rewards.js';
 
 const V = () => D.voyage;
 const ARENAS = () => V().arenas.length;
@@ -54,13 +55,14 @@ export async function voyageBattle(hooks) {
     sprite[id] = url ? 'x_' + id : 'boss';                         // sans sprite : celui du boss du Solo
     if (url) art.push({ key: 'x_' + id, url, height: V().guardianHeight, fallback: 'boss' });
   }
+  const arenaOf = id => (V().arenas.find(a => a.guardian === id) || {}).id;   // talisman gardé par ce gardien
   const guardianType = (id, m) => {
-    if (D.enemies[id]) return { ...scaled(D.enemies[id], m), special: true };
+    if (D.enemies[id]) return { ...scaled(D.enemies[id], m), special: true, guardianOf: arenaOf(id) };
     const base = id === 'eldan_oublie' ? V().guardianEldan : V().guardian;
     return {
       ...scaled({ ...D.enemies.boss, hp: base.hp, dmg: base.dmg, wind: base.wind }, m),
       name: who(id).name, pts: base.pts, sprite: sprite[id], special: true,
-      mech: id === 'eldan_oublie' ? 'eldan' : null
+      mech: id === 'eldan_oublie' ? 'eldan' : null, guardianOf: arenaOf(id)
     };
   };
 
@@ -82,9 +84,11 @@ export async function voyageBattle(hooks) {
           h.hp = Math.min(h.max, h.hp + h.max * heal);
           pop(p.x, p.y - 90, '+' + Math.round(heal * 100) + ' % PV', '', '#8CF09A', 1.4, 24);
         }
-        const first = reachArena(info.id, st.stage) && st.stage < ARENAS();   // coffre : les 8 arènes seulement
+        // Coffre : le talisman du gardien qu'on vient de battre (écran « Arène découverte »).
+        const rewards = syncRewards().filter(r => r.kind === 'talisman');
+        const first = (reachArena(info.id, st.stage) && st.stage < ARENAS()) || rewards.length > 0;
         G.paused = true;
-        hooks.onStage({ ...info, heal, first, total: ARENAS() }).then(() => { G.paused = false; });
+        hooks.onStage({ ...info, heal, first, rewards, total: ARENAS() }).then(() => { G.paused = false; });
         return false;
       }
       G.scoreMult = m.score;
