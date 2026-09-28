@@ -70,7 +70,7 @@
     },
     "couteaux_lancer": {
       "name": "Couteaux de lancer", "hero": "nyra", "unlock": { "story": 5 }, "lock": "Gagne le combat 5 de ton histoire", "autorise_en_duel": true,
-      "style": { "text": "Vise toujours l'ennemi le plus faible ; chaque ennemi vaincu donne +{gaugePerKill} de jauge de super.", "scale": { "gaugePerKill": 10 }, "fixed": { "targetWeakest": true } }
+      "style": { "text": "Vise toujours l'ennemi le plus faible ; chaque ennemi vaincu donne +{gaugePerKill} de jauge de super.", "scale": { "gaugePerKill": 15 }, "fixed": { "targetWeakest": true } }
     },
     "lame_ombre": {
       "name": "Lame d'ombre", "hero": "nyra", "unlock": { "story": 10 }, "lock": "Gagne le combat 10 de ton histoire", "autorise_en_duel": true,
