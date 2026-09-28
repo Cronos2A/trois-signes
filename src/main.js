@@ -15,6 +15,7 @@ import { initLobby, showLobby, hideLobby, showResults, activeCharacter } from '.
 import { initStory, openStory, maybePrologue } from './story/story.js';
 import { voyageBattle } from './game/voyage.js';
 import { showTransition, hideTransition } from './ui/voyage-ui.js';
+import { initAudio, sfx, music, placeMusic, traceStart, traceStop } from './audio/audio.js';
 
 const $ = id => document.getElementById(id);
 const cv = $('c'), ctx = cv.getContext('2d');
@@ -27,6 +28,8 @@ const idleBattle = () => ({ waves: [], types: {}, art: [], timeLimit: 0, label: 
 const newVoyage = () => voyageBattle({
   onStage: info => {
     paintBackground($('bg'), G.W, G.H, dpr, G.battle.lieu, G.battle.bg).catch(() => {});
+    music(placeMusic(info.id));
+    sfx('nouvelle_arene');
     return showTransition(info);
   }
 });
@@ -105,6 +108,8 @@ function loop(now) {
   last = now;
   update(dt);
   if (G.mode === 'play' || G.mode === 'train') draw(ctx, dt);
+  // Son de tracé : en boucle tant que le doigt trace (pas pour un simple tap), coupé au relâchement.
+  if (G.drawing && G.drawing.pts.length > 3 && (G.mode === 'play' || G.mode === 'train')) traceStart(); else traceStop();
   if (G.trainMsg !== shownMsg) { shownMsg = G.trainMsg; $('trainPanel').textContent = shownMsg; }
   requestAnimationFrame(loop);
 }
@@ -131,7 +136,9 @@ function toLobby() {
   setInGame(false);
   curChar = null; curBattle = null;
   hideTransition();
+  traceStop();
   if (b && b.onQuit) b.onQuit();          // Histoire : « Quitter » ramène au chemin des combats
+  else music('musique_lobby');
 }
 
 let starting = false;
@@ -150,6 +157,7 @@ async function start(mode, opts = {}) {
   setupHud(c);
   G.mode = mode;
   setInGame(true);
+  if (mode === 'train') music('musique_tuto');
   if (mode === 'train') G.trainMsg = 'Tracez des triangles et des ronds, tapez sur les objets. La précision s’affiche à chaque geste.';
 }
 
@@ -161,7 +169,10 @@ function endGame(why) {
   document.documentElement.classList.remove('in-game');
   const b = G.battle;
   curChar = null; curBattle = null;
+  traceStop();
   if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score }); return; }
+  sfx(why === 'win' ? 'victoire' : 'defaite');
+  music('musique_lobby');
   showResults({ why, score: G.score, time: G.time, gain, levelUp: after > before, record, stats: G.stats, combos: G.combos, voyage: G.voyage });
 }
 
@@ -176,6 +187,7 @@ async function init() {
     $('loadErr').classList.remove('hidden');
     return;
   }
+  initAudio();                             // effets chargés maintenant, musiques à la demande
   attachInput(cv, {
     isActive: () => G.mode === 'play' || G.mode === 'train',
     onDraw: d => { G.drawing = d; },
@@ -183,7 +195,7 @@ async function init() {
   });
   initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play'), story: openStory });
   initStory({ startBattle: opts => start('play', opts), toLobby: showLobby });
-  $('quit').onclick = toLobby;
+  $('quit').onclick = () => { sfx('ui_clic'); toLobby(); };
   // Bouton de super : réagit dès l'appui, et l'appui n'atteint jamais le canvas (pas de tap ni de tracé).
   $('superBtn').addEventListener('pointerdown', e => {
     e.preventDefault(); e.stopPropagation();

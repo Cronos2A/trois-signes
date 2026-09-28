@@ -3,6 +3,7 @@
 // 01 choix des histoires, 02 chemin des 10 combats, 05 fin d'histoire (fragment), 06 déblocage d'Eldan,
 // plus l'écran de défaite. Pur affichage : les actions sont passées par story/story.js.
 import { D } from '../data.js';
+import { sfx } from '../audio/audio.js';
 import { glyph, facets, facetSvg } from './icons.js';
 import { landscape, fragIcon, fragPips, bigFragment, silhouette, typeIcon, lockIcon, checkIcon, backIcon } from './story-art.js';
 
@@ -18,6 +19,7 @@ function ensure() {
     const b = e.target.closest('[data-act]');
     if (!b || b.disabled) return;
     const f = handlers[b.dataset.act];
+    sfx('ui_clic');
     if (f) f(b.dataset.arg);
   });
 }

@@ -4,9 +4,14 @@ import { G, heroPos, addScore } from './state.js';
 import { pop, addFx, vibrate } from './effects.js';
 import { fmt } from '../util.js';
 import { addGauge } from './supers.js';
+import { settings } from './settings.js';
+import { gradeNotes, sfx } from '../audio/audio.js';
 
+/** Seuils abaissés de toleranceLarge points avec la « Tolérance des gestes : Large » des réglages. */
+export const toleranceOffset = () => settings.tolerance === 'large' ? D.grades.toleranceLarge : 0;
 export function gradeOf(acc) {
-  for (const g of D.grades.levels) if (acc >= g.min) return g;
+  const off = toleranceOffset();
+  for (const g of D.grades.levels) if (acc >= g.min - off) return g;
   return null;
 }
 export const gradeByName = name => D.grades.levels.find(g => g.name === name);
@@ -24,6 +29,7 @@ export const comboLength = () => (G.hero && G.hero.comboLength) || D.grades.comb
 /** Enregistre un geste dans la série et remplit la jauge. Renvoie le multiplicateur de combo (1 si pas de combo). */
 export function registerGrade(g) {
   G.stats[g ? g.name : D.grades.miss.name]++;
+  if (g) gradeNotes(D.grades.levels.length - D.grades.levels.indexOf(g)); else sfx('geste_rate');
   if (!g) { G.streak = { name: null, n: 0 }; return 1; }
   addGauge(g);
   if (G.hero && G.hero.noCombo) return 1;          // Boran : jamais de combo, pas de série
@@ -46,6 +52,7 @@ export function comboHit(g, fromSuper) {
   pop(G.W / 2, G.H * 0.5, 'Combo ' + g.name, 'effet ×' + fmt(cm), g.col, 1.4, 30);
   addFx({ kind: 'burst', x: h.x, y: h.y, col: g.col, life: 0.8, r: 40 });
   vibrate([30, 40, 30]);
+  sfx('combo');
   if (!fromSuper) addGauge(g, true);
   return cm;
 }

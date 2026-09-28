@@ -236,3 +236,21 @@
 .res-score{font-family:var(--font-heading);font-size:34px;line-height:1;text-align:center}
 .res-score small{font-size:15px;color:var(--text-soft)}
 .res-record{align-self:center;padding:4px 14px;border-radius:999px;background:var(--sun);border:3px solid var(--ink);font-family:var(--font-heading);font-size:16px;box-shadow:0 3px 0 var(--ink)}
+
+/* ---------- Réglages ---------- */
+.gear-btn{align-self:flex-start;width:40px;height:40px;flex-shrink:0;border-radius:50%;border:3px solid var(--ink);background:var(--btn-leaf);box-shadow:0 3px 0 var(--ink);display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+.gear-btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.set-card{gap:14px}
+.set-title{color:var(--sun)}
+.set-row{display:flex;flex-direction:column;gap:6px}
+.set-label{font-family:var(--font-heading);font-size:17px;line-height:1}
+.set-note{font-size:12px;font-weight:700;color:var(--text-soft)}
+.set-chips .chip{flex:1;font-size:14px}
+.set-vol{display:flex;align-items:center;gap:10px}
+.set-vol b{width:50px;text-align:right;font-family:var(--font-heading);font-weight:400;font-size:15px}
+.set-vol input{flex:1;height:30px;margin:0;background:none;-webkit-appearance:none;appearance:none;touch-action:none}
+.set-vol input::-webkit-slider-runnable-track{height:16px;border:3px solid var(--ink);border-radius:999px;background:linear-gradient(90deg,var(--lime) var(--v),var(--forest) var(--v));box-sizing:border-box}
+.set-vol input::-moz-range-track{height:16px;border:3px solid var(--ink);border-radius:999px;background:var(--forest);box-sizing:border-box}
+.set-vol input::-moz-range-progress{height:10px;border-radius:999px;background:var(--lime)}
+.set-vol input::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-9px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);box-sizing:border-box}
+.set-vol input::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);box-sizing:border-box}

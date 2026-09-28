@@ -2,6 +2,7 @@
 // (superGauge pour la jauge, "super" de chaque personnage pour ses effets).
 import { D } from '../data.js';
 import { G } from './state.js';
+import { sfx } from '../audio/audio.js';
 
 const gauge = () => D.characters.superGauge;
 
@@ -12,7 +13,9 @@ const gauge = () => D.characters.superGauge;
 export function addGauge(g, combo) {
   const h = G.hero, J = gauge();
   if (!g || !h || superActive()) return;
+  const before = h.gauge;
   h.gauge = Math.min(J.max, h.gauge + (combo ? J.comboBonus : J.gain[g.name] || 0));
+  if (before < J.max && h.gauge >= J.max) sfx('super_pleine');
 }
 
 /** Une super est en cours tant que sa durée ou ses charges (esquives, combos) ne sont pas épuisées. */

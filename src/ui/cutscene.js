@@ -7,6 +7,7 @@ import { D } from '../data.js';
 import { portraitUrl, decorUrl, who, placeName } from './assets.js';
 import { facets } from './icons.js';
 import { silhouette, skipIcon, chevron } from './story-art.js';
+import { sfx, duck } from '../audio/audio.js';
 
 const $ = id => document.getElementById(id);
 let el = null;
@@ -58,6 +59,7 @@ export function playScene(lines, { decor: startDecor } = {}) {
       if (done) return;
       done = true;
       clearInterval(timer);
+      duck(false);
       el.classList.add('hidden');
       el.onclick = null; $('csSkip').onclick = null;
       resolve();
@@ -68,6 +70,7 @@ export function playScene(lines, { decor: startDecor } = {}) {
       clearInterval(timer);
       timer = setInterval(() => {
         shown = Math.min(full.length, shown + 1);
+        if (shown % D.audio.textTickEvery === 0 && full[shown - 1] !== ' ') sfx('texte');
         $('csText').textContent = full.slice(0, shown);
         if (shown >= full.length) complete();
       }, 1000 / speed);
@@ -76,6 +79,7 @@ export function playScene(lines, { decor: startDecor } = {}) {
     const next = async () => {
       if (busy) return;
       if (++i >= lines.length) return finish();
+      if (i > 0) sfx('page');
       busy = true;
       const L = lines[i], narr = L.qui === 'narrateur';
       if (L.decor) decor = L.decor;
@@ -113,6 +117,7 @@ export function playScene(lines, { decor: startDecor } = {}) {
     };
     $('csSkip').onclick = e => { e.stopPropagation(); finish(); };
     el.classList.remove('hidden');
+    duck(true);                      // musique baissée de moitié pendant les dialogues
     next();
   });
 }
