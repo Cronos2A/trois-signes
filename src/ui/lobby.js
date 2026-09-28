@@ -272,17 +272,14 @@ function renderSettings() {
     return `<div class="set-row"><span class="set-label">${label}</span>
       <div class="set-vol"><input type="range" min="0" max="100" step="5" value="${v}" data-vol="${k}" aria-label="Volume ${label}" style="--v:${v}%"><b>${v} %</b></div></div>`;
   };
-  const pick = (key, label, opts, note = '') => `<div class="set-row"><span class="set-label">${label}</span>
+  const pick = (key, label, opts) => `<div class="set-row"><span class="set-label">${label}</span>
       <div class="chips set-chips">${opts.map(([val, txt, on]) =>
-        `<button class="chip${on ? ' on' : ''}" data-act="set" data-key="${key}" data-arg="${val}" aria-pressed="${on}">${txt}</button>`).join('')}</div>${note}</div>`;
-  const large = settings.tolerance === 'large';
+        `<button class="chip${on ? ' on' : ''}" data-act="set" data-key="${key}" data-arg="${val}" aria-pressed="${on}">${txt}</button>`).join('')}</div></div>`;
   $('settings').innerHTML = `<div class="res-card set-card">
       <div class="res-title ol ol-5 set-title">Réglages</div>
       ${vol('music', 'Musique')}
       ${vol('sfx', 'Effets')}
       ${pick('vibrate', 'Vibrations', [['1', 'Oui', settings.vibrate], ['0', 'Non', !settings.vibrate]])}
-      ${pick('tolerance', 'Tolérance des gestes', [['normale', 'Normale', !large], ['large', 'Large', large]],
-        `<span class="set-note">Large : seuils de réussite abaissés de ${D.grades.toleranceLarge} points.</span>`)}
       <button class="res-again" data-act="closeSettings"><span class="ol ol-4">Fermer</span></button>
     </div>`;
 }

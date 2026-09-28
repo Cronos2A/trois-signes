@@ -4,13 +4,10 @@ import { G, heroPos, addScore } from './state.js';
 import { pop, addFx, vibrate } from './effects.js';
 import { fmt } from '../util.js';
 import { addGauge } from './supers.js';
-import { settings } from './settings.js';
 import { gradeNotes, sfx } from '../audio/audio.js';
 
-/** Seuils abaissés de toleranceLarge points avec la « Tolérance des gestes : Large » des réglages. */
-/** Pendant la leçon guidée, les seuils sont encore abaissés (data/tutorial.json → tolerance). */
-export const toleranceOffset = () => (settings.tolerance === 'large' ? D.grades.toleranceLarge : 0) +
-  (G.battle && G.battle.tutorial ? D.tutorial.tolerance : 0);
+/** Seuils identiques pour tous ; seule la leçon guidée les abaisse (data/tutorial.json → tolerance). */
+export const toleranceOffset = () => (G.battle && G.battle.tutorial ? D.tutorial.tolerance : 0);
 export function gradeOf(acc) {
   const off = toleranceOffset();
   for (const g of D.grades.levels) if (acc >= g.min - off) return g;
