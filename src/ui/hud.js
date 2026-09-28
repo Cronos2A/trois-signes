@@ -51,7 +51,7 @@ function enemyFoot(e) {
   const S = ART[e.T.sprite];
   if (!S) return { x: e.x, y: e.y, h: 0 };
   const ty = e.sy * G.H;
-  const minFoot = G.safeTop + HUD_BOTTOM + 34 + (S.fy - S.hy);
+  const minFoot = G.safeTop + HUD_BOTTOM + (G.battle && G.battle.endless ? 44 : 34) + (S.fy - S.hy);   // Voyage : place pour le nom de l'arène
   return { x: e.x, y: Math.max(ty + 0.45 * S.h, minFoot) + (e.y - ty), h: S.h };
 }
 

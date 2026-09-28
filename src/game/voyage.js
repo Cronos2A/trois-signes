@@ -70,7 +70,7 @@ export async function voyageBattle(hooks) {
     /** Prépare le round i. Renvoie false si un écran de transition vient de s'ouvrir (le round attend). */
     prepare(i) {
       const st = stageOf(i), info = stageInfo(st.stage), m = scaling(i);
-      if (st.round === 0 && st.stage !== entered) {
+      if (st.stage !== entered) {                                   // nouvelle arène (normalement au 1er round)
         entered = st.stage;
         B.lieu = info.decor;
         B.bg = st.stage === 0 ? null : { tint: info.tint, title: info.name };

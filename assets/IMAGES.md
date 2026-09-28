@@ -5,112 +5,114 @@ Liste générée depuis `data/story_mode.json`. Toutes sont facultatives : tant 
 
 Format : SVG, nommé exactement comme ci-dessous. ✅ = présent, ⬜ = manquant.
 
+Portraits et sprites de combat : `design/trois-signes-character-sheet` (Claude Design, générés par `project/tools/story-engine.js`).
+
 ## Portraits des héros (`assets/portraits/`)
 
 `neutre` sert de repli pour toutes les autres expressions.
 
 - ✅ `assets/portraits/aldric_neutre.svg` — repli obligatoire
-- ⬜ `assets/portraits/aldric_joie.svg`
-- ⬜ `assets/portraits/aldric_colere.svg`
-- ⬜ `assets/portraits/aldric_tristesse.svg`
-- ⬜ `assets/portraits/aldric_surprise.svg`
-- ⬜ `assets/portraits/aldric_determine.svg`
+- ✅ `assets/portraits/aldric_joie.svg`
+- ✅ `assets/portraits/aldric_colere.svg`
+- ✅ `assets/portraits/aldric_tristesse.svg`
+- ✅ `assets/portraits/aldric_surprise.svg`
+- ✅ `assets/portraits/aldric_determine.svg`
 - ✅ `assets/portraits/nyra_neutre.svg` — repli obligatoire
-- ⬜ `assets/portraits/nyra_joie.svg`
-- ⬜ `assets/portraits/nyra_colere.svg`
-- ⬜ `assets/portraits/nyra_tristesse.svg`
-- ⬜ `assets/portraits/nyra_surprise.svg`
-- ⬜ `assets/portraits/nyra_determine.svg`
+- ✅ `assets/portraits/nyra_joie.svg`
+- ✅ `assets/portraits/nyra_colere.svg`
+- ✅ `assets/portraits/nyra_tristesse.svg`
+- ✅ `assets/portraits/nyra_surprise.svg`
+- ✅ `assets/portraits/nyra_determine.svg`
 - ✅ `assets/portraits/boran_neutre.svg` — repli obligatoire
-- ⬜ `assets/portraits/boran_joie.svg`
-- ⬜ `assets/portraits/boran_colere.svg`
-- ⬜ `assets/portraits/boran_tristesse.svg`
-- ⬜ `assets/portraits/boran_surprise.svg`
-- ⬜ `assets/portraits/boran_determine.svg`
+- ✅ `assets/portraits/boran_joie.svg`
+- ✅ `assets/portraits/boran_colere.svg`
+- ✅ `assets/portraits/boran_tristesse.svg`
+- ✅ `assets/portraits/boran_surprise.svg`
+- ✅ `assets/portraits/boran_determine.svg`
 - ✅ `assets/portraits/ilwen_neutre.svg` — repli obligatoire
-- ⬜ `assets/portraits/ilwen_joie.svg`
-- ⬜ `assets/portraits/ilwen_colere.svg`
-- ⬜ `assets/portraits/ilwen_tristesse.svg`
-- ⬜ `assets/portraits/ilwen_surprise.svg`
-- ⬜ `assets/portraits/ilwen_determine.svg`
+- ✅ `assets/portraits/ilwen_joie.svg`
+- ✅ `assets/portraits/ilwen_colere.svg`
+- ✅ `assets/portraits/ilwen_tristesse.svg`
+- ✅ `assets/portraits/ilwen_surprise.svg`
+- ✅ `assets/portraits/ilwen_determine.svg`
 - ✅ `assets/portraits/kestrel_neutre.svg` — repli obligatoire
-- ⬜ `assets/portraits/kestrel_joie.svg`
-- ⬜ `assets/portraits/kestrel_colere.svg`
-- ⬜ `assets/portraits/kestrel_tristesse.svg`
-- ⬜ `assets/portraits/kestrel_surprise.svg`
-- ⬜ `assets/portraits/kestrel_determine.svg`
+- ✅ `assets/portraits/kestrel_joie.svg`
+- ✅ `assets/portraits/kestrel_colere.svg`
+- ✅ `assets/portraits/kestrel_tristesse.svg`
+- ✅ `assets/portraits/kestrel_surprise.svg`
+- ✅ `assets/portraits/kestrel_determine.svg`
 - ✅ `assets/portraits/mira_neutre.svg` — repli obligatoire
-- ⬜ `assets/portraits/mira_joie.svg`
-- ⬜ `assets/portraits/mira_colere.svg`
-- ⬜ `assets/portraits/mira_tristesse.svg`
-- ⬜ `assets/portraits/mira_surprise.svg`
-- ⬜ `assets/portraits/mira_determine.svg`
+- ✅ `assets/portraits/mira_joie.svg`
+- ✅ `assets/portraits/mira_colere.svg`
+- ✅ `assets/portraits/mira_tristesse.svg`
+- ✅ `assets/portraits/mira_surprise.svg`
+- ✅ `assets/portraits/mira_determine.svg`
 
 ## Portraits d'Eldan et des personnages secondaires
 
-- ⬜ `assets/portraits/eldan_colere.svg`
-- ⬜ `assets/portraits/eldan_determine.svg`
-- ⬜ `assets/portraits/eldan_joie.svg`
-- ⬜ `assets/portraits/eldan_neutre.svg`
-- ⬜ `assets/portraits/eldan_surprise.svg`
-- ⬜ `assets/portraits/eldan_tristesse.svg`
-- ⬜ `assets/portraits/maud_neutre.svg`
-- ⬜ `assets/portraits/pip_neutre.svg`
-- ⬜ `assets/portraits/lili_joie.svg`
-- ⬜ `assets/portraits/lili_neutre.svg`
-- ⬜ `assets/portraits/lili_surprise.svg`
-- ⬜ `assets/portraits/aubin_joie.svg`
-- ⬜ `assets/portraits/aubin_neutre.svg`
-- ⬜ `assets/portraits/fabre_neutre.svg` — repli
-- ⬜ `assets/portraits/fabre_ombrace.svg`
-- ⬜ `assets/portraits/fabre_surprise.svg`
-- ✅ `assets/portraits/sbire_ombrace.svg`
+- ✅ `assets/portraits/eldan_neutre.svg`
+- ✅ `assets/portraits/eldan_joie.svg`
+- ✅ `assets/portraits/eldan_colere.svg`
+- ✅ `assets/portraits/eldan_tristesse.svg`
+- ✅ `assets/portraits/eldan_surprise.svg`
+- ✅ `assets/portraits/eldan_determine.svg`
+- ✅ `assets/portraits/maud_neutre.svg`
+- ✅ `assets/portraits/pip_neutre.svg`
+- ✅ `assets/portraits/lili_joie.svg`
+- ✅ `assets/portraits/lili_neutre.svg`
+- ✅ `assets/portraits/lili_surprise.svg`
+- ✅ `assets/portraits/aubin_joie.svg`
+- ✅ `assets/portraits/aubin_neutre.svg`
+- ✅ `assets/portraits/fabre_neutre.svg` — repli
+- ✅ `assets/portraits/fabre_ombrace.svg`
+- ✅ `assets/portraits/fabre_surprise.svg`
+- ✅ `assets/portraits/sbire_ombrace.svg` —  — provisoire, tiré de la planche de combat
 
 ## Boss : deux formes (`_ombrace` = forme d'ennemi, `_humain` = forme humaine, utilisée pour neutre / joie / tristesse)
 
-- ⬜ `assets/portraits/bram_ombrace.svg`
-- ⬜ `assets/portraits/bram_humain.svg`
-- ⬜ `assets/portraits/corvin_ombrace.svg`
-- ⬜ `assets/portraits/corvin_humain.svg`
-- ⬜ `assets/portraits/sorel_ombrace.svg`
-- ⬜ `assets/portraits/sorel_humain.svg`
-- ⬜ `assets/portraits/reflet_ombrace.svg`
-- ⬜ `assets/portraits/reflet_humain.svg`
-- ⬜ `assets/portraits/tonnerre_ombrace.svg`
-- ⬜ `assets/portraits/tonnerre_humain.svg`
-- ⬜ `assets/portraits/oren_ombrace.svg`
-- ⬜ `assets/portraits/oren_humain.svg`
-- ⬜ `assets/portraits/archiviste_ombrace.svg`
-- ⬜ `assets/portraits/archiviste_humain.svg`
-- ⬜ `assets/portraits/selena_ombrace.svg`
-- ⬜ `assets/portraits/selena_humain.svg`
-- ⬜ `assets/portraits/traqueur_ombrace.svg`
-- ⬜ `assets/portraits/traqueur_humain.svg`
-- ⬜ `assets/portraits/hardel_ombrace.svg`
-- ⬜ `assets/portraits/hardel_humain.svg`
-- ⬜ `assets/portraits/helo_ombrace.svg`
-- ⬜ `assets/portraits/helo_humain.svg`
-- ⬜ `assets/portraits/veilleuse_ombrace.svg`
-- ⬜ `assets/portraits/veilleuse_humain.svg`
-- ⬜ `assets/portraits/eldan_oublie_ombrace.svg`
+- ✅ `assets/portraits/bram_ombrace.svg`
+- ✅ `assets/portraits/bram_humain.svg`
+- ✅ `assets/portraits/corvin_ombrace.svg`
+- ✅ `assets/portraits/corvin_humain.svg`
+- ✅ `assets/portraits/sorel_ombrace.svg`
+- ✅ `assets/portraits/sorel_humain.svg`
+- ✅ `assets/portraits/reflet_ombrace.svg`
+- ✅ `assets/portraits/reflet_humain.svg`
+- ✅ `assets/portraits/tonnerre_ombrace.svg`
+- ✅ `assets/portraits/tonnerre_humain.svg`
+- ✅ `assets/portraits/oren_ombrace.svg`
+- ✅ `assets/portraits/oren_humain.svg`
+- ✅ `assets/portraits/archiviste_ombrace.svg`
+- ✅ `assets/portraits/archiviste_humain.svg`
+- ✅ `assets/portraits/selena_ombrace.svg`
+- ✅ `assets/portraits/selena_humain.svg`
+- ✅ `assets/portraits/traqueur_ombrace.svg`
+- ✅ `assets/portraits/traqueur_humain.svg`
+- ✅ `assets/portraits/hardel_ombrace.svg`
+- ✅ `assets/portraits/hardel_humain.svg`
+- ✅ `assets/portraits/helo_ombrace.svg`
+- ✅ `assets/portraits/helo_humain.svg`
+- ✅ `assets/portraits/veilleuse_ombrace.svg`
+- ✅ `assets/portraits/veilleuse_humain.svg`
+- ✅ `assets/portraits/eldan_oublie_ombrace.svg`
 
 ## Sprites de combat des boss (`assets/ennemis/`, vus de face, pieds en bas)
 
 Sans sprite, le boss prend celui de la brute (mini-boss) ou du boss de la Forêt de Mousse.
 
-- ⬜ `assets/ennemis/bram.svg`
-- ⬜ `assets/ennemis/corvin.svg`
-- ⬜ `assets/ennemis/sorel.svg`
-- ⬜ `assets/ennemis/reflet.svg`
-- ⬜ `assets/ennemis/tonnerre.svg`
-- ⬜ `assets/ennemis/oren.svg`
-- ⬜ `assets/ennemis/archiviste.svg`
-- ⬜ `assets/ennemis/selena.svg`
-- ⬜ `assets/ennemis/traqueur.svg`
-- ⬜ `assets/ennemis/hardel.svg`
-- ⬜ `assets/ennemis/helo.svg`
-- ⬜ `assets/ennemis/veilleuse.svg`
-- ⬜ `assets/ennemis/eldan_oublie.svg`
+- ✅ `assets/ennemis/bram.svg`
+- ✅ `assets/ennemis/corvin.svg`
+- ✅ `assets/ennemis/sorel.svg`
+- ✅ `assets/ennemis/reflet.svg`
+- ✅ `assets/ennemis/tonnerre.svg`
+- ✅ `assets/ennemis/oren.svg`
+- ✅ `assets/ennemis/archiviste.svg`
+- ✅ `assets/ennemis/selena.svg`
+- ✅ `assets/ennemis/traqueur.svg`
+- ✅ `assets/ennemis/hardel.svg`
+- ✅ `assets/ennemis/helo.svg`
+- ✅ `assets/ennemis/veilleuse.svg`
+- ✅ `assets/ennemis/eldan_oublie.svg`
 
 ## Décors (`assets/decors/`, plein écran, portrait 390 × 844 conseillé)
 
