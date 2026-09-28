@@ -2,7 +2,7 @@
 // Recréé d'après la maquette Claude Design design/trois-signes-maquette-lobby,
 // portraits tirés de la planche design/planche-de-personnages-trois-signes.
 import { D } from '../data.js';
-import { prog, levelInfo, charXp, saveActive } from '../game/progress.js';
+import { prog, heroLevel, saveActive } from '../game/progress.js';
 import { art } from './art.js';
 import { glyph, wIcon, trailIcon, facets } from './icons.js';
 import { settings, setSetting } from '../game/settings.js';
@@ -24,6 +24,9 @@ const chars = () => D.characters.characters;
 /** actions : { solo(), train(), again(), story(), lesson() } */
 export function initLobby(a) {
   actions = a;
+  const ring = D.progression.maxRing;                 // anneau doré du niveau maximum
+  document.documentElement.style.setProperty('--lvl-ring', ring.color);
+  document.documentElement.style.setProperty('--lvl-glow', ring.glow);
   const root = $('lobby');
   root.innerHTML = facets.bg() +
     '<header class="lb-head" id="lbHead"></header>' +
@@ -100,17 +103,23 @@ function render() {
   $('tab-shop').innerHTML = shopHtml();
 }
 
+/* ---------- Niveau du héros (textes dans data/progression.json → ui) ---------- */
+const U = () => D.progression.ui;
+const fill = (t, L) => t.replace('{lvl}', L.lvl);
+/** « Nv 12 », ou « Nv 100 · MAX » au niveau maximum. */
+const lvlText = L => fill(L.max ? U().levelMax : U().level, L);
+
 /* ---------- Haut de page commun ---------- */
 function headHtml() {
-  const c = chars()[ui.active], L = levelInfo(charXp(c.id));
+  const c = chars()[ui.active], L = heroLevel(c.id);
   return `<div class="avatar-wrap">
-      <div class="avatar" style="background:${c.color}">${facets.small()}<span class="ol ol-4">${c.name[0]}</span></div>
-      <div class="lvl-badge">${L.lvl}</div>
+      <div class="avatar${L.max ? ' lvl-max' : ''}" style="background:${c.color}">${facets.small()}<span class="ol ol-4">${c.name[0]}</span></div>
+      <div class="lvl-badge${L.max ? ' max' : ''}">${L.lvl}</div>
     </div>
     <div class="head-info">
       <div class="head-name ol ol-4">${c.name}</div>
-      <div class="xpbar"><i style="width:${pct(L.cur, L.need)}%"></i></div>
-      <div class="head-xp">${nf(L.cur)} / ${nf(L.need)} XP</div>
+      <div class="xpbar${L.max ? ' max' : ''}"><i style="width:${L.max ? 100 : pct(L.cur, L.need)}%"></i>${L.max ? '<b>' + U().barMax + '</b>' : ''}</div>
+      <div class="head-xp">${L.max ? lvlText(L) : nf(L.cur) + ' / ' + nf(L.need) + ' XP'}</div>
     </div>
     <div class="head-pills">
       <div class="cur-pill" title="Meilleur score">${glyph('tri', '#FFD23F', 22)}<small>Record</small><span>${nf(prog.best || 0)}</span></div>
@@ -163,7 +172,7 @@ function playHtml() {
 
 /* ---------- 02 · Personnage ---------- */
 function charHtml() {
-  const list = chars(), N = list.length, vi = ui.view, v = list[vi], L = levelInfo(charXp(v.id));
+  const list = chars(), N = list.length, vi = ui.view, v = list[vi], L = heroLevel(v.id);
   const car = list.map((c, i) => {
     let off = ((i - vi) % N + N) % N;
     if (off > N / 2) off -= N;
@@ -185,11 +194,11 @@ function charHtml() {
       <button class="car-arrow" data-act="next" aria-label="Personnage suivant"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
     <div class="char-card">
-      <div class="char-art" style="background:${v.color}">${facets.med()}${art()[v.id]}</div>
+      <div class="char-art${L.max ? ' lvl-max' : ''}" style="background:${v.color}">${facets.med()}${art()[v.id]}</div>
       <div class="char-info">
         <div>
           <div class="char-name">${v.name}</div>
-          <div class="tags"><span class="tag-g">${v.role}</span><span class="tag-y">${soon ? 'Bientôt' : 'Nv ' + L.lvl}</span></div>
+          <div class="tags"><span class="tag-g">${v.role}</span><span class="tag-y${L.max ? ' max' : ''}">${soon ? 'Bientôt' : lvlText(L)}</span></div>
         </div>
         ${stats}
       </div>
@@ -302,7 +311,7 @@ function renderCredits() {
 export function showResults(r) {
   ui.tab = 'play';
   render();
-  const L = levelInfo(charXp(activeCharacter().id));
+  const L = heroLevel(activeCharacter().id);
   const V = r.voyage;
   const title = V ? 'Fin du voyage' : r.why === 'win' ? 'Victoire' : r.why === 'ko' ? 'KO' : 'Temps écoulé';
   const colOf = name => (D.grades.levels.find(g => g.name === name) || D.grades.miss).col;
@@ -318,8 +327,8 @@ export function showResults(r) {
       : `<div class="res-sub">${nf(r.score)} points en ${Math.round(r.time)} s${r.record ? ' · nouveau record !' : ''}</div>`}
       <div class="res-table">${rows}</div>
       <div class="res-xp">
-        <div class="res-xp-top"><span>+${r.gain} XP</span><span>${r.levelUp ? 'Niveau ' + L.lvl + ' atteint !' : 'Niveau ' + L.lvl}</span></div>
-        <div class="wbar"><i style="width:${pct(L.cur, L.need)}%"></i></div>
+        <div class="res-xp-top"><span>${L.max && !r.gain ? U().barMax : '+' + r.gain + ' XP'}</span><span>${r.levelUp ? fill(L.max ? U().maxReached : U().reached, L) : L.max ? lvlText(L) : fill(U().levelLong, L)}</span></div>
+        <div class="wbar${L.max ? ' max' : ''}"><i style="width:${L.max ? 100 : pct(L.cur, L.need)}%"></i></div>
       </div>
       ${weaponGainHtml(r.weapon)}
       <button class="res-again" data-act="again"><span class="ol ol-4">Rejouer</span></button>

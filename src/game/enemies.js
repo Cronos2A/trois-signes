@@ -92,6 +92,7 @@ export function updateEnemies(dt) {
  *  jamais dans le Voyage, qui continue jusqu'au KO. */
 export function updateWaves(dt) {
   if (G.enemies.length) return false;
+  G.roundsCleared = G.waveIdx;                        // plus d'ennemi : toutes les vagues lancées sont terminées
   const W = D.waves, B = G.battle;
   if (!B.endless && G.waveIdx >= B.waves.length) {
     if (G.loots.length === 0 || G.waveDelay < -W.endLootWait) return true;

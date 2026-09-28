@@ -153,13 +153,13 @@ export function renderDefeat(k, on, weapon) {
 }
 
 /* ---------- Victoire : XP du héros et de son arme, avant le dialogue d'après ---------- */
-/** Résolue sur « Continuer ». xp : XP du héros (partie + première victoire). */
+/** Résolue sur « Continuer ». xp : résultat de addXp (gain, max) ; au niveau maximum, « MAX » à la place de l'XP. */
 export function renderVictory(k, xp, weapon) {
   return new Promise(resolve => {
     show(`${facets.bg()}<div class="st-modal"><div class="st-card-big">
         <div class="res-title ol ol-5 win">Victoire</div>
         <div class="st-sub">${k.titre}</div>
-        <div class="res-xp"><div class="res-xp-top"><span>Héros +${xp} XP</span></div></div>
+        <div class="res-xp"><div class="res-xp-top"><span>Héros ${xp.max && !xp.gain ? D.progression.ui.barMax : '+' + xp.gain + ' XP'}</span></div></div>
         ${weaponGainHtml(weapon)}
         <button class="res-again" data-act="ok"><span class="ol ol-4">Continuer</span></button>
       </div></div>`, { ok: resolve }, 'st-defeat');
