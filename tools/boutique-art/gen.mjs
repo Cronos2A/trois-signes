@@ -1,10 +1,10 @@
-// Génère les images de la boutique et des skins dans assets/ (SVG, fond transparent, sans texte).
+// Génère les skins épiques dans assets/skins/ (SVG, fond transparent, sans texte).
+// Les images de la boutique, des monnaies, des armes et des talismans viennent de Claude Design : ne pas les générer.
 // Lancer : node tools/boutique-art/gen.mjs
 import { mkdirSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { ROOT, lobbyArt, combatSprite } from './engine.mjs';
 import { SKINS } from './skins.mjs';
-import { coinIcon, gemIcon, pack, chestSimple, chestTroisSignes, frames } from './items.mjs';
 
 const A = join(ROOT, 'assets');
 const out = (rel, svg) => { const f = join(A, rel); mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, svg); return rel; };
@@ -12,16 +12,7 @@ const out = (rel, svg) => { const f = join(A, rel); mkdirSync(dirname(f), { recu
 // l'épée, l'arc et le socle ne soient pas coupés dans un fichier autonome.
 const sized = svg => svg.replace('viewBox="0 0 240 320"', 'viewBox="-10 -10 260 344" width="260" height="344"').replace(/ style="[^"]*"/, '');
 
-const files = [
-  out('icones/monnaies/or.svg', coinIcon()),
-  out('icones/monnaies/gemme.svg', gemIcon()),
-  ...[1, 2, 3, 4].map(n => out(`boutique/pack_gemmes_${n}.svg`, pack(n))),
-  out('boutique/coffre_simple_ferme.svg', chestSimple(false)),
-  out('boutique/coffre_simple_ouvert.svg', chestSimple(true)),
-  out('boutique/coffre_trois_signes_ferme.svg', chestTroisSignes(false)),
-  out('boutique/coffre_trois_signes_ouvert.svg', chestTroisSignes(true)),
-  ...Object.entries(frames).map(([k, f]) => out(`boutique/cadre_${k}.svg`, f()))
-];
+const files = [];
 for (const s of SKINS) {
   files.push(out(`skins/${s.hero}_${s.id}.svg`, sized(lobbyArt(s.hero, s.lobby)[s.hero])));
   files.push(out(`skins/${s.hero}_${s.id}_combat.svg`, combatSprite(s.hero, s.combat).replace(/ style="[^"]*"/, '')));

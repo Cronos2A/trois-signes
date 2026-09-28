@@ -1,5 +1,4 @@
-// Trois planches de présentation (HTML) dans design/planches-boutique/ : monnaies et packs, coffres et cadres,
-// puis les 6 skins à côté du héros d'origine. Lancer après gen.mjs : node tools/boutique-art/planches.mjs
+// Planche de présentation des 6 skins (HTML) dans design/planches-boutique/, à côté du héros d'origine. Lancer après gen.mjs : node tools/boutique-art/planches.mjs
 import { mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { ROOT, lobbyArt, combatSprite } from './engine.mjs';
@@ -26,17 +25,6 @@ figcaption{position:relative;font-weight:800;font-size:13px;text-align:center}
 .pair{display:flex;gap:6px;align-items:flex-end}
 .pair svg{display:block}
 </style></head><body><svg class="bg" viewBox="0 0 100 100" preserveAspectRatio="none">${facetSvg(8, 14, 5, .12).replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg><main><h1>${title}</h1>${body}</main></body></html>`;
-
-// 1. Monnaies et packs
-writeFileSync(join(D, '1-monnaies-et-packs.html'), page('Monnaies et packs de gemmes',
-  `<div class="grid">${cell(img('icones/monnaies/or.svg', 128), 'icones/monnaies/or.svg')}${cell(img('icones/monnaies/gemme.svg', 128), 'icones/monnaies/gemme.svg')}</div>
-   <h2>Packs de gemmes</h2><div class="grid" style="grid-template-columns:repeat(4,minmax(0,1fr))">${[1, 2, 3, 4].map(n => cell(img(`boutique/pack_gemmes_${n}.svg`, 170), `pack_gemmes_${n}.svg`)).join('')}</div>`, 2));
-
-// 2. Coffres et cadres
-const frameDemo = k => `<div style="position:relative;width:120px;height:126px"><div style="position:absolute;left:14px;top:14px;width:92px;height:92px;border-radius:14px;background:#FFE3A6"></div><div style="position:absolute;left:0;top:0">${img(`boutique/cadre_${k}.svg`, 126)}</div></div>`;
-writeFileSync(join(D, '2-coffres-et-cadres.html'), page('Coffres et cadres de rareté',
-  `<div class="grid">${['simple_ferme', 'simple_ouvert', 'trois_signes_ferme', 'trois_signes_ouvert'].map(k => cell(img(`boutique/coffre_${k}.svg`, 190), `coffre_${k}.svg`, k.startsWith('trois') ? '#FFD23F' : '#FFF1D6')).join('')}</div>
-   <h2>Cadres de rareté</h2><div class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">${['commun', 'rare', 'epique'].map(k => cell(frameDemo(k), `cadre_${k}.svg`)).join('')}</div>`, 4));
 
 // 3. Skins : une ligne par héros — lobby d'origine | skin, combat d'origine | skin
 const svgH = (s, h) => s.replace('<svg ', `<svg height="${h}" `).replace(/ width="[^"]*"/, '').replace(/ style="[^"]*"/, ' style="display:block;overflow:visible"');

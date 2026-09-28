@@ -106,7 +106,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   (`weapons`, `talismans`, `equipped`, `talisman`) et `prog.voyage.beaten`.
 - **Affichage** : onglet Personnage, carte Armes (3 armes, niveau, XP, style à sa force actuelle, Équiper / verrou) et carte
   Talisman (emplacement, grille des 8, Équiper / Retirer) ; pastille de l'arme équipée dans l'onglet Jouer ; XP d'arme et montée
-  de niveau en fin de partie. Icônes provisoires `assets/icones/armes/{id}.svg` et `assets/icones/talismans/{id}.svg`
+  de niveau en fin de partie. Icônes Claude Design `assets/icones/armes/{id}.svg` et `assets/icones/talismans/{id}.svg`
   (un vrai dessin au même nom les remplace).
 - **Duel** : `bonus_en_duel: false` neutralise les bonus de niveau dans un combat `duel: true` ; le style est alors pris à
   `duel.stylePower` (100 %) pour tous. Armes : `autorise_en_duel: true`. Talismans : `autorise_en_duel: false`, **à décider**.
@@ -210,7 +210,7 @@ src/
 data/    characters grades enemies waves rules shop story_mode voyage tutorial audio credits weapons talismans progression (.json)
 assets/  portraits/  ennemis/  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
-tools/boutique-art/  générateur des images de la boutique et des skins (gen.mjs), planches (planches.mjs → design/planches-boutique/)
+tools/boutique-art/  générateur provisoire des skins épiques (gen.mjs) et de leur planche (planches.mjs → design/planches-boutique/)
 prototype/ prototype d'origine
 ```
 
@@ -238,8 +238,9 @@ prototype/ prototype d'origine
      l'application »).
    - Onglet Personnage : carte Cosmétique pour équiper couleur ou skin, skin d'arme, tracé, avec aperçu ; affichés en combat,
      lobby et histoire.
-   - **Images déjà prêtes** (septembre 2026, voir `assets/IMAGES.md`) : or, gemme, 4 packs, 2 coffres fermés / ouverts, 3 cadres,
-     1 skin épique par héros (lobby + combat). Les skins d'arme, couleurs et tracés restent à faire en code.
+   - **Images déjà prêtes** (28/09/2026, voir `assets/IMAGES.md`) : or, gemme, 4 packs, 2 coffres fermés / ouverts, 3 cadres
+     (Claude Design) ; 1 skin épique par héros, lobby + combat (générés en code, en attendant des dessins Claude Design).
+     Les skins d'arme, couleurs et tracés restent à faire en code.
    - Mode test caché (développement seulement) pour se donner or et gemmes. Tester achats, 30 coffres sans doublon, garantie,
      probabilités. Publier sur main.
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.

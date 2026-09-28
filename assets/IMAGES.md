@@ -153,49 +153,54 @@ Sans sprite, le boss prend celui de la brute (mini-boss) ou du boss de la Forêt
 
 ## Icônes des armes (`assets/icones/armes/`) et des talismans (`assets/icones/talismans/`)
 
-SVG carré (viewBox 24 × 24 conseillé), fond transparent. Les fichiers actuels sont des icônes **provisoires**
-dessinées dans le style du lobby ; un vrai dessin déposé sous le même nom les remplace sans rien changer au code.
+Claude Design (`design/trois-signes-maquette-lobby`, dossiers `icones/depart`, `icones/armes`, `icones/talismans`), reçues le 28/09/2026,
+avec leur certificat C2PA. SVG carré, fond transparent. Armes de départ et alternatives rangées ensemble dans `icones/armes/`.
+
 Sans fichier, le jeu dessine une icône de repli (signe à facettes).
 
-- ✅ `assets/icones/armes/epee.svg` — Épée (aldric) — provisoire
-- ✅ `assets/icones/armes/hache_fendeuse.svg` — Hache fendeuse (aldric) — provisoire
-- ✅ `assets/icones/armes/lance_garde_fou.svg` — Lance garde-fou (aldric) — provisoire
-- ✅ `assets/icones/armes/dague.svg` — Dague (nyra) — provisoire
-- ✅ `assets/icones/armes/couteaux_lancer.svg` — Couteaux de lancer (nyra) — provisoire
-- ✅ `assets/icones/armes/lame_ombre.svg` — Lame d'ombre (nyra) — provisoire
-- ✅ `assets/icones/armes/gantelets.svg` — Gantelets (boran) — provisoire
-- ✅ `assets/icones/armes/masse_pierre.svg` — Masse de pierre (boran) — provisoire
-- ✅ `assets/icones/armes/bouclier_tour.svg` — Bouclier-tour (boran) — provisoire
-- ✅ `assets/icones/armes/grimoire.svg` — Grimoire (ilwen) — provisoire
-- ✅ `assets/icones/armes/baton_braises.svg` — Bâton de braises (ilwen) — provisoire
-- ✅ `assets/icones/armes/orbe_miroir.svg` — Orbe miroir (ilwen) — provisoire
-- ✅ `assets/icones/armes/arc.svg` — Arc (kestrel) — provisoire
-- ✅ `assets/icones/armes/arbalete.svg` — Arbalète (kestrel) — provisoire
-- ✅ `assets/icones/armes/fronde.svg` — Fronde (kestrel) — provisoire
-- ✅ `assets/icones/armes/amulette.svg` — Amulette (mira) — provisoire
-- ✅ `assets/icones/armes/baton_seve.svg` — Bâton de sève (mira) — provisoire
-- ✅ `assets/icones/armes/clochette.svg` — Clochette (mira) — provisoire
+- ✅ `assets/icones/armes/epee.svg` — Épée (aldric)
+- ✅ `assets/icones/armes/hache_fendeuse.svg` — Hache fendeuse (aldric)
+- ✅ `assets/icones/armes/lance_garde_fou.svg` — Lance garde-fou (aldric)
+- ✅ `assets/icones/armes/dague.svg` — Dague (nyra)
+- ✅ `assets/icones/armes/couteaux_lancer.svg` — Couteaux de lancer (nyra)
+- ✅ `assets/icones/armes/lame_ombre.svg` — Lame d'ombre (nyra)
+- ✅ `assets/icones/armes/gantelets.svg` — Gantelets (boran)
+- ✅ `assets/icones/armes/masse_pierre.svg` — Masse de pierre (boran)
+- ✅ `assets/icones/armes/bouclier_tour.svg` — Bouclier-tour (boran)
+- ✅ `assets/icones/armes/grimoire.svg` — Grimoire (ilwen)
+- ✅ `assets/icones/armes/baton_braises.svg` — Bâton de braises (ilwen)
+- ✅ `assets/icones/armes/orbe_miroir.svg` — Orbe miroir (ilwen)
+- ✅ `assets/icones/armes/arc.svg` — Arc (kestrel)
+- ✅ `assets/icones/armes/arbalete.svg` — Arbalète (kestrel)
+- ✅ `assets/icones/armes/fronde.svg` — Fronde (kestrel)
+- ✅ `assets/icones/armes/amulette.svg` — Amulette (mira)
+- ✅ `assets/icones/armes/baton_seve.svg` — Bâton de sève (mira)
+- ✅ `assets/icones/armes/clochette.svg` — Clochette (mira)
 
-- ✅ `assets/icones/talismans/gland_mousse.svg` — Gland de mousse — provisoire
-- ✅ `assets/icones/talismans/epi_or.svg` — Épi d'or — provisoire
-- ✅ `assets/icones/talismans/goutte_claire.svg` — Goutte claire — provisoire
-- ✅ `assets/icones/talismans/cle_toits.svg` — Clé des toits — provisoire
-- ✅ `assets/icones/talismans/marque_page.svg` — Marque-page — provisoire
-- ✅ `assets/icones/talismans/plume_vent.svg` — Plume de vent — provisoire
-- ✅ `assets/icones/talismans/craie_ancienne.svg` — Craie ancienne — provisoire
-- ✅ `assets/icones/talismans/page_codex.svg` — Page du Codex — provisoire
+- ✅ `assets/icones/talismans/gland_mousse.svg` — Gland de mousse
+- ✅ `assets/icones/talismans/epi_or.svg` — Épi d'or
+- ✅ `assets/icones/talismans/goutte_claire.svg` — Goutte claire
+- ✅ `assets/icones/talismans/cle_toits.svg` — Clé des toits
+- ✅ `assets/icones/talismans/marque_page.svg` — Marque-page
+- ✅ `assets/icones/talismans/plume_vent.svg` — Plume de vent
+- ✅ `assets/icones/talismans/craie_ancienne.svg` — Craie ancienne
+- ✅ `assets/icones/talismans/page_codex.svg` — Page du Codex
 
-## Boutique et skins (générés en code)
+## Boutique, monnaies et skins
 
-Générés par `node tools/boutique-art/gen.mjs` (même moteur low-poly que `src/ui/art.js` et `src/ui/sprites.js`), fond transparent,
-sans texte. Planches de présentation : `node tools/boutique-art/planches.mjs` → `design/planches-boutique/`.
-Un vrai dessin déposé au même nom les remplace. Pas encore utilisés par le jeu (tâche Économie).
+Boutique et monnaies : Claude Design (`design/trois-signes-maquette-lobby`, dossiers `boutique/` et `icones/monnaies/`),
+reçues le 28/09/2026, avec leur certificat C2PA. Pas encore utilisées par le jeu (tâche Économie).
 
 - ✅ `assets/icones/monnaies/or.svg`, `assets/icones/monnaies/gemme.svg`
 - ✅ `assets/boutique/pack_gemmes_1.svg` à `pack_gemmes_4.svg` (poignée, bourse, coffret, grand coffre)
 - ✅ `assets/boutique/coffre_simple_ferme.svg`, `coffre_simple_ouvert.svg`
 - ✅ `assets/boutique/coffre_trois_signes_ferme.svg`, `coffre_trois_signes_ouvert.svg`
-- ✅ `assets/boutique/cadre_commun.svg`, `cadre_rare.svg`, `cadre_epique.svg` (centre transparent, 120 × 126)
-- ✅ Skins épiques, `assets/skins/{heros}_{skin}.svg` (lobby, repère 240 × 320 de `art.js` avec 10 de marge : viewBox -10 -10 260 344)
+- ✅ `assets/boutique/cadre_commun.svg`, `cadre_rare.svg`, `cadre_epique.svg` (centre transparent)
+
+Skins épiques : **pas fournis par Claude Design** ; générés en code par `node tools/boutique-art/gen.mjs` (dessins d'origine de
+`src/ui/art.js` et `src/ui/sprites.js`, recolorés, avec accessoires), en attendant. Un vrai dessin déposé au même nom les remplace
+(ne plus relancer le générateur ensuite). Planche : `design/planches-boutique/3-skins.html`.
+
+- ✅ `assets/skins/{heros}_{skin}.svg` (lobby, repère 240 × 320 de `art.js` avec 10 de marge : viewBox -10 -10 260 344)
   et `assets/skins/{heros}_{skin}_combat.svg` (sprite de combat, ¾ dos) :
   `aldric_hiver`, `nyra_carnaval`, `boran_moisson`, `ilwen_etoiles`, `kestrel_automne`, `mira_printemps`.
