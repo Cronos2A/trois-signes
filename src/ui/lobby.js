@@ -12,6 +12,9 @@ import { equipTalisman } from '../game/talismans.js';
 import { wallet, testMode, addGold, addGems, resetShop, countries } from '../game/economy.js';
 import { shopHtml, confirmHtml, boughtHtml, doBuy, oddsHtml, chestIntroHtml, chestRevealHtml, cosmeticCardHtml, heroLobbyHtml, equip, item } from './shop-ui.js';
 import { onSkinReady } from './looks.js';
+import { showRewarded, afterVoyageResults, watchForGems, watchForChest, setNoAds, noAds, resetAds, adsState, addPlaySeconds } from '../ads/ads.js';
+import { adIcon, adToast } from './ad-ui.js';
+import { openChest } from '../game/economy.js';
 import { moneyIcon, goldGainHtml } from './money.js';
 
 const $ = id => document.getElementById(id);
@@ -65,6 +68,20 @@ export function showLobby() { render(); $('lobby').classList.remove('hidden'); }
 export function hideLobby() { $('lobby').classList.add('hidden'); hideResults(); }
 export function hideResults() { $('results').classList.add('hidden'); }
 const slotOfKind = kind => D.cosmetics.types[kind].slot;
+let lastRes = null;
+/** Résultats du Voyage : « Doubler l'or » contre une pub (1 fois par partie). */
+async function doubleGold(btn) {
+  const r = lastRes;
+  if (!r || r.doubled || !r.gold) return;
+  btn.disabled = true;
+  if (!await showRewarded()) { btn.disabled = false; adToast(D.ads.ui.rewardLost); return; }
+  r.doubled = true;
+  addGold(r.gold);
+  const line = $('results').querySelector('.money-gain b');
+  if (line) line.textContent = '+' + nf(r.gold * 2) + ' or';
+  btn.innerHTML = D.ads.ui.doubled;
+  $('lbHead').innerHTML = headHtml();
+}
 function modal(html, cls = '') { const m = $('shopModal'); m.innerHTML = html; m.className = 'lb-modal ' + cls; }
 function closeModal() { $('shopModal').className = 'lb-modal hidden'; $('shopModal').innerHTML = ''; }
 
@@ -84,8 +101,8 @@ function onClick(e) {
     case 'train': actions.train(); break;
     case 'lesson': actions.lesson(); break;
     case 'story': actions.story(); break;
-    case 'again': actions.again(); break;
-    case 'home': hideResults(); ui.tab = 'play'; render(); break;
+    case 'again': afterVoyageResults().then(() => actions.again()); break;   // pub plein écran due (Voyage)
+    case 'home': afterVoyageResults().then(() => { hideResults(); ui.tab = 'play'; render(); }); break;
     case 'settings': renderSettings(); $('settings').classList.remove('hidden'); break;
     case 'set': setSetting(el.dataset.key, el.dataset.key === 'vibrate' ? arg === '1' : arg); renderSettings(); break;
     case 'closeSettings': $('settings').classList.add('hidden'); break;
@@ -112,6 +129,16 @@ function onClick(e) {
     case 'openChest': modal(chestIntroHtml(arg), 'chest'); break;
     case 'chestReveal': { const h = chestRevealHtml(arg); if (h) modal(h, 'chest'); else closeModal(); render(); break; }
     case 'closeShop': closeModal(); render(); break;
+    // Pubs récompensées (ads/ads.js) : récompense seulement si la pub est vue jusqu'au bout
+    case 'adDouble': doubleGold(el); break;
+    case 'adGems': watchForGems(addGems).then(n => { adToast(n ? D.ads.ui.gemsBtn.replace('{n}', n) : D.ads.ui.rewardLost); render(); }); break;
+    case 'adChest': watchForChest(() => openChest(D.ads.rewarded.freeChest.chest, Math.random, true)).then(res => {
+      if (res && res.items) modal(chestRevealHtml(D.ads.rewarded.freeChest.chest, res), 'chest'); else adToast(D.ads.ui.rewardLost);
+      render();
+    }); break;
+    case 'testNoAds': setNoAds(!noAds()); renderSettings(); render(); break;
+    case 'testGrace': addPlaySeconds(D.ads.interstitial.graceMinutes * 60); renderSettings(); break;
+    case 'testResetAds': resetAds(); renderSettings(); render(); break;
     // Mode test (développement)
     case 'testGold': addGold(D.economy.test.gold); renderSettings(); render(); break;
     case 'testGems': addGems(D.economy.test.gems); renderSettings(); render(); break;
@@ -271,7 +298,14 @@ function testHtml() {
   return `<div class="set-row test-row"><span class="set-label">${U.testTitle}</span>
       <div class="chips set-chips"><button class="chip" data-act="testGold">${U.testGold.replace('{n}', T.gold)}</button><button class="chip" data-act="testGems">${U.testGems.replace('{n}', T.gems)}</button></div>
       <div class="chips set-chips">${opt('BE', 'BE')}${opt('FR', 'FR')}<span class="test-cur">${U.testCountry} : ${cur}</span></div>
-      <button class="chip" data-act="testReset">${U.testReset}</button></div>`;
+      <button class="chip" data-act="testReset">${U.testReset}</button>
+      ${adsTestHtml()}</div>`;
+}
+function adsTestHtml() {
+  const A = D.ads.ui, s = adsState();
+  return `<div class="chips set-chips"><button class="chip${s.noAds ? ' on' : ''}" data-act="testNoAds">${A.testNoAds}</button><button class="chip" data-act="testGrace">${A.testGrace}</button></div>
+      <button class="chip" data-act="testResetAds">${A.testResetAds}</button>
+      <span class="test-cur">${A.testState.replace('{min}', Math.floor(s.playSeconds / 60)).replace('{games}', s.voyageGames || 0)}</span>`;
 }
 
 function renderSettings() {
@@ -308,6 +342,7 @@ function renderCredits() {
 /* ---------- Résultats de partie ---------- */
 /** r : { why:'win'|'ko'|'time', score, time, gain, levelUp, record, stats, combos } */
 export function showResults(r) {
+  lastRes = r;
   ui.tab = 'play';
   render();
   const L = heroLevel(activeCharacter().id);
@@ -331,6 +366,7 @@ export function showResults(r) {
       </div>
       ${weaponGainHtml(r.weapon)}
       ${goldGainHtml(r.gold)}
+      ${r.gold && r.voyage && D.ads.rewarded.doubleGold.perGame > 0 ? `<button class="mini-btn res-ad ad-btn" data-act="adDouble">${adIcon(22)}${D.ads.ui.doubleGold.replace('{n}', nf(r.gold))}</button>` : ''}
       <button class="res-again" data-act="again"><span class="ol ol-4">Rejouer</span></button>
       <button class="mini-btn res-home" data-act="home">Retour au lobby</button>
     </div>`;

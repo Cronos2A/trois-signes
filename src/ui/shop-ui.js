@@ -10,6 +10,8 @@ import { glyph, trailIcon, facets } from './icons.js';
 import { itemIcon, tpl } from './weapon-ui.js';
 import { moneyIcon, priceHtml, nf } from './money.js';
 import { sfx } from '../audio/audio.js';
+import { leftToday, noAds } from '../ads/ads.js';
+import { adIcon } from './ad-ui.js';
 
 const U = () => D.economy.ui;
 const R = r => D.economy.rarities[r];
@@ -59,7 +61,32 @@ function chestsHtml() {
       </div>`;
   };
   const C = D.economy.chests;
-  return (allowed ? '' : `<div class="shop-note warn">${U().banned}</div>`) + card('trois_signes', C.trois_signes) + card('simple', C.simple);
+  return (allowed ? '' : `<div class="shop-note warn">${U().banned}</div>`) + card('trois_signes', C.trois_signes) + card('simple', C.simple) + freeChestHtml();
+}
+
+/* ---------- Pubs récompensées de la boutique (data/ads.json) ---------- */
+const AU = () => D.ads.ui;
+const perDay = k => { const left = leftToday(k); return left ? tpl(AU().perDay, { left, max: D.ads.rewarded[k].perDay }) : AU().noneLeft; };
+
+/** Coffre simple gratuit contre une pub, 1 fois par jour. */
+function freeChestHtml() {
+  const st = chestState(D.ads.rewarded.freeChest.chest, true), can = st.can && leftToday('freeChest') > 0;
+  return `<div class="ad-card-shop"><img class="big-ic" src="${D.economy.chests.simple.image.closed}" width="56" height="56" alt="">
+      <div class="txt"><b>${AU().freeChestBtn}</b><span class="ad-count">${perDay('freeChest')}</span></div>
+      <button class="mini-btn ad-btn" data-act="adChest" ${can ? '' : 'disabled'}>${adIcon(20)}${AU().watch}</button></div>`;
+}
+
+/** +5 gemmes contre une pub (3 fois par jour) et « Sans publicité ». */
+function adGemsHtml() {
+  const n = D.ads.rewarded.gems.amount, left = leftToday('gems');
+  return `<div class="ad-card-shop">${moneyIcon('gems', 48)}
+      <div class="txt"><b>${AU().gemsTitle}</b><span>${tpl(AU().gemsText, { n })}</span><span class="ad-count">${perDay('gems')}</span></div>
+      <button class="mini-btn ad-btn" data-act="adGems" ${left ? '' : 'disabled'}>${adIcon(20)}${tpl(AU().gemsBtn, { n })}</button></div>`;
+}
+function noAdsHtml() {
+  const on = noAds();
+  return `<div class="ad-card-shop no-ads"><div class="txt"><b>${AU().noAdsTitle}</b><span>${on ? AU().noAdsOwned : AU().noAdsText}</span></div>
+      ${on ? '' : `<button class="shop-price" disabled>${D.ads.noAds.price}</button>`}</div>`;
 }
 
 function cosmeticsHtml(ui) {
@@ -83,7 +110,7 @@ function gemsHtml() {
       <div class="pack-n">${moneyIcon('gems', 18)}<b>${nf(p.gems)}</b></div>
       <button class="shop-price" disabled>${p.price}</button>
     </div>`).join('');
-  return `<div class="shop-note">${U().packsFree}</div><div class="pack-grid">${packs}</div><div class="shop-note soft">${U().packsNote}</div>`;
+  return `${adGemsHtml()}<div class="shop-note">${U().packsFree}</div><div class="pack-grid">${packs}</div>${noAdsHtml()}<div class="shop-note soft">${U().packsNote}</div>`;
 }
 
 /* ---------- Fenêtres (dans #shopModal du lobby) ---------- */
@@ -148,8 +175,8 @@ export function chestIntroHtml(id) {
 }
 
 /** Étape 2 : tire les objets, joue le son de la meilleure rareté. */
-export function chestRevealHtml(id) {
-  const C = D.economy.chests[id], res = openChest(id);
+export function chestRevealHtml(id, res = openChest(id)) {        // res : coffre déjà ouvert (coffre gratuit)
+  const C = D.economy.chests[id];
   if (res.error) return null;
   const best = ['epique', 'rare', 'commun'].find(r => res.items.some(i => i.rarity === r)) || 'commun';
   sfx(R(best).sound);

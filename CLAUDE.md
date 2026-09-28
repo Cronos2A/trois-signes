@@ -141,6 +141,25 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Trois Signes jamais sans rare, collection complète après 40 objets, Belgique bloquée, achats refusés sans assez d'or ou en double.
 - Sauvegarde : `prog.eco = { gold, gems, granted, owned, equipped, pity, opened }`.
 
+## Publicités — `data/ads.json` — **fait (fausses pubs)**
+- Un seul module `src/ads/ads.js` : pubs **récompensées** et **plein écran**, règles, limites, sauvegarde `prog.ads`
+  (`noAds`, `playSeconds`, `voyageGames`, `day`, `used`). Web : fausse pub « Publicité de test » de 5 s (`src/ui/ad-ui.js`, `ads.css`).
+- **AdMob (plus tard)** : `src/ads/admob.js` prêt pour `@capacitor-community/admob` (**pas installé**), lu depuis
+  `window.Capacitor.Plugins.AdMob` ; consentement UMP de Google au premier lancement (`initAds` → `admobInit`) ; identifiants
+  dans `ads.json → admob` (aujourd'hui ceux de test de Google). `provider: "test"` force la fausse pub.
+- **Récompensées** (toujours au choix, bouton avec icône « écran ▶ » ; récompense seulement si la pub est vue jusqu'au bout) :
+  « Doubler l'or » sur les résultats du Voyage (1 fois par partie) ; « Seconde chance » au KO dans le Voyage, reprise à 50 % des PV
+  avec 1,5 s de garde (1 fois par partie) ; boutique : « +5 gemmes » (3 fois par jour) et « Coffre gratuit » simple (1 fois par jour,
+  pas dans les pays sans coffres), compteur « 2 / 3 aujourd'hui ».
+- **Plein écran** : seulement en quittant les résultats du Voyage (Rejouer ou Retour), une partie sur 3, après 10 minutes de jeu
+  cumulées (combat, Entraînement, leçon). Jamais en combat, leçon, Histoire, cinématique. Fermer après le compte à rebours.
+- **Sans publicité** (onglet Gemmes) : 2,99 €, désactivé sur le web ; une fois acheté, plus de pub plein écran (les récompensées restent).
+- **Duel** (plus tard) : `ads.json → duel` : aucune pub, aucune récompense de pub (`showRewarded({ duel })` refuse).
+- Mode test (Réglages) : Sans publicité on / off, « Passer les 10 min », remise à zéro, compteurs affichés.
+- Testé le 28/09/2026 : seconde chance (65 / 130 PV), 2e KO sans proposition, or doublé seulement si la pub est vue en entier,
+  pas de pub avant 10 min, pub plein écran à la 3e partie seulement, aucune avec Sans publicité, 3 fois +5 gemmes puis « Reviens demain »,
+  coffre gratuit une fois par jour.
+
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
   `src/ui/cutscene.js` (lecteur de cinématiques et dialogues, lettre par lettre, « Passer »).
@@ -197,7 +216,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
-  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -228,14 +247,15 @@ src/
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
          talismans.js  rewards.js (récompenses méritées, rétroactives)  economy.js (or, gemmes, coffres)  cosmetics.js
   story/story.js     déroulé du mode Histoire
+  ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js
   ui/    lobby.js (+ réglages, crédits, résultats)  hud.js (rendu canvas)  combat-hud.js  combat-art.js  anim.js  sprites.js
          art.js  icons.js  assets.js (images + replis)  cutscene.js  story-ui.js  story-art.js
          tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (cartes Armes / Talisman, XP de fin de partie)
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman / Gemmes »)  shop-ui.js (boutique, coffres, carte Cosmétiques)
-         looks.js (apparence des héros)  money.js (or et gemmes)
-         organic.css (ne pas modifier)  lobby.css  shop.css  style.css  story.css  tutorial.css  voyage.css
-data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics (.json)
+         looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)
+         organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css
+data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads (.json)
 assets/  portraits/  ennemis/  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
 tools/boutique-art/  générateur provisoire des skins épiques (gen.mjs) et de leur planche (planches.mjs → design/planches-boutique/)
@@ -251,7 +271,8 @@ prototype/ prototype d'origine
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
 2. **Multijoueur (Duel)** : tour par tour, sans serveur temps réel (Firebase ou Supabase : seeds, scores, contrôle de cohérence).
    Vague 1 jouée en même temps (même seed), le meilleur score commence, chaque score durcit la vague de l'adversaire,
-   KO avant le boss = défaite, sinon le plus gros score gagne. **Bonus d'armes neutralisés en Duel** : déjà prévu,
+   KO avant le boss = défaite, sinon le plus gros score gagne. Aucune pub ni récompense de pub en Duel (`ads.json → duel`).
+   **Bonus d'armes neutralisés en Duel** : déjà prévu,
    il suffit de marquer le combat `duel: true` (voir « Armes, talismans et récompenses ») ; décider aussi si le Duel rapporte de l'XP d'arme.
 
-Plus tard : achat réel des gemmes (dans l'application), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.
+Plus tard : achat réel des gemmes et de « Sans publicité », AdMob (dans l'application), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.

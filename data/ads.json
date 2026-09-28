@@ -1,0 +1,57 @@
+{
+  "note": "Publicités. Sur le web : fausse pub de test. Dans l'application (plus tard) : AdMob via @capacitor-community/admob, avec la fenêtre de consentement UMP de Google au premier lancement (src/ads/admob.js, pas encore installé). Les pubs récompensées sont toujours au choix du joueur ; la récompense n'est donnée que si la pub est regardée jusqu'au bout.",
+  "provider": "auto",
+  "test": { "seconds": 5 },
+  "admob": {
+    "note": "Identifiants à remplir à la mise en place d'AdMob (ceux-ci sont les identifiants de TEST de Google).",
+    "initializeForTesting": true,
+    "rewarded": { "android": "ca-app-pub-3940256099942544/5224354917", "ios": "ca-app-pub-3940256099942544/1712485313" },
+    "interstitial": { "android": "ca-app-pub-3940256099942544/1033173712", "ios": "ca-app-pub-3940256099942544/4411468910" }
+  },
+  "rewarded": {
+    "doubleGold": { "perGame": 1 },
+    "secondChance": { "perGame": 1, "hp": 0.5, "graceSeconds": 1.5 },
+    "gems": { "amount": 5, "perDay": 3 },
+    "freeChest": { "chest": "simple", "perDay": 1 }
+  },
+  "interstitial": {
+    "everyGames": 3,
+    "graceMinutes": 10,
+    "note": "Seulement après une partie du Voyage. Jamais pendant un combat, la leçon, le mode Histoire, une cinématique, ni avant 10 minutes de jeu cumulées."
+  },
+  "noAds": {
+    "price": "2,99 €",
+    "note": "Sans publicité : plus aucune pub plein écran ; les pubs récompensées restent proposées."
+  },
+  "duel": { "ads": false, "rewards": false, "note": "Aucune pub pendant un Duel, aucune récompense de pub utilisable en Duel." },
+  "ui": {
+    "testTitle": "Publicité de test",
+    "testText": "Ici s'affichera une vraie publicité dans l'application.",
+    "rewardHint": "Regarde jusqu'au bout pour recevoir la récompense.",
+    "rewardDone": "Récompense débloquée !",
+    "rewardLost": "Pub fermée trop tôt : pas de récompense.",
+    "close": "Fermer",
+    "seconds": "{n} s",
+    "watch": "Regarder une pub",
+    "doubleGold": "Doubler l'or (+{n})",
+    "doubled": "Or doublé !",
+    "secondTitle": "Seconde chance ?",
+    "secondText": "Regarde une pub pour reprendre le Voyage avec {pct} % de tes PV.",
+    "secondYes": "Seconde chance",
+    "secondNo": "Non merci",
+    "gemsTitle": "Gemmes gratuites",
+    "gemsText": "Regarde une pub pour gagner {n} gemmes.",
+    "gemsBtn": "+{n} gemmes",
+    "freeChestBtn": "Coffre gratuit",
+    "perDay": "{left} / {max} aujourd'hui",
+    "noneLeft": "Reviens demain",
+    "noAdsTitle": "Sans publicité",
+    "noAdsText": "Plus aucune pub plein écran. Les pubs récompensées restent proposées.",
+    "noAdsOwned": "Acheté : plus de pubs plein écran",
+    "store": "Disponible dans l'application",
+    "testNoAds": "Sans publicité (test)",
+    "testGrace": "Passer les 10 min",
+    "testResetAds": "Remettre les pubs à zéro",
+    "testState": "Jeu : {min} min · parties du Voyage : {games}"
+  }
+}

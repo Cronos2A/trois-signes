@@ -12,6 +12,8 @@ import { syncRewards } from './game/rewards.js';
 import { voyageGold, addGold, syncGems } from './game/economy.js';
 import { look } from './game/cosmetics.js';
 import { combatLook } from './ui/looks.js';
+import { initAds, tickPlay, flushPlay, noteVoyageEnd, showRewarded } from './ads/ads.js';
+import { askChoice, adToast } from './ui/ad-ui.js';
 import { showRewards } from './ui/reward-ui.js';
 import { rand } from './util.js';
 import { draw } from './ui/hud.js';
@@ -82,7 +84,7 @@ function resetGame(c, battle) {
   Object.assign(G, {
     enemies: [], loots: [], summons: [], fx: [], pops: [], trails: [],
     time: 0, waveIdx: 0, waveDelay: D.waves.firstWaveDelay, score: 0, scoreMult: 1, paused: false, voyage: null, listen: null, tuto: null, shake: 0, bigGrade: null, superBanner: null, trainSpawn: 0,
-    streak: { name: null, n: 0 }, coins: 0, roundsCleared: 0, guardiansBeaten: 0, missForgiven: 0, combos: 0, globalGap: 0, stats: emptyStats()
+    streak: { name: null, n: 0 }, secondChances: 0, coins: 0, roundsCleared: 0, guardiansBeaten: 0, missForgiven: 0, combos: 0, globalGap: 0, stats: emptyStats()
   });
 }
 
@@ -98,8 +100,8 @@ function update(dt) {
   for (const l of G.loots) { l.t += dt; l.life -= dt; }
   G.loots = G.loots.filter(l => l.life > 0);
 
-  if (G.paused) return;                       // Voyage : écran de transition d'arène
-  if (G.mode === 'play' || G.mode === 'train') updateSummons(dt);
+  if (G.paused) return;                       // Voyage : écran de transition d'arène (ou choix « Seconde chance »)
+  if (G.mode === 'play' || G.mode === 'train') { updateSummons(dt); tickPlay(dt); }   // temps de jeu (pubs plein écran)
   if (G.mode === 'train') { updateTraining(dt); return; }
   if (G.mode !== 'play') return;
   G.time += dt;
@@ -107,7 +109,7 @@ function update(dt) {
   if (G.battle.timeLimit && G.time >= G.battle.timeLimit) return endGame('time');
   updateEnemies(dt);
   if (updateWaves(dt)) return endGame('win');
-  if (G.hero.hp <= 0) return endGame('ko');
+  if (G.hero.hp <= 0) return koOrSecondChance();
 }
 
 function updateTraining(dt) {
@@ -150,6 +152,7 @@ function setInGame(on) {
 
 function toLobby() {
   const b = G.battle;
+  flushPlay();                              // temps de jeu (pubs plein écran)
   G.mode = 'menu';
   setInGame(false);
   curChar = null; curBattle = null;
@@ -179,6 +182,24 @@ async function start(mode, opts = {}) {
   if (mode === 'train') G.trainMsg = 'Tracez des triangles et des ronds, tapez sur les objets. La précision s’affiche à chaque geste.';
 }
 
+/**
+ * KO dans le Voyage : proposer « Seconde chance » (pub récompensée, data/ads.json → rewarded.secondChance), une fois par partie.
+ * Jamais en Duel, dans la leçon ou en Histoire. Sinon, fin de partie.
+ */
+async function koOrSecondChance() {
+  const R = D.ads.rewarded.secondChance, b = G.battle, U = D.ads.ui;
+  if (b.xpMode !== 'voyage' || b.duel || G.secondChances >= R.perGame) return endGame('ko');
+  G.paused = true;
+  const yes = await askChoice(U.secondTitle, U.secondText.replace('{pct}', Math.round(R.hp * 100)), U.secondYes, U.secondNo);
+  const ok = yes && await showRewarded({ duel: b.duel });
+  if (G.battle !== b || G.mode !== 'play') return;          // partie quittée entre-temps
+  if (!ok) { if (yes) adToast(U.rewardLost); G.paused = false; return endGame('ko'); }
+  G.secondChances++;
+  G.hero.hp = Math.round(G.hero.max * R.hp);
+  G.hero.shieldUntil = G.time + R.graceSeconds; G.hero.shieldAvoid = 1;   // un court répit pour se remettre en garde
+  G.paused = false;
+}
+
 function endGame(why) {
   if (G.mode !== 'play') return;
   G.mode = 'end';
@@ -194,6 +215,7 @@ function endGame(why) {
   const b = G.battle;
   curChar = null; curBattle = null;
   traceStop();
+  if (G.battle.xpMode === 'voyage') noteVoyageEnd(b); else flushPlay();   // pubs : partie comptée, temps de jeu
   if (b.onEnd) { showLobby(); b.onEnd(why, { gain, levelUp: after > before, score: G.score, weapon, coins: G.coins }); return; }
   sfx(why === 'win' ? 'victoire' : 'defaite');
   music('musique_lobby');
@@ -213,6 +235,7 @@ async function init() {
     return;
   }
   migrateProgress();                       // anciennes sauvegardes : niveau gardé, XP dans le niveau à zéro
+  initAds();                               // AdMob + consentement dans l'application ; rien sur le web
   initAudio();                             // effets chargés maintenant, musiques à la demande
   attachInput(cv, {
     isActive: () => G.mode === 'play' || G.mode === 'train',

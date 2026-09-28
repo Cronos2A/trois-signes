@@ -109,11 +109,11 @@ function drawItem(r, skip, rnd) {
 export const pityLeft = () => Math.max(1, E().chests.simple.guaranteeEpicAfter - prog.eco.pity);
 
 /** État d'un coffre pour l'affichage : { can, reason: null | 'banned' | 'complete' | 'money' }. */
-export function chestState(id) {
+export function chestState(id, free = false) {
   const C = E().chests[id];
   if (!chestsAllowed()) return { can: false, reason: 'banned' };
   if (unownedCount() < C.count) return { can: false, reason: 'complete' };
-  if (prog.eco.gems < C.price) return { can: false, reason: 'money' };
+  if (!free && prog.eco.gems < C.price) return { can: false, reason: 'money' };
   return { can: true, reason: null };
 }
 
@@ -121,10 +121,10 @@ export function chestState(id) {
  * Ouvre un coffre : paie en gemmes, tire les objets (jamais un objet déjà possédé ni deux fois le même),
  * applique la garantie d'épique du coffre simple. Renvoie { items } ou { error }.
  */
-export function openChest(id, rnd = Math.random) {
-  const C = E().chests[id], st = chestState(id);
+export function openChest(id, rnd = Math.random, free = false) {     // free : coffre offert (pub récompensée)
+  const C = E().chests[id], st = chestState(id, free);
   if (!st.can) return { error: st.reason };
-  prog.eco.gems -= C.price;
+  if (!free) prog.eco.gems -= C.price;
   const got = [], pity = id === 'simple' && C.guaranteeEpicAfter && prog.eco.pity >= C.guaranteeEpicAfter - 1;
   for (let k = 0; k < C.count; k++) {
     let r;
