@@ -6,6 +6,7 @@ Liste générée depuis `data/story_mode.json`. Toutes sont facultatives : tant 
 Format : SVG, nommé exactement comme ci-dessous. ✅ = présent, ⬜ = manquant.
 
 Portraits et sprites de combat : `design/trois-signes-character-sheet` (Claude Design, générés par `project/tools/story-engine.js`).
+Décors : `design/ecran-de-combat-trois-signes` (Claude Design, générés par `project/decors.js`), fichiers d'origine avec leur certificat C2PA.
 
 ## Portraits des héros (`assets/portraits/`)
 
@@ -116,35 +117,35 @@ Sans sprite, le boss prend celui de la brute (mini-boss) ou du boss de la Forêt
 
 ## Décors (`assets/decors/`, plein écran, portrait 390 × 844 conseillé)
 
-- ⬜ `assets/decors/prologue_monde.svg` — Paysage lumineux, un vieux maître enseigne à des enfants sur une colline verte
-- ⬜ `assets/decors/prologue_silence.svg` — Le même paysage, mangé par une brume grise
-- ⬜ `assets/decors/prologue_heros.svg` — Les six héros alignés, de dos, face à l'horizon gris
-- ⬜ `assets/decors/pierrelune_aube.svg` — Village de montagne au lever du soleil, maisons en pierre, toits orange
-- ⬜ `assets/decors/pierrelune_brume.svg` — Le même village envahi par la brume grise
-- ⬜ `assets/decors/maison_maitre.svg` — Intérieur chaleureux mais vide : table en bois, parchemins, bougie éteinte
-- ⬜ `assets/decors/pont_brumes.svg` — Vieux pont de pierre au-dessus d'un ravin rempli de brume
-- ⬜ `assets/decors/route_ecole.svg` — Chemin forestier entre des rochers gravés de triangles et de ronds
-- ⬜ `assets/decors/ecole_ruines.svg` — Grandes ruines de pierre couvertes de signes gravés et d'un mur de noms
-- ⬜ `assets/decors/velis_toits.svg` — Toits d'une cité serrée la nuit, lanternes, lune
-- ⬜ `assets/decors/velis_marche.svg` — Grand marché couvert, étals colorés en train de griser
-- ⬜ `assets/decors/planque_chats.svg` — Repaire de voleurs sous les toits, coussins, butin, lanternes
-- ⬜ `assets/decors/archives_velis.svg` — Salle d'archives, étagères de registres, poussière dans la lumière
-- ⬜ `assets/decors/velis_porte.svg` — Grande porte Est de la cité, ouverte sur une plaine grise
-- ⬜ `assets/decors/hautes_gerbes.svg` — Champs de blé doré, ferme et grange rouge, ciel d'été
-- ⬜ `assets/decors/hautes_gerbes_gris.svg` — Les mêmes champs devenus gris, ciel bas
-- ⬜ `assets/decors/chemin_collines.svg` — Sentier dans les collines, convoi de charrettes au loin
-- ⬜ `assets/decors/camp_refugies.svg` — Camp de tentes derrière une palissade en bois, tente de soins
-- ⬜ `assets/decors/palissade_nuit.svg` — La palissade du camp la nuit, feux de garde
-- ⬜ `assets/decors/aubelle_biblio.svg` — Immense bibliothèque, étagères jusqu'au plafond, livres qui perdent leurs mots
-- ⬜ `assets/decors/aubelle_rues.svg` — Rues pavées d'une ville savante, tours et coupoles
-- ⬜ `assets/decors/reserve_interdite.svg` — Salle secrète, grilles, un seul livre lumineux sur un pupitre
-- ⬜ `assets/decors/tour_guet.svg` — Sommet d'une tour de guet, vue sur tout le pays avec une tache blanche au centre
-- ⬜ `assets/decors/lisiere.svg` — Lisière d'une forêt dont une moitié est verte et l'autre grise
-- ⬜ `assets/decors/camp_eclaireurs.svg` — Camp d'éclaireurs : tentes, cartes épinglées, feu de camp
-- ⬜ `assets/decors/col_vents.svg` — Col de montagne venteux, drapeaux de prière, neige
-- ⬜ `assets/decors/foret_effacee.svg` — Forêt dont les arbres s'effacent en fragments de facettes
-- ⬜ `assets/decors/fontclaire.svg` — Petit village autour d'une fontaine, fleurs, maisons blanches
-- ⬜ `assets/decors/maison_soins.svg` — Maison de soins : fioles, plantes suspendues, lits simples
-- ⬜ `assets/decors/route_villages.svg` — Route de campagne entre plusieurs petits villages
-- ⬜ `assets/decors/coeur_silence.svg` — Clairière entièrement blanche, sans couleur, fragments de pages qui flottent
-- ⬜ `assets/decors/coeur_silence_gueri.svg` — La même clairière qui retrouve ses couleurs, herbe verte, lumière chaude
+- ✅ `assets/decors/prologue_monde.svg` — Paysage lumineux, un vieux maître enseigne à des enfants sur une colline verte
+- ✅ `assets/decors/prologue_silence.svg` — Le même paysage, mangé par une brume grise
+- ✅ `assets/decors/prologue_heros.svg` — Les six héros alignés, de dos, face à l'horizon gris
+- ✅ `assets/decors/pierrelune_aube.svg` — Village de montagne au lever du soleil, maisons en pierre, toits orange
+- ✅ `assets/decors/pierrelune_brume.svg` — Le même village envahi par la brume grise
+- ✅ `assets/decors/maison_maitre.svg` — Intérieur chaleureux mais vide : table en bois, parchemins, bougie éteinte
+- ✅ `assets/decors/pont_brumes.svg` — Vieux pont de pierre au-dessus d'un ravin rempli de brume
+- ✅ `assets/decors/route_ecole.svg` — Chemin forestier entre des rochers gravés de triangles et de ronds
+- ✅ `assets/decors/ecole_ruines.svg` — Grandes ruines de pierre couvertes de signes gravés et d'un mur de noms
+- ✅ `assets/decors/velis_toits.svg` — Toits d'une cité serrée la nuit, lanternes, lune
+- ✅ `assets/decors/velis_marche.svg` — Grand marché couvert, étals colorés en train de griser
+- ✅ `assets/decors/planque_chats.svg` — Repaire de voleurs sous les toits, coussins, butin, lanternes
+- ✅ `assets/decors/archives_velis.svg` — Salle d'archives, étagères de registres, poussière dans la lumière
+- ✅ `assets/decors/velis_porte.svg` — Grande porte Est de la cité, ouverte sur une plaine grise
+- ✅ `assets/decors/hautes_gerbes.svg` — Champs de blé doré, ferme et grange rouge, ciel d'été
+- ✅ `assets/decors/hautes_gerbes_gris.svg` — Les mêmes champs devenus gris, ciel bas
+- ✅ `assets/decors/chemin_collines.svg` — Sentier dans les collines, convoi de charrettes au loin
+- ✅ `assets/decors/camp_refugies.svg` — Camp de tentes derrière une palissade en bois, tente de soins
+- ✅ `assets/decors/palissade_nuit.svg` — La palissade du camp la nuit, feux de garde
+- ✅ `assets/decors/aubelle_biblio.svg` — Immense bibliothèque, étagères jusqu'au plafond, livres qui perdent leurs mots
+- ✅ `assets/decors/aubelle_rues.svg` — Rues pavées d'une ville savante, tours et coupoles
+- ✅ `assets/decors/reserve_interdite.svg` — Salle secrète, grilles, un seul livre lumineux sur un pupitre
+- ✅ `assets/decors/tour_guet.svg` — Sommet d'une tour de guet, vue sur tout le pays avec une tache blanche au centre
+- ✅ `assets/decors/lisiere.svg` — Lisière d'une forêt dont une moitié est verte et l'autre grise
+- ✅ `assets/decors/camp_eclaireurs.svg` — Camp d'éclaireurs : tentes, cartes épinglées, feu de camp
+- ✅ `assets/decors/col_vents.svg` — Col de montagne venteux, drapeaux de prière, neige
+- ✅ `assets/decors/foret_effacee.svg` — Forêt dont les arbres s'effacent en fragments de facettes
+- ✅ `assets/decors/fontclaire.svg` — Petit village autour d'une fontaine, fleurs, maisons blanches
+- ✅ `assets/decors/maison_soins.svg` — Maison de soins : fioles, plantes suspendues, lits simples
+- ✅ `assets/decors/route_villages.svg` — Route de campagne entre plusieurs petits villages
+- ✅ `assets/decors/coeur_silence.svg` — Clairière entièrement blanche, sans couleur, fragments de pages qui flottent
+- ✅ `assets/decors/coeur_silence_gueri.svg` — La même clairière qui retrouve ses couleurs, herbe verte, lumière chaude
