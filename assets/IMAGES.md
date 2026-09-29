@@ -215,16 +215,19 @@ certificat C2PA. 2 skins par héros, au catalogue de `data/cosmetics.json` (remp
 | Kestrel | ✅ `kestrel_cimes` — Guetteuse des Cimes | ✅ `kestrel_desert` — Chasseuse du Désert |
 | Mira | ✅ `mira_sources` — Gardienne des Sources | ✅ `mira_nuit` — Veilleuse de Nuit |
 
-## Variantes du sbire
+## Variantes des ennemis (sbire, brute, boss)
 
 Claude Design (`design/trois-signes-character-sheet`, générateur `project/tools/enemy-variants.js`,
-planche `Trois Signes - Planche variantes ennemis.dc.html`), reçues le 29/09/2026. Même sbire (PV, dégâts), seule l'apparence
-change avec l'avancée ; correspondance dans `data/rules.json` → `sbireVariants` (code `src/game/variants.js`).
-Dessinées dans le repère des sprites, à l'échelle du sbire : le petit est plus petit, le costaud plus grand. Fichier manquant : sprite d'origine.
+planche `Trois Signes - Planche variantes ennemis.dc.html`), reçues le 29/09/2026. Mêmes valeurs (PV, dégâts), seule l'apparence
+change avec l'avancée ; correspondance dans `data/rules.json` → `enemyVariants` (code `src/game/variants.js`) : tout ennemi dessiné
+avec le sprite du sbire, de la brute ou du boss du Solo (gardien de la Forêt de Mousse, repli des boss sans dessin) prend la variante.
+Dessinées dans le repère des sprites, à leur échelle : le petit est plus petit, le costaud plus grand. Fichier manquant : sprite d'origine.
 
-- ✅ `assets/ennemis/variantes/sbire_petit.svg` — Voyage arènes 1-2, Histoire combats 1-3
-- ✅ `assets/ennemis/variantes/sbire_moyen.svg` — Voyage arènes 3-4, Histoire combats 4-6
-- ✅ `assets/ennemis/variantes/sbire_grand.svg` — Voyage arènes 5-6, Histoire combats 7-8
-- ✅ `assets/ennemis/variantes/sbire_costaud.svg` — Voyage arènes 7-8 et Au-delà du Silence, Histoire combats 9-10
+| Variante | Voyage | Histoire | Fichiers |
+|---|---|---|---|
+| petit | arènes 1-2 | combats 1-3 | ✅ `sbire_petit`, `brute_petit`, `boss_petit` |
+| moyen | arènes 3-4 | combats 4-6 | ✅ `sbire_moyen`, `brute_moyen`, `boss_moyen` |
+| grand | arènes 5-6 | combats 7-8 | ✅ `sbire_grand`, `brute_grand`, `boss_grand` |
+| costaud | arènes 7-8 et Au-delà du Silence | combats 9-10 | ✅ `sbire_costaud`, `brute_costaud`, `boss_costaud` |
 
-Aussi dans le Drive, **non utilisées** (pas demandées) : variantes `brute_{petit,moyen,grand,costaud}` et `boss_{…}`.
+Tous dans `assets/ennemis/variantes/{sprite}_{variante}.svg`.

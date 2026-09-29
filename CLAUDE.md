@@ -30,7 +30,7 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
     `project/tools/hero-skins.js` (12 skins complets, planche `Trois Signes - Planche skins.dc.html`) et
     `project/tools/enemy-variants.js` (variantes petit / moyen / grand / costaud, planche `Trois Signes - Planche variantes ennemis.dc.html`).
 - Seuils « proposés » affichés dans la maquette de combat : **non repris** (seules les couleurs par palier le sont).
-- Combat : sprites de ¾ dos pour le héros, animations = simples transformations des sprites, déduites de l'état du jeu
+- Combat : sprites de ¾ dos pour le héros (skins complets : de face en attendant leurs vues de dos, pas de socle), animations = simples transformations des sprites, déduites de l'état du jeu
   (`src/ui/anim.js`). Corps à corps (Aldric, Nyra, Boran) : ruée + coup d'arme ; à distance (Kestrel, Ilwen, Mira) : projectile.
 - Ce qui n'est pas codé (Duel) est affiché et marqué « Bientôt ». Gemmes (achat réel plus tard) : **cosmétiques seulement, jamais d'avantage en jeu**.
 
@@ -54,9 +54,10 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
 - **Ramassage** : précision selon la distance au doigt (`rules.json` → `pickup`). Pièce = points, cœur = PV.
 - **Ennemis** (`data/enemies.json`) : sbire 20 PV / 6, brute 28 PV / 9, boss 60 PV / 12. Alerte avant un coup 1,3 à 1,5 s,
   un seul ennemi prépare un coup à la fois.
-- **Variantes du sbire** (`data/rules.json` → `sbireVariants`, `src/game/variants.js`, `assets/ennemis/variantes/`) : apparence seulement,
-  mêmes valeurs. Voyage : petit (arènes 1-2), moyen (3-4), grand (5-6), costaud (7-8 et Au-delà) ; Histoire : petit (combats 1-3),
-  moyen (4-6), grand (7-8), costaud (9-10). Taille relative gardée (petit plus petit, costaud plus grand). La brute ne change pas.
+- **Variantes des ennemis** (`data/rules.json` → `enemyVariants`, `src/game/variants.js`, `assets/ennemis/variantes/`) : sbire, brute et
+  boss du Solo, apparence seulement, mêmes valeurs. Voyage : petit (arènes 1-2), moyen (3-4), grand (5-6), costaud (7-8 et Au-delà) ;
+  Histoire : petit (combats 1-3), moyen (4-6), grand (7-8), costaud (9-10). Taille relative gardée (petit plus petit, costaud plus grand).
+  Les boss d'histoire et gardiens ont leur propre dessin (seul leur repli prend la variante).
 - **Délais communs à tous les combats** (`data/waves.json`) : pause de 1,2 s entre deux coups ennemis (`globalGap`), première attaque,
   décalage entre ennemis, délai entre deux vagues, attente du butin en fin de combat.
 - Reconnaissance des gestes maison, sans IA (`src/input/gestures.js`, objet `TUNING` : seuls chiffres gardés dans le code).
@@ -260,7 +261,7 @@ src/
   game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP et niveaux des héros, sauvegarde)
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
          talismans.js  rewards.js (récompenses méritées, rétroactives)  economy.js (or, gemmes, coffres)  cosmetics.js
-         variants.js (variantes du sbire selon l'arène ou le combat)
+         variants.js (variantes sbire / brute / boss selon l'arène ou le combat)
   story/story.js     déroulé du mode Histoire
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js

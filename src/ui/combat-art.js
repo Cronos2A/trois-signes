@@ -56,7 +56,7 @@ async function bakeSprite(name, scale, dpr, part, recolor) {
 }
 
 /**
- * Image d'un fichier (assets/ennemis/…) : à la hauteur voulue, ou à `unit` px par unité SVG (variantes de sbire,
+ * Image d'un fichier (assets/ennemis/…) : à la hauteur voulue, ou à `unit` px par unité SVG (variantes d'ennemis,
  * dessinées dans le repère des sprites). foot / head : points en fraction de l'image (défaut : pieds en bas au centre).
  */
 async function bakeImage(url, height, dpr, unit = 0, foot = [0.5, 0.965], head = [0.5, 0.08]) {   // maquette : pieds à 10/300 du bas
@@ -139,7 +139,7 @@ export async function prepareCombatArt(heroId, W, H, dpr, enemySprites, extra = 
     gDot: bakeFixed(TS.glyph('dot', '#FFD23F', 22), 22, dpr)
   };
   for (const n of names) jobs[n] = bakeSprite(n, (SPRITE_SCALE[n] || SPRITE_SCALE.sbire) * k, dpr);
-  for (const a of extra) {   // boss d'histoire, gardiens du Voyage, variantes de sbire
+  for (const a of extra) {   // boss d'histoire, gardiens du Voyage, variantes d'ennemis
     const unit = a.unit ? (SPRITE_SCALE[a.unit] || SPRITE_SCALE.sbire) * k : 0;
     jobs[a.key] = bakeImage(a.url, (a.height || 0) * k, dpr, unit, a.foot, a.head).catch(() => null);
   }

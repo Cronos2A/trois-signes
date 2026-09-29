@@ -32,15 +32,27 @@
     "bossColor": "#8C8A99",
     "lettersPerSecond": 40
   },
-  "sbireVariants": {
-    "note": "Variantes du sbire (Claude Design, assets/ennemis/variantes/) : même sbire (PV, dégâts, alerte de data/enemies.json), seule l'apparence change selon l'avancée. Dessinées dans le repère des sprites, à l'échelle du sbire (petit plus petit, costaud plus grand). foot / head : pieds et tête en fraction de l'image. voyage : une variante par arène (1 à 8), beyond : Au-delà du Silence ; story : une par combat (1 à 10). La brute n'est pas concernée. Fichier manquant : sprite du sbire d'origine.",
-    "type": "grunt",
-    "fallback": "sbire",
-    "variants": {
-      "petit": { "file": "assets/ennemis/variantes/sbire_petit.svg", "foot": [0.5, 0.853], "head": [0.486, 0.37] },
-      "moyen": { "file": "assets/ennemis/variantes/sbire_moyen.svg", "foot": [0.5, 0.865], "head": [0.486, 0.365] },
-      "grand": { "file": "assets/ennemis/variantes/sbire_grand.svg", "foot": [0.5, 0.87], "head": [0.485, 0.364] },
-      "costaud": { "file": "assets/ennemis/variantes/sbire_costaud.svg", "foot": [0.501, 0.873], "head": [0.486, 0.362] }
+  "enemyVariants": {
+    "note": "Variantes des ennemis (Claude Design, assets/ennemis/variantes/) : sbire, brute et boss (sprite du boss du Solo, utilisé par le gardien de la Forêt de Mousse et en repli). Mêmes valeurs (data/enemies.json), seule l'apparence change selon l'avancée ; tout ennemi dessiné avec l'un de ces sprites prend la variante. Dessinées dans le repère des sprites, à leur échelle (petit plus petit, costaud plus grand). foot / head : pieds et tête en fraction de l'image. voyage : une variante par arène (1 à 8), beyond : Au-delà du Silence ; story : une par combat (1 à 10). Fichier manquant : sprite d'origine.",
+    "sprites": {
+      "sbire": {
+        "petit": { "file": "assets/ennemis/variantes/sbire_petit.svg", "foot": [0.5, 0.853], "head": [0.486, 0.37] },
+        "moyen": { "file": "assets/ennemis/variantes/sbire_moyen.svg", "foot": [0.5, 0.865], "head": [0.486, 0.365] },
+        "grand": { "file": "assets/ennemis/variantes/sbire_grand.svg", "foot": [0.5, 0.87], "head": [0.485, 0.364] },
+        "costaud": { "file": "assets/ennemis/variantes/sbire_costaud.svg", "foot": [0.501, 0.873], "head": [0.486, 0.362] }
+      },
+      "brute": {
+        "petit": { "file": "assets/ennemis/variantes/brute_petit.svg", "foot": [0.5, 0.853], "head": [0.494, 0.223] },
+        "moyen": { "file": "assets/ennemis/variantes/brute_moyen.svg", "foot": [0.5, 0.865], "head": [0.494, 0.213] },
+        "grand": { "file": "assets/ennemis/variantes/brute_grand.svg", "foot": [0.5, 0.87], "head": [0.494, 0.211] },
+        "costaud": { "file": "assets/ennemis/variantes/brute_costaud.svg", "foot": [0.5, 0.873], "head": [0.494, 0.207] }
+      },
+      "boss": {
+        "petit": { "file": "assets/ennemis/variantes/boss_petit.svg", "foot": [0.49, 0.885], "head": [0.495, 0.128] },
+        "moyen": { "file": "assets/ennemis/variantes/boss_moyen.svg", "foot": [0.49, 0.895], "head": [0.495, 0.118] },
+        "grand": { "file": "assets/ennemis/variantes/boss_grand.svg", "foot": [0.49, 0.899], "head": [0.495, 0.115] },
+        "costaud": { "file": "assets/ennemis/variantes/boss_costaud.svg", "foot": [0.489, 0.902], "head": [0.494, 0.112] }
+      }
     },
     "voyage": ["petit", "petit", "moyen", "moyen", "grand", "grand", "costaud", "costaud"],
     "beyond": "costaud",

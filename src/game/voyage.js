@@ -9,7 +9,7 @@ import { reachArena } from './progress.js';
 import { enemyUrl, who } from '../ui/assets.js';
 import { placeMusic } from '../audio/audio.js';
 import { syncRewards } from './rewards.js';
-import { variantArt, variantSprite, variantType, voyageVariant, voyageVariants } from './variants.js';
+import { variantArt, applyVariant, voyageVariant, voyageVariants } from './variants.js';
 
 const V = () => D.voyage;
 const ARENAS = () => V().arenas.length;
@@ -56,7 +56,7 @@ export async function voyageBattle(hooks) {
     sprite[id] = url ? 'x_' + id : 'boss';                         // sans sprite : celui du boss du Solo
     if (url) art.push({ key: 'x_' + id, url, height: V().guardianHeight, fallback: 'boss' });
   }
-  art.push(...variantArt(voyageVariants()));                       // sbires : une variante par arène
+  art.push(...variantArt(voyageVariants()));                       // sbire, brute, boss : une variante par arène
   const arenaOf = id => (V().arenas.find(a => a.guardian === id) || {}).id;   // talisman gardé par ce gardien
   const guardianType = (id, m) => {
     if (D.enemies[id]) return { ...scaled(D.enemies[id], m), special: true, guardianOf: arenaOf(id) };
@@ -103,8 +103,6 @@ export async function voyageBattle(hooks) {
       G.scoreMult = m.score;
       G.voyage = { stage: st.stage, round: st.round, name: info.name, total: ARENAS(), rounds: V().roundsPerArena, index: i };
       B.types = { grunt: scaled(D.enemies.grunt, m), brute: scaled(D.enemies.brute, m) };
-      const vt = variantType();
-      B.types[vt] = { ...B.types[vt], sprite: variantSprite(voyageVariant(st.stage)) };
       const max = V().maxEnemies, guardianRound = st.round === V().roundsPerArena - 1;
       let list, gid = null;
       if (st.beyond < 0) {
@@ -119,6 +117,7 @@ export async function voyageBattle(hooks) {
         } else list = Array.from({ length: Y.enemies }, () => Math.random() < Y.bruteShare ? 'brute' : 'grunt');
       }
       if (gid) B.types[gid] = guardianType(gid, m);
+      B.types = applyVariant(B.types, voyageVariant(st.stage));    // apparence de l'arène (data/rules.json → enemyVariants)
       list = list.slice(0, max);
       B.waves[i] = {
         enemies: list, boss: !!gid,
