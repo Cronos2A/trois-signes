@@ -1,13 +1,13 @@
 # Trois Signes — brief pour Claude Code
 
-État du projet au 28/09/2026. À tenir à jour à chaque étape terminée.
+État du projet au 29/09/2026. À tenir à jour à chaque étape terminée.
 
 ## Le projet
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
 Trois signes : **Triangle** = attaquer, **Rond** = esquiver, **Toucher** (tap) = ramasser.
 
-Modes jouables aujourd'hui : **Solo = Le Voyage** (infini), **Histoire** (6 × 10 combats), **Entraînement**, **La première leçon** (tutoriel).
-Chaque héros a 3 armes qui progressent (niveaux 1 à 10) et un emplacement de talisman. Économie : or, gemmes, coffres et cosmétiques. À venir : **Duel** (multijoueur).
+Modes jouables aujourd'hui : **Solo = Le Voyage** (infini), **Histoire** (6 × 10 combats), **Duel** contre un ami (en ligne), **Entraînement**, **La première leçon** (tutoriel).
+Chaque héros a 3 armes qui progressent (niveaux 1 à 10) et un emplacement de talisman. Économie : or, gemmes, coffres et cosmétiques.
 
 Lancer : `py -m http.server 8123` dans ce dossier, puis http://localhost:8123 (les modules et les JSON ne se chargent pas en `file://`).
 Sur téléphone : `py -m http.server 8123 --bind 0.0.0.0`. Tester en 390 × 800 et en 360 × 640.
@@ -32,7 +32,7 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
 - Seuils « proposés » affichés dans la maquette de combat : **non repris** (seules les couleurs par palier le sont).
 - Combat : sprites de ¾ dos pour le héros (skins complets : de face en attendant leurs vues de dos, pas de socle), animations = simples transformations des sprites, déduites de l'état du jeu
   (`src/ui/anim.js`). Corps à corps (Aldric, Nyra, Boran) : ruée + coup d'arme ; à distance (Kestrel, Ilwen, Mira) : projectile.
-- Ce qui n'est pas codé (Duel) est affiché et marqué « Bientôt ». Gemmes (achat réel plus tard) : **cosmétiques seulement, jamais d'avantage en jeu**.
+- Ce qui n'est pas codé est affiché et marqué « Bientôt ». Gemmes (achat réel plus tard) : **cosmétiques seulement, jamais d'avantage en jeu**.
 
 ## Règles de combat (valeurs dans `data/`)
 - **Niveaux de réussite** (`data/grades.json`), selon la précision du tracé :
@@ -115,7 +115,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   de niveau en fin de partie. Icônes Claude Design `assets/icones/armes/{id}.svg` et `assets/icones/talismans/{id}.svg`
   (un vrai dessin au même nom les remplace).
 - **Duel** : `bonus_en_duel: false` neutralise les bonus de niveau dans un combat `duel: true` ; le style est alors pris à
-  `duel.stylePower` (100 %) pour tous. Armes : `autorise_en_duel: true`. Talismans : `autorise_en_duel: false`, **à décider**.
+  `duel.stylePower` (100 %) pour tous. Armes : `autorise_en_duel: true`. Talismans : `autorise_en_duel: true` (décidé le 29/09/2026 : actifs en Duel).
 - Équilibre vérifié le 28/09/2026 par un bot à graine (4 Voyages par arme au niveau 6, précision 82 % puis 90 %) : pas d'arme
   nettement au-dessus ; Couteaux de lancer relevés (jauge 10 → 15 par ennemi vaincu) ; à surveiller : Arbalète (+12 à 17 % de score),
   Bâton de sève (Mira tombe plus tôt à faible précision). Mira ne tombe presque jamais (180 PV + soin) : équilibre des héros à revoir.
@@ -166,13 +166,13 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Plein écran** : seulement en quittant les résultats du Voyage (Rejouer ou Retour), une partie sur 3, après 10 minutes de jeu
   cumulées (combat, Entraînement, leçon). Jamais en combat, leçon, Histoire, cinématique. Fermer après le compte à rebours.
 - **Sans publicité** (onglet Gemmes) : 2,99 €, désactivé sur le web ; une fois acheté, plus de pub plein écran (les récompensées restent).
-- **Duel** (plus tard) : `ads.json → duel` : aucune pub, aucune récompense de pub (`showRewarded({ duel })` refuse).
+- **Duel** : `ads.json → duel` : aucune pub, aucune récompense de pub (`showRewarded({ duel })` refuse).
 - Mode test (Réglages) : Sans publicité on / off, « Passer les 10 min », remise à zéro, compteurs affichés.
 - Testé le 28/09/2026 : seconde chance (65 / 130 PV), 2e KO sans proposition, or doublé seulement si la pub est vue en entier,
   pas de pub avant 10 min, pub plein écran à la 3e partie seulement, aucune avec Sans publicité, 3 fois +5 gemmes puis « Reviens demain »,
   coffre gratuit une fois par jour.
 
-## En ligne (Firebase) — `data/online.json` — **fait (étape 1 du Duel)**
+## En ligne (Firebase) — `data/online.json` — **fait**
 - Projet Firebase `trois-signes`, **offre gratuite Spark** (rien de payant utilisé). SDK web 12.19.0 **embarqué** dans
   `src/vendor/firebase/12.19.0/` (aucun CDN ; import de `firebase-app.js` rendu local, voir son README), chargé en arrière-plan.
 - **Connexion anonyme automatique** au premier lancement (aucune inscription) : `src/online/online.js` (`initOnline`, appelé par `main.js`).
@@ -185,13 +185,45 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   (serveur plus récent → `replaceProg`, jamais en pleine partie : appliqué au retour au lobby). Hors connexion : `ts_prog` reste la référence,
   envoi au retour du réseau (nouvel essai toutes les 20 s). Les Réglages du son (`ts_settings`) restent propres à l'appareil.
 - **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026 ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
-  chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ; tout le reste fermé.
+  chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ;
+  salons `duels/{code}` (voir Duel) ; tout le reste fermé.
+- **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
+  puis le jeu avec `?emu` dans l'adresse (`online.json → emulator`).
 - **Réglages → Compte** : pseudo + « Modifier », état du serveur (en ligne, sauvegarde en cours, hors connexion, injoignable) et n° de joueur,
   « Lier mon compte Google » désactivé (« Bientôt (Google Play Games) »).
 - Console Firebase : Authentication → Anonyme activé, « Activer la création (inscription) » coché ; Firestore en Europe, mode production.
 - Testé le 29/09/2026 avec deux navigateurs : deux comptes distincts, chacun lit son document, lecture et écriture du document de l'autre
   refusées (permission-denied), hors connexion puis retour (or envoyé), sauvegarde serveur plus récente reprise au lancement, pseudo après la leçon.
 - **À prévoir** : le contrôle de cohérence des scores du Duel demandera sans doute des Cloud Functions (**offre payante Blaze**) : à décider avec l'auteur avant.
+
+## Duel contre un ami — `data/duel.json` — **fait (étape 2)**
+- Code : `src/online/duel-net.js` (salon Firestore), `src/game/duel.js` (déroulé, pression, victoire), `src/ui/duel-ui.js` + `duel.css` (écrans),
+  interface de combat dans `combat-hud.js` (« VAGUE 2 / 5 », temps restant, pseudo et score de l'adversaire en direct).
+- Lobby → bouton Duel « Défier un ami » : **Créer un salon** (code de 6 caractères sans 0/O/1/I/L) ou **Rejoindre** avec le code ;
+  chacun choisit son héros et valide ; le combat part quand les deux sont prêts. Pseudo et connexion au serveur obligatoires.
+- Salon `duels/{code}` = `{ code, host, guest, createdAt, players: { uid: { pseudo, hero, ready, scores[], ko, done, quit, wave, live, seen } } }`.
+  Règles : lisible avec le code tant qu'il manque l'invité, puis par ses deux joueurs seulement ; chacun n'écrit que son entrée ;
+  l'hôte seul le supprime (salon quitté avant l'arrivée de l'ami). Les salons terminés restent (petits) : ménage à prévoir (TTL).
+- **Même programme pour les deux** : graine = code + heure du serveur à la création (`createdAt`) ; 4 vagues de sbires / brutes
+  (`waves` : part de brutes, PV et dégâts croissants), puis à la 5e le même boss (gardien du Voyage tiré au sort, `boss`) avec escorte ;
+  lieu tiré au sort (`lieux`), variantes d'ennemis par vague (`variants`).
+- **Vagues synchronisées** : à la fin d'une vague, écran « En attente de [pseudo] » avec son score en direct (signe de vie toutes les
+  `heartbeatSeconds`) et « Abandonner ». Limite de `waveSeconds` (90 s) par vague : la vague s'arrête avec son score.
+- **Pression** : avant chaque vague, « Pression de [pseudo] : +X % » ; PV et dégâts des ennemis + 40 % × (score adverse sur la vague
+  précédente ÷ score maximal théorique de cette vague), plafonné à 40 % (`pressure`). Score maximal théorique (`maxScore`) : partie sans faute
+  (tout en Perfect avec une attaque de référence de 4, combos, 2 esquives Perfect par ennemi, pièces). Vague 1 : même départ pour les deux.
+- **Victoire** : KO avant la fin = défaite (l'autre doit finir la vague) ; KO tous les deux dans la même vague = meilleur score total ;
+  les deux survivent au boss = plus gros score total ; abandon (« Quitter ») ou plus de 30 s sans signe de vie (`disconnectSeconds`, heure du serveur) = défaite.
+- **Écran de fin** : Victoire / Défaite / Égalité, raison, tableau par vague (mes points, les siens, pression reçue, pression donnée), total.
+- Bonus de niveau des héros et d'XP des armes neutralisés (`bonus_en_duel`), armes alternatives, style (100 %) et talismans actifs.
+  **Ni or, ni gemmes, ni XP** (héros ou armes) en Duel ; aucune pub, aucune récompense de pub, pas de Seconde chance.
+- Quotas Spark : environ 12 écritures par joueur et par minute de Duel (signe de vie toutes les 5 s) ; l'offre gratuite
+  (20 000 écritures / jour) permet une soixantaine de Duels complets par jour. À surveiller si le jeu grandit.
+- Pas encore de contrôle des scores (chaque joueur envoie le sien) : voir « À prévoir » ci-dessus.
+- Testé le 29/09/2026 sur l'émulateur Firebase avec deux navigateurs (390 × 800 et 360 × 640) : code inconnu, salon complet
+  (un 3e joueur refusé, écriture directe refusée), mêmes ennemis des deux côtés, vague de 90 s, attente avec score en direct,
+  pression calculée des deux côtés (reçue chez l'un = donnée chez l'autre), victoire aux points après le boss, KO en vague 2,
+  abandon, onglet fermé (défaite après 30 s), ami qui quitte le salon, ni or ni XP gagnés, aucune erreur dans la console.
 
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
@@ -252,7 +284,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
-  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -282,9 +314,9 @@ src/
   game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP et niveaux des héros, sauvegarde)
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
          talismans.js  rewards.js (récompenses méritées, rétroactives)  economy.js (or, gemmes, coffres)  cosmetics.js
-         variants.js (variantes sbire / brute / boss selon l'arène ou le combat)
+         variants.js (variantes sbire / brute / boss selon l'arène ou le combat)  duel.js (Duel : programme, pression, victoire)
   story/story.js     déroulé du mode Histoire
-  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  pseudo.js (pseudo : règles et filtre)
+  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel)
   vendor/firebase/   SDK Firebase embarqué (app, auth, firestore)
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js
@@ -293,9 +325,9 @@ src/
          tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (cartes Armes / Talisman, XP de fin de partie)
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman / Gemmes »)  shop-ui.js (boutique, coffres, carte Cosmétiques)
          looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)  cover.js (écran de lancement)
-         account-ui.js (pseudo, bloc Compte des Réglages)
-         organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css
-data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online (.json)
+         account-ui.js (pseudo, bloc Compte des Réglages)  duel-ui.js (salon, attente, pression, fin du Duel)
+         organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css
+data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel (.json)
 firestore.rules  firebase.json   règles de sécurité Firestore
 assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
@@ -309,10 +341,7 @@ prototype/ prototype d'origine
 
 ## Prochaines tâches (dans cet ordre)
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
-2. **Multijoueur (Duel)** : étape 1 (Firebase, compte, pseudo, sauvegarde en ligne) faite ; ensuite le Duel lui-même, tour par tour (Firebase : seeds, scores, contrôle de cohérence).
-   Vague 1 jouée en même temps (même seed), le meilleur score commence, chaque score durcit la vague de l'adversaire,
-   KO avant le boss = défaite, sinon le plus gros score gagne. Aucune pub ni récompense de pub en Duel (`ads.json → duel`).
-   **Bonus d'armes neutralisés en Duel** : déjà prévu,
-   il suffit de marquer le combat `duel: true` (voir « Armes, talismans et récompenses ») ; décider aussi si le Duel rapporte de l'XP d'arme.
+2. **Duel, suite** : contrôle de cohérence des scores (Cloud Functions = offre Blaze, à décider), ménage des salons terminés,
+   adversaire au hasard (file d'attente), liaison du compte Google.
 
 Plus tard : achat réel des gemmes et de « Sans publicité », AdMob (dans l'application), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.

@@ -28,7 +28,7 @@ let actions = {};
 
 const chars = () => D.characters.characters;
 
-/** actions : { solo(), train(), again(), story(), lesson() } */
+/** actions : { solo(), train(), again(), story(), lesson(), duel() } */
 export function initLobby(a) {
   actions = a;
   const ring = D.progression.maxRing;                 // anneau doré du niveau maximum
@@ -109,6 +109,7 @@ function onClick(e) {
     case 'train': actions.train(); break;
     case 'lesson': actions.lesson(); break;
     case 'story': actions.story(); break;
+    case 'duel': actions.duel(); break;
     case 'again': afterVoyageResults().then(() => actions.again()); break;   // pub plein écran due (Voyage)
     case 'home': afterVoyageResults().then(() => { hideResults(); ui.tab = 'play'; render(); }); break;
     case 'settings': renderSettings(); $('settings').classList.remove('hidden'); break;
@@ -230,9 +231,9 @@ function playHtml() {
         <span class="badge">PVE</span>
         <span class="mode-txt"><span class="mode-title ol ol-5">Histoire</span><span class="mode-sub">6 héros · 10 combats</span></span>
       </button>
-      <button class="mode-btn duel" disabled aria-disabled="true">
-        <span class="badge">BIENTÔT</span>
-        <span class="mode-txt"><span class="mode-title ol ol-5">Duel</span><span class="mode-sub">En ligne · tour par tour</span></span>
+      <button class="mode-btn duel" data-act="duel">
+        <span class="badge">PVP</span>
+        <span class="mode-txt"><span class="mode-title ol ol-5">Duel</span><span class="mode-sub">Défier un ami</span></span>
       </button>
     </div>`;
 }

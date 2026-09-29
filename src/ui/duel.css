@@ -1,0 +1,45 @@
+/* Duel (src/ui/duel-ui.js) : un calque au-dessus du jeu et de l'écran de lancement. */
+.duel{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;
+  background:color-mix(in srgb,var(--ink) 55%,transparent);font-family:var(--font-body)}
+.duel.hidden{display:none}
+.duel.banner{background:none;pointer-events:none}
+.du-card{max-height:calc(100dvh - 32px)}
+.du-title{font-size:32px}
+.du-sub{text-align:center;font-family:var(--font-heading);font-size:18px;color:var(--moss)}
+.du-text{margin:0;text-align:center;font-size:14px;font-weight:700;color:var(--text-soft)}
+.du-busy{padding:18px 0;font-size:24px}
+.du-join{display:flex;gap:8px}
+.du-code-in{flex:1;min-width:0;height:44px;border-radius:14px;border:3px solid var(--ink);background:var(--color-surface);box-sizing:border-box;
+  font-family:var(--font-heading);font-size:22px;letter-spacing:.14em;text-align:center;text-transform:uppercase;color:var(--ink)}
+.du-join-btn{height:44px;padding:0 14px;flex:none}
+.du-err{min-height:1em;text-align:center;font-size:13px;font-weight:800;color:var(--coral)}
+.du-err:empty{display:none}
+.du-back{align-self:center;padding:0 18px;background:var(--color-bg)}
+.du-code-box{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px;border-radius:18px;background:var(--color-surface);
+  font-size:13px;font-weight:700;color:var(--text-soft)}
+.du-code{font-family:var(--font-heading);font-weight:400;font-size:34px;letter-spacing:.16em;color:var(--ink);user-select:all}
+.du-friend{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;text-align:center;font-size:14px;font-weight:700}
+.du-wait-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--btn-orange);border:2px solid var(--ink);animation:du-pulse 1s ease-in-out infinite}
+.du-wait-dot.big{align-self:center;width:16px;height:16px}
+@keyframes du-pulse{50%{transform:scale(.6);opacity:.5}}
+.du-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.du-hero{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 2px;border-radius:16px;border:3px solid transparent;background:none}
+.du-hero.on{border-color:var(--ink);background:var(--btn-lime);box-shadow:0 3px 0 var(--ink)}
+.du-hero:disabled:not(.on){opacity:.45}
+.du-face{width:46px;height:46px;border-radius:50%;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+.du-face .ol{font-size:22px}
+.du-hname{font-size:12.5px;font-weight:800}
+.res-again:disabled{opacity:.7}
+.du-banner{padding:14px 22px;border-radius:24px;border:4px solid var(--ink);background:var(--btn-orange);box-shadow:0 6px 0 var(--ink);
+  text-align:center;max-width:100%;box-sizing:border-box;animation:du-in .35s ease-out}
+.du-banner .ol{white-space:pre-line;font-size:24px;line-height:1.15;text-shadow:0 2px 0 var(--ink)}
+@keyframes du-in{from{transform:scale(.7);opacity:0}}
+.du-live{display:flex;align-items:baseline;justify-content:center;gap:6px;font-weight:800;color:var(--text-soft)}
+.du-live b{font-family:var(--font-heading);font-weight:400;font-size:40px;color:var(--ink)}
+.du-waitcard .du-title{font-size:26px}
+.du-table{width:100%;border-collapse:collapse;font-size:12.5px;font-weight:700;background:var(--color-surface);border-radius:14px;overflow:hidden}
+.du-table th{font-size:10.5px;font-weight:800;color:var(--text-soft);padding:6px 3px;line-height:1.1}
+.du-table td{text-align:center;padding:4px 3px;border-top:2px dashed color-mix(in srgb,var(--ink) 18%,transparent)}
+.du-table td:nth-child(2),.du-table td:nth-child(3){font-family:var(--font-heading);font-weight:400;font-size:14px}
+.du-total td{font-weight:800}
+.du-note{text-align:center;font-size:12px;font-weight:700;color:var(--text-soft)}

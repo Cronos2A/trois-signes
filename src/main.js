@@ -28,6 +28,8 @@ import { ensurePseudo } from './ui/account-ui.js';
 import { initStory, openStory, maybePrologue } from './story/story.js';
 import { voyageBattle } from './game/voyage.js';
 import { initTutorial, startTutorial } from './game/tutorial.js';
+import { initDuel, startDuel } from './game/duel.js';
+import { openDuel, hideDuelUi } from './ui/duel-ui.js';
 import { showTransition, hideTransition } from './ui/voyage-ui.js';
 import { initAudio, sfx, music, placeMusic, traceStart, traceStop } from './audio/audio.js';
 
@@ -108,6 +110,7 @@ function update(dt) {
   if (G.mode === 'train') { updateTraining(dt); return; }
   if (G.mode !== 'play') return;
   G.time += dt;
+  if (G.battle.update) G.battle.update(dt);               // Duel : temps limite de la vague, interface
   if (G.battle.tutorial) { updateEnemies(dt); return; }   // leçon : mannequin seul, déroulé dans game/tutorial.js
   if (G.battle.timeLimit && G.time >= G.battle.timeLimit) return endGame('time');
   updateEnemies(dt);
@@ -277,6 +280,15 @@ function endGame(why) {
   showRewards([...syncRewards(), ...G.gemGains, ...syncGems()]);   // talisman et gemmes (déjà versées) d'un gardien battu
 }
 
+/** Fin ou sortie du Duel (ui/duel-ui.js) : retour au lobby. */
+function duelHome() {
+  hideDuelUi();
+  G.mode = 'menu';
+  setInGame(false);
+  music('musique_lobby');
+  if (pendingRemote) { const d = pendingRemote; pendingRemote = null; applyRemote(d); }
+}
+
 /* ---------- Démarrage ---------- */
 async function init() {
   addEventListener('resize', resize);
@@ -297,7 +309,9 @@ async function init() {
     onDraw: d => { G.drawing = d; },
     onGesture
   });
-  initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play'), story: openStory, lesson: startTutorial });
+  initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play'), story: openStory, lesson: startTutorial,
+    duel: () => { openDuel({ start: (room, char) => startDuel(room, char), back: duelHome }); } });
+  initDuel({ startBattle: opts => start('play', opts), end: why => endGame(why), home: duelHome, quit: toLobby });
   initTutorial({ startBattle: opts => start('play', opts), quit: toLobby });
   initStory({ startBattle: opts => start('play', opts), toLobby: showLobby });
   $('quit').onclick = () => { sfx('ui_clic'); toLobby(); };

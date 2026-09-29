@@ -59,6 +59,19 @@ export function updateHud(A) {
     set('timeC', $('hudTimer'), 'class', 'hud-timer');
     set('arena', $('hudArena'), 'text', T.help ? D.tutorial.handHint : T.consigne);   // après deux échecs : « Suis la main »
     set('help', $('hudArena'), 'class', 'hud-arena' + (T.help ? ' help' : ''));
+  } else if (G.mode === 'play' && G.battle.duel && G.duelHud) {
+    // Duel : « Vague 2 / 5 » (BOSS à la dernière), temps restant de la vague, adversaire et son score en direct dessous.
+    const H = G.duelHud, boss = H.wave === H.total, left = Math.max(0, Math.ceil(H.left));
+    set('voyage', $('hud'), 'voyageClass', true);
+    set('waveK', $('hudWaveK'), 'text', boss ? 'BOSS' : H.label);
+    set('waveKc', $('hudWaveK'), 'class', 'hud-k' + (boss ? ' boss' : ''));
+    set('wave', $('hudWave'), 'text', H.wave + ' / ' + H.total);
+    set('pips', $('hudPips'), 'html', Array.from({ length: H.total }, (_, i) =>
+      `<i class="${i < H.wave - 1 ? 'done' : i === H.wave - 1 ? (boss ? 'boss' : 'cur') : ''}"></i>`).join(''));
+    set('time', $('hudTime'), 'text', Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0'));
+    set('timeC', $('hudTimer'), 'class', 'hud-timer' + (boss || left <= 20 ? ' hot' : ''));
+    set('arena', $('hudArena'), 'text', H.line);
+    set('score', $('hudScore'), 'text', nf(G.score));
   } else if (G.mode === 'play' && G.battle.endless) {
     // Le Voyage : « Round 2 / 4 », multiplicateur de score à la place du chrono, nom de l'arène dessous.
     const V = G.voyage, n = V ? V.rounds : 4, cur = V ? V.round + 1 : 1, boss = cur === n;

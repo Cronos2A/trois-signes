@@ -47,6 +47,12 @@ function start() {
         const app = fb.app.initializeApp(O().firebase);
         auth = fb.auth.getAuth(app);
         db = fb.fs.getFirestore(app);
+        // Tests en local : émulateurs Firebase (?emu dans l'adresse, data/online.json → emulator), jamais en production.
+        if (new URLSearchParams(location.search).has(O().emulator.param)) {
+          const E = O().emulator;
+          fb.auth.connectAuthEmulator(auth, 'http://' + E.host + ':' + E.authPort, { disableWarnings: true });
+          fb.fs.connectFirestoreEmulator(db, E.host, E.firestorePort);
+        }
       }
       await auth.authStateReady();
       if (!auth.currentUser) await fb.auth.signInAnonymously(auth);
@@ -115,6 +121,18 @@ export function setPseudo(p) {
 }
 
 export const pseudo = () => (prog.profile && prog.profile.pseudo) || '';
+
+/** Accès au serveur pour le Duel (online/duel-net.js) : SDK, base, joueur ; null tant que la connexion n'est pas prête. */
+export const server = () => (user && db ? { fb, db, uid: user.uid } : null);
+/** Attend la connexion (ou échoue après ms). */
+export function whenOnline(ms = 20000) {
+  if (server()) return Promise.resolve(server());
+  start();
+  return new Promise((ok, ko) => {
+    const t = setTimeout(() => { off(); ko(new Error('offline')); }, ms);
+    const off = onOnlineChange(() => { if (server()) { clearTimeout(t); off(); ok(server()); } });
+  });
+}
 
 /** Tests : envoie tout de suite ce qui attend, et lit un document (le sien, ou celui d'un autre : refusé par les règles). */
 export const flushNow = () => { dirty = true; return upload(); };

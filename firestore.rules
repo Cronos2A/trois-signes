@@ -2,7 +2,8 @@ rules_version = '2';
 
 // Trois Signes : règles de sécurité Cloud Firestore.
 // Chaque joueur (compte anonyme Firebase) ne peut lire et modifier QUE son propre document players/{uid}.
-// Tout le reste est fermé. À publier dans la console Firebase (Firestore Database → Règles) ou avec `firebase deploy --only firestore:rules`.
+// Salons de Duel duels/{code} : lisibles avec le code tant qu'il manque un joueur, puis par ses deux joueurs seulement ;
+// chacun n'écrit que sa propre entrée players.{uid}. Tout le reste est fermé. À publier dans la console Firebase (Firestore Database → Règles) ou avec `firebase deploy --only firestore:rules`.
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -24,6 +25,48 @@ service cloud.firestore {
     match /players/{uid} {
       allow read, delete: if isOwner(uid);
       allow create, update: if isOwner(uid) && validPlayer();
+    }
+
+    // Entrée d'un joueur dans un salon de Duel (src/online/duel-net.js).
+    function validEntry(p) {
+      return p.keys().hasOnly(['pseudo', 'hero', 'ready', 'scores', 'ko', 'done', 'quit', 'wave', 'live', 'seen'])
+        && p.pseudo is string && p.pseudo.size() <= 16
+        && (p.hero == null || (p.hero is string && p.hero.size() <= 20))
+        && p.ready is bool && p.done is bool && p.quit is bool
+        && p.scores is list && p.scores.size() <= 5
+        && (p.ko == null || p.ko is int)
+        && p.wave is int && p.live is number
+        && p.seen is timestamp;
+    }
+
+    // Salon de Duel : { code, host, guest, createdAt, players: { uid: entrée } }.
+    match /duels/{code} {
+      function signedIn() { return request.auth != null; }
+      function inRoom() { return request.auth.uid == resource.data.host || request.auth.uid == resource.data.guest; }
+      function onlyMine() {
+        return request.resource.data.players.diff(resource.data.players).affectedKeys().hasOnly([request.auth.uid])
+          && validEntry(request.resource.data.players[request.auth.uid]);
+      }
+      allow get: if signedIn() && (resource == null || resource.data.guest == null || inRoom());
+      allow list: if false;
+      allow create: if signedIn() && code.size() == 6
+        && request.resource.data.keys().hasOnly(['code', 'host', 'guest', 'createdAt', 'players'])
+        && request.resource.data.code == code
+        && request.resource.data.host == request.auth.uid && request.resource.data.guest == null
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.players.keys().hasOnly([request.auth.uid])
+        && validEntry(request.resource.data.players[request.auth.uid]);
+      allow update: if signedIn() && (
+        // rejoindre : la place d'invité est libre, on n'ajoute que soi
+        (resource.data.guest == null && request.auth.uid != resource.data.host
+          && request.resource.data.guest == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['guest', 'players'])
+          && onlyMine())
+        // jouer : un joueur du salon ne change que sa propre entrée
+        || (inRoom()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['players'])
+          && onlyMine()));
+      allow delete: if signedIn() && request.auth.uid == resource.data.host;
     }
 
     match /{document=**} {
