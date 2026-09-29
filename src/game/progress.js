@@ -9,24 +9,47 @@ export const store = {
 };
 
 export const prog = store.get(KEY, {});
-// Chaque personnage a son XP et son niveau, gagnés seulement en le jouant.
-// Une ancienne sauvegarde (XP commune) revient à Aldric, seul jouable jusque-là.
-if (!prog.chars) { prog.chars = { aldric: { xp: prog.xp || 0 } }; delete prog.xp; }
-// Depuis la version 2 : prog.chars[id] = { lvl, xp } (XP dans le niveau) ; conversion dans migrateProgress().
 
-// Mode Histoire : combats gagnés par histoire, cinématiques vues, fragments de mémoire.
-if (!prog.story) prog.story = { done: {}, seen: {}, fragments: [], prologue: false, epilogue: false };
-// Le Voyage : arène la plus lointaine atteinte (index, 8 = Au-delà du Silence) et arènes déjà découvertes.
-// Le meilleur score reste prog.best.
-if (!prog.voyage) prog.voyage = { maxArena: -1, found: [] };
-if (!prog.voyage.beaten) prog.voyage.beaten = [];   // arènes dont le gardien a été battu (talismans)
-// Armes et talismans : XP par arme ; armes et talismans débloqués ; arme et talisman équipés par héros.
-if (!prog.weapons) prog.weapons = {};
-if (!prog.armory) prog.armory = { weapons: [], talismans: [], equipped: {}, talisman: {} };
-// Économie : or, gemmes, gains déjà donnés, cosmétiques possédés et équipés par héros, garantie des coffres.
-if (!prog.eco) prog.eco = { gold: 0, gems: 0, granted: [], owned: [], equipped: {}, pity: 0, opened: 0 };
+/** Complète une sauvegarde (nouvelle, ancienne ou reçue du serveur) avec ce qui lui manque. */
+function ensureDefaults() {
+  // Chaque personnage a son XP et son niveau, gagnés seulement en le jouant.
+  // Une ancienne sauvegarde (XP commune) revient à Aldric, seul jouable jusque-là.
+  if (!prog.chars) { prog.chars = { aldric: { xp: prog.xp || 0 } }; delete prog.xp; }
+  // Depuis la version 2 : prog.chars[id] = { lvl, xp } (XP dans le niveau) ; conversion dans migrateProgress().
 
-export const saveProg = () => store.set(KEY, prog);
+  // Mode Histoire : combats gagnés par histoire, cinématiques vues, fragments de mémoire.
+  if (!prog.story) prog.story = { done: {}, seen: {}, fragments: [], prologue: false, epilogue: false };
+  // Le Voyage : arène la plus lointaine atteinte (index, 8 = Au-delà du Silence) et arènes déjà découvertes.
+  // Le meilleur score reste prog.best.
+  if (!prog.voyage) prog.voyage = { maxArena: -1, found: [] };
+  if (!prog.voyage.beaten) prog.voyage.beaten = [];   // arènes dont le gardien a été battu (talismans)
+  // Armes et talismans : XP par arme ; armes et talismans débloqués ; arme et talisman équipés par héros.
+  if (!prog.weapons) prog.weapons = {};
+  if (!prog.armory) prog.armory = { weapons: [], talismans: [], equipped: {}, talisman: {} };
+  // Économie : or, gemmes, gains déjà donnés, cosmétiques possédés et équipés par héros, garantie des coffres.
+  if (!prog.eco) prog.eco = { gold: 0, gems: 0, granted: [], owned: [], equipped: {}, pity: 0, opened: 0 };
+  // Profil en ligne : pseudo choisi par le joueur (online/online.js).
+  if (!prog.profile) prog.profile = { pseudo: '' };
+}
+ensureDefaults();
+
+// Sauvegarde : datée (savedAt, pour savoir laquelle est la plus récente entre l'appareil et le serveur),
+// puis signalée à la sauvegarde en ligne (online/online.js), qui l'envoie un peu plus tard.
+let onSave = null;
+export const onSaved = fn => { onSave = fn; };
+export function saveProg() {
+  prog.savedAt = Date.now();
+  store.set(KEY, prog);
+  if (onSave) onSave();
+}
+
+/** Remplace toute la progression (sauvegarde plus récente reçue du serveur), sans la redater. */
+export function replaceProg(data) {
+  for (const k of Object.keys(prog)) delete prog[k];
+  Object.assign(prog, data);
+  ensureDefaults();
+  store.set(KEY, prog);
+}
 
 const PR = () => D.progression;
 
@@ -74,7 +97,7 @@ export function addXp(id, n) {
 }
 
 /** Retient le personnage choisi dans le lobby pour les prochaines sessions. */
-export function saveActive(id) { prog.active = id; store.set(KEY, prog); }
+export function saveActive(id) { prog.active = id; saveProg(); }
 
 /** Bonus de niveau : multiplicateurs d'attaque et de PV max. En Duel, neutralisés si bonus_en_duel vaut false. */
 export function levelBonuses(id, duel = false) {

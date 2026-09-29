@@ -338,3 +338,20 @@
 .xpbar.max i{display:none}
 .xpbar.max b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;letter-spacing:.12em;color:var(--ink);line-height:1}
 .wbar.max i{background:var(--lvl-ring);border-right:0}
+/* Compte (Réglages) et pseudo (ui/account-ui.js) */
+.acc-line{display:flex;align-items:center;gap:8px;min-width:0}
+.acc-pseudo{flex:1;min-width:0;font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acc-pseudo b{font-weight:800}
+.acc-edit{flex-shrink:0;font-size:13px;padding:0 12px}
+.acc-status{font-size:12px;font-weight:700;color:var(--text-soft);line-height:1.3}
+.acc-google{flex-direction:column;height:auto;min-height:40px;padding:4px 14px;line-height:1.15;background:var(--color-bg)}
+.acc-google small{font-size:11px;font-weight:700}
+#pseudoModal{z-index:30}
+.ps-card{gap:12px}
+.ps-intro{margin:0;font-size:14px;font-weight:600;line-height:1.35}
+.ps-field{display:flex;gap:8px;min-width:0}
+.ps-input{flex:1;min-width:0;height:44px;padding:0 12px;border:3px solid var(--ink);border-radius:14px;background:#fff;font:800 17px var(--font-body);color:var(--ink);box-sizing:border-box}
+.ps-input:focus{outline:3px solid var(--sun);outline-offset:1px}
+.ps-dice{flex-shrink:0;height:44px;font-size:13px;padding:0 12px}
+.ps-err{min-height:16px;font-size:12.5px;font-weight:800;color:#B3261E;line-height:1.3}
+.ps-cancel{align-self:center;padding:0 22px}

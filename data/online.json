@@ -1,0 +1,57 @@
+{
+  "note": "Serveur Firebase (offre gratuite Spark) : connexion anonyme automatique (Authentication) et sauvegarde en ligne (Cloud Firestore, document players/{uid}). La sauvegarde locale (ts_prog) reste la référence hors connexion ; la plus récente (savedAt) l'emporte. Règles de sécurité : firestore.rules (chaque joueur ne lit et n'écrit que son propre document). La configuration web Firebase est publique par nature (la sécurité vient des règles).",
+  "firebase": {
+    "apiKey": "AIzaSyAkd8TfyQWeUgtsQPG-XPHE3W59taKUko0",
+    "authDomain": "trois-signes.firebaseapp.com",
+    "projectId": "trois-signes",
+    "storageBucket": "trois-signes.firebasestorage.app",
+    "messagingSenderId": "322644310680",
+    "appId": "1:322644310680:web:ff19cfb10a213af6ec6eed",
+    "measurementId": "G-KJZ5FLQNTD"
+  },
+  "sdk": { "path": "src/vendor/firebase/12.19.0/" },
+  "collection": "players",
+  "saveVersion": 1,
+  "sync": { "debounceMs": 3000, "retryMs": 20000 },
+  "pseudo": {
+    "min": 3,
+    "max": 16,
+    "allowed": "^[\\p{L}\\p{N}][\\p{L}\\p{N} _.\\-]*$",
+    "suggest": "Signeur",
+    "note": "Filtre : le pseudo est mis en minuscules, sans accents, chiffres « leet » remplacés (0→o, 1→i, 3→e, 4→a, 5→s, 7→t, @→a, $→s). banned : interdit s'il apparaît n'importe où (lettres seules, répétitions réduites) ; bannedWords : interdit comme mot entier (trop court pour être cherché partout).",
+    "leet": { "0": "o", "1": "i", "3": "e", "4": "a", "5": "s", "7": "t", "@": "a", "$": "s", "€": "e" },
+    "banned": [
+      "merde", "putain", "puta", "pute", "salope", "salop", "encule", "enkule", "connard", "conard", "connasse", "batard", "bordel",
+      "bite", "zizi", "couille", "chatte", "nique", "niquer", "branle", "pouffiasse", "petasse", "grognasse", "fiotte", "tapette",
+      "negre", "bougnoul", "youpin", "nazi", "hitler", "pedophile", "pedo", "viol", "suicide",
+      "fuck", "fuk", "shit", "bitch", "cunt", "dick", "cock", "pussy", "whore", "slut", "nigger", "nigga", "fag", "rape", "porn", "sex"
+    ],
+    "bannedWords": ["con", "cons", "conne", "cul", "pd", "fdp", "ntm", "tg", "nik", "ass", "kkk", "ss", "wtf"]
+  },
+  "ui": {
+    "title": "Choisis ton pseudo",
+    "intro": "C'est le nom que verront les autres joueurs en Duel. Tu pourras le changer dans les Réglages.",
+    "placeholder": "Ton pseudo",
+    "ok": "Valider",
+    "cancel": "Annuler",
+    "suggest": "Au hasard",
+    "tooShort": "Au moins {min} caractères.",
+    "tooLong": "{max} caractères au plus.",
+    "badChars": "Lettres, chiffres, espace, tiret, point et _ seulement (commence par une lettre ou un chiffre).",
+    "rude": "Ce pseudo n'est pas autorisé.",
+    "account": "Compte",
+    "pseudoLabel": "Pseudo",
+    "edit": "Modifier",
+    "google": "Lier mon compte Google",
+    "googleSoon": "Bientôt (Google Play Games)",
+    "status": {
+      "off": "Hors ligne : sauvegarde sur cet appareil",
+      "connecting": "Connexion au serveur…",
+      "online": "En ligne : sauvegarde à jour",
+      "saving": "En ligne : sauvegarde en cours…",
+      "offline": "Hors connexion : sauvegarde sur cet appareil, envoyée au retour du réseau",
+      "error": "Serveur injoignable : sauvegarde sur cet appareil"
+    },
+    "id": "Joueur n° {id}"
+  }
+}

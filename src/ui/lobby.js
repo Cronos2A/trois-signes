@@ -16,6 +16,7 @@ import { showRewarded, afterVoyageResults, watchForGems, watchForChest, setNoAds
 import { adIcon, adToast } from './ad-ui.js';
 import { openChest } from '../game/economy.js';
 import { moneyIcon, goldGainHtml } from './money.js';
+import { accountHtml, askPseudo } from './account-ui.js';
 
 const $ = id => document.getElementById(id);
 const nf = n => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
@@ -44,7 +45,8 @@ export function initLobby(a) {
     '<nav class="lb-tabs" id="lbTabs"></nav>' +
     '<div class="lb-modal hidden" id="results" role="dialog" aria-modal="true"></div>' +
     '<div class="lb-modal hidden" id="settings" role="dialog" aria-modal="true" aria-label="Réglages"></div>' +
-    '<div class="lb-modal hidden" id="shopModal" role="dialog" aria-modal="true"></div>';
+    '<div class="lb-modal hidden" id="shopModal" role="dialog" aria-modal="true"></div>' +
+    '<div class="lb-modal hidden" id="pseudoModal" role="dialog" aria-modal="true" aria-label="Pseudo"></div>';
   onSkinReady(() => { if (!$('lobby').classList.contains('hidden')) render(); });   // skin chargé : on le montre
   root.addEventListener('click', onClick);
   // Curseurs de volume : appliqués en direct (game/settings.js prévient le gestionnaire audio).
@@ -65,6 +67,12 @@ export function initLobby(a) {
 export const activeCharacter = () => chars()[ui.active];
 
 export function showLobby() { render(); $('lobby').classList.remove('hidden'); }
+/** Progression remplacée (sauvegarde du serveur plus récente) : héros actif et lobby redessinés. */
+export function refreshLobby() {
+  const saved = chars().findIndex(c => c.id === prog.active && c.available);
+  if (saved >= 0) ui.active = ui.view = saved;
+  render();
+}
 export function hideLobby() { $('lobby').classList.add('hidden'); hideResults(); }
 export function hideResults() { $('results').classList.add('hidden'); }
 const slotOfKind = kind => D.cosmetics.types[kind].slot;
@@ -107,6 +115,7 @@ function onClick(e) {
     case 'set': setSetting(el.dataset.key, el.dataset.key === 'vibrate' ? arg === '1' : arg); renderSettings(); break;
     case 'closeSettings': $('settings').classList.add('hidden'); break;
     case 'credits': renderCredits(); break;
+    case 'pseudoEdit': askPseudo(true).then(() => { renderSettings(); render(); }); break;
     case 'backSettings': renderSettings(); break;
     case 'equipW': equipWeapon(chars()[ui.view].id, arg); render(); break;
     case 'tal': ui.tal = arg; render(); break;
@@ -322,6 +331,7 @@ function renderSettings() {
       ${vol('music', 'Musique')}
       ${vol('sfx', 'Effets')}
       ${pick('vibrate', 'Vibrations', [['1', 'Oui', settings.vibrate], ['0', 'Non', !settings.vibrate]])}
+      ${accountHtml()}
       <button class="mini-btn set-credits" data-act="credits">Crédits</button>
       ${testMode() ? testHtml() : ''}
       <button class="res-again" data-act="closeSettings"><span class="ol ol-4">Fermer</span></button>

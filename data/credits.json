@@ -5,6 +5,7 @@
     { "title": "Musiques", "lines": ["Composées avec Suno"] },
     { "title": "Notes de réussite", "lines": ["Synthétisées dans le jeu"] },
     { "title": "Graphismes", "lines": ["Design system Organic, maquettes Claude Design"] },
-    { "title": "Polices", "lines": ["Caprasimo et Figtree (SIL Open Font License)"] }
+    { "title": "Polices", "lines": ["Caprasimo et Figtree (SIL Open Font License)"] },
+    { "title": "Serveur", "lines": ["Firebase (Google), SDK sous licence Apache 2.0"] }
   ]
 }

@@ -1,0 +1,33 @@
+rules_version = '2';
+
+// Trois Signes : règles de sécurité Cloud Firestore.
+// Chaque joueur (compte anonyme Firebase) ne peut lire et modifier QUE son propre document players/{uid}.
+// Tout le reste est fermé. À publier dans la console Firebase (Firestore Database → Règles) ou avec `firebase deploy --only firestore:rules`.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // Document écrit par src/online/online.js : { pseudo, save, savedAt, updatedAt, v }.
+    function validPlayer() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['pseudo', 'save', 'savedAt', 'updatedAt', 'v'])
+        && d.pseudo is string && d.pseudo.size() <= 16
+        && d.save is string && d.save.size() < 400000
+        && d.savedAt is number
+        && d.updatedAt == request.time
+        && d.v is int;
+    }
+
+    match /players/{uid} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid) && validPlayer();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { attachInput } from './input/gestures.js';
 import { handleGesture, useSuper, updateSummons } from './game/combat.js';
 import { emptyStats } from './game/grades.js';
 import { updateEnemies, updateWaves } from './game/enemies.js';
-import { levelBonuses, grantXp, voyageXp, migrateProgress, prog } from './game/progress.js';
+import { levelBonuses, grantXp, voyageXp, migrateProgress, prog, replaceProg } from './game/progress.js';
 import { weaponBonuses, grantWeaponXp, equippedWeapon, startWeapon } from './game/weapons.js';
 import { talismanEffect } from './game/talismans.js';
 import { syncRewards } from './game/rewards.js';
@@ -22,7 +22,9 @@ import { draw } from './ui/hud.js';
 import { prepareCombatArt, paintBackground } from './ui/combat-art.js';
 import { setupHud } from './ui/combat-hud.js';
 import { resetAnims } from './ui/anim.js';
-import { initLobby, showLobby, hideLobby, showResults, activeCharacter } from './ui/lobby.js';
+import { initLobby, showLobby, hideLobby, showResults, activeCharacter, refreshLobby } from './ui/lobby.js';
+import { initOnline } from './online/online.js';
+import { ensurePseudo } from './ui/account-ui.js';
 import { initStory, openStory, maybePrologue } from './story/story.js';
 import { voyageBattle } from './game/voyage.js';
 import { initTutorial, startTutorial } from './game/tutorial.js';
@@ -190,6 +192,18 @@ function toLobby() {
   if (b && b.onQuit) b.onQuit();          // Histoire : « Quitter » ramène au chemin des combats
   else music('musique_lobby');
   if (gems.length || (b && b.xpMode === 'voyage')) showRewards([...syncRewards(), ...gems]);   // talisman, gemmes déjà versées
+  if (pendingRemote) { const d = pendingRemote; pendingRemote = null; applyRemote(d); }
+  if (window.__tsReady) ensurePseudo();    // fin de la première leçon : le joueur choisit son pseudo
+}
+
+/* ---------- Sauvegarde en ligne (online/online.js) ---------- */
+// Sauvegarde du serveur plus récente que celle de l'appareil : elle remplace la progression, jamais en pleine partie.
+let pendingRemote = null;
+function applyRemote(data) {
+  if (G.mode === 'play' || G.mode === 'train' || starting) { pendingRemote = data; return; }
+  replaceProg(data);
+  migrateProgress();
+  refreshLobby();
 }
 
 let starting = false;
@@ -275,6 +289,7 @@ async function init() {
     return;
   }
   migrateProgress();                       // anciennes sauvegardes : niveau gardé, XP dans le niveau à zéro
+  initOnline({ applyRemote });             // compte anonyme + sauvegarde en ligne, en arrière-plan (data/online.json)
   initAds();                               // AdMob + consentement dans l'application ; rien sur le web
   initAudio();                             // effets chargés maintenant, musiques à la demande
   attachInput(cv, {
@@ -302,7 +317,7 @@ async function init() {
   // Sinon : récompenses déjà méritées et pas encore reçues (sauvegardes d'avant les armes alternatives et talismans).
   maybePrologue().then(first => {
     if (first && !prog.tutorial) return startTutorial();
-    return showRewards([...syncRewards(), ...syncGems()]).then(showLobby);
+    return showRewards([...syncRewards(), ...syncGems()]).then(showLobby).then(ensurePseudo);
   });
 }
 
