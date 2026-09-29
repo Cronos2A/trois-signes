@@ -15,13 +15,34 @@
     "escort": ["grunt"]
   },
   "variants": ["petit", "moyen", "grand", "costaud", "costaud"],
-  "lieux": ["hautes_gerbes", "fontclaire", "velis_toits", "aubelle_biblio", "col_vents", "ecole_ruines"],
   "pressure": { "factor": 0.4, "cap": 0.4 },
   "maxScore": {
     "note": "Score maximal théorique d'une vague (partie sans faute, tout en Perfect), pour chaque ennemi avec les PV de la pression reçue : coups = PV ÷ (refAttack × multiplicateur du Perfect), arrondi au-dessus ; score = PV × rules.score.perDamage + pts + coups × bonus du Perfect + un combo tous les grades.comboLength coups (grades.comboScore) + dodgesPerEnemy esquives Perfect (rules.dodge.perfectScore + bonus du Perfect) + pièces du butin × pickup.coinValue × coinMult.",
     "refAttack": 4,
     "dodgesPerEnemy": 2,
     "coinMult": 1.5
+  },
+  "random": {
+    "note": "Duel contre un adversaire au hasard (src/online/duel-net.js → search) : file d'attente Firestore (collection), chacun cherche un joueur dont les Empreintes sont à ± range, écart élargi de rangeStep toutes les widenSeconds ; abandon de la recherche après searchSeconds. Les joueurs sans signe de vie depuis staleSeconds sont ignorés.",
+    "collection": "queue",
+    "range": 200,
+    "rangeStep": 200,
+    "widenSeconds": 10,
+    "searchSeconds": 60,
+    "pollSeconds": 2,
+    "heartbeatSeconds": 4,
+    "staleSeconds": 15
+  },
+  "prints": {
+    "note": "Empreintes : gagnées ou perdues seulement en Duel au hasard (pas entre amis). Abandon = défaite, égalité = rien. Jamais en dessous de min.",
+    "win": 30,
+    "loss": -20,
+    "tie": 0,
+    "min": 0
+  },
+  "arenas": {
+    "note": "Arènes du Duel = les 8 arènes du Voyage (data/voyage.json → arenas, même ordre), débloquées par paliers d'Empreintes. Le combat (Duel au hasard ou entre amis) se joue dans l'arène la plus haute des deux joueurs : décor et musique de l'arène.",
+    "thresholds": [0, 300, 600, 1000, 1500, 2100, 2800, 3600]
   },
   "waveSeconds": 90,
   "disconnectSeconds": 30,
@@ -78,6 +99,25 @@
     "pressureGave": "Pression donnée",
     "you": "Toi",
     "again": "Retour au lobby",
-    "noReward": "Duel amical : ni or ni XP."
+    "noReward": "Duel amical : ni or ni XP.",
+    "noRewardRandom": "Ni or ni XP en Duel.",
+    "random": "Adversaire au hasard",
+    "randomText": "Affronte un joueur qui a autant d'Empreintes que toi.",
+    "friendOr": "ou défie un ami",
+    "randomTitle": "Duel au hasard",
+    "searching": "Recherche d'un adversaire…",
+    "searchRange": "Empreintes {min} à {max}",
+    "cancel": "Annuler",
+    "noOne": "Personne de ton niveau pour l'instant.",
+    "retry": "Réessayer",
+    "oppPrints": "{prints} Empreintes",
+    "arena": "Arène : {name}",
+    "prints": "Empreintes",
+    "printsLine": "{prints} Empreintes · {arena}",
+    "printsResult": "Empreintes : {prints} ({delta})",
+    "newArena": "Nouvelle arène débloquée",
+    "newArenaText": "Tes Duels peuvent maintenant se jouer ici.",
+    "newArenaAt": "{prints} Empreintes",
+    "continue": "Continuer"
   }
 }

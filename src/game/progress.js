@@ -30,6 +30,8 @@ function ensureDefaults() {
   if (!prog.eco) prog.eco = { gold: 0, gems: 0, granted: [], owned: [], equipped: {}, pity: 0, opened: 0 };
   // Profil en ligne : pseudo choisi par le joueur (online/online.js).
   if (!prog.profile) prog.profile = { pseudo: '' };
+  // Duel au hasard : Empreintes et plus haute arène déjà annoncée (game/duel-rank.js).
+  if (!prog.duel) prog.duel = { prints: 0, unlocked: 0 };
 }
 ensureDefaults();
 

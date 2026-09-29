@@ -29,17 +29,20 @@ service cloud.firestore {
 
     // Entrée d'un joueur dans un salon de Duel (src/online/duel-net.js).
     function validEntry(p) {
-      return p.keys().hasOnly(['pseudo', 'hero', 'ready', 'scores', 'ko', 'done', 'quit', 'wave', 'live', 'seen'])
+      return p.keys().hasOnly(['pseudo', 'hero', 'ready', 'scores', 'ko', 'done', 'quit', 'wave', 'live', 'seen', 'arena', 'prints'])
         && p.pseudo is string && p.pseudo.size() <= 16
         && (p.hero == null || (p.hero is string && p.hero.size() <= 20))
         && p.ready is bool && p.done is bool && p.quit is bool
         && p.scores is list && p.scores.size() <= 5
         && (p.ko == null || p.ko is int)
         && p.wave is int && p.live is number
-        && p.seen is timestamp;
+        && p.seen is timestamp
+        && (!('arena' in p) || (p.arena is int && p.arena >= 0 && p.arena < 8))
+        && (!('prints' in p) || p.prints is int);
     }
 
-    // Salon de Duel : { code, host, guest, createdAt, players: { uid: entrée } }.
+    // Salon de Duel : { code, host, guest, mode, invite, createdAt, players: { uid: entrée } }.
+    // Duel au hasard : invite = le seul joueur qui peut le rejoindre.
     match /duels/{code} {
       function signedIn() { return request.auth != null; }
       function inRoom() { return request.auth.uid == resource.data.host || request.auth.uid == resource.data.guest; }
@@ -50,7 +53,9 @@ service cloud.firestore {
       allow get: if signedIn() && (resource == null || resource.data.guest == null || inRoom());
       allow list: if false;
       allow create: if signedIn() && code.size() == 6
-        && request.resource.data.keys().hasOnly(['code', 'host', 'guest', 'createdAt', 'players'])
+        && request.resource.data.keys().hasOnly(['code', 'host', 'guest', 'mode', 'invite', 'createdAt', 'players'])
+        && request.resource.data.mode in ['friend', 'random']
+        && (request.resource.data.invite == null || request.resource.data.invite is string)
         && request.resource.data.code == code
         && request.resource.data.host == request.auth.uid && request.resource.data.guest == null
         && request.resource.data.createdAt == request.time
@@ -59,6 +64,7 @@ service cloud.firestore {
       allow update: if signedIn() && (
         // rejoindre : la place d'invité est libre, on n'ajoute que soi
         (resource.data.guest == null && request.auth.uid != resource.data.host
+          && (resource.data.get('invite', null) == null || resource.data.invite == request.auth.uid)
           && request.resource.data.guest == request.auth.uid
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['guest', 'players'])
           && onlyMine())
@@ -67,6 +73,29 @@ service cloud.firestore {
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['players'])
           && onlyMine()));
       allow delete: if signedIn() && request.auth.uid == resource.data.host;
+    }
+
+    // File d'attente du Duel au hasard : { pseudo, prints, seen, room }. Chacun écrit sa fiche ; un autre joueur
+    // ne peut qu'y inscrire le code du salon qu'il vient de créer pour lui (une seule fois).
+    match /queue/{uid} {
+      function validQueue() {
+        let d = request.resource.data;
+        return d.keys().hasOnly(['pseudo', 'prints', 'seen', 'room'])
+          && d.pseudo is string && d.pseudo.size() <= 16
+          && d.prints is int && d.prints >= 0
+          && d.seen == request.time
+          && d.room == null;
+      }
+      allow read: if request.auth != null;
+      allow create: if isOwner(uid) && validQueue();
+      allow update: if (isOwner(uid) && (validQueue() || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['seen'])
+          && request.resource.data.seen == request.time)))
+        || (request.auth != null && !isOwner(uid) && resource.data.room == null
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['room'])
+          && request.resource.data.room is string && request.resource.data.room.size() == 6
+          && exists(/databases/$(database)/documents/duels/$(request.resource.data.room))
+          && get(/databases/$(database)/documents/duels/$(request.resource.data.room)).data.host == request.auth.uid);
+      allow delete: if isOwner(uid);
     }
 
     match /{document=**} {

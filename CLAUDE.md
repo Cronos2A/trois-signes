@@ -6,7 +6,7 @@
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
 Trois signes : **Triangle** = attaquer, **Rond** = esquiver, **Toucher** (tap) = ramasser.
 
-Modes jouables aujourd'hui : **Solo = Le Voyage** (infini), **Histoire** (6 × 10 combats), **Duel** contre un ami (en ligne), **Entraînement**, **La première leçon** (tutoriel).
+Modes jouables aujourd'hui : **Solo = Le Voyage** (infini), **Histoire** (6 × 10 combats), **Duel** (en ligne : adversaire au hasard ou ami), **Entraînement**, **La première leçon** (tutoriel).
 Chaque héros a 3 armes qui progressent (niveaux 1 à 10) et un emplacement de talisman. Économie : or, gemmes, coffres et cosmétiques.
 
 Lancer : `py -m http.server 8123` dans ce dossier, puis http://localhost:8123 (les modules et les JSON ne se chargent pas en `file://`).
@@ -186,7 +186,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   envoi au retour du réseau (nouvel essai toutes les 20 s). Les Réglages du son (`ts_settings`) restent propres à l'appareil.
 - **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026 ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
   chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ;
-  salons `duels/{code}` (voir Duel) ; tout le reste fermé.
+  salons `duels/{code}` et file d'attente `queue/{uid}` (voir Duel) ; tout le reste fermé.
 - **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
   puis le jeu avec `?emu` dans l'adresse (`online.json → emulator`).
   `?longpoll` (`online.json → longPollParam`) : Firestore en requêtes classiques, pour les réseaux qui coupent son flux continu (proxy, tests).
@@ -207,7 +207,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   l'hôte seul le supprime (salon quitté avant l'arrivée de l'ami). Les salons terminés restent (petits) : ménage à prévoir (TTL).
 - **Même programme pour les deux** : graine = code + heure du serveur à la création (`createdAt`) ; 4 vagues de sbires / brutes
   (`waves` : part de brutes, PV et dégâts croissants), puis à la 5e le même boss (gardien du Voyage tiré au sort, `boss`) avec escorte ;
-  lieu tiré au sort (`lieux`), variantes d'ennemis par vague (`variants`).
+  arène (voir Duel au hasard), variantes d'ennemis par vague (`variants`).
 - **Vagues synchronisées** : à la fin d'une vague, écran « En attente de [pseudo] » avec son score en direct (signe de vie toutes les
   `heartbeatSeconds`) et « Abandonner ». Limite de `waveSeconds` (90 s) par vague : la vague s'arrête avec son score.
 - **Pression** : avant chaque vague, « Pression de [pseudo] : +X % » ; PV et dégâts des ennemis + 40 % × (score adverse sur la vague
@@ -228,6 +228,27 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Règles publiées dans la console le 29/09/2026, vérifiées sur le vrai serveur : création, jointure, héros, prêt, signe de vie, scores,
   KO, fin, abandon acceptés ; entrée de l'autre joueur, liste des salons et écriture d'un tiers refusées ; salon vide supprimé par l'hôte.
   Un Duel complet en temps réel sur le vrai serveur n'a pas pu être joué depuis l'environnement de test (réseau trop instable) : à essayer sur deux téléphones.
+
+## Duel contre un adversaire au hasard — `data/duel.json` → `random`, `prints`, `arenas` — **fait (étape 3)**
+- Menu du Duel : **Adversaire au hasard** (en premier), puis « ou défie un ami » (Créer un salon / Rejoindre).
+- **Recherche** (`duel-net.js` → `search`) : fiche `queue/{uid}` = `{ pseudo, prints, seen, room }` ; chacun cherche un joueur à ± 200 Empreintes
+  (`range`), écart élargi de 200 (`rangeStep`) toutes les 10 s (`widenSeconds`), fiches sans signe de vie depuis 15 s ignorées.
+  Le premier qui trouve crée le salon (`mode: 'random'`, `invite` = l'autre, seul admis) et écrit son code dans la fiche de l'autre
+  (transaction : les deux encore libres), qui le rejoint. « Annuler » retire la fiche ; personne après 60 s (`searchSeconds`) : « Réessayer ».
+  Ensuite comme entre amis (choix du héros, Valider), sans code affiché ; salon : pseudo et Empreintes de l'adversaire, arène du combat.
+- **Empreintes** (`game/duel-rank.js`, sauvegarde `prog.duel = { prints, unlocked }`) : victoire +30, défaite −20, égalité 0, jamais sous 0 ;
+  abandon = défaite. **Duel au hasard seulement** (entre amis : rien). Affichées sur l'écran de fin (« Empreintes : 320 (+30) »).
+- **Arènes du Duel** : les 8 arènes du Voyage, paliers 0 / 300 / 600 / 1 000 / 1 500 / 2 100 / 2 800 / 3 600 (`arenas.thresholds`).
+  Arène actuelle = palier des Empreintes actuelles. Tout Duel (au hasard ou entre amis) se joue dans l'arène la plus haute des deux joueurs
+  (décor, fond et musique de l'arène du Voyage, annoncée au départ). Boss toujours tiré au sort (`boss.pool`).
+  Premier passage d'un palier : écran « Nouvelle arène débloquée » après la fin du Duel (`unlocked`).
+- Onglet Jouer : carte Duel « 320 Empreintes · Hautes-Gerbes » (aussi en tête du menu du Duel).
+- Règles : fiche de file lisible par tout joueur connecté, écrite par son propriétaire ; un autre joueur ne peut qu'y inscrire (une fois)
+  le code d'un salon dont il est l'hôte. Salon au hasard : seul le joueur invité peut le rejoindre.
+- Testé le 29/09/2026 sur l'émulateur (trois navigateurs, 390 × 800 et 360 × 640) : recherche annulée (fiche retirée), rencontre 290 / 300,
+  arène Hautes-Gerbes pour les deux, abandon : +30 (320, écran « Nouvelle arène débloquée ») et −20 (280), carte Duel à jour,
+  joueur seul à 3 000 : « Réessayer » après 60 s, Duel entre amis sans changement d'Empreintes, aucune erreur dans la console.
+  **Règles à republier dans la console** après cette étape.
 
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
@@ -319,8 +340,9 @@ src/
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
          talismans.js  rewards.js (récompenses méritées, rétroactives)  economy.js (or, gemmes, coffres)  cosmetics.js
          variants.js (variantes sbire / brute / boss selon l'arène ou le combat)  duel.js (Duel : programme, pression, victoire)
+         duel-rank.js (Empreintes, arènes du Duel)
   story/story.js     déroulé du mode Histoire
-  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel)
+  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)
   vendor/firebase/   SDK Firebase embarqué (app, auth, firestore)
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js
@@ -345,7 +367,7 @@ prototype/ prototype d'origine
 
 ## Prochaines tâches (dans cet ordre)
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
-2. **Duel, suite** : contrôle de cohérence des scores (Cloud Functions = offre Blaze, à décider), ménage des salons terminés,
-   adversaire au hasard (file d'attente), liaison du compte Google.
+2. **Duel, suite** : contrôle de cohérence des scores (Cloud Functions = offre Blaze, à décider ; aujourd'hui chaque joueur
+   calcule ses Empreintes), ménage des salons terminés, liaison du compte Google.
 
 Plus tard : achat réel des gemmes et de « Sans publicité », AdMob (dans l'application), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.

@@ -9,6 +9,7 @@ import { placeMusic } from '../audio/audio.js';
 import { variantArt, applyVariant } from './variants.js';
 import { current, watch, setMine, heartbeat, leaveRoom, ms } from '../online/duel-net.js';
 import { showWait, hideWait, showBanner, showResult, showWaitResult } from '../ui/duel-ui.js';
+import { arenaOf, applyDuelResult } from './duel-rank.js';
 
 const DU = () => D.duel;
 const fill = (t, v) => t.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? '');
@@ -25,13 +26,13 @@ function rng(seed) {                                  // mulberry32 : suite repr
   return () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 }
 
-/** Programme du Duel (identique chez les deux joueurs) : vagues, boss, lieu. */
+/** Programme du Duel (identique chez les deux joueurs) : vagues et boss. */
 export function planOf(seed) {
   const r = rng(seed), W = DU().waves, Bo = DU().boss;
   const waves = W.map(w => Array.from({ length: w.enemies }, () => (r() < w.bruteShare ? 'brute' : 'grunt')));
   const boss = Bo.pool[Math.floor(r() * Bo.pool.length)];
   waves.push([boss, ...Bo.escort]);
-  return { waves, boss, lieu: DU().lieux[Math.floor(r() * DU().lieux.length)] };
+  return { waves, boss };
 }
 
 /* ---------- Types d'ennemis d'une vague ---------- */
@@ -70,7 +71,9 @@ export function initDuel(a) { api = a; }          // { startBattle(opts), end(wh
  */
 export async function startDuel(room, char) {
   const { uid } = current(), oppId = room.host === uid ? room.guest : room.host;
-  const plan = planOf(seedOf(room)), n = plan.waves.length;
+  const plan = planOf(seedOf(room)), n = plan.waves.length, random = room.mode === 'random';
+  // Arène : la plus haute des deux joueurs (data/duel.json → arenas) : décor et musique de l'arène du Voyage.
+  const arena = arenaOf(Math.max(0, ...Object.values(room.players).map(p => p.arena || 0)));
   const url = await enemyUrl(plan.boss), bossSprite = url ? 'x_' + plan.boss : 'boss';
   const art = variantArt(DU().variants);
   if (url) art.push({ key: 'x_' + plan.boss, url, height: DU().boss.height, fallback: 'boss' });
@@ -111,6 +114,7 @@ export async function startDuel(room, char) {
     hideWait();
     const summary = { result: r, me: { name: DU().ui.you, scores: S.scores }, opp: { name: S.oppName, scores: (S.opp && S.opp.scores) || [] },
       pIn: S.pIn, pOut: S.pOut, n };
+    if (random) summary.rank = applyDuelResult(r.win);             // Empreintes : Duel au hasard seulement
     leaveRoom(false);
     if (G.mode === 'play') { B.summary = summary; api.end(r.win === 'me' ? 'win' : 'ko'); }
     else showResult(summary, () => api.home());
@@ -138,9 +142,9 @@ export async function startDuel(room, char) {
   };
 
   B = {
-    duel: true, endless: true, label: 'Vague', waves: [], types: {}, art, timeLimit: 0, lieu: plan.lieu, bg: null,
-    music: placeMusic(plan.lieu), betweenRounds: DU().betweenWaves, summary: null,
-    intro: () => showBanner(fill(DU().ui.countdown, { name: S.oppName }) + '\n' + fill(DU().ui.noPressure, { n: 1 }), DU().countdownSeconds),
+    duel: true, endless: true, label: 'Vague', waves: [], types: {}, art, timeLimit: 0, lieu: arena.decor,
+    bg: arena.index ? { tint: arena.tint, title: arena.name } : null, music: placeMusic(arena.id), betweenRounds: DU().betweenWaves, summary: null,
+    intro: () => showBanner([fill(DU().ui.countdown, { name: S.oppName }), fill(DU().ui.arena, { name: arena.name }), fill(DU().ui.noPressure, { n: 1 })].join('\n'), DU().countdownSeconds),
     /** Vague i (0 à n-1) : enregistre la précédente, attend l'adversaire, montre la pression, puis lance la vague. */
     prepare(i) {
       if (S.ended) return false;
@@ -204,6 +208,7 @@ export async function startDuel(room, char) {
       if (S.ended) return;
       S.ended = true;
       clearInterval(beat); clearInterval(watchdog);
+      if (random) applyDuelResult('opp');                            // abandon = défaite
       hideWait();
       leaveRoom(true);
       api.home();

@@ -1,6 +1,7 @@
 // Lobby (onglets Jouer / Personnage / Boutique) et fenêtre de résultats.
 // Recréé d'après la maquette Claude Design design/trois-signes-maquette-lobby,
 // portraits tirés de la planche design/planche-de-personnages-trois-signes.
+import { prints as duelPrints, arenaIndex as duelArena, arenaOf as duelArenaOf } from '../game/duel-rank.js';
 import { D } from '../data.js';
 import { prog, heroLevel, saveActive } from '../game/progress.js';
 import { glyph, facets } from './icons.js';
@@ -233,9 +234,14 @@ function playHtml() {
       </button>
       <button class="mode-btn duel" data-act="duel">
         <span class="badge">PVP</span>
-        <span class="mode-txt"><span class="mode-title ol ol-5">Duel</span><span class="mode-sub">Défier un ami</span></span>
+        <span class="mode-txt"><span class="mode-title ol ol-5">Duel</span><span class="mode-sub" id="duelPrints">${duelLine()}</span></span>
       </button>
     </div>`;
+}
+
+/** Duel : Empreintes et arène actuelle (data/duel.json → ui.printsLine). */
+function duelLine() {
+  return D.duel.ui.printsLine.replace('{prints}', duelPrints().toLocaleString('fr-FR')).replace('{arena}', duelArenaOf(duelArena()).name);
 }
 
 /* ---------- 02 · Personnage ---------- */
