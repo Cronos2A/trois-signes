@@ -153,7 +153,7 @@ function onClick(e) {
     case 'testResetAds': resetAds(); renderSettings(); render(); break;
     // Mode test (développement)
     case 'testGold': addGold(D.economy.test.gold); renderSettings(); render(); break;
-    case 'testGems': addGems(D.economy.test.gems); renderSettings(); render(); break;
+    case 'testGems': addGems(D.economy.test.gems, 'test'); renderSettings(); render(); break;
     case 'testCountry': wallet().testCountry = arg; addGold(0); renderSettings(); render(); break;
     case 'testReset': resetShop(); renderSettings(); render(); break;
   }

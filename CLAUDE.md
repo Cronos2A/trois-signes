@@ -186,7 +186,8 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   envoi au retour du réseau (nouvel essai toutes les 20 s). Les Réglages du son (`ts_settings`) restent propres à l'appareil.
 - **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026 ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
   chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ;
-  salons `duels/{code}` et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}` ; tout le reste fermé.
+  salons `duels/{code}` et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}`, Empreintes `ranked/{uid}`,
+  gemmes `wallet/{uid}`, début de partie du Voyage `runs/{uid}` (voir « Sécurité ») ; tout le reste fermé.
 - **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
   puis le jeu avec `?emu` dans l'adresse (`online.json → emulator`).
   `?longpoll` (`online.json → longPollParam`) : Firestore en requêtes classiques, pour les réseaux qui coupent son flux continu (proxy, tests).
@@ -195,7 +196,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - Console Firebase : Authentication → Anonyme activé, « Activer la création (inscription) » coché ; Firestore en Europe, mode production.
 - Testé le 29/09/2026 avec deux navigateurs : deux comptes distincts, chacun lit son document, lecture et écriture du document de l'autre
   refusées (permission-denied), hors connexion puis retour (or envoyé), sauvegarde serveur plus récente reprise au lancement, pseudo après la leçon.
-- **À prévoir** : le contrôle de cohérence des scores du Duel demandera sans doute des Cloud Functions (**offre payante Blaze**) : à décider avec l'auteur avant.
+- Contrôles de cohérence : faits par les règles (gratuit), voir « Sécurité ». Ce que seule l'offre payante Blaze permettrait : voir la même section.
 
 ## Duel contre un ami — `data/duel.json` — **fait (étape 2)**
 - Code : `src/online/duel-net.js` (salon Firestore), `src/game/duel.js` (déroulé, pression, victoire), `src/ui/duel-ui.js` + `duel.css` (écrans),
@@ -236,7 +237,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Le premier qui trouve crée le salon (`mode: 'random'`, `invite` = l'autre, seul admis) et écrit son code dans la fiche de l'autre
   (transaction : les deux encore libres), qui le rejoint. « Annuler » retire la fiche ; personne après 60 s (`searchSeconds`) : « Réessayer ».
   Ensuite comme entre amis (choix du héros, Valider), sans code affiché ; salon : pseudo et Empreintes de l'adversaire, arène du combat.
-- **Empreintes** (`game/duel-rank.js`, sauvegarde `prog.duel = { prints, unlocked }`) : victoire +30, défaite −20, égalité 0, jamais sous 0 ;
+- **Empreintes** (`game/duel-rank.js` pour l'affichage, `online/ranked.js` au serveur qui fait foi ; `prog.duel = { prints, unlocked }`) : victoire +30, défaite −20, égalité 0, jamais sous 0 ;
   abandon = défaite. **Duel au hasard seulement** (entre amis : rien). Affichées sur l'écran de fin (« Empreintes : 320 (+30) »).
 - **Arènes du Duel** : les 8 arènes du Voyage, paliers 0 / 300 / 600 / 1 000 / 1 500 / 2 100 / 2 800 / 3 600 (`arenas.thresholds`).
   Arène actuelle = palier des Empreintes actuelles. Tout Duel (au hasard ou entre amis) se joue dans l'arène la plus haute des deux joueurs
@@ -253,12 +254,48 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Sur deux essais en ligne depuis l'environnement de test, un seul a abouti (l'autre : personne trouvé en 60 s, sans erreur,
   réseau de test instable) : à confirmer sur deux téléphones.
 
+## Sécurité (étape 5) — `firestore.rules`, `data/duel.json` → `security` — **fait, sans offre payante**
+- Tout est vérifié par les **règles Firestore** (gratuites) : le client ne peut plus changer directement Empreintes, gemmes ni classements.
+  Les chiffres recopiés dans les règles sont vérifiés par `node tools/check-rules.mjs` (à lancer après tout changement de `duel.json`,
+  `economy.json`, `ads.json`, des arènes ou des héros).
+- **Duel** (entrée de chaque joueur) : scores de vague seulement ajoutés (les anciens ne changent plus), plafonnés par vague
+  (`security.waveCaps` : 4 000 / 4 400 / 4 800 / 5 400 / 6 000), jamais rendus moins de `minWaveSeconds` (3 s) après le début de la vague
+  (`waveAt`, heure du serveur, notée par `startWave`) ; vague suivante seulement après avoir rendu la précédente ; KO, fin, abandon
+  définitifs ; héros figé une fois « Prêt ». Mesures (bot surhumain) : 3 216 points au plus sur une vague, vague la plus rapide 4,7 s.
+- **Empreintes** : `ranked/{uid}` = `{ prints, last, updatedAt }` fait foi (`src/online/ranked.js`). Après un Duel au hasard, chaque joueur
+  envoie le résultat des **deux** joueurs ; les règles recalculent l'issue d'après le salon (même calcul que `outcome` en JS : abandon,
+  déconnexion de 30 s, KO, scores) et n'acceptent que +30 / −20 / 0, une seule fois par salon (`ranked/{uid}/games/{code}`).
+  Un perdant ne peut donc pas éviter sa défaite en ne l'envoyant pas. File d'attente et classement Duel : Empreintes = celles du serveur.
+  `prog.duel.prints` n'est que le reflet (relu à chaque connexion).
+- **Gemmes** : `wallet/{uid}` = `{ gems, granted, adDay, adCount }` fait foi (`src/online/wallet.js`) ; trois mouvements seulement :
+  gain de la table fixe (gardien 10, histoire 30, épilogue 50, une fois chacun), pub récompensée +5 (3 par jour, jour UTC), dépense.
+  Mouvements en attente hors connexion (`prog.eco.pending`). Anciennes sauvegardes : les gains déjà reçus sont rejoués un par un ;
+  les gemmes d'avant venues des pubs ou du mode test ne sont pas reprises. Mode test sans émulateur : gemmes locales seulement.
+- **Record du Voyage** : début de chaque partie noté au serveur (`runs/{uid}`) ; record accepté si ≤ 600 × t × (3 + 0,025 × t)
+  (t : secondes depuis ce début ; `security.voyage`), jamais en baisse. Record fait hors connexion au départ : pas classé.
+- **Limites** (sans serveur de calcul) : les règles vérifient qu'un score est *possible*, pas qu'il a été *joué* ; un tricheur peut encore
+  envoyer des scores sous les plafonds. Le contenu des coffres et les cosmétiques possédés restent dans la sauvegarde du joueur
+  (sans avantage en jeu).
+- **Offre Blaze** (non activée) : paiement à l'usage, mêmes quotas gratuits inclus (Cloud Functions : 2 millions d'appels par mois),
+  carte bancaire obligatoire, alerte de budget possible ; pour ce jeu aujourd'hui ≈ 0 € par mois. Utile plus tard pour : vérifier les achats
+  réels (reçus Google Play, indispensable), tirer les coffres au serveur, et un vrai contrôle anti-triche (rejouer les gestes au serveur,
+  gros travail). À décider avec l'auteur.
+- Testé le 29/09/2026 sur l'émulateur : Duels normaux (entre amis et au hasard) acceptés ; refusés : score réécrit, vague rendue en 0,5 s,
+  score au-dessus du plafond, héros changé après « Prêt », KO effacé, abandon annulé, victoire avant la fin, partie comptée deux fois,
+  Empreintes à 9 999, défaite effacée, file et classement avec de fausses Empreintes, record de 1 000 000 en 10 s, début de partie antidaté,
+  gemmes à 9 999, gain reçu deux fois, gain inventé ou gonflé, 4e pub du jour, dépense sous zéro, portefeuille d'un autre.
+  Cas limites : KO des deux dans la même vague (égalité à 0 point, puis meilleur score gagne), déconnexion en pleine vague (victoire après 30 s,
+  +30), abandon en pleine vague (+30 / −20). Vrai record du Voyage (7 062 après 40 s) classé, coffre payé au serveur (230 → 170).
+  Processeur bridé ÷6 (deux navigateurs sur la même machine, rendu sans carte graphique) : Duel 35 à 44 images/s, comme le Voyage
+  dans les mêmes conditions (42) : le Duel n'ajoute pas de coût.
+
 ## Classements — `data/online.json` → `leaderboard` — **fait (étape 4)**
 - Onglet Jouer : bouton **Classements** sur la carte du Voyage → écran à deux onglets **Voyage** (meilleur score) et **Duel** (Empreintes) :
   top 100 mondial (rang, héros favori, pseudo, score ; ex æquo au même rang), ma ligne surlignée, ma position en bas
   (« 71e · Toi · Alpha 5 050 », aussi hors du top 100 ; « Pas encore classé » à 0). Code : `src/online/leaderboard.js`, `src/ui/ranking-ui.js`, `ranking.css`.
 - Ligne `leaderboard/{uid}` = `{ pseudo, hero, voyage, prints, updatedAt }`, écrite après chaque envoi de la sauvegarde si une valeur a changé.
-  **Seul le meilleur score du Voyage** est gardé : jamais plus bas que celui déjà au serveur (le client prend le plus haut, les règles refusent une baisse).
+  **Seul le meilleur score du Voyage** est gardé : jamais plus bas que celui déjà au serveur (le client prend le plus haut, les règles refusent une baisse),
+  et plausible pour la durée de la partie (voir « Sécurité »). Empreintes : celles de `ranked/{uid}`.
   Héros favori = le plus joué (`prog.played`, compté à chaque partie hors leçon ; sinon le plus haut niveau).
 - Position : nombre de joueurs strictement devant + 1 (requête de comptage, offre Spark). Chaque joueur envoie ses propres valeurs : pas de contrôle anti-triche.
 - Règles : lecture pour tout joueur connecté ; écriture et suppression de sa seule ligne ; champs validés (pseudo 3 à 16, entiers ≥ 0).
@@ -360,7 +397,7 @@ src/
          variants.js (variantes sbire / brute / boss selon l'arène ou le combat)  duel.js (Duel : programme, pression, victoire)
          duel-rank.js (Empreintes, arènes du Duel)
   story/story.js     déroulé du mode Histoire
-  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  leaderboard.js (classements)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)
+  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  leaderboard.js (classements)  ranked.js (Empreintes au serveur)  wallet.js (gemmes au serveur)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)
   vendor/firebase/   SDK Firebase embarqué (app, auth, firestore)
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js
@@ -373,6 +410,7 @@ src/
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css
 data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel (.json)
 firestore.rules  firebase.json   règles de sécurité Firestore
+tools/check-rules.mjs            vérifie que les chiffres des règles sont ceux de data/
 assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
 prototype/ prototype d'origine
@@ -385,7 +423,6 @@ prototype/ prototype d'origine
 
 ## Prochaines tâches (dans cet ordre)
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
-2. **Duel, suite** : contrôle de cohérence des scores (Cloud Functions = offre Blaze, à décider ; aujourd'hui chaque joueur
-   calcule ses Empreintes), ménage des salons terminés, liaison du compte Google.
+2. **Duel, suite** : ménage des salons terminés, liaison du compte Google ; offre Blaze à décider (achats réels, coffres au serveur).
 
 Plus tard : achat réel des gemmes et de « Sans publicité », AdMob (dans l'application), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.

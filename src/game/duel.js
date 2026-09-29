@@ -7,9 +7,11 @@ import { G } from './state.js';
 import { enemyUrl, who } from '../ui/assets.js';
 import { placeMusic } from '../audio/audio.js';
 import { variantArt, applyVariant } from './variants.js';
-import { current, watch, setMine, heartbeat, leaveRoom, ms } from '../online/duel-net.js';
+import { current, watch, setMine, heartbeat, startWave, leaveRoom, ms } from '../online/duel-net.js';
+import { applyRanked } from '../online/ranked.js';
 import { showWait, hideWait, showBanner, showResult, showWaitResult } from '../ui/duel-ui.js';
 import { arenaOf, applyDuelResult } from './duel-rank.js';
+import { testMode } from './economy.js';
 
 const DU = () => D.duel;
 const fill = (t, v) => t.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? '');
@@ -70,7 +72,7 @@ export function initDuel(a) { api = a; }          // { startBattle(opts), end(wh
  * room : données du salon ; char : héros choisi.
  */
 export async function startDuel(room, char) {
-  const { uid } = current(), oppId = room.host === uid ? room.guest : room.host;
+  const { uid, code } = current(), oppId = room.host === uid ? room.guest : room.host;
   const plan = planOf(seedOf(room)), n = plan.waves.length, random = room.mode === 'random';
   // Arène : la plus haute des deux joueurs (data/duel.json → arenas) : décor et musique de l'arène du Voyage.
   const arena = arenaOf(Math.max(0, ...Object.values(room.players).map(p => p.arena || 0)));
@@ -79,9 +81,10 @@ export async function startDuel(room, char) {
   if (url) art.push({ key: 'x_' + plan.boss, url, height: DU().boss.height, fallback: 'boss' });
   const S = {                                        // état du Duel
     uid, oppId, plan, n, opp: room.players[oppId], me: room.players[uid], oppName: room.players[oppId].pseudo,
-    scores: [], pIn: [0], pOut: [0], stage: [], base: 0, waveStart: 0, active: -1, ko: null, done: false, result: null, ended: false
+    scores: [], times: [], pIn: [0], pOut: [0], stage: [], base: 0, waveStart: 0, active: -1, ko: null, done: false, result: null, ended: false
   };
   let B = null, beat = 0, watchdog = 0, waiting = null;
+  if (testMode()) window.__tsDuel = S;                               // tests (mode test seulement)
   const oppLive = () => (S.opp && S.opp.live) || 0;
   const hud = () => {
     const i = Math.max(0, S.active);
@@ -93,7 +96,7 @@ export async function startDuel(room, char) {
   const decide = () => {
     const o = S.opp || {}, m = { scores: S.scores, ko: S.ko, done: S.done };
     const tot = a => (a || []).reduce((s, x) => s + (x || 0), 0), myT = tot(m.scores), opT = tot(o.scores);
-    const byScore = why => ({ win: myT > opT ? 'me' : myT < opT ? 'opp' : 'tie', why });
+    const byScore = why => (myT === opT ? { win: 'tie', why: why + 'Tie' } : { win: myT > opT ? 'me' : 'opp', why });
     if (o.quit) return { win: 'me', why: 'quit' };
     if (S.disconnected) return { win: 'me', why: 'disconnect' };
     const oKo = o.ko ?? null;
@@ -114,7 +117,10 @@ export async function startDuel(room, char) {
     hideWait();
     const summary = { result: r, me: { name: DU().ui.you, scores: S.scores }, opp: { name: S.oppName, scores: (S.opp && S.opp.scores) || [] },
       pIn: S.pIn, pOut: S.pOut, n };
-    if (random) summary.rank = applyDuelResult(r.win);             // Empreintes : Duel au hasard seulement
+    if (random) {                                                   // Empreintes : Duel au hasard seulement
+      summary.rank = applyDuelResult(r.win);                         // affichage tout de suite ; le serveur fait foi
+      applyRanked(code, [uid, oppId]);
+    }
     leaveRoom(false);
     if (G.mode === 'play') { B.summary = summary; api.end(r.win === 'me' ? 'win' : 'ko'); }
     else showResult(summary, () => api.home());
@@ -130,14 +136,14 @@ export async function startDuel(room, char) {
     if (waiting) waiting();
     if (S.ko !== null || S.done || S.disconnected || (S.opp && S.opp.quit)) check();
   });
-  beat = setInterval(() => heartbeat(Math.max(0, S.active) + 1, G.mode === 'play' ? G.score : S.scores.reduce((a, b) => a + b, 0)),
+  beat = setInterval(() => heartbeat(G.mode === 'play' ? G.score : S.scores.reduce((a, b) => a + b, 0)),
     DU().heartbeatSeconds * 1000);
   watchdog = setInterval(() => { if (S.ko !== null || S.done) check(); }, 1000);
 
   /** Fin de la vague i : score de la vague, envoyé au serveur. */
   const record = i => {
     if (S.scores.length > i) return;
-    S.scores[i] = G.score - S.base;
+    S.scores[i] = G.score - S.base; S.times[i] = G.time - S.waveStart;
     setMine({ scores: S.scores, wave: i + 1, live: G.score });
   };
 
@@ -178,7 +184,7 @@ export async function startDuel(room, char) {
       B.types = typesFor(i, S.pIn[i], plan, bossSprite);
       B.waves[i] = { enemies: plan.waves[i], boss: i === n - 1, title: i === n - 1 ? who(plan.boss).name : undefined, color: i === n - 1 ? '#FF5A3C' : undefined };
       S.active = i; S.base = G.score; S.waveStart = G.time;
-      setMine({ wave: i + 1 });
+      startWave(i + 1);
       hud();
       return true;
     },
@@ -208,9 +214,9 @@ export async function startDuel(room, char) {
       if (S.ended) return;
       S.ended = true;
       clearInterval(beat); clearInterval(watchdog);
-      if (random) applyDuelResult('opp');                            // abandon = défaite
       hideWait();
-      leaveRoom(true);
+      if (random) applyDuelResult('opp');                            // abandon = défaite (affichage) ; au serveur après l'abandon
+      leaveRoom(true).then(() => { if (random) applyRanked(code, [uid, oppId]); });
       api.home();
     }
   };

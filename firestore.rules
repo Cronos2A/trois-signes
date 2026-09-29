@@ -1,17 +1,24 @@
 rules_version = '2';
 
-// Trois Signes : règles de sécurité Cloud Firestore.
-// Chaque joueur (compte anonyme Firebase) ne peut lire et modifier QUE son propre document players/{uid}.
-// Salons de Duel duels/{code} : lisibles avec le code tant qu'il manque un joueur, puis par ses deux joueurs seulement ;
-// chacun n'écrit que sa propre entrée players.{uid}. Tout le reste est fermé. À publier dans la console Firebase (Firestore Database → Règles) ou avec `firebase deploy --only firestore:rules`.
+// Trois Signes : règles de sécurité Cloud Firestore (offre gratuite Spark : aucune fonction serveur, tout est vérifié ici).
+// À publier dans la console Firebase (Firestore Database → Règles) ou avec `firebase deploy --only firestore:rules`.
+// Les chiffres (plafonds, durées, gains) reprennent data/duel.json → security, data/economy.json → gems, data/ads.json → rewarded.gems :
+// à tenir à jour ensemble.
+//
+// - players/{uid}      sauvegarde : chacun la sienne.
+// - duels/{code}       salon de Duel : chacun n'écrit que son entrée ; scores de vague seulement ajoutés, plafonnés, pas trop rapides.
+// - queue/{uid}        file du Duel au hasard ; Empreintes = celles du serveur.
+// - ranked/{uid}       Empreintes : seulement +30 / −20 / 0 d'après le résultat d'un salon, une fois par partie (ranked/{uid}/games/{code}).
+// - wallet/{uid}       gemmes : gains d'une table fixe (une fois chacun), pub +5 (3 par jour), dépenses.
+// - runs/{uid}         début de la dernière partie du Voyage (heure du serveur) : borne le record accepté.
+// - leaderboard/{uid}  classements : Empreintes = ranked ; record du Voyage qui ne baisse jamais et plausible pour la durée de la partie.
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function isOwner(uid) {
-      return request.auth != null && request.auth.uid == uid;
-    }
+    function signedIn() { return request.auth != null; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
 
-    // Document écrit par src/online/online.js : { pseudo, save, savedAt, updatedAt, v }.
+    /* ---------- Sauvegarde ---------- */
     function validPlayer() {
       let d = request.resource.data;
       return d.keys().hasOnly(['pseudo', 'save', 'savedAt', 'updatedAt', 'v'])
@@ -21,34 +28,72 @@ service cloud.firestore {
         && d.updatedAt == request.time
         && d.v is int;
     }
-
     match /players/{uid} {
       allow read, delete: if isOwner(uid);
       allow create, update: if isOwner(uid) && validPlayer();
     }
 
-    // Entrée d'un joueur dans un salon de Duel (src/online/duel-net.js).
+    /* ---------- Duel ---------- */
+    // Plafond du score d'une vague (index 0 à 4) et durée minimale d'une vague, en secondes (data/duel.json → security).
+    function waveCap(k) { return [4000, 4400, 4800, 5400, 6000][k]; }
+    function minWaveSeconds() { return 3; }
+    function waves() { return 5; }
+
+    // Entrée d'un joueur : { pseudo, hero, ready, scores[], ko, done, quit, wave, waveAt, live, seen, arena, prints }.
     function validEntry(p) {
-      return p.keys().hasOnly(['pseudo', 'hero', 'ready', 'scores', 'ko', 'done', 'quit', 'wave', 'live', 'seen', 'arena', 'prints'])
+      return p.keys().hasOnly(['pseudo', 'hero', 'ready', 'scores', 'ko', 'done', 'quit', 'wave', 'waveAt', 'live', 'seen', 'arena', 'prints'])
         && p.pseudo is string && p.pseudo.size() <= 16
         && (p.hero == null || (p.hero is string && p.hero.size() <= 20))
         && p.ready is bool && p.done is bool && p.quit is bool
-        && p.scores is list && p.scores.size() <= 5
+        && p.scores is list && p.scores.size() <= waves()
         && (p.ko == null || p.ko is int)
-        && p.wave is int && p.live is number
+        && p.wave is int && p.wave >= 0 && p.wave <= waves()
+        && (p.get('waveAt', null) == null || p.waveAt is timestamp)
+        && p.live is number && p.live >= 0 && p.live <= 100000
         && p.seen is timestamp
         && (!('arena' in p) || (p.arena is int && p.arena >= 0 && p.arena < 8))
         && (!('prints' in p) || p.prints is int);
     }
+    // Entrée neuve (création du salon, arrivée de l'invité) : rien de joué.
+    function freshEntry(p) {
+      return validEntry(p) && p.scores.size() == 0 && p.ko == null && !p.done && !p.quit && !p.ready && p.wave == 0
+        && p.get('waveAt', null) == null && p.seen == request.time;
+    }
+    // Les scores déjà rendus (o, au plus 5) sont repris tels quels au début de n.
+    function samePrefix(n, o) {
+      return o.size() == 0 ? true : (n[0] == o[0] && (o.size() == 1 ? true : (n[1] == o[1] && (o.size() == 2 ? true
+        : (n[2] == o[2] && (o.size() == 3 ? true : (n[3] == o[3] && (o.size() == 4 ? true : n[4] == o[4]))))))));
+    }
+    // Un pas de jeu sur sa propre entrée (o : avant, n : après).
+    function entryStep(o, n) {
+      let k = o.scores.size();
+      let same = n.scores == o.scores && n.ko == o.ko;
+      // Score de la vague k ajouté (fin de vague, ou KO avec ko == k) : les scores déjà rendus ne changent pas.
+      let added = n.scores.size() == k + 1 && samePrefix(n.scores, o.scores)
+        && n.scores[k] is int && n.scores[k] >= 0 && n.scores[k] <= waveCap(k)
+        && o.ko == null && !o.done && o.wave == k + 1
+        && o.get('waveAt', null) != null && request.time >= o.waveAt + duration.value(minWaveSeconds(), 's')
+        && (n.ko == null || n.ko == k);
+      // Vague suivante : seulement après avoir rendu toutes les précédentes ; heure de début notée par le serveur.
+      let nextWave = n.wave == o.wave + 1 && o.scores.size() == o.wave && o.ko == null && !o.done
+        && n.get('waveAt', null) == request.time;
+      let sameWave = n.wave == o.wave && n.get('waveAt', null) == o.get('waveAt', null);
+      return validEntry(n)
+        && n.pseudo == o.pseudo && n.get('arena', 0) == o.get('arena', 0) && n.get('prints', 0) == o.get('prints', 0)
+        && (n.hero == o.hero || !o.ready)
+        && (n.ready == o.ready || (!o.ready && n.ready && n.hero != null))
+        && (n.quit == o.quit || n.quit)
+        && (n.done == o.done || (n.done && n.scores.size() == waves() && n.ko == null))
+        && (n.seen == o.seen || n.seen == request.time)
+        && (same || added)
+        && (sameWave || (nextWave && same));
+    }
 
-    // Salon de Duel : { code, host, guest, mode, invite, createdAt, players: { uid: entrée } }.
-    // Duel au hasard : invite = le seul joueur qui peut le rejoindre.
+    // Salon : { code, host, guest, mode, invite, createdAt, players: { uid: entrée } }. Duel au hasard : invite = seul joueur admis.
     match /duels/{code} {
-      function signedIn() { return request.auth != null; }
       function inRoom() { return request.auth.uid == resource.data.host || request.auth.uid == resource.data.guest; }
-      function onlyMine() {
-        return request.resource.data.players.diff(resource.data.players).affectedKeys().hasOnly([request.auth.uid])
-          && validEntry(request.resource.data.players[request.auth.uid]);
+      function onlyMineChanged() {
+        return request.resource.data.players.diff(resource.data.players).affectedKeys().hasOnly([request.auth.uid]);
       }
       allow get: if signedIn() && (resource == null || resource.data.guest == null || inRoom());
       allow list: if false;
@@ -60,37 +105,92 @@ service cloud.firestore {
         && request.resource.data.host == request.auth.uid && request.resource.data.guest == null
         && request.resource.data.createdAt == request.time
         && request.resource.data.players.keys().hasOnly([request.auth.uid])
-        && validEntry(request.resource.data.players[request.auth.uid]);
+        && freshEntry(request.resource.data.players[request.auth.uid]);
       allow update: if signedIn() && (
-        // rejoindre : la place d'invité est libre, on n'ajoute que soi
+        // rejoindre : la place d'invité est libre, on n'ajoute que soi, avec une entrée neuve
         (resource.data.guest == null && request.auth.uid != resource.data.host
           && (resource.data.get('invite', null) == null || resource.data.invite == request.auth.uid)
           && request.resource.data.guest == request.auth.uid
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['guest', 'players'])
-          && onlyMine())
-        // jouer : un joueur du salon ne change que sa propre entrée
-        || (inRoom()
+          && onlyMineChanged()
+          && freshEntry(request.resource.data.players[request.auth.uid]))
+        // jouer : un joueur du salon ne change que sa propre entrée, pas à pas
+        || (inRoom() && request.auth.uid in resource.data.players
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['players'])
-          && onlyMine()));
+          && onlyMineChanged()
+          && entryStep(resource.data.players[request.auth.uid], request.resource.data.players[request.auth.uid])));
       allow delete: if signedIn() && request.auth.uid == resource.data.host;
     }
 
-    // File d'attente du Duel au hasard : { pseudo, prints, seen, room }. Chacun écrit sa fiche ; un autre joueur
-    // ne peut qu'y inscrire le code du salon qu'il vient de créer pour lui (une seule fois).
+    /* ---------- Empreintes (Duel au hasard) ---------- */
+    function rankedPrints(uid) {
+      return exists(/databases/$(database)/documents/ranked/$(uid)) ? get(/databases/$(database)/documents/ranked/$(uid)).data.prints : 0;
+    }
+    function total(s) {
+      return (s.size() > 0 ? s[0] : 0) + (s.size() > 1 ? s[1] : 0) + (s.size() > 2 ? s[2] : 0)
+        + (s.size() > 3 ? s[3] : 0) + (s.size() > 4 ? s[4] : 0);
+    }
+    // Sans signe de vie depuis 30 s (data/duel.json → disconnectSeconds), alors que sa partie n'est pas finie.
+    function stale(p) { return !(p.done || p.ko != null) && request.time > p.seen + duration.value(30, 's'); }
+    // Issue du salon r pour le joueur x : 1 victoire, -1 défaite, 0 égalité, 9 pas encore décidé (même calcul que src/online/ranked.js).
+    function outcome(r, x) {
+      let me = r.players[x];
+      let op = r.players[r.host == x ? r.guest : r.host];
+      let myT = total(me.scores);
+      let opT = total(op.scores);
+      let by = myT > opT ? 1 : (myT < opT ? -1 : 0);
+      return me.quit ? -1
+        : op.quit ? 1
+        : (stale(op) && !stale(me)) ? 1
+        : (stale(me) && !stale(op)) ? -1
+        : me.ko != null ? (op.ko != null ? (op.ko < me.ko ? 1 : (op.ko > me.ko ? -1 : by)) : (op.scores.size() > me.ko ? -1 : 9))
+        : op.ko != null ? (me.scores.size() > op.ko ? 1 : 9)
+        : (me.done && op.done) ? by
+        : 9;
+    }
+    // Nouvelles Empreintes de x après le salon d.last : +30 / −20 / 0 (data/duel.json → prints), jamais sous 0, une seule fois par salon.
+    function rankedStep(x) {
+      let d = request.resource.data;
+      let r = get(/databases/$(database)/documents/duels/$(d.last)).data;
+      let old = resource == null ? 0 : resource.data.prints;
+      let o = outcome(r, x);
+      let next = old + (o == 1 ? 30 : (o == -1 ? -20 : 0));
+      return d.keys().hasOnly(['prints', 'last', 'updatedAt']) && d.updatedAt == request.time
+        && d.last is string && d.last.size() == 6
+        && r.mode == 'random' && r.guest != null
+        && (request.auth.uid == r.host || request.auth.uid == r.guest)
+        && (x == r.host || x == r.guest)
+        && o != 9
+        && !exists(/databases/$(database)/documents/ranked/$(x)/games/$(d.last))
+        && existsAfter(/databases/$(database)/documents/ranked/$(x)/games/$(d.last))
+        && d.prints == (next < 0 ? 0 : next);
+    }
+    match /ranked/{uid} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && rankedStep(uid);
+      match /games/{code} {
+        allow read: if signedIn();
+        allow create: if signedIn() && request.resource.data.keys().hasOnly(['at']) && request.resource.data.at == request.time
+          && getAfter(/databases/$(database)/documents/ranked/$(uid)).data.last == code;
+      }
+    }
+
+    // File du Duel au hasard : { pseudo, prints, seen, room }. Chacun écrit sa fiche (avec ses Empreintes du serveur) ;
+    // un autre joueur ne peut qu'y inscrire le code du salon qu'il vient de créer pour lui (une seule fois).
     match /queue/{uid} {
       function validQueue() {
         let d = request.resource.data;
         return d.keys().hasOnly(['pseudo', 'prints', 'seen', 'room'])
           && d.pseudo is string && d.pseudo.size() <= 16
-          && d.prints is int && d.prints >= 0
+          && d.prints == rankedPrints(uid)
           && d.seen == request.time
           && d.room == null;
       }
-      allow read: if request.auth != null;
+      allow read: if signedIn();
       allow create: if isOwner(uid) && validQueue();
       allow update: if (isOwner(uid) && (validQueue() || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['seen'])
           && request.resource.data.seen == request.time)))
-        || (request.auth != null && !isOwner(uid) && resource.data.room == null
+        || (signedIn() && !isOwner(uid) && resource.data.room == null
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['room'])
           && request.resource.data.room is string && request.resource.data.room.size() == 6
           && exists(/databases/$(database)/documents/duels/$(request.resource.data.room))
@@ -98,8 +198,51 @@ service cloud.firestore {
       allow delete: if isOwner(uid);
     }
 
-    // Classements : { pseudo, hero, voyage, prints, updatedAt }, lisibles par tout joueur connecté, écrits par leur joueur ;
-    // le meilleur score du Voyage ne peut jamais baisser.
+    /* ---------- Gemmes ---------- */
+    // Gains possibles, une fois chacun (data/economy.json → gems) : gardien d'arène 10, histoire terminée 30, épilogue 50.
+    function grants() {
+      return { 'guardian:foret_mousse': 10, 'guardian:hautes_gerbes': 10, 'guardian:fontclaire': 10, 'guardian:velis_toits': 10,
+        'guardian:aubelle_biblio': 10, 'guardian:col_vents': 10, 'guardian:ecole_ruines': 10, 'guardian:coeur_silence': 10,
+        'story:aldric': 30, 'story:nyra': 30, 'story:boran': 30, 'story:ilwen': 30, 'story:kestrel': 30, 'story:mira': 30,
+        'epilogue': 50 };
+    }
+    function today() { return request.time.year() * 10000 + request.time.month() * 100 + request.time.day(); }
+    function walletStep() {
+      let o = resource.data;
+      let n = request.resource.data;
+      let k = o.granted.size();
+      // gain de la table : une clé de plus, jamais reçue, et exactement sa valeur
+      let grant = n.granted.size() == k + 1 && n.granted.hasAll(o.granted) && n.granted[k] in grants()
+        && !(n.granted[k] in o.granted) && n.gems == o.gems + grants()[n.granted[k]]
+        && n.adDay == o.adDay && n.adCount == o.adCount;
+      // pub récompensée : +5, 3 par jour (data/ads.json → rewarded.gems)
+      let ad = n.granted == o.granted && n.gems == o.gems + 5 && n.adDay == today()
+        && n.adCount == (o.adDay == today() ? o.adCount + 1 : 1) && n.adCount <= 3;
+      // dépense : moins de gemmes, jamais sous zéro
+      let spend = n.granted == o.granted && n.adDay == o.adDay && n.adCount == o.adCount && n.gems < o.gems && n.gems >= 0;
+      return n.keys().hasOnly(['gems', 'granted', 'adDay', 'adCount', 'updatedAt']) && n.updatedAt == request.time
+        && n.gems is int && n.granted is list && (grant || ad || spend);
+    }
+    match /wallet/{uid} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && request.resource.data.keys().hasOnly(['gems', 'granted', 'adDay', 'adCount', 'updatedAt'])
+        && request.resource.data.gems == 0 && request.resource.data.granted == [] && request.resource.data.adDay == 0
+        && request.resource.data.adCount == 0 && request.resource.data.updatedAt == request.time;
+      allow update: if isOwner(uid) && walletStep();
+    }
+
+    /* ---------- Voyage et classements ---------- */
+    match /runs/{uid} {
+      allow read: if isOwner(uid);
+      allow create, update: if isOwner(uid) && request.resource.data.keys().hasOnly(['startedAt'])
+        && request.resource.data.startedAt == request.time;
+    }
+    // Record plausible pour la durée t (s) de la dernière partie : 600 × t × (3 + 0,025 × t) (data/duel.json → security.voyage).
+    function voyageOk(v) {
+      let run = get(/databases/$(database)/documents/runs/$(request.auth.uid));
+      let t = (request.time.toMillis() - run.data.startedAt.toMillis()) / 1000;
+      return exists(/databases/$(database)/documents/runs/$(request.auth.uid)) && v <= 600 * t * (3 + 0.025 * t);
+    }
     match /leaderboard/{uid} {
       function validBoard() {
         let d = request.resource.data;
@@ -107,12 +250,13 @@ service cloud.firestore {
           && d.pseudo is string && d.pseudo.size() >= 3 && d.pseudo.size() <= 16
           && d.hero is string && d.hero.size() <= 20
           && d.voyage is int && d.voyage >= 0
-          && d.prints is int && d.prints >= 0
+          && d.prints == rankedPrints(uid)
           && d.updatedAt == request.time;
       }
-      allow read: if request.auth != null;
-      allow create: if isOwner(uid) && validBoard();
-      allow update: if isOwner(uid) && validBoard() && request.resource.data.voyage >= resource.data.voyage;
+      allow read: if signedIn();
+      allow create: if isOwner(uid) && validBoard() && (request.resource.data.voyage == 0 || voyageOk(request.resource.data.voyage));
+      allow update: if isOwner(uid) && validBoard()
+        && (request.resource.data.voyage == resource.data.voyage || (request.resource.data.voyage > resource.data.voyage && voyageOk(request.resource.data.voyage)));
       allow delete: if isOwner(uid);
     }
 

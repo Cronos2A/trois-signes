@@ -44,6 +44,17 @@
     "note": "Arènes du Duel = les 8 arènes du Voyage (data/voyage.json → arenas, même ordre), débloquées par paliers d'Empreintes. Le combat (Duel au hasard ou entre amis) se joue dans l'arène la plus haute des deux joueurs : décor et musique de l'arène.",
     "thresholds": [0, 300, 600, 1000, 1500, 2100, 2800, 3600]
   },
+  "security": {
+    "note": "Contrôles faits par le serveur (firestore.rules, offre gratuite : mêmes chiffres, à changer ensemble). Mesuré le 29/09/2026 avec un bot surhumain (4 gestes parfaits par seconde, super dès qu'elle est pleine, pression jusqu'à 40 %) : meilleur score d'une vague 1 898 / 2 068 / 2 658 / 2 960 / 3 216 (vagues 1 à 5), vague la plus rapide 4,7 s ; esquiver 80 s puis attaquer rapporte moins (2 812 au plus). Plafonds pris avec au moins 60 % de marge (armes niveau 10, talismans).",
+    "waveCaps": [4000, 4400, 4800, 5400, 6000],
+    "minWaveSeconds": 3,
+    "voyage": {
+      "note": "Record du Voyage accepté au classement si record ≤ perSecond × t × (base + growth × t), t = durée en secondes depuis le début de la dernière partie notée au serveur (runs/{uid}). Couvre la montée du multiplicateur de score (Au-delà du Silence) avec une large marge.",
+      "perSecond": 600,
+      "base": 3,
+      "growth": 0.025
+    }
+  },
   "waveSeconds": 90,
   "disconnectSeconds": 30,
   "heartbeatSeconds": 5,
@@ -90,6 +101,8 @@
       "meKo": "KO à la vague {n}.",
       "bothKo": "KO tous les deux à la vague {n} : le meilleur score l'emporte.",
       "score": "Les deux ont survécu au boss : le plus gros score l'emporte.",
+      "bothKoTie": "KO tous les deux à la vague {n}, à égalité de points.",
+      "scoreTie": "Les deux ont survécu au boss, à égalité de points.",
       "disconnect": "{name} s'est déconnecté plus de {s} s.",
       "quit": "{name} a abandonné."
     },

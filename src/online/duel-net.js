@@ -5,6 +5,7 @@
 // Duel au hasard : file d'attente queue/{uid} = { pseudo, prints, seen, room } (data/duel.json → random).
 import { D } from '../data.js';
 import { whenOnline, pseudo } from './online.js';
+import { serverPrints } from './ranked.js';
 
 const DU = () => D.duel;
 let S = null, ref = null, code = null, unsub = null, last = null;
@@ -21,7 +22,7 @@ function newCode() {
 }
 
 /** Entrée d'un joueur ; who : { arena, prints } (arène et Empreintes, pour l'arène du combat et l'affichage). */
-const me = (who = {}) => ({ pseudo: pseudo(), hero: null, ready: false, scores: [], ko: null, done: false, quit: false, wave: 0, live: 0,
+const me = (who = {}) => ({ pseudo: pseudo(), hero: null, ready: false, scores: [], ko: null, done: false, quit: false, wave: 0, waveAt: null, live: 0,
   seen: S.fb.fs.serverTimestamp(), arena: who.arena || 0, prints: who.prints || 0 });
 
 /** Crée un salon et renvoie son code. opts : { mode, invite, who }. */
@@ -73,8 +74,10 @@ export function setMine(fields) {
   return S.fb.fs.updateDoc(ref, up).catch(e => console.warn('Duel :', e && (e.code || e.message)));
 }
 
-/** Signe de vie (toutes les heartbeatSeconds) : heure du serveur, vague en cours et score en direct. */
-export const heartbeat = (wave, live) => setMine({ seen: S.fb.fs.serverTimestamp(), wave, live });
+/** Signe de vie (toutes les heartbeatSeconds) : heure du serveur et score en direct. */
+export const heartbeat = live => setMine({ seen: S.fb.fs.serverTimestamp(), live });
+/** Début de la vague n (1 à 5) : l'heure du serveur est notée (les règles refusent un score de vague rendu trop vite). */
+export const startWave = n => setMine({ wave: n, waveAt: S.fb.fs.serverTimestamp() });
 
 /** Quitte le salon : l'hôte seul le supprime ; sinon on le marque « abandon ». */
 export async function leaveRoom(abandon = true) {
@@ -110,6 +113,8 @@ export function search(who, on) {
   };
   (async () => {
     try { S = await whenOnline(); } catch (e) { if (!stop) { await end(); on.timeout(); } return; }
+    if (stop) return;
+    who = { ...who, prints: await serverPrints() };                   // Empreintes du serveur (les règles de la file les exigent)
     if (stop) return;
     const { fb, db, uid } = S, mine = fb.fs.doc(db, R.collection, uid);
     await fb.fs.setDoc(mine, { pseudo: pseudo(), prints: who.prints, seen: fb.fs.serverTimestamp(), room: null });

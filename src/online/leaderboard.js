@@ -4,6 +4,7 @@
 import { D } from '../data.js';
 import { prog } from '../game/progress.js';
 import { server, whenOnline, pseudo } from './online.js';
+import { serverPrints } from './ranked.js';
 
 const L = () => D.online.leaderboard;
 let sent = null, remoteBest = null, busy = false;
@@ -28,14 +29,29 @@ export async function syncBoard() {
       const s = await S.fb.fs.getDoc(ref(S));
       remoteBest = s.exists() ? (s.data().voyage || 0) : -1;
     }
-    const row = { pseudo: pseudo(), hero: favoriteHero(), voyage: Math.max(prog.best || 0, remoteBest), prints: (prog.duel && prog.duel.prints) || 0 };
+    // Empreintes : celles du serveur (ranked/{uid}) ; record : jamais plus bas que celui déjà classé.
+    const row = { pseudo: pseudo(), hero: favoriteHero(), voyage: Math.max(prog.best || 0, remoteBest, 0), prints: await serverPrints() };
     const key = JSON.stringify(row);
     if (key === sent) return;
-    await S.fb.fs.setDoc(ref(S), { ...row, updatedAt: S.fb.fs.serverTimestamp() });
+    const put = r => S.fb.fs.setDoc(ref(S), { ...r, updatedAt: S.fb.fs.serverTimestamp() });
+    try { await put(row); }
+    catch (e) {
+      // Record refusé (pas de partie du Voyage enregistrée au serveur assez longue pour ce score) : le reste est quand même mis à jour.
+      if (!(e && e.code === 'permission-denied') || row.voyage <= Math.max(remoteBest, 0)) throw e;
+      console.warn('Classements : record non retenu', row.voyage);
+      row.voyage = Math.max(remoteBest, 0);
+      await put(row);
+    }
     sent = key; remoteBest = row.voyage;
   } catch (e) {
     console.warn('Classements :', e && (e.code || e.message));
   } finally { busy = false; }
+}
+
+/** Début d'une partie du Voyage : heure notée au serveur (runs/{uid}), qui borne le record accepté selon la durée de la partie. */
+export function startRun() {
+  const S = server();
+  if (S) S.fb.fs.setDoc(S.fb.fs.doc(S.db, 'runs', S.uid), { startedAt: S.fb.fs.serverTimestamp() }).catch(e => console.warn('Classements :', e && (e.code || e.message)));
 }
 
 /**

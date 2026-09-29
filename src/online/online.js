@@ -127,6 +127,8 @@ export function setPseudo(p) {
 }
 
 export const pseudo = () => (prog.profile && prog.profile.pseudo) || '';
+/** Connecté aux émulateurs Firebase (?emu, tests) ? */
+export const emuMode = () => { try { return new URLSearchParams(location.search).has(O().emulator.param); } catch (e) { return false; } };
 
 /** Accès au serveur pour le Duel (online/duel-net.js) : SDK, base, joueur ; null tant que la connexion n'est pas prête. */
 export const server = () => (user && db ? { fb, db, uid: user.uid } : null);

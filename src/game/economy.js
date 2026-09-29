@@ -8,12 +8,23 @@ const E = () => D.economy;
 export const wallet = () => prog.eco;
 const tpl = (t, v) => t.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? '');
 
+// Gemmes : le compte qui fait foi est au serveur (online/wallet.js, portefeuille wallet/{uid}). Chaque mouvement lui est
+// transmis : gain d'une table fixe (grant), pub récompensée (ad), dépense (spend). Le mode test ajoute des gemmes locales seulement.
+let gemsHook = null;
+export const onGems = fn => { gemsHook = fn; };
+const gemOp = op => { if (gemsHook) gemsHook(op); };
+
 export function addGold(n) { prog.eco.gold += Math.max(0, Math.round(n)); saveProg(); }
-export function addGems(n) { prog.eco.gems += Math.max(0, Math.round(n)); saveProg(); }
+/** source : 'ad' (pub récompensée, vérifiée par le serveur) ou 'test' (mode test, local). */
+export function addGems(n, source = 'ad') {
+  const k = Math.max(0, Math.round(n));
+  prog.eco.gems += k; saveProg();
+  if (source === 'ad' && k) gemOp({ op: 'ad', n: k });
+}
 
 /** Prix { gold } ou { gems }. */
 export const canAfford = p => (p.gold || 0) <= prog.eco.gold && (p.gems || 0) <= prog.eco.gems;
-function pay(p) { prog.eco.gold -= p.gold || 0; prog.eco.gems -= p.gems || 0; }
+function pay(p) { prog.eco.gold -= p.gold || 0; prog.eco.gems -= p.gems || 0; if (p.gems) gemOp({ op: 'spend', n: p.gems }); }
 
 /* ---------- Gains de fin de partie ---------- */
 /** Or des pièces ramassées pendant la partie. */
@@ -41,7 +52,11 @@ export function storyWinGold(first) {
  */
 export function syncGems() {
   const G = E().gems, U = E().ui.gemsFor, done = new Set(prog.eco.granted), out = [];
-  const give = (key, n, text) => { if (done.has(key)) return; prog.eco.granted.push(key); prog.eco.gems += n; out.push({ kind: 'gems', n, text }); };
+  const give = (key, n, text) => {
+    if (done.has(key)) return;
+    prog.eco.granted.push(key); prog.eco.gems += n; out.push({ kind: 'gems', n, text });
+    gemOp({ op: 'grant', key, n });
+  };
   for (const a of prog.voyage.beaten || []) {
     const arena = D.voyage.arenas.find(x => x.id === a);
     give('guardian:' + a, G.guardianFirst, tpl(U.guardian, { name: arena ? arena.name : a }));
@@ -127,7 +142,7 @@ export function chestState(id, free = false) {
 export function openChest(id, rnd = Math.random, free = false) {     // free : coffre offert (pub récompensée)
   const C = E().chests[id], st = chestState(id, free);
   if (!st.can) return { error: st.reason };
-  if (!free) prog.eco.gems -= C.price;
+  if (!free) { prog.eco.gems -= C.price; gemOp({ op: 'spend', n: C.price }); }
   const got = [], pity = id === 'simple' && C.guaranteeEpicAfter && prog.eco.pity >= C.guaranteeEpicAfter - 1;
   for (let k = 0; k < C.count; k++) {
     let r;

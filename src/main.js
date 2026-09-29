@@ -24,7 +24,10 @@ import { setupHud } from './ui/combat-hud.js';
 import { resetAnims } from './ui/anim.js';
 import { initLobby, showLobby, hideLobby, showResults, activeCharacter, refreshLobby } from './ui/lobby.js';
 import { initOnline } from './online/online.js';
-import { syncBoard } from './online/leaderboard.js';
+import { syncBoard, startRun } from './online/leaderboard.js';
+import { initWallet } from './online/wallet.js';
+import { serverPrints } from './online/ranked.js';
+import { onOnlineChange } from './online/online.js';
 import { openRanking } from './ui/ranking-ui.js';
 import { ensurePseudo } from './ui/account-ui.js';
 import { initStory, openStory, maybePrologue } from './story/story.js';
@@ -223,6 +226,7 @@ async function start(mode, opts = {}) {
   let battle = opts.battle || idleBattle();
   if (mode === 'play' && !opts.battle) { try { battle = await newVoyage(); } catch (e) { starting = false; hideCover(); throw e; } }
   curChar = c; curBattle = battle;
+  if (battle.xpMode === 'voyage') startRun();                        // record du Voyage : durée de la partie notée au serveur
   if (mode === 'play' && !battle.tutorial) { prog.played = prog.played || {}; prog.played[c.id] = (prog.played[c.id] || 0) + 1; }   // héros favori (classements)
   const intro = battle.intro ? battle.intro() : null;               // l'annonce d'abord (elle fixe aussi le décor)
   try { await prepareArt(c, battle); } catch (_) { /* sans sprites, le combat reste jouable */ }
@@ -304,7 +308,9 @@ async function init() {
     return;
   }
   migrateProgress();                       // anciennes sauvegardes : niveau gardé, XP dans le niveau à zéro
-  initOnline({ applyRemote, afterUpload: syncBoard });   // + classements (online/leaderboard.js)             // compte anonyme + sauvegarde en ligne, en arrière-plan (data/online.json)
+  initOnline({ applyRemote, afterUpload: syncBoard });   // + classements (online/leaderboard.js)
+  initWallet({ changed: refreshLobby });                   // gemmes : le portefeuille du serveur fait foi (online/wallet.js)
+  { let was = false; onOnlineChange(s => { if (s.state === 'online' && !was) serverPrints().then(refreshLobby, () => {}); was = s.state === 'online'; }); }   // Empreintes du serveur             // compte anonyme + sauvegarde en ligne, en arrière-plan (data/online.json)
   initAds();                               // AdMob + consentement dans l'application ; rien sur le web
   initAudio();                             // effets chargés maintenant, musiques à la demande
   attachInput(cv, {
