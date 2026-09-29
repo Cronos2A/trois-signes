@@ -186,7 +186,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   envoi au retour du réseau (nouvel essai toutes les 20 s). Les Réglages du son (`ts_settings`) restent propres à l'appareil.
 - **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026 ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
   chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ;
-  salons `duels/{code}` et file d'attente `queue/{uid}` (voir Duel) ; tout le reste fermé.
+  salons `duels/{code}` et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}` ; tout le reste fermé.
 - **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
   puis le jeu avec `?emu` dans l'adresse (`online.json → emulator`).
   `?longpoll` (`online.json → longPollParam`) : Firestore en requêtes classiques, pour les réseaux qui coupent son flux continu (proxy, tests).
@@ -252,6 +252,20 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   arène 7) ; un tiers ne peut ni inscrire un code, ni changer les Empreintes, ni supprimer la fiche d'un autre (permission-denied).
   Sur deux essais en ligne depuis l'environnement de test, un seul a abouti (l'autre : personne trouvé en 60 s, sans erreur,
   réseau de test instable) : à confirmer sur deux téléphones.
+
+## Classements — `data/online.json` → `leaderboard` — **fait (étape 4)**
+- Onglet Jouer : bouton **Classements** sur la carte du Voyage → écran à deux onglets **Voyage** (meilleur score) et **Duel** (Empreintes) :
+  top 100 mondial (rang, héros favori, pseudo, score ; ex æquo au même rang), ma ligne surlignée, ma position en bas
+  (« 71e · Toi · Alpha 5 050 », aussi hors du top 100 ; « Pas encore classé » à 0). Code : `src/online/leaderboard.js`, `src/ui/ranking-ui.js`, `ranking.css`.
+- Ligne `leaderboard/{uid}` = `{ pseudo, hero, voyage, prints, updatedAt }`, écrite après chaque envoi de la sauvegarde si une valeur a changé.
+  **Seul le meilleur score du Voyage** est gardé : jamais plus bas que celui déjà au serveur (le client prend le plus haut, les règles refusent une baisse).
+  Héros favori = le plus joué (`prog.played`, compté à chaque partie hors leçon ; sinon le plus haut niveau).
+- Position : nombre de joueurs strictement devant + 1 (requête de comptage, offre Spark). Chaque joueur envoie ses propres valeurs : pas de contrôle anti-triche.
+- Règles : lecture pour tout joueur connecté ; écriture et suppression de sa seule ligne ; champs validés (pseudo 3 à 16, entiers ≥ 0).
+- Testé le 29/09/2026 sur l'émulateur avec 120 joueurs fictifs et deux navigateurs (390 × 800 et 360 × 640) : Alpha 71e au Voyage (dans le top),
+  Bravo 122e (hors top) et 60e en Duel, « Pas encore classé » à 0 Empreinte, héros favori (Kestrel), baisse du score et écriture
+  de la ligne d'un autre refusées, nouveau record → 1er, record local plus bas → la ligne garde le meilleur, aucune erreur ni débordement.
+  **Règles à republier dans la console.**
 
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
@@ -345,7 +359,7 @@ src/
          variants.js (variantes sbire / brute / boss selon l'arène ou le combat)  duel.js (Duel : programme, pression, victoire)
          duel-rank.js (Empreintes, arènes du Duel)
   story/story.js     déroulé du mode Histoire
-  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)
+  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  leaderboard.js (classements)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)
   vendor/firebase/   SDK Firebase embarqué (app, auth, firestore)
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js
@@ -354,8 +368,8 @@ src/
          tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (cartes Armes / Talisman, XP de fin de partie)
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman / Gemmes »)  shop-ui.js (boutique, coffres, carte Cosmétiques)
          looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)  cover.js (écran de lancement)
-         account-ui.js (pseudo, bloc Compte des Réglages)  duel-ui.js (salon, attente, pression, fin du Duel)
-         organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css
+         account-ui.js (pseudo, bloc Compte des Réglages)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
+         organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css
 data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel (.json)
 firestore.rules  firebase.json   règles de sécurité Firestore
 assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)

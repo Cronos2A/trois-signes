@@ -29,7 +29,7 @@ let actions = {};
 
 const chars = () => D.characters.characters;
 
-/** actions : { solo(), train(), again(), story(), lesson(), duel() } */
+/** actions : { solo(), train(), again(), story(), lesson(), ranks(), duel() } */
 export function initLobby(a) {
   actions = a;
   const ring = D.progression.maxRing;                 // anneau doré du niveau maximum
@@ -109,6 +109,7 @@ function onClick(e) {
     case 'solo': actions.solo(); break;
     case 'train': actions.train(); break;
     case 'lesson': actions.lesson(); break;
+    case 'ranks': actions.ranks(); break;
     case 'story': actions.story(); break;
     case 'duel': actions.duel(); break;
     case 'again': afterVoyageResults().then(() => actions.again()); break;   // pub plein écran due (Voyage)
@@ -205,6 +206,7 @@ function playHtml() {
   return `<div class="stage-card">
       <div class="stage-top">
         <div class="stage-titles"><div class="kicker">SOLO · ${V.name.toUpperCase()}</div><div class="stage-name">${V.name} : record ${nf(prog.best || 0)}</div></div>
+        <button class="rank-btn" data-act="ranks" aria-label="${D.online.leaderboard.ui.button}"><span class="rank-cup" aria-hidden="true"></span><span>${D.online.leaderboard.ui.button}</span></button>
       </div>
       <div class="stage-far">Arène max : <b>${far ? far.name : 'aucune'}</b></div>
       <div class="pips">${pips}</div>

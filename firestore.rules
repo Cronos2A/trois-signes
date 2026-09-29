@@ -98,6 +98,24 @@ service cloud.firestore {
       allow delete: if isOwner(uid);
     }
 
+    // Classements : { pseudo, hero, voyage, prints, updatedAt }, lisibles par tout joueur connecté, écrits par leur joueur ;
+    // le meilleur score du Voyage ne peut jamais baisser.
+    match /leaderboard/{uid} {
+      function validBoard() {
+        let d = request.resource.data;
+        return d.keys().hasOnly(['pseudo', 'hero', 'voyage', 'prints', 'updatedAt'])
+          && d.pseudo is string && d.pseudo.size() >= 3 && d.pseudo.size() <= 16
+          && d.hero is string && d.hero.size() <= 20
+          && d.voyage is int && d.voyage >= 0
+          && d.prints is int && d.prints >= 0
+          && d.updatedAt == request.time;
+      }
+      allow read: if request.auth != null;
+      allow create: if isOwner(uid) && validBoard();
+      allow update: if isOwner(uid) && validBoard() && request.resource.data.voyage >= resource.data.voyage;
+      allow delete: if isOwner(uid);
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

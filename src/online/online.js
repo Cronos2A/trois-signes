@@ -81,10 +81,12 @@ async function firstSync() {
     if (data && hooks.applyRemote) await hooks.applyRemote(data);
     dirty = false;
     setState('online');
+    if (hooks.afterUpload) hooks.afterUpload();
     return;
   }
   setState('online');
   if (!remote || (prog.savedAt || 0) > (remote.savedAt || 0)) { dirty = true; await upload(); }
+  else if (hooks.afterUpload) hooks.afterUpload();
 }
 
 function schedule(ms = O().sync.debounceMs) {
@@ -108,6 +110,7 @@ async function upload() {
       v: O().saveVersion
     });
     setState(dirty ? 'saving' : 'online');
+    if (hooks.afterUpload) hooks.afterUpload();                     // classements (online/leaderboard.js)
   } catch (e) {
     console.warn('Sauvegarde en ligne :', e && (e.code || e.message));
     dirty = true;

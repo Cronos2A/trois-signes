@@ -24,6 +24,8 @@ import { setupHud } from './ui/combat-hud.js';
 import { resetAnims } from './ui/anim.js';
 import { initLobby, showLobby, hideLobby, showResults, activeCharacter, refreshLobby } from './ui/lobby.js';
 import { initOnline } from './online/online.js';
+import { syncBoard } from './online/leaderboard.js';
+import { openRanking } from './ui/ranking-ui.js';
 import { ensurePseudo } from './ui/account-ui.js';
 import { initStory, openStory, maybePrologue } from './story/story.js';
 import { voyageBattle } from './game/voyage.js';
@@ -221,6 +223,7 @@ async function start(mode, opts = {}) {
   let battle = opts.battle || idleBattle();
   if (mode === 'play' && !opts.battle) { try { battle = await newVoyage(); } catch (e) { starting = false; hideCover(); throw e; } }
   curChar = c; curBattle = battle;
+  if (mode === 'play' && !battle.tutorial) { prog.played = prog.played || {}; prog.played[c.id] = (prog.played[c.id] || 0) + 1; }   // héros favori (classements)
   const intro = battle.intro ? battle.intro() : null;               // l'annonce d'abord (elle fixe aussi le décor)
   try { await prepareArt(c, battle); } catch (_) { /* sans sprites, le combat reste jouable */ }
   if (intro) await intro;
@@ -301,7 +304,7 @@ async function init() {
     return;
   }
   migrateProgress();                       // anciennes sauvegardes : niveau gardé, XP dans le niveau à zéro
-  initOnline({ applyRemote });             // compte anonyme + sauvegarde en ligne, en arrière-plan (data/online.json)
+  initOnline({ applyRemote, afterUpload: syncBoard });   // + classements (online/leaderboard.js)             // compte anonyme + sauvegarde en ligne, en arrière-plan (data/online.json)
   initAds();                               // AdMob + consentement dans l'application ; rien sur le web
   initAudio();                             // effets chargés maintenant, musiques à la demande
   attachInput(cv, {
@@ -309,7 +312,7 @@ async function init() {
     onDraw: d => { G.drawing = d; },
     onGesture
   });
-  initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play'), story: openStory, lesson: startTutorial,
+  initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play'), story: openStory, lesson: startTutorial, ranks: openRanking,
     duel: () => { openDuel({ start: (room, char) => startDuel(room, char), back: duelHome }); } });
   initDuel({ startBattle: opts => start('play', opts), end: why => endGame(why), home: duelHome, quit: toLobby });
   initTutorial({ startBattle: opts => start('play', opts), quit: toLobby });

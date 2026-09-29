@@ -13,6 +13,31 @@
   "longPollParam": "longpoll",
   "emulator": { "param": "emu", "host": "127.0.0.1", "authPort": 9099, "firestorePort": 8080 },
   "collection": "players",
+  "leaderboard": {
+    "note": "Classements (src/online/leaderboard.js, écran src/ui/ranking-ui.js) : document leaderboard/{uid} = { pseudo, hero (héros favori : le plus joué), voyage (meilleur score du Voyage, ne baisse jamais), prints (Empreintes du Duel), updatedAt }. Mis à jour après chaque envoi de la sauvegarde, seulement si une valeur a changé. Top et position : lus à l'ouverture de l'écran.",
+    "collection": "leaderboard",
+    "top": 100,
+    "boards": [
+      { "id": "voyage", "field": "voyage", "label": "Voyage", "scoreLabel": "Meilleur score" },
+      { "id": "duel", "field": "prints", "label": "Duel", "scoreLabel": "Empreintes" }
+    ],
+    "ui": {
+      "button": "Classements",
+      "title": "Classements",
+      "world": "Top {n} mondial",
+      "you": "Toi",
+      "rank": "{n}e",
+      "first": "1er",
+      "unranked": "Pas encore classé",
+      "unrankedVoyage": "Termine une partie du Voyage pour entrer au classement.",
+      "unrankedDuel": "Gagne des Empreintes en Duel au hasard pour entrer au classement.",
+      "empty": "Personne pour l'instant.",
+      "loading": "Chargement…",
+      "offline": "Les classements demandent une connexion au serveur.",
+      "needPseudo": "Choisis d'abord ton pseudo.",
+      "close": "Fermer"
+    }
+  },
   "saveVersion": 1,
   "sync": { "debounceMs": 3000, "retryMs": 20000 },
   "pseudo": {
