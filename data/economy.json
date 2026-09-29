@@ -84,11 +84,12 @@
     "gemsName": "+{n} gemmes",
     "gemsReward": "GEMMES GAGNÉES",
     "gemsFor": {
-      "guardian": "Gardien de {name} battu",
-      "story": "Histoire de {name} terminée",
+      "guardian": "Gardien {de} battu",
+      "story": "Histoire {de} terminée",
       "epilogue": "Épilogue de l'histoire"
     },
     "gemsOk": "Continuer",
+    "gemsTotal": "Total",
     "testTitle": "Mode test",
     "testGold": "+{n} or",
     "testGems": "+{n} gemmes",

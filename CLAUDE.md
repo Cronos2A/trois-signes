@@ -1,6 +1,6 @@
 # Trois Signes — brief pour Claude Code
 
-État du projet au 29/09/2026. À tenir à jour à chaque étape terminée.
+État du projet au 29/09/2026 (corrections de l'audit faites, reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
@@ -328,6 +328,8 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   sa carte apparaît dans le choix des histoires, marquée « Bientôt disponible » (pas encore jouable).
 - Autres réglages : `rules.json` → `story` (pas de limite de temps, PNJ, libellés, vitesse du texte).
 - Sauvegarde : `prog.story` (combats gagnés par histoire, scènes vues, fragments, prologue, épilogue).
+  Fin d'histoire enregistrée dès la victoire du combat 10, avant les scènes : fragment, `endings` (fins pas encore vues) et
+  `epiloguePending` ; une scène interrompue (jeu fermé) est rejouée à la prochaine ouverture du mode Histoire (`resumeEndings`).
 
 ## Le Voyage (Solo infini) — `data/voyage.json`
 - Bouton Solo. **8 arènes** de 4 rounds (3 vagues puis le gardien) : Forêt de Mousse, Hautes-Gerbes, Fontclaire, Toits de Vélis,
@@ -362,6 +364,20 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   État : `assets/audio/SONS.md`, sources et licences : `CREDITS.md`.
 - **Manquent** : `sfx/ui_clic`, `sfx/ui_onglet`, `musique/musique_triste`. `musique_lobby` ne dure que 19 s (boucle trop fréquente).
 
+## Robustesse (corrections du 29/09/2026, voir `à faire.md`)
+- **Sauvegarde abîmée** (`src/game/save-check.js` : `readSave`, `saveProblems`) : le jeu démarre toujours ; écran « Sauvegarde endommagée »
+  (`account-ui.js` → `askDamagedSave`, textes `online.json → damaged`) : récupérer la sauvegarde en ligne ou repartir de zéro. Tant que le
+  joueur n'a pas choisi, rien n'est écrit ni envoyé (`saveState.damaged`) ; l'ancienne est gardée dans `ts_prog_damaged`.
+  Sauvegarde incomplète : complétée sans rien demander (`ensureDefaults`). Sauvegarde du serveur abîmée : ignorée (`replaceProg`).
+- **Bouton Retour** (`src/ui/back.js`, textes `rules.json → backButton`) : confirmation « Quitter la partie ? » en partie (pause),
+  cinématique passée, fenêtre du dessus fermée dans les menus ; sur l'onglet Jouer, il quitte le jeu.
+- **Portrait** (`manifest.webmanifest`, `src/ui/orient.js`, textes `rules.json → orientation`) : téléphone en paysage → « Tourne ton téléphone »,
+  partie en pause (sauf en Duel).
+- **Duel** : l'adversaire n'est jugé déconnecté que sur des données confirmées par le serveur ; soi-même, plus de 30 s sans contact
+  avec le serveur (réseau ou veille) = défaite « Tu as été déconnecté ». Calque des écrans du Duel : classe `.du-layer`.
+- **Textes** : `deName` (`src/util.js`) pour « de » devant un nom (d'Aldric, du Cœur…, des Hautes-Gerbes) ; les arènes ont un champ `de`.
+- **Gemmes** : plusieurs gains d'un coup = un seul écran récapitulatif (`reward-ui.js`). Pseudo normalisé en NFC avant vérification.
+
 ## Réglages et crédits
 - Engrenage du lobby (`src/ui/lobby.js` → `renderSettings`, `src/game/settings.js`, clé `ts_settings`) : volumes Musique / Effets, Vibrations,
   Compte (pseudo, état du serveur, liaison Google plus tard), bouton **Crédits**. Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
@@ -390,13 +406,14 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 ## Structure
 ```
-index.html
+index.html  manifest.webmanifest (portrait)
 src/
   main.js            boucle de jeu, écrans, démarrage (prologue puis leçon au premier lancement)
   data.js            chargement de data/*.json
-  util.js
+  util.js            (dont deName : « de » élidé devant un nom)
   input/gestures.js  reconnaissance des gestes + précision
   game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP et niveaux des héros, sauvegarde)
+         save-check.js (sauvegarde abîmée : forme attendue)
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
          talismans.js  rewards.js (récompenses méritées, rétroactives)  economy.js (or, gemmes, coffres)  cosmetics.js
          variants.js (variantes sbire / brute / boss selon l'arène ou le combat)  duel.js (Duel : programme, pression, victoire)
@@ -411,7 +428,8 @@ src/
          tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (cartes Armes / Talisman, XP de fin de partie)
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman / Gemmes »)  shop-ui.js (boutique, coffres, carte Cosmétiques)
          looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)  cover.js (écran de lancement)
-         account-ui.js (pseudo, bloc Compte des Réglages)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
+         account-ui.js (pseudo, bloc Compte des Réglages, sauvegarde endommagée)
+         back.js (bouton Retour du téléphone)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css
 data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel (.json)
 firestore.rules  firebase.json   règles de sécurité Firestore

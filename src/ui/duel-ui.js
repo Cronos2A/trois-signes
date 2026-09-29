@@ -19,7 +19,7 @@ function root() {
   if (el) return el;
   el = document.createElement('div');
   el.id = 'duel';
-  el.className = 'duel hidden';
+  el.className = 'du-layer hidden';
   el.setAttribute('role', 'dialog');
   el.setAttribute('aria-modal', 'true');
   el.addEventListener('click', e => {
@@ -31,8 +31,8 @@ function root() {
   document.body.appendChild(el);
   return el;
 }
-function screen(html, cls = '') { const r = root(); r.innerHTML = html; r.className = 'duel ' + cls; }
-export function hideDuelUi() { clearInterval(liveTimer); if (el) { el.className = 'duel hidden'; el.innerHTML = ''; } onClick = null; wait = null; }
+function screen(html, cls = '') { const r = root(); r.innerHTML = html; r.className = 'du-layer ' + cls; }
+export function hideDuelUi() { clearInterval(liveTimer); if (el) { el.className = 'du-layer hidden'; el.innerHTML = ''; } onClick = null; wait = null; }
 
 /* ---------- Menu et salon (avant le combat) ---------- */
 /** Ouvre le Duel depuis le lobby. a : { start(room, char) → combat, back() → lobby }. */

@@ -3,8 +3,9 @@
 // Document Firestore players/{uid} = { pseudo, save (progression en JSON), savedAt, updatedAt, v }.
 // La sauvegarde locale reste la référence hors connexion ; entre l'appareil et le serveur, la plus récente (savedAt) l'emporte.
 // Règles de sécurité : firestore.rules (chaque joueur ne lit et n'écrit que son propre document).
+import { readSave } from '../game/save-check.js';
 import { D } from '../data.js';
-import { prog, onSaved, saveProg } from '../game/progress.js';
+import { prog, onSaved, saveProg, saveState } from '../game/progress.js';
 
 const O = () => D.online;
 let fb = null, auth = null, db = null, user = null;
@@ -73,6 +74,8 @@ function start() {
 
 /** Première synchronisation : la sauvegarde la plus récente l'emporte (serveur → appareil, ou appareil → serveur). */
 async function firstSync() {
+  // Sauvegarde locale endommagée : rien n'est échangé avant le choix du joueur (main.js → écran « Sauvegarde endommagée »).
+  if (saveState.damaged) { setState('online'); return; }
   const snap = await fb.fs.getDoc(docRef());
   const remote = snap.exists() ? snap.data() : null;
   if (remote && remote.save && (remote.savedAt || 0) > (prog.savedAt || 0)) {
@@ -96,7 +99,7 @@ function schedule(ms = O().sync.debounceMs) {
 
 /** Envoie la progression (seulement une fois connecté ; sinon elle attend, gardée sur l'appareil). */
 async function upload() {
-  if (!dirty) return;
+  if (!dirty || saveState.damaged) return;
   if (!user || !db) { start(); return; }
   if (navigator.onLine === false) { setState('offline'); return; }
   dirty = false;
@@ -140,6 +143,15 @@ export function whenOnline(ms = 20000) {
     const t = setTimeout(() => { off(); ko(new Error('offline')); }, ms);
     const off = onOnlineChange(() => { if (server()) { clearTimeout(t); off(); ok(server()); } });
   });
+}
+
+/** Sauvegarde en ligne de ce compte (pour l'écran « Sauvegarde endommagée ») : { data, savedAt } si elle est lisible, sinon null. */
+export async function remoteSave() {
+  const S = await whenOnline();
+  const snap = await S.fb.fs.getDoc(S.fb.fs.doc(S.db, O().collection, S.uid));
+  if (!snap.exists() || !snap.data().save) return null;
+  const r = readSave(snap.data().save);
+  return r.damaged || !Object.keys(r.data).length ? null : { data: r.data, savedAt: snap.data().savedAt || 0 };
 }
 
 /** Tests : envoie tout de suite ce qui attend, et lit un document (le sien, ou celui d'un autre : refusé par les règles). */

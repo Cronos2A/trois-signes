@@ -1,5 +1,6 @@
 // XP, niveaux, sauvegarde locale.
 import { D } from '../data.js';
+import { readSave, saveProblems } from './save-check.js';
 
 const KEY = 'ts_prog';
 
@@ -8,31 +9,47 @@ export const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 };
 
-export const prog = store.get(KEY, {});
+// Lecture contrôlée (game/save-check.js) : une sauvegarde illisible ou endommagée ne bloque jamais le lancement.
+// Le jeu part alors d'une progression neuve, sans l'écrire tant que le joueur n'a pas choisi (main.js → écran « Sauvegarde endommagée »).
+let raw = null;
+try { raw = localStorage.getItem(KEY); } catch (e) {}
+const first = readSave(raw);
+/** État de la sauvegarde locale au lancement : { damaged, problems }. */
+export const saveState = { damaged: first.damaged, problems: first.problems };
+if (first.damaged) { try { localStorage.setItem(KEY + '_damaged', raw); } catch (e) {} }   // gardée à part, pour comprendre
+export const prog = first.data;
 
 /** Complète une sauvegarde (nouvelle, ancienne ou reçue du serveur) avec ce qui lui manque. */
 function ensureDefaults() {
   // Chaque personnage a son XP et son niveau, gagnés seulement en le jouant.
   // Une ancienne sauvegarde (XP commune) revient à Aldric, seul jouable jusque-là.
   if (!prog.chars) { prog.chars = { aldric: { xp: prog.xp || 0 } }; delete prog.xp; }
+  for (const k of Object.keys(prog)) if (prog[k] === null) delete prog[k];   // bloc vide : recréé ci-dessous
   // Depuis la version 2 : prog.chars[id] = { lvl, xp } (XP dans le niveau) ; conversion dans migrateProgress().
 
   // Mode Histoire : combats gagnés par histoire, cinématiques vues, fragments de mémoire.
   if (!prog.story) prog.story = { done: {}, seen: {}, fragments: [], prologue: false, epilogue: false };
+  fill(prog.story, { done: {}, seen: {}, fragments: [] });
   // Le Voyage : arène la plus lointaine atteinte (index, 8 = Au-delà du Silence) et arènes déjà découvertes.
   // Le meilleur score reste prog.best.
   if (!prog.voyage) prog.voyage = { maxArena: -1, found: [] };
-  if (!prog.voyage.beaten) prog.voyage.beaten = [];   // arènes dont le gardien a été battu (talismans)
+  fill(prog.voyage, { maxArena: -1, found: [], beaten: [] });   // beaten : arènes dont le gardien a été battu (talismans)
   // Armes et talismans : XP par arme ; armes et talismans débloqués ; arme et talisman équipés par héros.
   if (!prog.weapons) prog.weapons = {};
-  if (!prog.armory) prog.armory = { weapons: [], talismans: [], equipped: {}, talisman: {} };
+  if (!prog.armory) prog.armory = {};
+  fill(prog.armory, { weapons: [], talismans: [], equipped: {}, talisman: {} });
   // Économie : or, gemmes, gains déjà donnés, cosmétiques possédés et équipés par héros, garantie des coffres.
-  if (!prog.eco) prog.eco = { gold: 0, gems: 0, granted: [], owned: [], equipped: {}, pity: 0, opened: 0 };
+  if (!prog.eco) prog.eco = {};
+  fill(prog.eco, { gold: 0, gems: 0, granted: [], owned: [], equipped: {}, pity: 0, opened: 0 });
   // Profil en ligne : pseudo choisi par le joueur (online/online.js).
   if (!prog.profile) prog.profile = { pseudo: '' };
+  if (typeof prog.profile.pseudo !== 'string') prog.profile.pseudo = '';
   // Duel au hasard : Empreintes et plus haute arène déjà annoncée (game/duel-rank.js).
   if (!prog.duel) prog.duel = { prints: 0, unlocked: 0 };
+  fill(prog.duel, { prints: 0, unlocked: 0 });
 }
+/** Complète un bloc avec les champs qui lui manquent (sauvegarde d'une version plus ancienne). */
+function fill(o, defs) { for (const [k, v] of Object.entries(defs)) if (o[k] === undefined || o[k] === null) o[k] = v; }
 ensureDefaults();
 
 // Sauvegarde : datée (savedAt, pour savoir laquelle est la plus récente entre l'appareil et le serveur),
@@ -40,17 +57,31 @@ ensureDefaults();
 let onSave = null;
 export const onSaved = fn => { onSave = fn; };
 export function saveProg() {
+  if (saveState.damaged) return;           // sauvegarde endommagée : rien n'est écrit (ni envoyé) avant le choix du joueur
   prog.savedAt = Date.now();
   store.set(KEY, prog);
   if (onSave) onSave();
 }
 
-/** Remplace toute la progression (sauvegarde plus récente reçue du serveur), sans la redater. */
+/**
+ * Remplace toute la progression (sauvegarde reçue du serveur), sans la redater.
+ * Refusée (renvoie false) si elle est elle-même endommagée.
+ */
 export function replaceProg(data) {
+  if (saveProblems(data).length) return false;
   for (const k of Object.keys(prog)) delete prog[k];
   Object.assign(prog, data);
   ensureDefaults();
   store.set(KEY, prog);
+  return true;
+}
+
+/** Repartir à zéro (sauvegarde endommagée) : progression neuve, écrite tout de suite. */
+export function resetProg() {
+  for (const k of Object.keys(prog)) delete prog[k];
+  ensureDefaults();
+  saveState.damaged = false;
+  saveProg();
 }
 
 const PR = () => D.progression;

@@ -1,6 +1,7 @@
 // Économie (data/economy.json) : or et gemmes, gains de fin de partie, gemmes méritées (rétroactives), coffres, achats.
 // Sauvegarde : prog.eco = { gold, gems, granted, owned, equipped, pity, opened }.
 import { D } from '../data.js';
+import { deName } from '../util.js';
 import { prog, saveProg } from './progress.js';
 import { items, item, owned, grant } from './cosmetics.js';
 
@@ -59,11 +60,11 @@ export function syncGems() {
   };
   for (const a of prog.voyage.beaten || []) {
     const arena = D.voyage.arenas.find(x => x.id === a);
-    give('guardian:' + a, G.guardianFirst, tpl(U.guardian, { name: arena ? arena.name : a }));
+    give('guardian:' + a, G.guardianFirst, tpl(U.guardian, { name: arena ? arena.name : a, de: arena ? arena.de || deName(arena.name) : deName(a) }));
   }
   for (const h of prog.story.fragments || []) {
     const c = D.characters.characters.find(x => x.id === h);
-    give('story:' + h, G.storyComplete, tpl(U.story, { name: c ? c.name : h }));
+    give('story:' + h, G.storyComplete, tpl(U.story, { name: c ? c.name : h, de: deName(c ? c.name : h) }));
   }
   if (prog.story.epilogue) give('epilogue', G.epilogue, U.epilogue);
   if (out.length) saveProg();

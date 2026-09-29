@@ -34,8 +34,9 @@ export async function maybePrologue() {
   return true;
 }
 
-/** Bouton « Histoire » du lobby : écran de choix. */
-export function openStory(toEldan) {
+/** Bouton « Histoire » du lobby : écran de choix (après avoir rejoué une fin ou un épilogue interrompus). */
+export async function openStory(toEldan) {
+  if (await resumeEndings()) return;
   music('musique_lobby');
   renderChoice(st(), { back: () => { hideStory(); api.toLobby(); }, pick: id => openHistory(story(id)) });
   if (toEldan === true) document.querySelector('#story .st-eldan')?.scrollIntoView({ block: 'center' });
@@ -109,6 +110,9 @@ async function afterCombat(h, k, why, res) {
   }
   const done = st().done[h.id] || (st().done[h.id] = []);
   const first = !done.includes(k.n);
+  // Combat 10 gagné : fragment et fin d'histoire notés tout de suite (si le jeu est fermé pendant les scènes de fin,
+  // rien n'est perdu : openStory → resumeEndings les rejoue). Les 6 fragments : Eldan débloqué et épilogue à voir.
+  if (k.n === 10) markEnding(h);
   // XP du héros (data/progression.json → xp.story) : plus à la première victoire, moins aux suivantes.
   const X = D.progression.xp.story;
   if (first) done.push(k.n);
@@ -128,25 +132,59 @@ async function afterCombat(h, k, why, res) {
     await playScene(k.cinematique_apres, { decor: k.lieu });
   }
   if (k.n === 10) {
-    music('musique_epilogue');
-    await playScene(h.fin, { decor: k.lieu });
-    if (!st().fragments.includes(h.id)) { st().fragments.push(h.id); saveProg(); }
-    sfx('deblocage');
-    await renderFragment(st().fragments.length, h);
-    await showRewards(syncGems());           // gemmes : histoire terminée
-    if (st().fragments.length >= SM().histoires.length && !st().epilogue) {
-      hideStory();
-      await playScene(SM().epilogue_final.cinematique);
-      st().epilogue = true;
-      saveProg();
-      await showRewards(syncGems());         // gemmes : épilogue
-      sfx('deblocage');
-      // Eldan débloqué (« Bientôt disponible ») : voir sa carte dans le choix des histoires, ou revenir au lobby.
-      renderUnlock({ see: () => openStory(true), later: () => { hideStory(); api.toLobby(); } });
-      return;
-    }
+    await playEnding(h, k.lieu);
+    if (await playEpilogue()) return;
     openStory();
     return;
   }
   showMap(h, `Victoire ! +${xp.gain} XP · +${gold} or`);
+}
+
+/* ---------- Fins d'histoire et épilogue : progression notée au fur et à mesure ---------- */
+// prog.story.endings : histoires dont la scène de fin reste à montrer ; prog.story.epiloguePending : épilogue à montrer.
+function markEnding(h) {
+  const S = st();
+  if (!S.fragments.includes(h.id)) S.fragments.push(h.id);
+  S.endings = [...new Set([...(S.endings || []), h.id])];
+  if (S.fragments.length >= SM().histoires.length && !S.epilogue) { S.epilogue = true; S.epiloguePending = true; }   // Eldan débloqué
+  saveProg();
+}
+
+/** Scène de fin d'une histoire, fragment, gemmes ; puis la fin est marquée vue. */
+async function playEnding(h, lieu) {
+  music('musique_epilogue');
+  await playScene(h.fin, { decor: lieu || h.combats[h.combats.length - 1].lieu });
+  sfx('deblocage');
+  await renderFragment(st().fragments.length, h);
+  await showRewards(syncGems());             // gemmes : histoire terminée
+  st().endings = (st().endings || []).filter(id => id !== h.id);
+  saveProg();
+}
+
+/** Épilogue à montrer (les 6 histoires finies) : scène, gemmes, écran « Eldan débloqué ». Renvoie true s'il a été joué. */
+async function playEpilogue() {
+  const S = st();
+  if (S.fragments.length >= SM().histoires.length && !S.epilogue) { S.epilogue = true; S.epiloguePending = true; saveProg(); }
+  if (!S.epiloguePending) return false;
+  hideStory();
+  music('musique_epilogue');
+  await playScene(SM().epilogue_final.cinematique);
+  S.epiloguePending = false;
+  saveProg();
+  await showRewards(syncGems());             // gemmes : épilogue
+  sfx('deblocage');
+  // Eldan débloqué (« Bientôt disponible ») : voir sa carte dans le choix des histoires, ou revenir au lobby.
+  renderUnlock({ see: () => openStory(true), later: () => { hideStory(); api.toLobby(); } });
+  return true;
+}
+
+/** Fins et épilogue interrompus (jeu fermé pendant les scènes) : rejoués à l'ouverture du mode Histoire. */
+async function resumeEndings() {
+  const S = st();
+  for (const id of [...(S.endings || [])]) {
+    const h = story(id);
+    if (h) { hideStory(); await playEnding(h); }
+    else S.endings = S.endings.filter(x => x !== id);
+  }
+  return playEpilogue();
 }

@@ -3,6 +3,7 @@
 // Pression : la vague suivante de chaque joueur est durcie selon le score de l'adversaire sur la vague qui vient de se terminer.
 // Réseau : online/duel-net.js ; écrans : ui/duel-ui.js. Ni pub, ni or, ni XP ; bonus de niveau des héros et d'XP des armes neutralisés.
 import { D } from '../data.js';
+import { deName } from '../util.js';
 import { G } from './state.js';
 import { enemyUrl, who } from '../ui/assets.js';
 import { placeMusic } from '../audio/audio.js';
@@ -112,7 +113,7 @@ export async function startDuel(room, char) {
   const finish = r => {
     if (S.ended) return;
     S.ended = true; S.result = r;
-    clearInterval(beat); clearInterval(watchdog);
+    clearInterval(beat); clearInterval(watchdog); document.removeEventListener('visibilitychange', onVisible);
     if (G.mode === 'play' && S.active >= 0 && S.scores.length <= S.active) S.scores[S.active] = G.score - S.base;   // vague en cours
     hideWait();
     const summary = { result: r, me: { name: DU().ui.you, scores: S.scores }, opp: { name: S.oppName, scores: (S.opp && S.opp.scores) || [] },
@@ -127,18 +128,29 @@ export async function startDuel(room, char) {
   };
   const check = () => { if (!S.ended) { const r = decide(); if (r) finish(r); } };
 
-  // Serveur : l'adversaire en direct ; déconnexion = plus de disconnectSeconds sans signe de vie (heures du serveur).
-  watch(d => {
+  // Serveur : l'adversaire en direct ; déconnexion = plus de disconnectSeconds sans signe de vie.
+  // Jugée seulement sur des heures confirmées par le serveur (pas sur celles que l'appareil estime hors connexion :
+  // sinon le joueur coupé du réseau croirait que c'est l'autre qui est parti).
+  // Mon propre lien : dernier contact confirmé avec le serveur (donnée reçue du serveur, ou écriture confirmée).
+  // Au-delà de disconnectSeconds (réseau coupé, téléphone en veille), c'est moi qui suis déconnecté : défaite.
+  const DISC = DU().disconnectSeconds * 1000;
+  let lastContact = Date.now();
+  const contact = ok => { if (ok) lastContact = Date.now(); };
+  const selfCheck = () => { if (!S.ended && Date.now() - lastContact > DISC) finish({ win: 'opp', why: 'meDisconnect' }); };
+  const onVisible = () => { if (document.visibilityState === 'visible') selfCheck(); };
+  document.addEventListener('visibilitychange', onVisible);
+  watch((d, meta) => {
     if (!d || S.ended) return;
+    if (!meta.fromCache) contact(true);
     S.opp = d.players[oppId];
     const mine = ms(d.players[uid] && d.players[uid].seen), his = ms(S.opp && S.opp.seen);
-    if (mine && his && mine - his > DU().disconnectSeconds * 1000 && !(S.opp.done || S.opp.ko !== null)) S.disconnected = true;
+    if (!meta.fromCache && !meta.pending && mine && his && mine - his > DISC && !(S.opp.done || S.opp.ko !== null)) S.disconnected = true;
     if (waiting) waiting();
     if (S.ko !== null || S.done || S.disconnected || (S.opp && S.opp.quit)) check();
   });
-  beat = setInterval(() => heartbeat(G.mode === 'play' ? G.score : S.scores.reduce((a, b) => a + b, 0)),
+  beat = setInterval(() => heartbeat(G.mode === 'play' ? G.score : S.scores.reduce((a, b) => a + b, 0)).then(contact),
     DU().heartbeatSeconds * 1000);
-  watchdog = setInterval(() => { if (S.ko !== null || S.done) check(); }, 1000);
+  watchdog = setInterval(() => { selfCheck(); if (S.ko !== null || S.done) check(); }, 1000);
 
   /** Fin de la vague i : score de la vague, envoyé au serveur. */
   const record = i => {
@@ -174,7 +186,7 @@ export async function startDuel(room, char) {
           S.pIn[i] = pressureFrom(S.opp.scores[i - 1], maxScore(i - 1, S.pOut[i - 1], plan, bossSprite));
           S.pOut[i] = pressureFrom(S.scores[i - 1], maxScore(i - 1, S.pIn[i - 1], plan, bossSprite));
           G.paused = true;
-          showBanner(fill(DU().ui.pressure, { name: S.oppName, pct: Math.round(S.pIn[i] * 100) }), DU().bannerSeconds)
+          showBanner(fill(DU().ui.pressure, { name: S.oppName, de: deName(S.oppName), pct: Math.round(S.pIn[i] * 100) }), DU().bannerSeconds)
             .then(() => { S.stage[i] = 'go'; G.paused = false; });
           return false;
         }
@@ -203,7 +215,7 @@ export async function startDuel(room, char) {
           S.scores[i] = G.score - S.base; S.ko = i;
           setMine({ scores: S.scores, ko: i, live: G.score });
         }
-        showWaitResult(fill(DU().ui.waitKo, { name: S.oppName }), () => (S.opp && S.opp.live) || 0, api.quit);
+        showWaitResult(fill(DU().ui.waitKo, { name: S.oppName, de: deName(S.oppName) }), () => (S.opp && S.opp.live) || 0, api.quit);
         check();
         return;
       }
@@ -213,7 +225,7 @@ export async function startDuel(room, char) {
     onQuit() {
       if (S.ended) return;
       S.ended = true;
-      clearInterval(beat); clearInterval(watchdog);
+      clearInterval(beat); clearInterval(watchdog); document.removeEventListener('visibilitychange', onVisible);
       hideWait();
       if (random) applyDuelResult('opp');                            // abandon = défaite (affichage) ; au serveur après l'abandon
       leaveRoom(true).then(() => { if (random) applyRanked(code, [uid, oppId]); });
@@ -223,7 +235,7 @@ export async function startDuel(room, char) {
 
   /** Écran d'attente (l'autre n'a pas fini) : son score en direct ; reprend dès que ok() devient vrai. */
   function waitFor(ok, title, waveNo) {
-    const upd = () => showWait(fill(title, { name: S.oppName }), fill(DU().ui.waitWave, { n: waveNo }), oppLive(), api.quit);
+    const upd = () => showWait(fill(title, { name: S.oppName, de: deName(S.oppName) }), fill(DU().ui.waitWave, { n: waveNo }), oppLive(), api.quit);
     waiting = () => {
       if (ok()) { waiting = null; hideWait(); G.paused = false; }
       else upd();

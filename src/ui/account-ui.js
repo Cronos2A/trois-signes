@@ -77,3 +77,55 @@ export function accountHtml() {
 
 // L'état du serveur change pendant que les Réglages sont ouverts : la ligne d'état suit.
 onOnlineChange(s => { const el = $('accStatus'); if (el) el.textContent = statusText(s); });
+
+/**
+ * Sauvegarde locale endommagée (game/save-check.js) : écran de choix au lancement.
+ * Cherche la sauvegarde en ligne du compte ; propose de la récupérer, ou de repartir à zéro (avec confirmation).
+ * h : { remote() → { data, savedAt } | null, recover(data), reset() }. Résolue quand le joueur a choisi.
+ */
+export function askDamagedSave(h) {
+  const T = D.online.damaged, m = $('pseudoModal');
+  const nf = n => Math.round(n || 0).toLocaleString('fr-FR');
+  return new Promise(done => {
+    let found = null, confirm = false, state = 'search';
+    const draw = () => {
+      let body = '';
+      if (state === 'search') body = `<p class="ps-intro dm-wait">${T.searching}</p>`;
+      else if (found) {
+        const d = new Date(found.savedAt || Date.now()).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+        const st = Object.values((found.data.story && found.data.story.done) || {}).filter(l => l.length >= 10).length;
+        body = `<p class="ps-intro">${T.found.replace('{date}', d)}</p>
+          <p class="ps-intro dm-detail">${T.foundDetail.replace('{best}', nf(found.data.best)).replace('{stories}', st).replace('{gold}', nf(found.data.eco && found.data.eco.gold))}</p>
+          <button class="res-again" data-dm="recover"><span class="ol ol-4">${T.recover}</span></button>`;
+      } else body = `<p class="ps-intro">${state === 'offline' ? T.offline : T.none}</p>
+          <button class="mini-btn" data-dm="retry">${T.retry}</button>`;
+      const reset = confirm
+        ? `<p class="ps-err dm-warn">${T.confirmReset}</p><button class="res-again dm-reset" data-dm="resetOk"><span class="ol ol-4">${T.confirmResetBtn}</span></button>`
+        : `<button class="${found ? 'mini-btn' : 'res-again'} dm-reset" data-dm="reset">${found ? T.reset : `<span class="ol ol-4">${T.reset}</span>`}</button>`;
+      m.innerHTML = `<div class="res-card set-card ps-card dm-card" role="alertdialog" aria-label="${T.title}">
+          <div class="res-title ol ol-5 set-title">${T.title}</div>
+          <p class="ps-intro">${T.text}</p>${body}${state === 'search' ? '' : reset}</div>`;
+      m.classList.remove('hidden');
+    };
+    const search = async () => {
+      state = 'search'; draw();
+      try {
+        found = await Promise.race([h.remote(), new Promise((_, ko) => setTimeout(() => ko(new Error('délai')), T.searchSeconds * 1000))]);
+        state = found ? 'found' : 'none';
+      } catch (e) { found = null; state = 'offline'; }
+      draw();
+    };
+    const close = () => { m.classList.add('hidden'); m.innerHTML = ''; m.onclick = null; done(); };
+    m.onclick = e => {
+      const b = e.target.closest('[data-dm]');
+      if (!b) return;
+      sfx('ui_clic');
+      const a = b.dataset.dm;
+      if (a === 'recover' && found) { h.recover(found.data); close(); }
+      else if (a === 'retry') search();
+      else if (a === 'reset') { confirm = true; draw(); }
+      else if (a === 'resetOk') { h.reset(); close(); }
+    };
+    search();
+  });
+}

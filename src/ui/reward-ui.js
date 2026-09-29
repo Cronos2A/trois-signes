@@ -36,8 +36,7 @@ export function rewardHtml(r) {
   return { kick: U.rewardKick, name: t.name, sub: '', text: t.text, icon: itemIcon('talismans', r.id, 64), bg: '#1F7A3D', ok: U.rewardOk };
 }
 
-function one(r) {
-  const R = rewardHtml(r);
+function one(R) {
   el.innerHTML = `${facets.bg()}<div class="res-card rw-card">
       <span class="rw-kick">${R.kick}</span>
       <div class="rw-ic" style="background:${R.bg}">${facets.small()}<div class="rel">${R.icon}</div></div>
@@ -53,10 +52,21 @@ function one(r) {
   });
 }
 
-/** Affiche les récompenses l'une après l'autre. */
+/** Plusieurs gains de gemmes à la fois : un seul écran, une ligne par gain, puis le total. */
+function gemsSummary(list) {
+  const U = D.economy.ui, n = list.reduce((s, r) => s + r.n, 0);
+  const lines = list.map(r => `<li><span>${r.text}</span><b>${tpl(U.gain, { n: r.n })}</b></li>`).join('');
+  return { kick: U.gemsReward, name: tpl(U.gemsName, { n }), sub: '', icon: moneyIcon('gems', 64), bg: '#6B3FA0', ok: U.gemsOk, sound: 'piece',
+    text: `<ul class="rw-list">${lines}<li class="rw-total"><span>${U.gemsTotal}</span><b>${tpl(U.gain, { n })}</b></li></ul>` };
+}
+
+/** Affiche les récompenses l'une après l'autre ; les gains de gemmes sont regroupés sur un seul écran récapitulatif. */
 export async function showRewards(list) {
   if (!list || !list.length) return;
   if (!el) build();
-  for (const r of list) await one(r);
+  const gems = list.filter(r => r.kind === 'gems');
+  for (const r of list.filter(r => r.kind !== 'gems')) await one(rewardHtml(r));
+  if (gems.length > 1) await one(gemsSummary(gems));
+  else if (gems.length) await one(rewardHtml(gems[0]));
   el.classList.add('hidden');
 }

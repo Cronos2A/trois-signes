@@ -3,87 +3,28 @@
 Audit mené dans le navigateur de test (Chromium), en 390 × 800 et 360 × 640, sur l'émulateur Firebase et par relecture du code.
 Parcours joués par des bots : premier lancement (prologue, leçon, pseudo), Entraînement, un Voyage complet (8 arènes puis
 Au-delà du Silence), les **6 histoires en entier** (60 combats), des Duels entre amis et au hasard, tous les écrans du lobby,
-la boutique, les coffres, les Réglages, les Crédits et les classements. **Rien n'a été corrigé** : ce fichier est la liste de travail.
+la boutique, les coffres, les Réglages, les Crédits et les classements.
+
+**Corrections du 29/09/2026** : B1 et G1 à G10 sont corrigés (voir « Corrigé » en bas), chacun vérifié par les mêmes bots.
+Restent ouverts : ce qui n'est pas marqué corrigé ci-dessous (G7 en partie, G8 en partie, G11, et toutes les améliorations 🟢).
 
 Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitable (avis de game design).
 
 ---
 
-## 🔴 Bugs bloquants (empêchent de jouer ou de progresser)
+## 🟠 Encore ouverts
 
-### B1. Une sauvegarde abîmée bloque le lancement du jeu
-Le jeu ne démarre plus du tout (écran figé, erreur dans la console) si la sauvegarde locale `ts_prog` est incomplète ou abîmée.
-- Reproduire : dans la console du navigateur, `localStorage.setItem('ts_prog', 'null')` (ou `'42'`, ou `'{"armory":{}}'`),
-  puis recharger. Erreurs : « Cannot read properties of null (reading 'chars') », « Cannot read properties of undefined (reading 'aldric') ».
-- Variante non bloquante : `story.done` qui n'est pas une liste → erreur « includes is not a function » au lancement, le lobby s'affiche quand même.
-- Cause : `ensureDefaults()` (`src/game/progress.js`) ne complète que les blocs absents, pas ceux de mauvais type ni les sous-champs manquants
-  (`armory.equipped`, `armory.talisman`…). Une sauvegarde reçue du serveur passe par le même chemin.
-- Rare (coupure pendant une écriture, sauvegarde d'une vieille version), mais sans issue pour le joueur : il faut une remise à zéro sûre.
+### G7 (suite). Formulation des textes du Duel
+- Les élisions sont corrigées (« Pression d'Alpha », « En attente d'Alpha »). Reste la formulation, à revoir avant la traduction
+  (par exemple « Pression : Alpha +18 % »), pour ne pas dépendre de la grammaire du français.
 
----
-
-## 🟠 Bugs gênants (ça marche, mais mal)
-
-### G1. Le bouton Duel recouvre le haut du lobby : Réglages et « + » des gemmes inaccessibles depuis l'onglet Jouer
-**Le plus visible de l'audit.** Sur l'onglet Jouer, la carte Duel s'affiche tout en haut de l'écran, par-dessus l'avatar, l'or, les gemmes
-et l'engrenage, et mord sur la carte du Voyage (le titre « SOLO · LE VOYAGE » est coupé).
-- Reproduire : ouvrir le jeu, onglet Jouer, toucher l'engrenage → c'est le menu du Duel qui s'ouvre, pas les Réglages. Idem pour le « + » des gemmes.
-  Les Réglages restent accessibles en passant par l'onglet Personnage ou Boutique. La carte recouvre aussi le haut de l'écran de résultats du Voyage.
-- Cause : la classe CSS `.duel` du calque des écrans du Duel (`src/ui/duel.css`, `position: fixed`) s'applique aussi au bouton du lobby
-  (`class="mode-btn duel"`). Depuis l'étape 2 du multijoueur.
-
-### G2. Duel : après une coupure de plus de 30 s, les deux joueurs voient « Victoire ! »
-- Reproduire : Duel (ami ou hasard), couper le réseau d'un joueur (B) pendant 45 s en pleine vague, le rétablir.
-  A voit « Victoire ! Bravo s'est déconnecté plus de 30 s » (juste) ; **B voit aussi « Victoire ! Alpha s'est déconnecté plus de 30 s »**.
-- En Duel au hasard, l'écran de B annonce « +30 Empreintes », alors que le serveur (qui a raison) lui retire 20. Le compteur se corrige
-  à la connexion suivante, mais le joueur voit une victoire qui n'existe pas.
-- Cause : `src/game/duel.js` compare l'heure de signe de vie des deux joueurs telle qu'estimée par l'appareil ; hors connexion, la sienne
-  avance et celle de l'adversaire est figée. Il faut ignorer les données du cache local et comparer avec l'heure du serveur.
-- Même famille : un joueur qui revient après avoir été déclaré déconnecté continue de jouer seul, puis finit aussi par « gagner » à l'écran.
-
-### G3. Quitter pendant la fin de la 6e histoire ou pendant l'épilogue : épilogue perdu, Eldan reste « ??? »
-- Reproduire : avoir 5 histoires finies ; gagner le combat 10 de la 6e ; fermer le jeu pendant la cinématique de fin ou l'épilogue ;
-  rouvrir → choix des histoires « 6 / 6 », mais la carte d'Eldan reste « ??? Termine les six histoires », et l'épilogue ne se relance jamais.
-- Il ne revient qu'en rejouant un combat 10, ce que rien n'indique. Même risque plus tôt : fermer pendant la cinématique de fin d'une histoire
-  avant le fragment → histoire à 10 / 10 sans son fragment.
-- À faire : proposer l'épilogue (et le fragment) à l'ouverture du mode Histoire dès que les conditions sont remplies.
-
-### G4. Le bouton Retour du téléphone quitte le jeu, à tout moment
-- Aucun écran ne gère le retour arrière (pas d'historique ni de `popstate`). Dans le navigateur, « Retour » en plein combat, dans la boutique
-  ou pendant un dialogue quitte la page. Dans l'application Android (Capacitor), il fermera le jeu.
-- À faire avant le Play Store : Retour = fermer la fenêtre ouverte / revenir au lobby / confirmer « Quitter la partie ? ».
-
-### G5. Téléphone mis en veille pendant un Duel = défaite sans prévenir
-- Écran verrouillé ou appli en arrière-plan plus de 30 s → plus de signe de vie → défaite (et −20 au hasard). C'est la règle voulue,
-  mais le joueur n'est pas prévenu : au minimum un message au retour (« Tu as été déconnecté plus de 30 s »).
-
-### G6. Filtre « Skins » invisible dans la boutique
-- Onglet Boutique → Cosmétiques : la rangée « Tout, Armes, Couleurs, Tracés, Skins » dépasse l'écran en 360 et en 390 ; « Skins » est
-  caché à droite, la rangée défile mais sans indice visuel (barre de défilement masquée). Les skins complets (300 gemmes, les objets les plus
-  chers) sont donc difficiles à trouver.
-
-### G7. Textes : « de » devant une voyelle ou un article
-- « Histoire de Aldric terminée », « Histoire de Ilwen terminée » (écran de gemmes) → « d'Aldric », « d'Ilwen ».
-- « Gardien de Le Cœur du Silence battu », « Gardien de École des Signes », « Gardien de Bibliothèque d'Aubelle »
-  (modèle `economy.json → ui.gemsFor.guardian`) → « du Cœur du Silence », « de l'École… », « de la Bibliothèque… ».
-- Duel : « Pression de Alpha », « En attente de Alpha » (pseudos commençant par une voyelle). Formulations à revoir (« Pression : Alpha +18 % »),
-  d'autant plus avant la traduction.
-
-### G8. Pseudo : accents saisis en deux caractères refusés ; pas d'unicité
-- « école » tapé avec un accent combinant (e + ◌́, fréquent sur certains claviers) est refusé : normaliser en NFC avant la vérification.
+### G8 (suite). Pseudo : pas d'unicité
 - Accepté alors que discutable : « Admin », un pseudo déjà pris par un autre joueur (deux « Alpha » au classement).
-- Vérifié correct : vide, espaces, < 3 caractères, trop long (coupé à 16), emojis, `<b>`, caractères invisibles, gros mots (« M3rde ») refusés ;
-  grec et chinois acceptés.
-
-### G9. Fin de Voyage : les gemmes des gardiens s'affichent une par une
-- Un Voyage qui bat 8 gardiens pour la première fois ouvre 8 fenêtres « +10 gemmes » d'affilée par-dessus l'écran de résultats,
-  qui cachent l'animation de l'XP de l'arme (elle dure ~9 s quand l'arme prend plusieurs niveaux). Les regrouper en une seule fenêtre.
-
-### G10. Écran à l'horizontale
-- Pas de verrouillage en portrait (pas encore de manifeste). En paysage, le combat reste jouable mais l'interface occupe toute la hauteur
-  et les ennemis sont écrasés contre le haut. À régler avec le manifeste / Capacitor (portrait imposé).
+  L'unicité demande un registre des pseudos au serveur (collection réservée par les règles) : à décider.
 
 ### G11. Petits défauts
+- Fin d'un premier long Voyage : les gemmes sont regroupées (G9), mais chaque talisman gagné garde sa propre fenêtre
+  (jusqu'à 8 d'affilée si le joueur bat les 8 gardiens pour la première fois). Les regrouper aussi, si cela gêne.
 - Réglages en mode test : le bouton « Passer les 10 min » dépasse de l'écran (visible seulement en développement).
 - Record du Voyage fait sans connexion au début de la partie : jamais classé (voulu par la sécurité), sans message pour le joueur.
 - Son : `ui_clic`, `ui_onglet`, `musique_triste` toujours absents (sons provisoires synthétisés) ; `musique_lobby` boucle toutes les 19 s.
@@ -142,7 +83,6 @@ et l'engrenage, et mord sur la carte du Voyage (le titre « SOLO · LE VOYAGE »
 ### Histoire et textes
 - Relecture automatique des textes (`data/*.json`) : pas de faute de ponctuation relevée ; les apostrophes sont droites (') partout,
   c'est cohérent. Tous les personnages qui parlent ont un portrait.
-- Les écrans « Histoire de … terminée » et « Gardien de … battu » : voir G7.
 - L'épilogue débloque Eldan « Bientôt disponible » : bien, mais l'écran de fin pourrait annoncer clairement « Histoire d'Eldan : bientôt ».
 
 ---
@@ -159,4 +99,29 @@ et l'engrenage, et mord sur la carte du Voyage (le titre « SOLO · LE VOYAGE »
 - Solde énorme (123 456 789 or) : affichage correct. Solde négatif ou illisible : pas de plantage.
 - Duel : coupure de 10 s puis retour → la partie continue normalement ; niveaux et armes neutralisés ; sécurité (voir CLAUDE.md, étape 5).
 - Écrans du lobby, boutique, coffres, probabilités, Réglages, Crédits, classements : pas d'erreur dans la console, pas de défilement horizontal
-  (hors G1, G6 et G11).
+  (hors G11).
+
+---
+
+## Corrigé le 29/09/2026 (vérifié par les bots)
+- **B1. Sauvegarde abîmée** : le jeu démarre toujours. Sauvegarde illisible ou de mauvaise forme (`src/game/save-check.js`) → écran
+  « Sauvegarde endommagée » : récupérer la sauvegarde en ligne si elle existe (cherchée 15 s, « Chercher à nouveau »), ou repartir de zéro
+  (avec confirmation). Rien n'est écrit ni envoyé avant ce choix ; l'ancienne est gardée dans `ts_prog_damaged`. Une sauvegarde
+  seulement incomplète (vieille version) est complétée sans rien demander. Une sauvegarde du serveur abîmée est ignorée.
+- **G1. Bouton Duel** : le calque des écrans du Duel s'appelle maintenant `.du-layer` ; engrenage et « + » des gemmes à nouveau touchables.
+- **G2 et G5. Duel, coupure et veille** : l'état de l'adversaire n'est jugé que sur des données confirmées par le serveur (jamais le cache
+  local). Le joueur coupé plus de 30 s (réseau ou téléphone en veille) voit « Défaite · Tu as été déconnecté plus de 30 s » (et −20 au hasard,
+  comme le serveur) ; l'autre voit sa victoire. Coupure ou veille de moins de 30 s : la partie continue.
+- **G3. Fin d'histoire et épilogue** : fragment, histoire terminée et épilogue sont enregistrés dès la victoire du combat 10, avant les scènes
+  (`story.endings`, `story.epiloguePending`). Scène interrompue → rejouée à la prochaine ouverture du mode Histoire, une seule fois,
+  puis déblocage d'Eldan. Les sauvegardes déjà touchées (6 fragments sans épilogue) sont réparées de la même façon.
+- **G4. Bouton Retour** (`src/ui/back.js`) : en partie (combat, Duel, Entraînement, leçon), « Quitter la partie ? » avec le jeu en pause
+  (Duel : « Quitter le Duel compte comme une défaite ») ; cinématique : passée ; menus : la fenêtre du dessus se ferme, sinon retour à
+  l'onglet Jouer ; sur l'onglet Jouer, Retour quitte le jeu.
+- **G6. Filtre Skins** : les filtres passent à la ligne au lieu de défiler ; les cinq sont visibles (en 360, « Skins » sur une 2e ligne).
+- **G7. Élisions** : « Histoire d'Aldric », « Gardien du Cœur du Silence », « de la Bibliothèque d'Aubelle », « de l'École des Signes »,
+  « des Hautes-Gerbes », « Pression d'Alpha », « En attente d'Alpha » (`deName` dans `src/util.js`, champ `de` des arènes de `voyage.json`).
+- **G8. Pseudo** : les accents tapés en deux caractères sont acceptés (normalisation NFC) ; les autres règles n'ont pas changé.
+- **G9. Gemmes** : plusieurs gains à la fois (fin de Voyage, lancement) → un seul écran récapitulatif, une ligne par gain et le total.
+- **G10. Portrait** : manifeste `manifest.webmanifest` (`orientation: portrait`), tentative de verrouillage, et sur un téléphone tourné
+  en paysage un écran « Tourne ton téléphone » ; la partie est en pause pendant ce temps, sauf en Duel.

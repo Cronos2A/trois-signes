@@ -20,7 +20,8 @@ export function isRude(s) {
 
 /** Vérifie un pseudo tapé : { ok: pseudo nettoyé } ou { error: message }. */
 export function checkPseudo(raw) {
-  const U = D.online.ui, s = String(raw || '').trim().replace(/\s+/g, ' ');
+  // NFC : un accent tapé en deux touches (touche morte : « e » + « ◌́ ») devient la lettre accentuée « é ».
+  const U = D.online.ui, s = String(raw || '').normalize('NFC').trim().replace(/\s+/g, ' ');
   if ([...s].length < P().min) return { error: fill(U.tooShort, P()) };
   if ([...s].length > P().max) return { error: fill(U.tooLong, P()) };
   if (!new RegExp(P().allowed, 'u').test(s)) return { error: U.badChars };

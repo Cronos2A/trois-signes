@@ -5,7 +5,7 @@ import { attachInput } from './input/gestures.js';
 import { handleGesture, useSuper, updateSummons } from './game/combat.js';
 import { emptyStats } from './game/grades.js';
 import { updateEnemies, updateWaves } from './game/enemies.js';
-import { levelBonuses, grantXp, voyageXp, migrateProgress, prog, replaceProg } from './game/progress.js';
+import { levelBonuses, grantXp, voyageXp, migrateProgress, prog, replaceProg, resetProg, saveState, saveProg } from './game/progress.js';
 import { weaponBonuses, grantWeaponXp, equippedWeapon, startWeapon } from './game/weapons.js';
 import { talismanEffect } from './game/talismans.js';
 import { syncRewards } from './game/rewards.js';
@@ -23,13 +23,15 @@ import { prepareCombatArt, paintBackground } from './ui/combat-art.js';
 import { setupHud } from './ui/combat-hud.js';
 import { resetAnims } from './ui/anim.js';
 import { initLobby, showLobby, hideLobby, showResults, activeCharacter, refreshLobby } from './ui/lobby.js';
-import { initOnline } from './online/online.js';
+import { initOnline, remoteSave, flushNow } from './online/online.js';
 import { syncBoard, startRun } from './online/leaderboard.js';
 import { initWallet } from './online/wallet.js';
 import { serverPrints } from './online/ranked.js';
 import { onOnlineChange } from './online/online.js';
 import { openRanking } from './ui/ranking-ui.js';
-import { ensurePseudo } from './ui/account-ui.js';
+import { initBack } from './ui/back.js';
+import { initOrientation } from './ui/orient.js';
+import { ensurePseudo, askDamagedSave } from './ui/account-ui.js';
 import { initStory, openStory, maybePrologue } from './story/story.js';
 import { voyageBattle } from './game/voyage.js';
 import { initTutorial, startTutorial } from './game/tutorial.js';
@@ -209,7 +211,7 @@ function toLobby() {
 let pendingRemote = null;
 function applyRemote(data) {
   if (G.mode === 'play' || G.mode === 'train' || starting) { pendingRemote = data; return; }
-  replaceProg(data);
+  if (!replaceProg(data)) return;         // sauvegarde du serveur elle-même endommagée : ignorée
   migrateProgress();
   refreshLobby();
 }
@@ -324,6 +326,8 @@ async function init() {
   initTutorial({ startBattle: opts => start('play', opts), quit: toLobby });
   initStory({ startBattle: opts => start('play', opts), toLobby: showLobby });
   $('quit').onclick = () => { sfx('ui_clic'); toLobby(); };
+  initBack();                              // bouton Retour du téléphone (ui/back.js)
+  initOrientation();                       // portrait seulement (ui/orient.js)
   // Bouton de super : réagit dès l'appui, et l'appui n'atteint jamais le canvas (pas de tap ni de tracé).
   $('superBtn').addEventListener('pointerdown', e => {
     e.preventDefault(); e.stopPropagation();
@@ -336,6 +340,15 @@ async function init() {
   if (document.fonts) document.fonts.load('60px Caprasimo').catch(() => {});
   window.__tsReady = true;
   requestAnimationFrame(loop);
+  // Sauvegarde de l'appareil endommagée : le jeu a démarré sur une progression neuve ; le joueur choisit
+  // de récupérer sa sauvegarde en ligne ou de repartir à zéro (rien n'est écrit ni envoyé avant ce choix).
+  if (saveState.damaged) {
+    await askDamagedSave({
+      remote: remoteSave,
+      recover: data => { saveState.damaged = false; replaceProg(data); migrateProgress(); saveProg(); refreshLobby(); },
+      reset: () => { resetProg(); flushNow().catch(() => {}); refreshLobby(); }
+    });
+  }
   // Premier démarrage : prologue, puis la première leçon.
   // Sinon : récompenses déjà méritées et pas encore reçues (sauvegardes d'avant les armes alternatives et talismans).
   maybePrologue().then(first => {

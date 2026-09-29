@@ -13,6 +13,22 @@
   "longPollParam": "longpoll",
   "emulator": { "param": "emu", "host": "127.0.0.1", "authPort": 9099, "firestorePort": 8080 },
   "collection": "players",
+  "damaged": {
+    "note": "Sauvegarde locale illisible ou endommagée (src/game/save-check.js) : le jeu démarre quand même et propose de repartir à zéro, ou de récupérer la sauvegarde en ligne du compte si elle existe (src/ui/account-ui.js → askDamagedSave). Recherche abandonnée après searchSeconds.",
+    "searchSeconds": 15,
+    "title": "Sauvegarde endommagée",
+    "text": "La sauvegarde de cet appareil est illisible ou abîmée : le jeu ne peut pas s'en servir.",
+    "searching": "Recherche d'une sauvegarde en ligne…",
+    "found": "Une sauvegarde en ligne existe pour ton compte (enregistrée le {date}).",
+    "foundDetail": "Record {best} · {stories} histoire(s) terminée(s) · {gold} or",
+    "none": "Aucune sauvegarde en ligne pour ce compte.",
+    "offline": "Serveur injoignable : impossible de chercher une sauvegarde en ligne.",
+    "recover": "Récupérer ma sauvegarde en ligne",
+    "reset": "Repartir à zéro",
+    "confirmReset": "Toute la progression de cet appareil sera perdue.",
+    "confirmResetBtn": "Oui, repartir à zéro",
+    "retry": "Chercher à nouveau"
+  },
   "leaderboard": {
     "note": "Classements (src/online/leaderboard.js, écran src/ui/ranking-ui.js) : document leaderboard/{uid} = { pseudo, hero (héros favori : le plus joué), voyage (meilleur score du Voyage, ne baisse jamais), prints (Empreintes du Duel), updatedAt }. Mis à jour après chaque envoi de la sauvegarde, seulement si une valeur a changé. Top et position : lus à l'ouverture de l'écran.",
     "collection": "leaderboard",

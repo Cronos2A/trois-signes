@@ -57,21 +57,24 @@ export async function joinRoom(c, who) {
   return null;
 }
 
-/** Suit le salon : fn(data) à chaque changement (heures du serveur estimées tant qu'une écriture est en route). */
+/**
+ * Suit le salon : fn(data, meta) à chaque changement (heures du serveur estimées tant qu'une écriture est en route).
+ * meta : { fromCache (données de l'appareil, pas du serveur : hors connexion), pending (une de mes écritures n'est pas encore confirmée) }.
+ */
 export function watch(fn) {
   if (unsub) unsub();
-  unsub = S.fb.fs.onSnapshot(ref, s => {
+  unsub = S.fb.fs.onSnapshot(ref, { includeMetadataChanges: true }, s => {
     last = s.exists() ? s.data({ serverTimestamps: 'estimate' }) : null;
-    fn(last);
-  }, () => fn(last));
+    fn(last, { fromCache: s.metadata.fromCache, pending: s.metadata.hasPendingWrites });
+  }, () => fn(last, { fromCache: true, pending: false }));
 }
 
-/** Écrit dans sa propre entrée du salon (champs de players.{uid}). */
+/** Écrit dans sa propre entrée du salon (champs de players.{uid}). Résolue avec true quand le serveur a confirmé, false en cas de refus. */
 export function setMine(fields) {
-  if (!ref) return Promise.resolve();
+  if (!ref) return Promise.resolve(false);
   const up = {};
   for (const [k, v] of Object.entries(fields)) up['players.' + S.uid + '.' + k] = v;
-  return S.fb.fs.updateDoc(ref, up).catch(e => console.warn('Duel :', e && (e.code || e.message)));
+  return S.fb.fs.updateDoc(ref, up).then(() => true, e => { console.warn('Duel :', e && (e.code || e.message)); return false; });
 }
 
 /** Signe de vie (toutes les heartbeatSeconds) : heure du serveur et score en direct. */

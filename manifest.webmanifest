@@ -1,0 +1,10 @@
+{
+  "name": "Trois Signes",
+  "short_name": "Trois Signes",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#2BA84A",
+  "theme_color": "#2BA84A"
+}

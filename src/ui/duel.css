@@ -1,8 +1,8 @@
-/* Duel (src/ui/duel-ui.js) : un calque au-dessus du jeu et de l'écran de lancement. */
-.duel{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;
+/* Duel (src/ui/duel-ui.js) : un calque au-dessus du jeu et de l'écran de lancement (classe du-layer : ne pas l'appeler « duel », nom déjà pris par le bouton du lobby). */
+.du-layer{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;
   background:color-mix(in srgb,var(--ink) 55%,transparent);font-family:var(--font-body)}
-.duel.hidden{display:none}
-.duel.banner{background:none;pointer-events:none}
+.du-layer.hidden{display:none}
+.du-layer.banner{background:none;pointer-events:none}
 .du-card{max-height:calc(100dvh - 32px)}
 .du-title{font-size:32px}
 .du-sub{text-align:center;font-family:var(--font-heading);font-size:18px;color:var(--moss)}
