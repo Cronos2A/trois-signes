@@ -248,7 +248,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - Testé le 29/09/2026 sur l'émulateur (trois navigateurs, 390 × 800 et 360 × 640) : recherche annulée (fiche retirée), rencontre 290 / 300,
   arène Hautes-Gerbes pour les deux, abandon : +30 (320, écran « Nouvelle arène débloquée ») et −20 (280), carte Duel à jour,
   joueur seul à 3 000 : « Réessayer » après 60 s, Duel entre amis sans changement d'Empreintes, aucune erreur dans la console.
-  **Règles à republier dans la console** après cette étape.
+  Règles republiées le 29/09/2026 et vérifiées sur le vrai serveur : deux joueurs à 5 000 se trouvent (salon `random`, invité seul admis,
+  arène 7) ; un tiers ne peut ni inscrire un code, ni changer les Empreintes, ni supprimer la fiche d'un autre (permission-denied).
+  Sur deux essais en ligne depuis l'environnement de test, un seul a abouti (l'autre : personne trouvé en 60 s, sans erreur,
+  réseau de test instable) : à confirmer sur deux téléphones.
 
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
