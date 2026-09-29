@@ -10,6 +10,7 @@ import { renderChoice, renderMap, renderDefeat, renderVictory, renderFragment, r
 import { enemyUrl, who, bossInfo } from '../ui/assets.js';
 import { music, placeMusic, sfx } from '../audio/audio.js';
 import { syncRewards } from '../game/rewards.js';
+import { variantArt, variantSprite, variantType, storyVariant } from '../game/variants.js';
 import { showRewards } from '../ui/reward-ui.js';
 import { showCover } from '../ui/cover.js';
 
@@ -88,6 +89,10 @@ async function buildBattle(k) {
       mech: id === 'eldan_oublie' ? 'eldan' : null, special: true
     };
   }
+  // Sbires : variante selon le numéro du combat (data/rules.json → sbireVariants), mêmes valeurs.
+  const v = storyVariant(k.n), vt = variantType();
+  types[vt] = { ...D.enemies[vt], sprite: variantSprite(v) };
+  art.push(...variantArt([v]));
   const waves = k.vagues.map(list => {
     const boss = list.find(id => !R.enemyMap[id]);
     return { enemies: list.map(id => R.enemyMap[id] || id), title: boss ? who(boss).name : undefined, color: boss ? '#FF5A3C' : undefined, boss: !!boss };

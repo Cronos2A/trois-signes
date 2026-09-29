@@ -31,5 +31,19 @@
     },
     "bossColor": "#8C8A99",
     "lettersPerSecond": 40
+  },
+  "sbireVariants": {
+    "note": "Variantes du sbire (Claude Design, assets/ennemis/variantes/) : même sbire (PV, dégâts, alerte de data/enemies.json), seule l'apparence change selon l'avancée. Dessinées dans le repère des sprites, à l'échelle du sbire (petit plus petit, costaud plus grand). foot / head : pieds et tête en fraction de l'image. voyage : une variante par arène (1 à 8), beyond : Au-delà du Silence ; story : une par combat (1 à 10). La brute n'est pas concernée. Fichier manquant : sprite du sbire d'origine.",
+    "type": "grunt",
+    "fallback": "sbire",
+    "variants": {
+      "petit": { "file": "assets/ennemis/variantes/sbire_petit.svg", "foot": [0.5, 0.853], "head": [0.486, 0.37] },
+      "moyen": { "file": "assets/ennemis/variantes/sbire_moyen.svg", "foot": [0.5, 0.865], "head": [0.486, 0.365] },
+      "grand": { "file": "assets/ennemis/variantes/sbire_grand.svg", "foot": [0.5, 0.87], "head": [0.485, 0.364] },
+      "costaud": { "file": "assets/ennemis/variantes/sbire_costaud.svg", "foot": [0.501, 0.873], "head": [0.486, 0.362] }
+    },
+    "voyage": ["petit", "petit", "moyen", "moyen", "grand", "grand", "costaud", "costaud"],
+    "beyond": "costaud",
+    "story": ["petit", "petit", "petit", "moyen", "moyen", "moyen", "grand", "grand", "costaud", "costaud"]
   }
 }

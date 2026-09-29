@@ -26,7 +26,9 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
   - `trois-signes-maquette-lobby` : lobby 3 onglets + `Mode Histoire Trois Signes.dc.html` (écrans 01 à 06 du mode Histoire) ;
   - `planche-de-personnages-trois-signes` : les 6 héros (repris dans `src/ui/art.js`) ;
   - `ecran-de-combat-trois-signes` : écran de combat (décor Forêt de Mousse, sprites, interface) et `project/decors.js` (générateur des 32 décors) ;
-  - `trois-signes-character-sheet` : `project/tools/story-engine.js`, générateur des portraits et sprites de boss.
+  - `trois-signes-character-sheet` : `project/tools/story-engine.js`, générateur des portraits et sprites de boss ;
+    `project/tools/hero-skins.js` (12 skins complets, planche `Trois Signes - Planche skins.dc.html`) et
+    `project/tools/enemy-variants.js` (variantes petit / moyen / grand / costaud, planche `Trois Signes - Planche variantes ennemis.dc.html`).
 - Seuils « proposés » affichés dans la maquette de combat : **non repris** (seules les couleurs par palier le sont).
 - Combat : sprites de ¾ dos pour le héros, animations = simples transformations des sprites, déduites de l'état du jeu
   (`src/ui/anim.js`). Corps à corps (Aldric, Nyra, Boran) : ruée + coup d'arme ; à distance (Kestrel, Ilwen, Mira) : projectile.
@@ -52,6 +54,9 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
 - **Ramassage** : précision selon la distance au doigt (`rules.json` → `pickup`). Pièce = points, cœur = PV.
 - **Ennemis** (`data/enemies.json`) : sbire 20 PV / 6, brute 28 PV / 9, boss 60 PV / 12. Alerte avant un coup 1,3 à 1,5 s,
   un seul ennemi prépare un coup à la fois.
+- **Variantes du sbire** (`data/rules.json` → `sbireVariants`, `src/game/variants.js`, `assets/ennemis/variantes/`) : apparence seulement,
+  mêmes valeurs. Voyage : petit (arènes 1-2), moyen (3-4), grand (5-6), costaud (7-8 et Au-delà) ; Histoire : petit (combats 1-3),
+  moyen (4-6), grand (7-8), costaud (9-10). Taille relative gardée (petit plus petit, costaud plus grand). La brute ne change pas.
 - **Délais communs à tous les combats** (`data/waves.json`) : pause de 1,2 s entre deux coups ennemis (`globalGap`), première attaque,
   décalage entre ennemis, délai entre deux vagues, attente du butin en fin de combat.
 - Reconnaissance des gestes maison, sans IA (`src/input/gestures.js`, objet `TUNING` : seuls chiffres gardés dans le code).
@@ -121,13 +126,16 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Histoire 30 à la 1re victoire d'un combat, 5 ensuite. Autres **gemmes** : 30 par histoire terminée, 50 pour l'épilogue ;
   `syncGems()` donne chaque gain une seule fois (`prog.eco.granted`), rétroactif au lancement.
   Testé le 28/09/2026 en quittant au milieu d'un round (Voyage et Histoire).
-- **Catalogue** (40 objets, commun / rare / épique ≈ 55 / 30 / 15 %) : 3 couleurs par héros (Teinte Lagon, Soleil, Rubis ; recolorations
+- **Catalogue** (46 objets : 22 communs, 12 rares, 12 épiques) : 3 couleurs par héros (Teinte Lagon, Soleil, Rubis ; recolorations
   `recolor` couleur d'origine → nouvelle), 6 skins d'arme (un par arme de départ : Lame Braise, Dague Givre, Poings de Lave, Grimoire Jade,
   Arc Corail, Amulette Aurore), 10 tracés (Étincelle, Lierre, Arc-en-ciel, Étoiles, Bulles, Flammes, Confettis, Encre, Pixels, Notes),
-  6 skins complets épiques (`assets/skins/`). Prix : or pour commun / rare, gemmes pour l'épique.
+  12 skins complets épiques Claude Design, 2 par héros (`assets/skins/`, 300 gemmes : Garde du Crépuscule, Chevalier des Tournois,
+  Ombre des Marchés, Danseuse de Lames, Le Bâtisseur, Le Débardeur du Port, Alchimiste des Racines, Étoile Filante,
+  Guetteuse des Cimes, Chasseuse du Désert, Gardienne des Sources, Veilleuse de Nuit). Prix : or pour commun / rare, gemmes pour l'épique.
 - **Apparence** : `src/game/cosmetics.js` (possédés, équipement par héros : `tint`, `weapon`, `trail`, `skin` ; `look(hero)`),
   `src/ui/looks.js` (lobby et combat), option `recolor` de `art.js` / `sprites.js` (le socle n'est jamais recoloré),
-  skin complet en combat = un seul calque (`combat-art.js` → `bakeSkin`, placé d'après le sprite d'origine), tracés dans `hud.js`.
+  skin complet en combat = fichier `_combat.svg` (héros de face, comme la planche) en deux calques corps + bras armé
+  (`combat-art.js` → `bakeSkin` : groupe `bras_arme`, pivot `data-pivot` à l'épaule, pieds lus sur l'ombre), tracés dans `hud.js`.
   Un skin complet remplace la couleur et le skin d'arme. La leçon garde l'apparence d'origine. Limite : l'Arc Corail recolore aussi
   la ceinture et le bandeau de Kestrel (même couleur dans le sprite), les Poings de Lave aussi ses épaulières.
 - **Coffres** (gemmes) : simple 60 (70 / 25 / 5 %, épique garanti au plus tard au 10e coffre sans épique : `prog.eco.pity`),
@@ -252,6 +260,7 @@ src/
   game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP et niveaux des héros, sauvegarde)
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
          talismans.js  rewards.js (récompenses méritées, rétroactives)  economy.js (or, gemmes, coffres)  cosmetics.js
+         variants.js (variantes du sbire selon l'arène ou le combat)
   story/story.js     déroulé du mode Histoire
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js
@@ -262,9 +271,8 @@ src/
          looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)  cover.js (écran de lancement)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css
 data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads (.json)
-assets/  portraits/  ennemis/  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
+assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
-tools/boutique-art/  générateur provisoire des skins épiques (gen.mjs) et de leur planche (planches.mjs → design/planches-boutique/)
 prototype/ prototype d'origine
 ```
 

@@ -55,31 +55,48 @@ async function bakeSprite(name, scale, dpr, part, recolor) {
   };
 }
 
-/** Image d'un fichier (assets/ennemis/{id}.svg) à la hauteur voulue ; pieds en bas au centre, tête en haut. */
-async function bakeImage(url, height, dpr) {
+/**
+ * Image d'un fichier (assets/ennemis/…) : à la hauteur voulue, ou à `unit` px par unité SVG (variantes de sbire,
+ * dessinées dans le repère des sprites). foot / head : points en fraction de l'image (défaut : pieds en bas au centre).
+ */
+async function bakeImage(url, height, dpr, unit = 0, foot = [0.5, 0.965], head = [0.5, 0.08]) {   // maquette : pieds à 10/300 du bas
   const img = await new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = url; });
-  const h = height, w = h * (img.naturalWidth || 1) / (img.naturalHeight || 1);
+  const h = unit ? (img.naturalHeight || 1) * unit : height, w = h * (img.naturalWidth || 1) / (img.naturalHeight || 1);
   const c = canvasOf(w * dpr, h * dpr);
   c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-  return { img: c, red: tinted(c, '#FF5A3C'), white: tinted(c, '#FFFFFF'), w, h, fx: w / 2, fy: h * 0.965, hx: w / 2, hy: h * 0.08 };   // maquette : pieds à 10/300 du bas
+  return { img: c, red: tinted(c, '#FF5A3C'), white: tinted(c, '#FFFFFF'), w, h, fx: w * foot[0], fy: h * foot[1], hx: w * head[0], hy: h * head[1] };
 }
 
 /**
- * Skin complet (assets/skins/{skin}_combat.svg) : dessiné dans le même repère que le sprite du héros (ui/sprites.js),
- * donc on reprend ses pieds et sa tête depuis le sprite d'origine. Un seul calque (pas de bras armé séparé).
+ * Skin complet (assets/skins/{skin}_combat.svg, Claude Design) : groupes « ombre », « corps » et « bras_arme »
+ * (data-pivot = épaule), dans le repère 240 × 320 du lobby, à la même échelle que les sprites du héros.
+ * Les pieds se lisent sur l'ombre (ngon de rayon 0,6 × rx centré en cx + 0,1 × rx, y + 1, 1er sommet à droite).
+ * Renvoie { body, arm } : deux calques alignés comme le sprite d'origine (arm = null sans groupe bras_arme).
  */
-async function bakeSkin(url, heroId, scale, dpr) {
+async function bakeSkin(url, scale, dpr) {
   const txt = await (await fetch(url)).text();
-  const vb = s => (/viewBox="([-\d.]+)[ ,]+([-\d.]+)[ ,]+([-\d.]+)[ ,]+([-\d.]+)"/.exec(s) || []).slice(1).map(Number);
-  const [x0, y0, ws, hs] = vb(txt), r0 = TS.sprite(heroId, { scale: 1, outline: OUTLINE }), [ox, oy] = vb(r0.svg);
-  if (!(ws > 0 && hs > 0)) throw new Error('skin sans viewBox');
-  const px = scale * dpr, open = (/<svg[^>]*>/.exec(txt) || [''])[0];
-  const svg = txt.replace(open, open.replace(/\s(width|height)="[^"]*"/g, '').replace('<svg', `<svg width="${(ws * px).toFixed(1)}" height="${(hs * px).toFixed(1)}"`));
-  const img = await loadSvg(svg), c = canvasOf(ws * px, hs * px);
-  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-  const at = (v, o0, a0) => (o0 + v - a0) * scale;           // point du sprite d'origine → repère du skin
-  return { img: c, red: tinted(c, '#FF5A3C'), white: tinted(c, '#FFFFFF'), w: ws * scale, h: hs * scale,
-    fx: at(r0.fx, ox, x0), fy: at(r0.fy, oy, y0), hx: at(r0.hx, ox, x0), hy: at(r0.hy, oy, y0) };
+  const [x0, y0, ws, hs] = (/viewBox="([-\d.]+)[ ,]+([-\d.]+)[ ,]+([-\d.]+)[ ,]+([-\d.]+)"/.exec(txt) || []).slice(1).map(Number);
+  const shade = /<g id="ombre">\s*<polygon points="([^"]+)"/.exec(txt);
+  if (!(ws > 0 && hs > 0) || !shade) throw new Error('skin illisible');
+  const pts = shade[1].trim().split(/\s+/).map(p => p.split(',').map(Number)), xs = pts.map(p => p[0]);
+  const rx = (Math.max(...xs) - Math.min(...xs)) / (0.6 * (1 + Math.cos(Math.PI / 9)));
+  const cx = pts[0][0] - 0.7 * rx, cy = pts[0][1] - 1;
+  const iArm = txt.indexOf('<g id="bras_arme"'), head = txt.slice(0, txt.indexOf('<g id="ombre"'));
+  const pivot = iArm < 0 ? null : (/data-pivot="([-\d.]+),([-\d.]+)"/.exec(txt.slice(iArm)) || []).slice(1).map(Number);
+  const px = scale * dpr, open = (/<svg[^>]*>/.exec(head) || [''])[0];
+  const sized = s => s.replace(open, open.replace(/\s(width|height)="[^"]*"/g, '').replace('<svg', `<svg width="${(ws * px).toFixed(1)}" height="${(hs * px).toFixed(1)}"`));
+  const layer = async svg => {
+    const img = await loadSvg(sized(svg)), c = canvasOf(ws * px, hs * px);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    return { img: c, red: tinted(c, '#FF5A3C'), white: tinted(c, '#FFFFFF'), w: ws * scale, h: hs * scale,
+      fx: (cx - x0) * scale, fy: (cy - y0) * scale, hx: (cx - x0) * scale, hy: (cy - 220 - y0) * scale };
+  };
+  const [body, arm] = await Promise.all([
+    layer(iArm < 0 ? txt : txt.slice(0, iArm) + '</svg>'),
+    pivot && pivot.length === 2 ? layer(head + txt.slice(iArm)) : null
+  ]);
+  if (arm) { arm.px = (pivot[0] - x0) * scale; arm.py = (pivot[1] - y0) * scale; }
+  return { body, arm };
 }
 
 /** SVG à taille fixe (anneau, glyphes) : on force sa taille en pixels. */
@@ -100,7 +117,7 @@ export async function prepareCombatArt(heroId, W, H, dpr, enemySprites, extra = 
   if (key === bakedKey) return;
   const seq = ++bakeSeq;
   const names = [...new Set(enemySprites)];
-  // Apparence (game/cosmetics.js → look) : couleurs remplacées, ou skin complet en un seul calque.
+  // Apparence (game/cosmetics.js → look) : couleurs remplacées, ou skin complet (corps + bras armé).
   const rec = look && look.recolor, hs = SPRITE_SCALE.hero * k;
   const plain = () => {
     const split = !!TS.sprite(heroId, { part: 'weapon' }).px;
@@ -108,8 +125,8 @@ export async function prepareCombatArt(heroId, W, H, dpr, enemySprites, extra = 
   };
   let heroJobs;
   if (look && look.skinUrl) {
-    const skin = bakeSkin(look.skinUrl, heroId, hs, dpr).catch(() => null);
-    heroJobs = [skin.then(r => r || plain()[0]), skin.then(r => r ? null : plain()[1])];
+    const skin = bakeSkin(look.skinUrl, hs, dpr).catch(() => null), orig = skin.then(r => r ? null : plain());
+    heroJobs = [skin.then(r => r ? r.body : orig.then(p => p[0])), skin.then(r => r ? r.arm : orig.then(p => p[1]))];
   } else heroJobs = plain();
   const jobs = {
     hero: heroJobs[0],
@@ -122,7 +139,10 @@ export async function prepareCombatArt(heroId, W, H, dpr, enemySprites, extra = 
     gDot: bakeFixed(TS.glyph('dot', '#FFD23F', 22), 22, dpr)
   };
   for (const n of names) jobs[n] = bakeSprite(n, (SPRITE_SCALE[n] || SPRITE_SCALE.sbire) * k, dpr);
-  for (const a of extra) jobs[a.key] = bakeImage(a.url, a.height * k, dpr).catch(() => null);   // boss d'histoire
+  for (const a of extra) {   // boss d'histoire, gardiens du Voyage, variantes de sbire
+    const unit = a.unit ? (SPRITE_SCALE[a.unit] || SPRITE_SCALE.sbire) * k : 0;
+    jobs[a.key] = bakeImage(a.url, (a.height || 0) * k, dpr, unit, a.foot, a.head).catch(() => null);
+  }
   const done = await Promise.all(Object.entries(jobs).map(async ([n, p]) => [n, await p]));
   if (seq !== bakeSeq) return;        // une préparation plus récente (autre écran ou héros) l'emporte
   for (const [n, s] of done) ART[n] = s;

@@ -1,5 +1,5 @@
 {
-  "note": "Catalogue des cosmétiques : aucun avantage en jeu. Raretés : commun / rare / épique (≈ 55 / 30 / 15 %). Couleurs et skins d'arme = recolorations des dessins d'origine (art.js et sprites.js : couleur d'origine → nouvelle couleur) ; tracés dessinés en code ; skins complets = fichiers assets/skins/{heros}_{skin}.svg (lobby, même repère que art.js) et _combat.svg (même repère que sprites.js). Un skin complet remplace la couleur et le skin d'arme.",
+  "note": "Catalogue des cosmétiques : aucun avantage en jeu. Raretés : commun / rare / épique (≈ 55 / 30 / 15 %). Couleurs et skins d'arme = recolorations des dessins d'origine (art.js et sprites.js : couleur d'origine → nouvelle couleur) ; tracés dessinés en code ; skins complets (Claude Design, 2 par héros) = fichiers assets/skins/{heros}_{skin}.svg (lobby, repère 240 × 320 de art.js) et _combat.svg (même repère, groupes ombre / corps / bras_arme, pivot à l'épaule). Un skin complet remplace la couleur et le skin d'arme.",
   "types": {
     "color": { "name": "Couleur", "slot": "tint" },
     "weapon": { "name": "Skin d'arme", "slot": "weapon" },
@@ -46,11 +46,17 @@
     { "id": "pixels", "kind": "trail", "name": "Tracé Pixels", "rarity": "commun", "price": { "gold": 700 }, "color": "#3DDC5B", "trail": { "core": ["#1F9E3E", "#C8FFB0"], "particle": "square", "pcolors": ["#3DDC5B", "#C8FFB0"], "square": true } },
     { "id": "notes", "kind": "trail", "name": "Tracé Notes", "rarity": "commun", "price": { "gold": 700 }, "color": "#B070FF", "trail": { "core": ["#8A4DE8", "#F0E0FF"], "particle": "note", "pcolors": ["#FFFFFF", "#E7C8FF"] } },
 
-    { "id": "aldric_hiver", "kind": "skin", "hero": "aldric", "name": "Aldric d'hiver", "rarity": "epique", "price": { "gems": 300 }, "color": "#4FA9E0" },
-    { "id": "nyra_carnaval", "kind": "skin", "hero": "nyra", "name": "Nyra du carnaval", "rarity": "epique", "price": { "gems": 300 }, "color": "#B8327A" },
-    { "id": "boran_moisson", "kind": "skin", "hero": "boran", "name": "Boran de la moisson", "rarity": "epique", "price": { "gems": 300 }, "color": "#3F72AE" },
-    { "id": "ilwen_etoiles", "kind": "skin", "hero": "ilwen", "name": "Ilwen des étoiles", "rarity": "epique", "price": { "gems": 300 }, "color": "#23306E" },
-    { "id": "kestrel_automne", "kind": "skin", "hero": "kestrel", "name": "Kestrel d'automne", "rarity": "epique", "price": { "gems": 300 }, "color": "#B5561F" },
-    { "id": "mira_printemps", "kind": "skin", "hero": "mira", "name": "Mira du printemps", "rarity": "epique", "price": { "gems": 300 }, "color": "#FF8FB8" }
+    { "id": "aldric_crepuscule", "kind": "skin", "hero": "aldric", "name": "Garde du Crépuscule", "rarity": "epique", "price": { "gems": 300 }, "color": "#3A4C82" },
+    { "id": "aldric_tournois", "kind": "skin", "hero": "aldric", "name": "Chevalier des Tournois", "rarity": "epique", "price": { "gems": 300 }, "color": "#C8322A" },
+    { "id": "nyra_marches", "kind": "skin", "hero": "nyra", "name": "Ombre des Marchés", "rarity": "epique", "price": { "gems": 300 }, "color": "#E8742A" },
+    { "id": "nyra_lames", "kind": "skin", "hero": "nyra", "name": "Danseuse de Lames", "rarity": "epique", "price": { "gems": 300 }, "color": "#6E3FA0" },
+    { "id": "boran_batisseur", "kind": "skin", "hero": "boran", "name": "Le Bâtisseur", "rarity": "epique", "price": { "gems": 300 }, "color": "#B4552E" },
+    { "id": "boran_port", "kind": "skin", "hero": "boran", "name": "Le Débardeur du Port", "rarity": "epique", "price": { "gems": 300 }, "color": "#24345A" },
+    { "id": "ilwen_racines", "kind": "skin", "hero": "ilwen", "name": "Alchimiste des Racines", "rarity": "epique", "price": { "gems": 300 }, "color": "#5C5530" },
+    { "id": "ilwen_filante", "kind": "skin", "hero": "ilwen", "name": "Étoile Filante", "rarity": "epique", "price": { "gems": 300 }, "color": "#22306A" },
+    { "id": "kestrel_cimes", "kind": "skin", "hero": "kestrel", "name": "Guetteuse des Cimes", "rarity": "epique", "price": { "gems": 300 }, "color": "#2E5A48" },
+    { "id": "kestrel_desert", "kind": "skin", "hero": "kestrel", "name": "Chasseuse du Désert", "rarity": "epique", "price": { "gems": 300 }, "color": "#C8873A" },
+    { "id": "mira_sources", "kind": "skin", "hero": "mira", "name": "Gardienne des Sources", "rarity": "epique", "price": { "gems": 300 }, "color": "#4CB8B2" },
+    { "id": "mira_nuit", "kind": "skin", "hero": "mira", "name": "Veilleuse de Nuit", "rarity": "epique", "price": { "gems": 300 }, "color": "#22357A" }
   ]
 }

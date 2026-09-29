@@ -197,10 +197,34 @@ reçues le 28/09/2026, avec leur certificat C2PA. Utilisées par la boutique (`s
 - ✅ `assets/boutique/coffre_trois_signes_ferme.svg`, `coffre_trois_signes_ouvert.svg`
 - ✅ `assets/boutique/cadre_commun.svg`, `cadre_rare.svg`, `cadre_epique.svg` (centre transparent)
 
-Skins épiques : **pas fournis par Claude Design** ; générés en code par `node tools/boutique-art/gen.mjs` (dessins d'origine de
-`src/ui/art.js` et `src/ui/sprites.js`, recolorés, avec accessoires), en attendant. Un vrai dessin déposé au même nom les remplace
-(ne plus relancer le générateur ensuite). Planche : `design/planches-boutique/3-skins.html`.
+Skins complets épiques : Claude Design (`design/trois-signes-character-sheet`, générateur `project/tools/hero-skins.js`,
+planche `Trois Signes - Planche skins.dc.html` : « Six nouvelles tenues » et « Six tenues de plus »), reçus le 29/09/2026 avec leur
+certificat C2PA. 2 skins par héros, au catalogue de `data/cosmetics.json` (remplacent les skins provisoires générés en code, retirés).
 
-- ✅ `assets/skins/{heros}_{skin}.svg` (lobby, repère 240 × 320 de `art.js` avec 10 de marge : viewBox -10 -10 260 344)
-  et `assets/skins/{heros}_{skin}_combat.svg` (sprite de combat, ¾ dos) :
-  `aldric_hiver`, `nyra_carnaval`, `boran_moisson`, `ilwen_etoiles`, `kestrel_automne`, `mira_printemps`.
+- `assets/skins/{heros}_{skin}.svg` : lobby et boutique, repère 240 × 320 de `art.js` avec 24 de marge (viewBox -24 -24 288 356), socle compris.
+- `assets/skins/{heros}_{skin}_combat.svg` : combat, même repère, héros de face ; groupes `ombre`, `corps` et `bras_arme`
+  (`data-pivot` = épaule). Le jeu en fait deux calques (`src/ui/combat-art.js` → `bakeSkin`) : le bras armé pivote pour frapper.
+  Pieds lus sur l'ombre, même échelle que les sprites d'origine. Fichier illisible : sprite d'origine.
+
+| Héros | Six nouvelles tenues | Six tenues de plus |
+|---|---|---|
+| Aldric | ✅ `aldric_crepuscule` — Garde du Crépuscule | ✅ `aldric_tournois` — Chevalier des Tournois |
+| Nyra | ✅ `nyra_marches` — Ombre des Marchés | ✅ `nyra_lames` — Danseuse de Lames |
+| Boran | ✅ `boran_batisseur` — Le Bâtisseur | ✅ `boran_port` — Le Débardeur du Port |
+| Ilwen | ✅ `ilwen_racines` — Alchimiste des Racines | ✅ `ilwen_filante` — Étoile Filante |
+| Kestrel | ✅ `kestrel_cimes` — Guetteuse des Cimes | ✅ `kestrel_desert` — Chasseuse du Désert |
+| Mira | ✅ `mira_sources` — Gardienne des Sources | ✅ `mira_nuit` — Veilleuse de Nuit |
+
+## Variantes du sbire
+
+Claude Design (`design/trois-signes-character-sheet`, générateur `project/tools/enemy-variants.js`,
+planche `Trois Signes - Planche variantes ennemis.dc.html`), reçues le 29/09/2026. Même sbire (PV, dégâts), seule l'apparence
+change avec l'avancée ; correspondance dans `data/rules.json` → `sbireVariants` (code `src/game/variants.js`).
+Dessinées dans le repère des sprites, à l'échelle du sbire : le petit est plus petit, le costaud plus grand. Fichier manquant : sprite d'origine.
+
+- ✅ `assets/ennemis/variantes/sbire_petit.svg` — Voyage arènes 1-2, Histoire combats 1-3
+- ✅ `assets/ennemis/variantes/sbire_moyen.svg` — Voyage arènes 3-4, Histoire combats 4-6
+- ✅ `assets/ennemis/variantes/sbire_grand.svg` — Voyage arènes 5-6, Histoire combats 7-8
+- ✅ `assets/ennemis/variantes/sbire_costaud.svg` — Voyage arènes 7-8 et Au-delà du Silence, Histoire combats 9-10
+
+Aussi dans le Drive, **non utilisées** (pas demandées) : variantes `brute_{petit,moyen,grand,costaud}` et `boss_{…}`.
