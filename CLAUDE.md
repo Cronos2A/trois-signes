@@ -279,7 +279,8 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Offre Blaze** (non activée) : paiement à l'usage, mêmes quotas gratuits inclus (Cloud Functions : 2 millions d'appels par mois),
   carte bancaire obligatoire, alerte de budget possible ; pour ce jeu aujourd'hui ≈ 0 € par mois. Utile plus tard pour : vérifier les achats
   réels (reçus Google Play, indispensable), tirer les coffres au serveur, et un vrai contrôle anti-triche (rejouer les gestes au serveur,
-  gros travail). À décider avec l'auteur.
+  gros travail). **Décidé le 29/09/2026 : Blaze reste désactivée ; on l'active juste avant la publication sur le Play Store,
+  quand les achats de gemmes deviennent réels** (voir « Avant la publication sur le Play Store »).
 - Testé le 29/09/2026 sur l'émulateur : Duels normaux (entre amis et au hasard) acceptés ; refusés : score réécrit, vague rendue en 0,5 s,
   score au-dessus du plafond, héros changé après « Prêt », KO effacé, abandon annulé, victoire avant la fin, partie comptée deux fois,
   Empreintes à 9 999, défaite effacée, file et classement avec de fausses Empreintes, record de 1 000 000 en 10 s, début de partie antidaté,
@@ -425,8 +426,13 @@ prototype/ prototype d'origine
 - Tester dans le navigateur chaque écran ajouté ou modifié, en **390 × 800** et en **360 × 640** : rien ne déborde,
   pas de défilement horizontal, tous les boutons restent visibles et utilisables, aucune erreur dans la console.
 
+## Avant la publication sur le Play Store
+- **Activer l'offre Blaze de Firebase** (paiement à l'usage, carte bancaire, alerte de budget à régler), juste avant la publication,
+  quand les achats de gemmes deviennent réels : Cloud Functions pour vérifier les reçus Google Play (gemmes, « Sans publicité »).
+  Jusque-là, rester sur l'offre gratuite Spark.
+
 ## Prochaines tâches (dans cet ordre)
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
-2. **Duel, suite** : ménage des salons terminés, liaison du compte Google ; offre Blaze à décider (achats réels, coffres au serveur).
+2. **Duel, suite** : ménage des salons terminés, liaison du compte Google (offre Blaze : voir « Avant la publication sur le Play Store »).
 
 Plus tard : achat réel des gemmes et de « Sans publicité », AdMob (dans l'application), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.
