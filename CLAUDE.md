@@ -189,6 +189,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   salons `duels/{code}` (voir Duel) ; tout le reste fermé.
 - **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
   puis le jeu avec `?emu` dans l'adresse (`online.json → emulator`).
+  `?longpoll` (`online.json → longPollParam`) : Firestore en requêtes classiques, pour les réseaux qui coupent son flux continu (proxy, tests).
 - **Réglages → Compte** : pseudo + « Modifier », état du serveur (en ligne, sauvegarde en cours, hors connexion, injoignable) et n° de joueur,
   « Lier mon compte Google » désactivé (« Bientôt (Google Play Games) »).
 - Console Firebase : Authentication → Anonyme activé, « Activer la création (inscription) » coché ; Firestore en Europe, mode production.
@@ -224,6 +225,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   (un 3e joueur refusé, écriture directe refusée), mêmes ennemis des deux côtés, vague de 90 s, attente avec score en direct,
   pression calculée des deux côtés (reçue chez l'un = donnée chez l'autre), victoire aux points après le boss, KO en vague 2,
   abandon, onglet fermé (défaite après 30 s), ami qui quitte le salon, ni or ni XP gagnés, aucune erreur dans la console.
+  Règles publiées dans la console le 29/09/2026, vérifiées sur le vrai serveur : création, jointure, héros, prêt, signe de vie, scores,
+  KO, fin, abandon acceptés ; entrée de l'autre joueur, liste des salons et écriture d'un tiers refusées ; salon vide supprimé par l'hôte.
+  Un Duel complet en temps réel sur le vrai serveur n'a pas pu être joué depuis l'environnement de test (réseau trop instable) : à essayer sur deux téléphones.
 
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),

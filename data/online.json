@@ -10,6 +10,7 @@
     "measurementId": "G-KJZ5FLQNTD"
   },
   "sdk": { "path": "src/vendor/firebase/12.19.0/" },
+  "longPollParam": "longpoll",
   "emulator": { "param": "emu", "host": "127.0.0.1", "authPort": 9099, "firestorePort": 8080 },
   "collection": "players",
   "saveVersion": 1,

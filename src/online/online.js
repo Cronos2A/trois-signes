@@ -46,7 +46,10 @@ function start() {
       if (!auth) {
         const app = fb.app.initializeApp(O().firebase);
         auth = fb.auth.getAuth(app);
-        db = fb.fs.getFirestore(app);
+        // ?longpoll dans l'adresse (data/online.json → longPollParam) : requêtes classiques au lieu du flux continu,
+        // pour les réseaux (proxy d'entreprise, tests) qui coupent le flux de Firestore.
+        const longPoll = new URLSearchParams(location.search).has(O().longPollParam);
+        db = longPoll ? fb.fs.initializeFirestore(app, { experimentalForceLongPolling: true }) : fb.fs.getFirestore(app);
         // Tests en local : émulateurs Firebase (?emu dans l'adresse, data/online.json → emulator), jamais en production.
         if (new URLSearchParams(location.search).has(O().emulator.param)) {
           const E = O().emulator;

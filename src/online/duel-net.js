@@ -32,7 +32,7 @@ export async function createRoom() {
       tx.set(r, { code: c, host: uid, guest: null, createdAt: fb.fs.serverTimestamp(), players: { [uid]: me() } });
       return true;
     });
-    if (ok) { ref = r; code = c; return c; }
+    if (ok) { ref = r; code = c; last = { host: uid, guest: null, players: {} }; return c; }   // salon vide tant que rien n'est reçu
   }
   throw new Error('code');
 }
