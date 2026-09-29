@@ -288,6 +288,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   +30), abandon en pleine vague (+30 / −20). Vrai record du Voyage (7 062 après 40 s) classé, coffre payé au serveur (230 → 170).
   Processeur bridé ÷6 (deux navigateurs sur la même machine, rendu sans carte graphique) : Duel 35 à 44 images/s, comme le Voyage
   dans les mêmes conditions (42) : le Duel n'ajoute pas de coût.
+  Règles publiées le 29/09/2026 et vérifiées sur le vrai serveur : portefeuille créé, gain de l'épilogue accepté, gemmes à 9 999 et gain
+  en double refusés ; Empreintes à 9 999, file avec de fausses Empreintes et record de 500 000 sans partie refusés ; dans un salon :
+  score au-dessus du plafond et score réécrit refusés, score normal accepté. La durée minimale d'une vague n'a pas pu être prise en défaut
+  depuis l'environnement de test (7 s de réseau entre deux écritures) : vérifiée sur l'émulateur (score rendu 0,5 s après : refusé).
 
 ## Classements — `data/online.json` → `leaderboard` — **fait (étape 4)**
 - Onglet Jouer : bouton **Classements** sur la carte du Voyage → écran à deux onglets **Voyage** (meilleur score) et **Duel** (Empreintes) :
