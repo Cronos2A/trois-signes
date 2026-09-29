@@ -265,7 +265,8 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - Testé le 29/09/2026 sur l'émulateur avec 120 joueurs fictifs et deux navigateurs (390 × 800 et 360 × 640) : Alpha 71e au Voyage (dans le top),
   Bravo 122e (hors top) et 60e en Duel, « Pas encore classé » à 0 Empreinte, héros favori (Kestrel), baisse du score et écriture
   de la ligne d'un autre refusées, nouveau record → 1er, record local plus bas → la ligne garde le meilleur, aucune erreur ni débordement.
-  **Règles à republier dans la console.**
+  Règles republiées le 29/09/2026 et vérifiées sur le vrai serveur : ligne écrite (pseudo, héros favori, record, Empreintes), top et position
+  lus pour les deux classements, baisse du record refusée (permission-denied) ; ligne de test supprimée ensuite.
 
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
