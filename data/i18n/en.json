@@ -429,6 +429,67 @@
         "testResetAds": "Reset ads",
         "testState": "Play time: {min} min · Journey games: {games}"
       }
+    },
+    "talismans": {
+      "ui": {
+        "cardTitle": "TALISMAN",
+        "slotEmpty": "No talisman",
+        "equip": "Equip",
+        "unequip": "Remove",
+        "equipped": "Equipped",
+        "locked": "Locked",
+        "rewardKick": "NEW TALISMAN",
+        "rewardKickMany": "NEW TALISMANS",
+        "rewardNameMany": "{n} talismans",
+        "chestTitle": "Guardian's chest",
+        "chestOpened": "Guardian defeated: {arena}",
+        "chestFallback": "+{n} gold",
+        "chestFallbackText": "You already own this talisman: the chest holds gold instead.",
+        "forgiven": "Miss forgiven",
+        "rewardOk": "Continue"
+      },
+      "talismans": [
+        {
+          "name": "Moss Acorn",
+          "lock": "Beat the guardian of the Moss Forest",
+          "text": "Pickup range +25%."
+        },
+        {
+          "name": "Golden Ear",
+          "lock": "Beat the guardian of Hautes-Gerbes",
+          "text": "Coins +20%."
+        },
+        {
+          "name": "Clear Drop",
+          "lock": "Beat the guardian of Fontclaire",
+          "text": "Hearts heal 25% more."
+        },
+        {
+          "name": "Rooftop Key",
+          "lock": "Beat the guardian of the Rooftops of Vélis",
+          "text": "The enemy warning ring appears 0.15s earlier."
+        },
+        {
+          "name": "Bookmark",
+          "lock": "Beat the guardian of Aubelle Library",
+          "text": "Pickups don't break your combo streak."
+        },
+        {
+          "name": "Wind Feather",
+          "lock": "Beat the guardian of the Windy Pass",
+          "text": "Your super gauge starts at 20%."
+        },
+        {
+          "name": "Ancient Chalk",
+          "lock": "Beat the guardian of the School of Signs",
+          "text": "One missed gesture per round doesn't break your combo streak."
+        },
+        {
+          "name": "Codex Page",
+          "lock": "Beat the guardian of the Heart of Silence",
+          "text": "+10% weapon XP."
+        }
+      ]
     }
   }
 }
