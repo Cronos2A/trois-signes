@@ -1785,7 +1785,247 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "The Silent Field",
+          "cinematique_ouverture": [
+            {
+              "texte": "In Hautes-Gerbes, the wheat grows shoulder-high. Except on Boran."
+            },
+            {
+              "texte": "Last sheaf of the season, big brother! After this, we sleep for a week."
+            },
+            {
+              "texte": "You sleep. I'm fixing the barn."
+            },
+            {
+              "texte": "As a child, Boran learned three gestures from an old traveller, as a game. He thought he'd forgotten them."
+            },
+            {
+              "texte": "That evening, the wheat turned grey. And Oren stopped laughing."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "The Harvest",
+              "dialogue_avant": [
+                {
+                  "texte": "People in the field. They're walking on the wheat…"
+                },
+                {
+                  "texte": "Get out of my field."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Boran… I'm cold…"
+                },
+                {
+                  "texte": "Oren?"
+                }
+              ]
+            },
+            {
+              "titre": "The Changed Neighbours",
+              "dialogue_avant": [
+                {
+                  "texte": "The neighbours he's known all his life walk towards the farm. Without a word."
+                },
+                {
+                  "texte": "Old Lucas. Mrs Anselme. I carried your flour sacks for ten years…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "They don't recognise me any more. But I remember them. That will count."
+                }
+              ]
+            },
+            {
+              "titre": "The Barn Under Siege",
+              "dialogue_avant": [
+                {
+                  "texte": "Boran! We're all in the barn, they're going to get in!"
+                },
+                {
+                  "texte": "Nobody gets in."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "You're the strongest in the whole world."
+                },
+                {
+                  "texte": "No. Just the heaviest."
+                }
+              ]
+            },
+            {
+              "titre": "The Hill Road",
+              "dialogue_avant": [
+                {
+                  "texte": "We head for the hills. Children in front, me at the back."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Behind them, the farm vanishes into the grey mist. Boran doesn't look back."
+                },
+                {
+                  "texte": "Oren stayed back there."
+                }
+              ]
+            },
+            {
+              "titre": "The Stone Bull",
+              "dialogue_avant": [
+                {
+                  "texte": "Tonnerre, the farm's bull, charges the convoy. His horns have turned to grey stone."
+                },
+                {
+                  "texte": "Tonnerre. Easy, big fella. It's me."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "What did I just do?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Boran grabs the bull's horns and holds on. For a long time."
+                },
+                {
+                  "texte": "Then, instead of striking, he lays his hand on its forehead. The Tap."
+                },
+                {
+                  "texte": "A warm breath. For a second, Tonnerre turns brown again, and looks at him."
+                },
+                {
+                  "texte": "The old traveller's game… It wasn't a game."
+                }
+              ]
+            },
+            {
+              "titre": "Encounter: Mira",
+              "dialogue_avant": [
+                {
+                  "texte": "Don't hit him! I can still heal that one!"
+                },
+                {
+                  "texte": "He's attacking us."
+                },
+                {
+                  "texte": "He's scared. That's not the same thing. Keep the others back, I'll handle the rest."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "The Hollowed that Mira healed looks at its hands, smiles, then gently fades away."
+                },
+                {
+                  "texte": "You saved him?"
+                },
+                {
+                  "texte": "For a moment. Sometimes, a moment is already a lot."
+                }
+              ]
+            },
+            {
+              "titre": "The Refugee Camp",
+              "dialogue_avant": [
+                {
+                  "texte": "The camp is full. We need someone to guard the palisade."
+                },
+                {
+                  "texte": "I'm here."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Boran, you're staying with us, right?"
+                },
+                {
+                  "texte": "As long as it takes."
+                }
+              ]
+            },
+            {
+              "titre": "The Long Watch",
+              "dialogue_avant": [
+                {
+                  "texte": "The longest night. Boran, alone in front of the palisade."
+                },
+                {
+                  "texte": "Until dawn."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "The sun rises. The palisade holds. So does Boran."
+                }
+              ]
+            },
+            {
+              "titre": "The Ploughman",
+              "dialogue_avant": [
+                {
+                  "texte": "…a brother… I had a brother… big… slow…"
+                },
+                {
+                  "texte": "Cheeky as ever, Oren."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Sleep, little brother."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Boran takes off his gauntlets. He doesn't want to hit anything any more."
+                },
+                {
+                  "texte": "He lays his hand on his brother's forehead, as he did with Tonnerre. The Tap."
+                },
+                {
+                  "texte": "Big brother… the barn… did you fix it?"
+                },
+                {
+                  "texte": "Not yet. I was waiting for you."
+                },
+                {
+                  "texte": "Oren falls asleep, at peace. In the distance, Mira points to a white clearing."
+                }
+              ]
+            },
+            {
+              "titre": "The Heart of Silence",
+              "dialogue_avant": [
+                {
+                  "texte": "…a child… fields of wheat… I taught him a game…"
+                },
+                {
+                  "texte": "It was you. The old traveller."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Boran doesn't strike the final blow. He holds out his hand."
+            },
+            {
+              "texte": "The little one from Hautes-Gerbes… You've grown. You've grown a lot."
+            },
+            {
+              "texte": "You taught me a game. It came in handy."
+            },
+            {
+              "texte": "A memory fragment returns to the master."
+            }
+          ]
+        },
         null,
         null,
         null
