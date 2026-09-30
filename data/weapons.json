@@ -119,11 +119,11 @@
     },
     "baton_seve": {
       "name": "Bâton de sève", "hero": "mira", "unlock": { "story": 5 }, "lock": "Gagne le combat 5 de ton histoire", "autorise_en_duel": true,
-      "style": { "text": "Plus de soin à chaque attaque ; à la place, chaque combo rend {comboHeal} PV.", "scale": { "comboHeal": 12 }, "fixed": { "noHealPerHit": true } }
+      "style": { "text": "Plus de soin à chaque attaque ; à la place, chaque combo rend {comboHeal} PV.", "scale": { "comboHeal": 8 }, "fixed": { "noHealPerHit": true } }
     },
     "clochette": {
       "name": "Clochette", "hero": "mira", "unlock": { "story": 10 }, "lock": "Gagne le combat 10 de ton histoire", "autorise_en_duel": true,
-      "style": { "text": "Le soin par attaque devient un bouclier qui absorbe les dégâts, cumulable jusqu'à {barrierMax}.", "scale": { "barrierMax": 20 }, "fixed": { "healToBarrier": true } }
+      "style": { "text": "À la place du soin, chaque attaque réussie donne un bouclier de {barrierPerHit} PV × le multiplicateur, qui absorbe les dégâts, cumulable jusqu'à {barrierMax}.", "scale": { "barrierMax": 20 }, "fixed": { "noHealPerHit": true, "barrierPerHit": 2 } }
     }
   }
 }

@@ -155,7 +155,7 @@ function heal(v) {
   if (got > 0) { const p = heroPos(); pop(p.x - 44, p.y - 44, '+' + fmt(got) + ' PV', '', '#8CF09A', 0.9, 20); }
 }
 
-/** Clochette : le soin devient un bouclier qui absorbe les dégâts, plafonné à barrierMax. */
+/** Clochette : bouclier qui absorbe les dégâts, plafonné à barrierMax. */
 function addBarrier(v) {
   const h = G.hero, before = h.barrier;
   h.barrier = Math.min(style().barrierMax, h.barrier + v);
@@ -285,9 +285,11 @@ export function handleGesture(res) {
   if (res.type === 'triangle') {
     // Grimoire ouvert : l'attaque compte comme un combo de son propre niveau.
     if (useComboCharge() && cm === 1) cm = comboHit(g, true);
-    // Soin par attaque réussie : passif de Mira (sauf Bâton de sève) + Amulette ; Clochette : en bouclier.
+    // Soin par attaque réussie : passif de Mira (sauf Bâton de sève et Clochette) + Amulette ;
+    // Clochette : à la place, bouclier de barrierPerHit × le multiplicateur (indépendant du soin).
     const S = style(), cure = (S.noHealPerHit ? 0 : G.hero.healPerHit * g.mult) + (S.healPerHit || 0);
-    if (cure > 0) S.healToBarrier ? addBarrier(cure) : heal(cure);
+    if (cure > 0) heal(cure);
+    if (S.barrierPerHit) addBarrier(S.barrierPerHit * g.mult);
     gainWeaponXp(attackXp(g));
     if (G.mode === 'play') doAttack(g, cm);
     else { addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: h.x, y2: h.y - 200, col: g.col, life: 0.35 }); sfx('attaque'); }
