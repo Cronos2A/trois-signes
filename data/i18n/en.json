@@ -1253,6 +1253,76 @@
         "testCountry": "Country",
         "testReset": "Reset the shop"
       }
+    },
+    "tutorial": {
+      "title": "The First Lesson",
+      "dummy": {
+        "name": "Dummy"
+      },
+      "intro": {
+        "kicker": "MEMORY",
+        "title": "The First Lesson",
+        "sub": "Pierrelune, before the Silence"
+      },
+      "steps": [
+        {
+          "label": "Triangle",
+          "consigne": "Draw a triangle to strike the dummy",
+          "eldan": [
+            {
+              "texte": "The Triangle protects you. Draw it in one single stroke."
+            }
+          ]
+        },
+        {
+          "label": "Circle",
+          "consigne": "Draw a circle when the red ring closes in",
+          "eldan": [
+            {
+              "texte": "When danger closes in on you, draw the Circle."
+            }
+          ]
+        },
+        {
+          "label": "Tap",
+          "consigne": "Tap the coins to pick them up",
+          "eldan": [
+            {
+              "texte": "The Tap connects. Gather what shines."
+            }
+          ]
+        },
+        {
+          "label": "Precision",
+          "consigne": "Chain gestures of the same grade for a combo",
+          "eldan": [
+            {
+              "texte": "The purer your gesture, the stronger it is."
+            }
+          ]
+        },
+        {
+          "label": "Super",
+          "consigne": "Tap the SUPER button at the bottom right",
+          "eldan": [
+            {
+              "texte": "And when your heart is full… let it out."
+            }
+          ]
+        }
+      ],
+      "levelsPanel": {
+        "title": "The 5 grades of success",
+        "text": "The more precise your stroke, the further your gesture reaches.",
+        "miss": "Miss: no effect, and your streak starts over.",
+        "button": "Got it"
+      },
+      "fin": [
+        {
+          "texte": "Three gestures. Not one more. And one day, you'll teach them to someone else."
+        }
+      ],
+      "handHint": "Follow the hand"
     }
   }
 }
