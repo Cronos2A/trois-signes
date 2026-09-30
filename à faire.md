@@ -170,4 +170,8 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - **À relire par un anglophone** : « the Hollowed » au singulier (« a Hollowed »), « Madam Sorel » (connotation possible), Tonnerre
   laissé en français (« Thunder » pour un joueur anglais ?), « the Imprint » à la fois nom des trois gestes (prologue) et points du Duel
   (comme en français), « The Triangle fights for you » (le français dit « te défend »).
-- **Reste** : `it.json`, `es.json`, `de.json` ; relire la longueur des textes en 360 × 640 (l'allemand est souvent 30 % plus long).
+- **Italien fait le 30/09/2026** (`it.json`) : voir CLAUDE.md → « Langues ». **À relire par un italophone** : le « voi » de respect entre
+  personnages (plus littéraire que « Lei »), « Madama Sorel », « Ser Corvin », Kestrel « la Raminga » (rare ; « l'Esploratrice » ?),
+  Tonnerre laissé en français (« Tuono » ?), mots anglais gardés comme dans les jeux italiens (skin, boost, nickname),
+  « Lancia di guardia » (le français « garde-fou » n'a pas d'équivalent direct), « Scagnozzo » pour le sbire.
+- **Reste** : `es.json`, `de.json` ; relire la longueur des textes en 360 × 640 (l'allemand est souvent 30 % plus long).
