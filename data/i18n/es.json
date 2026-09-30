@@ -1331,6 +1331,250 @@
         }
       ],
       "handHint": "Sigue la mano"
+    },
+    "story_mode": {
+      "histoires": [
+        {
+          "titre": "El último alumno",
+          "cinematique_ouverture": [
+            {
+              "texte": "En Pierrelune, cada mañana empieza con una lección."
+            },
+            {
+              "texte": "El Círculo te protege. El Triángulo te defiende. El Toque te une a los demás. Tres gestos, Aldric. Ni uno más."
+            },
+            {
+              "texte": "¿Y cuando me los sepa de memoria, maestro?"
+            },
+            {
+              "texte": "Entonces tendrás que enseñárselos a otra persona. Es la única forma de no perderlos."
+            },
+            {
+              "texte": "Aquella mañana, una niebla gris bajó de la montaña. Y el maestro nunca terminó su lección."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Pierrelune",
+              "dialogue_avant": [
+                {
+                  "texte": "Siluetas a las puertas del pueblo… ¡No tienen cara!"
+                },
+                {
+                  "texte": "¡Aldric! ¡Los signos, como te los enseñé!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "¿Maestro? Maestro, ¿dónde está?"
+                },
+                {
+                  "texte": "Nadie responde. La niebla se ha llevado la voz del maestro."
+                }
+              ]
+            },
+            {
+              "titre": "La noche del Silencio",
+              "dialogue_avant": [
+                {
+                  "texte": "Cae la noche sobre Pierrelune, y los colores se apagan uno a uno."
+                },
+                {
+                  "texte": "Quédense detrás de mí. Esta noche no desaparece nadie más."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Aldric… ¿cómo se llamaba mi marido?"
+                },
+                {
+                  "texte": "Se llamaba Jorran, Maud. Se lo recordaré cada día, si hace falta."
+                }
+              ]
+            },
+            {
+              "titre": "La casa vacía",
+              "dialogue_avant": [
+                {
+                  "texte": "La puerta del maestro está abierta. No es propio de él."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Sobre la mesa: una página arrancada del Códice y un mapa garabateado deprisa."
+                },
+                {
+                  "texte": "«El puente de las Brumas, y luego la escuela». ¿Qué escuela?"
+                }
+              ]
+            },
+            {
+              "titre": "El puente de las Brumas",
+              "dialogue_avant": [
+                {
+                  "texte": "El único puente que sigue en pie. Si lo cruzo, ya no podré dar media vuelta."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Pierrelune, volveré. Con el maestro."
+                }
+              ]
+            },
+            {
+              "titre": "El Guardián del puente",
+              "dialogue_avant": [
+                {
+                  "texte": "…forjar… había que… forjar qué…"
+                },
+                {
+                  "texte": "¿Bram? Tú forjaste mi espada…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Descansa, Bram."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "El Vaciado se desploma. Por un instante, sus ojos vuelven a ser los del viejo herrero."
+                },
+                {
+                  "texte": "Aldric… tu espada… siempre la llevas demasiado alta."
+                },
+                {
+                  "texte": "Lo sé, Bram. Lo sé."
+                },
+                {
+                  "texte": "Luego la niebla se lo lleva, y el puente por fin se abre ante él."
+                }
+              ]
+            },
+            {
+              "titre": "Encuentro: Nyra",
+              "dialogue_avant": [
+                {
+                  "texte": "Bonito abrigo, caballero. ¿Tú también buscas a un viejo que dibuja círculos en el aire?"
+                },
+                {
+                  "texte": "Hablas de mi maestro. ¿Quién eres?"
+                },
+                {
+                  "texte": "Alguien a quien él le debe algo. Y estamos rodeados, así que las presentaciones pueden esperar."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Nada mal, para alguien tan tieso."
+                },
+                {
+                  "texte": "Viajaremos juntos hasta la escuela. Después, ya veremos."
+                }
+              ]
+            },
+            {
+              "titre": "La Escuela de los Signos",
+              "dialogue_avant": [
+                {
+                  "texte": "Ruinas inmensas, cubiertas de triángulos y círculos grabados en la piedra."
+                },
+                {
+                  "texte": "Hay cientos de nombres en este muro… ¿Todos alumnos suyos?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Nunca me dijo que tenía hermanos y hermanas de armas."
+                },
+                {
+                  "texte": "A mí tampoco me contó gran cosa."
+                }
+              ]
+            },
+            {
+              "titre": "Los alumnos olvidados",
+              "dialogue_avant": [
+                {
+                  "texte": "…círculo… triángulo… círculo… por qué… por qué ya no funciona…"
+                },
+                {
+                  "texte": "Siguen trazando los signos. Pero ya no hay nada dentro."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Un signo sin recuerdo no es más que un gesto. El maestro tenía razón."
+                }
+              ]
+            },
+            {
+              "titre": "Ser Corvin",
+              "dialogue_avant": [
+                {
+                  "texte": "El benjamín. ¿Te enseñó la misma lección que a mí? «Tres gestos, ni uno más»."
+                },
+                {
+                  "texte": "¿Usted… usted se acuerda?"
+                },
+                {
+                  "texte": "Me acuerdo de todo. Menos de por qué importaba."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Entonces yo lo recordaré por los dos."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Corvin cae de rodillas. Su hoja gris se agrieta como el cristal."
+                },
+                {
+                  "texte": "Nos lo dio todo… y lo dejamos solo con sus recuerdos."
+                },
+                {
+                  "texte": "Está en el Corazón, chaval. Donde todo empezó a apagarse."
+                },
+                {
+                  "texte": "Entonces allí es adonde voy."
+                }
+              ]
+            },
+            {
+              "titre": "El Corazón del Silencio",
+              "dialogue_avant": [
+                {
+                  "texte": "…un alumno… otro alumno… os he olvidado a todos…"
+                },
+                {
+                  "texte": "¡¿Maestro?!"
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "El último signo de Aldric atraviesa el Silencio como un rayo de sol."
+            },
+            {
+              "texte": "Aldric… Sigues llevando la espada demasiado alta."
+            },
+            {
+              "texte": "Eso mismo decía Bram."
+            },
+            {
+              "texte": "Un fragmento de memoria vuelve al maestro."
+            }
+          ]
+        },
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
     }
   }
 }
