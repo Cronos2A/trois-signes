@@ -971,6 +971,174 @@
           }
         }
       }
+    },
+    "cosmetics": {
+      "types": {
+        "color": {
+          "name": "Colore"
+        },
+        "weapon": {
+          "name": "Skin arma"
+        },
+        "trail": {
+          "name": "Effetto scia"
+        },
+        "skin": {
+          "name": "Skin completa"
+        }
+      },
+      "ui": {
+        "kicker": "COSMETICI",
+        "toShop": "Vai al negozio",
+        "locked": "{n} da sbloccare",
+        "skinNote": "La skin completa sostituisce il colore e la skin dell'arma finché è equipaggiata."
+      },
+      "defaults": {
+        "tint": "Tenuta originale",
+        "weapon": "Arma originale",
+        "trail": "Scia originale",
+        "skin": "Nessuna"
+      },
+      "items": [
+        {
+          "name": "Tinta Laguna"
+        },
+        {
+          "name": "Tinta Sole"
+        },
+        {
+          "name": "Tinta Rubino"
+        },
+        {
+          "name": "Tinta Laguna"
+        },
+        {
+          "name": "Tinta Sole"
+        },
+        {
+          "name": "Tinta Rubino"
+        },
+        {
+          "name": "Tinta Laguna"
+        },
+        {
+          "name": "Tinta Sole"
+        },
+        {
+          "name": "Tinta Rubino"
+        },
+        {
+          "name": "Tinta Laguna"
+        },
+        {
+          "name": "Tinta Sole"
+        },
+        {
+          "name": "Tinta Rubino"
+        },
+        {
+          "name": "Tinta Laguna"
+        },
+        {
+          "name": "Tinta Sole"
+        },
+        {
+          "name": "Tinta Rubino"
+        },
+        {
+          "name": "Tinta Laguna"
+        },
+        {
+          "name": "Tinta Sole"
+        },
+        {
+          "name": "Tinta Rubino"
+        },
+        {
+          "name": "Lama Brace"
+        },
+        {
+          "name": "Pugnale Brina"
+        },
+        {
+          "name": "Pugni di Lava"
+        },
+        {
+          "name": "Grimorio Giada"
+        },
+        {
+          "name": "Arco Corallo"
+        },
+        {
+          "name": "Amuleto Aurora"
+        },
+        {
+          "name": "Scia Scintilla"
+        },
+        {
+          "name": "Scia Edera"
+        },
+        {
+          "name": "Scia Arcobaleno"
+        },
+        {
+          "name": "Scia Stelle"
+        },
+        {
+          "name": "Scia Bolle"
+        },
+        {
+          "name": "Scia Fiamme"
+        },
+        {
+          "name": "Scia Coriandoli"
+        },
+        {
+          "name": "Scia Inchiostro"
+        },
+        {
+          "name": "Scia Pixel"
+        },
+        {
+          "name": "Scia Note"
+        },
+        {
+          "name": "Guardia del Crepuscolo"
+        },
+        {
+          "name": "Cavaliere dei Tornei"
+        },
+        {
+          "name": "Ombra dei Mercati"
+        },
+        {
+          "name": "Danzatrice di Lame"
+        },
+        {
+          "name": "Il Costruttore"
+        },
+        {
+          "name": "Lo Scaricatore del Porto"
+        },
+        {
+          "name": "Alchimista delle Radici"
+        },
+        {
+          "name": "Stella Cadente"
+        },
+        {
+          "name": "Vedetta delle Vette"
+        },
+        {
+          "name": "Cacciatrice del Deserto"
+        },
+        {
+          "name": "Custode delle Sorgenti"
+        },
+        {
+          "name": "Vegliante della Notte"
+        }
+      ]
     }
   }
 }
