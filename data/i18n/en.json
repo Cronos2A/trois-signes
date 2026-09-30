@@ -2698,7 +2698,102 @@
             }
           ]
         }
-      ]
+      ],
+      "prologue_commun": [
+        {
+          "texte": "Long ago, three simple gestures protected people: the Circle to guard, the Triangle to strike, the Tap to heal and connect."
+        },
+        {
+          "texte": "They were called the Imprint. An old master, Eldan, taught them to anyone willing to learn."
+        },
+        {
+          "texte": "Then the Silence came. It didn't break down doors: it erased memories."
+        },
+        {
+          "texte": "Those who forget everything become the Hollowed. Grey, empty shapes… who were never monsters."
+        },
+        {
+          "texte": "Six people still remember the three signs. These are their stories."
+        }
+      ],
+      "arrivee_coeur": {
+        "cinematique": [
+          {
+            "texte": "At the centre of the world, a white clearing. No wind, no sound, no colour."
+          },
+          {
+            "texte": "In the middle, an old man draws signs in the empty air. Again, and again."
+          },
+          {
+            "texte": "Circle… triangle… tap… What was it all for, again?"
+          }
+        ]
+      },
+      "epilogue_final": {
+        "cinematique": [
+          {
+            "texte": "Six fragments. Six heroes. And at last, a whole memory."
+          },
+          {
+            "texte": "My name is Eldan. I am… I was… a master."
+          },
+          {
+            "texte": "You still are."
+          },
+          {
+            "texte": "And you owe us an explanation."
+          },
+          {
+            "texte": "Then sit down. It's a long story. And this time, I'm going to pass it on."
+          },
+          {
+            "texte": "New character unlocked: Eldan, the Master. His story is coming soon."
+          }
+        ]
+      },
+      "ennemis_speciaux": {
+        "liste": [
+          {
+            "nom": "Bram, the Bridge Guardian"
+          },
+          {
+            "nom": "Sir Corvin"
+          },
+          {
+            "nom": "Madam Sorel, the Guild Leader"
+          },
+          {
+            "nom": "The Reflection"
+          },
+          {
+            "nom": "Tonnerre, the Stone Bull"
+          },
+          {
+            "nom": "Oren, the Ploughman"
+          },
+          {
+            "nom": "The Archivist"
+          },
+          {
+            "nom": "Séléna, the Inkless Quill"
+          },
+          {
+            "nom": "The Tracker (Pieter)"
+          },
+          {
+            "nom": "Captain Hardel, the Lookout"
+          },
+          {
+            "nom": "Aunt Hélo, the Herbalist"
+          },
+          {
+            "nom": "The Watcher"
+          },
+          {
+            "nom": "Master Eldan, the Forgotten"
+          }
+        ]
+      }
     }
   }
 }
