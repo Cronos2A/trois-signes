@@ -2700,7 +2700,102 @@
             }
           ]
         }
-      ]
+      ],
+      "prologue_commun": [
+        {
+          "texte": "Tanto tempo fa, tre semplici gesti proteggevano la gente: il Cerchio per difendersi, il Triangolo per colpire, il Tocco per curare e unire."
+        },
+        {
+          "texte": "Li chiamavano l'Impronta. Un vecchio maestro, Eldan, li insegnava a chiunque volesse impararli."
+        },
+        {
+          "texte": "Poi arrivò il Silenzio. Non sfondò le porte: cancellò i ricordi."
+        },
+        {
+          "texte": "Chi dimentica tutto diventa uno Svuotato. Forme grigie, vuote… che non sono mai state mostri."
+        },
+        {
+          "texte": "Sei persone ricordano ancora i tre segni. Ecco le loro storie."
+        }
+      ],
+      "arrivee_coeur": {
+        "cinematique": [
+          {
+            "texte": "Al centro del mondo, una radura bianca. Senza vento, senza rumore, senza colore."
+          },
+          {
+            "texte": "Nel mezzo, un vecchio traccia segni nel vuoto. Ancora, e ancora."
+          },
+          {
+            "texte": "Cerchio… triangolo… tocco… A cosa serviva, già?"
+          }
+        ]
+      },
+      "epilogue_final": {
+        "cinematique": [
+          {
+            "texte": "Sei frammenti. Sei eroi. E finalmente, un ricordo intero."
+          },
+          {
+            "texte": "Mi chiamo Eldan. Sono… ero… un maestro."
+          },
+          {
+            "texte": "Lo siete ancora."
+          },
+          {
+            "texte": "E ci dovete delle spiegazioni."
+          },
+          {
+            "texte": "Allora sedetevi. È una lunga storia. E questa volta la tramanderò."
+          },
+          {
+            "texte": "Nuovo personaggio sbloccato: Eldan, il Maestro. La sua storia sarà presto disponibile."
+          }
+        ]
+      },
+      "ennemis_speciaux": {
+        "liste": [
+          {
+            "nom": "Bram, il Guardiano del ponte"
+          },
+          {
+            "nom": "Ser Corvin"
+          },
+          {
+            "nom": "Madama Sorel, la Capogilda"
+          },
+          {
+            "nom": "Il Riflesso"
+          },
+          {
+            "nom": "Tonnerre, il Toro di pietra"
+          },
+          {
+            "nom": "Oren, l'Aratore"
+          },
+          {
+            "nom": "L'Archivista"
+          },
+          {
+            "nom": "Séléna, la Piuma senza inchiostro"
+          },
+          {
+            "nom": "Il Segugio (Pieter)"
+          },
+          {
+            "nom": "Capitano Hardel, la Vedetta"
+          },
+          {
+            "nom": "Zia Hélo, l'Erborista"
+          },
+          {
+            "nom": "La Vegliante"
+          },
+          {
+            "nom": "Maestro Eldan, il Dimenticato"
+          }
+        ]
+      }
     }
   }
 }
