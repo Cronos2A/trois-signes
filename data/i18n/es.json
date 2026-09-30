@@ -401,6 +401,40 @@
           ]
         }
       ]
+    },
+    "ads": {
+      "noAds": {
+        "price": "2,99 €"
+      },
+      "ui": {
+        "testTitle": "Anuncio de prueba",
+        "testText": "Aquí aparecerá un anuncio real en la app.",
+        "rewardHint": "Míralo hasta el final para recibir la recompensa.",
+        "rewardDone": "¡Recompensa desbloqueada!",
+        "rewardLost": "Anuncio cerrado demasiado pronto: sin recompensa.",
+        "close": "Cerrar",
+        "watch": "Ver un anuncio",
+        "doubleGold": "Duplicar el oro (+{n})",
+        "doubled": "¡Oro duplicado!",
+        "secondTitle": "¿Segunda oportunidad?",
+        "secondText": "Mira un anuncio para seguir el Viaje con el {pct} % de tus PV.",
+        "secondYes": "Segunda oportunidad",
+        "secondNo": "No, gracias",
+        "gemsTitle": "Gemas gratis",
+        "gemsText": "Mira un anuncio para ganar {n} gemas.",
+        "gemsBtn": "+{n} gemas",
+        "freeChestBtn": "Cofre gratis",
+        "perDay": "{left} / {max} hoy",
+        "noneLeft": "Vuelve mañana",
+        "noAdsTitle": "Sin anuncios",
+        "noAdsText": "Se acabaron los anuncios a pantalla completa. Los anuncios con recompensa siguen disponibles.",
+        "noAdsOwned": "Comprado: sin anuncios a pantalla completa",
+        "store": "Disponible en la app",
+        "testNoAds": "Sin anuncios (prueba)",
+        "testGrace": "Saltar los 10 min",
+        "testResetAds": "Anuncios a cero",
+        "testState": "Juego: {min} min · partidas del Viaje: {games}"
+      }
     }
   }
 }
