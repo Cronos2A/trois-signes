@@ -345,6 +345,16 @@
       "boss": {
         "name": "Boss"
       }
+    },
+    "progression": {
+      "ui": {
+        "level": "Lv {lvl}",
+        "levelLong": "Livello {lvl}",
+        "levelMax": "Lv {lvl} · MAX",
+        "barMax": "MAX",
+        "reached": "Livello {lvl} raggiunto!",
+        "maxReached": "Livello massimo raggiunto!"
+      }
     }
   }
 }
