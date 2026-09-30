@@ -343,5 +343,8 @@
     "stockGames": "En stock : {list}",
     "count": "×{n}",
     "hudLeft": "{n}"
+  },
+  "pseudo": {
+    "reserved": "Ce pseudo est réservé : choisis-en un autre."
   }
 }

@@ -229,7 +229,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Le compte est gardé par le navigateur ; effacer les données du site ou changer d'appareil = nouveau compte (la liaison Google le réglera).
 - **Pseudo** (`src/online/pseudo.js`, `src/ui/account-ui.js`) : demandé après le prologue et la première leçon (obligatoire, pseudo proposé
   au hasard), modifiable dans les Réglages ; 3 à 16 caractères, lettres / chiffres / espace / - . _ ; filtre des mots grossiers
-  (`online.json → pseudo` : `banned` partout, `bannedWords` en mot entier, accents et chiffres « leet » ramenés). Sauvegarde : `prog.profile.pseudo`.
+  (`online.json → pseudo` : `banned` partout, `bannedWords` en mot entier, accents et chiffres « leet » ramenés) ;
+  **pseudos réservés** (`pseudo.reserved`, `isReserved`) : admin, modo, modérateur, support, staff, trois signes, cronos2a et leurs équivalents
+  anglais, italiens, espagnols, allemands, refusés même avec majuscules, accents, espaces, chiffres ou symboles glissés au milieu
+  (message `pseudo.reserved`). Sauvegarde : `prog.profile.pseudo`.
 - **Sauvegarde en ligne** : document Firestore `players/{uid}` = `{ pseudo, save (toute la progression prog en JSON), savedAt, updatedAt, v }`.
   Chaque `saveProg()` date la sauvegarde (`prog.savedAt`) et déclenche un envoi différé (3 s) ; au lancement, la plus récente l'emporte
   (serveur plus récent → `replaceProg`, jamais en pleine partie : appliqué au retour au lobby). Hors connexion : `ts_prog` reste la référence,

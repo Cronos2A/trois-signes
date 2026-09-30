@@ -27,7 +27,8 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 ## 🟠 Encore ouverts
 
 ### G8 (suite). Pseudo : pas d'unicité
-- Accepté alors que discutable : « Admin », un pseudo déjà pris par un autre joueur (deux « Alpha » au classement).
+- **Corrigé le 30/09** : pseudos réservés refusés (admin, modo, support, staff, trois signes, cronos2a… en 5 langues).
+- Reste accepté : un pseudo déjà pris par un autre joueur (deux « Alpha » au classement).
   L'unicité demande un registre des pseudos au serveur (collection réservée par les règles) : à décider.
 
 ### G11. Petits défauts
