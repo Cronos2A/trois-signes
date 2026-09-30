@@ -523,6 +523,93 @@
       "beyond": {
         "name": "Oltre il Silenzio"
       }
+    },
+    "characters": {
+      "statLabels": [
+        "Danni",
+        "Velocità",
+        "Resistenza"
+      ],
+      "characters": [
+        {
+          "role": "Cavaliere",
+          "title": "Il Cavaliere",
+          "weaponLabel": "Spada",
+          "passive": {
+            "name": "Guardia",
+            "text": "Il cavaliere incassa meglio degli altri: −15% di danni subiti."
+          },
+          "super": {
+            "name": "Baluardo",
+            "text": "Per 8 s i danni subiti sono dimezzati, più un colpo su tutti i nemici (2 × l'attacco)."
+          }
+        },
+        {
+          "role": "Assassina",
+          "title": "L'Assassina",
+          "weaponLabel": "Pugnale",
+          "passive": {
+            "name": "Lama fragile",
+            "text": "Colpisce forte ma non incassa: la più fragile di tutti."
+          },
+          "super": {
+            "name": "Ombra",
+            "text": "Schiva del tutto i prossimi 3 colpi, anche senza Cerchio, e +50% di attacco per 8 s."
+          }
+        },
+        {
+          "role": "Colosso",
+          "title": "Il Colosso",
+          "weaponLabel": "Guanti d'arme",
+          "passive": {
+            "name": "Forza bruta",
+            "text": "Robustissimo e potente, ma non può mai fare una combo."
+          },
+          "super": {
+            "name": "Gigante",
+            "text": "Cresce per 8 s e colpisce tutti i nemici (2,5 × l'attacco)."
+          }
+        },
+        {
+          "role": "Strega",
+          "title": "La Strega",
+          "weaponLabel": "Grimorio",
+          "passive": {
+            "name": "Incantesimo",
+            "text": "Una combo richiede solo 3 gesti uguali di fila invece di 4."
+          },
+          "super": {
+            "name": "Grimorio aperto",
+            "text": "I suoi prossimi 2 attacchi riusciti contano come combo del loro livello."
+          }
+        },
+        {
+          "role": "Ramingo",
+          "title": "La Ramingo",
+          "weaponLabel": "Arco",
+          "passive": {
+            "name": "Passo leggero",
+            "text": "Schivata di base 120% invece di 80% (× il livello di riuscita): da Very Good in su, schivata massima (90%)."
+          },
+          "super": {
+            "name": "Occhio di falco",
+            "text": "Per 8 s ogni gesto riconosciuto conta come un Perfect."
+          }
+        },
+        {
+          "role": "Guaritrice",
+          "title": "La Guaritrice",
+          "weaponLabel": "Amuleto",
+          "passive": {
+            "name": "Cure ed evocazioni",
+            "text": "Ogni attacco riuscito la cura di 0,5 PV × il moltiplicatore, e ogni Perfect evoca un mostriciattolo (1 danno al secondo per 10 s)."
+          },
+          "super": {
+            "name": "Rinascita",
+            "text": "Recupera il 10% dei PV massimi e raddoppia l'attacco per 10 s."
+          }
+        }
+      ]
     }
   }
 }
