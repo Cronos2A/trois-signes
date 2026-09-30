@@ -2254,7 +2254,226 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "La mappa del Silenzio",
+          "cinematique_ouverture": [
+            {
+              "texte": "Gli Esploratori del Passo. La loro missione: mappare il mondo. La loro recluta migliore: Kestrel."
+            },
+            {
+              "texte": "Kestrel. Tu vai avanti. Come al solito."
+            },
+            {
+              "texte": "Come al solito."
+            },
+            {
+              "texte": "Da un anno, la mappa di Kestrel si riempie di macchie grigie. Nessuno sa cosa siano."
+            },
+            {
+              "texte": "Si allargano."
+            },
+            {
+              "texte": "Allora segnale. Una buona mappa è ciò che separa i vivi dai perduti."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Il margine grigio",
+              "dialogue_avant": [
+                {
+                  "texte": "Qualcosa si muove tra gli alberi grigi."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ostili. Annotato."
+                }
+              ]
+            },
+            {
+              "titre": "Il campo degli esploratori",
+              "dialogue_avant": [
+                {
+                  "texte": "Di ritorno al campo, di notte. Troppo tranquillo."
+                },
+                {
+                  "texte": "Capitano?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Campo vuoto. Il capitano è sparito."
+                }
+              ]
+            },
+            {
+              "titre": "La mappa strappata",
+              "dialogue_avant": [
+                {
+                  "texte": "La mia mappa. Strappata. Pezzi ovunque."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Pezzo dopo pezzo, Kestrel ricompone un anno di lavoro."
+                },
+                {
+                  "texte": "C'è tutto. Quasi."
+                }
+              ]
+            },
+            {
+              "titre": "Il Passo dei Venti",
+              "dialogue_avant": [
+                {
+                  "texte": "Il passo si chiude. Ora o mai più."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Passata. Per un pelo."
+                }
+              ]
+            },
+            {
+              "titre": "Il Segugio",
+              "dialogue_avant": [
+                {
+                  "texte": "Da tre giorni, una sagoma grigia segue Kestrel passo passo."
+                },
+                {
+                  "texte": "Sei bravo. Non abbastanza."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Non lascerò più nessuno indietro."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Il Segugio cade. Al collo, un'insegna degli Esploratori del Passo."
+                },
+                {
+                  "texte": "Pieter… Eri nella mia unità."
+                },
+                {
+                  "texte": "Non le dava la caccia. Cercava di seguirla, come prima, senza sapere perché."
+                },
+                {
+                  "texte": "Riposa. Vado avanti per tutti e due."
+                }
+              ]
+            },
+            {
+              "titre": "Incontro: Ilwen",
+              "dialogue_avant": [
+                {
+                  "texte": "Voi, laggiù! La vostra mappa. Mi serve."
+                },
+                {
+                  "texte": "No."
+                },
+                {
+                  "texte": "È per la scienza!"
+                },
+                {
+                  "texte": "Allora seguimi. E stai zitta."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Siete davvero sgradevole."
+                },
+                {
+                  "texte": "Ma la mappa ce l'ho io."
+                }
+              ]
+            },
+            {
+              "titre": "Il centro della mappa",
+              "dialogue_avant": [
+                {
+                  "texte": "Tutte le zone convergono. Un solo punto."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Al centro della mappa, Kestrel disegna una stella. Poi esita, e scrive: «Cuore»."
+                }
+              ]
+            },
+            {
+              "titre": "La foresta che svanisce",
+              "dialogue_avant": [
+                {
+                  "texte": "Gli alberi spariscono dietro di noi. Non voltatevi."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Niente ritorno. Meglio. Avanti."
+                }
+              ]
+            },
+            {
+              "titre": "La Vedetta",
+              "dialogue_avant": [
+                {
+                  "texte": "…una recluta… la migliore… andava sempre avanti…"
+                },
+                {
+                  "texte": "Capitano. Sono io."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "La finisco per voi, capitano."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Il capitano Hardel si inginocchia. In mano, una vecchia bussola."
+                },
+                {
+                  "texte": "Kestrel… una buona mappa… separa i vivi… dai perduti…"
+                },
+                {
+                  "texte": "Lo so, capitano."
+                },
+                {
+                  "texte": "La bussola non indica più il nord. Indica il Cuore."
+                }
+              ]
+            },
+            {
+              "titre": "Il Cuore del Silenzio",
+              "dialogue_avant": [
+                {
+                  "texte": "…tante strade… non so più quale porti a casa…"
+                },
+                {
+                  "texte": "Io sì. Ho la mappa."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Kestrel srotola la mappa davanti al maestro. Un anno di lavoro."
+            },
+            {
+              "texte": "È… tutta la strada che ho percorso."
+            },
+            {
+              "texte": "Allora non siete più perso."
+            },
+            {
+              "texte": "Un frammento di memoria torna al maestro."
+            }
+          ]
+        },
         null
       ]
     }
