@@ -2033,7 +2033,232 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "La enfermedad de la memoria",
+          "cinematique_ouverture": [
+            {
+              "texte": "La gran biblioteca de Aubelle. Cien mil libros, y Ilwen los ha leído casi todos."
+            },
+            {
+              "texte": "Casi. Me quedan cuarenta y dos. Lo cual es una vergüenza."
+            },
+            {
+              "texte": "Ilwen, deberías salir un poco. Ver mundo."
+            },
+            {
+              "texte": "El mundo está en los libros, maestro Aubin."
+            },
+            {
+              "texte": "Aquella noche, al abrir el libro cuarenta y tres, Ilwen encuentra páginas en blanco."
+            },
+            {
+              "texte": "Este libro estaba lleno ayer. ¿Quién ha borrado las palabras?"
+            }
+          ],
+          "combats": [
+            {
+              "titre": "La Biblioteca de Aubelle",
+              "dialogue_avant": [
+                {
+                  "texte": "Las estanterías se vacían. Las palabras se van volando como polvo gris."
+                },
+                {
+                  "texte": "Nadie toca mis libros."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "No es un ladrón. Es… una enfermedad."
+                }
+              ]
+            },
+            {
+              "titre": "Las páginas vivas",
+              "dialogue_avant": [
+                {
+                  "texte": "Las páginas borradas… ¡se mueven!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Fascinante. Aterrador, pero fascinante. Tengo que tomar notas."
+                }
+              ]
+            },
+            {
+              "titre": "El bibliotecario",
+              "dialogue_avant": [
+                {
+                  "texte": "¿Señorita? ¿Es usted lectora? Yo soy el… ¿cómo me llamo?"
+                },
+                {
+                  "texte": "Es usted el maestro Aubin. Me enseñó a leer."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Encontraré una cura. Y se la traeré."
+                }
+              ]
+            },
+            {
+              "titre": "El experimento",
+              "dialogue_avant": [
+                {
+                  "texte": "Hipótesis: los tres signos de los viejos grimorios son una cura. Método: probar."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Resultado: funciona. Un poco. Es un comienzo."
+                }
+              ]
+            },
+            {
+              "titre": "El Archivero",
+              "dialogue_avant": [
+                {
+                  "texte": "…clasificar… clasificarlo todo… borrar lo que molesta…"
+                },
+                {
+                  "texte": "Usted custodia la sección prohibida. Apártese."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Eldan… ¿Quién es usted?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "En la sección prohibida, un solo libro ha conservado sus palabras."
+                },
+                {
+                  "texte": "En la cubierta, un nombre: Eldan. Y un título: El Códice de los tres signos."
+                },
+                {
+                  "texte": "Faltan la mitad de las páginas… Arrancadas, con cuidado."
+                },
+                {
+                  "texte": "Alguien escondió este libro por partes. Hay que encontrar las demás."
+                }
+              ]
+            },
+            {
+              "titre": "Encuentro: Kestrel",
+              "dialogue_avant": [
+                {
+                  "texte": "Mucho ruido. Para una erudita."
+                },
+                {
+                  "texte": "Y usted, pocas frases, para una exploradora. Ese mapa… Enséñemelo."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Las zonas grises. Las marco desde hace un año."
+                },
+                {
+                  "texte": "Forman un círculo… ¡El Silencio sale de un punto concreto!"
+                }
+              ]
+            },
+            {
+              "titre": "La torre de observación",
+              "dialogue_avant": [
+                {
+                  "texte": "Necesitamos altura para comprobarlo."
+                },
+                {
+                  "texte": "La torre de vigía. Trescientos escalones."
+                },
+                {
+                  "texte": "… Cómo no."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Desde la cima se ve todo: una mancha blanca en el centro del mundo, que crece despacio."
+                }
+              ]
+            },
+            {
+              "titre": "Los ecos",
+              "dialogue_avant": [
+                {
+                  "texte": "…no le enseñamos nada a nadie… no transmitimos nada…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Por fin lo entiendo. El Silencio crece cuando se deja de transmitir. Guardarse el saber para uno mismo… ya es empezar a olvidarlo."
+                },
+                {
+                  "texte": "Y yo, que nunca le he prestado un libro a nadie."
+                }
+              ]
+            },
+            {
+              "titre": "La Pluma sin tinta",
+              "dialogue_avant": [
+                {
+                  "texte": "Ilwen. Siempre la segunda."
+                },
+                {
+                  "texte": "Séléna. Tú siempre escribiste más rápido que yo."
+                },
+                {
+                  "texte": "Lo escribí todo. Y nunca se lo enseñé a nadie. Mira lo que queda."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "No cometeré el mismo error, Séléna."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Los cuadernos de Séléna se abren. Están todos en blanco."
+                },
+                {
+                  "texte": "Tú… enséñale a alguien. A quien sea…"
+                },
+                {
+                  "texte": "Te lo prometo."
+                },
+                {
+                  "texte": "Ilwen arranca una página de su propio grimorio y se la tiende a Kestrel. El primer saber que comparte en su vida."
+                }
+              ]
+            },
+            {
+              "titre": "El Corazón del Silencio",
+              "dialogue_avant": [
+                {
+                  "texte": "…un libro… escondí un libro… por partes… en mi cabeza…"
+                },
+                {
+                  "texte": "El Códice. Lo escondió en su memoria. Y al final, ella se cerró sobre usted."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Ilwen abre su grimorio y lee en voz alta las páginas recuperadas."
+            },
+            {
+              "texte": "Estas palabras… son mías."
+            },
+            {
+              "texte": "Lo sé. Las he releído cuarenta y tres veces."
+            },
+            {
+              "texte": "Un fragmento de memoria vuelve al maestro."
+            }
+          ]
+        },
         null,
         null
       ]
