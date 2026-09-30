@@ -174,4 +174,10 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
   personnages (plus littéraire que « Lei »), « Madama Sorel », « Ser Corvin », Kestrel « la Raminga » (rare ; « l'Esploratrice » ?),
   Tonnerre laissé en français (« Tuono » ?), mots anglais gardés comme dans les jeux italiens (skin, boost, nickname),
   « Lancia di guardia » (le français « garde-fou » n'a pas d'équivalent direct), « Scagnozzo » pour le sbire.
-- **Reste** : `es.json`, `de.json` ; relire la longueur des textes en 360 × 640 (l'allemand est souvent 30 % plus long).
+- **Espagnol fait le 30/09/2026** (`es.json`) : voir CLAUDE.md → « Langues ». **À relire par un hispanophone** : « usted » entre personnages
+  (Aldric, Nyra et Boran envers Eldan, Ilwen et Kestrel, Mira et Boran), « Doña Sorel », « Ser Corvin », Tonnerre laissé en français (« Trueno » ?),
+  « Lanza baranda » (garde-fou), « Esbirro », « potenciador » pour boost (plus long, onglet sur deux lignes de la boutique comme en français),
+  « vosotros » (espagnol d'Espagne : « os enfrentáis », « sentaos ») à revoir si le jeu vise l'Amérique latine.
+- **Corrigé au passage (toutes langues)** : sur la carte de l'histoire, des titres d'étape sortaient de l'écran, même en français
+  (« La piste du vieil homme », « Le camp des réfugiés ») et le titre du haut était coupé (« Ceux qu'on peut sau… ») : ils passent à la ligne.
+- **Reste** : `de.json` ; relire la longueur des textes en 360 × 640 (l'allemand est souvent 30 % plus long).

@@ -1,6 +1,6 @@
 # Trois Signes — brief pour Claude Code
 
-État du projet au 30/09/2026 (jeu en français, anglais et italien ; récompenses de connexion et boosts en place ; reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
+État du projet au 30/09/2026 (jeu en français, anglais, italien et espagnol ; récompenses de connexion et boosts en place ; reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
@@ -440,14 +440,14 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   de la 1re arme alternative, du 1er talisman (récompense ou coffre d'arène), des 1res Empreintes (fin de Duel au hasard) ;
   bulle « Compris » au 1er salon de Duel (pas la place d'un encadré). Pseudo normalisé en NFC avant vérification.
 
-## Langues (i18n) — `src/i18n.js`, `data/i18n/` — **fait (français, anglais, italien)**
+## Langues (i18n) — `src/i18n.js`, `data/i18n/` — **fait (français, anglais, italien, espagnol)**
 - **Aucun texte visible dans le code** : tout passe par `tr('clé', { variables })` (textes de `data/i18n/{langue}.json`).
   Les textes déjà rangés dans les autres fichiers de `data/` (noms, descriptions, `ui` de chaque fichier) y restent : une langue les
   remplace par sa section `"data"` (même chemin), superposée au chargement (`applyLanguageData`). Histoire : `story_mode.json`, `tutorial.json`.
   Tableau d'objets (héros, répliques, combats…) : fusionné case par case, on n'y écrit que les textes (`null` = case inchangée) ;
   tableau de textes (`statLabels`, lignes des crédits) : remplacé en entier.
   Textes fixes de `index.html` : attributs `data-i18n`, `data-i18n-title`, `data-i18n-aria` (`applyStatic`).
-- **Langues** (`data/i18n/languages.json`) : fr, en, it, es, de ; `fr.json`, `en.json` et `it.json` existent (`ready`). Langue par défaut : celle du téléphone si
+- **Langues** (`data/i18n/languages.json`) : fr, en, it, es, de ; `fr.json`, `en.json`, `it.json` et `es.json` existent (`ready`) ; reste l'allemand. Langue par défaut : celle du téléphone si
   elle est proposée, sinon l'anglais ; `?lang=de` pour tester ; choix dans les Réglages (`settings.lang`, le jeu se recharge).
   Clé absente dans la langue active → texte français (repli). Langues pas encore prêtes : « (bientôt) » dans les Réglages.
   Noms des langues traduits dans chaque langue (`settings.langNames`).
@@ -474,6 +474,15 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   de respect devient « voi » (Aldric et Nyra envers Eldan, Ilwen, Mira envers Fabre et Hélo). Prix « 2,99 € ».
   Vérifié comme l'anglais (0 clé en repli, 0 texte de `data/` resté en français, mêmes parcours aux deux tailles) : aucun débordement, aucune
   erreur ; raccourcis pour 360 × 640 : « CALENDARIO · G. 1 », bouton de pub du jour « Oro ×2 con un video ».
+- **Espagnol** (`es.json`, fait le 30/09/2026, espagnol d'Espagne) : interface et section `data` complètes, histoire comprise. Choix :
+  Le Voyage = **El Viaje** ; lieux : Bosque de Musgo, Tejados de Vélis, Biblioteca de Aubelle, Paso de los Vientos, Escuela de los Signos,
+  El Corazón del Silencio, Más allá del Silencio ; Sire / Madame / Tante / Capitaine / Maître / Monsieur = Ser / Doña / Tía / Capitán / Maestro /
+  Señor ; « de » + pseudo : « de {name} » (« El X » → « del X ») ; sbire / brute / boss = Esbirro / Bruto / Jefe, Ombracé = Vaciado, boost = potenciador,
+  pub = anuncio ; Kestrel = « la Exploradora ». Joueur tutoyé ; le « vous » de respect entre personnages devient « usted ».
+  Vérifié comme l'anglais et l'italien : 0 clé en repli, 0 texte de `data/` resté en français, mêmes parcours aux deux tailles, aucune erreur.
+- **Carte de l'histoire** (corrigé le 30/09/2026, toutes langues, français compris) : titres d'étape sortant de l'écran (« La piste du vieil
+  homme », « El campamento de los exploradores »…) et titre d'histoire coupé par « … » en haut (« Ceux qu'on peut sauver ») : l'étiquette a la
+  place réelle à côté de son rond (`--room`, `story-ui.js` → `layout`) et passe à la ligne ; le titre du haut aussi.
 - Vérifié le 30/09/2026 : textes de 21 écrans et du jeu (Entraînement, bulles, gestes, bandeau) identiques avant / après en français,
   sauf « 1 point » (pluriel), « HISTOIRE D'ALDRIC » (élision), la bulle de Renouveau « +10 % PV » (au lieu de « PV au max », faux depuis
   le rééquilibrage) ; `?lang=de` : textes en français, nombres « 1.234.567 », aucune erreur.
