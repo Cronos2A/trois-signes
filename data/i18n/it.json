@@ -815,6 +815,162 @@
         "continue": "Continua",
         "arena": "Arena: {name}"
       }
+    },
+    "weapons": {
+      "style": {
+        "label": "Effetto di stile completo"
+      },
+      "gauge": {
+        "label": "Barra della super +10% più rapida"
+      },
+      "gold": {
+        "label": "Bagliore dorato dell'arma in battaglia"
+      },
+      "ui": {
+        "cardTitle": "ARMI",
+        "styleTitle": "Effetto di stile",
+        "stylePower": "Forza {pct}%",
+        "equipped": "Equipaggiata",
+        "equip": "Equipaggia",
+        "maxLevel": "Livello max",
+        "level": "Livello {n}",
+        "levelShort": "Lv {n}",
+        "levelUp": "Livello {n}!",
+        "xp": "{cur} / {need} XP",
+        "gain": "{name} +{n} XP",
+        "noBonus": "Ancora nessun bonus",
+        "attackBonus": "Attacco +{pct}%",
+        "next": "Livello {n}: {text}",
+        "counter": "Contrattacco",
+        "reflect": "Riflesso",
+        "burn": "Ustione",
+        "shot": "Tiro",
+        "rewardKick": "NUOVA ARMA",
+        "rewardFor": "Per {hero}",
+        "rewardOk": "Continua"
+      },
+      "weapons": {
+        "epee": {
+          "name": "Spada",
+          "style": {
+            "text": "Ogni combo ridà {comboHeal} PV."
+          }
+        },
+        "hache_fendeuse": {
+          "name": "Ascia fenditrice",
+          "lock": "Vinci la battaglia 5 della tua storia",
+          "style": {
+            "text": "Un Perfect colpisce anche un 2° nemico al {cleaveOnPerfect}% dei danni."
+          }
+        },
+        "lance_garde_fou": {
+          "name": "Lancia di guardia",
+          "lock": "Vinci la battaglia 10 della tua storia",
+          "style": {
+            "text": "Dopo una schivata riuscita, l'attacco successivo fa +{afterDodgeDamage}%."
+          }
+        },
+        "dague": {
+          "name": "Pugnale",
+          "style": {
+            "text": "Attacchi Perfect: +{perfectDamage}% di danni."
+          }
+        },
+        "couteaux_lancer": {
+          "name": "Coltelli da lancio",
+          "lock": "Vinci la battaglia 5 della tua storia",
+          "style": {
+            "text": "Mira sempre al nemico più debole; ogni nemico sconfitto dà +{gaugePerKill} alla barra della super."
+          }
+        },
+        "lame_ombre": {
+          "name": "Lama d'ombra",
+          "lock": "Vinci la battaglia 10 della tua storia",
+          "style": {
+            "text": "Una schivata Perfect scatena un contrattacco gratuito ({perfectDodgeCounter}% dei danni)."
+          }
+        },
+        "gantelets": {
+          "name": "Guanti d'arme",
+          "style": {
+            "text": "−{damageReduction}% di danni subiti."
+          }
+        },
+        "masse_pierre": {
+          "name": "Mazza di pietra",
+          "lock": "Vinci la battaglia 5 della tua storia",
+          "style": {
+            "text": "Ogni attacco colpisce anche gli altri nemici al {splash}%, ma −{targetPenalty}% di danni sul bersaglio."
+          }
+        },
+        "bouclier_tour": {
+          "name": "Scudo torre",
+          "lock": "Vinci la battaglia 10 della tua storia",
+          "style": {
+            "text": "−{damageReduction}% di danni subiti, −{damagePenalty}% di danni inflitti."
+          }
+        },
+        "grimoire": {
+          "name": "Grimorio",
+          "style": {
+            "text": "Moltiplicatore di combo +{comboBonus}."
+          }
+        },
+        "baton_braises": {
+          "name": "Bastone di brace",
+          "lock": "Vinci la battaglia 5 della tua storia",
+          "style": {
+            "text": "Un Perfect incendia il nemico: {burnOnPerfect} danni in {burnDuration} s."
+          }
+        },
+        "orbe_miroir": {
+          "name": "Globo specchio",
+          "lock": "Vinci la battaglia 10 della tua storia",
+          "style": {
+            "text": "Una schivata riuscita rimanda all'attaccante il {reflect}% dei danni evitati."
+          }
+        },
+        "arc": {
+          "name": "Arco",
+          "style": {
+            "text": "Ogni Perfect riempie la barra della super del {perfectGaugeBonus}% in più."
+          }
+        },
+        "arbalete": {
+          "name": "Balestra",
+          "lock": "Vinci la battaglia 5 della tua storia",
+          "style": {
+            "text": "+{bossDamage}% di danni a guardiani e boss, −{otherPenalty}% agli altri."
+          }
+        },
+        "fronde": {
+          "name": "Fionda",
+          "lock": "Vinci la battaglia 10 della tua storia",
+          "style": {
+            "text": "Ogni oggetto raccolto scaglia un tiro automatico da {pickupShot} danni sul nemico più vicino."
+          }
+        },
+        "amulette": {
+          "name": "Amuleto",
+          "style": {
+            "text": "+{healPerHit} PV di cura a ogni attacco riuscito."
+          }
+        },
+        "baton_seve": {
+          "name": "Bastone di linfa",
+          "lock": "Vinci la battaglia 5 della tua storia",
+          "style": {
+            "text": "Niente più cura a ogni attacco; in cambio, ogni combo ridà {comboHeal} PV."
+          }
+        },
+        "clochette": {
+          "name": "Campanella",
+          "lock": "Vinci la battaglia 10 della tua storia",
+          "style": {
+            "text": "Al posto della cura, ogni attacco riuscito dà uno scudo di {barrierPerHit} PV × il moltiplicatore che assorbe i danni, cumulabile fino a {barrierMax}."
+          }
+        }
+      }
     }
   }
 }
