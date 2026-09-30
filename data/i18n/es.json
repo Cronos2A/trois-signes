@@ -270,9 +270,9 @@
     "comeBack": "Vuelve mañana para más.",
     "offline": "Podrás recogerlo en cuanto vuelva la conexión",
     "loading": "Conectando con el servidor…",
-    "adDouble": "Oro ×2 con un vídeo",
-    "adBonus": "Extra: +{n} oro con un vídeo",
-    "adDone": "+{n} oro gracias al vídeo",
+    "adDouble": "Oro ×2 con un anuncio",
+    "adBonus": "Extra: +{n} oro con un anuncio",
+    "adDone": "+{n} oro gracias al anuncio",
     "boost": {
       "xp": "XP ×{m}",
       "gold": "Oro ×{m}"
@@ -435,6 +435,67 @@
         "testResetAds": "Anuncios a cero",
         "testState": "Juego: {min} min · partidas del Viaje: {games}"
       }
+    },
+    "talismans": {
+      "ui": {
+        "cardTitle": "TALISMÁN",
+        "slotEmpty": "Ningún talismán",
+        "equip": "Equipar",
+        "unequip": "Quitar",
+        "equipped": "Equipado",
+        "locked": "Bloqueado",
+        "rewardKick": "NUEVO TALISMÁN",
+        "rewardKickMany": "NUEVOS TALISMANES",
+        "rewardNameMany": "{n} talismanes",
+        "chestTitle": "Cofre del guardián",
+        "chestOpened": "Guardián vencido: {arena}",
+        "chestFallback": "+{n} oro",
+        "chestFallbackText": "Ya tienes este talismán: el cofre contiene oro.",
+        "forgiven": "Fallo perdonado",
+        "rewardOk": "Continuar"
+      },
+      "talismans": [
+        {
+          "name": "Bellota de musgo",
+          "lock": "Vence al guardián del Bosque de Musgo",
+          "text": "Alcance de recogida +25 %."
+        },
+        {
+          "name": "Espiga de oro",
+          "lock": "Vence al guardián de Hautes-Gerbes",
+          "text": "Monedas +20 %."
+        },
+        {
+          "name": "Gota clara",
+          "lock": "Vence al guardián de Fontclaire",
+          "text": "Los corazones curan un 25 % más."
+        },
+        {
+          "name": "Llave de los tejados",
+          "lock": "Vence al guardián de los Tejados de Vélis",
+          "text": "El anillo de alerta enemigo aparece 0,15 s antes."
+        },
+        {
+          "name": "Marcapáginas",
+          "lock": "Vence al guardián de la Biblioteca de Aubelle",
+          "text": "Recoger objetos no rompe la racha de combo."
+        },
+        {
+          "name": "Pluma de viento",
+          "lock": "Vence al guardián del Paso de los Vientos",
+          "text": "La barra de súper empieza al 20 %."
+        },
+        {
+          "name": "Tiza antigua",
+          "lock": "Vence al guardián de la Escuela de los Signos",
+          "text": "Un gesto fallido por ronda no rompe la racha de combo."
+        },
+        {
+          "name": "Página del Códice",
+          "lock": "Vence al guardián del Corazón del Silencio",
+          "text": "+10 % de XP de arma."
+        }
+      ]
     }
   }
 }
