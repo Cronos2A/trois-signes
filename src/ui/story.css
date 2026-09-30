@@ -65,10 +65,10 @@
 .st-badge.won{background:var(--sun)}
 .st-pulse{position:absolute;left:0;top:0;width:calc(var(--sz) + 8px);height:calc(var(--sz) + 8px);border-radius:50%;border:4px solid var(--sun);animation:stPulse 1.4s ease-out infinite;pointer-events:none;box-sizing:border-box}
 @keyframes stPulse{0%{transform:translate(-50%,-50%) scale(1);opacity:.9}100%{transform:translate(-50%,-50%) scale(1.9);opacity:0}}
-.st-label{position:absolute;top:0;transform:translateY(-50%);display:flex;flex-direction:column;padding:4px 10px 5px;background:var(--color-bg);border:2.5px solid var(--ink);border-radius:14px;box-shadow:0 2px 0 var(--ink);white-space:nowrap;pointer-events:none}
+.st-label{position:absolute;top:0;transform:translateY(-50%);display:flex;flex-direction:column;padding:4px 10px 5px;background:var(--color-bg);border:2.5px solid var(--ink);border-radius:14px;box-shadow:0 2px 0 var(--ink);white-space:nowrap;pointer-events:none;width:max-content;max-width:var(--room,none);box-sizing:border-box}
 .st-node.r .st-label{left:calc(var(--sz) / 2 + 10px)}
 .st-node.l .st-label{right:calc(var(--sz) / 2 + 10px)}
-.st-label b{font-size:12.5px;font-weight:800;line-height:1.15}
+.st-label b{font-size:12.5px;font-weight:800;line-height:1.15;white-space:normal}
 .st-label span{font-size:10.5px;font-weight:800}
 .st-node.locked .st-label{background:rgba(228,220,205,.92)}
 .st-node.locked .st-label b{color:#5b5048}
@@ -76,7 +76,7 @@
 .st-pill{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:5px 12px 5px 5px;background:var(--color-bg);border:3px solid var(--ink);border-radius:999px;box-shadow:0 3px 0 var(--ink)}
 .st-pill-txt{flex:1;min-width:0;display:flex;flex-direction:column}
 .st-pill-txt span{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--moss)}
-.st-pill-txt b{font-family:var(--font-heading);font-weight:400;font-size:17px;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-pill-txt b{font-family:var(--font-heading);font-weight:400;font-size:17px;line-height:1.05;white-space:normal}
 .st-pill em{font-style:normal;font-family:var(--font-heading);font-size:15px;color:#C4481F;white-space:nowrap}
 .st-sel{position:absolute;z-index:3;left:14px;right:14px;bottom:calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px;padding:12px 14px 14px;background:var(--color-bg);border:3px solid var(--ink);border-radius:24px;box-shadow:0 5px 0 var(--ink)}
 .st-sel-top{display:flex;align-items:center;gap:12px}

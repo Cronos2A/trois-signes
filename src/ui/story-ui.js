@@ -121,7 +121,12 @@ export function renderMap(h, st, on, toast) {
     const bottom = top + step * 9, innerH = Math.max(H, bottom + (H - cardTop) + 44);
     inner.style.height = innerH + 'px';
     const pos = XS.map((x, i) => [x * kx, bottom - i * step - (i === 9 ? 4 : 0)]);
-    root.querySelectorAll('.st-node').forEach((el, i) => { el.style.left = pos[i][0] + 'px'; el.style.top = pos[i][1] + 'px'; });
+    // Place laissée à l'étiquette (à droite ou à gauche du rond) : un titre trop long passe à la ligne au lieu de sortir de l'écran.
+    root.querySelectorAll('.st-node').forEach((el, i) => {
+      el.style.left = pos[i][0] + 'px'; el.style.top = pos[i][1] + 'px';
+      const half = parseFloat(el.style.getPropertyValue('--sz')) / 2 + 10 + 8;
+      el.style.setProperty('--room', Math.max(90, el.classList.contains('l') ? pos[i][0] - half : W - pos[i][0] - half) + 'px');
+    });
     const curve = pts => pts.map((p, i) => {
       if (!i) return 'M' + p.join(',');
       const a = pts[i - 2] || pts[i - 1], b = pts[i - 1], d = pts[i + 1] || p;
