@@ -360,6 +360,47 @@
         "reached": "¡Nivel {lvl} alcanzado!",
         "maxReached": "¡Nivel máximo alcanzado!"
       }
+    },
+    "credits": {
+      "title": "Créditos",
+      "sections": [
+        {
+          "title": "Efectos de sonido",
+          "lines": [
+            "Creados con ElevenLabs"
+          ]
+        },
+        {
+          "title": "Música",
+          "lines": [
+            "Compuesta con Suno"
+          ]
+        },
+        {
+          "title": "Notas de acierto",
+          "lines": [
+            "Sintetizadas en el juego"
+          ]
+        },
+        {
+          "title": "Gráficos",
+          "lines": [
+            "Design system Organic, maquetas de Claude Design"
+          ]
+        },
+        {
+          "title": "Tipografías",
+          "lines": [
+            "Caprasimo y Figtree (SIL Open Font License)"
+          ]
+        },
+        {
+          "title": "Servidor",
+          "lines": [
+            "Firebase (Google), SDK con licencia Apache 2.0"
+          ]
+        }
+      ]
     }
   }
 }
