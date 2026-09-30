@@ -968,6 +968,174 @@
           }
         }
       }
+    },
+    "cosmetics": {
+      "types": {
+        "color": {
+          "name": "Colour"
+        },
+        "weapon": {
+          "name": "Weapon skin"
+        },
+        "trail": {
+          "name": "Trail effect"
+        },
+        "skin": {
+          "name": "Full skin"
+        }
+      },
+      "ui": {
+        "kicker": "COSMETICS",
+        "toShop": "Go to the shop",
+        "locked": "{n} to unlock",
+        "skinNote": "The full skin replaces the colour and weapon skin while it's equipped."
+      },
+      "defaults": {
+        "tint": "Original outfit",
+        "weapon": "Original weapon",
+        "trail": "Original trail",
+        "skin": "None"
+      },
+      "items": [
+        {
+          "name": "Lagoon Tint"
+        },
+        {
+          "name": "Sun Tint"
+        },
+        {
+          "name": "Ruby Tint"
+        },
+        {
+          "name": "Lagoon Tint"
+        },
+        {
+          "name": "Sun Tint"
+        },
+        {
+          "name": "Ruby Tint"
+        },
+        {
+          "name": "Lagoon Tint"
+        },
+        {
+          "name": "Sun Tint"
+        },
+        {
+          "name": "Ruby Tint"
+        },
+        {
+          "name": "Lagoon Tint"
+        },
+        {
+          "name": "Sun Tint"
+        },
+        {
+          "name": "Ruby Tint"
+        },
+        {
+          "name": "Lagoon Tint"
+        },
+        {
+          "name": "Sun Tint"
+        },
+        {
+          "name": "Ruby Tint"
+        },
+        {
+          "name": "Lagoon Tint"
+        },
+        {
+          "name": "Sun Tint"
+        },
+        {
+          "name": "Ruby Tint"
+        },
+        {
+          "name": "Ember Blade"
+        },
+        {
+          "name": "Frost Dagger"
+        },
+        {
+          "name": "Lava Fists"
+        },
+        {
+          "name": "Jade Grimoire"
+        },
+        {
+          "name": "Coral Bow"
+        },
+        {
+          "name": "Dawn Amulet"
+        },
+        {
+          "name": "Spark Trail"
+        },
+        {
+          "name": "Ivy Trail"
+        },
+        {
+          "name": "Rainbow Trail"
+        },
+        {
+          "name": "Star Trail"
+        },
+        {
+          "name": "Bubble Trail"
+        },
+        {
+          "name": "Flame Trail"
+        },
+        {
+          "name": "Confetti Trail"
+        },
+        {
+          "name": "Ink Trail"
+        },
+        {
+          "name": "Pixel Trail"
+        },
+        {
+          "name": "Melody Trail"
+        },
+        {
+          "name": "Twilight Guard"
+        },
+        {
+          "name": "Tourney Knight"
+        },
+        {
+          "name": "Market Shadow"
+        },
+        {
+          "name": "Blade Dancer"
+        },
+        {
+          "name": "The Builder"
+        },
+        {
+          "name": "The Dockhand"
+        },
+        {
+          "name": "Root Alchemist"
+        },
+        {
+          "name": "Shooting Star"
+        },
+        {
+          "name": "Summit Lookout"
+        },
+        {
+          "name": "Desert Huntress"
+        },
+        {
+          "name": "Spring Warden"
+        },
+        {
+          "name": "Night Watcher"
+        }
+      ]
     }
   }
 }
