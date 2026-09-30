@@ -1256,6 +1256,76 @@
         "testCountry": "Paese",
         "testReset": "Azzera il negozio"
       }
+    },
+    "tutorial": {
+      "title": "La prima lezione",
+      "dummy": {
+        "name": "Manichino"
+      },
+      "intro": {
+        "kicker": "RICORDO",
+        "title": "La prima lezione",
+        "sub": "Pierrelune, prima del Silenzio"
+      },
+      "steps": [
+        {
+          "label": "Triangolo",
+          "consigne": "Traccia un triangolo per colpire il manichino",
+          "eldan": [
+            {
+              "texte": "Il Triangolo ti difende. Tracciato con un solo gesto."
+            }
+          ]
+        },
+        {
+          "label": "Cerchio",
+          "consigne": "Traccia un cerchio quando l'anello rosso si chiude",
+          "eldan": [
+            {
+              "texte": "Quando il pericolo si stringe attorno a te, traccia il Cerchio."
+            }
+          ]
+        },
+        {
+          "label": "Tocco",
+          "consigne": "Tocca le monete per raccoglierle",
+          "eldan": [
+            {
+              "texte": "Il Tocco unisce. Raccogli ciò che brilla."
+            }
+          ]
+        },
+        {
+          "label": "Precisione",
+          "consigne": "Concatena gesti dello stesso livello per una combo",
+          "eldan": [
+            {
+              "texte": "Più il tuo gesto è puro, più è forte."
+            }
+          ]
+        },
+        {
+          "label": "Super",
+          "consigne": "Tocca il pulsante SUPER in basso a destra",
+          "eldan": [
+            {
+              "texte": "E quando il tuo cuore è pieno… lascialo andare."
+            }
+          ]
+        }
+      ],
+      "levelsPanel": {
+        "title": "I 5 livelli di riuscita",
+        "text": "Più il tuo tratto è preciso, più il tuo gesto arriva lontano.",
+        "miss": "Mancato: nessun effetto, la serie riparte da zero.",
+        "button": "Capito"
+      },
+      "fin": [
+        {
+          "texte": "Tre gesti. Non uno di più. E un giorno li insegnerai a qualcun altro."
+        }
+      ],
+      "handHint": "Segui la mano"
     }
   }
 }
