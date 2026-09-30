@@ -1564,7 +1564,229 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "Il debito",
+          "cinematique_ouverture": [
+            {
+              "texte": "Vélis, la città dai mille tetti. E Nyra, la ladra più veloce di tutte."
+            },
+            {
+              "texte": "Una borsa, due borse… Sinceramente, è quasi troppo facile."
+            },
+            {
+              "texte": "In tasca, sempre, un vecchio foglio piegato. Un debito, scritto di pugno da uno sconosciuto."
+            },
+            {
+              "texte": "«Eldan». Un giorno ti troverò, vecchio. E saremo pari."
+            },
+            {
+              "texte": "Quella notte, per la prima volta, le guardie che la inseguivano non avevano volto."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "I tetti di Vélis",
+              "dialogue_avant": [
+                {
+                  "texte": "Di solito le guardie urlano. Queste non dicono niente…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Bene. Nuova regola: non si ruba niente alla gente senza volto."
+                }
+              ]
+            },
+            {
+              "titre": "Il mercato che dimentica",
+              "dialogue_avant": [
+                {
+                  "texte": "Il grande mercato di Vélis. I mercanti non ricordano più cosa vendono."
+                },
+                {
+                  "texte": "…mele… no… cos'è, una mela…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Il vecchio Tobbin mi faceva credito da quando avevo sei anni. Non mi ha nemmeno riconosciuta."
+                }
+              ]
+            },
+            {
+              "titre": "Il nascondiglio",
+              "dialogue_avant": [
+                {
+                  "texte": "La gilda saprà cosa fare. La gilda sa sempre cosa fare."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "I Gatti di Vélis… Tutti. Sono rimasta solo io."
+                }
+              ]
+            },
+            {
+              "titre": "Le tracce del vecchio",
+              "dialogue_avant": [
+                {
+                  "texte": "Un vecchio signore tracciava cerchi di luce vicino alla porta Est. Diceva che cercava i suoi ricordi."
+                },
+                {
+                  "texte": "Eldan…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Porta Est. Stavolta il vecchio non mi scappa."
+                }
+              ]
+            },
+            {
+              "titre": "La Capogilda",
+              "dialogue_avant": [
+                {
+                  "texte": "…una piccola… c'era una piccola… più veloce di tutti gli altri…"
+                },
+                {
+                  "texte": "Ero io, Sorel. Ero io."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Il mio debito… non è quello che credo? Cosa voleva dire?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Madama Sorel crolla, con un pugnale grigio ancora in mano."
+                },
+                {
+                  "texte": "Nyra… il tuo debito… non è quello che credi…"
+                },
+                {
+                  "texte": "Cosa? Sorel, aspetta!"
+                },
+                {
+                  "texte": "Troppo tardi. Il Silenzio se l'è ripresa."
+                }
+              ]
+            },
+            {
+              "titre": "Incontro: Aldric",
+              "dialogue_avant": [
+                {
+                  "texte": "Tu. Segui la mia stessa pista."
+                },
+                {
+                  "texte": "E tu cammini come un armadio. Un vecchio, dei cerchi di luce, ti dice niente?"
+                },
+                {
+                  "texte": "È il mio maestro."
+                },
+                {
+                  "texte": "Allora abbiamo un problema in comune. E anche una dozzina di Svuotati."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Combatti bene, per essere un armadio."
+                },
+                {
+                  "texte": "… Grazie?"
+                }
+              ]
+            },
+            {
+              "titre": "Il registro",
+              "dialogue_avant": [
+                {
+                  "texte": "Negli archivi di Vélis, un vecchio registro dei trovatelli."
+                },
+                {
+                  "texte": "Da qualche parte ci dev'essere traccia del mio debito…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "«Bambina di quattro anni, salvata da un incendio dal viaggiatore Eldan. Nessuna somma dovuta.»"
+                },
+                {
+                  "texte": "Non era un debito. Era un promemoria. Perché non lo dimenticassi."
+                }
+              ]
+            },
+            {
+              "titre": "Le ombre che imitano",
+              "dialogue_avant": [
+                {
+                  "texte": "Si muovono come me… Hanno imparato guardandomi?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Copiare i gesti è facile. Sapere perché li si fa, è un'altra storia."
+                }
+              ]
+            },
+            {
+              "titre": "Il Riflesso",
+              "dialogue_avant": [
+                {
+                  "texte": "Senza di lui saresti morta nell'incendio. O saresti me. Sola, veloce… e vuota."
+                },
+                {
+                  "texte": "Sola e veloce, d'accordo. Ma non vuota."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Addio, me stessa."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Il Riflesso va in frantumi in mille schegge di vetro grigio."
+                },
+                {
+                  "texte": "…allora ricorda… per tutte e due…"
+                },
+                {
+                  "texte": "È già in programma."
+                },
+                {
+                  "texte": "Lontano, oltre la porta Est, una radura bianca dove non cresce più niente."
+                }
+              ]
+            },
+            {
+              "titre": "Il Cuore del Silenzio",
+              "dialogue_avant": [
+                {
+                  "texte": "…una bambina… un incendio… l'ho portata in braccio… come si chiamava…"
+                },
+                {
+                  "texte": "Nyra. Si chiama Nyra, vecchio pazzo. Ed è venuta a restituirti il favore."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Il pugnale di Nyra non colpisce il maestro. Taglia il Silenzio attorno a lui."
+            },
+            {
+              "texte": "Nyra… Sei cresciuta."
+            },
+            {
+              "texte": "E tu sei invecchiato. Adesso siamo pari."
+            },
+            {
+              "texte": "Un frammento di memoria torna al maestro."
+            }
+          ]
+        },
         null,
         null,
         null,
