@@ -162,7 +162,8 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   confirmation, puis « Équiper »), Boosts (XP ×2 et or ×2, voir « Récompenses de connexion »), Gemmes (4 packs 80 / 450 / 1000 / 2200, désactivés « Disponible dans l'application »).
   Compteurs or / gemmes en haut du lobby (le « + » mène aux Gemmes) ; le record reste sur la carte du Voyage.
 - **Onglet Personnage** : carte Cosmétiques (skin, couleur, skin d'arme, tracé ; « Voir la boutique »).
-- **Mode test** (développement : `localhost`, `127.0.0.1` ou `?test`) dans Réglages : +1000 or, +500 gemmes, pays BE / FR, remise à zéro.
+- **Mode test** (développement seulement : `localhost` / `127.0.0.1`, ou `?test` sur un réseau local, `economy.json → test.lanHosts` ;
+  **jamais sur un domaine public**, même avec `?test`) dans Réglages : +1000 or, +500 gemmes, pays BE / FR, remise à zéro.
 - Testé le 28/09/2026 : 30 coffres sans doublon, garantie au 10e, probabilités mesurées sur 4000 tirages (69 / 26 / 4,5 %),
   Trois Signes jamais sans rare, collection complète après 40 objets, Belgique bloquée, achats refusés sans assez d'or ou en double.
 - Sauvegarde : `prog.eco = { gold, gems, granted, owned, equipped, pity, opened }`.
@@ -526,6 +527,12 @@ prototype/ prototype d'origine
 À faire avant chaque commit publié sur `main` :
 - Tester dans le navigateur chaque écran ajouté ou modifié, en **390 × 800** et en **360 × 640** : rien ne déborde,
   pas de défilement horizontal, tous les boutons restent visibles et utilisables, aucune erreur dans la console.
+- **Mode test invisible dans le jeu publié** : les outils de développement des Réglages (+1000 or, +500 gemmes, pays, pubs,
+  récompenses de connexion « +1 jour », « +2 jours », remise à zéro, jour du serveur simulé) n'apparaissent que sur `localhost` /
+  `127.0.0.1`, ou avec `?test` sur un réseau local (10.x, 192.168.x, 172.16-31.x, `*.local`). Sur un domaine public, `?test` est ignoré
+  (`economy.js → testMode`). Vérifié le 30/09/2026 (390 × 800 et 360 × 640) : domaine public, avec ou sans `?test` / `?emu` → aucun
+  outil de test, récompenses du jour au serveur ; `localhost`, `127.0.0.1` et réseau local + `?test` → outils visibles.
+  À revérifier si le jeu est publié sur une adresse de réseau privé ou si `testMode` change.
 
 ## Avant la publication sur le Play Store
 - **Activer l'offre Blaze de Firebase** (paiement à l'usage, carte bancaire, alerte de budget à régler), juste avant la publication,

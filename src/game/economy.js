@@ -72,10 +72,17 @@ export function syncGems() {
 }
 
 /* ---------- Pays et mode test ---------- */
-/** Mode test (développement) : hôte local ou ?test dans l'adresse. */
+/**
+ * Mode test (développement seulement, jamais dans le jeu publié) : poste de développement (localhost), ou ?test dans l'adresse
+ * sur un réseau local (téléphone relié au poste). Sur un domaine public, ?test est ignoré.
+ */
 export function testMode() {
   const T = E().test;
-  try { return T.hosts.includes(location.hostname) || new URLSearchParams(location.search).has(T.param); } catch (e) { return false; }
+  try {
+    const h = location.hostname;
+    if (T.hosts.includes(h)) return true;
+    return new URLSearchParams(location.search).has(T.param) && T.lanHosts.some(r => new RegExp(r).test(h));
+  } catch (e) { return false; }
 }
 
 /** Pays du joueur, s'il est reconnu (langue du navigateur ou fuseau horaire) : liste de codes possibles. */
