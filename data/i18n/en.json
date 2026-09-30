@@ -490,6 +490,38 @@
           "text": "+10% weapon XP."
         }
       ]
+    },
+    "voyage": {
+      "name": "The Journey",
+      "arenas": [
+        {
+          "name": "Moss Forest"
+        },
+        {
+          "name": "Hautes-Gerbes"
+        },
+        {
+          "name": "Fontclaire"
+        },
+        {
+          "name": "Rooftops of Vélis"
+        },
+        {
+          "name": "Aubelle Library"
+        },
+        {
+          "name": "Windy Pass"
+        },
+        {
+          "name": "School of Signs"
+        },
+        {
+          "name": "The Heart of Silence"
+        }
+      ],
+      "beyond": {
+        "name": "Beyond the Silence"
+      }
     }
   }
 }
