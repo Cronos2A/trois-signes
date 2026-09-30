@@ -733,7 +733,8 @@
           "saving": "Online: saving…",
           "offline": "No connection: saved on this device, sent when you're back online",
           "error": "Can't reach the server: saved on this device"
-        }
+        },
+        "id": "Player #{id}"
       }
     },
     "duel": {
