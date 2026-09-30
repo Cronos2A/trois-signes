@@ -48,6 +48,9 @@ function ensureDefaults() {
   // Duel au hasard : Empreintes et plus haute arène déjà annoncée (game/duel-rank.js).
   if (!prog.duel) prog.duel = { prints: 0, unlocked: 0 };
   fill(prog.duel, { prints: 0, unlocked: 0 });
+  // Récompenses de connexion (game/daily.js) : fenêtre du jour déjà montrée, pub du jour, dernière récupération ; boosts (game/boosts.js).
+  if (!prog.daily) prog.daily = {};
+  if (!prog.boosts) prog.boosts = { stock: {}, active: {} };
 }
 /** Complète un bloc avec les champs qui lui manquent (sauvegarde d'une version plus ancienne). */
 function fill(o, defs) { for (const [k, v] of Object.entries(defs)) if (o[k] === undefined || o[k] === null) o[k] = v; }

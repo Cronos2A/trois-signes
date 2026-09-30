@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/styles.css">
+<script src="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--color-bg);}a{color:#1F7A3D;}a:hover{color:#FF5A3C;}*{box-sizing:border-box;}</style>
+</helmet>
+<section style="padding:56px 64px 80px;font-family:var(--font-body);color:#15301E;width:1620px;display:flex;flex-direction:column;gap:36px">
+  <div style="display:flex;flex-direction:column;gap:6px">
+    <div style="font-family:var(--font-heading);font-size:44px;line-height:1">Trois Signes — Récompenses de connexion</div>
+    <div style="font-size:17px;font-weight:600;color:#3d5a45">Exemple : jour 4 de la série, jour 12 du calendrier. Icônes dans icones/recompenses/, sans aucun texte.</div>
+  </div>
+  <div style="display:flex;gap:44px;align-items:flex-start">
+
+    <!-- 01 FENÊTRE DU JOUR -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">01 · Récompense du jour</div>
+      <div data-screen-label="01 Récompense du jour" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:linear-gradient(180deg,#3DDC5B 0%,#2BA84A 45%,#1F7A3D 100%);box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        <div style="position:absolute;inset:0;background:rgba(21,48,30,.62)"></div>
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#fff;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #fff;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#fff;border-radius:1px"></div></div>
+        </div>
+        <div style="position:absolute;left:14px;right:14px;top:170px;display:flex;flex-direction:column;gap:14px;padding:40px 14px 16px;background:var(--color-bg);border:4px solid #15301E;border-radius:32px;box-shadow:0 7px 0 #15301E">
+          <div style="position:absolute;left:50%;top:-26px;transform:translateX(-50%);height:52px;padding:0 24px;border-radius:999px;background:linear-gradient(180deg,#FFE27A 0 46%,#FFD23F 46%);border:4px solid #15301E;box-shadow:0 4px 0 #15301E;display:flex;align-items:center;white-space:nowrap">
+            <span style="font-family:var(--font-heading);font-size:24px;color:#fff;-webkit-text-stroke:5px #15301E;paint-order:stroke fill">Récompense du jour</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px 12px;background:#FFF8EA;border:3px solid #15301E;border-radius:22px;box-shadow:0 4px 0 #15301E">
+              <span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#C4481F">SÉRIE · JOUR 4</span>
+              <div style="display:flex;gap:3px">
+                <sc-for list="{{ streakPips }}" as="p" hint-placeholder-count="7"><div style="width:{{ p.w }}px;height:9px;border-radius:999px;border:2px solid #15301E;background:{{ p.bg }}"></div></sc-for>
+              </div>
+              <div style="position:relative;width:124px;height:124px;border-radius:50%;border:3.5px solid #15301E;background:radial-gradient(circle,#FFF3C4 0%,#FFC078 70%);display:flex;align-items:center;justify-content:center">
+                <img src="icones/monnaies/or.svg" width="92" height="92" style="display:block"></img>
+              </div>
+              <span style="font-family:var(--font-heading);font-size:26px;line-height:1">× 250</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px 12px;background:#FFF8EA;border:3px solid #15301E;border-radius:22px;box-shadow:0 4px 0 #15301E">
+              <span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">CALENDRIER · JOUR 12</span>
+              <div style="width:100%;max-width:120px;height:11px;border:2px solid #15301E;border-radius:999px;background:#E4D3B4;overflow:hidden"><div style="width:40%;height:100%;background:#9ACD32;border-right:2px solid #15301E"></div></div>
+              <div style="position:relative;width:124px;height:124px;border-radius:50%;border:3.5px solid #15301E;background:radial-gradient(circle,#F1E6FF 0%,#C8B2EC 70%);display:flex;align-items:center;justify-content:center">
+                <img src="icones/monnaies/gemme.svg" width="88" height="88" style="display:block"></img>
+              </div>
+              <span style="font-family:var(--font-heading);font-size:26px;line-height:1">× 5</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;padding-top:4px">
+            <div style="height:60px;border-radius:999px;border:4px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 6px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(4px);box-shadow:0 2px 0 #15301E">
+              <span style="font-family:var(--font-heading);font-size:24px;color:#fff;-webkit-text-stroke:5px #15301E;paint-order:stroke fill;text-shadow:0 3px 0 #15301E">Récupérer</span>
+            </div>
+            <div style="height:50px;border-radius:999px;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 4px 0 #15301E;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer" style-active="transform:translateY(3px);box-shadow:0 1px 0 #15301E">
+              <div style="width:28px;height:28px;border-radius:50%;background:#15301E;display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="#FFF1D6" stroke="#FFF1D6" stroke-width="2.75" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg></div>
+              <span style="font-size:16px;font-weight:800">Doubler avec une pub</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 ÉCRAN RÉCOMPENSES -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">02 · Écran Récompenses</div>
+      <div data-screen-label="02 Écran Récompenses" style="position:relative;width:390px;height:844px;border:5px solid #15301E;border-radius:52px;overflow:hidden;background:linear-gradient(180deg,#3DDC5B 0%,#2BA84A 45%,#1F7A3D 100%);box-shadow:0 10px 0 #15301E;flex-shrink:0">
+        <div style="position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 30px 0;height:34px;color:#fff;font-weight:800;font-size:14px">
+          <span>9:41</span>
+          <div style="width:26px;height:13px;border:2.5px solid #fff;border-radius:4px;padding:1px"><div style="width:70%;height:100%;background:#fff;border-radius:1px"></div></div>
+        </div>
+        <div style="position:relative;display:flex;flex-direction:column;gap:10px;padding:10px 14px 0">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:40px;height:40px;flex-shrink:0;border-radius:50%;border:3px solid #15301E;background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;justify-content:center;cursor:pointer" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+            </div>
+            <div style="font-family:var(--font-heading);font-size:28px;line-height:1;color:#fff;-webkit-text-stroke:5px #15301E;paint-order:stroke fill;text-shadow:0 3px 0 #15301E">Récompenses</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px;padding:10px 12px 12px;background:var(--color-bg);border:3px solid #15301E;border-radius:22px;box-shadow:0 4px 0 #15301E">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#C4481F">SÉRIE DE 7 JOURS</span>
+              <span style="font-family:var(--font-heading);font-size:15px">Jour 4</span>
+            </div>
+            <div style="display:flex;align-items:flex-end;gap:5px">
+              <sc-for list="{{ streak }}" as="c" hint-placeholder-count="6">
+                <div style="position:relative;flex:1;min-width:0;height:62px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:4px 0 5px;border-radius:14px;border:3px solid #15301E;background:{{ c.bg }};box-shadow:{{ c.shadow }};transform:{{ c.lift }}">
+                  <span style="font-family:var(--font-heading);font-size:12px;line-height:1;color:{{ c.ink }}">{{ c.d }}</span>
+                  <img src="{{ c.icon }}" width="26" height="26" style="display:block;opacity:{{ c.op }}"></img>
+                  <sc-if value="{{ c.past }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;right:-6px;top:-7px;width:20px;height:20px;border-radius:50%;border:2.5px solid #15301E;background:#FFD23F;display:flex;align-items:center;justify-content:center"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></div>
+                  </sc-if>
+                </div>
+              </sc-for>
+              <div style="position:relative;width:78px;height:78px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:20px;border:3.5px solid #15301E;background:radial-gradient(circle,#FFF3C4 0%,#FFD23F 75%);box-shadow:0 4px 0 #15301E">
+                <img src="boutique/coffre_trois_signes_ferme.svg" width="64" height="64" style="display:block"></img>
+                <div style="position:absolute;left:-8px;top:-9px;width:24px;height:24px;border-radius:50%;border:2.5px solid #15301E;background:#FFF1D6;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:12px">7</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px;padding:10px 12px 12px;background:var(--color-bg);border:3px solid #15301E;border-radius:22px;box-shadow:0 4px 0 #15301E">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#1F7A3D">CALENDRIER · 30 JOURS</span>
+              <span style="font-family:var(--font-heading);font-size:15px">12 / 30</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.55fr);grid-auto-rows:43px;gap:6px">
+              <sc-for list="{{ calendar }}" as="c" hint-placeholder-count="30">
+                <div style="position:relative;display:flex;align-items:center;justify-content:{{ c.justify }};gap:4px;padding:0 6px;border-radius:12px;border:{{ c.border }};background:{{ c.bg }};box-shadow:{{ c.shadow }}">
+                  <span style="font-family:var(--font-heading);font-size:{{ c.fs }}px;line-height:1;color:{{ c.ink }}">{{ c.d }}</span>
+                  <sc-if value="{{ c.past }}" hint-placeholder-val="{{ false }}">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                  </sc-if>
+                  <sc-if value="{{ c.showIcon }}" hint-placeholder-val="{{ true }}">
+                    <img src="{{ c.icon }}" width="{{ c.is }}" height="{{ c.is }}" style="display:block;margin:{{ c.im }}"></img>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;padding:10px 12px 12px;background:var(--color-bg);border:3px solid #15301E;border-radius:22px;box-shadow:0 4px 0 #15301E">
+            <span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#6B4F8F">STOCK DE BOOSTS</span>
+            <sc-for list="{{ boosts }}" as="b" hint-placeholder-count="2">
+              <div style="display:flex;align-items:center;gap:10px;padding:5px 6px 5px 5px;border-radius:18px;background:#FFF8EA;border:2.5px solid #E4D3B4">
+                <div style="position:relative;width:44px;height:44px;flex-shrink:0;border-radius:14px;background:#174A28;display:flex;align-items:center;justify-content:center">
+                  <img src="{{ b.icon }}" width="36" height="36" style="display:block"></img>
+                  <div style="position:absolute;right:-6px;bottom:-6px;min-width:22px;height:22px;padding:0 5px;border-radius:999px;border:2.5px solid #15301E;background:#FFF1D6;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:11px">{{ b.n }}</div>
+                </div>
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px">
+                  <span style="font-family:var(--font-heading);font-size:16px;line-height:1.05">{{ b.name }}</span>
+                  <span style="font-size:11.5px;font-weight:700;color:#3d5a45">{{ b.meta }}</span>
+                </div>
+                <div style="height:36px;padding:0 14px;border-radius:999px;border:3px solid #15301E;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 3px 0 #15301E;display:flex;align-items:center;cursor:pointer" style-active="transform:translateY(2px);box-shadow:0 1px 0 #15301E">
+                  <span style="font-family:var(--font-heading);font-size:15px;color:#fff;-webkit-text-stroke:3.5px #15301E;paint-order:stroke fill">Activer</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 ICÔNES -->
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:16px">
+      <div style="font-family:var(--font-heading);font-size:22px">03 · Icônes</div>
+      <div style="display:flex;flex-direction:column;gap:12px;padding:18px;background:#FFF8EA;border:3px solid #15301E;border-radius:28px;box-shadow:0 5px 0 #15301E">
+        <sc-for list="{{ icons }}" as="i" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;gap:18px;padding:12px 18px;border-radius:22px;background:#F5EAD8">
+            <img src="{{ i.src }}" width="96" height="96" style="display:block"></img>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:var(--font-heading);font-size:19px">{{ i.label }}</span>
+              <span style="font-size:12px;font-weight:700;color:#5b5048;font-family:ui-monospace,monospace">{{ i.src }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:60px;height:60px;border-radius:14px;border:2px solid #E4D3B4;display:flex;align-items:center;justify-content:center"><img src="{{ i.src }}" width="48" height="48" style="display:block"></img></div>
+              <div style="width:60px;height:60px;border-radius:14px;background:#174A28;display:flex;align-items:center;justify-content:center"><img src="{{ i.src }}" width="48" height="48" style="display:block"></img></div>
+              <div style="width:40px;height:40px;border-radius:12px;background:#174A28;display:flex;align-items:center;justify-content:center"><img src="{{ i.src }}" width="24" height="24" style="display:block"></img></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="font-family:var(--font-heading);font-size:22px;padding-top:8px">04 · En situation</div>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:14px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px;border-radius:28px;border:3px solid #15301E;background:linear-gradient(180deg,#3DDC5B 0%,#1F7A3D 100%);box-shadow:0 5px 0 #15301E">
+          <span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#fff">BOUTON DU LOBBY</span>
+          <div style="position:relative;width:68px;height:68px;border-radius:50%;border:4px solid #15301E;background:var(--color-bg);box-shadow:0 4px 0 #15301E;display:flex;align-items:center;justify-content:center">
+            <img src="icones/recompenses/cadeau.svg" width="48" height="48" style="display:block"></img>
+            <img src="icones/recompenses/pastille_notif.svg" width="24" height="24" style="position:absolute;right:-6px;top:-6px;display:block"></img>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;padding:20px;border-radius:28px;border:3px solid #15301E;background:#FFC078;box-shadow:0 5px 0 #15301E">
+          <span style="font-size:11px;font-weight:800;letter-spacing:.08em;color:#15301E">BANDEAU DE COMBAT</span>
+          <div style="display:flex;align-items:center;gap:10px;height:52px;padding:0 8px 0 14px;border-radius:999px;background:rgba(21,48,30,.85);border:3px solid #15301E">
+            <span style="font-family:var(--font-heading);font-size:16px;color:#FFF1D6;white-space:nowrap">Vague 2 / 4</span>
+            <div style="flex:1;height:10px;border-radius:999px;background:#3c6b48;overflow:hidden"><div style="width:50%;height:100%;background:#FFD23F"></div></div>
+            <div style="display:flex;align-items:center;gap:6px;height:38px;padding:0 10px 0 3px;border-radius:999px;background:#174A28;border:2.5px solid #FFD23F">
+              <img src="icones/recompenses/boost_actif.svg" width="32" height="32" style="display:block"></img>
+              <img src="icones/recompenses/boost_xp.svg" width="22" height="22" style="display:block"></img>
+              <span style="font-size:13px;font-weight:800;color:#FFD23F">12:30</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const O = 'icones/monnaies/or.svg', G = 'icones/monnaies/gemme.svg', R = 'icones/recompenses/';
+const MIL = { 5: R + 'boost_xp.svg', 10: 'boutique/coffre_simple_ferme.svg', 15: 'boutique/pack_gemmes_1.svg', 20: R + 'boost_or.svg', 25: 'boutique/cadre_rare.svg', 30: 'boutique/coffre_trois_signes_ferme.svg' };
+class Component extends DCLogic {
+  renderVals() {
+    const sDay = 4, cDay = 12;
+    const sIcons = [O, G, R + 'boost_or.svg', O, G, R + 'boost_xp.svg'];
+    const streak = sIcons.map((icon, i) => {
+      const d = i + 1, past = d < sDay, today = d === sDay;
+      return { d, icon, past, op: past ? .55 : 1,
+        bg: past ? '#9ACD32' : today ? 'linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%)' : '#FFF8EA',
+        ink: today ? '#fff' : '#15301E',
+        shadow: today ? '0 4px 0 #15301E, 0 0 0 3px #FFD23F' : '0 3px 0 #15301E',
+        lift: today ? 'translateY(-4px)' : 'none' };
+    });
+    const calendar = Array.from({ length: 30 }, (_, i) => {
+      const d = i + 1, m = d % 5 === 0, past = d < cDay, today = d === cDay;
+      return { d, past, showIcon: !past || m,
+        icon: m ? MIL[d] : d % 3 === 0 ? G : O, is: m ? 38 : 18, im: m ? '-6px 0' : '0',
+        justify: m ? 'space-between' : 'space-between', fs: m ? 17 : 13,
+        bg: past ? (m ? '#C9E68A' : '#B6DE5A') : today ? 'linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%)' : m ? 'radial-gradient(circle at 70% 50%,#FFF3C4 0%,#FFD23F 90%)' : '#FFF8EA',
+        border: m || today ? '3px solid #15301E' : '2.5px solid #15301E',
+        shadow: today ? '0 3px 0 #15301E, 0 0 0 3px #FFD23F' : m ? '0 3px 0 #15301E' : 'none',
+        ink: today ? '#fff' : '#15301E' };
+    });
+    return {
+      streakPips: Array.from({ length: 7 }, (_, i) => ({ w: i === sDay - 1 ? 18 : 11, bg: i < sDay - 1 ? '#9ACD32' : i === sDay - 1 ? '#FF8C32' : '#E4D3B4' })),
+      streak, calendar,
+      boosts: [
+        { icon: R + 'boost_xp.svg', n: '×2', name: 'Boost XP', meta: 'XP doublée · 30 min' },
+        { icon: R + 'boost_or.svg', n: '×1', name: "Boost d'or", meta: 'Or doublé · 30 min' },
+      ],
+      icons: [
+        { src: R + 'boost_xp.svg', label: 'Boost XP' },
+        { src: R + 'boost_or.svg', label: "Boost d'or" },
+        { src: R + 'cadeau.svg', label: 'Cadeau (lobby)' },
+        { src: R + 'pastille_notif.svg', label: 'Pastille de notification' },
+        { src: R + 'boost_actif.svg', label: 'Boost actif (combat)' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

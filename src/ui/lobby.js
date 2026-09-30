@@ -19,6 +19,10 @@ import { openChest } from '../game/economy.js';
 import { moneyIcon, goldGainHtml } from './money.js';
 import { accountHtml, askPseudo } from './account-ui.js';
 import { tr, nf, nfi, language, languages, setLanguage } from '../i18n.js';
+import { openDailyScreen, dailyButtonHtml, maybeDaily } from './daily-ui.js';
+import { buyBoost, resetBoosts } from '../game/boosts.js';
+import { testDaily, testShiftDays, testResetDaily } from '../online/daily-net.js';
+import { confirmBoostHtml } from './shop-ui.js';
 
 const $ = id => document.getElementById(id);
 const pct = (a, b) => Math.round(100 * a / b);
@@ -113,7 +117,12 @@ function onClick(e) {
     case 'story': actions.story(); break;
     case 'duel': actions.duel(); break;
     case 'again': afterVoyageResults().then(() => actions.again()); break;   // pub plein écran due (Voyage)
-    case 'home': afterVoyageResults().then(() => { hideResults(); ui.tab = 'play'; render(); }); break;
+    case 'home': afterVoyageResults().then(() => { hideResults(); ui.tab = 'play'; render(); maybeDaily(); }); break;
+    case 'daily': openDailyScreen(); break;
+    case 'buyBoost': modal(confirmBoostHtml(arg)); break;
+    case 'buyBoostOk': { const r = buyBoost(arg); if (r.ok) { sfx('deblocage'); adToast(tr('daily.bought')); } else adToast(tr(r.error === 'full' ? 'daily.full' : 'daily.notEnoughGold')); closeModal(); render(); break; }
+    case 'testDay': testShiftDays(+arg); renderSettings(); maybeDaily(); break;
+    case 'testDayReset': testResetDaily(); resetBoosts(); renderSettings(); render(); break;
     case 'settings': renderSettings(); $('settings').classList.remove('hidden'); break;
     case 'setLang': if (arg !== language()) setLanguage(arg); break;
     case 'set': setSetting(el.dataset.key, el.dataset.key === 'vibrate' ? arg === '1' : arg); renderSettings(); break;
@@ -221,6 +230,7 @@ function playHtml() {
       <div class="deco deco-dot">${glyph('dot', '#FF8C32', 30)}</div>
       <button class="train-pill lesson-pill" data-act="lesson">${glyph('tri', '#FFD23F', 18)}<span>${tr('lobby.lesson')}</span></button>
       <button class="train-pill" data-act="train">${glyph('circle', '#3DDC5B', 18)}<span>${tr('lobby.training')}</span></button>
+      ${dailyButtonHtml()}
       <div class="name-pill">
         <div class="np-icon" style="background:${c.color}">${itemIcon('armes', equippedWeapon(c.id), 20)}</div>
         <div class="np-txt"><span class="np-name">${c.name}</span><span class="np-line">${c.title} · ${weaponData(equippedWeapon(c.id)).name}</span></div>
@@ -319,7 +329,16 @@ function testHtml() {
       <div class="chips set-chips"><button class="chip" data-act="testGold">${U.testGold.replace('{n}', T.gold)}</button><button class="chip" data-act="testGems">${U.testGems.replace('{n}', T.gems)}</button></div>
       <div class="chips set-chips">${opt('BE', 'BE')}${opt('FR', 'FR')}<span class="test-cur">${tr('common.labelValue', { label: U.testCountry, value: cur })}</span></div>
       <button class="chip" data-act="testReset">${U.testReset}</button>
-      ${adsTestHtml()}</div>`;
+      ${adsTestHtml()}${dailyTestHtml()}</div>`;
+}
+/** Récompenses de connexion : jour du serveur simulé (mode test sans émulateur seulement). */
+function dailyTestHtml() {
+  const T = testDaily();
+  if (!T) return '';
+  const d = (prog.daily.test && prog.daily.test.doc) || {};
+  return `<div class="chips set-chips"><button class="chip" data-act="testDay" data-arg="1">${tr('daily.testNext')}</button><button class="chip" data-act="testDay" data-arg="2">${tr('daily.testSkip')}</button></div>
+      <button class="chip" data-act="testDayReset">${tr('daily.testReset')}</button>
+      <span class="test-cur">${tr('daily.testState', { offset: T.offset, streak: d.streak || 0, streakMax: D.daily.streak.length, cal: d.cal || 0, calMax: D.daily.calendar.length })}</span>`;
 }
 function adsTestHtml() {
   const A = D.ads.ui, s = adsState();

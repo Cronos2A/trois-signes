@@ -8,6 +8,9 @@ import { facets } from './icons.js';
 import { itemIcon, tpl } from './weapon-ui.js';
 import { moneyIcon } from './money.js';
 import { tipOnce } from './tips.js';
+import { thumbHtml } from './shop-ui.js';
+import { item } from '../game/cosmetics.js';
+import { tr } from '../i18n.js';
 
 let el = null;
 
@@ -22,7 +25,13 @@ function build() {
   for (const t of ['pointerdown', 'pointermove', 'pointerup', 'touchstart', 'touchmove', 'touchend']) el.addEventListener(t, e => e.stopPropagation());
 }
 
-/** r : { kind: 'weapon' | 'talisman', id, hero? } (voir game/rewards.js) ou { kind: 'gems', n, text } (game/economy.js). */
+/** « Couleur · Aldric », « Effet de tracé ». */
+function cosmeticSub(it) {
+  const h = it.hero && D.characters.characters.find(c => c.id === it.hero);
+  return D.cosmetics.types[it.kind].name + (h ? ' · ' + h.name : '');
+}
+
+/** r : { kind: 'weapon' | 'talisman', id, hero? } ou { kind: 'cosmetic', id, from: 'draw' | 'chest' } (voir game/rewards.js) ou { kind: 'gems', n, text } (game/economy.js). */
 export function rewardHtml(r) {
   if (r.kind === 'weapon') {
     const w = weaponData(r.id), U = D.weapons.ui, h = D.characters.characters.find(c => c.id === r.hero);
@@ -33,6 +42,11 @@ export function rewardHtml(r) {
     const U = D.economy.ui;
     return { kick: U.gemsReward, name: tpl(U.gemsName, { n: r.n }), sub: '', text: r.text, icon: moneyIcon('gems', 64), bg: '#6B3FA0', ok: U.gemsOk, sound: 'piece' };
   }
+  if (r.kind === 'cosmetic') {
+    const it = item(r.id);
+    return { kick: tr('daily.newCosmetic'), name: it.name, sub: cosmeticSub(it), text: tr(r.from === 'chest' ? 'daily.fromChest' : 'daily.fromDraw'),
+      icon: thumbHtml(it, 84), bg: it.color || '#8B4DE8', ok: tr('daily.rewardOk'), bare: true };
+  }
   const t = talismanData(r.id), U = D.talismans.ui;
   return { kick: U.rewardKick, name: t.name, sub: '', text: t.text, icon: itemIcon('talismans', r.id, 64), bg: '#1F7A3D', ok: U.rewardOk };
 }
@@ -40,7 +54,7 @@ export function rewardHtml(r) {
 function one(R) {
   el.innerHTML = `${facets.bg()}<div class="res-card rw-card">
       <span class="rw-kick">${R.kick}</span>
-      <div class="rw-ic" style="background:${R.bg}">${facets.small()}<div class="rel">${R.icon}</div></div>
+      ${R.bare ? `<div class="rw-th">${R.icon}</div>` : `<div class="rw-ic" style="background:${R.bg}">${facets.small()}<div class="rel">${R.icon}</div></div>`}
       <div class="rw-name ol ol-5">${R.name}</div>
       ${R.sub ? `<div class="rw-sub">${R.sub}</div>` : ''}
       <div class="rw-text">${R.text}</div>
@@ -71,7 +85,15 @@ function talismansSummary(list) {
     ok: U.rewardOk, text: `<ul class="rw-list rw-scroll">${lines}</ul>` };
 }
 
-/** Affiche les récompenses l'une après l'autre ; talismans et gains de gemmes sont chacun regroupés sur un seul écran récapitulatif. */
+/** Plusieurs cosmétiques à la fois (récompense de connexion : tirage et coffre) : un seul écran, une ligne par objet. */
+function cosmeticsSummary(list) {
+  const lines = list.map(r => { const it = item(r.id);
+    return `<li class="rw-tal"><span class="rw-cos-ic">${thumbHtml(it, 40)}</span><span><b>${it.name}</b><small>${cosmeticSub(it)}</small></span></li>`; }).join('');
+  return { kick: tr('daily.newCosmetic'), name: tr('daily.cosmeticsMany', { n: list.length }), sub: '', icon: thumbHtml(item(list[0].id), 84), bare: true,
+    ok: tr('daily.rewardOk'), text: `<ul class="rw-list rw-scroll">${lines}</ul>` };
+}
+
+/** Affiche les récompenses l'une après l'autre ; talismans, gains de gemmes et cosmétiques sont chacun regroupés sur un seul écran récapitulatif. */
 export async function showRewards(list) {
   if (!list || !list.length) return;
   if (!el) build();
@@ -79,6 +101,9 @@ export async function showRewards(list) {
   for (const r of list.filter(r => r.kind === 'weapon')) await one({ ...rewardHtml(r), tip: tipOnce('weapons') });   // 1re arme : explication
   if (tals.length > 1) await one({ ...talismansSummary(tals), tip: tipOnce('talismans') });
   else if (tals.length) await one({ ...rewardHtml(tals[0]), tip: tipOnce('talismans') });
+  const cos = list.filter(r => r.kind === 'cosmetic');
+  if (cos.length > 1) await one(cosmeticsSummary(cos));
+  else if (cos.length) await one(rewardHtml(cos[0]));
   if (gems.length > 1) await one(gemsSummary(gems));
   else if (gems.length) await one(rewardHtml(gems[0]));
   el.classList.add('hidden');

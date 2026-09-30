@@ -7,6 +7,7 @@ import { D } from '../data.js';
 import { G } from './state.js';
 import { prog, saveProg } from './progress.js';
 import { nf } from '../i18n.js';
+import { boostMult } from './boosts.js';
 
 const W = () => D.weapons;
 const AR = prog.armory;                                                  // armes débloquées et équipées (progress.js)
@@ -107,7 +108,7 @@ export function grantWeaponXp() {
   const w = G.weapon;
   if (!w || !G.battle || !W().xpModes.includes(G.battle.xpMode)) return null;
   // XP d'arme : × gainMult (data/weapons.json → xp), × talisman Page du Codex.
-  const gain = Math.round(w.gain * (W().xp.gainMult || 1) * ((G.talisman && G.talisman.weaponXpMult) || 1));
+  const gain = Math.round(w.gain * (W().xp.gainMult || 1) * ((G.talisman && G.talisman.weaponXpMult) || 1) * boostMult('xp'));   // + boost XP ×2
   const s = prog.weapons[w.id] || (prog.weapons[w.id] = { xp: 0 });
   const before = weaponLevel(s.xp);
   s.xp += gain;

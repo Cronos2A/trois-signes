@@ -10,6 +10,7 @@ import { enemyUrl, who } from '../ui/assets.js';
 import { placeMusic } from '../audio/audio.js';
 import { syncRewards } from './rewards.js';
 import { addGold } from './economy.js';
+import { boostMult } from './boosts.js';
 import { variantArt, applyVariant, voyageVariant, voyageVariants } from './variants.js';
 import { tr, nf } from '../i18n.js';
 
@@ -89,7 +90,7 @@ export async function voyageBattle(hooks) {
     const rewards = syncRewards().filter(r => r.kind === 'talisman');
     const fresh = reachArena(info.id, st.stage);
     let gold = 0;
-    if (fresh && st.stage > 0 && !rewards.length) { gold = V().chestFallback.gold; addGold(gold); G.goldGain += gold; }
+    if (fresh && st.stage > 0 && !rewards.length) { gold = V().chestFallback.gold * boostMult('gold'); addGold(gold); G.goldGain += gold; }
     const first = (fresh && st.stage < ARENAS()) || rewards.length > 0 || gold > 0;
     return hooks.onStage({ ...info, heal, first, rewards, gold, total: ARENAS(), lieu: B.lieu, bg: B.bg });
   };

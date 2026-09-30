@@ -1,7 +1,8 @@
 // Portefeuille de gemmes au serveur : wallet/{uid} = { gems, granted[], adDay, adCount, updatedAt }. C'est lui qui fait foi ;
 // prog.eco.gems n'en est que le reflet sur l'appareil. Les règles (firestore.rules) n'acceptent que trois mouvements :
 // un gain de la table fixe (grant : gardien, histoire, épilogue ; une seule fois chacun), une pub récompensée (ad : +5, 3 par jour),
-// une dépense (spend). Hors connexion, les mouvements attendent dans prog.eco.pending et partent au retour du réseau.
+// une dépense (spend) ; et les gemmes d'une récompense de connexion, dans la même écriture que daily/{uid} (online/daily-net.js).
+// Hors connexion, les mouvements attendent dans prog.eco.pending et partent au retour du réseau.
 // Mode test sans émulateur (développement local) : gemmes locales seulement, rien n'est envoyé.
 import { prog, saveProg } from '../game/progress.js';
 import { onGems, testMode } from '../game/economy.js';
@@ -25,6 +26,18 @@ export function initWallet(h = {}) {
   });
 }
 
+/** Portefeuille du joueur, créé vide s'il n'existe pas encore. Renvoie son instantané. */
+export async function ensureWallet(S) {
+  const r = ref(S);
+  let snap = await S.fb.fs.getDoc(r);
+  if (!snap.exists()) {
+    await S.fb.fs.setDoc(r, { gems: 0, granted: [], adDay: 0, adCount: 0, updatedAt: S.fb.fs.serverTimestamp() });
+    snap = await S.fb.fs.getDoc(r);
+  }
+  return snap;
+}
+export const walletRef = ref;
+
 /** Mouvement suivant appliqué au document (null : impossible, on l'abandonne). */
 function next(d, op, now) {
   if (op.op === 'grant') {
@@ -47,11 +60,7 @@ export async function flushWallet() {
   busy = true;
   try {
     const { fb, db } = S, r = ref(S);
-    let snap = await fb.fs.getDoc(r);
-    if (!snap.exists()) {
-      await fb.fs.setDoc(r, { gems: 0, granted: [], adDay: 0, adCount: 0, updatedAt: fb.fs.serverTimestamp() });
-      snap = await fb.fs.getDoc(r);
-    }
+    const snap = await ensureWallet(S);
     // Anciennes sauvegardes : gains déjà reçus sur l'appareil mais jamais envoyés (rejoués un par un, vérifiés par les règles).
     const known = new Set(snap.data().granted || []), pend = prog.eco.pending || [];
     const G = (await import('../data.js')).D.economy.gems;

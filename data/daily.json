@@ -1,0 +1,52 @@
+{
+  "note": "Récompenses de connexion, en deux séries. Série de 7 jours consécutifs (un jour manqué la ramène au jour 1, elle recommence au jour 1 après le 7e ; jamais de cosmétique) et calendrier de 30 connexions (jours distincts, pas forcément consécutifs ; un nouveau calendrier commence après la 30e). Le « jour » est celui du serveur, à l'heure de day.timeZone (firestore.rules recopie la même règle : day.rules ; node tools/check-rules.mjs vérifie les chiffres). Une seule récupération par jour, au serveur (daily/{uid}), gemmes comprises (wallet/{uid}, dans la même écriture).",
+  "day": {
+    "timeZone": "Europe/Paris",
+    "rules": { "standardOffsetHours": 1, "summerOffsetHours": 2, "summerTime": "eu", "note": "Heure d'été européenne : du dernier dimanche de mars au dernier dimanche d'octobre, à 1 h UTC (règle écrite dans firestore.rules → parisDay)." }
+  },
+  "streak": [
+    { "gold": 50 },
+    { "gold": 100 },
+    { "boost": { "type": "xp", "games": 3 } },
+    { "gold": 150 },
+    { "boost": { "type": "gold", "games": 3 } },
+    { "gold": 100 },
+    { "gems": 15, "gold": 100 }
+  ],
+  "calendar": {
+    "length": 30,
+    "gold": { "from": 50, "to": 200, "round": 5, "note": "Jours sans récompense particulière : or, de « from » au premier de ces jours à « to » au dernier (arrondi à « round »)." },
+    "special": {
+      "5": { "boost": { "type": "xp", "games": 5 } },
+      "10": { "draw": "color" },
+      "12": { "boost": { "type": "gold", "games": 5 } },
+      "15": { "gems": 15 },
+      "18": { "boost": { "type": "xp", "games": 5 } },
+      "20": { "draw": "color" },
+      "25": { "draw": "trail" },
+      "27": { "boost": { "type": "gold", "games": 5 } },
+      "30": { "gems": 30, "chest": "simple" }
+    }
+  },
+  "icons": {
+    "note": "Icônes Claude Design (design/trois-signes-maquette-lobby, planche « Récompenses de connexion ») ; fichier absent : dessin de secours en code. Tirages : cadre de rareté ; coffre, or, gemmes : images de la boutique.",
+    "gift": "assets/icones/recompenses/cadeau.svg",
+    "notif": "assets/icones/recompenses/pastille_notif.svg",
+    "active": "assets/icones/recompenses/boost_actif.svg",
+    "boost": { "xp": "assets/icones/recompenses/boost_xp.svg", "gold": "assets/icones/recompenses/boost_or.svg" },
+    "draw": "assets/boutique/cadre_rare.svg"
+  },
+  "fallbackGold": 100,
+  "fallbackNote": "Tirage (coloris ou tracé) quand tout est déjà possédé, coffre impossible (collection complète, pays sans coffres) ou boost au-delà du stock plein : fallbackGold à la place.",
+  "ad": { "bonusGold": 100, "note": "Une fois par jour, dans la fenêtre du jour : la pub double l'or du jour (les deux séries) ; s'il n'y a pas d'or ce jour-là : bonusGold. Jamais les gemmes, cosmétiques, coffre ni boosts. Gardé avec « Sans publicité »." },
+  "boosts": {
+    "maxStock": 5,
+    "modes": ["voyage", "story"],
+    "types": {
+      "xp": { "mult": 2, "color": "#3D8BFF" },
+      "gold": { "mult": 2, "color": "#FFD23F" }
+    },
+    "note": "Stock de maxStock au plus par type ; un seul actif à la fois par type. Une partie compte à sa fin : victoire, défaite, ou abandon après au moins 1 round (partie du Voyage ou combat d'Histoire). XP ×2 : XP du héros et des armes ; or ×2 : or gagné. Jamais en Duel, dans la leçon ni en Entraînement."
+  },
+  "test": { "note": "Mode test sans émulateur : jour du serveur simulé sur l'appareil (Réglages → Mode test : +1 jour, +2 jours, remise à zéro)." }
+}

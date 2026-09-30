@@ -151,6 +151,18 @@ Sans sprite, le boss prend celui de la brute (mini-boss) ou du boss de la Forêt
 - ✅ `assets/decors/coeur_silence.svg` — Clairière entièrement blanche, sans couleur, fragments de pages qui flottent
 - ✅ `assets/decors/coeur_silence_gueri.svg` — La même clairière qui retrouve ses couleurs, herbe verte, lumière chaude
 
+## Icônes des récompenses de connexion (`assets/icones/recompenses/`)
+
+Claude Design (`design/trois-signes-maquette-lobby/project`, planche « Récompenses de connexion », dossier `icones/recompenses`),
+reçues le 30/09/2026 depuis le Drive. SVG 48 × 48, sans texte ; le manifeste C2PA (métadonnées) a été retiré à la copie, le dessin est
+identique. Fichier absent : dessin de secours en code (`src/ui/daily-ui.js`).
+
+- ✅ `assets/icones/recompenses/cadeau.svg` — bouton Récompenses du lobby
+- ✅ `assets/icones/recompenses/pastille_notif.svg` — pastille « jour à récupérer »
+- ✅ `assets/icones/recompenses/boost_xp.svg` — boost XP ×2
+- ✅ `assets/icones/recompenses/boost_or.svg` — boost or ×2
+- ✅ `assets/icones/recompenses/boost_actif.svg` — boost actif (pastille de combat)
+
 ## Icônes des armes (`assets/icones/armes/`) et des talismans (`assets/icones/talismans/`)
 
 Claude Design (`design/trois-signes-maquette-lobby`, dossiers `icones/depart`, `icones/armes`, `icones/talismans`), reçues le 28/09/2026,

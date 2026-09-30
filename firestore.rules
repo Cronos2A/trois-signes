@@ -2,14 +2,15 @@ rules_version = '2';
 
 // Trois Signes : règles de sécurité Cloud Firestore (offre gratuite Spark : aucune fonction serveur, tout est vérifié ici).
 // À publier dans la console Firebase (Firestore Database → Règles) ou avec `firebase deploy --only firestore:rules`.
-// Les chiffres (plafonds, durées, gains) reprennent data/duel.json → security, data/economy.json → gems, data/ads.json → rewarded.gems :
-// à tenir à jour ensemble.
+// Les chiffres (plafonds, durées, gains) reprennent data/duel.json → security, data/economy.json → gems, data/ads.json → rewarded.gems,
+// data/daily.json (jour de Paris, gemmes des récompenses de connexion) : à tenir à jour ensemble (node tools/check-rules.mjs).
 //
 // - players/{uid}      sauvegarde : chacun la sienne.
 // - duels/{code}       salon de Duel : chacun n'écrit que son entrée ; scores de vague seulement ajoutés, plafonnés, pas trop rapides.
 // - queue/{uid}        file du Duel au hasard ; Empreintes = celles du serveur.
 // - ranked/{uid}       Empreintes : seulement +30 / −20 / 0 d'après le résultat d'un salon, une fois par partie (ranked/{uid}/games/{code}).
-// - wallet/{uid}       gemmes : gains d'une table fixe (une fois chacun), pub +5 (3 par jour), dépenses.
+// - wallet/{uid}       gemmes : gains d'une table fixe (une fois chacun), pub +5 (3 par jour), dépenses, récompense de connexion.
+// - daily/{uid}        récompenses de connexion : une récupération par jour de Paris (série de 7 jours, calendrier de 30).
 // - runs/{uid}         début de la dernière partie du Voyage (heure du serveur) : borne le record accepté.
 // - leaderboard/{uid}  classements : Empreintes = ranked ; record du Voyage qui ne baisse jamais et plausible pour la durée de la partie.
 service cloud.firestore {
@@ -221,7 +222,14 @@ service cloud.firestore {
       // dépense : moins de gemmes, jamais sous zéro
       let spend = n.granted == o.granted && n.adDay == o.adDay && n.adCount == o.adCount && n.gems < o.gems && n.gems >= 0;
       return n.keys().hasOnly(['gems', 'granted', 'adDay', 'adCount', 'updatedAt']) && n.updatedAt == request.time
-        && n.gems is int && n.granted is list && (grant || ad || spend);
+        && n.gems is int && n.granted is list && (grant || ad || spend || dailyGems(o, n));
+    }
+    // récompense de connexion : gemmes du jour, dans la même écriture que daily/{uid} (jour pas encore récupéré avant, récupéré après)
+    function dailyGems(o, n) {
+      return n.granted == o.granted && n.adDay == o.adDay && n.adCount == o.adCount
+        && exists(dailyPath()) && get(dailyPath()).data.lastDay < parisDay()
+        && existsAfter(dailyPath()) && getAfter(dailyPath()).data.lastDay == parisDay()
+        && n.gems == o.gems + streakGems(getAfter(dailyPath()).data.streak) + calendarGems(getAfter(dailyPath()).data.cal);
     }
     match /wallet/{uid} {
       allow read: if isOwner(uid);
@@ -229,6 +237,43 @@ service cloud.firestore {
         && request.resource.data.gems == 0 && request.resource.data.granted == [] && request.resource.data.adDay == 0
         && request.resource.data.adCount == 0 && request.resource.data.updatedAt == request.time;
       allow update: if isOwner(uid) && walletStep();
+    }
+
+    /* ---------- Récompenses de connexion (data/daily.json) ---------- */
+    // Jour du serveur à l'heure de Paris : UTC+1, UTC+2 à l'heure d'été européenne (du dernier dimanche de mars
+    // au dernier dimanche d'octobre, à 1 h UTC). Jour n = jours écoulés depuis le 1er janvier 1970 à cette heure-là.
+    function lastSunday(y, m) {
+      let d = timestamp.date(y, m, 31);
+      return d - duration.value(d.dayOfWeek() % 7, 'd') + duration.value(1, 'h');
+    }
+    function parisDay() {
+      let t = request.time;
+      let summer = t >= lastSunday(t.year(), 3) && t < lastSunday(t.year(), 10);
+      return math.floor((t.toMillis() + (summer ? 2 : 1) * 3600000) / 86400000);
+    }
+    // Gemmes d'une récupération : série de 7 jours (jour 7) et calendrier de 30 connexions (jours 15 et 30).
+    function streakGems(s) { return s == 7 ? 15 : 0; }
+    function calendarGems(c) { return c == 15 ? 15 : (c == 30 ? 30 : 0); }
+    function dailyPath() { return /databases/$(database)/documents/daily/$(request.auth.uid); }
+    // daily/{uid} = { lastDay, streak (1 à 7), cal (1 à 30), count, seenAt }. Deux écritures possibles :
+    //  - noter l'heure du serveur (seenAt), rien d'autre ne change : le jeu en déduit le jour ;
+    //  - récupérer le jour : une fois par jour de Paris ; série +1 si la veille a été récupérée, sinon 1 ; calendrier +1 (après 30 : 1).
+    match /daily/{uid} {
+      function dailyStep() {
+        let o = resource.data;
+        let n = request.resource.data;
+        let today = parisDay();
+        let touch = n.lastDay == o.lastDay && n.streak == o.streak && n.cal == o.cal && n.count == o.count;
+        let claim = n.lastDay == today && o.lastDay < today
+          && n.streak == (o.lastDay == today - 1 ? o.streak % 7 + 1 : 1)
+          && n.cal == o.cal % 30 + 1 && n.count == o.count + 1;
+        return n.keys().hasOnly(['lastDay', 'streak', 'cal', 'count', 'seenAt']) && n.seenAt == request.time && (touch || claim);
+      }
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && request.resource.data.keys().hasOnly(['lastDay', 'streak', 'cal', 'count', 'seenAt'])
+        && request.resource.data.lastDay == 0 && request.resource.data.streak == 0 && request.resource.data.cal == 0
+        && request.resource.data.count == 0 && request.resource.data.seenAt == request.time;
+      allow update: if isOwner(uid) && dailyStep();
     }
 
     /* ---------- Voyage et classements ---------- */

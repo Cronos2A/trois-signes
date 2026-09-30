@@ -11,6 +11,11 @@
     "storyComplete": 30,
     "epilogue": 50
   },
+  "boosts": {
+    "note": "Onglet Boosts de la boutique : mêmes règles que les boosts des récompenses de connexion (data/daily.json → boosts : stock de 5 par type, jamais en Duel).",
+    "xp": { "games": 3, "price": { "gold": 300 } },
+    "gold": { "games": 3, "price": { "gold": 300 } }
+  },
   "chests": {
     "simple": {
       "name": "Coffre simple", "price": 60, "count": 1,

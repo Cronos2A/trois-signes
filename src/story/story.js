@@ -5,6 +5,7 @@
 import { D } from '../data.js';
 import { prog, saveProg, addXp } from '../game/progress.js';
 import { storyWinGold, addGold, syncGems } from '../game/economy.js';
+import { boostMult } from '../game/boosts.js';
 import { playScene } from '../ui/cutscene.js';
 import { renderChoice, renderMap, renderDefeat, renderVictory, renderFragment, renderUnlock, hideStory } from '../ui/story-ui.js';
 import { enemyUrl, who, bossInfo } from '../ui/assets.js';
@@ -117,8 +118,8 @@ async function afterCombat(h, k, why, res) {
   // XP du héros (data/progression.json → xp.story) : plus à la première victoire, moins aux suivantes.
   const X = D.progression.xp.story;
   if (first) done.push(k.n);
-  const xp = addXp(h.id, first ? X.firstWin : X.repeatWin);
-  const bonus = storyWinGold(first);                                // data/economy.json → gold.story
+  const xp = addXp(h.id, (first ? X.firstWin : X.repeatWin) * boostMult('xp'));   // boost XP ×2 (game/boosts.js)
+  const bonus = storyWinGold(first) * boostMult('gold');            // data/economy.json → gold.story ; boost or ×2
   addGold(bonus);
   const gold = (res.gold || 0) + bonus;                            // + l'or déjà versé round par round
   saveProg();

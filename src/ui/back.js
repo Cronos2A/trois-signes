@@ -51,6 +51,9 @@ function onBack() {
   if (shown($('cutscene'))) { $('csSkip')?.click(); return true; }
   if (shown($('voyageTr'))) { $('voyageTr').click(); return true; }
   if (shown($('reward'))) { clickFirst(['#reward button']); return true; }
+  if (shown($('boostOffer'))) { clickFirst(['#boostOffer [data-of="play"]']); return true; }   // boost proposé : on joue sans rien changer
+  if (shown($('dailyWin'))) { clickFirst(['#dailyWin [data-dy="close"]']); return true; }
+  if (shown($('dailyScr'))) { clickFirst(['#dailyScr [data-dy="close"]']); return true; }
   const du = $('duel');
   const inGame = document.documentElement.classList.contains('in-game') && (G.mode === 'play' || G.mode === 'train');
   if (shown(du) && du.classList.contains('wait')) {                                  // attente de l'adversaire (ou KO) : abandonner ?

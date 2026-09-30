@@ -1,6 +1,6 @@
 # Trois Signes — brief pour Claude Code
 
-État du projet au 30/09/2026 (système multilingue en place, français seulement ; reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
+État du projet au 30/09/2026 (système multilingue en place, français seulement ; récompenses de connexion et boosts en place ; reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
@@ -23,7 +23,8 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
   polices Caprasimo (titres) et Figtree (texte).
 - `src/ui/organic.css` : copie telle quelle du design system, **ne pas modifier**.
 - Maquettes de référence dans `design/` (exports Claude Design, à reproduire telles quelles) :
-  - `trois-signes-maquette-lobby` : lobby 3 onglets + `Mode Histoire Trois Signes.dc.html` (écrans 01 à 06 du mode Histoire) ;
+  - `trois-signes-maquette-lobby` : lobby 3 onglets + `Mode Histoire Trois Signes.dc.html` (écrans 01 à 06 du mode Histoire)
+    + `Planche Récompenses de connexion.dc.html` (fenêtre du jour, écran Récompenses, icônes `icones/recompenses/`, bouton du lobby, pastille de combat) ;
   - `planche-de-personnages-trois-signes` : les 6 héros (repris dans `src/ui/art.js`) ;
   - `ecran-de-combat-trois-signes` : écran de combat (décor Forêt de Mousse, sprites, interface) et `project/decors.js` (générateur des 32 décors) ;
   - `trois-signes-character-sheet` : `project/tools/story-engine.js`, générateur des portraits et sprites de boss ;
@@ -158,7 +159,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   la meilleure rareté (`rarities[].sound`). Pays sans coffres payants (`noPaidChests`, commence par BE ; langue du navigateur ou fuseau
   horaire) : coffres désactivés, tout reste achetable directement.
 - **Boutique** (`src/ui/shop-ui.js`, `shop.css`) : onglets Coffres, Cosmétiques (Tout, Armes, Couleurs, Tracés, Skins ; achat avec
-  confirmation, puis « Équiper »), Gemmes (4 packs 80 / 450 / 1000 / 2200, désactivés « Disponible dans l'application »).
+  confirmation, puis « Équiper »), Boosts (XP ×2 et or ×2, voir « Récompenses de connexion »), Gemmes (4 packs 80 / 450 / 1000 / 2200, désactivés « Disponible dans l'application »).
   Compteurs or / gemmes en haut du lobby (le « + » mène aux Gemmes) ; le record reste sur la carte du Voyage.
 - **Onglet Personnage** : carte Cosmétiques (skin, couleur, skin d'arme, tracé ; « Voir la boutique »).
 - **Mode test** (développement : `localhost`, `127.0.0.1` ou `?test`) dans Réglages : +1000 or, +500 gemmes, pays BE / FR, remise à zéro.
@@ -185,6 +186,42 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   pas de pub avant 10 min, pub plein écran à la 3e partie seulement, aucune avec Sans publicité, 3 fois +5 gemmes puis « Reviens demain »,
   coffre gratuit une fois par jour.
 
+## Récompenses de connexion et boosts — `data/daily.json` — **fait**
+- Code : `src/game/daily.js` (récompenses d'un jour, passage au jour suivant, remise, pub du jour), `src/online/daily-net.js` (serveur),
+  `src/game/boosts.js` (boosts), `src/ui/daily-ui.js` + `daily.css` (écrans, d'après la planche Claude Design « Récompenses de connexion »).
+  Icônes `assets/icones/recompenses/` (cadeau, pastille, boost_xp, boost_or, boost_actif ; dessin de secours en code si un fichier manque).
+- **Série de 7 jours consécutifs** (`streak`) : 50 or, 100 or, boost XP ×2 (3 parties), 150 or, boost or ×2 (3 parties), 100 or,
+  15 gemmes + 100 or ; un jour manqué ramène au jour 1 ; après le 7e, retour au jour 1. Jamais de cosmétique.
+- **Calendrier de 30 connexions** (`calendar`, jours distincts, un jour manqué ne change rien, nouveau calendrier après la 30e) :
+  J5 boost XP ×2 (5), J10 coloris au hasard, J12 boost or ×2 (5), J15 15 gemmes, J18 boost XP ×2 (5), J20 coloris au hasard,
+  J25 tracé au hasard, J27 boost or ×2 (5), J30 30 gemmes + coffre simple gratuit ; les autres jours de l'or, de 50 (J1) à 200 (J29).
+  Tirage : un coloris ou tracé jamais possédé ; tout possédé, coffre impossible (collection complète, pays sans coffres)
+  ou stock de boosts plein : 100 or à la place (`fallbackGold`).
+- **Jour du serveur**, heure de Paris (`day.timeZone`) : `daily/{uid}` = `{ lastDay, streak, cal, count, seenAt }` fait foi. Le jeu note
+  `seenAt` (heure du serveur) puis la relit pour connaître le jour ; la récupération est une transaction (double appui, deux appareils :
+  un seul crédit), gemmes versées au portefeuille `wallet/{uid}` **dans la même écriture**. Les règles refont tout le calcul (jour de Paris
+  avec l'heure d'été européenne, série, calendrier, gemmes du jour) : `node tools/check-rules.mjs` vérifie leurs chiffres.
+  Or, boosts et cosmétiques : dans la sauvegarde (`prog.eco`, `prog.boosts`, `prog.daily`), comme le reste. **Offre gratuite Spark suffit.**
+- **Fenêtre « Récompense du jour »** : à la première ouverture du jour (après le démarrage et la leçon, jamais en partie ni en Duel),
+  une fois par jour (`prog.daily.shownDay`) ; aussi quand la connexion revient. Série et calendrier du jour, « Récupérer », pub du jour.
+  Hors connexion : « À récupérer dès que la connexion revient ». Son `deblocage` ; gemmes et cosmétiques par les écrans de récompense
+  habituels (regroupés). **Bouton cadeau** rond dans l'onglet Jouer (pastille quand un jour est à récupérer) → écran « Récompenses »
+  (série, calendrier avec un grand jour tous les 5, stock de boosts et « Activer »).
+- **Pub du jour** (une fois par jour, `prog.daily.adDay`, gardée avec « Sans publicité ») : « Doubler l'or avec une pub » (or du jour des deux
+  séries, remplacements compris) ou, sans or ce jour-là, « Bonus : +100 or avec une pub » (`ad.bonusGold`). Jamais gemmes, cosmétiques,
+  coffre ni boosts. Avant de récupérer, la pub récupère le jour puis double l'or. Récompense seulement si la pub est vue jusqu'au bout.
+- **Boosts** (`boosts`) : XP ×2 (XP du héros et des armes) et or ×2 (or gagné pendant la partie, bonus de fin et coffre d'arène compris).
+  Stock de 5 au plus par type, un seul actif par type ; activés dans l'écran Récompenses ou par la proposition « Activer un boost ? »
+  au lancement d'une partie (s'il y a du stock). Une partie compte à sa fin : victoire, défaite, ou abandon après au moins 1 round
+  (partie du Voyage ou combat d'Histoire). Jamais en Duel, dans la leçon ni en Entraînement. En combat : pastille sous la carte
+  Vague / score (boost actif, type, parties restantes). Boutique, onglet **Boosts** : XP ×2 ou or ×2 (3 parties) à 300 or (`economy.json → boosts`).
+- **Mode test** (Réglages, sans émulateur) : jour du serveur simulé sur l'appareil (+1 jour, +2 jours = jour manqué, remise à zéro).
+- Testé le 30/09/2026 (390 × 800 et 360 × 640, aucune erreur) : 10 jours de suite, jour manqué (série à 1, calendrier continue), J30 puis
+  nouveau calendrier, double appui, deux appareils sur le même compte (émulateur : un seul crédit), tirages sans doublon puis 100 or,
+  stock plein, or doublé et bonus sans or (pub vue en entier seulement), boosts décomptés dans le Voyage et en Histoire (XP, XP d'arme, or ×2),
+  pas dans l'abandon avant 1 round, jamais en Duel ni en Entraînement ; règles : 24 cas sur l'émulateur (jour de demain, 2e récupération,
+  série trichée, gemmes gonflées ou sans récupération refusés), jour de Paris identique à `Intl` sur deux ans (quarts d'heure).
+
 ## En ligne (Firebase) — `data/online.json` — **fait**
 - Projet Firebase `trois-signes`, **offre gratuite Spark** (rien de payant utilisé). SDK web 12.19.0 **embarqué** dans
   `src/vendor/firebase/12.19.0/` (aucun CDN ; import de `firebase-app.js` rendu local, voir son README), chargé en arrière-plan.
@@ -200,7 +237,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026 ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
   chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ;
   salons `duels/{code}` et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}`, Empreintes `ranked/{uid}`,
-  gemmes `wallet/{uid}`, début de partie du Voyage `runs/{uid}` (voir « Sécurité ») ; tout le reste fermé.
+  gemmes `wallet/{uid}`, début de partie du Voyage `runs/{uid}` (voir « Sécurité »), récompenses de connexion `daily/{uid}` ; tout le reste fermé.
 - **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
   puis le jeu avec `?emu` dans l'adresse (`online.json → emulator`).
   `?longpoll` (`online.json → longPollParam`) : Firestore en requêtes classiques, pour les réseaux qui coupent son flux continu (proxy, tests).
@@ -232,7 +269,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   les deux survivent au boss = plus gros score total ; abandon (« Quitter ») ou plus de 30 s sans signe de vie (`disconnectSeconds`, heure du serveur) = défaite.
 - **Écran de fin** : Victoire / Défaite / Égalité, raison, tableau par vague (mes points, les siens, pression reçue, pression donnée), total.
 - Bonus de niveau des héros et d'XP des armes neutralisés (`bonus_en_duel`), armes alternatives, style (100 %) et talismans actifs.
-  **Ni or, ni gemmes, ni XP** (héros ou armes) en Duel ; aucune pub, aucune récompense de pub, pas de Seconde chance.
+  **Ni or, ni gemmes, ni XP** (héros ou armes) en Duel ; aucune pub, aucune récompense de pub, pas de Seconde chance, aucun boost.
 - Quotas Spark : environ 12 écritures par joueur et par minute de Duel (signe de vie toutes les 5 s) ; l'offre gratuite
   (20 000 écritures / jour) permet une soixantaine de Duels complets par jour. À surveiller si le jeu grandit.
 - Pas encore de contrôle des scores (chaque joueur envoie le sien) : voir « À prévoir » ci-dessus.
@@ -281,7 +318,8 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   déconnexion de 30 s, KO, scores) et n'acceptent que +30 / −20 / 0, une seule fois par salon (`ranked/{uid}/games/{code}`).
   Un perdant ne peut donc pas éviter sa défaite en ne l'envoyant pas. File d'attente et classement Duel : Empreintes = celles du serveur.
   `prog.duel.prints` n'est que le reflet (relu à chaque connexion).
-- **Gemmes** : `wallet/{uid}` = `{ gems, granted, adDay, adCount }` fait foi (`src/online/wallet.js`) ; trois mouvements seulement :
+- **Gemmes** : `wallet/{uid}` = `{ gems, granted, adDay, adCount }` fait foi (`src/online/wallet.js`) ; trois mouvements seulement
+  (plus les gemmes d'une récompense de connexion, dans la même écriture que `daily/{uid}`, voir « Récompenses de connexion ») :
   gain de la table fixe (gardien 10, histoire 30, épilogue 50, une fois chacun), pub récompensée +5 (3 par jour, jour UTC), dépense.
   Mouvements en attente hors connexion (`prog.eco.pending`). Anciennes sauvegardes : les gains déjà reçus sont rejoués un par un ;
   les gemmes d'avant venues des pubs ou du mode test ne sont pas reprises. Mode test sans émulateur : gemmes locales seulement.
@@ -424,7 +462,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
 - **Aucun texte visible dans le code** : `tr('clé')` et `data/i18n/fr.json` (voir « Langues ») ; nombres par `nf` / `nfi`, jamais `toLocaleString('fr-FR')`.
-  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -457,9 +495,9 @@ src/
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
          talismans.js  rewards.js (récompenses méritées, rétroactives)  economy.js (or, gemmes, coffres)  cosmetics.js
          variants.js (variantes sbire / brute / boss selon l'arène ou le combat)  duel.js (Duel : programme, pression, victoire)
-         duel-rank.js (Empreintes, arènes du Duel)
+         duel-rank.js (Empreintes, arènes du Duel)  daily.js (récompenses de connexion)  boosts.js (boosts XP / or)
   story/story.js     déroulé du mode Histoire
-  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  leaderboard.js (classements)  ranked.js (Empreintes au serveur)  wallet.js (gemmes au serveur)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)
+  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  leaderboard.js (classements)  ranked.js (Empreintes au serveur)  wallet.js (gemmes au serveur)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)  daily-net.js (récompenses de connexion au serveur)
   vendor/firebase/   SDK Firebase embarqué (app, auth, firestore)
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js
@@ -470,12 +508,13 @@ src/
          looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)  cover.js (écran de lancement)
          account-ui.js (pseudo, bloc Compte des Réglages, sauvegarde endommagée)  tips.js (explications à la 1re rencontre)
          back.js (bouton Retour du téléphone)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
-         organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css
-data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel (.json)
+         daily-ui.js (fenêtre du jour, écran Récompenses, bouton cadeau, proposition de boost, pastille de combat)
+         organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css  daily.css
+data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily (.json)
   i18n/  languages.json  fr.json (textes de l'interface)  GLOSSAIRE.md
 firestore.rules  firebase.json   règles de sécurité Firestore
 tools/check-rules.mjs            vérifie que les chiffres des règles sont ceux de data/
-assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
+assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  icones/recompenses/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
 prototype/ prototype d'origine
 ```

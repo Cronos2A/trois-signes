@@ -1,0 +1,130 @@
+/* Récompenses de connexion (src/ui/daily-ui.js), d'après la planche Claude Design « Récompenses de connexion ». */
+.dy{position:fixed;inset:0;z-index:32;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;
+  background:rgba(21,48,30,.62);font-family:var(--font-body);color:var(--ink);touch-action:manipulation}
+.dy.hidden{display:none}
+.dy-img{position:relative;flex:none;display:inline-flex;align-items:center;justify-content:center;width:var(--s);height:var(--s)}
+.dy-img img{display:block;width:100%;height:100%}
+.dy-img img + svg{display:none}
+.dy-k{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.dy-k.s{color:#C4481F}
+.dy-k.c{color:#1F7A3D}
+.dy-k.b{color:#6B4F8F}
+.dy-sub{text-align:center;font-size:12px;font-weight:700;color:#3d5a45;line-height:1.3;margin:0}
+.dy-msg{text-align:center;font-size:13.5px;font-weight:800;color:#1F7A3D;line-height:1.35}
+.dy-msg.warn{padding:10px 12px;border-radius:16px;background:var(--sun);border:2.5px solid var(--ink);color:var(--ink)}
+/* 01 · Récompense du jour */
+.dy-win{position:relative;width:100%;max-width:362px;display:flex;flex-direction:column;gap:14px;
+  margin-top:26px;padding:40px 14px 16px;background:var(--color-bg);border:4px solid var(--ink);border-radius:32px;box-shadow:0 7px 0 var(--ink);box-sizing:border-box}
+.dy-pill{position:absolute;left:50%;top:-26px;transform:translateX(-50%);height:52px;padding:0 24px;border-radius:999px;box-sizing:border-box;
+  background:linear-gradient(180deg,#FFE27A 0 46%,#FFD23F 46%);border:4px solid var(--ink);box-shadow:0 4px 0 var(--ink);display:flex;align-items:center;white-space:nowrap}
+.dy-pill span,.dy-claim span,.dy-act span,.dy-h{font-family:var(--font-heading);color:#fff;-webkit-text-stroke:5px var(--ink);paint-order:stroke fill}
+.dy-pill span{font-size:24px}
+.dy-x{position:absolute;right:10px;top:10px;width:32px;height:32px;border-radius:50%;border:3px solid var(--ink);background:var(--color-bg);
+  box-shadow:0 2px 0 var(--ink);font-size:20px;font-weight:800;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;color:var(--ink)}
+.dy-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.dy-day{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px;background:#FFF8EA;border:3px solid var(--ink);border-radius:22px;box-shadow:0 4px 0 var(--ink);min-width:0}
+.dy-day .dy-k{text-align:center}
+.dy-pips{display:flex;gap:3px}
+.dy-pips i{width:11px;height:9px;border-radius:999px;border:2px solid var(--ink);background:#E4D3B4;box-sizing:border-box}
+.dy-pips i.on{background:#9ACD32}
+.dy-pips i.cur{width:18px;background:#FF8C32}
+.dy-bar{width:100%;max-width:120px;height:11px;border:2px solid var(--ink);border-radius:999px;background:#E4D3B4;overflow:hidden;box-sizing:border-box}
+.dy-bar i{display:block;height:100%;background:#9ACD32;border-right:2px solid var(--ink);box-sizing:border-box}
+.dy-medal{width:124px;height:124px;max-width:100%;aspect-ratio:1;border-radius:50%;border:3.5px solid var(--ink);box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle,#FFF3C4 0%,#FFC078 70%)}
+.dy-medal.t-gems{background:radial-gradient(circle,#F1E6FF 0%,#C8B2EC 70%)}
+.dy-medal.t-boost{background:radial-gradient(circle,#EAF8D2 0%,#9ACD32 75%)}
+.dy-medal.t-draw,.dy-medal.t-chest{background:radial-gradient(circle,#FFF3C4 0%,#FFD23F 75%)}
+.dy-medal .dy-img{max-width:74%;max-height:74%}
+.dy-amt{font-family:var(--font-heading);font-size:22px;line-height:1.05;text-align:center}
+.dy-extra{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:800;text-align:center}
+.dy-btns{display:flex;flex-direction:column;gap:10px;padding-top:4px}
+.dy-claim{height:60px;border-radius:999px;border:4px solid var(--ink);background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 6px 0 var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:0 18px;cursor:pointer}
+.dy-claim span{font-size:24px;text-shadow:0 3px 0 var(--ink)}
+.dy-claim:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+.dy-ad{min-height:50px;border-radius:999px;border:3px solid var(--ink);background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 4px 0 var(--ink);
+  display:flex;align-items:center;justify-content:center;gap:10px;padding:4px 16px;cursor:pointer;font:800 16px var(--font-body);color:var(--ink)}
+.dy-ad:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.dy-play{flex:none;width:28px;height:28px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.dy-done{align-self:center;padding:8px 20px;border-radius:999px;background:#B6DE5A;border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);font-family:var(--font-heading);font-size:18px}
+.dy button:disabled{opacity:.55;cursor:default}
+/* 02 · Écran Récompenses */
+.dy.dy-full{display:block;padding:0;overflow-y:auto;overscroll-behavior:contain;background:linear-gradient(180deg,#3DDC5B 0%,#2BA84A 45%,#1F7A3D 100%)}
+.dy.dy-full.hidden{display:none}
+.dy-top{display:flex;align-items:center;gap:12px;padding:calc(14px + env(safe-area-inset-top,0px)) 14px 0}
+.dy-back{flex:none;width:40px;height:40px;border-radius:50%;border:3px solid var(--ink);background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);box-shadow:0 3px 0 var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:0}
+.dy-back:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.dy-h{font-size:28px;line-height:1;text-shadow:0 3px 0 var(--ink)}
+.dy-body{display:flex;flex-direction:column;gap:10px;padding:10px 14px calc(20px + env(safe-area-inset-bottom,0px))}
+.dy-cardx{display:flex;flex-direction:column;gap:10px;padding:10px 12px 12px;background:var(--color-bg);border:3px solid var(--ink);border-radius:22px;box-shadow:0 4px 0 var(--ink)}
+.dy-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.dy-row b{font-family:var(--font-heading);font-weight:400;font-size:15px}
+.dy-streak{display:flex;align-items:flex-end;gap:5px;padding-top:8px}
+.dy-st{position:relative;flex:1;min-width:0;height:62px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:4px 0 5px;
+  border-radius:14px;border:3px solid var(--ink);background:#FFF8EA;box-shadow:0 3px 0 var(--ink);box-sizing:border-box}
+.dy-st .dy-n{font-family:var(--font-heading);font-size:12px;line-height:1}
+.dy-st.past{background:#9ACD32}
+.dy-st.past .dy-img{opacity:.55}
+.dy-st.today{background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 4px 0 var(--ink),0 0 0 3px #FFD23F;transform:translateY(-4px)}
+.dy-st.today .dy-n{color:#fff}
+.dy-ok{position:absolute;right:-6px;top:-7px;width:20px;height:20px;border-radius:50%;border:2.5px solid var(--ink);background:#FFD23F;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+.dy-st.big{flex:none;width:78px;height:78px;justify-content:center;border-width:3.5px;border-radius:20px;background:radial-gradient(circle,#FFF3C4 0%,#FFD23F 75%);box-shadow:0 4px 0 var(--ink)}
+.dy-st.big.today{box-shadow:0 4px 0 var(--ink),0 0 0 3px #FF8C32}
+.dy-st.big.past{background:#C9E68A}
+.dy-badge{position:absolute;left:-8px;top:-9px;width:24px;height:24px;border-radius:50%;border:2.5px solid var(--ink);background:#FFF1D6;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-heading);font-size:12px;box-sizing:border-box}
+.dy-cal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.55fr);grid-auto-rows:43px;gap:6px}
+.dy-ct{position:relative;display:flex;align-items:center;justify-content:space-between;gap:4px;padding:0 6px;border-radius:12px;border:2.5px solid var(--ink);background:#FFF8EA;box-sizing:border-box;min-width:0}
+.dy-ct .dy-n{font-family:var(--font-heading);font-size:13px;line-height:1}
+.dy-ct.m{border-width:3px;background:radial-gradient(circle at 70% 50%,#FFF3C4 0%,#FFD23F 90%);box-shadow:0 3px 0 var(--ink)}
+.dy-ct.m .dy-n{font-size:17px}
+.dy-ct.m .dy-img{margin:-6px 0}
+.dy-ct.past{background:#B6DE5A}
+.dy-ct.m.past{background:#C9E68A}
+.dy-ct.today{border-width:3px;background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 3px 0 var(--ink),0 0 0 3px #FFD23F}
+.dy-ct.today .dy-n{color:#fff}
+.dy-action{display:flex;flex-direction:column;gap:10px}
+.dy-action .dy-done{margin-top:2px}
+.dy-boost{display:flex;align-items:center;gap:10px;padding:5px 6px 5px 5px;border-radius:18px;background:#FFF8EA;border:2.5px solid #E4D3B4}
+.dy-bi{position:relative;flex:none;width:44px;height:44px;border-radius:14px;background:#174A28;display:flex;align-items:center;justify-content:center}
+.dy-cnt{position:absolute;right:-6px;bottom:-6px;min-width:22px;height:22px;padding:0 5px;border-radius:999px;border:2.5px solid var(--ink);background:#FFF1D6;
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-weight:400;font-size:11px;box-sizing:border-box}
+.dy-bt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.dy-bt b{font-family:var(--font-heading);font-weight:400;font-size:16px;line-height:1.05}
+.dy-bt span{font-size:11.5px;font-weight:700;color:#3d5a45;line-height:1.25}
+.dy-act{flex:none;height:36px;padding:0 14px;border-radius:999px;border:3px solid var(--ink);background:linear-gradient(180deg,#FFA95C 0 46%,#FF8C32 46%);box-shadow:0 3px 0 var(--ink);
+  display:flex;align-items:center;cursor:pointer}
+.dy-act span{font-size:15px;-webkit-text-stroke-width:3.5px}
+.dy-act:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.dy-act.on{background:linear-gradient(180deg,#B6DE5A 0 46%,#9ACD32 46%);opacity:1}
+.dy-offer{gap:12px}
+/* 04 · Bouton du lobby (zone du héros, sous « Revoir la leçon ») */
+.dy-gift{position:absolute;left:4px;top:42px;width:56px;height:56px;border-radius:50%;border:4px solid var(--ink);background:var(--color-bg);box-shadow:0 4px 0 var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:0;box-sizing:border-box;z-index:2}
+.dy-gift:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink)}
+.dy-notif{position:absolute;right:-7px;top:-7px;display:flex}
+.hero-zone .deco-tri{top:106px}
+/* Boutique : onglet Boosts */
+.boost-th{flex:none;width:64px;height:64px;border-radius:18px;background:#174A28;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+.boost-item .shop-txt em{color:#1F7A3D;font-style:normal}
+/* Écran de récompense : vignette d'un cosmétique */
+.rw-th{display:flex;justify-content:center}
+.rw-cos-ic{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+/* 04 · Bandeau de combat : boost actif, sous la carte Vague / chrono / score, à droite */
+.hud-boosts{position:absolute;right:14px;top:calc(env(safe-area-inset-top,0px) + 136px);pointer-events:none}
+.hud-boost{display:flex;align-items:center;gap:5px;height:34px;padding:0 10px 0 3px;border-radius:999px;background:#174A28;border:2.5px solid #FFD23F;box-sizing:border-box}
+.hud-boost b{font-size:13px;font-weight:800;color:#FFD23F;margin-right:3px}
+@media (max-width:370px){
+  .dy-pill span{font-size:21px}
+  .dy-medal{width:108px;height:108px}
+  .dy-st.big{width:66px;height:66px}
+  .dy-h{font-size:26px}
+}
+.dy-day .dy-k{font-size:10px;letter-spacing:.05em;white-space:nowrap}
+.dy-action .dy-sub{color:#E6FAD8;text-shadow:0 1px 0 var(--ink)}
+.dy button.dy-act.on:disabled{opacity:1}
+.dy-body > .dy-msg:not(.warn){color:#fff;text-shadow:0 2px 0 var(--ink);font-size:14px}
+.dy-ad span{line-height:1.15;text-align:left}
+@media (max-width:370px){.dy-ad{font-size:14.5px;padding:4px 12px}}

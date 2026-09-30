@@ -13,6 +13,8 @@ import { sfx } from '../audio/audio.js';
 import { leftToday, noAds } from '../ads/ads.js';
 import { adIcon } from './ad-ui.js';
 import { tr } from '../i18n.js';
+import { boostTypes, stockOf, activeOf, stockFull } from '../game/boosts.js';
+import { boostIcon } from './daily-ui.js';
 
 const U = () => D.economy.ui;
 const R = r => D.economy.rarities[r];
@@ -33,8 +35,11 @@ const subLine = it => `${D.cosmetics.types[it.kind].name}${it.hero ? ' · ' + he
 
 /* ---------- Onglet Boutique ---------- */
 export function shopHtml(ui) {
-  const tabs = U().tabs.map(([k, label]) => `<button class="chip sub${ui.shopTab === k ? ' on' : ''}" data-act="shopTab" data-arg="${k}" aria-pressed="${ui.shopTab === k}">${label}</button>`).join('');
-  const body = ui.shopTab === 'cosmetics' ? cosmeticsHtml(ui) : ui.shopTab === 'gems' ? gemsHtml() : chestsHtml();
+  // Onglet Boosts (texte dans data/i18n) placé avant l'onglet Gemmes.
+  const list = U().tabs.slice(), g = list.findIndex(([k]) => k === 'gems');
+  list.splice(g < 0 ? list.length : g, 0, ['boosts', tr('daily.shopTab')]);
+  const tabs = list.map(([k, label]) => `<button class="chip sub${ui.shopTab === k ? ' on' : ''}" data-act="shopTab" data-arg="${k}" aria-pressed="${ui.shopTab === k}">${label}</button>`).join('');
+  const body = ui.shopTab === 'cosmetics' ? cosmeticsHtml(ui) : ui.shopTab === 'gems' ? gemsHtml() : ui.shopTab === 'boosts' ? boostsHtml() : chestsHtml();
   return `<div class="chips shop-tabs">${tabs}</div>${body}`;
 }
 
@@ -103,6 +108,36 @@ function cosmeticsHtml(ui) {
       </div>`;
   }).join('');
   return `<div class="chips">${chips}</div><div class="shop-grid">${list}</div>`;
+}
+
+/* ---------- Boosts (data/economy.json → boosts ; mêmes règles que ceux des récompenses de connexion) ---------- */
+const boostName = t => tr('daily.boost.' + t, { m: nf(D.daily.boosts.types[t].mult) });
+function boostsHtml() {
+  const cards = boostTypes().map(t => {
+    const P = D.economy.boosts[t], full = stockFull(t), a = activeOf(t);
+    const btn = full ? `<div class="shop-price owned">${tr('daily.full')}</div>`
+      : `<button class="shop-price buy${canAfford(P.price) ? '' : ' poor'}" data-act="buyBoost" data-arg="${t}">${priceHtml(P.price, 15)}</button>`;
+    return `<div class="shop-item boost-item">
+        <div class="boost-th" style="--bc:${D.daily.boosts.types[t].color}">${boostIcon(t, 48)}</div>
+        <div class="shop-txt"><b>${boostName(t)} · ${tr('daily.games', { n: P.games })}</b><span>${tr('daily.boostText.' + t)}</span>
+          <em>${tr('daily.stock', { n: stockOf(t).length, max: D.daily.boosts.maxStock })}${a ? ' · ' + tr('daily.activeLeft', { n: a }) : ''}</em></div>
+        ${btn}
+      </div>`;
+  }).join('');
+  return `<div class="shop-note">${tr('daily.shopNote', { max: D.daily.boosts.maxStock })}</div><div class="shop-grid">${cards}</div>`;
+}
+
+/** Confirmation d'achat d'un boost. */
+export function confirmBoostHtml(t) {
+  const P = D.economy.boosts[t], name = boostName(t) + ' · ' + tr('daily.games', { n: P.games });
+  return `<div class="res-card shop-card">
+      <div class="res-title ol ol-5 set-title">${U().confirmTitle}</div>
+      <div class="shop-big">${boostIcon(t, 96)}</div>
+      <div class="shop-line"><b>${name}</b><span>${tr('daily.boostText.' + t)}</span></div>
+      <div class="shop-line">${tpl(U().confirmText, { name, price: tr('money.goldAmount', { n: nf(P.price.gold) }) })}</div>
+      <button class="res-again" data-act="buyBoostOk" data-arg="${t}"><span class="ol ol-4">${U().confirmOk}</span></button>
+      <button class="mini-btn" data-act="closeShop">${U().cancel}</button>
+    </div>`;
 }
 
 function gemsHtml() {

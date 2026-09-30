@@ -6,6 +6,7 @@ import { G } from '../game/state.js';
 import { facets } from './icons.js';
 import { superReady, superActive } from '../game/supers.js';
 import { tr, nf, nfi } from '../i18n.js';
+import { boostsHudHtml } from './daily-ui.js';
 
 /** Bas de la carte Vague / chrono / score, sous la zone sûre (px CSS) : les ennemis restent dessous. */
 export const HUD_BOTTOM = 128;
@@ -124,5 +125,6 @@ export function updateHud(A) {
   for (let i = 0; i < L; i++) html += `<i${i < on ? ' class="on"' : ''}></i>`;
   html += full ? `<span>${full.cm ? tr('hud.streakMult', { m: nf(full.cm) }) : tr('hud.streak')}</span>` : `<span>${on} / ${L}</span>`;
   set('streak', $('hudStreak'), 'html', html);
+  set('boosts', $('hudBoosts'), 'html', G.mode === 'play' ? boostsHudHtml() : '');   // boosts XP / or de la partie
   set('streakC', $('hudStreak'), 'class', 'hud-streak' + (hero.noCombo ? ' off' : full ? ' full' : on === L - 1 ? ' near' : ''));
 }

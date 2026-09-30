@@ -268,5 +268,80 @@
       ],
       "default": "de {name}"
     }
+  },
+  "daily": {
+    "button": "Récompenses",
+    "title": "Récompenses",
+    "dayTitle": "Récompense du jour",
+    "streakTitle": "SÉRIE DE 7 JOURS",
+    "streakNote": "Reviens chaque jour : un jour manqué ramène la série au jour 1.",
+    "calNote": "Chaque jour de connexion compte, même après une pause.",
+    "claim": "Récupérer",
+    "claimed": "Récupéré !",
+    "claimedToday": "Récupéré aujourd'hui",
+    "already": "Déjà récupéré aujourd'hui.",
+    "comeBack": "Reviens demain pour la suite.",
+    "offline": "À récupérer dès que la connexion revient",
+    "loading": "Connexion au serveur…",
+    "adDouble": "Doubler l'or avec une pub",
+    "adBonus": "Bonus : +{n} or avec une pub",
+    "adDone": "+{n} or grâce à la pub",
+    "boost": {
+      "xp": "XP ×{m}",
+      "gold": "Or ×{m}"
+    },
+    "boostText": {
+      "xp": "Double l'XP du héros et des armes.",
+      "gold": "Double l'or gagné."
+    },
+    "games": {
+      "one": "{n} partie",
+      "other": "{n} parties"
+    },
+    "drawColor": "Coloris au hasard",
+    "drawTrail": "Tracé au hasard",
+    "fallback": "Déjà tout possédé : +{n} or à la place",
+    "stockFull": "Stock de boosts plein : +{n} or à la place",
+    "gemsFor": "Récompense de connexion",
+    "newCosmetic": "NOUVEAU COSMÉTIQUE",
+    "cosmeticsMany": {
+      "one": "{n} nouveau cosmétique",
+      "other": "{n} nouveaux cosmétiques"
+    },
+    "fromDraw": "Récompense de connexion : un cosmétique que tu n'avais pas encore.",
+    "fromChest": "Coffre simple offert par le calendrier.",
+    "rewardOk": "Super !",
+    "boostsTitle": "STOCK DE BOOSTS",
+    "boostsNote": "Un seul boost actif par type. Une partie compte à sa fin (victoire, défaite, ou abandon après un round). Voyage et Histoire seulement, jamais en Duel.",
+    "stock": "En stock : {n} / {max}",
+    "noStock": "Aucun en stock",
+    "activeLeft": {
+      "one": "Actif : encore {n} partie",
+      "other": "Actif : encore {n} parties"
+    },
+    "isActive": "Actif",
+    "activate": "Activer",
+    "activated": "{name} activé",
+    "offerTitle": "Activer un boost ?",
+    "offerText": "Tu as des boosts en stock. Un boost activé compte pour cette partie et les suivantes.",
+    "offerPlay": "Jouer",
+    "shopTab": "Boosts",
+    "shopNote": "Stock de {max} boosts au plus par type. Voyage et Histoire seulement, jamais en Duel ni en Entraînement.",
+    "full": "Stock plein",
+    "bought": "Boost ajouté au stock",
+    "notEnoughGold": "Pas assez d'or",
+    "testNext": "Récompenses : +1 jour",
+    "testSkip": "+2 jours (jour manqué)",
+    "testReset": "Récompenses et boosts à zéro",
+    "testState": "Jour simulé : +{offset} · série {streak} / {streakMax} · calendrier {cal} / {calMax}",
+    "times": "× {n}",
+    "streakKick": "SÉRIE · JOUR {n}",
+    "calKick": "CALENDRIER · JOUR {n}",
+    "streakDayShort": "Jour {n}",
+    "calTitleLong": "CALENDRIER · {n} JOURS",
+    "calCountShort": "{n} / {total}",
+    "stockGames": "En stock : {list}",
+    "count": "×{n}",
+    "hudLeft": "{n}"
   }
 }

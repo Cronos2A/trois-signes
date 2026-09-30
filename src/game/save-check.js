@@ -27,6 +27,8 @@ const SHAPE = {
   ads: isObj,
   played: isObj,
   tips: isObj,
+  daily: isObj,
+  boosts: v => isObj(v) && (v.stock === undefined || (isObj(v.stock) && Object.values(v.stock).every(isArr))) && (v.active === undefined || isObj(v.active)),
   best: isNum,
   active: v => typeof v === 'string'
 };

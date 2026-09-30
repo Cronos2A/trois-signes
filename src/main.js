@@ -40,6 +40,8 @@ import { openDuel, hideDuelUi } from './ui/duel-ui.js';
 import { showTransition, hideTransition } from './ui/voyage-ui.js';
 import { initAudio, sfx, music, placeMusic, traceStart, traceStop } from './audio/audio.js';
 import { tr, nf, loadI18n, applyLanguageData, applyStatic } from './i18n.js';
+import { startBoosts, boostMult, countBoostGame, boostable, offerable } from './game/boosts.js';
+import { initDaily, enableDaily, maybeDaily, offerBoosts } from './ui/daily-ui.js';
 
 const $ = id => document.getElementById(id);
 const cv = $('c'), ctx = cv.getContext('2d');
@@ -136,11 +138,11 @@ function update(dt) {
 function payRounds(all = false) {
   const b = G.battle, P = G.paid;
   if (!b || (b.xpMode !== 'voyage' && b.xpMode !== 'story') || b.duel) return;
-  let gold = coinGold(G.coins - P.coins);
+  let gold = coinGold(G.coins - P.coins) * boostMult('gold');   // boost or ×2 (game/boosts.js)
   P.coins = G.coins;
   if (b.xpMode === 'voyage') {
     const arenas = Math.min(Math.floor(G.roundsCleared / D.voyage.roundsPerArena), D.voyage.arenas.length);
-    gold += arenaGold(arenas - P.arenas);
+    gold += arenaGold(arenas - P.arenas) * boostMult('gold');
     P.arenas = arenas;
     G.gemGains.push(...syncGems());
   }
@@ -202,9 +204,12 @@ function toLobby() {
   traceStop();
   if (b && b.onQuit) b.onQuit();          // Histoire : « Quitter » ramène au chemin des combats
   else music('musique_lobby');
-  if (gems.length || (b && b.xpMode === 'voyage')) showRewards([...syncRewards(), ...gems]);   // talisman, gemmes déjà versées
+  // Boosts : un abandon compte comme une partie s'il vient après au moins un round terminé.
+  if (b && G.roundsCleared >= 1) countBoostGame();
+  const shown = gems.length || (b && b.xpMode === 'voyage') ? showRewards([...syncRewards(), ...gems]) : null;   // talisman, gemmes déjà versées
   if (pendingRemote) { const d = pendingRemote; pendingRemote = null; applyRemote(d); }
-  if (window.__tsReady) ensurePseudo();    // fin de la première leçon : le joueur choisit son pseudo
+  const named = window.__tsReady ? ensurePseudo() : null;   // fin de la première leçon : le joueur choisit son pseudo
+  Promise.all([shown, named]).then(() => maybeDaily());     // récompenses de connexion : fenêtre du jour, s'il y a lieu
 }
 
 /* ---------- Sauvegarde en ligne (online/online.js) ---------- */
@@ -228,6 +233,8 @@ async function start(mode, opts = {}) {
   const c = opts.char || activeCharacter();
   let battle = opts.battle || idleBattle();
   if (mode === 'play' && !opts.battle) { try { battle = await newVoyage(); } catch (e) { starting = false; hideCover(); throw e; } }
+  // Boosts en stock et aucun actif de ce type : proposés avant le combat (Voyage, Histoire ; jamais en Duel ni dans la leçon).
+  if (mode === 'play' && boostable(battle) && offerable().length) await offerBoosts();
   curChar = c; curBattle = battle;
   if (battle.xpMode === 'voyage') startRun();                        // record du Voyage : durée de la partie notée au serveur
   if (mode === 'play' && !battle.tutorial) { prog.played = prog.played || {}; prog.played[c.id] = (prog.played[c.id] || 0) + 1; }   // héros favori (classements)
@@ -236,6 +243,7 @@ async function start(mode, opts = {}) {
   if (intro) await intro;
   starting = false;
   resetGame(c, battle);
+  startBoosts(mode === 'play' ? battle : null);                        // boosts actifs, figés pour la partie
   resetAnims(c.id);
   setupHud(c);
   G.mode = mode;
@@ -267,14 +275,15 @@ function endGame(why) {
   if (G.mode !== 'play') return;
   G.mode = 'end';
   // XP du héros : le Voyage compte les rounds terminés et les gardiens vaincus ; l'Histoire donne la sienne après la victoire.
-  const xp = G.battle.xpMode === 'voyage' ? voyageXp(G.roundsCleared, G.guardiansBeaten) : 0;
+  const xp = G.battle.xpMode === 'voyage' ? voyageXp(G.roundsCleared, G.guardiansBeaten) * boostMult('xp') : 0;   // boost XP ×2
   const { gain, before, after, max, record } = grantXp(G.charId, xp, G.score, !G.battle.onEnd);
   const weapon = grantWeaponXp();
   // Or : le Voyage le donne ici (base, arènes traversées, record, pièces) ; l'Histoire après le combat (story.js).
   // Or : déjà versé round par round ; en fin normale, les pièces du round en cours et le bonus de fin (Voyage : base + record ;
   // Histoire : bonus de victoire, dans story.js). Un abandon (toLobby) ne passe pas par ici.
   payRounds(true);
-  const bonus = G.battle.xpMode === 'voyage' ? voyageEndGold(record) : 0;
+  const bonus = G.battle.xpMode === 'voyage' ? voyageEndGold(record) * boostMult('gold') : 0;
+  countBoostGame();                                                   // boosts : une partie de moins (victoire ou défaite)
   if (bonus) addGold(bonus);
   const goldGain = G.goldGain + bonus;
   $('hud').classList.add('hidden');
@@ -297,6 +306,7 @@ function duelHome() {
   setInGame(false);
   music('musique_lobby');
   if (pendingRemote) { const d = pendingRemote; pendingRemote = null; applyRemote(d); }
+  maybeDaily();
 }
 
 /* ---------- Démarrage ---------- */
@@ -317,6 +327,8 @@ async function init() {
   migrateProgress();                       // anciennes sauvegardes : niveau gardé, XP dans le niveau à zéro
   initOnline({ applyRemote, afterUpload: syncBoard });   // + classements (online/leaderboard.js)
   initWallet({ changed: refreshLobby });                   // gemmes : le portefeuille du serveur fait foi (online/wallet.js)
+  initDaily({ refresh: refreshLobby });                    // récompenses de connexion (ui/daily-ui.js)
+  { let was = false; onOnlineChange(s => { const on = s.state === 'online'; if (on && !was) maybeDaily(); was = on; }); }   // connexion revenue : jour à récupérer ?
   { let was = false; onOnlineChange(s => { if (s.state === 'online' && !was) serverPrints().then(refreshLobby, () => {}); was = s.state === 'online'; }); }   // Empreintes du serveur             // compte anonyme + sauvegarde en ligne, en arrière-plan (data/online.json)
   initAds();                               // AdMob + consentement dans l'application ; rien sur le web
   initAudio();                             // effets chargés maintenant, musiques à la demande
@@ -359,7 +371,7 @@ async function init() {
   maybePrologue().then(first => {
     if (first && !prog.tutorial) return startTutorial();
     return showRewards([...syncRewards(), ...syncGems()]).then(showLobby).then(ensurePseudo);
-  });
+  }).then(() => { enableDaily(); return maybeDaily(); });
 }
 
 init();

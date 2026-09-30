@@ -12,6 +12,18 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 
 ---
 
+## 🔵 Récompenses de connexion (30/09/2026) — à faire de ton côté, puis à surveiller
+- **Publier les nouvelles règles** `firestore.rules` dans la console Firebase (Firestore Database → Règles) : collection `daily/{uid}`
+  et gemmes du jour dans `wallet/{uid}`. Tant qu'elles ne sont pas publiées, le serveur refuse les récupérations : le jeu affiche
+  « À récupérer dès que la connexion revient » (rien n'est perdu, le jour reste à récupérer). Offre gratuite Spark : suffit.
+- Or, boosts et cosmétiques reçus vivent dans la sauvegarde (comme l'or des parties) : avec deux appareils sur le même compte, la sauvegarde
+  la plus récente l'emporte (règle déjà en place pour tout le jeu). Le serveur empêche seulement de récupérer deux fois le même jour.
+- Rythme à observer au test fermé, pour 30 jours de suite (hors pubs) : ~4 800 or (2 650 du calendrier + ~2 150 de la série),
+  4 boosts du calendrier + jusqu'à 8 de la série, 4 cosmétiques (3 tirages + le coffre du 30e jour), 60 gemmes (+ 15 par série complète),
+  à comparer aux prix de la boutique (commun 400 à 550, rare 1 200 à 1 500) ; boost or ×2 à 300 or : rentable dès ~150 or gagnés par partie.
+- Le Duel ne consomme ni ne profite des boosts : vérifier au test fermé que la proposition « Activer un boost ? » ne gêne pas
+  (elle revient à chaque partie tant qu'il y a du stock et aucun boost actif du type).
+
 ## 🟠 Encore ouverts
 
 ### G8 (suite). Pseudo : pas d'unicité
