@@ -670,6 +670,78 @@
         "title": "Gira el teléfono",
         "text": "Tres Signos se juega en vertical."
       }
+    },
+    "online": {
+      "damaged": {
+        "title": "Partida guardada dañada",
+        "text": "La partida guardada de este dispositivo es ilegible o está dañada: el juego no puede usarla.",
+        "searching": "Buscando una partida guardada en línea…",
+        "found": "Hay una partida guardada en línea para tu cuenta (guardada el {date}).",
+        "foundDetail": "Récord {best} · Historias terminadas: {stories} · {gold} oro",
+        "none": "No hay ninguna partida guardada en línea para esta cuenta.",
+        "offline": "Servidor inaccesible: no se puede buscar una partida guardada en línea.",
+        "recover": "Recuperar mi partida en línea",
+        "reset": "Empezar de cero",
+        "confirmReset": "Se perderá todo el progreso de este dispositivo.",
+        "confirmResetBtn": "Sí, empezar de cero",
+        "retry": "Buscar otra vez"
+      },
+      "leaderboard": {
+        "boards": [
+          {
+            "label": "Viaje",
+            "scoreLabel": "Mejor puntuación"
+          },
+          {
+            "label": "Duelo",
+            "scoreLabel": "Huellas"
+          }
+        ],
+        "ui": {
+          "button": "Clasificación",
+          "recordSynced": "Récord sincronizado: {n} en la clasificación del Viaje",
+          "title": "Clasificación",
+          "world": "Top {n} mundial",
+          "you": "Tú",
+          "unranked": "Aún sin clasificar",
+          "unrankedVoyage": "Termina una partida del Viaje para entrar en la clasificación.",
+          "unrankedDuel": "Gana Huellas en Duelo aleatorio para entrar en la clasificación.",
+          "empty": "Todavía no hay nadie.",
+          "loading": "Cargando…",
+          "offline": "La clasificación necesita conexión con el servidor.",
+          "needPseudo": "Elige primero tu apodo.",
+          "close": "Cerrar"
+        }
+      },
+      "pseudo": {
+        "suggest": "Trazador"
+      },
+      "ui": {
+        "title": "Elige tu apodo",
+        "intro": "Es el nombre que verán los demás jugadores en Duelo. Podrás cambiarlo en los Ajustes.",
+        "placeholder": "Tu apodo",
+        "ok": "Aceptar",
+        "cancel": "Cancelar",
+        "suggest": "Al azar",
+        "tooShort": "Al menos {min} caracteres.",
+        "tooLong": "Como máximo {max} caracteres.",
+        "badChars": "Solo letras, cifras, espacio, guion, punto y _ (empieza por una letra o una cifra).",
+        "rude": "Este apodo no está permitido.",
+        "account": "Cuenta",
+        "pseudoLabel": "Apodo",
+        "edit": "Cambiar",
+        "google": "Vincular mi cuenta de Google",
+        "googleSoon": "Pronto (Google Play Games)",
+        "id": "Jugador n.º {id}",
+        "status": {
+          "off": "Sin conexión: guardado en este dispositivo",
+          "connecting": "Conectando con el servidor…",
+          "online": "En línea: partida guardada al día",
+          "saving": "En línea: guardando…",
+          "offline": "Sin conexión: guardado en este dispositivo, se enviará cuando vuelva la red",
+          "error": "Servidor inaccesible: guardado en este dispositivo"
+        }
+      }
     }
   }
 }
