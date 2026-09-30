@@ -430,6 +430,67 @@
         "testResetAds": "Azzera le pubblicità",
         "testState": "Gioco: {min} min · partite del Viaggio: {games}"
       }
+    },
+    "talismans": {
+      "ui": {
+        "cardTitle": "TALISMANO",
+        "slotEmpty": "Nessun talismano",
+        "equip": "Equipaggia",
+        "unequip": "Togli",
+        "equipped": "Equipaggiato",
+        "locked": "Bloccato",
+        "rewardKick": "NUOVO TALISMANO",
+        "rewardKickMany": "NUOVI TALISMANI",
+        "rewardNameMany": "{n} talismani",
+        "chestTitle": "Forziere del guardiano",
+        "chestOpened": "Guardiano battuto: {arena}",
+        "chestFallback": "+{n} oro",
+        "chestFallbackText": "Hai già questo talismano: il forziere contiene oro.",
+        "forgiven": "Errore perdonato",
+        "rewardOk": "Continua"
+      },
+      "talismans": [
+        {
+          "name": "Ghianda di muschio",
+          "lock": "Batti il guardiano della Foresta di Muschio",
+          "text": "Raggio di raccolta +25%."
+        },
+        {
+          "name": "Spiga d'oro",
+          "lock": "Batti il guardiano di Hautes-Gerbes",
+          "text": "Monete +20%."
+        },
+        {
+          "name": "Goccia limpida",
+          "lock": "Batti il guardiano di Fontclaire",
+          "text": "I cuori curano il 25% in più."
+        },
+        {
+          "name": "Chiave dei tetti",
+          "lock": "Batti il guardiano dei Tetti di Vélis",
+          "text": "L'anello d'allarme nemico appare 0,15 s prima."
+        },
+        {
+          "name": "Segnalibro",
+          "lock": "Batti il guardiano della Biblioteca di Aubelle",
+          "text": "Le raccolte non interrompono la serie di combo."
+        },
+        {
+          "name": "Piuma di vento",
+          "lock": "Batti il guardiano del Passo dei Venti",
+          "text": "La barra della super parte dal 20%."
+        },
+        {
+          "name": "Gesso antico",
+          "lock": "Batti il guardiano della Scuola dei Segni",
+          "text": "Un gesto mancato per round non interrompe la serie di combo."
+        },
+        {
+          "name": "Pagina del Codex",
+          "lock": "Batti il guardiano del Cuore del Silenzio",
+          "text": "+10% di XP delle armi."
+        }
+      ]
     }
   }
 }
