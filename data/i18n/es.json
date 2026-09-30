@@ -1144,6 +1144,123 @@
           "name": "Centinela Nocturna"
         }
       ]
+    },
+    "economy": {
+      "chests": {
+        "simple": {
+          "name": "Cofre simple",
+          "text": "1 cosmético al azar"
+        },
+        "trois_signes": {
+          "name": "Cofre de los Tres Signos",
+          "text": "3 cosméticos, al menos 1 raro"
+        }
+      },
+      "rarities": {
+        "commun": {
+          "name": "Común"
+        },
+        "rare": {
+          "name": "Raro"
+        },
+        "epique": {
+          "name": "Épico"
+        }
+      },
+      "gemPacks": [
+        {
+          "price": "0,99 €"
+        },
+        {
+          "price": "4,99 €"
+        },
+        {
+          "price": "9,99 €"
+        },
+        {
+          "price": "19,99 €"
+        }
+      ],
+      "ui": {
+        "tabs": [
+          [
+            "chests",
+            "Cofres"
+          ],
+          [
+            "cosmetics",
+            "Cosméticos"
+          ],
+          [
+            "gems",
+            "Gemas"
+          ]
+        ],
+        "filters": [
+          [
+            "all",
+            "Todo"
+          ],
+          [
+            "weapon",
+            "Armas"
+          ],
+          [
+            "color",
+            "Colores"
+          ],
+          [
+            "trail",
+            "Estelas"
+          ],
+          [
+            "skin",
+            "Aspectos"
+          ]
+        ],
+        "open": "Abrir",
+        "odds": "Probabilidades",
+        "oddsTitle": "Probabilidades",
+        "oddsIntro": "Cada cofre da cosméticos que aún no tienes, sin repetidos. Los cosméticos no dan ninguna ventaja en el juego.",
+        "oddsGuarantee": "Cofre simple: un objeto épico garantizado tras {n} cofres sin épico.",
+        "oddsMinRare": "Cofre de los Tres Signos: al menos 1 objeto raro o épico.",
+        "pityLeft": "Épico garantizado en {n} cofres",
+        "pityNow": "Épico garantizado en el próximo cofre",
+        "complete": "Colección completa",
+        "banned": "Cofres no disponibles en tu país: cada cosmético se compra directamente.",
+        "notEnough": "No tienes gemas suficientes",
+        "notEnoughGold": "No tienes oro suficiente",
+        "buy": "Comprar",
+        "owned": "Tuyo",
+        "equipped": "Equipado",
+        "equip": "Equipar",
+        "confirmTitle": "Confirmar la compra",
+        "confirmText": "¿Comprar {name} por {price}?",
+        "confirmOk": "Comprar",
+        "cancel": "Cancelar",
+        "chestTitle": "Apertura",
+        "chestTap": "Toca para abrir",
+        "chestOk": "¡Genial!",
+        "newItem": "¡Nuevo!",
+        "packsTitle": "Gemas",
+        "packsNote": "Disponible en la app",
+        "packsFree": "Las gemas también se ganan jugando: guardianes del Viaje vencidos, historias terminadas, epílogo.",
+        "gain": "+{n}",
+        "gemsName": "+{n} gemas",
+        "gemsReward": "GEMAS GANADAS",
+        "gemsFor": {
+          "guardian": "Guardián {of} vencido",
+          "story": "Historia {of} terminada",
+          "epilogue": "Epílogo de la historia"
+        },
+        "gemsOk": "Continuar",
+        "gemsTotal": "Total",
+        "testTitle": "Modo de prueba",
+        "testGold": "+{n} oro",
+        "testGems": "+{n} gemas",
+        "testCountry": "País",
+        "testReset": "Tienda a cero"
+      }
     }
   }
 }
