@@ -396,6 +396,40 @@
           ]
         }
       ]
+    },
+    "ads": {
+      "noAds": {
+        "price": "2,99 €"
+      },
+      "ui": {
+        "testTitle": "Pubblicità di prova",
+        "testText": "Qui apparirà una vera pubblicità nell'app.",
+        "rewardHint": "Guardala fino alla fine per ricevere la ricompensa.",
+        "rewardDone": "Ricompensa sbloccata!",
+        "rewardLost": "Pubblicità chiusa troppo presto: niente ricompensa.",
+        "close": "Chiudi",
+        "watch": "Guarda una pubblicità",
+        "doubleGold": "Raddoppia l'oro (+{n})",
+        "doubled": "Oro raddoppiato!",
+        "secondTitle": "Seconda possibilità?",
+        "secondText": "Guarda una pubblicità per riprendere il Viaggio con il {pct}% dei tuoi PV.",
+        "secondYes": "Seconda possibilità",
+        "secondNo": "No, grazie",
+        "gemsTitle": "Gemme gratis",
+        "gemsText": "Guarda una pubblicità per ottenere {n} gemme.",
+        "gemsBtn": "+{n} gemme",
+        "freeChestBtn": "Forziere gratis",
+        "perDay": "{left} / {max} oggi",
+        "noneLeft": "Torna domani",
+        "noAdsTitle": "Senza pubblicità",
+        "noAdsText": "Niente più pubblicità a schermo intero. Le pubblicità con ricompensa restano disponibili.",
+        "noAdsOwned": "Acquistato: niente più pubblicità a schermo intero",
+        "store": "Disponibile nell'app",
+        "testNoAds": "Senza pubblicità (test)",
+        "testGrace": "Salta i 10 min",
+        "testResetAds": "Azzera le pubblicità",
+        "testState": "Gioco: {min} min · partite del Viaggio: {games}"
+      }
     }
   }
 }
