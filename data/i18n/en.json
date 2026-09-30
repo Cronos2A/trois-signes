@@ -2472,7 +2472,232 @@
             }
           ]
         },
-        null
+        {
+          "titre": "Those Who Can Be Saved",
+          "cinematique_ouverture": [
+            {
+              "texte": "Fontclaire, its clear water, and its little house of healing at the end of the lane."
+            },
+            {
+              "texte": "Some tea for that cough, a balm for those knees, and a smile for everyone!"
+            },
+            {
+              "texte": "Mira, you heal too fast. One day, you'll come across something you can't cure."
+            },
+            {
+              "texte": "Then I'll keep looking until I find the cure!"
+            },
+            {
+              "texte": "That morning, her first patient could no longer remember why he had come."
+            },
+            {
+              "texte": "Mr Fabre? You came about your back… do you remember?"
+            }
+          ],
+          "combats": [
+            {
+              "titre": "The House of Healing",
+              "dialogue_avant": [
+                {
+                  "texte": "One by one, the patients turn grey."
+                },
+                {
+                  "texte": "Everyone stay calm! Nobody leaves the waiting room!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "They don't know who they are any more… This isn't a sickness I know."
+                }
+              ]
+            },
+            {
+              "titre": "The Grey Fever",
+              "dialogue_avant": [
+                {
+                  "texte": "The Silence spreads through Fontclaire like a fever."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Herbal tea won't fix this. I need something else."
+                }
+              ]
+            },
+            {
+              "titre": "The First One Saved",
+              "dialogue_avant": [
+                {
+                  "texte": "Grandma used to say: “A hand laid in the right place heals more than any remedy.” Let's try."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "… Mira? My back hurts."
+                },
+                {
+                  "texte": "He remembers! He remembers his back!"
+                },
+                {
+                  "texte": "Then the grey slowly returns. But Mira has seen what she needed to see."
+                }
+              ]
+            },
+            {
+              "titre": "The Village Road",
+              "dialogue_avant": [
+                {
+                  "texte": "If it works here, it'll work elsewhere. Let's go!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Three villages, eleven memories given back! Just a few seconds each time, fine. But it's a start!"
+                }
+              ]
+            },
+            {
+              "titre": "The Herbalist",
+              "dialogue_avant": [
+                {
+                  "texte": "…plants… I knew every plant…"
+                },
+                {
+                  "texte": "Aunt Hélo… You're the one who taught me everything."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Heal the ones I can. Remember the others. All right."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Mira lays both hands on her mentor's forehead."
+                },
+                {
+                  "texte": "Mira… You still heal too fast."
+                },
+                {
+                  "texte": "And you were right. Some of them, I can't cure."
+                },
+                {
+                  "texte": "Then heal the ones you can. And remember the others."
+                }
+              ]
+            },
+            {
+              "titre": "Encounter: Boran",
+              "dialogue_avant": [
+                {
+                  "texte": "Stop! Don't hit that one!"
+                },
+                {
+                  "texte": "He's attacking us."
+                },
+                {
+                  "texte": "Because he's scared. Cover me, big guy!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "You saved him?"
+                },
+                {
+                  "texte": "For a moment. And a moment is already a memory."
+                }
+              ]
+            },
+            {
+              "titre": "The Refugee Camp",
+              "dialogue_avant": [
+                {
+                  "texte": "Two hundred refugees, one single guard. Luckily, he counts for ten."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "In the healing tent, Mira works all night. Outside, Boran keeps watch."
+                }
+              ]
+            },
+            {
+              "titre": "The Impossible Cures",
+              "dialogue_avant": [
+                {
+                  "texte": "Some Hollowed no longer respond to the Tap. Not at all."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "I can't save them all."
+                },
+                {
+                  "texte": "No. But you remember them. That counts."
+                },
+                {
+                  "texte": "… That's my line."
+                }
+              ]
+            },
+            {
+              "titre": "The Watcher",
+              "dialogue_avant": [
+                {
+                  "texte": "Why make them suffer, healer? Forgetting doesn't hurt. I bring them relief."
+                },
+                {
+                  "texte": "You're not bringing them relief. You're erasing them."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "I'm going to the Heart."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "The Watcher staggers. Beneath her grey hood, the face of a former nurse."
+                },
+                {
+                  "texte": "I only wanted… no one to hurt any more…"
+                },
+                {
+                  "texte": "I know. Me too. But pain is part of our memories."
+                },
+                {
+                  "texte": "Mira holds her hand until the very end. Then she stands, and walks towards the Heart."
+                }
+              ]
+            },
+            {
+              "titre": "The Heart of Silence",
+              "dialogue_avant": [
+                {
+                  "texte": "…it hurts… to remember… let me forget…"
+                },
+                {
+                  "texte": "No. Not you. You, I can still heal."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Mira lays her hands on the master's forehead. The Tap, with all her strength."
+            },
+            {
+              "texte": "It's warm… like herbal tea…"
+            },
+            {
+              "texte": "With honey. That's the secret."
+            },
+            {
+              "texte": "A memory fragment returns to the master."
+            }
+          ]
+        }
       ]
     }
   }
