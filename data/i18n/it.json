@@ -265,9 +265,9 @@
     "comeBack": "Torna domani per il resto.",
     "offline": "Da riscuotere appena torna la connessione",
     "loading": "Connessione al server…",
-    "adDouble": "Raddoppia l'oro con una pubblicità",
-    "adBonus": "Bonus: +{n} oro con una pubblicità",
-    "adDone": "+{n} oro grazie alla pubblicità",
+    "adDouble": "Raddoppia l'oro con un video",
+    "adBonus": "Bonus: +{n} oro con un video",
+    "adDone": "+{n} oro grazie al video",
     "boost": {
       "xp": "XP ×{m}",
       "gold": "Oro ×{m}"
@@ -318,7 +318,7 @@
     "testState": "Giorno simulato: +{offset} · serie {streak} / {streakMax} · calendario {cal} / {calMax}",
     "times": "× {n}",
     "streakKick": "SERIE · GIORNO {n}",
-    "calKick": "CALENDARIO · GIORNO {n}",
+    "calKick": "CALENDARIO · G. {n}",
     "streakDayShort": "Giorno {n}",
     "calTitleLong": "CALENDARIO · {n} GIORNI",
     "calCountShort": "{n} / {total}",
