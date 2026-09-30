@@ -1136,6 +1136,123 @@
           "name": "Night Watcher"
         }
       ]
+    },
+    "economy": {
+      "chests": {
+        "simple": {
+          "name": "Basic chest",
+          "text": "1 random cosmetic"
+        },
+        "trois_signes": {
+          "name": "Three Signs chest",
+          "text": "3 cosmetics, at least 1 rare"
+        }
+      },
+      "rarities": {
+        "commun": {
+          "name": "Common"
+        },
+        "rare": {
+          "name": "Rare"
+        },
+        "epique": {
+          "name": "Epic"
+        }
+      },
+      "gemPacks": [
+        {
+          "price": "€0.99"
+        },
+        {
+          "price": "€4.99"
+        },
+        {
+          "price": "€9.99"
+        },
+        {
+          "price": "€19.99"
+        }
+      ],
+      "ui": {
+        "tabs": [
+          [
+            "chests",
+            "Chests"
+          ],
+          [
+            "cosmetics",
+            "Cosmetics"
+          ],
+          [
+            "gems",
+            "Gems"
+          ]
+        ],
+        "filters": [
+          [
+            "all",
+            "All"
+          ],
+          [
+            "weapon",
+            "Weapons"
+          ],
+          [
+            "color",
+            "Colours"
+          ],
+          [
+            "trail",
+            "Trails"
+          ],
+          [
+            "skin",
+            "Skins"
+          ]
+        ],
+        "open": "Open",
+        "odds": "Odds",
+        "oddsTitle": "Odds",
+        "oddsIntro": "Each chest gives cosmetics you don't have yet, never duplicates. Cosmetics give no advantage in the game.",
+        "oddsGuarantee": "Basic chest: an epic item guaranteed after {n} chests without one.",
+        "oddsMinRare": "Three Signs chest: at least 1 rare or epic item.",
+        "pityLeft": "Epic guaranteed within {n} chests",
+        "pityNow": "Epic guaranteed in the next chest",
+        "complete": "Collection complete",
+        "banned": "Chests aren't available in your country: every cosmetic can be bought directly.",
+        "notEnough": "Not enough gems",
+        "notEnoughGold": "Not enough gold",
+        "buy": "Buy",
+        "owned": "Owned",
+        "equipped": "Equipped",
+        "equip": "Equip",
+        "confirmTitle": "Confirm purchase",
+        "confirmText": "Buy {name} for {price}?",
+        "confirmOk": "Buy",
+        "cancel": "Cancel",
+        "chestTitle": "Opening",
+        "chestTap": "Tap to open",
+        "chestOk": "Great!",
+        "newItem": "New!",
+        "packsTitle": "Gems",
+        "packsNote": "Available in the app",
+        "packsFree": "You can also earn gems by playing: Journey guardians beaten, stories completed, the epilogue.",
+        "gain": "+{n}",
+        "gemsName": "+{n} gems",
+        "gemsReward": "GEMS EARNED",
+        "gemsFor": {
+          "guardian": "Guardian {of} defeated",
+          "story": "{of} story completed",
+          "epilogue": "Story epilogue"
+        },
+        "gemsOk": "Continue",
+        "gemsTotal": "Total",
+        "testTitle": "Test mode",
+        "testGold": "+{n} gold",
+        "testGems": "+{n} gems",
+        "testCountry": "Country",
+        "testReset": "Reset the shop"
+      }
     }
   }
 }
