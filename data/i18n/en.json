@@ -609,6 +609,61 @@
           }
         }
       ]
+    },
+    "rules": {
+      "story": {
+        "roundLabel": "Wave",
+        "typeLabels": {
+          "normal": "Battle",
+          "mini_boss": "Mini-boss",
+          "rencontre": "Encounter",
+          "lieutenant": "Lieutenant",
+          "boss_final": "Final boss"
+        },
+        "npc": {
+          "eldan": {
+            "name": "Master Eldan"
+          },
+          "eldan_oublie": {
+            "name": "Eldan the Forgotten"
+          },
+          "sbire": {
+            "name": "Hollowed"
+          }
+        }
+      },
+      "backButton": {
+        "title": "Quit the game?",
+        "text": "Your progress in this battle will be lost.",
+        "textDuel": "Quitting the Duel counts as a loss.",
+        "textLesson": "You can replay the lesson from the Play tab.",
+        "textTrain": "You'll go back to the lobby.",
+        "quit": "Quit",
+        "stay": "Keep playing"
+      },
+      "tips": {
+        "ok": "Got it",
+        "weapons": {
+          "title": "Weapons",
+          "text": "Each hero has three weapons of equal strength: they change your fighting style, not your power. Equip them in the Hero tab. A weapon earns XP in the Journey and in Story, up to level 10."
+        },
+        "talismans": {
+          "title": "Talismans",
+          "text": "Each Journey guardian you beat gives you a talisman. Each hero can wear one: equip it in the Hero tab."
+        },
+        "prints": {
+          "title": "Imprints",
+          "text": "In Random Duel: +{win} for a win, −{loss} for a loss. They open new Duel arenas and rank you among the players."
+        },
+        "duel": {
+          "title": "How a Duel works",
+          "text": "You both face the same enemies, wave by wave ({wave}s max each). Your points in a wave make your opponent's next wave harder: that's pressure (up to +{cap}%). Highest total score wins; a KO loses."
+        }
+      },
+      "orientation": {
+        "title": "Turn your phone",
+        "text": "Three Signs is played in portrait mode."
+      }
     }
   }
 }
