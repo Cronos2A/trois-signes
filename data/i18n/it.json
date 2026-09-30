@@ -584,8 +584,8 @@
           }
         },
         {
-          "role": "Ramingo",
-          "title": "La Ramingo",
+          "role": "Raminga",
+          "title": "La Raminga",
           "weaponLabel": "Arco",
           "passive": {
             "name": "Passo leggero",
@@ -610,6 +610,61 @@
           }
         }
       ]
+    },
+    "rules": {
+      "story": {
+        "roundLabel": "Ondata",
+        "typeLabels": {
+          "normal": "Battaglia",
+          "mini_boss": "Mini-boss",
+          "rencontre": "Incontro",
+          "lieutenant": "Luogotenente",
+          "boss_final": "Boss finale"
+        },
+        "npc": {
+          "eldan": {
+            "name": "Maestro Eldan"
+          },
+          "eldan_oublie": {
+            "name": "Eldan il Dimenticato"
+          },
+          "sbire": {
+            "name": "Svuotato"
+          }
+        }
+      },
+      "backButton": {
+        "title": "Uscire dalla partita?",
+        "text": "I tuoi progressi in questa battaglia andranno persi.",
+        "textDuel": "Uscire dal Duello conta come una sconfitta.",
+        "textLesson": "Potrai rivedere la lezione dalla scheda Gioca.",
+        "textTrain": "Tornerai alla lobby.",
+        "quit": "Esci",
+        "stay": "Continua"
+      },
+      "tips": {
+        "ok": "Capito",
+        "weapons": {
+          "title": "Le armi",
+          "text": "Ogni eroe ha tre armi della stessa forza: cambiano lo stile di combattimento, non la potenza. Equipaggiale nella scheda Eroe. Un'arma guadagna XP nel Viaggio e nella Storia, fino al livello 10."
+        },
+        "talismans": {
+          "title": "I talismani",
+          "text": "Ogni guardiano del Viaggio sconfitto ti dà un talismano. Ogni eroe può portarne uno, da equipaggiare nella scheda Eroe."
+        },
+        "prints": {
+          "title": "Le Impronte",
+          "text": "Nel Duello casuale: +{win} per una vittoria, −{loss} per una sconfitta. Sbloccano nuove arene del Duello e ti mettono in classifica tra i giocatori."
+        },
+        "duel": {
+          "title": "Come funziona un Duello",
+          "text": "Affrontate gli stessi nemici, ondata dopo ondata ({wave} s al massimo). I tuoi punti in un'ondata rendono più dura la successiva del tuo avversario: è la pressione (fino a +{cap}%). Vince il punteggio totale più alto; un KO fa perdere."
+        }
+      },
+      "orientation": {
+        "title": "Gira il telefono",
+        "text": "Tre Segni si gioca in verticale."
+      }
     }
   }
 }
