@@ -522,6 +522,93 @@
       "beyond": {
         "name": "Beyond the Silence"
       }
+    },
+    "characters": {
+      "statLabels": [
+        "Damage",
+        "Speed",
+        "Toughness"
+      ],
+      "characters": [
+        {
+          "role": "Knight",
+          "title": "The Knight",
+          "weaponLabel": "Sword",
+          "passive": {
+            "name": "Guard",
+            "text": "The knight takes hits better than anyone: −15% damage taken."
+          },
+          "super": {
+            "name": "Bulwark",
+            "text": "For 8s, damage taken is halved, plus a strike on every enemy (2 × attack)."
+          }
+        },
+        {
+          "role": "Assassin",
+          "title": "The Assassin",
+          "weaponLabel": "Dagger",
+          "passive": {
+            "name": "Glass Blade",
+            "text": "Hits hard but can't take a hit: the most fragile of all."
+          },
+          "super": {
+            "name": "Shadow",
+            "text": "Fully dodges the next 3 hits, even without a Circle, and +50% attack for 8s."
+          }
+        },
+        {
+          "role": "Colossus",
+          "title": "The Colossus",
+          "weaponLabel": "Gauntlets",
+          "passive": {
+            "name": "Brute Force",
+            "text": "Very tough and powerful, but can never trigger a combo."
+          },
+          "super": {
+            "name": "Giant",
+            "text": "Grows for 8s and strikes every enemy (2.5 × attack)."
+          }
+        },
+        {
+          "role": "Sorceress",
+          "title": "The Sorceress",
+          "weaponLabel": "Grimoire",
+          "passive": {
+            "name": "Incantation",
+            "text": "A combo takes only 3 matching gestures in a row instead of 4."
+          },
+          "super": {
+            "name": "Open Grimoire",
+            "text": "Her next 2 successful attacks count as combos of their grade."
+          }
+        },
+        {
+          "role": "Ranger",
+          "title": "The Ranger",
+          "weaponLabel": "Bow",
+          "passive": {
+            "name": "Light Step",
+            "text": "Base dodge of 120% instead of 80% (× the grade): from Very Good up, maximum dodge (90%)."
+          },
+          "super": {
+            "name": "Hawk Eye",
+            "text": "For 8s, every recognised gesture counts as a Perfect."
+          }
+        },
+        {
+          "role": "Healer",
+          "title": "The Healer",
+          "weaponLabel": "Amulet",
+          "passive": {
+            "name": "Healing and Summons",
+            "text": "Each successful attack heals her 0.5 HP × the multiplier, and each Perfect summons a little monster (1 damage per second for 10s)."
+          },
+          "super": {
+            "name": "Renewal",
+            "text": "Recovers 10% of her max HP and doubles her attack for 10s."
+          }
+        }
+      ]
     }
   }
 }
