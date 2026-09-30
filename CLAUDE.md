@@ -64,11 +64,11 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
   décalage entre ennemis, délai entre deux vagues, attente du butin en fin de combat.
 - Reconnaissance des gestes maison, sans IA (`src/input/gestures.js`, objet `TUNING` : seuls chiffres gardés dans le code).
 - **Progression des héros** (`data/progression.json`, code `src/game/progress.js`) : XP et niveau par héros, gagnés seulement en le jouant.
-  - Niveau 1 à **100** ; XP pour passer du niveau n au niveau n+1 = 100 + 25 × n. Sauvegarde : `prog.chars[id] = { lvl, xp }`
+  - Niveau 1 à **100** ; XP pour passer du niveau n au niveau n+1 = 100 + 15 × n. Sauvegarde : `prog.chars[id] = { lvl, xp }`
     (XP dans le niveau). Les sauvegardes d'avant (XP totale) sont converties une fois (`legacy`, `prog.heroSave`) :
     niveau gardé, plafonné à 100, XP remise à zéro.
-  - L'XP **ne dépend plus du score** : Voyage 10 XP par round terminé + 40 par gardien vaincu ; Histoire 40 XP à la première
-    victoire d'un combat, 10 aux suivantes, 0 en cas de défaite ; Entraînement et leçon 0. Quitter une partie ne rapporte rien.
+  - L'XP **ne dépend plus du score** : Voyage 12 XP par round terminé + 50 par gardien vaincu ; Histoire 60 XP à la première
+    victoire d'un combat, 15 aux suivantes, 0 en cas de défaite ; Entraînement et leçon 0. Quitter une partie ne rapporte rien.
   - Bonus par niveau : +0,5 % d'attaque et +0,5 % de PV max (Nv 100 : +49,5 %). `bonus_en_duel: false` : neutralisés en Duel.
   - Niveau 100 : plus d'XP accumulée, barre dorée « MAX », anneau doré autour du portrait (`maxRing`), « Nv 100 · MAX ».
 
@@ -79,10 +79,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 | Héros | PV / Att. | Passif | Super |
 |---|---|---|---|
-| Aldric, Chevalier (épée) | 130 / 4 | Équilibré : aucun | **Rempart** : 8 s, dégâts reçus ×0,5, coup sur tous ×2 |
+| Aldric, Chevalier (épée) | 130 / 5 | Garde : −15 % de dégâts reçus (`damageTaken`) | **Rempart** : 8 s, dégâts reçus ×0,5, coup sur tous ×2 |
 | Nyra, Assassine (dague) | 80 / 6 | Lame fragile : la plus fragile | **Ombre** : 3 esquives auto, attaque +50 % pendant 8 s |
 | Boran, Colosse (gantelets) | 170 / 6 | Force brute : jamais de combo | **Géant** : 8 s, taille ×1,4, coup sur tous ×2,5 |
-| Ilwen, Sorcière (grimoire) | 105 / 4 | Incantation : combo en 3 gestes | **Grimoire ouvert** : 2 attaques comptées comme combos |
+| Ilwen, Sorcière (grimoire) | 125 / 5 | Incantation : combo en 3 gestes | **Grimoire ouvert** : 2 attaques comptées comme combos |
 | Kestrel, Rôdeuse (arc) | 105 / 4,6 | Pas léger : esquive de base 120 % | **Œil de faucon** : 8 s, tout geste reconnu = Perfect |
 | Mira, Soigneuse (amulette) | 180 / 3 | Soin 4 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : PV au max, attaque ×2 pendant 10 s |
 
@@ -101,8 +101,8 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Effet de style** (`style.scale` : monte de 50 % au niveau 1 à 100 % au niveau 6 ; `style.fixed` : valeurs fixes).
   « Esquive réussie » = un coup ennemi vraiment évité, pas le simple tracé d'un Rond.
 - **XP et niveaux** (chaque arme a les siens, `prog.weapons` = `{ epee: { xp } }`) : Voyage et Histoire seulement (`xpModes`) ;
-  attaque OK 0, Good 1, Very Good 1, Excellent 2, Perfect 3 ; combo +3 ; super +3 ; gardien ou boss vaincu +5. Ajoutée en fin
-  de partie seulement. Niveaux 1 à 10 : 50 XP pour le niveau 2, puis +50 % par niveau ; +2 % d'attaque par niveau ;
+  attaque OK 0, Good 1, Very Good 1, Excellent 2, Perfect 3 ; combo +3 ; super +3 ; gardien ou boss vaincu +5 ; le tout × 0,6
+  (`xp.gainMult`). Ajoutée en fin de partie seulement. Niveaux 1 à 10 : 50 XP pour le niveau 2, puis +50 % par niveau ; +2 % d'attaque par niveau ;
   niveau 3 : jauge ×1,1 ; niveau 6 : style complet ; niveau 10 : éclat doré en combat (`gold_fx`).
 - **Talismans** (`talismans.json`, `src/game/talismans.js`) : 1 emplacement par héros, 8 talismans, un par gardien d'arène du
   Voyage battu (Gland de mousse : ramassage +25 % ; Épi d'or : pièces +20 % ; Goutte claire : cœurs +25 % ; Clé des toits :
@@ -120,12 +120,15 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   `duel.stylePower` (100 %) pour tous. Armes : `autorise_en_duel: true`. Talismans : `autorise_en_duel: true` (décidé le 29/09/2026 : actifs en Duel).
 - Équilibre vérifié le 28/09/2026 par un bot à graine (4 Voyages par arme au niveau 6, précision 82 % puis 90 %) : pas d'arme
   nettement au-dessus ; Couteaux de lancer relevés (jauge 10 → 15 par ennemi vaincu) ; à surveiller : Arbalète (+12 à 17 % de score),
-  Bâton de sève (Mira tombe plus tôt à faible précision). Mira ne tombe presque jamais (180 PV + soin) : équilibre des héros à revoir.
+  Bâton de sève (Mira tombe plus tôt à faible précision). Rééquilibrage du 30/09/2026 (bot « humain » : un geste toutes les 0,7 s, précision 62 à 99 %, 80 % des alertes esquivées,
+  3 Voyages par héros) : rounds tenus Boran 29, Kestrel 29, Nyra 27 ; Aldric 20 → 27 (Garde, attaque 5), Ilwen 18 → 22 (125 PV, attaque 5).
+  Progression mesurée (un héros, Voyages seulement) : Nv 5 en 9 min, Nv 10 en 25 min, Nv 20 en 1 h 15, Nv 50 en 6 h, Nv 100 en 22 h ;
+  arme au niveau 10 en ~6,5 Voyages (≈ 1 h), une histoire ≈ niveau 5. Voyage de 8 arènes sans pièce : 140 or (170 avec record).
 
 ## Économie et cosmétiques — `data/economy.json`, `data/cosmetics.json` — **fait**
 - **Versé round par round** (`main.js` → `payRounds`, Voyage et Histoire) dès qu'un round est terminé, **acquis même en abandonnant** :
-  2 or par pièce ramassée, +5 or par arène du Voyage traversée, gemmes d'un gardien battu la 1re fois (10). Les pièces du round en
-  cours ne comptent qu'en fin normale. **Bonus de fin, seulement en fin normale** (pas en abandon) : Voyage 10 + 20 si record (KO) ;
+  2 or par pièce ramassée, +15 or par arène du Voyage traversée, gemmes d'un gardien battu la 1re fois (10). Les pièces du round en
+  cours ne comptent qu'en fin normale. **Bonus de fin, seulement en fin normale** (pas en abandon) : Voyage 20 + 30 si record (KO) ;
   Histoire 30 à la 1re victoire d'un combat, 5 ensuite. Autres **gemmes** : 30 par histoire terminée, 50 pour l'épilogue ;
   `syncGems()` donne chaque gain une seule fois (`prog.eco.granted`), rétroactif au lancement.
   Testé le 28/09/2026 en quittant au milieu d'un round (Voyage et Histoire).
@@ -134,7 +137,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Arc Corail, Amulette Aurore), 10 tracés (Étincelle, Lierre, Arc-en-ciel, Étoiles, Bulles, Flammes, Confettis, Encre, Pixels, Notes),
   12 skins complets épiques Claude Design, 2 par héros (`assets/skins/`, 300 gemmes : Garde du Crépuscule, Chevalier des Tournois,
   Ombre des Marchés, Danseuse de Lames, Le Bâtisseur, Le Débardeur du Port, Alchimiste des Racines, Étoile Filante,
-  Guetteuse des Cimes, Chasseuse du Désert, Gardienne des Sources, Veilleuse de Nuit). Prix : or pour commun / rare, gemmes pour l'épique.
+  Guetteuse des Cimes, Chasseuse du Désert, Gardienne des Sources, Veilleuse de Nuit). Prix : or pour commun (400 ou 550) / rare (1 200 ou 1 500), gemmes pour l'épique (300).
 - **Apparence** : `src/game/cosmetics.js` (possédés, équipement par héros : `tint`, `weapon`, `trail`, `skin` ; `look(hero)`),
   `src/ui/looks.js` (lobby et combat), option `recolor` de `art.js` / `sprites.js` (le socle n'est jamais recoloré),
   skin complet en combat = fichier `_combat.svg` (héros de face, comme la planche) en deux calques corps + bras armé

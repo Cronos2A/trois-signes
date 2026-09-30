@@ -89,7 +89,7 @@ function resetGame(c, battle) {
     hp: Math.round(c.hp * Lb.hp), max: Math.round(c.hp * Lb.hp), atk: c.attack, shieldUntil: -1, shieldAvoid: 0, flash: 0, col: c.accent || c.color,
     // Passifs (data/characters.json) : pas de combo, combo plus court, esquive de base, soin par attaque.
     noCombo: !!P.noCombo, comboLength: P.comboLength || D.grades.comboLength,
-    dodgeBase: P.dodgeBase ?? D.rules.dodge.base, healPerHit: P.healPerHit || 0,
+    dodgeBase: P.dodgeBase ?? D.rules.dodge.base, healPerHit: P.healPerHit || 0, damageTaken: P.damageTaken ?? 1,   // Garde d'Aldric
     super: c.super, gauge: (G.talisman.gaugeStart || 0) * D.characters.superGauge.max, sp: null,   // Plume de vent
     barrier: 0, dodgeBonus: 0, shieldGrade: null, summon: P.summon || null
   };

@@ -133,3 +133,9 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
   avant la vague et dans le bandeau pendant la vague.
 - **Explications** à la première rencontre : armes, talismans, Empreintes, Duel.
 - **Coffre « Arène découverte »** : talisman déjà possédé → 50 or à la place (il pouvait s'afficher sans rien avec une ancienne sauvegarde).
+
+## Rééquilibrage du 30/09/2026 (points 1, 2 et 4)
+- **XP** : héros 100 + 15 × n par niveau (au lieu de 25 × n), Voyage 12 / round et 50 / gardien, Histoire 60 / 15 ; armes : gains × 0,6.
+  Mesuré : Nv 5 en 9 min, Nv 10 en 25 min, Nv 20 en 1 h 15, Nv 50 en 6 h, Nv 100 en 22 h ; arme au niveau 10 en ~1 h (≈ 6,5 Voyages).
+- **Or** : 20 + 15 par arène (+30 si record) ; communs à 400 et 550 or. Voyage de 8 arènes sans pièce : 140 or (170 avec record).
+- **Héros** : Aldric « Garde » (−15 % de dégâts reçus) et attaque 5 ; Ilwen 125 PV et attaque 5. Mira : second commit.

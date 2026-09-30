@@ -10,7 +10,8 @@
     "attack": { "OK": 0, "Good": 1, "Very Good": 1, "Excellent": 2, "Perfect": 3 },
     "combo": 3,
     "super": 3,
-    "bossKill": 5
+    "bossKill": 5,
+    "gainMult": 0.6
   },
   "style": { "startPower": 0.5, "fullLevel": 6, "label": "Effet de style complet" },
   "gauge": { "level": 3, "mult": 1.1, "label": "Jauge de super +10 % plus rapide" },

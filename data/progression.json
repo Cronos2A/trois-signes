@@ -1,11 +1,11 @@
 {
   "note": "Progression des héros : XP et niveaux, gagnés seulement en jouant ce héros. XP pour passer du niveau n au niveau n+1 = levelXp.base + levelXp.perLevel × n. L'XP ne dépend pas du score.",
   "maxLevel": 100,
-  "levelXp": { "base": 100, "perLevel": 25 },
+  "levelXp": { "base": 100, "perLevel": 15 },
   "bonusPerLevel": { "attack": 0.005, "hp": 0.005 },
   "xp": {
-    "voyage": { "perRound": 10, "perGuardian": 40 },
-    "story": { "firstWin": 40, "repeatWin": 10 }
+    "voyage": { "perRound": 12, "perGuardian": 50 },
+    "story": { "firstWin": 60, "repeatWin": 15 }
   },
   "bonus_en_duel": false,
   "legacy": {

@@ -223,7 +223,7 @@ export function strike(e) {
   let avoid = G.time < G.hero.shieldUntil ? G.hero.shieldAvoid : 0;
   const auto = avoid < 1 && useAutoDodge();        // Ombre : esquive totale sans tracer
   if (auto) avoid = 1;
-  let taken = Math.round(e.T.dmg * (1 - avoid) * damageTakenMult() * (1 - (S.damageReduction || 0)));   // Gantelets, Bouclier-tour
+  let taken = Math.round(e.T.dmg * (1 - avoid) * damageTakenMult() * G.hero.damageTaken * (1 - (S.damageReduction || 0)));   // Garde, Gantelets, Bouclier-tour
   addFx({ kind: 'bolt', x1: e.x, y1: e.y, x2: h.x, y2: h.y, col: '#FF5D73', life: 0.25 });
   if (auto) pop(h.x, h.y - 80, 'Ombre', 'esquive automatique', G.hero.col, 1, 22);
   else if (avoid > 0) pop(h.x, h.y - 80, 'Esquive ' + Math.round(avoid * 100) + ' %', avoid >= 1 ? 'aucun dégât' : '', '#3FD7C4', 1, 20);

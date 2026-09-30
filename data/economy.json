@@ -3,7 +3,7 @@
   "icons": { "gold": "assets/icones/monnaies/or.svg", "gems": "assets/icones/monnaies/gemme.svg" },
   "gold": {
     "goldPerCoin": 2,
-    "voyage": { "base": 10, "perArena": 5, "record": 20 },
+    "voyage": { "base": 20, "perArena": 15, "record": 30 },
     "story": { "firstWin": 30, "repeatWin": 5 }
   },
   "gems": {
