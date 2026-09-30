@@ -810,7 +810,8 @@
         "newArena": "New arena unlocked",
         "newArenaText": "Your Duels can now be played here.",
         "newArenaAt": "{prints} Imprints",
-        "continue": "Continue"
+        "continue": "Continue",
+        "arena": "Arena: {name}"
       }
     },
     "weapons": {
@@ -1270,7 +1271,7 @@
           "consigne": "Draw a triangle to strike the dummy",
           "eldan": [
             {
-              "texte": "The Triangle protects you. Draw it in one single stroke."
+              "texte": "The Triangle fights for you. Draw it in one single stroke."
             }
           ]
         },
