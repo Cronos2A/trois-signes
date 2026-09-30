@@ -49,7 +49,9 @@
     "timezones": { "Europe/Brussels": "BE" }
   },
   "test": {
-    "note": "Mode test (développement seulement, jamais dans le jeu publié) : actif sur ces hôtes (poste de développement), ou avec ?test dans l'adresse sur un réseau local seulement (lanHosts : téléphone relié au poste, py -m http.server --bind 0.0.0.0). Sur un domaine public, ?test est ignoré.",
+    "autorise": false,
+    "autoriseNote": "Interrupteur général du mode test : false dans la version publiée (coupe tout, même sur localhost). Le mettre à true seulement sur son poste pour développer ou tester, sans jamais le publier. Jamais actif dans l'application native (Capacitor), quelle que soit cette valeur.",
+    "note": "Mode test (développement seulement, jamais dans le jeu publié) : si autorise est vrai, actif sur ces hôtes (poste de développement), ou avec ?test dans l'adresse sur un réseau local seulement (lanHosts : téléphone relié au poste, py -m http.server --bind 0.0.0.0). Sur un domaine public, ?test est ignoré.",
     "hosts": ["localhost", "127.0.0.1"],
     "lanHosts": ["^10\\.", "^192\\.168\\.", "^172\\.(1[6-9]|2\\d|3[01])\\.", "^127\\.", "\\.local$"],
     "param": "test",

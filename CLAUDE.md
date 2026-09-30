@@ -162,8 +162,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   confirmation, puis « Équiper »), Boosts (XP ×2 et or ×2, voir « Récompenses de connexion »), Gemmes (4 packs 80 / 450 / 1000 / 2200, désactivés « Disponible dans l'application »).
   Compteurs or / gemmes en haut du lobby (le « + » mène aux Gemmes) ; le record reste sur la carte du Voyage.
 - **Onglet Personnage** : carte Cosmétiques (skin, couleur, skin d'arme, tracé ; « Voir la boutique »).
-- **Mode test** (développement seulement : `localhost` / `127.0.0.1`, ou `?test` sur un réseau local, `economy.json → test.lanHosts` ;
-  **jamais sur un domaine public**, même avec `?test`) dans Réglages : +1000 or, +500 gemmes, pays BE / FR, remise à zéro.
+- **Mode test** (développement seulement : interrupteur `economy.json → test.autorise`, **`false` dans la version publiée** : le passer à
+  `true` sur son poste pour développer ou tester, sans jamais le publier ; puis `localhost` / `127.0.0.1`, ou `?test` sur un réseau local,
+  `test.lanHosts` ; **jamais sur un domaine public**, même avec `?test`, ni dans l'application native Capacitor) dans Réglages :
+  +1000 or, +500 gemmes, pays BE / FR, remise à zéro.
 - Testé le 28/09/2026 : 30 coffres sans doublon, garantie au 10e, probabilités mesurées sur 4000 tirages (69 / 26 / 4,5 %),
   Trois Signes jamais sans rare, collection complète après 40 objets, Belgique bloquée, achats refusés sans assez d'or ou en double.
 - Sauvegarde : `prog.eco = { gold, gems, granted, owned, equipped, pity, opened }`.
@@ -533,6 +535,13 @@ prototype/ prototype d'origine
   (`economy.js → testMode`). Vérifié le 30/09/2026 (390 × 800 et 360 × 640) : domaine public, avec ou sans `?test` / `?emu` → aucun
   outil de test, récompenses du jour au serveur ; `localhost`, `127.0.0.1` et réseau local + `?test` → outils visibles.
   À revérifier si le jeu est publié sur une adresse de réseau privé ou si `testMode` change.
+  Deux verrous de plus (30/09/2026) : **`economy.json → test.autorise` doit valoir `false`** dans tout commit publié (il coupe tout le
+  mode test, même sur `localhost`) ; dans l'**application native**, `testMode` renvoie toujours `false` (`window.Capacitor` défini et
+  `Capacitor.isNativePlatform()` vrai), quelle que soit l'adresse. Vérifié : `autorise` à `false` → aucun outil sur `localhost` ni réseau
+  local ; à `true` → outils sur `localhost` et réseau local + `?test`, jamais sur un domaine public ; Capacitor natif → aucun outil,
+  même à `true` sur `localhost` ; Capacitor en navigateur (non natif) → outils visibles.
+- **Au moment de l'emballage Capacitor, vérifier que les outils de test sont invisibles dans l'APK** (Réglages : aucun bloc « Mode test »,
+  ni « +1 jour », ni « +1000 or »), et que `test.autorise` vaut `false`.
 
 ## Avant la publication sur le Play Store
 - **Activer l'offre Blaze de Firebase** (paiement à l'usage, carte bancaire, alerte de budget à régler), juste avant la publication,

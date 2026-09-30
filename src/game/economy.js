@@ -75,10 +75,15 @@ export function syncGems() {
 /**
  * Mode test (développement seulement, jamais dans le jeu publié) : poste de développement (localhost), ou ?test dans l'adresse
  * sur un réseau local (téléphone relié au poste). Sur un domaine public, ?test est ignoré.
+ * Toujours coupé : si data/economy.json → test.autorise est faux (version publiée), et dans l'application native (Capacitor),
+ * quelle que soit l'adresse.
  */
 export function testMode() {
   const T = E().test;
   try {
+    if (T.autorise !== true) return false;
+    const C = window.Capacitor;
+    if (C && typeof C.isNativePlatform === 'function' && C.isNativePlatform()) return false;
     const h = location.hostname;
     if (T.hosts.includes(h)) return true;
     return new URLSearchParams(location.search).has(T.param) && T.lanHosts.some(r => new RegExp(r).test(h));
