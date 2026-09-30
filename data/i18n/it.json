@@ -355,6 +355,47 @@
         "reached": "Livello {lvl} raggiunto!",
         "maxReached": "Livello massimo raggiunto!"
       }
+    },
+    "credits": {
+      "title": "Crediti",
+      "sections": [
+        {
+          "title": "Effetti sonori",
+          "lines": [
+            "Creati con ElevenLabs"
+          ]
+        },
+        {
+          "title": "Musiche",
+          "lines": [
+            "Composte con Suno"
+          ]
+        },
+        {
+          "title": "Note di riuscita",
+          "lines": [
+            "Sintetizzate nel gioco"
+          ]
+        },
+        {
+          "title": "Grafica",
+          "lines": [
+            "Design system Organic, bozzetti Claude Design"
+          ]
+        },
+        {
+          "title": "Caratteri",
+          "lines": [
+            "Caprasimo e Figtree (SIL Open Font License)"
+          ]
+        },
+        {
+          "title": "Server",
+          "lines": [
+            "Firebase (Google), SDK con licenza Apache 2.0"
+          ]
+        }
+      ]
     }
   }
 }
