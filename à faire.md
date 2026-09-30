@@ -164,6 +164,10 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - Tous les textes de l'interface sont sortis du code vers `data/i18n/fr.json` (182 clés) et passent par `tr()` ; système multilingue
   en place (fr, en, it, es, de ; seul le français existe, repli sur le français), choix dans les Réglages, nombres et dates par Intl,
   pluriels et « de » par langue, glossaire `data/i18n/GLOSSAIRE.md`. Voir CLAUDE.md → « Langues ».
-- **Reste pour la traduction** : écrire `en.json`, `it.json`, `es.json`, `de.json` (clés de l'interface + section `data` pour les textes
-  des autres fichiers : noms d'objets, armes, talismans, héros, arènes, histoire) ; relire la longueur des textes traduits en 360 × 640
-  (l'allemand est souvent 30 % plus long).
+- **Anglais fait le 30/09/2026** (`en.json`, interface + section `data` complète, histoire comprise) : voir CLAUDE.md → « Langues ».
+  Corrigé au passage : textes encore codés en dur (volume « 0 % », « Pseudo : », « Round » du Voyage), prix « Sans publicité »,
+  titre de l'attente et bandeau de pression du Duel qui débordaient avec un pseudo long (16 lettres larges), en français comme en anglais.
+- **À relire par un anglophone** : « the Hollowed » au singulier (« a Hollowed »), « Madam Sorel » (connotation possible), Tonnerre
+  laissé en français (« Thunder » pour un joueur anglais ?), « the Imprint » à la fois nom des trois gestes (prologue) et points du Duel
+  (comme en français), « The Triangle fights for you » (le français dit « te défend »).
+- **Reste** : `it.json`, `es.json`, `de.json` ; relire la longueur des textes en 360 × 640 (l'allemand est souvent 30 % plus long).

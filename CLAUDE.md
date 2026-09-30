@@ -1,6 +1,6 @@
 # Trois Signes — brief pour Claude Code
 
-État du projet au 30/09/2026 (système multilingue en place, français seulement ; récompenses de connexion et boosts en place ; reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
+État du projet au 30/09/2026 (jeu en français et en anglais ; récompenses de connexion et boosts en place ; reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
@@ -440,14 +440,17 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   de la 1re arme alternative, du 1er talisman (récompense ou coffre d'arène), des 1res Empreintes (fin de Duel au hasard) ;
   bulle « Compris » au 1er salon de Duel (pas la place d'un encadré). Pseudo normalisé en NFC avant vérification.
 
-## Langues (i18n) — `src/i18n.js`, `data/i18n/` — **fait (français seulement)**
+## Langues (i18n) — `src/i18n.js`, `data/i18n/` — **fait (français et anglais)**
 - **Aucun texte visible dans le code** : tout passe par `tr('clé', { variables })` (textes de `data/i18n/{langue}.json`).
   Les textes déjà rangés dans les autres fichiers de `data/` (noms, descriptions, `ui` de chaque fichier) y restent : une langue les
   remplace par sa section `"data"` (même chemin), superposée au chargement (`applyLanguageData`). Histoire : `story_mode.json`, `tutorial.json`.
+  Tableau d'objets (héros, répliques, combats…) : fusionné case par case, on n'y écrit que les textes (`null` = case inchangée) ;
+  tableau de textes (`statLabels`, lignes des crédits) : remplacé en entier.
   Textes fixes de `index.html` : attributs `data-i18n`, `data-i18n-title`, `data-i18n-aria` (`applyStatic`).
-- **Langues** (`data/i18n/languages.json`) : fr, en, it, es, de ; seul `fr.json` existe (`ready`). Langue par défaut : celle du téléphone si
+- **Langues** (`data/i18n/languages.json`) : fr, en, it, es, de ; `fr.json` et `en.json` existent (`ready`). Langue par défaut : celle du téléphone si
   elle est proposée, sinon l'anglais ; `?lang=de` pour tester ; choix dans les Réglages (`settings.lang`, le jeu se recharge).
   Clé absente dans la langue active → texte français (repli). Langues pas encore prêtes : « (bientôt) » dans les Réglages.
+  Noms des langues traduits dans chaque langue (`settings.langNames`).
 - **Nombres** : `nf` / `nfi` (Intl, locale de la langue, séparateur des milliers insécable) ; dates : `dateText`. **Pluriels** : clé
   `{ "one": …, "other": … }` choisie par `Intl.PluralRules` (`vars.n`).
 - **Grammaire par langue** : « de » + lieu ou héros = forme complète (`of.arena.*`, `of.hero.*` : « de la Forêt de Mousse », « d'Aldric ») ;
@@ -456,6 +459,14 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Noms des héros et niveaux de réussite (OK … Perfect) identiques dans toutes les langues. Aucune image ne contient de texte.
 - Exceptions volontaires : message « lancez via un serveur » de `index.html` (ouvert en `file://`, aucun fichier ne se charge), nom de lieu
   de secours tiré de l'identifiant quand un décor manque (`placeName`), messages de la console (développeurs).
+- **Anglais** (`en.json`, fait le 30/09/2026) : toute l'interface et toute la section `data` (armes, talismans, cosmétiques, héros, arènes,
+  économie, crédits, leçon, prologue, 6 histoires, épilogue, boss). Choix : Le Voyage = **The Journey** ; Sire / Madame / Tante / Capitaine /
+  Maître / Monsieur = Sir / Madam / Aunt / Captain / Master / Mr ; « de » + pseudo : « Name's » (« Name' » après un s) ; noms de personnages
+  gardés (Tonnerre, le taureau de Boran, aussi) ; prix en « €2.99 ». Le joueur est tutoyé partout (« you »).
+  Vérifié : 0 clé en repli, 0 texte de `data/` resté en français ; premier lancement, 21 écrans du lobby, fenêtre du jour, Récompenses,
+  Voyage (boost, arène, gardien, Seconde chance, pub, résultats), histoire d'Aldric en entier (26 scènes ligne par ligne) et son combat 5,
+  Duel à deux (salon, bulle, attente, pression, retour, fin) en 390 × 800 et 360 × 640 : aucun débordement, aucune erreur.
+  Mêmes retours à la ligne qu'en français sur la carte du Voyage et les onglets de la boutique (voulu par la maquette).
 - Vérifié le 30/09/2026 : textes de 21 écrans et du jeu (Entraînement, bulles, gestes, bandeau) identiques avant / après en français,
   sauf « 1 point » (pluriel), « HISTOIRE D'ALDRIC » (élision), la bulle de Renouveau « +10 % PV » (au lieu de « PV au max », faux depuis
   le rééquilibrage) ; `?lang=de` : textes en français, nombres « 1.234.567 », aucune erreur.
