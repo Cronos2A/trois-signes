@@ -398,6 +398,37 @@
           ]
         }
       ]
+    },
+    "ads": {
+      "ui": {
+        "testTitle": "Test ad",
+        "testText": "A real ad will show here in the app.",
+        "rewardHint": "Watch to the end to get the reward.",
+        "rewardDone": "Reward unlocked!",
+        "rewardLost": "Ad closed too early: no reward.",
+        "close": "Close",
+        "watch": "Watch an ad",
+        "doubleGold": "Double the gold (+{n})",
+        "doubled": "Gold doubled!",
+        "secondTitle": "Second chance?",
+        "secondText": "Watch an ad to continue the Journey with {pct}% of your HP.",
+        "secondYes": "Second chance",
+        "secondNo": "No thanks",
+        "gemsTitle": "Free gems",
+        "gemsText": "Watch an ad to earn {n} gems.",
+        "gemsBtn": "+{n} gems",
+        "freeChestBtn": "Free chest",
+        "perDay": "{left} / {max} today",
+        "noneLeft": "Come back tomorrow",
+        "noAdsTitle": "No ads",
+        "noAdsText": "No more full-screen ads. Rewarded ads are still offered.",
+        "noAdsOwned": "Purchased: no more full-screen ads",
+        "store": "Available in the app",
+        "testNoAds": "No ads (test)",
+        "testGrace": "Skip the 10 min",
+        "testResetAds": "Reset ads",
+        "testState": "Play time: {min} min · Journey games: {games}"
+      }
     }
   }
 }
