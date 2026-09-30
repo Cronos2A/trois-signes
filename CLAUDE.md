@@ -84,7 +84,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 | Boran, Colosse (gantelets) | 170 / 6 | Force brute : jamais de combo | **Géant** : 8 s, taille ×1,4, coup sur tous ×2,5 |
 | Ilwen, Sorcière (grimoire) | 125 / 5 | Incantation : combo en 3 gestes | **Grimoire ouvert** : 2 attaques comptées comme combos |
 | Kestrel, Rôdeuse (arc) | 105 / 4,6 | Pas léger : esquive de base 120 % | **Œil de faucon** : 8 s, tout geste reconnu = Perfect |
-| Mira, Soigneuse (amulette) | 150 / 3 | Soin 0,5 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : +30 % des PV max, attaque ×2 pendant 10 s |
+| Mira, Soigneuse (amulette) | 150 / 3 | Soin 0,5 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : +10 % des PV max, attaque ×2 pendant 10 s |
 
 ## Armes, talismans et récompenses — `data/weapons.json`, `data/talismans.json` — **fait**
 - **3 armes par héros** (`weapons.json` → `heroes`) : l'arme de départ + 2 alternatives débloquées en Histoire
@@ -97,7 +97,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   | Boran | Gantelets (−5 % reçus) | Masse de pierre (autres ennemis à 40 %, cible −10 %) | Bouclier-tour (−15 % reçus, −10 % infligés) |
   | Ilwen | Grimoire (combo +0,25) | Bâton de braises (Perfect : 3 dégâts en 3 s) | Orbe miroir (renvoie 20 % des dégâts évités) |
   | Kestrel | Arc (Perfect ×1,5 sur la jauge) | Arbalète (+20 % gardiens et boss, −10 % autres) | Fronde (tir de 3 dégâts à chaque ramassage) |
-  | Mira | Amulette (+1 PV par attaque) | Bâton de sève (pas de soin par attaque, 8 PV par combo) | Clochette (pas de soin : bouclier de 2 PV × multiplicateur par attaque, 20 au plus) |
+  | Mira | Amulette (+1 PV par attaque) | Bâton de sève (pas de soin par attaque, 8 PV par combo) | Clochette (pas de soin : bouclier de 1 PV × multiplicateur par attaque, 20 au plus) |
 - **Effet de style** (`style.scale` : monte de 50 % au niveau 1 à 100 % au niveau 6 ; `style.fixed` : valeurs fixes).
   « Esquive réussie » = un coup ennemi vraiment évité, pas le simple tracé d'un Rond.
 - **XP et niveaux** (chaque arme a les siens, `prog.weapons` = `{ epee: { xp } }`) : Voyage et Histoire seulement (`xpModes`) ;
@@ -126,7 +126,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   (le plus dur des réglages essayés : soin 3, 2, 1,5 + super à 50 %, 1 et 0,5). Puis (décision du 30/09) Renouveau à 30 % des PV, Clochette
   bouclier 2 PV × multiplicateur, Bâton de sève 8 PV par combo : KO à 17-19 min (Amulette), 16,5-17 min (Bâton de sève),
   22 min et > 25 min (Clochette), contre 9-11 min pour les autres : encore trop solide (sur 8 min, 489 PV perdus pour 488 regagnés ;
-  17 supers, soit une Renouveau toutes les 28 s environ).
+  17 supers, soit une Renouveau toutes les 28 s environ). Puis Renouveau à 10 % des PV et Clochette à 1 PV × multiplicateur :
+  KO à 16,3 et 16,6 min (Amulette), 9,0 et 12,7 min (Bâton de sève), 15,0 et 20,2 min (Clochette), moyenne 15 min (cible 8-13 min).
+  **Mira est à réévaluer après le test fermé**, en comparant les rounds atteints par héros dans le classement du Voyage.
   Progression mesurée (un héros, Voyages seulement) : Nv 5 en 9 min, Nv 10 en 25 min, Nv 20 en 1 h 15, Nv 50 en 6 h, Nv 100 en 22 h ;
   arme au niveau 10 en ~6,5 Voyages (≈ 1 h), une histoire ≈ niveau 5. Voyage de 8 arènes sans pièce : 140 or (170 avec record).
 

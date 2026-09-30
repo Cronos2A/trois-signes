@@ -141,5 +141,27 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - **Héros** : Aldric « Garde » (−15 % de dégâts reçus) et attaque 5 ; Ilwen 125 PV et attaque 5 ; Mira 150 PV, soin 0,5 PV par attaque
   (au lieu de 180 PV et 4). À surveiller : Mira encore en vie à 12 min (29-30 rounds, comme les meilleurs) ; la Clochette
   (soin → bouclier) devient faible avec ce soin, le Bâton de sève (12 PV par combo) relativement plus fort.
-- **Mira (30/09, après Renouveau à 30 %)** : encore trop solide : KO à 17-19 min (Amulette), 16,5-17 min (Bâton de sève), 22 à 25+ min
-  (Clochette), pour 9 à 11 min chez les autres. Durcissement proposé, en attente de décision (voir le rapport).
+- **Mira** (30/09) : Renouveau à 10 % des PV, Clochette 1 PV × multiplicateur, Bâton de sève 8 PV par combo, 150 PV, soin 0,5.
+  Mesuré (bot « humain », armes au niveau 1) : KO à 16,3 / 16,6 min (Amulette), 9,0 / 12,7 min (Bâton de sève), 15,0 / 20,2 min (Clochette),
+  moyenne 15 min pour une cible de 8 à 13 min. **À réévaluer après le test fermé**, en comparant les rounds atteints par héros
+  dans le classement du Voyage.
+
+## Textes encore écrits dans le code (à sortir vers data/ avant la traduction)
+Relevé du 30/09/2026. Les textes de data/*.json sont prêts ; ceux-ci ne le sont pas :
+- `src/ui/lobby.js` : « Réglages », « Crédits », « Arène max : », « Revoir la leçon », « Le Voyage », « 6 héros · 10 combats »,
+  « Personnage précédent », écran de fin du Voyage (« Fin du voyage », « Temps écoulé », « Arène », « Sans fin », « Retour au lobby »).
+- `src/ui/story-ui.js` : « FRAGMENTS DE MÉMOIRE », « Termine les six histoires », « Le Maître · bientôt disponible », « Retour au lobby »,
+  « Retour aux histoires », « Étape n : … », « Réessayer », « Revoir le dialogue », « … · TERMINÉE », « Fragment de mémoire retrouvé »,
+  « Un souvenir revient à Maître Eldan », « Son histoire sera bientôt disponible », « Voir le personnage ».
+- `src/ui/voyage-ui.js` : « ARÈNE n / 8 », « SANS FIN », « ARÈNE DÉCOUVERTE », « toucher pour passer / continuer ».
+- `src/ui/combat-hud.js` : « Quitter » / « Passer », « LEÇON », « ROUND », « GARDIEN », « BOSS ».
+- `src/ui/cutscene.js`, `src/ui/tutorial-ui.js` : « toucher pour continuer », « toucher pour passer ».
+- `src/game/combat.js`, `src/game/grades.js`, `src/main.js` : messages de l'Entraînement (« Attaque Perfect : 6 dégâts », « Esquive … % des
+  dégâts évités », « Série remise à zéro », « Tap sans objet… », « Tracez des triangles… »), bulles de combat (« Esquive 90 % »,
+  « aucun dégât », « Ombre », « esquive automatique », « PV au max »), message d'erreur de chargement.
+- `src/game/enemies.js` (« il se protège », « il appelle un Ombracé »), `src/game/tutorial.js` (« Leçon », « Série »),
+  `src/input/gestures.js` (« Forme pas fermée », « 4 coins : tracez un triangle »), `src/ui/money.js` (« or », « gemmes »),
+  `src/ui/sprites.js` (« Le Chevalier · Épée » par défaut), `index.html` (lang="fr", libellés du HUD).
+- **Grammaire propre au français** : `deName` (`src/util.js` : d', du, des, de la) et les titres des PNJ (« Sire », « Madame »,
+  « Maître »… dans `assets.js` et `cutscene.js`) ; nombres formatés en `fr-FR` à 11 endroits (9 fichiers).
+  À prévoir : un fichier de textes par langue et une fonction de mise en forme par langue.
