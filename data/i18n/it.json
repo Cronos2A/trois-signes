@@ -1273,7 +1273,7 @@
           "consigne": "Traccia un triangolo per colpire il manichino",
           "eldan": [
             {
-              "texte": "Il Triangolo ti difende. Tracciato con un solo gesto."
+              "texte": "Il Triangolo ti difende. Traccialo con un solo gesto."
             }
           ]
         },
@@ -1326,6 +1326,250 @@
         }
       ],
       "handHint": "Segui la mano"
+    },
+    "story_mode": {
+      "histoires": [
+        {
+          "titre": "L'ultimo allievo",
+          "cinematique_ouverture": [
+            {
+              "texte": "A Pierrelune, ogni mattina comincia con una lezione."
+            },
+            {
+              "texte": "Il Cerchio ti protegge. Il Triangolo ti difende. Il Tocco ti unisce agli altri. Tre gesti, Aldric. Non uno di più."
+            },
+            {
+              "texte": "E quando li saprò a memoria, maestro?"
+            },
+            {
+              "texte": "Allora dovrai insegnarli a qualcun altro. È l'unico modo per non perderli."
+            },
+            {
+              "texte": "Quella mattina, una nebbia grigia scese dalla montagna. E il maestro non finì mai la sua lezione."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Pierrelune",
+              "dialogue_avant": [
+                {
+                  "texte": "Delle sagome alle porte del villaggio… Non hanno volto!"
+                },
+                {
+                  "texte": "Aldric! I segni, come te li ho insegnati!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Maestro? Maestro, dove siete?"
+                },
+                {
+                  "texte": "Nessuno risponde. La nebbia si è portata via la voce del maestro."
+                }
+              ]
+            },
+            {
+              "titre": "La notte del Silenzio",
+              "dialogue_avant": [
+                {
+                  "texte": "La notte cala su Pierrelune, e i colori si spengono uno a uno."
+                },
+                {
+                  "texte": "State dietro di me. Stanotte non sparisce più nessuno."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Aldric… come si chiamava mio marito?"
+                },
+                {
+                  "texte": "Si chiamava Jorran, Maud. Ve lo ricorderò ogni giorno, se serve."
+                }
+              ]
+            },
+            {
+              "titre": "La casa vuota",
+              "dialogue_avant": [
+                {
+                  "texte": "La porta del maestro è aperta. Non è da lui."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Sul tavolo: una pagina strappata dal Codex e una mappa scarabocchiata in fretta."
+                },
+                {
+                  "texte": "«Il ponte delle Nebbie, poi la scuola.» Quale scuola?"
+                }
+              ]
+            },
+            {
+              "titre": "Il ponte delle Nebbie",
+              "dialogue_avant": [
+                {
+                  "texte": "L'unico ponte ancora in piedi. Se lo attraverso, non potrò più tornare indietro."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Pierrelune, tornerò. Con il maestro."
+                }
+              ]
+            },
+            {
+              "titre": "Il Guardiano del ponte",
+              "dialogue_avant": [
+                {
+                  "texte": "…forgiare… dovevo… forgiare cosa, già…"
+                },
+                {
+                  "texte": "Bram? Sei tu che hai forgiato la mia spada…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Riposa, Bram."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Lo Svuotato crolla. Per un istante, i suoi occhi tornano quelli del vecchio fabbro."
+                },
+                {
+                  "texte": "Aldric… la tua spada… la tieni sempre troppo alta."
+                },
+                {
+                  "texte": "Lo so, Bram. Lo so."
+                },
+                {
+                  "texte": "Poi la nebbia se lo porta via, e il ponte finalmente si apre davanti a lui."
+                }
+              ]
+            },
+            {
+              "titre": "Incontro: Nyra",
+              "dialogue_avant": [
+                {
+                  "texte": "Bel mantello, cavaliere. Anche tu cerchi un vecchio che disegna cerchi nell'aria?"
+                },
+                {
+                  "texte": "Parli del mio maestro. Chi sei?"
+                },
+                {
+                  "texte": "Una a cui lui deve qualcosa. E siamo circondati, quindi le presentazioni aspetteranno."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Niente male, per uno così rigido."
+                },
+                {
+                  "texte": "Viaggiamo insieme fino alla scuola. Poi vedremo."
+                }
+              ]
+            },
+            {
+              "titre": "La Scuola dei Segni",
+              "dialogue_avant": [
+                {
+                  "texte": "Rovine immense, coperte di triangoli e cerchi incisi nella pietra."
+                },
+                {
+                  "texte": "Ci sono centinaia di nomi su questo muro… Tutti suoi allievi?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Non mi ha mai detto che avevo fratelli e sorelle d'armi."
+                },
+                {
+                  "texte": "Nemmeno a me ha mai detto granché."
+                }
+              ]
+            },
+            {
+              "titre": "Gli allievi dimenticati",
+              "dialogue_avant": [
+                {
+                  "texte": "…cerchio… triangolo… cerchio… perché… perché non funziona più…"
+                },
+                {
+                  "texte": "Tracciano ancora i segni. Ma dentro non c'è più niente."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Un segno senza ricordo è solo un gesto. Il maestro aveva ragione."
+                }
+              ]
+            },
+            {
+              "titre": "Ser Corvin",
+              "dialogue_avant": [
+                {
+                  "texte": "L'ultimo arrivato. Ti ha insegnato la stessa lezione che a me? «Tre gesti, non uno di più»?"
+                },
+                {
+                  "texte": "Voi… voi ricordate?"
+                },
+                {
+                  "texte": "Ricordo tutto. Tranne perché contasse."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Allora lo ricorderò io per tutti e due."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Corvin cade in ginocchio. La sua lama grigia si incrina come vetro."
+                },
+                {
+                  "texte": "Ci ha dato tutto… e noi l'abbiamo lasciato solo con i suoi ricordi."
+                },
+                {
+                  "texte": "È al Cuore, ragazzo. Dove tutto ha cominciato a spegnersi."
+                },
+                {
+                  "texte": "Allora è lì che vado."
+                }
+              ]
+            },
+            {
+              "titre": "Il Cuore del Silenzio",
+              "dialogue_avant": [
+                {
+                  "texte": "…un allievo… un altro allievo… vi ho dimenticati tutti…"
+                },
+                {
+                  "texte": "Maestro?!"
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "L'ultimo segno di Aldric attraversa il Silenzio come un raggio di sole."
+            },
+            {
+              "texte": "Aldric… Tieni sempre la spada troppo alta."
+            },
+            {
+              "texte": "È quello che diceva anche Bram."
+            },
+            {
+              "texte": "Un frammento di memoria torna al maestro."
+            }
+          ]
+        },
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
     }
   }
 }
