@@ -1261,6 +1261,76 @@
         "testCountry": "País",
         "testReset": "Tienda a cero"
       }
+    },
+    "tutorial": {
+      "title": "La primera lección",
+      "dummy": {
+        "name": "Muñeco"
+      },
+      "intro": {
+        "kicker": "RECUERDO",
+        "title": "La primera lección",
+        "sub": "Pierrelune, antes del Silencio"
+      },
+      "steps": [
+        {
+          "label": "Triángulo",
+          "consigne": "Traza un triángulo para golpear al muñeco",
+          "eldan": [
+            {
+              "texte": "El Triángulo te defiende. Trázalo de un solo gesto."
+            }
+          ]
+        },
+        {
+          "label": "Círculo",
+          "consigne": "Traza un círculo cuando el anillo rojo se cierre",
+          "eldan": [
+            {
+              "texte": "Cuando el peligro se cierre sobre ti, traza el Círculo."
+            }
+          ]
+        },
+        {
+          "label": "Toque",
+          "consigne": "Toca las monedas para recogerlas",
+          "eldan": [
+            {
+              "texte": "El Toque une. Recoge lo que brilla."
+            }
+          ]
+        },
+        {
+          "label": "Precisión",
+          "consigne": "Encadena gestos del mismo nivel para hacer un combo",
+          "eldan": [
+            {
+              "texte": "Cuanto más puro es tu gesto, más fuerte es."
+            }
+          ]
+        },
+        {
+          "label": "Súper",
+          "consigne": "Toca el botón SÚPER abajo a la derecha",
+          "eldan": [
+            {
+              "texte": "Y cuando tu corazón esté lleno… libéralo."
+            }
+          ]
+        }
+      ],
+      "levelsPanel": {
+        "title": "Los 5 niveles de acierto",
+        "text": "Cuanto más preciso es tu trazo, más lejos llega tu gesto.",
+        "miss": "Fallo: ningún efecto, la racha vuelve a cero.",
+        "button": "Entendido"
+      },
+      "fin": [
+        {
+          "texte": "Tres gestos. Ni uno más. Y un día se los enseñarás a otra persona."
+        }
+      ],
+      "handHint": "Sigue la mano"
     }
   }
 }
