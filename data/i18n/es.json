@@ -1792,7 +1792,247 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "El campo silencioso",
+          "cinematique_ouverture": [
+            {
+              "texte": "En Hautes-Gerbes, el trigo llega hasta los hombros. Salvo a los de Boran."
+            },
+            {
+              "texte": "¡Última gavilla de la temporada, hermano mayor! Después de esto, dormimos una semana."
+            },
+            {
+              "texte": "Tú duermes. Yo arreglo el granero."
+            },
+            {
+              "texte": "De niño, Boran había aprendido tres gestos de un viejo viajero, como un juego. Creía haberlos olvidado."
+            },
+            {
+              "texte": "Aquella tarde, el trigo se volvió gris. Y Oren dejó de reír."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "La cosecha",
+              "dialogue_avant": [
+                {
+                  "texte": "Gente en el campo. Están pisando el trigo…"
+                },
+                {
+                  "texte": "Fuera de mi campo."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Boran… tengo frío…"
+                },
+                {
+                  "texte": "¿Oren?"
+                }
+              ]
+            },
+            {
+              "titre": "Los vecinos cambiados",
+              "dialogue_avant": [
+                {
+                  "texte": "Los vecinos de toda la vida avanzan hacia la granja. Sin decir palabra."
+                },
+                {
+                  "texte": "El viejo Lucas. Doña Anselme. Les he cargado los sacos de harina durante diez años…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ya no me reconocen. Pero yo sí me acuerdo de ellos. Eso contará."
+                }
+              ]
+            },
+            {
+              "titre": "El granero asediado",
+              "dialogue_avant": [
+                {
+                  "texte": "¡Boran! ¡Estamos todos en el granero, van a entrar!"
+                },
+                {
+                  "texte": "No entra nadie."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Eres el más fuerte del mundo."
+                },
+                {
+                  "texte": "No. Solo el que más pesa."
+                }
+              ]
+            },
+            {
+              "titre": "El camino de las colinas",
+              "dialogue_avant": [
+                {
+                  "texte": "Vamos hacia las colinas. Los niños delante, yo detrás."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "A sus espaldas, la granja desaparece en la niebla gris. Boran no se da la vuelta."
+                },
+                {
+                  "texte": "Oren se quedó allí."
+                }
+              ]
+            },
+            {
+              "titre": "El Toro de piedra",
+              "dialogue_avant": [
+                {
+                  "texte": "Tonnerre, el toro de la finca, embiste al convoy. Sus cuernos se han vuelto de piedra gris."
+                },
+                {
+                  "texte": "Tonnerre. Tranquilo, grandullón. Soy yo."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "¿Qué acabo de hacer?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Boran agarra los cuernos del toro y aguanta. Mucho rato."
+                },
+                {
+                  "texte": "Luego, en lugar de golpear, le pone la mano en la frente. El Toque."
+                },
+                {
+                  "texte": "Un aliento cálido. Durante un segundo, Tonnerre vuelve a ser marrón, y lo mira."
+                },
+                {
+                  "texte": "El juego del viejo viajero… No era un juego."
+                }
+              ]
+            },
+            {
+              "titre": "Encuentro: Mira",
+              "dialogue_avant": [
+                {
+                  "texte": "¡No lo golpee! ¡A ese todavía puedo curarlo!"
+                },
+                {
+                  "texte": "Nos está atacando."
+                },
+                {
+                  "texte": "Tiene miedo. No es lo mismo. Mantenga a los demás a distancia, yo me encargo del resto."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "El Vaciado al que Mira ha curado se mira las manos, sonríe y luego se apaga suavemente."
+                },
+                {
+                  "texte": "¿Lo ha salvado?"
+                },
+                {
+                  "texte": "Un instante. A veces, un instante ya es mucho."
+                }
+              ]
+            },
+            {
+              "titre": "El campo de refugiados",
+              "dialogue_avant": [
+                {
+                  "texte": "El campo está lleno. Necesitamos a alguien que vigile la empalizada."
+                },
+                {
+                  "texte": "Aquí estoy."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Boran, te quedas con nosotros, ¿verdad?"
+                },
+                {
+                  "texte": "El tiempo que haga falta."
+                }
+              ]
+            },
+            {
+              "titre": "La larga guardia",
+              "dialogue_avant": [
+                {
+                  "texte": "La noche más larga. Boran, solo frente a la empalizada."
+                },
+                {
+                  "texte": "Hasta el amanecer."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Sale el sol. La empalizada aguanta. Boran también."
+                }
+              ]
+            },
+            {
+              "titre": "El Labrador",
+              "dialogue_avant": [
+                {
+                  "texte": "…un hermano… tenía un hermano… grande… lento…"
+                },
+                {
+                  "texte": "Tan descarado como siempre, Oren."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Duerme, hermanito."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Boran se quita los guanteletes. Ya no tiene ganas de golpear."
+                },
+                {
+                  "texte": "Pone la mano en la frente de su hermano, como con Tonnerre. El Toque."
+                },
+                {
+                  "texte": "Hermano… el granero… ¿lo has arreglado?"
+                },
+                {
+                  "texte": "Todavía no. Te estaba esperando."
+                },
+                {
+                  "texte": "Oren se duerme, en paz. A lo lejos, Mira señala un claro blanco."
+                }
+              ]
+            },
+            {
+              "titre": "El Corazón del Silencio",
+              "dialogue_avant": [
+                {
+                  "texte": "…un niño… campos de trigo… le enseñé un juego…"
+                },
+                {
+                  "texte": "Era usted. El viejo viajero."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Boran no da el último golpe. Tiende la mano."
+            },
+            {
+              "texte": "El pequeño de Hautes-Gerbes… Has crecido. Has crecido mucho."
+            },
+            {
+              "texte": "Usted me enseñó un juego. Me ha servido."
+            },
+            {
+              "texte": "Un fragmento de memoria vuelve al maestro."
+            }
+          ]
+        },
         null,
         null,
         null
