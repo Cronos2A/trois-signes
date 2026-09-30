@@ -1324,6 +1324,250 @@
         }
       ],
       "handHint": "Follow the hand"
+    },
+    "story_mode": {
+      "histoires": [
+        {
+          "titre": "The Last Student",
+          "cinematique_ouverture": [
+            {
+              "texte": "In Pierrelune, every morning begins with a lesson."
+            },
+            {
+              "texte": "The Circle guards you. The Triangle fights for you. The Tap connects you to others. Three gestures, Aldric. Not one more."
+            },
+            {
+              "texte": "And when I know them by heart, Master?"
+            },
+            {
+              "texte": "Then you'll have to teach them to someone else. It's the only way not to lose them."
+            },
+            {
+              "texte": "That morning, a grey mist came down from the mountain. And the master never finished his lesson."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Pierrelune",
+              "dialogue_avant": [
+                {
+                  "texte": "Figures at the village gates… They have no faces!"
+                },
+                {
+                  "texte": "Aldric! The signs, just as I taught you!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Master? Master, where are you?"
+                },
+                {
+                  "texte": "No one answers. The mist has carried away the master's voice."
+                }
+              ]
+            },
+            {
+              "titre": "The Night of the Silence",
+              "dialogue_avant": [
+                {
+                  "texte": "Night falls on Pierrelune, and the colours go out one by one."
+                },
+                {
+                  "texte": "Stay behind me. No one else disappears tonight."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Aldric… what was my husband's name again?"
+                },
+                {
+                  "texte": "His name was Jorran, Maud. I'll remind you every day, if I have to."
+                }
+              ]
+            },
+            {
+              "titre": "The Empty House",
+              "dialogue_avant": [
+                {
+                  "texte": "The master's door is open. That's not like him."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "On the table: a page torn from the Codex, and a map scribbled in haste."
+                },
+                {
+                  "texte": "“The Bridge of Mists, then the school.” What school?"
+                }
+              ]
+            },
+            {
+              "titre": "The Bridge of Mists",
+              "dialogue_avant": [
+                {
+                  "texte": "The only bridge still standing. Once I cross it, there's no turning back."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Pierrelune, I'll be back. With the master."
+                }
+              ]
+            },
+            {
+              "titre": "The Bridge Guardian",
+              "dialogue_avant": [
+                {
+                  "texte": "…forge… I had to… forge what, again…"
+                },
+                {
+                  "texte": "Bram? You're the one who forged my sword…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Rest now, Bram."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "The Hollowed collapses. For a moment, his eyes are the old blacksmith's again."
+                },
+                {
+                  "texte": "Aldric… your sword… you still hold it too high."
+                },
+                {
+                  "texte": "I know, Bram. I know."
+                },
+                {
+                  "texte": "Then the mist takes him, and the bridge finally opens before Aldric."
+                }
+              ]
+            },
+            {
+              "titre": "Encounter: Nyra",
+              "dialogue_avant": [
+                {
+                  "texte": "Nice cloak, knight. You looking for an old man who draws circles in the air too?"
+                },
+                {
+                  "texte": "You're talking about my master. Who are you?"
+                },
+                {
+                  "texte": "Someone he owes something to. And we're surrounded, so introductions can wait."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Not bad, for someone so stiff."
+                },
+                {
+                  "texte": "We travel together as far as the school. After that, we'll see."
+                }
+              ]
+            },
+            {
+              "titre": "The School of Signs",
+              "dialogue_avant": [
+                {
+                  "texte": "Vast ruins, covered in triangles and circles carved into the stone."
+                },
+                {
+                  "texte": "There are hundreds of names on this wall… All his students?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "He never told me I had brothers and sisters in arms."
+                },
+                {
+                  "texte": "He never told me much either."
+                }
+              ]
+            },
+            {
+              "titre": "The Forgotten Students",
+              "dialogue_avant": [
+                {
+                  "texte": "…circle… triangle… circle… why… why doesn't it work any more…"
+                },
+                {
+                  "texte": "They still draw the signs. But there's nothing left inside them."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "A sign without a memory is just a gesture. The master was right."
+                }
+              ]
+            },
+            {
+              "titre": "Sir Corvin",
+              "dialogue_avant": [
+                {
+                  "texte": "The youngest one. Did he teach you the same lesson as me? “Three gestures, not one more”?"
+                },
+                {
+                  "texte": "You… you remember?"
+                },
+                {
+                  "texte": "I remember everything. Except why it mattered."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Then I'll remember it for both of us."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Corvin falls to his knees. His grey blade cracks like glass."
+                },
+                {
+                  "texte": "He gave us everything… and we left him alone with his memories."
+                },
+                {
+                  "texte": "He's at the Heart, kid. Where everything began to fade."
+                },
+                {
+                  "texte": "Then that's where I'm going."
+                }
+              ]
+            },
+            {
+              "titre": "The Heart of Silence",
+              "dialogue_avant": [
+                {
+                  "texte": "…a student… another student… I've forgotten you all…"
+                },
+                {
+                  "texte": "Master?!"
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Aldric's last sign cuts through the Silence like a ray of sunlight."
+            },
+            {
+              "texte": "Aldric… You still hold your sword too high."
+            },
+            {
+              "texte": "That's what Bram used to say too."
+            },
+            {
+              "texte": "A memory fragment returns to the master."
+            }
+          ]
+        },
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
     }
   }
 }
