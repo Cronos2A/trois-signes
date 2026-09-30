@@ -357,6 +357,47 @@
         "reached": "Level {lvl} reached!",
         "maxReached": "Max level reached!"
       }
+    },
+    "credits": {
+      "title": "Credits",
+      "sections": [
+        {
+          "title": "Sound effects",
+          "lines": [
+            "Made with ElevenLabs"
+          ]
+        },
+        {
+          "title": "Music",
+          "lines": [
+            "Composed with Suno"
+          ]
+        },
+        {
+          "title": "Success notes",
+          "lines": [
+            "Synthesised in the game"
+          ]
+        },
+        {
+          "title": "Graphics",
+          "lines": [
+            "Organic design system, Claude Design mock-ups"
+          ]
+        },
+        {
+          "title": "Fonts",
+          "lines": [
+            "Caprasimo and Figtree (SIL Open Font License)"
+          ]
+        },
+        {
+          "title": "Server",
+          "lines": [
+            "Firebase (Google), SDK under the Apache 2.0 licence"
+          ]
+        }
+      ]
     }
   }
 }
