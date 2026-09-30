@@ -665,6 +665,78 @@
         "title": "Gira il telefono",
         "text": "Tre Segni si gioca in verticale."
       }
+    },
+    "online": {
+      "damaged": {
+        "title": "Salvataggio danneggiato",
+        "text": "Il salvataggio di questo dispositivo è illeggibile o danneggiato: il gioco non può usarlo.",
+        "searching": "Ricerca di un salvataggio online…",
+        "found": "Esiste un salvataggio online per il tuo account (registrato il {date}).",
+        "foundDetail": "Record {best} · Storie completate: {stories} · {gold} oro",
+        "none": "Nessun salvataggio online per questo account.",
+        "offline": "Server irraggiungibile: impossibile cercare un salvataggio online.",
+        "recover": "Recupera il salvataggio online",
+        "reset": "Ricomincia da zero",
+        "confirmReset": "Tutti i progressi di questo dispositivo andranno persi.",
+        "confirmResetBtn": "Sì, ricomincia da zero",
+        "retry": "Cerca di nuovo"
+      },
+      "leaderboard": {
+        "boards": [
+          {
+            "label": "Viaggio",
+            "scoreLabel": "Miglior punteggio"
+          },
+          {
+            "label": "Duello",
+            "scoreLabel": "Impronte"
+          }
+        ],
+        "ui": {
+          "button": "Classifiche",
+          "recordSynced": "Record sincronizzato: {n} nella classifica del Viaggio",
+          "title": "Classifiche",
+          "world": "Top {n} mondiale",
+          "you": "Tu",
+          "unranked": "Non ancora in classifica",
+          "unrankedVoyage": "Completa una partita del Viaggio per entrare in classifica.",
+          "unrankedDuel": "Guadagna Impronte nel Duello casuale per entrare in classifica.",
+          "empty": "Ancora nessuno.",
+          "loading": "Caricamento…",
+          "offline": "Le classifiche richiedono una connessione al server.",
+          "needPseudo": "Scegli prima il tuo nickname.",
+          "close": "Chiudi"
+        }
+      },
+      "pseudo": {
+        "suggest": "Segnatore"
+      },
+      "ui": {
+        "title": "Scegli il tuo nickname",
+        "intro": "È il nome che gli altri giocatori vedranno in Duello. Potrai cambiarlo nelle Impostazioni.",
+        "placeholder": "Il tuo nickname",
+        "ok": "Conferma",
+        "cancel": "Annulla",
+        "suggest": "A caso",
+        "tooShort": "Almeno {min} caratteri.",
+        "tooLong": "Al massimo {max} caratteri.",
+        "badChars": "Solo lettere, cifre, spazio, trattino, punto e _ (inizia con una lettera o una cifra).",
+        "rude": "Questo nickname non è consentito.",
+        "account": "Account",
+        "pseudoLabel": "Nickname",
+        "edit": "Modifica",
+        "google": "Collega il mio account Google",
+        "googleSoon": "Presto (Google Play Games)",
+        "id": "Giocatore n° {id}",
+        "status": {
+          "off": "Offline: salvataggio su questo dispositivo",
+          "connecting": "Connessione al server…",
+          "online": "Online: salvataggio aggiornato",
+          "saving": "Online: salvataggio in corso…",
+          "offline": "Senza connessione: salvataggio su questo dispositivo, inviato al ritorno della rete",
+          "error": "Server irraggiungibile: salvataggio su questo dispositivo"
+        }
+      }
     }
   }
 }
