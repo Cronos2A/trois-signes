@@ -528,6 +528,93 @@
       "beyond": {
         "name": "Más allá del Silencio"
       }
+    },
+    "characters": {
+      "statLabels": [
+        "Daño",
+        "Velocidad",
+        "Aguante"
+      ],
+      "characters": [
+        {
+          "role": "Caballero",
+          "title": "El Caballero",
+          "weaponLabel": "Espada",
+          "passive": {
+            "name": "Guardia",
+            "text": "El caballero aguanta mejor que nadie: −15 % de daño recibido."
+          },
+          "super": {
+            "name": "Baluarte",
+            "text": "Durante 8 s el daño recibido se reduce a la mitad, y un golpe a todos los enemigos (2 × el ataque)."
+          }
+        },
+        {
+          "role": "Asesina",
+          "title": "La Asesina",
+          "weaponLabel": "Daga",
+          "passive": {
+            "name": "Hoja frágil",
+            "text": "Golpea fuerte pero no aguanta: la más frágil de todos."
+          },
+          "super": {
+            "name": "Sombra",
+            "text": "Esquiva por completo los 3 próximos golpes, incluso sin Círculo, y +50 % de ataque durante 8 s."
+          }
+        },
+        {
+          "role": "Coloso",
+          "title": "El Coloso",
+          "weaponLabel": "Guanteletes",
+          "passive": {
+            "name": "Fuerza bruta",
+            "text": "Muy resistente y potente, pero nunca puede hacer combos."
+          },
+          "super": {
+            "name": "Gigante",
+            "text": "Crece durante 8 s y golpea a todos los enemigos (2,5 × el ataque)."
+          }
+        },
+        {
+          "role": "Hechicera",
+          "title": "La Hechicera",
+          "weaponLabel": "Grimorio",
+          "passive": {
+            "name": "Conjuro",
+            "text": "Un combo solo exige 3 gestos iguales seguidos en lugar de 4."
+          },
+          "super": {
+            "name": "Grimorio abierto",
+            "text": "Sus 2 próximos ataques acertados cuentan como combos de su nivel."
+          }
+        },
+        {
+          "role": "Exploradora",
+          "title": "La Exploradora",
+          "weaponLabel": "Arco",
+          "passive": {
+            "name": "Paso ligero",
+            "text": "Esquiva base del 120 % en lugar del 80 % (× el nivel de acierto): desde Very Good, esquiva máxima (90 %)."
+          },
+          "super": {
+            "name": "Ojo de halcón",
+            "text": "Durante 8 s, todo gesto reconocido cuenta como Perfect."
+          }
+        },
+        {
+          "role": "Sanadora",
+          "title": "La Sanadora",
+          "weaponLabel": "Amuleto",
+          "passive": {
+            "name": "Curación e invocaciones",
+            "text": "Cada ataque acertado la cura 0,5 PV × el multiplicador, y cada Perfect invoca un pequeño monstruo (1 de daño por segundo durante 10 s)."
+          },
+          "super": {
+            "name": "Renovación",
+            "text": "Recupera el 10 % de sus PV máximos y duplica su ataque durante 10 s."
+          }
+        }
+      ]
     }
   }
 }
