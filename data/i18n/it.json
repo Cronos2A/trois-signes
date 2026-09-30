@@ -1,0 +1,332 @@
+{
+  "note": "Testi dell'interfaccia in italiano. Le chiavi assenti qui ricadono sul francese (fr.json). I testi degli altri file di data/ si traducono nella sezione \"data\", stesso percorso del file d'origine.",
+  "units": {
+    "seconds": "{n} s",
+    "xp": "{n} XP",
+    "hp": "{n} PV",
+    "points": {
+      "one": "punto",
+      "other": "punti"
+    },
+    "hpGain": "+{n} PV",
+    "pctHp": "+{pct}% PV",
+    "goldGain": "+{n} oro"
+  },
+  "hud": {
+    "quit": "Esci",
+    "skip": "Salta",
+    "lesson": "LEZIONE",
+    "boss": "BOSS",
+    "guardian": "GUARDIANO",
+    "round": "ROUND",
+    "wave": "ONDATA",
+    "super": "SUPER",
+    "streak": "Serie",
+    "streakMult": "Serie ×{m}",
+    "gaugeTitle": "Barra della super",
+    "score": "PUNTI",
+    "superAria": "Scatena la super mossa"
+  },
+  "battle": {
+    "wave": "Ondata",
+    "round": "Round",
+    "lesson": "Lezione",
+    "numbered": "{label} {n}"
+  },
+  "signs": {
+    "triangle": "Triangolo",
+    "circle": "Cerchio",
+    "tap": "Tocco"
+  },
+  "combat": {
+    "noTarget": "Nessun bersaglio",
+    "autoDodge": "schivata automatica",
+    "dodgePct": "Schivata {pct}%",
+    "noDamage": "nessun danno",
+    "attack": "Attacco",
+    "dodge": "Schivata",
+    "combo": "Combo {grade}",
+    "comboEffect": "effetto ×{m}",
+    "eldanGuardSub": "si protegge",
+    "eldanCallSub": "chiama uno Svuotato",
+    "tooLate": "Troppo tardi",
+    "tooLateSub": "traccia il Cerchio durante l'allarme",
+    "pickup": "Raccolta",
+    "gradeLine": "{label} · {acc}%"
+  },
+  "train": {
+    "intro": "Traccia triangoli e cerchi, tocca gli oggetti. La precisione appare a ogni gesto.",
+    "pickup": "Raccolta {grade}",
+    "pickupCombo": "Raccolta {grade} in combo ×{m}",
+    "tapMiss": "Niente da toccare: tocca una moneta o un cuore.",
+    "fail": "{reason}. Serie azzerata.",
+    "missedAttack": "Attacco fallito: precisione {acc}% (minimo {min}%). Serie azzerata.",
+    "missedDodge": "Schivata fallita: precisione {acc}% (minimo {min}%). Serie azzerata.",
+    "attack": "Attacco {grade}: {dmg} danni",
+    "attackCombo": "Attacco {grade}: {dmg} danni (combo ×{m})",
+    "dodge": "Schivata {grade}: {pct}% dei danni evitati",
+    "dodgeCombo": "Schivata {grade}: {pct}% dei danni evitati + contrattacco (combo)",
+    "streak": ". Serie {grade}: {n}/{len}"
+  },
+  "error": {
+    "load": "Impossibile caricare i dati del gioco ({msg})."
+  },
+  "common": {
+    "tapSkip": "tocca per saltare",
+    "tapContinue": "tocca per continuare",
+    "back": "Indietro",
+    "close": "Chiudi",
+    "yes": "Sì",
+    "no": "No",
+    "soon": "Presto",
+    "continue": "Continua",
+    "play": "Gioca",
+    "replay": "Rigioca",
+    "retry": "Riprova",
+    "later": "Più tardi",
+    "labelValue": "{label}: {value}",
+    "ok": "OK"
+  },
+  "voyage": {
+    "kickArena": "ARENA {n} / {total}",
+    "kickBeyond": "SENZA FINE",
+    "discovered": "ARENA SCOPERTA"
+  },
+  "dialogue": {
+    "note": "Articoli e titoli tolti da un nome per trovare l'iniziale mostrata al posto di un ritratto mancante.",
+    "titles": [
+      "Il ",
+      "Lo ",
+      "La ",
+      "L'",
+      "Ser ",
+      "Madama ",
+      "Zia ",
+      "Capitano ",
+      "Maestro ",
+      "Signor "
+    ],
+    "skip": "Salta"
+  },
+  "lesson": {
+    "range": "{min}–{max}%"
+  },
+  "gestures": {
+    "tooSmall": "Forma troppo piccola",
+    "notClosed": "Forma non chiusa",
+    "fourCorners": "4 angoli: traccia un triangolo",
+    "unknown": "Forma non riconosciuta"
+  },
+  "money": {
+    "gold": "oro",
+    "gems": "gemme",
+    "goldAmount": "{n} oro",
+    "gemsAmount": "{n} gemme",
+    "pct": "{n}%",
+    "plusPct": "+{n}%"
+  },
+  "story": {
+    "victoryToast": "Vittoria! +{xp} XP · +{gold} oro",
+    "title": "Modalità Storia",
+    "fragments": "FRAMMENTI DI MEMORIA",
+    "found": "Ritrovato",
+    "eldanSoon": "Il Maestro · presto disponibile",
+    "eldanUnknown": "???",
+    "eldanLocked": "Completa le sei storie",
+    "backLobby": "Torna alla lobby",
+    "backStories": "Torna alle storie",
+    "stepAria": "Tappa {n}: {title}",
+    "heroStory": "STORIA {of}",
+    "waves": {
+      "one": "{n} ondata",
+      "other": "{n} ondate"
+    },
+    "lastIs": "{type} nell'ultima",
+    "stepKick": "TAPPA {n} · {type}",
+    "lockedStep": "Completa la tappa {n} per sbloccarla",
+    "ko": "KO",
+    "reviewDialogue": "Rivedi il dialogo",
+    "victory": "Vittoria",
+    "heroXp": "Eroe {v}",
+    "finished": "{title} · COMPLETATA",
+    "fragmentFound": "Frammento di memoria ritrovato",
+    "memory": "Un ricordo torna al Maestro Eldan",
+    "newCharacter": "NUOVO PERSONAGGIO",
+    "eldanTitle": "il Maestro",
+    "eldanSoonLong": "La sua storia sarà presto disponibile",
+    "seeCharacter": "Vedi il personaggio"
+  },
+  "of": {
+    "note": "« di » + nome proprio, forma completa scritta per ogni luogo e ogni eroe (variabile {of}).",
+    "hero": {
+      "aldric": "di Aldric",
+      "nyra": "di Nyra",
+      "boran": "di Boran",
+      "ilwen": "di Ilwen",
+      "kestrel": "di Kestrel",
+      "mira": "di Mira"
+    },
+    "arena": {
+      "foret_mousse": "della Foresta di Muschio",
+      "hautes_gerbes": "di Hautes-Gerbes",
+      "fontclaire": "di Fontclaire",
+      "velis_toits": "dei Tetti di Vélis",
+      "aubelle_biblio": "della Biblioteca di Aubelle",
+      "col_vents": "del Passo dei Venti",
+      "ecole_ruines": "della Scuola dei Segni",
+      "coeur_silence": "del Cuore del Silenzio"
+    }
+  },
+  "lobby": {
+    "tabs": {
+      "play": "Gioca",
+      "char": "Eroe",
+      "shop": "Negozio"
+    },
+    "settingsAria": "Impostazioni",
+    "pseudoAria": "Nickname",
+    "gold": "Oro",
+    "gems": "Gemme",
+    "soloKicker": "SOLO · {name}",
+    "record": "{name}: record {n}",
+    "farthest": "Arena max:",
+    "none": "nessuna",
+    "lesson": "Rivedi la lezione",
+    "training": "Allenamento",
+    "pve": "PVE",
+    "pvp": "PVP",
+    "solo": "Solo",
+    "soloSub": "Il Viaggio",
+    "story": "Storia",
+    "storySub": "6 eroi · 10 battaglie",
+    "duel": "Duello",
+    "activeChar": "Eroe attivo",
+    "playWith": "Gioca con {name}",
+    "availableSoon": "Presto disponibile",
+    "prevChar": "Eroe precedente",
+    "nextChar": "Eroe successivo",
+    "passive": "PASSIVA",
+    "super": "SUPER",
+    "attack": "Attacco {n}",
+    "beginner": "Ideale per iniziare"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "music": "Musica",
+    "sfx": "Effetti",
+    "volume": "Volume {name}",
+    "vibrate": "Vibrazione",
+    "credits": "Crediti",
+    "language": "Lingua",
+    "langSoon": "{name} (presto)",
+    "langNames": {
+      "fr": "Francese",
+      "en": "Inglese",
+      "it": "Italiano",
+      "es": "Spagnolo",
+      "de": "Tedesco"
+    }
+  },
+  "results": {
+    "voyageEnd": "Fine del viaggio",
+    "victory": "Vittoria",
+    "ko": "KO",
+    "timeUp": "Tempo scaduto",
+    "combos": "Combo",
+    "newRecord": "Nuovo record!",
+    "arena": "Arena {n} / {total}",
+    "beyond": "Senza fine",
+    "where": "{stage}: {name} · round {round} / {rounds}",
+    "scoreLine": "{score} {points} in {time} s",
+    "scoreLineRecord": "{score} {points} in {time} s · nuovo record!",
+    "home": "Torna alla lobby"
+  },
+  "app": {
+    "title": "Tre Segni"
+  },
+  "grammar": {
+    "of": {
+      "note": "« di » + nickname di un giocatore (ofName, src/i18n.js): sempre « di {name} ».",
+      "rules": [],
+      "default": "di {name}"
+    }
+  },
+  "daily": {
+    "button": "Ricompense",
+    "title": "Ricompense",
+    "dayTitle": "Ricompensa del giorno",
+    "streakTitle": "SERIE DI 7 GIORNI",
+    "streakNote": "Torna ogni giorno: se salti un giorno, la serie riparte dal giorno 1.",
+    "calNote": "Ogni giorno di accesso conta, anche dopo una pausa.",
+    "claim": "Riscuoti",
+    "claimed": "Riscosso!",
+    "claimedToday": "Riscosso oggi",
+    "already": "Già riscosso oggi.",
+    "comeBack": "Torna domani per il resto.",
+    "offline": "Da riscuotere appena torna la connessione",
+    "loading": "Connessione al server…",
+    "adDouble": "Raddoppia l'oro con una pubblicità",
+    "adBonus": "Bonus: +{n} oro con una pubblicità",
+    "adDone": "+{n} oro grazie alla pubblicità",
+    "boost": {
+      "xp": "XP ×{m}",
+      "gold": "Oro ×{m}"
+    },
+    "boostText": {
+      "xp": "Raddoppia l'XP dell'eroe e delle armi.",
+      "gold": "Raddoppia l'oro guadagnato."
+    },
+    "games": {
+      "one": "{n} partita",
+      "other": "{n} partite"
+    },
+    "drawColor": "Colore a caso",
+    "drawTrail": "Scia a caso",
+    "fallback": "Hai già tutto: +{n} oro al suo posto",
+    "stockFull": "Scorta di boost piena: +{n} oro al suo posto",
+    "gemsFor": "Ricompensa di accesso",
+    "newCosmetic": "NUOVO COSMETICO",
+    "cosmeticsMany": {
+      "one": "{n} nuovo cosmetico",
+      "other": "{n} nuovi cosmetici"
+    },
+    "fromDraw": "Ricompensa di accesso: un cosmetico che non avevi ancora.",
+    "fromChest": "Forziere semplice offerto dal calendario.",
+    "rewardOk": "Grande!",
+    "boostsTitle": "SCORTA DI BOOST",
+    "boostsNote": "Un solo boost attivo per tipo. Una partita conta alla fine (vittoria, sconfitta o abbandono dopo un round). Solo Viaggio e Storia, mai in Duello.",
+    "stock": "In scorta: {n} / {max}",
+    "noStock": "Nessuno in scorta",
+    "activeLeft": {
+      "one": "Attivo: ancora {n} partita",
+      "other": "Attivo: ancora {n} partite"
+    },
+    "isActive": "Attivo",
+    "activate": "Attiva",
+    "activated": "{name} attivato",
+    "offerTitle": "Attivare un boost?",
+    "offerText": "Hai dei boost in scorta. Un boost attivato vale per questa partita e le successive.",
+    "offerPlay": "Gioca",
+    "shopTab": "Boost",
+    "shopNote": "Al massimo {max} boost in scorta per tipo. Solo Viaggio e Storia, mai in Duello né in Allenamento.",
+    "full": "Scorta piena",
+    "bought": "Boost aggiunto alla scorta",
+    "notEnoughGold": "Oro insufficiente",
+    "testNext": "Ricompense: +1 giorno",
+    "testSkip": "+2 giorni (giorno saltato)",
+    "testReset": "Azzera ricompense e boost",
+    "testState": "Giorno simulato: +{offset} · serie {streak} / {streakMax} · calendario {cal} / {calMax}",
+    "times": "× {n}",
+    "streakKick": "SERIE · GIORNO {n}",
+    "calKick": "CALENDARIO · GIORNO {n}",
+    "streakDayShort": "Giorno {n}",
+    "calTitleLong": "CALENDARIO · {n} GIORNI",
+    "calCountShort": "{n} / {total}",
+    "stockGames": "In scorta: {list}",
+    "count": "×{n}",
+    "hudLeft": "{n}"
+  },
+  "pseudo": {
+    "reserved": "Questo nickname è riservato: scegline un altro."
+  }
+}

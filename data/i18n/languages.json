@@ -18,7 +18,7 @@
       "id": "it",
       "name": "Italiano",
       "locale": "it-IT",
-      "ready": false
+      "ready": true
     },
     {
       "id": "es",
