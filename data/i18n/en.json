@@ -2026,7 +2026,232 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "The Memory Sickness",
+          "cinematique_ouverture": [
+            {
+              "texte": "The great library of Aubelle. A hundred thousand books, and Ilwen has read nearly all of them."
+            },
+            {
+              "texte": "Nearly. Forty-two remain. Which is frankly shameful."
+            },
+            {
+              "texte": "Ilwen, you should get out a little. See the world."
+            },
+            {
+              "texte": "The world is in the books, Master Aubin."
+            },
+            {
+              "texte": "That evening, opening the forty-third book, Ilwen finds blank pages."
+            },
+            {
+              "texte": "This book was full yesterday. Who erased the words?"
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Aubelle Library",
+              "dialogue_avant": [
+                {
+                  "texte": "The shelves are emptying. The words drift away like grey dust."
+                },
+                {
+                  "texte": "No one touches my books."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "This isn't a thief. It's… a sickness."
+                }
+              ]
+            },
+            {
+              "titre": "The Living Pages",
+              "dialogue_avant": [
+                {
+                  "texte": "The erased pages… they're moving!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Fascinating. Terrifying, but fascinating. I must take notes."
+                }
+              ]
+            },
+            {
+              "titre": "The Librarian",
+              "dialogue_avant": [
+                {
+                  "texte": "Miss? Are you a reader? I'm the… what's my name again?"
+                },
+                {
+                  "texte": "You're Master Aubin. You taught me to read."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "I'll find a cure. And I'll bring it back to you."
+                }
+              ]
+            },
+            {
+              "titre": "The Experiment",
+              "dialogue_avant": [
+                {
+                  "texte": "Hypothesis: the three signs from the old grimoires are a cure. Method: try it."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Result: it works. A little. It's a start."
+                }
+              ]
+            },
+            {
+              "titre": "The Archivist",
+              "dialogue_avant": [
+                {
+                  "texte": "…file… file everything… erase what's in the way…"
+                },
+                {
+                  "texte": "You guard the forbidden stacks. Stand aside."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Eldan… Who are you?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "In the forbidden stacks, a single book has kept its words."
+                },
+                {
+                  "texte": "On the cover, a name: Eldan. And a title: The Codex of the Three Signs."
+                },
+                {
+                  "texte": "Half the pages are missing… Torn out, with care."
+                },
+                {
+                  "texte": "Someone hid this book in pieces. The others must be found."
+                }
+              ]
+            },
+            {
+              "titre": "Encounter: Kestrel",
+              "dialogue_avant": [
+                {
+                  "texte": "Loud. For a scholar."
+                },
+                {
+                  "texte": "And you're short on words, for a scout. That map… Show it to me."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "The grey zones. Been marking them for a year."
+                },
+                {
+                  "texte": "They form a circle… The Silence spreads from one precise point!"
+                }
+              ]
+            },
+            {
+              "titre": "The Watchtower",
+              "dialogue_avant": [
+                {
+                  "texte": "We need height to be sure."
+                },
+                {
+                  "texte": "The watchtower. Three hundred steps."
+                },
+                {
+                  "texte": "… Of course."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "From the top, you can see everything: a white stain at the centre of the world, slowly growing."
+                }
+              ]
+            },
+            {
+              "titre": "The Echoes",
+              "dialogue_avant": [
+                {
+                  "texte": "…we never taught anyone… never passed anything on…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "I finally understand. The Silence grows when we stop passing things on. Keeping knowledge to yourself… is already the start of forgetting it."
+                },
+                {
+                  "texte": "And to think I've never lent anyone a book."
+                }
+              ]
+            },
+            {
+              "titre": "The Inkless Quill",
+              "dialogue_avant": [
+                {
+                  "texte": "Ilwen. Always second."
+                },
+                {
+                  "texte": "Séléna. You always wrote faster than me."
+                },
+                {
+                  "texte": "I wrote everything down. And I never showed any of it to anyone. Look what's left of it."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "I won't make the same mistake, Séléna."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Séléna's notebooks fall open. Every one of them is blank."
+                },
+                {
+                  "texte": "You… teach someone. Anyone…"
+                },
+                {
+                  "texte": "I promise."
+                },
+                {
+                  "texte": "Ilwen tears a page from her own grimoire and hands it to Kestrel. The first knowledge she has ever shared."
+                }
+              ]
+            },
+            {
+              "titre": "The Heart of Silence",
+              "dialogue_avant": [
+                {
+                  "texte": "…a book… I hid a book… in pieces… inside my head…"
+                },
+                {
+                  "texte": "The Codex. You hid it in your memory. And in the end, your memory closed in on you."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Ilwen opens her grimoire and reads the recovered pages aloud."
+            },
+            {
+              "texte": "These words… they're mine."
+            },
+            {
+              "texte": "I know. I've reread them forty-three times."
+            },
+            {
+              "texte": "A memory fragment returns to the master."
+            }
+          ]
+        },
         null,
         null
       ]
