@@ -2479,7 +2479,232 @@
             }
           ]
         },
-        null
+        {
+          "titre": "Los que se pueden salvar",
+          "cinematique_ouverture": [
+            {
+              "texte": "Fontclaire, su agua clara y su casita de curas al final del camino."
+            },
+            {
+              "texte": "¡Una infusión para la tos, un bálsamo para las rodillas y una sonrisa para todos!"
+            },
+            {
+              "texte": "Mira, curas demasiado deprisa. Un día te toparás con algo que no podrás sanar."
+            },
+            {
+              "texte": "¡Pues buscaré hasta encontrarlo!"
+            },
+            {
+              "texte": "Aquella mañana, su primer paciente ya no recordaba a qué había venido."
+            },
+            {
+              "texte": "¿Señor Fabre? Vino por su espalda… ¿se acuerda?"
+            }
+          ],
+          "combats": [
+            {
+              "titre": "La casa de curas",
+              "dialogue_avant": [
+                {
+                  "texte": "Uno a uno, los pacientes se vuelven grises."
+                },
+                {
+                  "texte": "¡Todo el mundo tranquilo! ¡Nadie sale de la sala de espera!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ya no saben quiénes son… No es una enfermedad que yo conozca."
+                }
+              ]
+            },
+            {
+              "titre": "La fiebre gris",
+              "dialogue_avant": [
+                {
+                  "texte": "El Silencio se extiende por Fontclaire como una fiebre."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Esto no se cura con infusiones. Necesito otra cosa."
+                }
+              ]
+            },
+            {
+              "titre": "El primer salvado",
+              "dialogue_avant": [
+                {
+                  "texte": "La abuela decía: «Una mano puesta en el sitio justo cura más que un remedio». Probemos."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "… ¿Mira? Me duele la espalda."
+                },
+                {
+                  "texte": "¡Se acuerda! ¡Se acuerda de su espalda!"
+                },
+                {
+                  "texte": "Luego el gris vuelve, poco a poco. Pero Mira ha visto lo que tenía que ver."
+                }
+              ]
+            },
+            {
+              "titre": "El camino de los pueblos",
+              "dialogue_avant": [
+                {
+                  "texte": "Si funciona aquí, funcionará en otras partes. ¡En marcha!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "¡Tres pueblos, once recuerdos devueltos! Unos segundos cada vez, vale. ¡Pero es un comienzo!"
+                }
+              ]
+            },
+            {
+              "titre": "La Herbolaria",
+              "dialogue_avant": [
+                {
+                  "texte": "…las plantas… conocía todas las plantas…"
+                },
+                {
+                  "texte": "Tía Hélo… Usted me lo enseñó todo."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Curar a los que pueda. Acordarme de los demás. De acuerdo."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Mira pone las dos manos en la frente de su maestra."
+                },
+                {
+                  "texte": "Mira… Sigues curando demasiado deprisa."
+                },
+                {
+                  "texte": "Y usted tenía razón. A algunos no puedo sanarlos."
+                },
+                {
+                  "texte": "Entonces cura a los que puedas. Y acuérdate de los demás."
+                }
+              ]
+            },
+            {
+              "titre": "Encuentro: Boran",
+              "dialogue_avant": [
+                {
+                  "texte": "¡Pare! ¡No golpee a ese!"
+                },
+                {
+                  "texte": "Nos está atacando."
+                },
+                {
+                  "texte": "Porque tiene miedo. ¡Cúbrame, grandullón!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "¿Lo ha salvado?"
+                },
+                {
+                  "texte": "Un instante. Y un instante ya es un recuerdo."
+                }
+              ]
+            },
+            {
+              "titre": "El campo de refugiados",
+              "dialogue_avant": [
+                {
+                  "texte": "Doscientos refugiados, un solo guardia. Por suerte, vale por diez."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "En la tienda de curas, Mira trabaja toda la noche. Fuera, Boran vigila."
+                }
+              ]
+            },
+            {
+              "titre": "Las curas imposibles",
+              "dialogue_avant": [
+                {
+                  "texte": "Algunos Vaciados ya no reaccionan al Toque. En absoluto."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "No puedo salvarlos a todos."
+                },
+                {
+                  "texte": "No. Pero se acuerda de ellos. Eso cuenta."
+                },
+                {
+                  "texte": "… Esa frase es mía."
+                }
+              ]
+            },
+            {
+              "titre": "La Veladora",
+              "dialogue_avant": [
+                {
+                  "texte": "¿Por qué hacerlos sufrir, sanadora? El olvido no duele. Yo los alivio."
+                },
+                {
+                  "texte": "No los alivia. Los borra."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Voy al Corazón."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "La Veladora se tambalea. Bajo su capucha gris, el rostro de una antigua enfermera."
+                },
+                {
+                  "texte": "Solo quería… que nadie sufriera más…"
+                },
+                {
+                  "texte": "Lo sé. Yo también. Pero el dolor forma parte de los recuerdos."
+                },
+                {
+                  "texte": "Mira le sostiene la mano hasta el final. Luego se levanta, y camina hacia el Corazón."
+                }
+              ]
+            },
+            {
+              "titre": "El Corazón del Silencio",
+              "dialogue_avant": [
+                {
+                  "texte": "…duele… recordar… déjame olvidar…"
+                },
+                {
+                  "texte": "No. A usted no. A usted todavía puedo curarlo."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Mira pone las manos en la frente del maestro. El Toque, con todas sus fuerzas."
+            },
+            {
+              "texte": "Está caliente… como una infusión…"
+            },
+            {
+              "texte": "Con miel. Ese es el secreto."
+            },
+            {
+              "texte": "Un fragmento de memoria vuelve al maestro."
+            }
+          ]
+        }
       ]
     }
   }
