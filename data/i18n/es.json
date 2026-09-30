@@ -312,7 +312,7 @@
     "offerTitle": "¿Activar un potenciador?",
     "offerText": "Tienes potenciadores en reserva. Uno activado cuenta para esta partida y las siguientes.",
     "offerPlay": "Jugar",
-    "shopTab": "Potenciar",
+    "shopTab": "Potenciadores",
     "shopNote": "Como máximo {max} potenciadores en reserva por tipo. Solo en el Viaje y la Historia, nunca en Duelo ni en Entrenamiento.",
     "full": "Reserva llena",
     "bought": "Potenciador añadido a la reserva",
@@ -333,5 +333,23 @@
   },
   "pseudo": {
     "reserved": "Este apodo está reservado: elige otro."
+  },
+  "data": {
+    "grades": {
+      "miss": {
+        "name": "Fallo"
+      }
+    },
+    "enemies": {
+      "grunt": {
+        "name": "Esbirro"
+      },
+      "brute": {
+        "name": "Bruto"
+      },
+      "boss": {
+        "name": "Jefe"
+      }
+    }
   }
 }
