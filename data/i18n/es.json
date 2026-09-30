@@ -2259,7 +2259,226 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "El mapa del Silencio",
+          "cinematique_ouverture": [
+            {
+              "texte": "Los Exploradores del Paso. Su misión: cartografiar el mundo. Su mejor recluta: Kestrel."
+            },
+            {
+              "texte": "Kestrel. Tú vas delante. Como siempre."
+            },
+            {
+              "texte": "Como siempre."
+            },
+            {
+              "texte": "Desde hace un año, el mapa de Kestrel se llena de manchas grises. Nadie sabe qué son."
+            },
+            {
+              "texte": "Crecen."
+            },
+            {
+              "texte": "Pues anótalas. Un buen mapa es lo que separa a los vivos de los perdidos."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "El linde gris",
+              "dialogue_avant": [
+                {
+                  "texte": "Algo se mueve entre los árboles grises."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Hostiles. Anotado."
+                }
+              ]
+            },
+            {
+              "titre": "El campamento de los exploradores",
+              "dialogue_avant": [
+                {
+                  "texte": "De vuelta al campamento, de noche. Demasiado tranquilo."
+                },
+                {
+                  "texte": "¿Capitán?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Campamento vacío. El capitán ha desaparecido."
+                }
+              ]
+            },
+            {
+              "titre": "El mapa roto",
+              "dialogue_avant": [
+                {
+                  "texte": "Mi mapa. Roto. Trozos por todas partes."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Pieza a pieza, Kestrel reconstruye un año de trabajo."
+                },
+                {
+                  "texte": "Está todo. Casi."
+                }
+              ]
+            },
+            {
+              "titre": "El Paso de los Vientos",
+              "dialogue_avant": [
+                {
+                  "texte": "El paso se cierra. Ahora o nunca."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Cruzado. Por los pelos."
+                }
+              ]
+            },
+            {
+              "titre": "El Rastreador",
+              "dialogue_avant": [
+                {
+                  "texte": "Desde hace tres días, una silueta gris sigue el rastro de Kestrel."
+                },
+                {
+                  "texte": "Eres bueno. No lo bastante."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "No volveré a dejar a nadie atrás."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "El Rastreador cae. Al cuello, una insignia de los Exploradores del Paso."
+                },
+                {
+                  "texte": "Pieter… Estabas en mi unidad."
+                },
+                {
+                  "texte": "No la estaba cazando. Intentaba seguirla, como antes, sin saber por qué."
+                },
+                {
+                  "texte": "Descansa. Sigo por los dos."
+                }
+              ]
+            },
+            {
+              "titre": "Encuentro: Ilwen",
+              "dialogue_avant": [
+                {
+                  "texte": "¡Usted! Su mapa. Lo necesito."
+                },
+                {
+                  "texte": "No."
+                },
+                {
+                  "texte": "¡Es por la ciencia!"
+                },
+                {
+                  "texte": "Pues sígueme. Y calla."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Es usted de lo más desagradable."
+                },
+                {
+                  "texte": "Pero el mapa lo tengo yo."
+                }
+              ]
+            },
+            {
+              "titre": "El centro del mapa",
+              "dialogue_avant": [
+                {
+                  "texte": "Todas las zonas convergen. Un solo punto."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "En el centro del mapa, Kestrel dibuja una estrella. Luego duda, y escribe: «Corazón»."
+                }
+              ]
+            },
+            {
+              "titre": "El bosque que se borra",
+              "dialogue_avant": [
+                {
+                  "texte": "Los árboles desaparecen detrás de nosotros. No miréis atrás."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Sin vuelta atrás. Mejor. Adelante."
+                }
+              ]
+            },
+            {
+              "titre": "El Vigía",
+              "dialogue_avant": [
+                {
+                  "texte": "…una recluta… la mejor… siempre iba delante…"
+                },
+                {
+                  "texte": "Capitán. Soy yo."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Lo termino por usted, capitán."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "El capitán Hardel hinca una rodilla en el suelo. En la mano, una vieja brújula."
+                },
+                {
+                  "texte": "Kestrel… un buen mapa… separa a los vivos… de los perdidos…"
+                },
+                {
+                  "texte": "Lo sé, capitán."
+                },
+                {
+                  "texte": "La brújula ya no señala el norte. Señala el Corazón."
+                }
+              ]
+            },
+            {
+              "titre": "El Corazón del Silencio",
+              "dialogue_avant": [
+                {
+                  "texte": "…tantos caminos… ya no sé cuál lleva a casa…"
+                },
+                {
+                  "texte": "Yo sí. Tengo el mapa."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Kestrel despliega su mapa ante el maestro. Un año de trabajo."
+            },
+            {
+              "texte": "Es… todo el camino que he recorrido."
+            },
+            {
+              "texte": "Entonces ya no está perdido."
+            },
+            {
+              "texte": "Un fragmento de memoria vuelve al maestro."
+            }
+          ]
+        },
         null
       ]
     }
