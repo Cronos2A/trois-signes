@@ -976,6 +976,174 @@
           }
         }
       }
+    },
+    "cosmetics": {
+      "types": {
+        "color": {
+          "name": "Color"
+        },
+        "weapon": {
+          "name": "Aspecto de arma"
+        },
+        "trail": {
+          "name": "Efecto de estela"
+        },
+        "skin": {
+          "name": "Aspecto completo"
+        }
+      },
+      "ui": {
+        "kicker": "COSMÉTICOS",
+        "toShop": "Ver la tienda",
+        "locked": "{n} por desbloquear",
+        "skinNote": "El aspecto completo sustituye al color y al aspecto del arma mientras está equipado."
+      },
+      "defaults": {
+        "tint": "Atuendo original",
+        "weapon": "Arma original",
+        "trail": "Estela original",
+        "skin": "Ninguno"
+      },
+      "items": [
+        {
+          "name": "Tono Laguna"
+        },
+        {
+          "name": "Tono Sol"
+        },
+        {
+          "name": "Tono Rubí"
+        },
+        {
+          "name": "Tono Laguna"
+        },
+        {
+          "name": "Tono Sol"
+        },
+        {
+          "name": "Tono Rubí"
+        },
+        {
+          "name": "Tono Laguna"
+        },
+        {
+          "name": "Tono Sol"
+        },
+        {
+          "name": "Tono Rubí"
+        },
+        {
+          "name": "Tono Laguna"
+        },
+        {
+          "name": "Tono Sol"
+        },
+        {
+          "name": "Tono Rubí"
+        },
+        {
+          "name": "Tono Laguna"
+        },
+        {
+          "name": "Tono Sol"
+        },
+        {
+          "name": "Tono Rubí"
+        },
+        {
+          "name": "Tono Laguna"
+        },
+        {
+          "name": "Tono Sol"
+        },
+        {
+          "name": "Tono Rubí"
+        },
+        {
+          "name": "Hoja Ascua"
+        },
+        {
+          "name": "Daga Escarcha"
+        },
+        {
+          "name": "Puños de Lava"
+        },
+        {
+          "name": "Grimorio Jade"
+        },
+        {
+          "name": "Arco Coral"
+        },
+        {
+          "name": "Amuleto Aurora"
+        },
+        {
+          "name": "Estela Chispa"
+        },
+        {
+          "name": "Estela Hiedra"
+        },
+        {
+          "name": "Estela Arcoíris"
+        },
+        {
+          "name": "Estela Estrellas"
+        },
+        {
+          "name": "Estela Burbujas"
+        },
+        {
+          "name": "Estela Llamas"
+        },
+        {
+          "name": "Estela Confeti"
+        },
+        {
+          "name": "Estela Tinta"
+        },
+        {
+          "name": "Estela Píxeles"
+        },
+        {
+          "name": "Estela Notas"
+        },
+        {
+          "name": "Guardia del Crepúsculo"
+        },
+        {
+          "name": "Caballero de los Torneos"
+        },
+        {
+          "name": "Sombra de los Mercados"
+        },
+        {
+          "name": "Bailarina de Hojas"
+        },
+        {
+          "name": "El Constructor"
+        },
+        {
+          "name": "El Estibador del Puerto"
+        },
+        {
+          "name": "Alquimista de las Raíces"
+        },
+        {
+          "name": "Estrella Fugaz"
+        },
+        {
+          "name": "Vigía de las Cumbres"
+        },
+        {
+          "name": "Cazadora del Desierto"
+        },
+        {
+          "name": "Guardiana de los Manantiales"
+        },
+        {
+          "name": "Centinela Nocturna"
+        }
+      ]
     }
   }
 }
