@@ -615,6 +615,61 @@
           }
         }
       ]
+    },
+    "rules": {
+      "story": {
+        "roundLabel": "Oleada",
+        "typeLabels": {
+          "normal": "Combate",
+          "mini_boss": "Minijefe",
+          "rencontre": "Encuentro",
+          "lieutenant": "Lugarteniente",
+          "boss_final": "Jefe final"
+        },
+        "npc": {
+          "eldan": {
+            "name": "Maestro Eldan"
+          },
+          "eldan_oublie": {
+            "name": "Eldan el Olvidado"
+          },
+          "sbire": {
+            "name": "Vaciado"
+          }
+        }
+      },
+      "backButton": {
+        "title": "¿Salir de la partida?",
+        "text": "Perderás tu progreso en este combate.",
+        "textDuel": "Salir del Duelo cuenta como una derrota.",
+        "textLesson": "Podrás repasar la lección desde la pestaña Jugar.",
+        "textTrain": "Volverás al lobby.",
+        "quit": "Salir",
+        "stay": "Seguir"
+      },
+      "tips": {
+        "ok": "Entendido",
+        "weapons": {
+          "title": "Las armas",
+          "text": "Cada héroe tiene tres armas igual de fuertes: cambian el estilo de combate, no la potencia. Equípalas en la pestaña Héroe. Un arma gana XP en el Viaje y en la Historia, hasta el nivel 10."
+        },
+        "talismans": {
+          "title": "Los talismanes",
+          "text": "Cada guardián del Viaje que vences te da un talismán. Cada héroe puede llevar uno: equípalo en la pestaña Héroe."
+        },
+        "prints": {
+          "title": "Las Huellas",
+          "text": "En Duelo aleatorio: +{win} por una victoria, −{loss} por una derrota. Abren nuevas arenas de Duelo y te clasifican entre los jugadores."
+        },
+        "duel": {
+          "title": "Cómo se juega un Duelo",
+          "text": "Os enfrentáis a los mismos enemigos, oleada a oleada ({wave} s como máximo). Tus puntos en una oleada endurecen la siguiente de tu rival: es la presión (hasta +{cap} %). Gana la mayor puntuación total; un KO hace perder."
+        }
+      },
+      "orientation": {
+        "title": "Gira el teléfono",
+        "text": "Tres Signos se juega en vertical."
+      }
     }
   }
 }
