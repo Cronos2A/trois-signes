@@ -6,6 +6,7 @@ import { rand } from '../util.js';
 import { pop } from './effects.js';
 import { strike } from './combat.js';
 import { sfx, music } from '../audio/audio.js';
+import { tr } from '../i18n.js';
 
 const typeOf = type => G.battle.types[type] || D.enemies[type];
 
@@ -25,7 +26,7 @@ export function spawnWave(i) {
   G.missForgiven = 0;                              // Craie ancienne : un raté pardonné par round
   if (wave.boss) { sfx('boss_apparition'); music('musique_boss'); }
   else if (G.battle.music) music(G.battle.music);
-  pop(G.W / 2, G.H * 0.5, wave.title || G.battle.label + ' ' + (i + 1), '', wave.color || '#F4EEFF', 1.4, 30);
+  pop(G.W / 2, G.H * 0.5, wave.title || tr('battle.numbered', { label: G.battle.label, n: i + 1 }), '', wave.color || '#F4EEFF', 1.4, 30);
 }
 
 /**
@@ -44,11 +45,11 @@ function eldanAction(e) {
   e.cd = rand(e.T.cd[0], e.T.cd[1]) * 0.6;
   if (pick === 'guard') {
     e.guardUntil = G.time + R.guardDuration;
-    pop(e.x, e.y - e.T.r - 30, 'Rond', 'il se protège', '#8CF09A', 1.1, 24);
+    pop(e.x, e.y - e.T.r - 30, tr('signs.circle'), tr('combat.eldanGuardSub'), '#8CF09A', 1.1, 24);
   } else {
     G.roundSummons++;
     addEnemy(R.summonType, e.x < G.W / 2 ? 0.8 : 0.2, 0, 0.8);
-    pop(e.x, e.y - e.T.r - 30, 'Toucher', 'il appelle un Ombracé', '#FFD23F', 1.1, 24);
+    pop(e.x, e.y - e.T.r - 30, tr('signs.tap'), tr('combat.eldanCallSub'), '#FFD23F', 1.1, 24);
   }
 }
 

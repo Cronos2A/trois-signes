@@ -9,6 +9,7 @@ import { talismanData } from '../game/talismans.js';
 import { itemIcon, tpl } from './weapon-ui.js';
 import { moneyIcon } from './money.js';
 import { tipOnce } from './tips.js';
+import { tr, nf } from '../i18n.js';
 
 const $ = id => document.getElementById(id);
 let el = null, close = null, finish = null, gen = 0;
@@ -64,23 +65,23 @@ export async function showTransition(info) {
   const beyond = info.index >= info.total;
   const bg = url ? `center / cover no-repeat url("${url}"), ${info.tint}` : grad(info.tint);
   await screen(`${url ? '' : facets.bg()}<div class="vy-in">
-      <span class="vy-kick">${beyond ? 'SANS FIN' : 'ARÈNE ' + (info.index + 1) + ' / ' + info.total}</span>
+      <span class="vy-kick">${beyond ? tr('voyage.kickBeyond') : tr('voyage.kickArena', { n: info.index + 1, total: info.total })}</span>
       <h1 class="vy-name">${info.name}</h1>
-      ${info.heal ? `<span class="vy-heal">+${Math.round(info.heal * 100)} % PV</span>` : ''}
-    </div><span class="vy-tap">toucher pour passer</span>`, bg, T.duration);
+      ${info.heal ? `<span class="vy-heal">${tr('units.pctHp', { pct: nf(Math.round(info.heal * 100)) })}</span>` : ''}
+    </div><span class="vy-tap">${tr('common.tapSkip')}</span>`, bg, T.duration);
   if (!info.first || g !== gen) return hide();
   // Coffre du gardien qu'on vient de battre : son talisman (data/talismans.json). Sinon, simple découverte de l'arène.
   const U = D.talismans.ui, prev = info.index > 0 ? D.voyage.arenas[info.index - 1] : null;
   const loot = (info.rewards || []).map(r => talismanData(r.id)).filter(Boolean);
   sfx('deblocage');
   await screen(`${facets.bg()}<div class="vy-in">
-      <span class="vy-kick">ARÈNE DÉCOUVERTE</span>
+      <span class="vy-kick">${tr('voyage.discovered')}</span>
       <h1 class="vy-name small">${info.name}</h1>
       ${loot.length || info.gold ? `<div class="vy-chest">${chest(info.tint)}<b>${U.chestTitle}</b>${prev ? `<span>${tpl(U.chestOpened, { arena: prev.name })}</span>` : ''}
         ${loot.map(t => `<div class="vy-loot">${itemIcon('talismans', t.id, 40)}<div><b>${t.name}</b><span>${t.text}</span></div></div>`).join('')}
         ${!loot.length && info.gold ? `<div class="vy-loot">${moneyIcon('gold', 40)}<div><b>${tpl(U.chestFallback, { n: info.gold })}</b><span>${U.chestFallbackText}</span></div></div>` : ''}
         ${loot.length ? tipOnce('talismans') : ''}</div>` : ''}
-    </div><span class="vy-tap">toucher pour continuer</span>`, grad(info.tint), 0, T.discoveryMin);
+    </div><span class="vy-tap">${tr('common.tapContinue')}</span>`, grad(info.tint), 0, T.discoveryMin);
   hide();
 }
 

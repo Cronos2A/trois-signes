@@ -5,6 +5,7 @@ import { D } from '../data.js';
 import { G, heroPos } from '../game/state.js';
 import { facets } from './icons.js';
 import { handSvg } from './tutorial-art.js';
+import { tr, nf } from '../i18n.js';
 
 let card = null, hand = null, raf = 0;
 
@@ -38,15 +39,15 @@ export function showIntro() {
       <span class="vy-kick">${I.kicker}</span>
       <h1 class="vy-name">${I.title}</h1>
       <span class="tu-sub">${I.sub}</span>
-    </div><span class="vy-tap">toucher pour passer</span>`, 'intro', { any: true, auto: I.duration });
+    </div><span class="vy-tap">${tr('common.tapSkip')}</span>`, 'intro', { any: true, auto: I.duration });
 }
 
 /** Tableau des 5 niveaux (seuils du jeu, sans la tolérance de la leçon), puis « Compris ». */
 export function showLevels() {
   const P = D.tutorial.levelsPanel, L = [...D.grades.levels].reverse();
   const rows = L.map((g, i) => {
-    const max = i < L.length - 1 ? L[i + 1].min - 1 + ' %' : '100 %';
-    return `<div class="tu-lvl" style="--c:${g.col}"><i></i><b>${g.name}</b><span>${g.min} – ${max}</span><em>×${String(g.mult).replace('.', ',')}</em></div>`;
+    const max = i < L.length - 1 ? L[i + 1].min - 1 : 100;
+    return `<div class="tu-lvl" style="--c:${g.col}"><i></i><b>${g.name}</b><span>${tr('lesson.range', { min: nf(g.min), max: nf(max) })}</span><em>×${nf(g.mult)}</em></div>`;
   }).join('');
   return showCard(`<div class="res-card tu-levels">
       <div class="res-title ol ol-5 tu-title">${P.title}</div>

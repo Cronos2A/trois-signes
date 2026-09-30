@@ -3,7 +3,6 @@
 // Pression : la vague suivante de chaque joueur est durcie selon le score de l'adversaire sur la vague qui vient de se terminer.
 // Réseau : online/duel-net.js ; écrans : ui/duel-ui.js. Ni pub, ni or, ni XP ; bonus de niveau des héros et d'XP des armes neutralisés.
 import { D } from '../data.js';
-import { deName } from '../util.js';
 import { G } from './state.js';
 import { enemyUrl, who } from '../ui/assets.js';
 import { placeMusic } from '../audio/audio.js';
@@ -13,6 +12,7 @@ import { applyRanked } from '../online/ranked.js';
 import { showWait, hideWait, showBanner, showResult, showWaitResult } from '../ui/duel-ui.js';
 import { arenaOf, applyDuelResult } from './duel-rank.js';
 import { testMode } from './economy.js';
+import { tr, ofName, nf, nfi } from '../i18n.js';
 
 const DU = () => D.duel;
 const fill = (t, v) => t.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? '');
@@ -99,7 +99,7 @@ export async function startDuel(room, char) {
   const hud = () => {
     const i = Math.max(0, S.active), p = Math.round((S.pIn[i] || 0) * 100);
     G.duelHud = { wave: i + 1, total: n, label: DU().ui.waveLabel, left: S.active >= 0 ? DU().waveSeconds - (G.time - S.waveStart) : DU().waveSeconds,
-      line: fill(DU().ui.hudLine, { name: S.oppName, score: Math.round(oppLive()).toLocaleString('fr-FR') }) + (p > 0 ? fill(DU().ui.hudPressure, { pct: p }) : '') };
+      line: fill(DU().ui.hudLine, { name: S.oppName, score: nfi(oppLive()) }) + (p > 0 ? fill(DU().ui.hudPressure, { pct: nf(p) }) : '') };
   };
 
   // Résultat : null tant que rien n'est joué d'avance ; sinon { win: 'me' | 'opp' | 'tie', why, n }.
@@ -170,7 +170,7 @@ export async function startDuel(room, char) {
   };
 
   B = {
-    duel: true, endless: true, label: 'Vague', waves: [], types: {}, art, timeLimit: 0, lieu: arena.decor,
+    duel: true, endless: true, label: tr('battle.wave'), waves: [], types: {}, art, timeLimit: 0, lieu: arena.decor,
     bg: arena.index ? { tint: arena.tint, title: arena.name } : null, music: placeMusic(arena.id), betweenRounds: DU().betweenWaves, summary: null,
     intro: () => showBanner([fill(DU().ui.countdown, { name: S.oppName }), fill(DU().ui.arena, { name: arena.name }), fill(DU().ui.noPressure, { n: 1 })].join('\n'), DU().countdownSeconds),
     /** Vague i (0 à n-1) : enregistre la précédente, attend l'adversaire, montre la pression, puis lance la vague. */
@@ -225,7 +225,7 @@ export async function startDuel(room, char) {
           S.scores[i] = G.score - S.base; S.ko = i;
           setMine({ scores: S.scores, ko: i, live: G.score });
         }
-        showWaitResult(fill(DU().ui.waitKo, { name: S.oppName, de: deName(S.oppName) }), oppLive, oppEta, api.quit);
+        showWaitResult(fill(DU().ui.waitKo, { name: S.oppName, of: ofName(S.oppName) }), oppLive, oppEta, api.quit);
         check();
         return;
       }
@@ -245,7 +245,7 @@ export async function startDuel(room, char) {
 
   /** Écran d'attente (l'autre n'a pas fini) : son score en direct ; reprend dès que ok() devient vrai. */
   function waitFor(ok, title, waveNo) {
-    const upd = () => showWait(fill(title, { name: S.oppName, de: deName(S.oppName) }), fill(DU().ui.waitWave, { n: waveNo }), oppLive, oppEta, api.quit);
+    const upd = () => showWait(fill(title, { name: S.oppName, of: ofName(S.oppName) }), fill(DU().ui.waitWave, { n: waveNo }), oppLive, oppEta, api.quit);
     waiting = () => {
       if (ok()) { waiting = null; hideWait(); G.paused = false; }
       else upd();

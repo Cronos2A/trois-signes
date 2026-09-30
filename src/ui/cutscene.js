@@ -8,6 +8,7 @@ import { portraitUrl, decorUrl, who, placeName } from './assets.js';
 import { facets } from './icons.js';
 import { silhouette, skipIcon, chevron } from './story-art.js';
 import { sfx, duck } from '../audio/audio.js';
+import { tr, initialOf } from '../i18n.js';
 
 const $ = id => document.getElementById(id);
 let el = null;
@@ -18,12 +19,12 @@ function build() {
   el.className = 'cs hidden';
   el.setAttribute('role', 'dialog');
   el.innerHTML = `<div class="cs-bg" id="csBg"><span class="cs-place" id="csPlace"></span></div>
-    <div class="cs-top"><div class="cs-pips" id="csPips"></div><button class="cs-skip" id="csSkip">Passer${skipIcon(16)}</button></div>
+    <div class="cs-top"><div class="cs-pips" id="csPips"></div><button class="cs-skip" id="csSkip">${tr('dialogue.skip')}${skipIcon(16)}</button></div>
     <div class="cs-busts" id="csBusts"></div>
     <div class="cs-box" id="csBox">
       <div class="cs-name" id="csName"></div>
       <p class="cs-text" id="csText"></p>
-      <div class="cs-hint">toucher pour continuer<span id="csChev"></span></div>
+      <div class="cs-hint">${tr('common.tapContinue')}<span id="csChev"></span></div>
     </div>`;
   document.body.appendChild(el);
   // Rien ne traverse le lecteur : ni tap, ni tracé vers le canvas du combat.
@@ -38,7 +39,7 @@ async function bust(id, expr) {
   const url = await portraitUrl(id, expr), w = who(id);
   if (url) return `<div class="cs-bust-in img" style="background:${w.bust || w.color}"><img src="${url}" alt="" draggable="false"></div>`;
   const inner = id === 'eldan' ? `<div class="cs-sil">${silhouette('color', 150)}</div>`
-    : `<span class="ol">${w.name.replace(/^(Le |La |L'|Sire |Madame |Tante |Capitaine |Maître )/, '')[0]}</span>`;
+    : `<span class="ol">${initialOf(w.name)}</span>`;
   return `<div class="cs-bust-in" style="background:${w.bust || w.color}">${facets.med()}${inner}</div>`;
 }
 

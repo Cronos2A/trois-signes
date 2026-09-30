@@ -8,11 +8,13 @@ import { createRoom, joinRoom, watch, setMine, leaveRoom, current, search } from
 import { prints, arenaIndex, arenaOf } from '../game/duel-rank.js';
 import { sfx, music } from '../audio/audio.js';
 import { tipOnce, tipBubble } from './tips.js';
+import { tr, nfi } from '../i18n.js';
+
+const nf = nfi;
 
 const U = () => D.duel.ui;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fill = (t, v) => t.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? '');
-const nf = n => Math.round(n || 0).toLocaleString('fr-FR');
 const heroes = () => D.characters.characters.filter(c => c.available);
 let el = null, onClick = null, wait = null, banner = null, liveTimer = 0;
 
@@ -172,7 +174,7 @@ export function showBanner(text, seconds) {
 export function showWait(title, sub, live, eta, onLeave) {
   if (!el || !el.classList.contains('wait')) {
     screen(`<div class="res-card du-card du-waitcard"><div class="res-title ol ol-5 du-title" id="duWT"></div>
-      <div class="du-sub" id="duWS"></div><div class="du-live"><b id="duWL"></b><span>points</span></div>
+      <div class="du-sub" id="duWS"></div><div class="du-live"><b id="duWL"></b><span id="duWP">${tr('units.points', { n: 2 })}</span></div>
       <div class="du-eta" id="duWE"></div><span class="du-wait-dot big"></span>
       <button class="mini-btn du-back" data-du="abandon">${U().abandon}</button></div>`, 'wait');
   }
@@ -182,7 +184,9 @@ export function showWait(title, sub, live, eta, onLeave) {
   const tick = () => {
     const b = el && el.querySelector('#duWL');
     if (!b) { clearInterval(liveTimer); return; }
-    b.textContent = nf(live());
+    const v = live();
+    b.textContent = nf(v);
+    el.querySelector('#duWP').textContent = tr('units.points', { n: v });
     el.querySelector('#duWE').textContent = eta ? eta() : '';
   };
   tick();
@@ -203,7 +207,7 @@ export function showResult(s, onHome) {
   const r = s.result, title = r.win === 'me' ? U().resultWin : r.win === 'opp' ? U().resultLose : U().resultTie;
   const why = fill(U().why[r.why] || '', { name: s.opp.name, n: r.n || '', s: D.duel.disconnectSeconds });
   const tot = a => a.reduce((x, y) => x + (y || 0), 0);
-  const pct = p => (p ? '+' + Math.round(p * 100) + ' %' : '—');
+  const pct = p => (p ? tr('money.plusPct', { n: nf(Math.round(p * 100)) }) : '—');
   const rows = Array.from({ length: s.n }, (_, i) => `<tr><td>${i + 1}</td><td>${s.me.scores[i] != null ? nf(s.me.scores[i]) : '—'}</td>
       <td>${s.opp.scores[i] != null ? nf(s.opp.scores[i]) : '—'}</td><td>${pct(s.pIn[i])}</td><td>${pct(s.pOut[i])}</td></tr>`).join('');
   screen(`<div class="res-card du-card du-result">

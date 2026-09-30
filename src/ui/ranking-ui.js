@@ -4,10 +4,12 @@ import { D } from '../data.js';
 import { fetchBoard } from '../online/leaderboard.js';
 import { pseudo } from '../online/online.js';
 import { sfx } from '../audio/audio.js';
+import { tr, nfi } from '../i18n.js';
+
+const nf = nfi;
 
 const L = () => D.online.leaderboard, U = () => L().ui;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const nf = n => Math.round(n || 0).toLocaleString('fr-FR');
 const rankTxt = n => (n === 1 ? U().first : U().rank.replace('{n}', n));
 let el = null, tab = 'voyage', ask = 0;
 

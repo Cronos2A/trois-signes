@@ -6,6 +6,7 @@
 import { D } from '../data.js';
 import { G } from './state.js';
 import { prog, saveProg } from './progress.js';
+import { nf } from '../i18n.js';
 
 const W = () => D.weapons;
 const AR = prog.armory;                                                  // armes débloquées et équipées (progress.js)
@@ -85,7 +86,7 @@ export function styleText(id, power = 1) {
   const s = weaponData(id).style || {}, v = styleAt(id, power), P = W().percentKeys || [];
   return (s.text || '').replace(/\{(\w+)\}/g, (_, k) => {
     const n = P.includes(k) ? v[k] * 100 : v[k];
-    return n === undefined ? '' : String(Math.round(n * 100) / 100).replace('.', ',');
+    return n === undefined ? '' : nf(Math.round(n * 100) / 100);
   });
 }
 

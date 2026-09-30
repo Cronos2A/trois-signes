@@ -5,6 +5,7 @@ import { D } from '../data.js';
 import { prog } from '../game/progress.js';
 import { server, whenOnline, pseudo } from './online.js';
 import { serverPrints } from './ranked.js';
+import { nfi } from '../i18n.js';
 
 const L = () => D.online.leaderboard;
 let sent = null, remoteBest = null, busy = false, pending = 0, pendingTimer = null;
@@ -46,7 +47,7 @@ export async function syncBoard() {
     sent = key; remoteBest = row.voyage;
     if (pending && remoteBest >= pending) {               // record fait hors connexion enfin classé : on le dit au joueur
       const n = pending; pending = 0;
-      import('../ui/ad-ui.js').then(m => m.adToast(L().ui.recordSynced.replace('{n}', n.toLocaleString('fr-FR')))).catch(() => {});
+      import('../ui/ad-ui.js').then(m => m.adToast(L().ui.recordSynced.replace('{n}', nfi(n)))).catch(() => {});
     }
   } catch (e) {
     console.warn('Classements :', e && (e.code || e.message));

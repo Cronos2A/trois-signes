@@ -5,6 +5,7 @@
 // à la couleur du personnage, décor → dégradé vert du lobby avec le nom du lieu.
 import { D } from '../data.js';
 import { facets } from './icons.js';
+import { initialOf } from '../i18n.js';
 
 const cache = new Map();
 
@@ -57,5 +58,5 @@ export const placeName = id => cap(String(id || '').replace(/_/g, ' '));
 /** Pastille ronde à la couleur du personnage avec son initiale, comme l'avatar du lobby. */
 export function pastille(id, cls = '') {
   const w = who(id);
-  return `<div class="pastille ${cls}" style="background:${w.color}">${facets.small()}<span class="ol ol-4">${w.name.replace(/^(Le |La |L'|Sire |Madame |Tante |Capitaine |Maître )/, '')[0]}</span></div>`;
+  return `<div class="pastille ${cls}" style="background:${w.color}">${facets.small()}<span class="ol ol-4">${initialOf(w.name)}</span></div>`;
 }

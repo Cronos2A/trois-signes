@@ -8,6 +8,7 @@ import { glyph, facets, facetSvg } from './icons.js';
 import { weaponGainHtml, playWeaponGain } from './weapon-ui.js';
 import { goldGainHtml } from './money.js';
 import { landscape, fragIcon, fragPips, bigFragment, silhouette, typeIcon, lockIcon, checkIcon, backIcon } from './story-art.js';
+import { tr, nf } from '../i18n.js';
 
 let root = null, handlers = {};
 
@@ -37,25 +38,25 @@ export function hideStory() { if (root) root.classList.add('hidden'); }
 const hero = id => D.characters.characters.find(c => c.id === id);
 const backBtn = label => `<button class="st-back" data-act="back" aria-label="${label}">${backIcon(20)}</button>`;
 const avatar = (c, cls) => `<div class="${cls}" style="background:${c.color}">${facets.small()}<span class="ol">${c.name[0]}</span></div>`;
-const fragBar = n => `<div class="st-fragbar"><div class="st-fragtxt"><span>FRAGMENTS DE MÉMOIRE</span><b>${n} / 6</b></div><div class="st-pips">${fragPips(n)}</div></div>`;
+const fragBar = n => `<div class="st-fragbar"><div class="st-fragtxt"><span>${tr('story.fragments')}</span><b>${n} / 6</b></div><div class="st-pips">${fragPips(n)}</div></div>`;
 
 /* ---------- 01 · Choix des histoires ---------- */
 export function renderChoice(st, on) {
   const cards = D.story_mode.histoires.map(h => {
     const c = hero(h.id), n = (st.done[h.id] || []).length, found = st.fragments.includes(h.id);
     return `<button class="st-card" data-act="pick" data-arg="${h.id}">
-      <div class="st-card-top">${avatar(c, 'st-av54')}${found ? `<span class="st-found">${fragIcon(true, 13)}Retrouvé</span>` : ''}</div>
+      <div class="st-card-top">${avatar(c, 'st-av54')}${found ? `<span class="st-found">${fragIcon(true, 13)}${tr('story.found')}</span>` : ''}</div>
       <div class="st-card-txt"><b>${c.name}</b><span>${h.titre}</span></div>
       <div class="st-prog"><div class="st-bar"><i style="width:${n * 10}%;background:${n >= 10 ? '#FFD23F' : '#FF8C32'}"></i></div><span>${n} / 10</span></div>
     </button>`;
   }).join('');
   const eldan = st.epilogue
     ? `<div class="st-eldan open"><div class="st-eldan-p">${facets.med()}${silhouette('color', 70)}</div>
-        <div class="st-eldan-txt"><b>Eldan</b><span>Le Maître · bientôt disponible</span></div></div>`
+        <div class="st-eldan-txt"><b>Eldan</b><span>${tr('story.eldanSoon')}</span></div></div>`
     : `<div class="st-eldan"><div class="st-eldan-p">${silhouette('grey', 70)}</div>
-        <div class="st-eldan-txt"><b>???</b><span>Termine les six histoires</span></div><div class="st-lock">${lockIcon(18, 2.75)}</div></div>`;
+        <div class="st-eldan-txt"><b>${tr('story.eldanUnknown')}</b><span>${tr('story.eldanLocked')}</span></div><div class="st-lock">${lockIcon(18, 2.75)}</div></div>`;
   show(`${facets.bg()}
-    <header class="st-head">${backBtn('Retour au lobby')}<h1 class="st-h1">Mode Histoire</h1></header>
+    <header class="st-head">${backBtn(tr('story.backLobby'))}<h1 class="st-h1">${tr('story.title')}</h1></header>
     <main class="st-main">${fragBar(st.fragments.length)}<div class="st-grid">${cards}${eldan}</div></main>`, on, 'st-choice');
 }
 
@@ -79,7 +80,7 @@ export function renderMap(h, st, on, toast) {
     const ink = s === 'locked' ? (boss ? '#6B6478' : '#6d665c') : '#15301E';
     return `<div class="st-node ${s}${XS[i] < 200 ? ' r' : ' l'}" data-i="${i}" style="--sz:${size}px">
       ${s === 'avail' ? '<i class="st-pulse"></i>' : ''}
-      <button class="st-dot" data-act="sel" data-arg="${k.n}" aria-label="Étape ${k.n} : ${k.titre}" style="background:${bg}">
+      <button class="st-dot" data-act="sel" data-arg="${k.n}" aria-label="${tr('story.stepAria', { n: k.n, title: k.titre })}" style="background:${bg}">
         ${typeIcon(k.type, boss ? 28 : 22, ink)}<span class="st-n">${k.n}</span>
         ${s === 'won' ? `<span class="st-badge won">${checkIcon(12)}</span>` : s === 'locked' ? `<span class="st-badge">${lockIcon(11)}</span>` : ''}
       </button>
@@ -89,8 +90,8 @@ export function renderMap(h, st, on, toast) {
 
   show(`${landscape('map')}<div class="st-fade"></div>
     <div class="st-scroll" id="stScroll"><div class="st-mapin" id="stMapIn"><svg class="st-trail" id="stTrail"></svg>${nodes}</div></div>
-    <header class="st-head">${backBtn('Retour aux histoires')}
-      <div class="st-pill">${avatar(c, 'st-av38')}<div class="st-pill-txt"><span>HISTOIRE DE ${c.name.toUpperCase()}</span><b>${h.titre}</b></div><em>${done.length} / 10</em></div></header>
+    <header class="st-head">${backBtn(tr('story.backStories'))}
+      <div class="st-pill">${avatar(c, 'st-av38')}<div class="st-pill-txt"><span>${tr('story.heroStory', { of: tr('of.hero.' + c.id), name: c.name }).toLocaleUpperCase()}</span><b>${h.titre}</b></div><em>${done.length} / 10</em></div></header>
     <div class="st-sel" id="stSel"></div>
     ${toast ? `<div class="st-toast">${toast}</div>` : ''}`,
   { ...on, sel: n => { sel = +n; paintSel(); } }, 'st-map');
@@ -99,13 +100,13 @@ export function renderMap(h, st, on, toast) {
   function paintSel() {
     const k = h.combats.find(x => x.n === sel), s = stateOf(k), boss = k.type === 'boss_final';
     const t = labels[k.type] || k.type, rounds = k.vagues.length;
-    const meta = rounds + ' vagues' + (k.type !== 'normal' && k.type !== 'rencontre' ? ' · ' + t.toLowerCase() + ' à la dernière' : '');
+    const meta = tr('story.waves', { n: rounds }) + (k.type !== 'normal' && k.type !== 'rencontre' ? ' · ' + tr('story.lastIs', { type: t.toLocaleLowerCase() }) : '');
     root.querySelector('#stSel').innerHTML = `
       <div class="st-sel-top"><div class="st-sel-ic" style="background:${NODE_BG[s] || (boss ? '#E6E2EC' : '#C9C1B3')}">${typeIcon(k.type, boss ? 28 : 22, s === 'locked' ? '#6d665c' : '#15301E')}</div>
-        <div class="st-sel-txt"><span style="color:${boss ? '#6B4F8F' : '#1F7A3D'}">ÉTAPE ${k.n} · ${t.toUpperCase()}</span><b>${k.titre}</b><em>${meta}</em></div></div>
+        <div class="st-sel-txt"><span style="color:${boss ? '#6B4F8F' : '#1F7A3D'}">${tr('story.stepKick', { n: k.n, type: t.toLocaleUpperCase() })}</span><b>${k.titre}</b><em>${meta}</em></div></div>
       ${s === 'locked'
-        ? `<div class="st-locked">Termine l'étape ${k.n - 1} pour débloquer</div>`
-        : `<button class="st-play" data-act="play" data-arg="${k.n}">${glyph('tri', '#FFD23F', 28)}<span class="ol">${s === 'won' ? 'Rejouer' : 'Jouer'}</span></button>`}`;
+        ? `<div class="st-locked">${tr('story.lockedStep', { n: k.n - 1 })}</div>`
+        : `<button class="st-play" data-act="play" data-arg="${k.n}">${glyph('tri', '#FFD23F', 28)}<span class="ol">${s === 'won' ? tr('common.replay') : tr('common.play')}</span></button>`}`;
     root.querySelectorAll('.st-node').forEach((el, i) => el.classList.toggle('sel', i === sel - 1));
     layout();
   }
@@ -143,13 +144,13 @@ export function renderMap(h, st, on, toast) {
 /* ---------- Défaite ---------- */
 export function renderDefeat(k, on, weapon, gold = 0) {
   show(`${facets.bg()}<div class="st-modal"><div class="st-card-big">
-      <div class="res-title ol ol-5 lose">KO</div>
+      <div class="res-title ol ol-5 lose">${tr('story.ko')}</div>
       <div class="st-sub">${k.titre}</div>
       ${weaponGainHtml(weapon)}
       ${goldGainHtml(gold)}
-      <button class="res-again" data-act="retry"><span class="ol ol-4">Réessayer</span></button>
-      <button class="mini-btn st-btn" data-act="review">Revoir le dialogue</button>
-      <button class="mini-btn st-btn alt" data-act="back">Retour</button>
+      <button class="res-again" data-act="retry"><span class="ol ol-4">${tr('common.retry')}</span></button>
+      <button class="mini-btn st-btn" data-act="review">${tr('story.reviewDialogue')}</button>
+      <button class="mini-btn st-btn alt" data-act="back">${tr('common.back')}</button>
     </div></div>`, on, 'st-defeat');
   playWeaponGain(root, weapon);
 }
@@ -159,12 +160,12 @@ export function renderDefeat(k, on, weapon, gold = 0) {
 export function renderVictory(k, xp, weapon, gold = 0) {
   return new Promise(resolve => {
     show(`${facets.bg()}<div class="st-modal"><div class="st-card-big">
-        <div class="res-title ol ol-5 win">Victoire</div>
+        <div class="res-title ol ol-5 win">${tr('story.victory')}</div>
         <div class="st-sub">${k.titre}</div>
-        <div class="res-xp"><div class="res-xp-top"><span>Héros ${xp.max && !xp.gain ? D.progression.ui.barMax : '+' + xp.gain + ' XP'}</span></div></div>
+        <div class="res-xp"><div class="res-xp-top"><span>${tr('story.heroXp', { v: xp.max && !xp.gain ? D.progression.ui.barMax : '+' + tr('units.xp', { n: nf(xp.gain) }) })}</span></div></div>
         ${weaponGainHtml(weapon)}
         ${goldGainHtml(gold)}
-        <button class="res-again" data-act="ok"><span class="ol ol-4">Continuer</span></button>
+        <button class="res-again" data-act="ok"><span class="ol ol-4">${tr('common.continue')}</span></button>
       </div></div>`, { ok: resolve }, 'st-defeat');
     playWeaponGain(root, weapon);
   });
@@ -176,10 +177,10 @@ export function renderFragment(n, h) {
   const memory = (h.fin || []).find(l => l.qui === 'eldan');
   return new Promise(resolve => show(`${facetSvg(6, 13, 5, 0.096)}
     <div class="st-end">
-      <div class="st-end-head"><span class="st-kick">${h.titre.toUpperCase()} · TERMINÉE</span><h1 class="st-big">Fragment de mémoire retrouvé</h1></div>
+      <div class="st-end-head"><span class="st-kick">${tr('story.finished', { title: h.titre }).toLocaleUpperCase()}</span><h1 class="st-big">${tr('story.fragmentFound')}</h1></div>
       <div class="st-end-art"><i class="st-rays"></i><i class="st-glow"></i><div class="st-float">${bigFragment()}</div></div>
-      ${memory ? `<div class="st-memory"><q>${memory.texte}</q><span>Un souvenir revient à Maître Eldan</span></div>` : ''}
-      <div class="st-end-foot">${fragBar(n)}<button class="st-cta" data-act="ok"><span class="ol">Continuer</span></button></div>
+      ${memory ? `<div class="st-memory"><q>${memory.texte}</q><span>${tr('story.memory')}</span></div>` : ''}
+      <div class="st-end-foot">${fragBar(n)}<button class="st-cta" data-act="ok"><span class="ol">${tr('common.continue')}</span></button></div>
     </div>`, { ok: resolve }, 'st-dark'));
 }
 
@@ -188,11 +189,11 @@ export function renderFragment(n, h) {
 export function renderUnlock(on) {
   show(`${facets.bg()}
     <div class="st-end">
-      <div class="st-end-head"><span class="st-kick">NOUVEAU PERSONNAGE</span><h1 class="st-big st-eldan-name">Eldan</h1><span class="st-sub-big">le Maître</span></div>
+      <div class="st-end-head"><span class="st-kick">${tr('story.newCharacter')}</span><h1 class="st-big st-eldan-name">Eldan</h1><span class="st-sub-big">${tr('story.eldanTitle')}</span></div>
       <div class="st-end-art big"><i class="st-rays"></i><div class="st-disc">${glyph('circle', '#FFD23F', 290, { n: 12, outline: 5 })}</div>
         <div class="st-reveal">${facets.med()}<div>${silhouette('color', 210)}</div></div>
         <span class="st-deco t">${glyph('tri', '#FFD23F', 44)}</span><span class="st-deco c">${glyph('circle', '#FF5A3C', 38)}</span><span class="st-deco d">${glyph('dot', '#FF8C32', 32)}</span></div>
-      <div class="st-unlock-info"><div class="st-pips">${fragPips(6)}</div><span>Son histoire sera bientôt disponible</span></div>
-      <div class="st-end-foot"><button class="st-cta" data-act="see"><span class="ol">Voir le personnage</span></button><button class="st-later" data-act="later">Plus tard</button></div>
+      <div class="st-unlock-info"><div class="st-pips">${fragPips(6)}</div><span>${tr('story.eldanSoonLong')}</span></div>
+      <div class="st-end-foot"><button class="st-cta" data-act="see"><span class="ol">${tr('story.seeCharacter')}</span></button><button class="st-later" data-act="later">${tr('common.later')}</button></div>
     </div>`, on, 'st-unlock');
 }

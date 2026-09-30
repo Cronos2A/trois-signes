@@ -11,6 +11,7 @@ import { placeMusic } from '../audio/audio.js';
 import { syncRewards } from './rewards.js';
 import { addGold } from './economy.js';
 import { variantArt, applyVariant, voyageVariant, voyageVariants } from './variants.js';
+import { tr, nf } from '../i18n.js';
 
 const V = () => D.voyage;
 const ARENAS = () => V().arenas.length;
@@ -81,7 +82,7 @@ export async function voyageBattle(hooks) {
     if (heal) {
       const h = G.hero, p = heroPos();
       h.hp = Math.min(h.max, h.hp + h.max * heal);
-      pop(p.x, p.y - 90, '+' + Math.round(heal * 100) + ' % PV', '', '#8CF09A', 1.4, 24);
+      pop(p.x, p.y - 90, tr('units.pctHp', { pct: nf(Math.round(heal * 100)) }), '', '#8CF09A', 1.4, 24);
     }
     // Coffre : le talisman du gardien qu'on vient de battre (écran « Arène découverte »).
     // Talisman déjà possédé (sauvegarde ancienne ou venue d'ailleurs) : jamais de coffre vide, de l'or à la place.
@@ -93,7 +94,7 @@ export async function voyageBattle(hooks) {
     return hooks.onStage({ ...info, heal, first, rewards, gold, total: ARENAS(), lieu: B.lieu, bg: B.bg });
   };
   const B = {
-    endless: true, xpMode: 'voyage', label: 'Round', types: {}, waves: [], art, timeLimit: 0, lieu: null, bg: null,
+    endless: true, xpMode: 'voyage', label: tr('battle.round'), types: {}, waves: [], art, timeLimit: 0, lieu: null, bg: null,
     betweenRounds: V().betweenRounds,
     /** Annonce de la partie : l'arène 1, montrée AVANT que l'arène soit visible (main.js → start). */
     intro: () => enter(0),

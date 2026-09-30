@@ -5,6 +5,7 @@ import { prog } from '../game/progress.js';
 import { setPseudo, pseudo, onlineState, onOnlineChange } from '../online/online.js';
 import { checkPseudo, suggestPseudo } from '../online/pseudo.js';
 import { sfx } from '../audio/audio.js';
+import { nfi, dateText } from '../i18n.js';
 
 const U = () => D.online.ui;
 const $ = id => document.getElementById(id);
@@ -85,17 +86,16 @@ onOnlineChange(s => { const el = $('accStatus'); if (el) el.textContent = status
  */
 export function askDamagedSave(h) {
   const T = D.online.damaged, m = $('pseudoModal');
-  const nf = n => Math.round(n || 0).toLocaleString('fr-FR');
   return new Promise(done => {
     let found = null, confirm = false, state = 'search';
     const draw = () => {
       let body = '';
       if (state === 'search') body = `<p class="ps-intro dm-wait">${T.searching}</p>`;
       else if (found) {
-        const d = new Date(found.savedAt || Date.now()).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+        const d = dateText(found.savedAt || Date.now());
         const st = Object.values((found.data.story && found.data.story.done) || {}).filter(l => l.length >= 10).length;
         body = `<p class="ps-intro">${T.found.replace('{date}', d)}</p>
-          <p class="ps-intro dm-detail">${T.foundDetail.replace('{best}', nf(found.data.best)).replace('{stories}', st).replace('{gold}', nf(found.data.eco && found.data.eco.gold))}</p>
+          <p class="ps-intro dm-detail">${T.foundDetail.replace('{best}', nfi(found.data.best || 0)).replace('{stories}', st).replace('{gold}', nfi((found.data.eco && found.data.eco.gold) || 0))}</p>
           <button class="res-again" data-dm="recover"><span class="ol ol-4">${T.recover}</span></button>`;
       } else body = `<p class="ps-intro">${state === 'offline' ? T.offline : T.none}</p>
           <button class="mini-btn" data-dm="retry">${T.retry}</button>`;

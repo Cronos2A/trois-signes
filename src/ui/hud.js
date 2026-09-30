@@ -9,11 +9,12 @@ import { ART, artScale, SPRITE_SCALE } from './combat-art.js';
 import { A, DUR, updateAnims, heroPose, heroAttack } from './anim.js';
 import { updateHud, HUD_BOTTOM } from './combat-hud.js';
 import { superActive } from '../game/supers.js';
+import { tr, nf } from '../i18n.js';
 
 const INK = '#15301E';
 const HEAD = 'Caprasimo, system-ui, sans-serif', BODY = 'Figtree, system-ui, sans-serif';
 const BAR = { sbire: [46, 12], brute: [64, 12], boss: [120, 14] };   // barres de vie : largeur, hauteur
-const GLYPH = { Attaque: 'gTri', Esquive: 'gCircle', Ramassage: 'gDot' };
+const GLYPH = { triangle: 'gTri', circle: 'gCircle', tap: 'gDot' };
 
 let k = 1;
 
@@ -551,7 +552,7 @@ function drawGrade(ctx, W, H) {
   ctx.save(); ctx.rotate(-4 * Math.PI / 180);
   outlined(ctx, b.text, 0, 0, size, b.col, 8, 5);
   ctx.restore();
-  const label = b.label + (b.acc != null ? ' · ' + b.acc + ' %' : ''), gl = ART[GLYPH[b.label]];
+  const label = b.acc != null ? tr('combat.gradeLine', { label: b.label, acc: nf(b.acc) }) : b.label, gl = ART[GLYPH[b.kind]];
   ctx.font = '700 15px ' + BODY;
   const tw = ctx.measureText(label).width, gw = gl ? 22 + 7 : 0, pw = 9 + gw + tw + 14, ph = 34, py = size * 0.55 + 12;
   rr(ctx, -pw / 2, py + 3, pw, ph, ph / 2); ctx.fillStyle = INK; ctx.fill();

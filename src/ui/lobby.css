@@ -121,7 +121,8 @@
 .char-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:9px}
 .char-name{font-family:var(--font-heading);font-size:26px;line-height:1;margin-bottom:4px}
 .tags{display:flex;gap:5px;flex-wrap:wrap}
-.tag-g,.tag-y{font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;border:2px solid var(--ink)}
+.tag-g,.tag-y,.tag-b{font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;border:2px solid var(--ink)}
+.tag-b{background:var(--mint)}
 .tag-g{background:var(--lime)}
 .tag-y{background:var(--sun)}
 .stat{display:flex;flex-direction:column;gap:3px}
@@ -372,3 +373,5 @@
 .rw-tal-ic{flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center}
 .rw-tal b{display:block;font-size:14px;color:var(--ink)}
 .rw-tal small{display:block;font-size:12px;font-weight:700;color:var(--text-soft);line-height:1.25}
+.set-langs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.set-langs .chip{font-size:12.5px;padding:6px 8px;min-width:0}

@@ -3,6 +3,7 @@
 // Seuils repris tels quels du prototype v2. Ne pas les durcir sans accord :
 // des seuils trop hauts ont rendu le jeu injouable au premier test.
 import { clamp, dist } from '../util.js';
+import { tr } from '../i18n.js';
 
 export const TUNING = {
   tapMaxLen: 22, tapMaxMs: 450,   // en dessous : c'est un tap
@@ -76,7 +77,7 @@ export function analyze(raw, duration) {
   for (const p of raw) { minX = Math.min(minX, p.x); minY = Math.min(minY, p.y); maxX = Math.max(maxX, p.x); maxY = Math.max(maxY, p.y); }
   const size = Math.max(maxX - minX, maxY - minY);
   if (len < T.tapMaxLen && duration < T.tapMaxMs) return { type: 'tap', x: raw[0].x, y: raw[0].y };
-  if (size < T.minSize) return { type: 'fail', reason: 'Forme trop petite' };
+  if (size < T.minSize) return { type: 'fail', reason: tr('gestures.tooSmall') };
 
   const rs = resample(raw, T.samples);
   const c = { x: 0, y: 0 };
@@ -95,7 +96,7 @@ export function analyze(raw, duration) {
   }
   sweep = Math.abs(sweep) * 180 / Math.PI;
   const overdrawn = sweep >= T.overdrawSweep;
-  if (gap > T.openGap * size && !overdrawn) return { type: 'fail', reason: 'Forme pas fermée' };
+  if (gap > T.openGap * size && !overdrawn) return { type: 'fail', reason: tr('gestures.notClosed') };
   const closure = overdrawn ? 1 : clamp(1 - gap / (T.closureGap * size));
 
   // Coins
@@ -141,9 +142,9 @@ export function analyze(raw, duration) {
   if (corners >= 5) return { type: 'circle', acc: Math.round(circleAcc()), c, r: meanR };
   if (corners === 4) {
     if (polyDev(4) > T.quadRoundDev && cvR < T.quadRoundCv) return { type: 'circle', acc: Math.round(circleAcc() * T.quadCirclePenalty), c, r: meanR };
-    return { type: 'fail', reason: '4 coins : tracez un triangle' };
+    return { type: 'fail', reason: tr('gestures.fourCorners') };
   }
-  return { type: 'fail', reason: 'Forme non reconnue' };
+  return { type: 'fail', reason: tr('gestures.unknown') };
 }
 
 /**

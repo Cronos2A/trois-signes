@@ -84,8 +84,8 @@
     "gemsName": "+{n} gemmes",
     "gemsReward": "GEMMES GAGNÉES",
     "gemsFor": {
-      "guardian": "Gardien {de} battu",
-      "story": "Histoire {de} terminée",
+      "guardian": "Gardien {of} battu",
+      "story": "Histoire {of} terminée",
       "epilogue": "Épilogue de l'histoire"
     },
     "gemsOk": "Continuer",

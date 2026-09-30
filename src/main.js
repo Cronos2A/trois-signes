@@ -39,13 +39,14 @@ import { initDuel, startDuel } from './game/duel.js';
 import { openDuel, hideDuelUi } from './ui/duel-ui.js';
 import { showTransition, hideTransition } from './ui/voyage-ui.js';
 import { initAudio, sfx, music, placeMusic, traceStart, traceStop } from './audio/audio.js';
+import { tr, nf, loadI18n, applyLanguageData, applyStatic } from './i18n.js';
 
 const $ = id => document.getElementById(id);
 const cv = $('c'), ctx = cv.getContext('2d');
 let dpr = 1, curChar = null, curBattle = null;
 
 /** Décor de repos (lobby, entraînement) : la Forêt de Mousse, sans vagues. */
-const idleBattle = () => ({ waves: [], types: {}, art: [], timeLimit: 0, label: 'Vague', lieu: null, bg: null });
+const idleBattle = () => ({ waves: [], types: {}, art: [], timeLimit: 0, label: tr('battle.wave'), lieu: null, bg: null });
 
 /** Le Voyage (Solo infini) : à chaque arène, nouveau décor puis écran de transition. */
 const newVoyage = () => voyageBattle({
@@ -147,7 +148,7 @@ function payRounds(all = false) {
   if (gold > 0) {
     addGold(gold);
     G.goldGain += gold;
-    if (!all) pop(G.W / 2, G.H * 0.3, '+' + gold + ' or', '', '#FFD23F', 1.2, 24);
+    if (!all) pop(G.W / 2, G.H * 0.3, tr('units.goldGain', { n: nf(gold) }), '', '#FFD23F', 1.2, 24);
   }
 }
 
@@ -241,7 +242,7 @@ async function start(mode, opts = {}) {
   setInGame(true);
   hideCover();
   if (mode === 'train') music('musique_tuto');
-  if (mode === 'train') G.trainMsg = 'Tracez des triangles et des ronds, tapez sur les objets. La précision s’affiche à chaque geste.';
+  if (mode === 'train') G.trainMsg = tr('train.intro');
 }
 
 /**
@@ -303,9 +304,13 @@ async function init() {
   addEventListener('resize', resize);
   resize();
   try {
+    await loadI18n();                      // textes de l'interface (data/i18n), avant les données
     await loadData();
+    applyLanguageData(D);                  // textes des autres fichiers de data/ dans la langue active
+    applyStatic();                         // textes fixes de index.html (data-i18n)
   } catch (err) {
-    $('loadErr').textContent = 'Impossible de charger les données du jeu (' + err.message + ').';
+    const msg = tr('error.load', { msg: err.message });
+    $('loadErr').textContent = msg === 'error.load' ? err.message : msg;   // langue illisible : message technique seul
     $('loadErr').classList.remove('hidden');
     return;
   }

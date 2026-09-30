@@ -1,0 +1,272 @@
+{
+  "note": "Textes de l'interface en français (langue de référence). Clés « un / plusieurs » : { \"one\": …, \"other\": … } (règles de la langue, Intl). Les textes d'histoire restent dans story_mode.json et tutorial.json ; les autres fichiers de data/ se traduisent par la section « data » d'une langue.",
+  "units": {
+    "seconds": "{n} s",
+    "xp": "{n} XP",
+    "hp": "{n} PV",
+    "points": {
+      "one": "point",
+      "other": "points"
+    },
+    "hpGain": "+{n} PV",
+    "pctHp": "+{pct} % PV",
+    "goldGain": "+{n} or"
+  },
+  "hud": {
+    "quit": "Quitter",
+    "skip": "Passer",
+    "lesson": "LEÇON",
+    "boss": "BOSS",
+    "guardian": "GARDIEN",
+    "round": "ROUND",
+    "wave": "VAGUE",
+    "super": "SUPER",
+    "streak": "Série",
+    "streakMult": "Série ×{m}",
+    "gaugeTitle": "Jauge de super",
+    "score": "SCORE",
+    "superAria": "Lancer la super-attaque"
+  },
+  "battle": {
+    "wave": "Vague",
+    "round": "Round",
+    "lesson": "Leçon",
+    "numbered": "{label} {n}"
+  },
+  "signs": {
+    "triangle": "Triangle",
+    "circle": "Rond",
+    "tap": "Toucher"
+  },
+  "combat": {
+    "noTarget": "Aucune cible",
+    "autoDodge": "esquive automatique",
+    "dodgePct": "Esquive {pct} %",
+    "noDamage": "aucun dégât",
+    "attack": "Attaque",
+    "dodge": "Esquive",
+    "combo": "Combo {grade}",
+    "comboEffect": "effet ×{m}",
+    "eldanGuardSub": "il se protège",
+    "eldanCallSub": "il appelle un Ombracé",
+    "tooLate": "Trop tard",
+    "tooLateSub": "trace le Rond pendant l'alerte",
+    "pickup": "Ramassage",
+    "gradeLine": "{label} · {acc} %"
+  },
+  "train": {
+    "intro": "Tracez des triangles et des ronds, tapez sur les objets. La précision s’affiche à chaque geste.",
+    "pickup": "Ramassage {grade}",
+    "pickupCombo": "Ramassage {grade} en combo ×{m}",
+    "tapMiss": "Tap sans objet : tapez sur une pièce ou un cœur.",
+    "fail": "{reason}. Série remise à zéro.",
+    "missedAttack": "Attaque ratée : précision {acc} % ({min} % minimum). Série remise à zéro.",
+    "missedDodge": "Esquive ratée : précision {acc} % ({min} % minimum). Série remise à zéro.",
+    "attack": "Attaque {grade} : {dmg} dégâts",
+    "attackCombo": "Attaque {grade} : {dmg} dégâts (combo ×{m})",
+    "dodge": "Esquive {grade} : {pct} % des dégâts évités",
+    "dodgeCombo": "Esquive {grade} : {pct} % des dégâts évités + riposte (combo)",
+    "streak": ". Série {grade} : {n}/{len}"
+  },
+  "error": {
+    "load": "Impossible de charger les données du jeu ({msg})."
+  },
+  "common": {
+    "tapSkip": "toucher pour passer",
+    "tapContinue": "toucher pour continuer",
+    "back": "Retour",
+    "close": "Fermer",
+    "yes": "Oui",
+    "no": "Non",
+    "soon": "Bientôt",
+    "continue": "Continuer",
+    "play": "Jouer",
+    "replay": "Rejouer",
+    "retry": "Réessayer",
+    "later": "Plus tard",
+    "labelValue": "{label} : {value}",
+    "ok": "OK"
+  },
+  "voyage": {
+    "kickArena": "ARÈNE {n} / {total}",
+    "kickBeyond": "SANS FIN",
+    "discovered": "ARÈNE DÉCOUVERTE"
+  },
+  "dialogue": {
+    "note": "Articles et titres ôtés d'un nom pour trouver l'initiale affichée à la place d'un portrait manquant.",
+    "titles": [
+      "Le ",
+      "La ",
+      "L'",
+      "Sire ",
+      "Madame ",
+      "Tante ",
+      "Capitaine ",
+      "Maître "
+    ],
+    "skip": "Passer"
+  },
+  "lesson": {
+    "range": "{min} – {max} %"
+  },
+  "gestures": {
+    "tooSmall": "Forme trop petite",
+    "notClosed": "Forme pas fermée",
+    "fourCorners": "4 coins : tracez un triangle",
+    "unknown": "Forme non reconnue"
+  },
+  "money": {
+    "gold": "or",
+    "gems": "gemmes",
+    "goldAmount": "{n} or",
+    "gemsAmount": "{n} gemmes",
+    "pct": "{n} %",
+    "plusPct": "+{n} %"
+  },
+  "story": {
+    "victoryToast": "Victoire ! +{xp} XP · +{gold} or",
+    "title": "Mode Histoire",
+    "fragments": "FRAGMENTS DE MÉMOIRE",
+    "found": "Retrouvé",
+    "eldanSoon": "Le Maître · bientôt disponible",
+    "eldanUnknown": "???",
+    "eldanLocked": "Termine les six histoires",
+    "backLobby": "Retour au lobby",
+    "backStories": "Retour aux histoires",
+    "stepAria": "Étape {n} : {title}",
+    "heroStory": "HISTOIRE {of}",
+    "waves": {
+      "one": "{n} vague",
+      "other": "{n} vagues"
+    },
+    "lastIs": "{type} à la dernière",
+    "stepKick": "ÉTAPE {n} · {type}",
+    "lockedStep": "Termine l'étape {n} pour débloquer",
+    "ko": "KO",
+    "reviewDialogue": "Revoir le dialogue",
+    "victory": "Victoire",
+    "heroXp": "Héros {v}",
+    "finished": "{title} · TERMINÉE",
+    "fragmentFound": "Fragment de mémoire retrouvé",
+    "memory": "Un souvenir revient à Maître Eldan",
+    "newCharacter": "NOUVEAU PERSONNAGE",
+    "eldanTitle": "le Maître",
+    "eldanSoonLong": "Son histoire sera bientôt disponible",
+    "seeCharacter": "Voir le personnage"
+  },
+  "of": {
+    "note": "« de » + nom propre, forme complète écrite pour chaque lieu et chaque héros (chaque langue tourne sa phrase).",
+    "hero": {
+      "aldric": "d'Aldric",
+      "nyra": "de Nyra",
+      "boran": "de Boran",
+      "ilwen": "d'Ilwen",
+      "kestrel": "de Kestrel",
+      "mira": "de Mira"
+    },
+    "arena": {
+      "foret_mousse": "de la Forêt de Mousse",
+      "hautes_gerbes": "des Hautes-Gerbes",
+      "fontclaire": "de Fontclaire",
+      "velis_toits": "des Toits de Vélis",
+      "aubelle_biblio": "de la Bibliothèque d'Aubelle",
+      "col_vents": "du Col des Vents",
+      "ecole_ruines": "de l'École des Signes",
+      "coeur_silence": "du Cœur du Silence"
+    }
+  },
+  "lobby": {
+    "tabs": {
+      "play": "Jouer",
+      "char": "Personnage",
+      "shop": "Boutique"
+    },
+    "settingsAria": "Réglages",
+    "pseudoAria": "Pseudo",
+    "gold": "Or",
+    "gems": "Gemmes",
+    "soloKicker": "SOLO · {name}",
+    "record": "{name} : record {n}",
+    "farthest": "Arène max :",
+    "none": "aucune",
+    "lesson": "Revoir la leçon",
+    "training": "Entraînement",
+    "pve": "PVE",
+    "pvp": "PVP",
+    "solo": "Solo",
+    "soloSub": "Le Voyage",
+    "story": "Histoire",
+    "storySub": "6 héros · 10 combats",
+    "duel": "Duel",
+    "activeChar": "Personnage actif",
+    "playWith": "Jouer avec {name}",
+    "availableSoon": "Disponible bientôt",
+    "prevChar": "Personnage précédent",
+    "nextChar": "Personnage suivant",
+    "passive": "PASSIF",
+    "super": "SUPER",
+    "attack": "Attaque {n}",
+    "beginner": "Idéal pour débuter"
+  },
+  "settings": {
+    "title": "Réglages",
+    "music": "Musique",
+    "sfx": "Effets",
+    "volume": "Volume {name}",
+    "vibrate": "Vibrations",
+    "credits": "Crédits",
+    "language": "Langue",
+    "langSoon": "{name} (bientôt)"
+  },
+  "results": {
+    "voyageEnd": "Fin du voyage",
+    "victory": "Victoire",
+    "ko": "KO",
+    "timeUp": "Temps écoulé",
+    "combos": "Combos",
+    "newRecord": "Nouveau record !",
+    "arena": "Arène {n} / {total}",
+    "beyond": "Sans fin",
+    "where": "{stage} : {name} · round {round} / {rounds}",
+    "scoreLine": "{score} {points} en {time} s",
+    "scoreLineRecord": "{score} {points} en {time} s · nouveau record !",
+    "home": "Retour au lobby"
+  },
+  "app": {
+    "title": "Trois Signes"
+  },
+  "grammar": {
+    "of": {
+      "note": "« de » + pseudo d'un joueur (ofName, src/i18n.js) : première règle dont l'expression correspond ({rest} : la suite du nom), sinon « default ».",
+      "rules": [
+        {
+          "match": "^Le\\s+(.*)$",
+          "out": "du {rest}"
+        },
+        {
+          "match": "^Les\\s+(.*)$",
+          "out": "des {rest}"
+        },
+        {
+          "match": "^La\\s+(.*)$",
+          "out": "de la {rest}"
+        },
+        {
+          "match": "^L['’]\\s*(.*)$",
+          "out": "de l'{rest}"
+        },
+        {
+          "match": "^y[aeiouyàâéèêîôû]",
+          "flags": "i",
+          "out": "de {name}"
+        },
+        {
+          "match": "^[aeiouyàâäéèêëîïôöùûüœæ]",
+          "flags": "i",
+          "out": "d'{name}"
+        }
+      ],
+      "default": "de {name}"
+    }
+  }
+}

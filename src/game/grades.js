@@ -2,10 +2,10 @@
 import { D } from '../data.js';
 import { G, heroPos, addScore } from './state.js';
 import { pop, addFx, vibrate } from './effects.js';
-import { fmt } from '../util.js';
 import { addGauge } from './supers.js';
 import { gainWeaponXp, xpFor } from './weapons.js';
 import { gradeNotes, sfx } from '../audio/audio.js';
+import { tr, nf } from '../i18n.js';
 
 /** Seuils identiques pour tous ; seule la leçon guidée les abaisse (data/tutorial.json → tolerance). */
 export const toleranceOffset = () => (G.battle && G.battle.tutorial ? D.tutorial.tolerance : 0);
@@ -69,9 +69,9 @@ export function comboHit(g, fromSuper) {
   if (T.comboHeal && G.hero && G.hero.hp < G.hero.max) {   // Épée, Bâton de sève (style) : chaque combo soigne
     const got = Math.min(T.comboHeal, G.hero.max - G.hero.hp);
     G.hero.hp += got;
-    pop(h.x - 44, h.y - 44, '+' + fmt(got) + ' PV', '', '#8CF09A', 0.9, 20);
+    pop(h.x - 44, h.y - 44, tr('units.hpGain', { n: nf(got) }), '', '#8CF09A', 0.9, 20);
   }
-  pop(G.W / 2, G.H * 0.5, 'Combo ' + g.name, 'effet ×' + fmt(cm), g.col, 1.4, 30);
+  pop(G.W / 2, G.H * 0.5, tr('combat.combo', { grade: g.name }), tr('combat.comboEffect', { m: nf(cm) }), g.col, 1.4, 30);
   addFx({ kind: 'burst', x: h.x, y: h.y, col: g.col, life: 0.8, r: 40 });
   vibrate([30, 40, 30]);
   sfx('combo');
@@ -80,4 +80,4 @@ export function comboHit(g, fromSuper) {
 }
 
 export const streakTxt = () =>
-  G.streak.n > 0 ? '. Série ' + G.streak.name + ' : ' + G.streak.n + '/' + comboLength() : '';
+  G.streak.n > 0 ? tr('train.streak', { grade: G.streak.name, n: G.streak.n, len: comboLength() }) : '';

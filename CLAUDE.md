@@ -1,6 +1,6 @@
 # Trois Signes — brief pour Claude Code
 
-État du projet au 29/09/2026 (corrections de l'audit faites, reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
+État du projet au 30/09/2026 (système multilingue en place, français seulement ; reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
@@ -84,7 +84,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 | Boran, Colosse (gantelets) | 170 / 6 | Force brute : jamais de combo | **Géant** : 8 s, taille ×1,4, coup sur tous ×2,5 |
 | Ilwen, Sorcière (grimoire) | 125 / 5 | Incantation : combo en 3 gestes | **Grimoire ouvert** : 2 attaques comptées comme combos |
 | Kestrel, Rôdeuse (arc) | 105 / 4,6 | Pas léger : esquive de base 120 % | **Œil de faucon** : 8 s, tout geste reconnu = Perfect |
-| Mira, Soigneuse (amulette) | 150 / 3 | Soin 0,5 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : +10 % des PV max, attaque ×2 pendant 10 s |
+| Mira, Soigneuse (amulette) — **héroïne accessible pour les débutants** (étiquette « Idéal pour débuter », `beginner`) | 150 / 3 | Soin 0,5 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : +10 % des PV max, attaque ×2 pendant 10 s |
 
 ## Armes, talismans et récompenses — `data/weapons.json`, `data/talismans.json` — **fait**
 - **3 armes par héros** (`weapons.json` → `heroes`) : l'arme de départ + 2 alternatives débloquées en Histoire
@@ -129,6 +129,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   17 supers, soit une Renouveau toutes les 28 s environ). Puis Renouveau à 10 % des PV et Clochette à 1 PV × multiplicateur :
   KO à 16,3 et 16,6 min (Amulette), 9,0 et 12,7 min (Bâton de sève), 15,0 et 20,2 min (Clochette), moyenne 15 min (cible 8-13 min).
   **Mira est à réévaluer après le test fermé**, en comparant les rounds atteints par héros dans le classement du Voyage.
+  Décidé le 30/09 : on garde ce réglage ; Mira est l'héroïne accessible pour les débutants (plus solide que les autres, voulu).
   Progression mesurée (un héros, Voyages seulement) : Nv 5 en 9 min, Nv 10 en 25 min, Nv 20 en 1 h 15, Nv 50 en 6 h, Nv 100 en 22 h ;
   arme au niveau 10 en ~6,5 Voyages (≈ 1 h), une histoire ≈ niveau 5. Voyage de 8 arènes sans pièce : 140 or (170 avec record).
 
@@ -390,11 +391,30 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   partie en pause (sauf en Duel).
 - **Duel** : l'adversaire n'est jugé déconnecté que sur des données confirmées par le serveur ; soi-même, plus de 30 s sans contact
   avec le serveur (réseau ou veille) = défaite « Tu as été déconnecté ». Calque des écrans du Duel : classe `.du-layer`.
-- **Textes** : `deName` (`src/util.js`) pour « de » devant un nom (d'Aldric, du Cœur…, des Hautes-Gerbes) ; les arènes ont un champ `de`.
 - **Gemmes et talismans** : plusieurs gains d'un coup = un seul écran récapitulatif chacun (`reward-ui.js`).
 - **Explications** (`src/ui/tips.js`, textes `rules.json → tips`, vues notées dans `prog.tips`) : une seule fois, encadré dans l'écran
   de la 1re arme alternative, du 1er talisman (récompense ou coffre d'arène), des 1res Empreintes (fin de Duel au hasard) ;
   bulle « Compris » au 1er salon de Duel (pas la place d'un encadré). Pseudo normalisé en NFC avant vérification.
+
+## Langues (i18n) — `src/i18n.js`, `data/i18n/` — **fait (français seulement)**
+- **Aucun texte visible dans le code** : tout passe par `tr('clé', { variables })` (textes de `data/i18n/{langue}.json`).
+  Les textes déjà rangés dans les autres fichiers de `data/` (noms, descriptions, `ui` de chaque fichier) y restent : une langue les
+  remplace par sa section `"data"` (même chemin), superposée au chargement (`applyLanguageData`). Histoire : `story_mode.json`, `tutorial.json`.
+  Textes fixes de `index.html` : attributs `data-i18n`, `data-i18n-title`, `data-i18n-aria` (`applyStatic`).
+- **Langues** (`data/i18n/languages.json`) : fr, en, it, es, de ; seul `fr.json` existe (`ready`). Langue par défaut : celle du téléphone si
+  elle est proposée, sinon l'anglais ; `?lang=de` pour tester ; choix dans les Réglages (`settings.lang`, le jeu se recharge).
+  Clé absente dans la langue active → texte français (repli). Langues pas encore prêtes : « (bientôt) » dans les Réglages.
+- **Nombres** : `nf` / `nfi` (Intl, locale de la langue, séparateur des milliers insécable) ; dates : `dateText`. **Pluriels** : clé
+  `{ "one": …, "other": … }` choisie par `Intl.PluralRules` (`vars.n`).
+- **Grammaire par langue** : « de » + lieu ou héros = forme complète (`of.arena.*`, `of.hero.*` : « de la Forêt de Mousse », « d'Aldric ») ;
+  « de » + pseudo = règles `grammar.of` (`ofName`) ; articles et titres ôtés pour l'initiale d'un portrait manquant : `dialogue.titles` (`initialOf`).
+- Glossaire imposé : `data/i18n/GLOSSAIRE.md` (Trois Signes, Empreinte, Silence, Ombracés, Cœur du Silence, Fragment de mémoire, lieux).
+  Noms des héros et niveaux de réussite (OK … Perfect) identiques dans toutes les langues. Aucune image ne contient de texte.
+- Exceptions volontaires : message « lancez via un serveur » de `index.html` (ouvert en `file://`, aucun fichier ne se charge), nom de lieu
+  de secours tiré de l'identifiant quand un décor manque (`placeName`), messages de la console (développeurs).
+- Vérifié le 30/09/2026 : textes de 21 écrans et du jeu (Entraînement, bulles, gestes, bandeau) identiques avant / après en français,
+  sauf « 1 point » (pluriel), « HISTOIRE D'ALDRIC » (élision), la bulle de Renouveau « +10 % PV » (au lieu de « PV au max », faux depuis
+  le rééquilibrage) ; `?lang=de` : textes en français, nombres « 1.234.567 », aucune erreur.
 
 ## Réglages et crédits
 - Engrenage du lobby (`src/ui/lobby.js` → `renderSettings`, `src/game/settings.js`, clé `ts_settings`) : volumes Musique / Effets, Vibrations,
@@ -403,6 +423,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
+- **Aucun texte visible dans le code** : `tr('clé')` et `data/i18n/fr.json` (voir « Langues ») ; nombres par `nf` / `nfi`, jamais `toLocaleString('fr-FR')`.
   `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
@@ -426,9 +447,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 ```
 index.html  manifest.webmanifest (portrait)
 src/
+  i18n.js            langues : tr(), nombres, pluriels, grammaire par langue, repli sur le français
   main.js            boucle de jeu, écrans, démarrage (prologue puis leçon au premier lancement)
   data.js            chargement de data/*.json
-  util.js            (dont deName : « de » élidé devant un nom)
+  util.js
   input/gestures.js  reconnaissance des gestes + précision
   game/  state.js (état partagé G)  grades.js  combat.js  enemies.js  effects.js  progress.js (XP et niveaux des héros, sauvegarde)
          save-check.js (sauvegarde abîmée : forme attendue)
@@ -450,6 +472,7 @@ src/
          back.js (bouton Retour du téléphone)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css
 data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel (.json)
+  i18n/  languages.json  fr.json (textes de l'interface)  GLOSSAIRE.md
 firestore.rules  firebase.json   règles de sécurité Firestore
 tools/check-rules.mjs            vérifie que les chiffres des règles sont ceux de data/
 assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)

@@ -14,6 +14,7 @@ import { showIntro, showLevels, showHand, hideHand, hideTutorialUi } from '../ui
 import { enemyUrl } from '../ui/assets.js';
 import { dummyUrl } from '../ui/tutorial-art.js';
 import { music } from '../audio/audio.js';
+import { tr } from '../i18n.js';
 
 const X = () => D.tutorial;
 let api = {};      // { startBattle(opts) → Promise, quit() } fourni par main.js
@@ -30,7 +31,7 @@ export async function startTutorial() {
   const passive = { ...T.dummy, sprite: 'x_' + T.dummy.id, immortal: true, cd: [1e9, 1e9] };
   types = { passive, attack: { ...passive, cd: T.dummy.cd } };
   const battle = {
-    tutorial: true, waves: [], types: { [T.dummy.id]: passive }, timeLimit: 0, label: 'Leçon', lieu: T.decor, bg: null, music: T.music,
+    tutorial: true, waves: [], types: { [T.dummy.id]: passive }, timeLimit: 0, label: tr('battle.lesson'), lieu: T.decor, bg: null, music: T.music,
     art: [{ key: passive.sprite, url: url || dummyUrl(), height: T.dummy.height, fallback: 'sbire' }],   // sprite provisoire si le fichier manque
     onQuit: () => finish(),
     intro: () => showIntro()                                // « Souvenir » : annonce montrée avant l'arène (main.js → start)
@@ -65,7 +66,7 @@ function finish() {
 async function step(i, id) {
   const T = X(), S = T.steps[i];
   const t = G.tuto = { step: i, total: T.steps.length, count: 0, goal: S.goal, label: S.label, consigne: S.consigne, fails: 0, help: false };
-  if (S.id === 'justesse') { t.goal = comboLength(); t.label = 'Série'; }
+  if (S.id === 'justesse') { t.goal = comboLength(); t.label = tr('hud.streak'); }
   G.paused = true;
   await playScene(S.eldan, { decor: T.decor });
   if (id !== run) return;
@@ -111,7 +112,7 @@ function onEvent(S, t, ev, d, done) {
       if (ev === 'gesture' && !(d.type === 'circle' && d.g)) bad();
       if (ev === 'strike') {
         if (d.avoid > 0) plus();
-        else { const h = heroPos(); pop(h.x, h.y - 90, 'Trop tard', 'trace le Rond pendant l\'alerte', '#FFD23F', 1.2, 22); bad(); }
+        else { const h = heroPos(); pop(h.x, h.y - 90, tr('combat.tooLate'), tr('combat.tooLateSub'), '#FFD23F', 1.2, 22); bad(); }
       }
       break;
     case 'toucher':

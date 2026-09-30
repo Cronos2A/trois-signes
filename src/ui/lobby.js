@@ -18,12 +18,12 @@ import { adIcon, adToast } from './ad-ui.js';
 import { openChest } from '../game/economy.js';
 import { moneyIcon, goldGainHtml } from './money.js';
 import { accountHtml, askPseudo } from './account-ui.js';
+import { tr, nf, nfi, language, languages, setLanguage } from '../i18n.js';
 
 const $ = id => document.getElementById(id);
-const nf = n => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
 const pct = (a, b) => Math.round(100 * a / b);
 
-const TABS = [['play', 'tri', 'Jouer'], ['char', 'circle', 'Personnage'], ['shop', 'dot', 'Boutique']];
+const TABS = [['play', 'tri'], ['char', 'circle'], ['shop', 'dot']];
 const ui = { tab: 'play', active: 0, view: 0, filter: 'all', tal: null, shopTab: 'chests' };
 let actions = {};
 
@@ -45,9 +45,9 @@ export function initLobby(a) {
     '</main>' +
     '<nav class="lb-tabs" id="lbTabs"></nav>' +
     '<div class="lb-modal hidden" id="results" role="dialog" aria-modal="true"></div>' +
-    '<div class="lb-modal hidden" id="settings" role="dialog" aria-modal="true" aria-label="Réglages"></div>' +
+    '<div class="lb-modal hidden" id="settings" role="dialog" aria-modal="true" aria-label="' + tr('lobby.settingsAria') + '"></div>' +
     '<div class="lb-modal hidden" id="shopModal" role="dialog" aria-modal="true"></div>' +
-    '<div class="lb-modal hidden" id="pseudoModal" role="dialog" aria-modal="true" aria-label="Pseudo"></div>';
+    '<div class="lb-modal hidden" id="pseudoModal" role="dialog" aria-modal="true" aria-label="' + tr('lobby.pseudoAria') + '"></div>';
   onSkinReady(() => { if (!$('lobby').classList.contains('hidden')) render(); });   // skin chargé : on le montre
   root.addEventListener('click', onClick);
   // Curseurs de volume : appliqués en direct (game/settings.js prévient le gestionnaire audio).
@@ -87,7 +87,7 @@ async function doubleGold(btn) {
   r.doubled = true;
   addGold(r.gold);
   const line = $('results').querySelector('.money-gain b');
-  if (line) line.textContent = '+' + nf(r.gold * 2) + ' or';
+  if (line) line.textContent = tr('units.goldGain', { n: nfi(r.gold * 2) });
   btn.innerHTML = D.ads.ui.doubled;
   $('lbHead').innerHTML = headHtml();
 }
@@ -115,6 +115,7 @@ function onClick(e) {
     case 'again': afterVoyageResults().then(() => actions.again()); break;   // pub plein écran due (Voyage)
     case 'home': afterVoyageResults().then(() => { hideResults(); ui.tab = 'play'; render(); }); break;
     case 'settings': renderSettings(); $('settings').classList.remove('hidden'); break;
+    case 'setLang': if (arg !== language()) setLanguage(arg); break;
     case 'set': setSetting(el.dataset.key, el.dataset.key === 'vibrate' ? arg === '1' : arg); renderSettings(); break;
     case 'closeSettings': $('settings').classList.add('hidden'); break;
     case 'credits': renderCredits(); break;
@@ -161,7 +162,8 @@ function onClick(e) {
 
 function render() {
   $('lbHead').innerHTML = headHtml();
-  $('lbTabs').innerHTML = TABS.map(([k, g, label]) => {
+  $('lbTabs').innerHTML = TABS.map(([k, g]) => {
+    const label = tr('lobby.tabs.' + k);
     const on = ui.tab === k;
     return `<button class="tab${on ? ' on' : ''}" data-act="tab" data-arg="${k}" aria-pressed="${on}">` +
       glyph(g, on ? '#FFD23F' : '#9ACD32', on ? 22 : 20) + `<span>${label}</span></button>`;
@@ -188,13 +190,13 @@ function headHtml() {
     <div class="head-info">
       <div class="head-name ol ol-4">${c.name}</div>
       <div class="xpbar${L.max ? ' max' : ''}"><i style="width:${L.max ? 100 : pct(L.cur, L.need)}%"></i>${L.max ? '<b>' + U().barMax + '</b>' : ''}</div>
-      <div class="head-xp">${L.max ? lvlText(L) : nf(L.cur) + ' / ' + nf(L.need) + ' XP'}</div>
+      <div class="head-xp">${L.max ? lvlText(L) : nfi(L.cur) + ' / ' + tr('units.xp', { n: nfi(L.need) })}</div>
     </div>
     <div class="head-pills">
-      <div class="cur-pill gold" title="Or">${moneyIcon('gold', 22)}<span>${nf(wallet().gold)}</span></div>
-      <button class="cur-pill gems" data-act="gemsPlus" title="Gemmes">${moneyIcon('gems', 22)}<span>${nf(wallet().gems)}</span><i class="plus">+</i></button>
+      <div class="cur-pill gold" title="${tr('lobby.gold')}">${moneyIcon('gold', 22)}<span>${nfi(wallet().gold)}</span></div>
+      <button class="cur-pill gems" data-act="gemsPlus" title="${tr('lobby.gems')}">${moneyIcon('gems', 22)}<span>${nfi(wallet().gems)}</span><i class="plus">+</i></button>
     </div>
-    <button class="gear-btn" data-act="settings" aria-label="Réglages">${gearIcon(22)}</button>`;
+    <button class="gear-btn" data-act="settings" aria-label="${tr('lobby.settingsAria')}">${gearIcon(22)}</button>`;
 }
 
 /* ---------- 01 · Jouer ---------- */
@@ -205,10 +207,10 @@ function playHtml() {
   const pips = V.arenas.map((a, i) => `<i style="background:${i <= max ? a.tint : '#E4D3B4'}"></i>`).join('');
   return `<div class="stage-card">
       <div class="stage-top">
-        <div class="stage-titles"><div class="kicker">SOLO · ${V.name.toUpperCase()}</div><div class="stage-name">${V.name} : record ${nf(prog.best || 0)}</div></div>
+        <div class="stage-titles"><div class="kicker">${tr('lobby.soloKicker', { name: V.name.toLocaleUpperCase() })}</div><div class="stage-name">${tr('lobby.record', { name: V.name, n: nfi(prog.best || 0) })}</div></div>
         <button class="rank-btn" data-act="ranks" aria-label="${D.online.leaderboard.ui.button}"><span class="rank-cup" aria-hidden="true"></span><span>${D.online.leaderboard.ui.button}</span></button>
       </div>
-      <div class="stage-far">Arène max : <b>${far ? far.name : 'aucune'}</b></div>
+      <div class="stage-far">${tr('lobby.farthest')} <b>${far ? far.name : tr('lobby.none')}</b></div>
       <div class="pips">${pips}</div>
     </div>
     <div class="hero-zone">
@@ -217,8 +219,8 @@ function playHtml() {
       <div class="deco deco-tri">${glyph('tri', '#FFD23F', 40)}</div>
       <div class="deco deco-circle">${glyph('circle', '#FF5A3C', 34)}</div>
       <div class="deco deco-dot">${glyph('dot', '#FF8C32', 30)}</div>
-      <button class="train-pill lesson-pill" data-act="lesson">${glyph('tri', '#FFD23F', 18)}<span>Revoir la leçon</span></button>
-      <button class="train-pill" data-act="train">${glyph('circle', '#3DDC5B', 18)}<span>Entraînement</span></button>
+      <button class="train-pill lesson-pill" data-act="lesson">${glyph('tri', '#FFD23F', 18)}<span>${tr('lobby.lesson')}</span></button>
+      <button class="train-pill" data-act="train">${glyph('circle', '#3DDC5B', 18)}<span>${tr('lobby.training')}</span></button>
       <div class="name-pill">
         <div class="np-icon" style="background:${c.color}">${itemIcon('armes', equippedWeapon(c.id), 20)}</div>
         <div class="np-txt"><span class="np-name">${c.name}</span><span class="np-line">${c.title} · ${weaponData(equippedWeapon(c.id)).name}</span></div>
@@ -226,24 +228,24 @@ function playHtml() {
     </div>
     <div class="mode-row three">
       <button class="mode-btn solo" data-act="solo">
-        <span class="badge">PVE</span>
-        <span class="mode-txt"><span class="mode-title ol ol-5">Solo</span><span class="mode-sub">Le Voyage</span></span>
+        <span class="badge">${tr('lobby.pve')}</span>
+        <span class="mode-txt"><span class="mode-title ol ol-5">${tr('lobby.solo')}</span><span class="mode-sub">${tr('lobby.soloSub')}</span></span>
         <span class="mode-tri">${glyph('tri', '#FFD23F', 34)}</span>
       </button>
       <button class="mode-btn story" data-act="story">
-        <span class="badge">PVE</span>
-        <span class="mode-txt"><span class="mode-title ol ol-5">Histoire</span><span class="mode-sub">6 héros · 10 combats</span></span>
+        <span class="badge">${tr('lobby.pve')}</span>
+        <span class="mode-txt"><span class="mode-title ol ol-5">${tr('lobby.story')}</span><span class="mode-sub">${tr('lobby.storySub')}</span></span>
       </button>
       <button class="mode-btn duel" data-act="duel">
-        <span class="badge">PVP</span>
-        <span class="mode-txt"><span class="mode-title ol ol-5">Duel</span><span class="mode-sub" id="duelPrints">${duelLine()}</span></span>
+        <span class="badge">${tr('lobby.pvp')}</span>
+        <span class="mode-txt"><span class="mode-title ol ol-5">${tr('lobby.duel')}</span><span class="mode-sub" id="duelPrints">${duelLine()}</span></span>
       </button>
     </div>`;
 }
 
 /** Duel : Empreintes et arène actuelle (data/duel.json → ui.printsLine). */
 function duelLine() {
-  return D.duel.ui.printsLine.replace('{prints}', duelPrints().toLocaleString('fr-FR')).replace('{arena}', duelArenaOf(duelArena()).name);
+  return D.duel.ui.printsLine.replace('{prints}', nfi(duelPrints())).replace('{arena}', duelArenaOf(duelArena()).name);
 }
 
 /* ---------- 02 · Personnage ---------- */
@@ -260,34 +262,34 @@ function charHtml() {
   const stats = D.characters.statLabels.map((label, k) =>
     `<div class="stat"><span>${label}</span><div class="pips pips-lg">${[0, 1, 2, 3, 4].map(j => `<i style="background:${j < v.stats[k] ? '#FF8C32' : '#E4D3B4'}"></i>`).join('')}</div></div>`).join('');
   let bottom;
-  if (vi === ui.active) bottom = `<div class="char-cta dashed">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}Personnage actif</div>`;
-  else if (v.available) bottom = `<button class="char-cta go" data-act="select"><span class="ol ol-4">Jouer avec ${v.name}</span></button>`;
-  else bottom = `<div class="char-cta dashed locked">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}Disponible bientôt</div>`;
+  if (vi === ui.active) bottom = `<div class="char-cta dashed">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}${tr('lobby.activeChar')}</div>`;
+  else if (v.available) bottom = `<button class="char-cta go" data-act="select"><span class="ol ol-4">${tr('lobby.playWith', { name: v.name })}</span></button>`;
+  else bottom = `<div class="char-cta dashed locked">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}${tr('lobby.availableSoon')}</div>`;
   const soon = !v.available;
   return `<div class="carousel">
-      <button class="car-arrow" data-act="prev" aria-label="Personnage précédent"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button class="car-arrow" data-act="prev" aria-label="${tr('lobby.prevChar')}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
       <div class="car-track">${car}</div>
-      <button class="car-arrow" data-act="next" aria-label="Personnage suivant"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+      <button class="car-arrow" data-act="next" aria-label="${tr('lobby.nextChar')}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
     </div>
     <div class="char-card">
       <div class="char-art${L.max ? ' lvl-max' : ''}" style="background:${v.color}">${facets.med()}${heroLobbyHtml(v.id)}</div>
       <div class="char-info">
         <div>
           <div class="char-name">${v.name}</div>
-          <div class="tags"><span class="tag-g">${v.role}</span><span class="tag-y${L.max ? ' max' : ''}">${soon ? 'Bientôt' : lvlText(L)}</span></div>
+          <div class="tags"><span class="tag-g">${v.role}</span><span class="tag-y${L.max ? ' max' : ''}">${soon ? tr('common.soon') : lvlText(L)}</span>${v.beginner ? `<span class="tag-b">${tr('lobby.beginner')}</span>` : ''}</div>
         </div>
         ${stats}
       </div>
     </div>
     <div class="mini-row">
       <div class="mini-card skill">
-        <div class="mini-kicker">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}PASSIF</div>
+        <div class="mini-kicker">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}${tr('lobby.passive')}</div>
         <div class="skill-name">${v.passive.name}</div>
         <div class="skill-text">${v.passive.text}</div>
-        <div class="skill-stats"><span>${v.hp} PV</span><span>Attaque ${String(v.attack).replace('.', ',')}</span></div>
+        <div class="skill-stats"><span>${tr('units.hp', { n: nfi(v.hp) })}</span><span>${tr('lobby.attack', { n: nf(v.attack) })}</span></div>
       </div>
       <div class="mini-card skill super" style="--acc:${v.accent || v.color}">
-        <div class="mini-kicker">${glyph('tri', v.accent || v.color, 14, { outline: 1.6 })}SUPER</div>
+        <div class="mini-kicker">${glyph('tri', v.accent || v.color, 14, { outline: 1.6 })}${tr('lobby.super')}</div>
         <div class="skill-name">${v.super.name}</div>
         <div class="skill-text">${v.super.text}</div>
       </div>
@@ -315,7 +317,7 @@ function testHtml() {
   const opt = (v, label) => `<button class="chip${(c ?? null) === v ? ' on' : ''}" data-act="testCountry" data-arg="${v ?? ''}">${label}</button>`;
   return `<div class="set-row test-row"><span class="set-label">${U.testTitle}</span>
       <div class="chips set-chips"><button class="chip" data-act="testGold">${U.testGold.replace('{n}', T.gold)}</button><button class="chip" data-act="testGems">${U.testGems.replace('{n}', T.gems)}</button></div>
-      <div class="chips set-chips">${opt('BE', 'BE')}${opt('FR', 'FR')}<span class="test-cur">${U.testCountry} : ${cur}</span></div>
+      <div class="chips set-chips">${opt('BE', 'BE')}${opt('FR', 'FR')}<span class="test-cur">${tr('common.labelValue', { label: U.testCountry, value: cur })}</span></div>
       <button class="chip" data-act="testReset">${U.testReset}</button>
       ${adsTestHtml()}</div>`;
 }
@@ -330,21 +332,31 @@ function renderSettings() {
   const vol = (k, label) => {
     const v = Math.round(settings[k] * 100);
     return `<div class="set-row"><span class="set-label">${label}</span>
-      <div class="set-vol"><input type="range" min="0" max="100" step="5" value="${v}" data-vol="${k}" aria-label="Volume ${label}" style="--v:${v}%"><b>${v} %</b></div></div>`;
+      <div class="set-vol"><input type="range" min="0" max="100" step="5" value="${v}" data-vol="${k}" aria-label="${tr('settings.volume', { name: label })}" style="--v:${v}%"><b>${v} %</b></div></div>`;
   };
   const pick = (key, label, opts) => `<div class="set-row"><span class="set-label">${label}</span>
       <div class="chips set-chips">${opts.map(([val, txt, on]) =>
         `<button class="chip${on ? ' on' : ''}" data-act="set" data-key="${key}" data-arg="${val}" aria-pressed="${on}">${txt}</button>`).join('')}</div></div>`;
   $('settings').innerHTML = `<div class="res-card set-card">
-      <div class="res-title ol ol-5 set-title">Réglages</div>
-      ${vol('music', 'Musique')}
-      ${vol('sfx', 'Effets')}
-      ${pick('vibrate', 'Vibrations', [['1', 'Oui', settings.vibrate], ['0', 'Non', !settings.vibrate]])}
+      <div class="res-title ol ol-5 set-title">${tr('settings.title')}</div>
+      ${vol('music', tr('settings.music'))}
+      ${vol('sfx', tr('settings.sfx'))}
+      ${pick('vibrate', tr('settings.vibrate'), [['1', tr('common.yes'), settings.vibrate], ['0', tr('common.no'), !settings.vibrate]])}
+      ${langHtml()}
       ${accountHtml()}
-      <button class="mini-btn set-credits" data-act="credits">Crédits</button>
+      <button class="mini-btn set-credits" data-act="credits">${tr('settings.credits')}</button>
       ${testMode() ? testHtml() : ''}
-      <button class="res-again" data-act="closeSettings"><span class="ol ol-4">Fermer</span></button>
+      <button class="res-again" data-act="closeSettings"><span class="ol ol-4">${tr('common.close')}</span></button>
     </div>`;
+}
+
+/** Langue : celles de data/i18n/languages.json ; une langue pas encore traduite s'affiche en français (repli). */
+function langHtml() {
+  const chips = languages().map(l => {
+    const on = l.id === language();
+    return `<button class="chip${on ? ' on' : ''}" data-act="setLang" data-arg="${l.id}" aria-pressed="${on}" lang="${l.id}">${l.ready ? l.name : tr('settings.langSoon', { name: l.name })}</button>`;
+  }).join('');
+  return `<div class="set-row"><span class="set-label">${tr('settings.language')}</span><div class="chips set-chips set-langs">${chips}</div></div>`;
 }
 
 /** Crédits (Réglages → Crédits) : textes dans data/credits.json. */
@@ -354,7 +366,7 @@ function renderCredits() {
   $('settings').innerHTML = `<div class="res-card set-card">
       <div class="res-title ol ol-5 set-title">${C.title}</div>
       ${secs}
-      <button class="res-again" data-act="backSettings"><span class="ol ol-4">Retour</span></button>
+      <button class="res-again" data-act="backSettings"><span class="ol ol-4">${tr('common.back')}</span></button>
     </div>`;
 }
 
@@ -366,28 +378,28 @@ export function showResults(r) {
   render();
   const L = heroLevel(activeCharacter().id);
   const V = r.voyage;
-  const title = V ? 'Fin du voyage' : r.why === 'win' ? 'Victoire' : r.why === 'ko' ? 'KO' : 'Temps écoulé';
+  const title = tr(V ? 'results.voyageEnd' : r.why === 'win' ? 'results.victory' : r.why === 'ko' ? 'results.ko' : 'results.timeUp');
   const colOf = name => (D.grades.levels.find(g => g.name === name) || D.grades.miss).col;
   const rows = Object.keys(r.stats).map(k =>
-    `<div class="res-row"><span><i style="background:${colOf(k)}"></i>${k}</span><b>${r.stats[k]}</b></div>`).join('') +
-    `<div class="res-row combo"><span>${glyph('tri', '#FF8C32', 14, { outline: 1.6 })}Combos</span><b>${r.combos}</b></div>`;
+    `<div class="res-row"><span><i style="background:${colOf(k)}"></i>${k}</span><b>${nfi(r.stats[k])}</b></div>`).join('') +
+    `<div class="res-row combo"><span>${glyph('tri', '#FF8C32', 14, { outline: 1.6 })}${tr('results.combos')}</span><b>${r.combos}</b></div>`;
   const m = $('results');
   m.innerHTML = `<div class="res-card">
       <div class="res-title ol ol-5 ${r.why === 'win' ? 'win' : 'lose'}">${title}</div>
-      ${V ? `<div class="res-score">${nf(r.score)} <small>points</small></div>
-      ${r.record ? '<div class="res-record">Nouveau record !</div>' : ''}
-      <div class="res-sub">${V.stage < V.total ? 'Arène ' + (V.stage + 1) + ' / ' + V.total : 'Sans fin'} : ${V.name} · round ${V.round + 1} / ${V.rounds}</div>`
-      : `<div class="res-sub">${nf(r.score)} points en ${Math.round(r.time)} s${r.record ? ' · nouveau record !' : ''}</div>`}
+      ${V ? `<div class="res-score">${nfi(r.score)} <small>${tr('units.points', { n: r.score })}</small></div>
+      ${r.record ? `<div class="res-record">${tr('results.newRecord')}</div>` : ''}
+      <div class="res-sub">${tr('results.where', { stage: V.stage < V.total ? tr('results.arena', { n: V.stage + 1, total: V.total }) : tr('results.beyond'), name: V.name, round: V.round + 1, rounds: V.rounds })}</div>`
+      : `<div class="res-sub">${tr(r.record ? 'results.scoreLineRecord' : 'results.scoreLine', { score: nfi(r.score), points: tr('units.points', { n: r.score }), time: nfi(Math.round(r.time)) })}</div>`}
       <div class="res-table">${rows}</div>
       <div class="res-xp">
-        <div class="res-xp-top"><span>${L.max && !r.gain ? U().barMax : '+' + r.gain + ' XP'}</span><span>${r.levelUp ? fill(L.max ? U().maxReached : U().reached, L) : L.max ? lvlText(L) : fill(U().levelLong, L)}</span></div>
+        <div class="res-xp-top"><span>${L.max && !r.gain ? U().barMax : '+' + tr('units.xp', { n: nfi(r.gain) })}</span><span>${r.levelUp ? fill(L.max ? U().maxReached : U().reached, L) : L.max ? lvlText(L) : fill(U().levelLong, L)}</span></div>
         <div class="wbar${L.max ? ' max' : ''}"><i style="width:${L.max ? 100 : pct(L.cur, L.need)}%"></i></div>
       </div>
       ${weaponGainHtml(r.weapon)}
       ${goldGainHtml(r.gold)}
-      ${r.gold && r.voyage && D.ads.rewarded.doubleGold.perGame > 0 ? `<button class="mini-btn res-ad ad-btn" data-act="adDouble">${adIcon(22)}${D.ads.ui.doubleGold.replace('{n}', nf(r.gold))}</button>` : ''}
-      <button class="res-again" data-act="again"><span class="ol ol-4">Rejouer</span></button>
-      <button class="mini-btn res-home" data-act="home">Retour au lobby</button>
+      ${r.gold && r.voyage && D.ads.rewarded.doubleGold.perGame > 0 ? `<button class="mini-btn res-ad ad-btn" data-act="adDouble">${adIcon(22)}${D.ads.ui.doubleGold.replace('{n}', nfi(r.gold))}</button>` : ''}
+      <button class="res-again" data-act="again"><span class="ol ol-4">${tr('common.replay')}</span></button>
+      <button class="mini-btn res-home" data-act="home">${tr('results.home')}</button>
     </div>`;
   m.classList.remove('hidden');
   $('lobby').classList.remove('hidden');

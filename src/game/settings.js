@@ -1,9 +1,9 @@
-// Réglages du joueur (lobby → engrenage), sauvegardés localement : volumes, vibrations.
+// Réglages du joueur (lobby → engrenage), sauvegardés localement : volumes, vibrations, langue.
 // Pas de réglage de tolérance des gestes : tout le monde joue avec les mêmes seuils (équité, futur Duel).
 import { store } from './progress.js';
 
 const KEY = 'ts_settings';
-const DEFAULTS = { music: 1, sfx: 1, vibrate: true };
+const DEFAULTS = { music: 1, sfx: 1, vibrate: true, lang: null };   // lang : null = langue du téléphone (i18n.js)
 const saved = store.get(KEY, {}) || {};
 /** Seuls les réglages connus sont repris : une ancienne valeur (ex. tolérance « Large ») est ignorée. */
 export const settings = Object.fromEntries(Object.keys(DEFAULTS).map(k => [k, k in saved ? saved[k] : DEFAULTS[k]]));

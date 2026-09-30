@@ -6,9 +6,9 @@ import { settings } from './settings.js';
 export function pop(x, y, text, sub, col, life, size) {
   G.pops.push({ x, y, text, sub: sub || '', col, t: 0, life: life || 1, size: size || 22 });
 }
-export function showGrade(g, acc, label) {
+export function showGrade(g, acc, label, kind = null) {   // kind : 'triangle' | 'circle' | 'tap' (icône de la pastille)
   const miss = D.grades.miss;
-  G.bigGrade = { text: g ? g.name : miss.name, col: g ? g.col : miss.col, acc, label, t: 0 };
+  G.bigGrade = { text: g ? g.name : miss.name, col: g ? g.col : miss.col, acc, label, kind, t: 0 };
 }
 /** Nom de la super en gros au centre, à la couleur du personnage. */
 export function superBanner(name, col) { G.superBanner = { name, col, t: 0 }; }

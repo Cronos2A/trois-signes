@@ -47,7 +47,7 @@
       "super": { "id": "faucon", "name": "Œil de faucon", "text": "Pendant 8\u00a0s, tout geste reconnu compte comme un Perfect.", "duration": 8 }
     },
     {
-      "id": "mira", "name": "Mira", "role": "Soigneuse", "title": "La Soigneuse",
+      "id": "mira", "name": "Mira", "beginner": true, "role": "Soigneuse", "title": "La Soigneuse",
       "weapon": "amulette", "weaponLabel": "Amulette", "color": "#FF5A3C", "skinColor": "#FF5A3C", "accent": "#FF5A3C",
       "stats": [2, 3, 4],
       "available": true, "hp": 150, "attack": 3,

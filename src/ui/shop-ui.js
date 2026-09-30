@@ -12,11 +12,12 @@ import { moneyIcon, priceHtml, nf } from './money.js';
 import { sfx } from '../audio/audio.js';
 import { leftToday, noAds } from '../ads/ads.js';
 import { adIcon } from './ad-ui.js';
+import { tr } from '../i18n.js';
 
 const U = () => D.economy.ui;
 const R = r => D.economy.rarities[r];
 const heroName = id => (D.characters.characters.find(c => c.id === id) || {}).name || '';
-const oddsLine = odds => ['commun', 'rare', 'epique'].map(r => `<span style="--rc:${R(r).color}">${R(r).name} ${odds[r]} %</span>`).join('');
+const oddsLine = odds => ['commun', 'rare', 'epique'].map(r => `<span style="--rc:${R(r).color}">${R(r).name} ${tr('money.pct', { n: nf(odds[r]) })}</span>`).join('');
 
 /* ---------- Vignettes ---------- */
 /** Vignette d'un cosmétique (aperçu + cadre de rareté). */
@@ -117,7 +118,7 @@ function gemsHtml() {
 /** Confirmation d'achat. */
 export function confirmHtml(id) {
   const it = item(id), p = it.price;
-  const price = p.gems ? `${nf(p.gems)} gemmes` : `${nf(p.gold)} or`;
+  const price = p.gems ? tr('money.gemsAmount', { n: nf(p.gems) }) : tr('money.goldAmount', { n: nf(p.gold) });
   return `<div class="res-card shop-card">
       <div class="res-title ol ol-5 set-title">${U().confirmTitle}</div>
       <div class="shop-big">${thumbHtml(it, 120)}</div>
@@ -149,7 +150,7 @@ export function doBuy(id) {
 /** Probabilités affichées (Google Play) : chances par rareté, garanties, liste de tous les objets. */
 export function oddsHtml() {
   const C = D.economy.chests;
-  const lines = Object.values(C).map(c => `<div class="odds-row"><b>${c.name}</b> · ${c.price} gemmes<div class="chest-odds">${oddsLine(c.odds)}</div></div>`).join('');
+  const lines = Object.values(C).map(c => `<div class="odds-row"><b>${c.name}</b> · ${tr('money.gemsAmount', { n: nf(c.price) })}<div class="chest-odds">${oddsLine(c.odds)}</div></div>`).join('');
   const groups = ['epique', 'rare', 'commun'].map(r => {
     const list = items().filter(i => i.rarity === r);
     return `<div class="odds-group"><div class="odds-rar" style="color:${R(r).color}">${R(r).name} · ${list.length}</div>
@@ -161,7 +162,7 @@ export function oddsHtml() {
       ${lines}
       <p class="shop-line">${tpl(U().oddsGuarantee, { n: C.simple.guaranteeEpicAfter })}<br>${U().oddsMinRare}</p>
       ${groups}
-      <button class="res-again" data-act="closeShop"><span class="ol ol-4">OK</span></button>
+      <button class="res-again" data-act="closeShop"><span class="ol ol-4">${tr('common.ok')}</span></button>
     </div>`;
 }
 

@@ -13,6 +13,7 @@ import { syncRewards } from '../game/rewards.js';
 import { variantArt, applyVariant, storyVariant } from '../game/variants.js';
 import { showRewards } from '../ui/reward-ui.js';
 import { showCover } from '../ui/cover.js';
+import { tr, nf } from '../i18n.js';
 
 let api = {};   // { startBattle({ char, battle }), toLobby() } fourni par main.js
 const SM = () => D.story_mode;
@@ -137,7 +138,7 @@ async function afterCombat(h, k, why, res) {
     openStory();
     return;
   }
-  showMap(h, `Victoire ! +${xp.gain} XP · +${gold} or`);
+  showMap(h, tr('story.victoryToast', { xp: nf(xp.gain), gold: nf(gold) }));
 }
 
 /* ---------- Fins d'histoire et épilogue : progression notée au fur et à mesure ---------- */

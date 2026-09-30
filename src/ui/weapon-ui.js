@@ -10,8 +10,10 @@ import { talismanList, talismanData, talismanUnlocked, equippedTalisman } from '
 import { sfx } from '../audio/audio.js';
 import { glyph, wIcon } from './icons.js';
 import { lockIcon } from './story-art.js';
+import { tr, nfi } from '../i18n.js';
 
-const nf = n => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
+const nf = nfi;
+
 /** Remplit un modèle de texte des données : « Niveau {n} » + { n: 3 } → « Niveau 3 ». */
 export const tpl = (s, v = {}) => String(s || '').replace(/\{(\w+)\}/g, (_, k) => v[k] ?? '');
 const WU = () => D.weapons.ui, TU = () => D.talismans.ui;

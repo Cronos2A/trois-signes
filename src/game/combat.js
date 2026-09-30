@@ -2,13 +2,14 @@
 // Effets de l'arme équipée (G.weapon.style, data/weapons.json) et du talisman (G.talisman, data/talismans.json).
 import { D } from '../data.js';
 import { G, heroPos, addScore, emit } from './state.js';
-import { clamp, dist, rand, fmt } from '../util.js';
+import { clamp, dist, rand } from '../util.js';
 import { gradeOf, registerGrade, comboHit, streakTxt, toleranceOffset } from './grades.js';
 import { sfx } from '../audio/audio.js';
 import { startSuper, superAttackMult, damageTakenMult, perfectMode, useAutoDodge, useComboCharge, addGaugeFlat } from './supers.js';
 import { pop, showGrade, addFx, vibrate, trainInfo, superBanner } from './effects.js';
 import { gainWeaponXp, attackXp, xpFor } from './weapons.js';
 import { beatGuardian } from './rewards.js';
+import { tr, nf } from '../i18n.js';
 
 const round1 = v => Math.round(v * 10) / 10;
 
@@ -48,7 +49,7 @@ function doAttack(g, cm) {
   const base = heroAtk() * g.mult * cm * mult;
   addScore(g.bonus);
   sfx('attaque');
-  if (!e) { pop(h.x, h.y - 70, 'Aucune cible', '', g.col, 0.9, 18); return; }
+  if (!e) { pop(h.x, h.y - 70, tr('combat.noTarget'), '', g.col, 0.9, 18); return; }
   hitEnemy(e, round1(base * (1 - (S.targetPenalty || 0))), g.col);      // Masse de pierre : la cible prend moins…
   const others = aliveEnemies().filter(o => o !== e);
   if (S.splash) for (const o of others) hitEnemy(o, round1(base * S.splash), g.col, 'splash');   // …les autres sont touchés
@@ -88,7 +89,7 @@ function tryPickup(x, y) {
   const g = gradeFor(acc);
   const cm = registerGrade(g, 'pickup');
   summon(g);
-  showGrade(g, acc, 'Ramassage');
+  showGrade(g, acc, tr('combat.pickup'), 'tap');
   if (!g) { best.life = Math.min(best.life, P.missLifeCap); emit('tapMiss'); return true; }
   G.loots.splice(G.loots.indexOf(best), 1);
   sfx(best.type === 'coin' ? 'piece' : 'coeur');
@@ -97,18 +98,18 @@ function tryPickup(x, y) {
     const v = Math.round(P.coinValue * g.mult * cm * (T.coinMult || 1));   // Épi d'or
     addScore(v + g.bonus);
     G.coins++;                                                             // pièces → or en fin de partie
-    pop(best.x, best.y - 20, '+' + v, 'points', g.col, 0.9, 22);
+    pop(best.x, best.y - 20, '+' + nf(v), tr('units.points', { n: v }), g.col, 0.9, 22);
   } else {
     const v = Math.round(P.heartHeal * g.mult * cm * (T.heartMult || 1));  // Goutte claire
     G.hero.hp = Math.min(G.hero.max, G.hero.hp + v);
-    pop(best.x, best.y - 20, '+' + v + ' PV', '', g.col, 0.9, 22);
+    pop(best.x, best.y - 20, tr('units.hpGain', { n: nf(v) }), '', g.col, 0.9, 22);
   }
   const S = style();
   if (S.pickupShot && G.mode === 'play') {                               // Fronde : tir automatique
     const e = pickTarget();
     if (e) hitEnemy(e, round1(S.pickupShot), g.col, 'shot');
   }
-  if (G.mode === 'train') trainInfo('Ramassage ' + g.name + (cm > 1 ? ' en combo ×' + fmt(cm) : '') + streakTxt());
+  if (G.mode === 'train') trainInfo((cm > 1 ? tr('train.pickupCombo', { grade: g.name, m: nf(cm) }) : tr('train.pickup', { grade: g.name })) + streakTxt());
   return true;
 }
 
@@ -152,7 +153,7 @@ function heal(v) {
   const h = G.hero, before = h.hp;
   h.hp = Math.min(h.max, h.hp + v);
   const got = round1(h.hp - before);
-  if (got > 0) { const p = heroPos(); pop(p.x - 44, p.y - 44, '+' + fmt(got) + ' PV', '', '#8CF09A', 0.9, 20); }
+  if (got > 0) { const p = heroPos(); pop(p.x - 44, p.y - 44, tr('units.hpGain', { n: nf(got) }), '', '#8CF09A', 0.9, 20); }
 }
 
 /** Clochette : bouclier qui absorbe les dégâts, plafonné à barrierMax. */
@@ -160,7 +161,7 @@ function addBarrier(v) {
   const h = G.hero, before = h.barrier;
   h.barrier = Math.min(style().barrierMax, h.barrier + v);
   const got = round1(h.barrier - before);
-  if (got > 0) { const p = heroPos(); pop(p.x - 44, p.y - 44, '+' + fmt(got), WU().barrier, '#8FD3FF', 0.9, 20); }
+  if (got > 0) { const p = heroPos(); pop(p.x - 44, p.y - 44, '+' + nf(got), WU().barrier, '#8FD3FF', 0.9, 20); }
 }
 
 /** Bouton de super : lance la super du héros si la jauge est pleine. */
@@ -173,7 +174,7 @@ export function useSuper() {
   sfx('super_' + G.charId);
   emit('super');
   gainWeaponXp(xpFor('super'));
-  if (S.healPct) pop(p.x, p.y - 90, 'PV au max', '', '#8CF09A', 1.2, 24);
+  if (S.healPct) pop(p.x, p.y - 90, tr('units.pctHp', { pct: nf(Math.round(S.healPct * 100)) }), '', '#8CF09A', 1.2, 24);   // Renouveau
   if (S.hitAll) {
     const dmg = round1(G.hero.atk * G.atkMult * S.hitAll);
     for (const e of G.enemies.filter(e => e.hp > 0)) hitEnemy(e, dmg, h.col, 'super');
@@ -225,8 +226,8 @@ export function strike(e) {
   if (auto) avoid = 1;
   let taken = Math.round(e.T.dmg * (1 - avoid) * damageTakenMult() * G.hero.damageTaken * (1 - (S.damageReduction || 0)));   // Garde, Gantelets, Bouclier-tour
   addFx({ kind: 'bolt', x1: e.x, y1: e.y, x2: h.x, y2: h.y, col: '#FF5D73', life: 0.25 });
-  if (auto) pop(h.x, h.y - 80, 'Ombre', 'esquive automatique', G.hero.col, 1, 22);
-  else if (avoid > 0) pop(h.x, h.y - 80, 'Esquive ' + Math.round(avoid * 100) + ' %', avoid >= 1 ? 'aucun dégât' : '', '#3FD7C4', 1, 20);
+  if (auto) pop(h.x, h.y - 80, G.hero.super.name, tr('combat.autoDodge'), G.hero.col, 1, 22);
+  else if (avoid > 0) pop(h.x, h.y - 80, tr('combat.dodgePct', { pct: nf(Math.round(avoid * 100)) }), avoid >= 1 ? tr('combat.noDamage') : '', '#3FD7C4', 1, 20);
   if (avoid >= D.rules.dodge.max) addScore(D.rules.dodge.perfectScore);   // esquive maximale (ou totale, par un pouvoir)
   emit('strike', { avoid });
   if (avoid > 0 && G.mode === 'play') {
@@ -242,7 +243,7 @@ export function strike(e) {
     const soak = Math.min(G.hero.barrier, taken);
     G.hero.barrier = round1(G.hero.barrier - soak);
     taken -= soak;
-    pop(h.x - 40, h.y - 40, '-' + fmt(round1(soak)), WU().barrier, '#8FD3FF', 0.9, 20);
+    pop(h.x - 40, h.y - 40, '-' + nf(round1(soak)), WU().barrier, '#8FD3FF', 0.9, 20);
   }
   taken = Math.round(taken);
   if (taken > 0) {
@@ -261,25 +262,25 @@ export function handleGesture(res) {
   if (res.type === 'tap') {
     const ok = tryPickup(res.x, res.y);
     if (!ok) emit('tapMiss');
-    if (!ok && train) trainInfo('Tap sans objet : tapez sur une pièce ou un cœur.');
+    if (!ok && train) trainInfo(tr('train.tapMiss'));
     return;
   }
   if (res.type === 'fail') {
     registerGrade(null, 'gesture');
     showGrade(null, null, res.reason);
     emit('gesture', { type: 'fail', g: null, cm: 1 });
-    if (train) trainInfo(res.reason + '. Série remise à zéro.');
+    if (train) trainInfo(tr('train.fail', { reason: res.reason }));
     return;
   }
   const g = gradeFor(res.acc);
   let cm = registerGrade(g, 'gesture');
   summon(g);
-  const label = res.type === 'triangle' ? 'Attaque' : 'Esquive';
-  showGrade(g, res.acc, label);
+  const label = res.type === 'triangle' ? tr('combat.attack') : tr('combat.dodge');
+  showGrade(g, res.acc, label, res.type);
   const done = () => emit('gesture', { type: res.type, g, cm });
   if (!g) {
     done();
-    if (train) trainInfo(label + ' ratée : précision ' + res.acc + ' % (' + (D.grades.levels[D.grades.levels.length - 1].min - toleranceOffset()) + ' % minimum). Série remise à zéro.');
+    if (train) trainInfo(tr(res.type === 'triangle' ? 'train.missedAttack' : 'train.missedDodge', { acc: nf(res.acc), min: nf(D.grades.levels[D.grades.levels.length - 1].min - toleranceOffset()) }));
     return;
   }
   if (res.type === 'triangle') {
@@ -294,10 +295,10 @@ export function handleGesture(res) {
     if (G.mode === 'play') doAttack(g, cm);
     else { addFx({ kind: 'slash', x1: h.x, y1: h.y - 20, x2: h.x, y2: h.y - 200, col: g.col, life: 0.35 }); sfx('attaque'); }
     done();
-    if (train) trainInfo('Attaque ' + g.name + ' : ' + fmt(round1(heroAtk() * g.mult * cm)) + ' dégâts' + (cm > 1 ? ' (combo ×' + fmt(cm) + ')' : '') + streakTxt());
+    if (train) trainInfo(tr(cm > 1 ? 'train.attackCombo' : 'train.attack', { grade: g.name, dmg: nf(round1(heroAtk() * g.mult * cm)), m: nf(cm) }) + streakTxt());
   } else {
     doDodge(g, cm);
     done();
-    if (train) trainInfo('Esquive ' + g.name + ' : ' + Math.round(dodgeShare(g, cm) * 100) + ' % des dégâts évités' + (cm > 1 ? ' + riposte (combo)' : '') + streakTxt());
+    if (train) trainInfo(tr(cm > 1 ? 'train.dodgeCombo' : 'train.dodge', { grade: g.name, pct: nf(Math.round(dodgeShare(g, cm) * 100)) }) + streakTxt());
   }
 }

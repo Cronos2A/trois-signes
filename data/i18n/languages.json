@@ -1,0 +1,36 @@
+{
+  "note": "Langues proposées (src/i18n.js). Langue par défaut : celle du téléphone si elle est dans la liste, sinon fallback. Chaque langue a son fichier data/i18n/{id}.json ; une clé absente est prise dans fr.json (langue de référence). locale : format des nombres et règles du pluriel (Intl). ready : fichier de traduction complet (sinon « bientôt » dans les Réglages, textes en français).",
+  "fallback": "en",
+  "languages": [
+    {
+      "id": "fr",
+      "name": "Français",
+      "locale": "fr-FR",
+      "ready": true
+    },
+    {
+      "id": "en",
+      "name": "English",
+      "locale": "en-GB",
+      "ready": false
+    },
+    {
+      "id": "it",
+      "name": "Italiano",
+      "locale": "it-IT",
+      "ready": false
+    },
+    {
+      "id": "es",
+      "name": "Español",
+      "locale": "es-ES",
+      "ready": false
+    },
+    {
+      "id": "de",
+      "name": "Deutsch",
+      "locale": "de-DE",
+      "ready": false
+    }
+  ]
+}
