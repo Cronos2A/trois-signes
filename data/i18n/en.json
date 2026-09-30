@@ -330,5 +330,23 @@
   },
   "pseudo": {
     "reserved": "This username is reserved: pick another one."
+  },
+  "data": {
+    "grades": {
+      "miss": {
+        "name": "Miss"
+      }
+    },
+    "enemies": {
+      "grunt": {
+        "name": "Minion"
+      },
+      "brute": {
+        "name": "Brute"
+      },
+      "boss": {
+        "name": "Boss"
+      }
+    }
   }
 }
