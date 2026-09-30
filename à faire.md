@@ -141,3 +141,5 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - **Héros** : Aldric « Garde » (−15 % de dégâts reçus) et attaque 5 ; Ilwen 125 PV et attaque 5 ; Mira 150 PV, soin 0,5 PV par attaque
   (au lieu de 180 PV et 4). À surveiller : Mira encore en vie à 12 min (29-30 rounds, comme les meilleurs) ; la Clochette
   (soin → bouclier) devient faible avec ce soin, le Bâton de sève (12 PV par combo) relativement plus fort.
+- **Mira (30/09, après Renouveau à 30 %)** : encore trop solide : KO à 17-19 min (Amulette), 16,5-17 min (Bâton de sève), 22 à 25+ min
+  (Clochette), pour 9 à 11 min chez les autres. Durcissement proposé, en attente de décision (voir le rapport).

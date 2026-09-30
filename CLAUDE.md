@@ -123,7 +123,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Bâton de sève (Mira tombe plus tôt à faible précision). Rééquilibrage du 30/09/2026 (bot « humain » : un geste toutes les 0,7 s, précision 62 à 99 %, 80 % des alertes esquivées,
   3 Voyages par héros) : rounds tenus Boran 29, Kestrel 29, Nyra 27 ; Aldric 20 → 27 (Garde, attaque 5), Ilwen 18 → 22 (125 PV, attaque 5) ;
   Mira (180 PV, soin 4) encore en vie après 25 min et 46 rounds → 150 PV, soin 0,5 : 29-30 rounds en 12 min, encore en vie à l'arrêt du test
-  (le plus dur des réglages essayés : soin 3, 2, 1,5 + super à 50 %, 1 et 0,5). À surveiller : peut-être encore un peu trop solide.
+  (le plus dur des réglages essayés : soin 3, 2, 1,5 + super à 50 %, 1 et 0,5). Puis (décision du 30/09) Renouveau à 30 % des PV, Clochette
+  bouclier 2 PV × multiplicateur, Bâton de sève 8 PV par combo : KO à 17-19 min (Amulette), 16,5-17 min (Bâton de sève),
+  22 min et > 25 min (Clochette), contre 9-11 min pour les autres : encore trop solide (sur 8 min, 489 PV perdus pour 488 regagnés ;
+  17 supers, soit une Renouveau toutes les 28 s environ).
   Progression mesurée (un héros, Voyages seulement) : Nv 5 en 9 min, Nv 10 en 25 min, Nv 20 en 1 h 15, Nv 50 en 6 h, Nv 100 en 22 h ;
   arme au niveau 10 en ~6,5 Voyages (≈ 1 h), une histoire ≈ niveau 5. Voyage de 8 arènes sans pièce : 140 or (170 avec record).
 
