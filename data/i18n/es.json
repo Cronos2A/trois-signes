@@ -1569,7 +1569,229 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "La deuda",
+          "cinematique_ouverture": [
+            {
+              "texte": "Vélis, la ciudad de los mil tejados. Y Nyra, la ladrona más rápida de todas."
+            },
+            {
+              "texte": "Una bolsa, dos bolsas… La verdad, es casi demasiado fácil."
+            },
+            {
+              "texte": "En el bolsillo, siempre, un viejo papel doblado. Una deuda, escrita de puño y letra por un desconocido."
+            },
+            {
+              "texte": "«Eldan». Algún día te encontraré, viejo. Y estaremos en paz."
+            },
+            {
+              "texte": "Aquella noche, por primera vez, los guardias que la perseguían no tenían cara."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Los tejados de Vélis",
+              "dialogue_avant": [
+                {
+                  "texte": "Normalmente los guardias gritan. Estos no dicen nada…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Bueno. Nueva regla: no se le roba nada a la gente sin cara."
+                }
+              ]
+            },
+            {
+              "titre": "El mercado que olvida",
+              "dialogue_avant": [
+                {
+                  "texte": "El gran mercado de Vélis. Los mercaderes ya no recuerdan qué venden."
+                },
+                {
+                  "texte": "…manzanas… no… qué es una manzana…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "El viejo Tobbin me fiaba desde que tenía seis años. Ni siquiera me ha reconocido."
+                }
+              ]
+            },
+            {
+              "titre": "La guarida",
+              "dialogue_avant": [
+                {
+                  "texte": "El gremio sabrá qué hacer. El gremio siempre sabe qué hacer."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Los Gatos de Vélis… Todos. Solo quedo yo."
+                }
+              ]
+            },
+            {
+              "titre": "El rastro del viejo",
+              "dialogue_avant": [
+                {
+                  "texte": "Un señor mayor trazaba círculos de luz cerca de la puerta Este. Decía que buscaba sus recuerdos."
+                },
+                {
+                  "texte": "Eldan…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Puerta Este. Esta vez el viejo no se me escapa."
+                }
+              ]
+            },
+            {
+              "titre": "La Jefa del gremio",
+              "dialogue_avant": [
+                {
+                  "texte": "…una pequeña… había una pequeña… más rápida que todos los demás…"
+                },
+                {
+                  "texte": "Era yo, Sorel. Era yo."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Mi deuda… ¿no es lo que creo? ¿Qué quería decir?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Doña Sorel se desploma, con una daga gris aún en la mano."
+                },
+                {
+                  "texte": "Nyra… tu deuda… no es lo que crees…"
+                },
+                {
+                  "texte": "¿Qué? ¡Sorel, espera!"
+                },
+                {
+                  "texte": "Demasiado tarde. El Silencio se la ha vuelto a llevar."
+                }
+              ]
+            },
+            {
+              "titre": "Encuentro: Aldric",
+              "dialogue_avant": [
+                {
+                  "texte": "Tú. Sigues el mismo rastro que yo."
+                },
+                {
+                  "texte": "Y tú andas como un armario. Un viejo, círculos de luz, ¿te suena?"
+                },
+                {
+                  "texte": "Es mi maestro."
+                },
+                {
+                  "texte": "Entonces tenemos un problema en común. Y una docena de Vaciados, también."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Peleas bien, para ser un armario."
+                },
+                {
+                  "texte": "… ¿Gracias?"
+                }
+              ]
+            },
+            {
+              "titre": "El registro",
+              "dialogue_avant": [
+                {
+                  "texte": "En los archivos de Vélis, un viejo registro de niños expósitos."
+                },
+                {
+                  "texte": "Tiene que haber algún rastro de mi deuda en alguna parte…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "«Niña de cuatro años, salvada de un incendio por el viajero Eldan. Ninguna suma adeudada»."
+                },
+                {
+                  "texte": "No era una deuda. Era un recordatorio. Para que no lo olvidara."
+                }
+              ]
+            },
+            {
+              "titre": "Las sombras que imitan",
+              "dialogue_avant": [
+                {
+                  "texte": "Se mueven como yo… ¿Han aprendido mirándome?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Copiar los gestos es fácil. Saber por qué los haces es otra historia."
+                }
+              ]
+            },
+            {
+              "titre": "El Reflejo",
+              "dialogue_avant": [
+                {
+                  "texte": "Sin él, habrías muerto en el incendio. O serías yo. Sola, rápida… y vacía."
+                },
+                {
+                  "texte": "Sola y rápida, vale. Pero no vacía."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Adiós, yo."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "El Reflejo se rompe en mil esquirlas de cristal gris."
+                },
+                {
+                  "texte": "…entonces recuerda… por las dos…"
+                },
+                {
+                  "texte": "Ese es el plan."
+                },
+                {
+                  "texte": "A lo lejos, tras la puerta Este, un claro blanco donde ya no crece nada."
+                }
+              ]
+            },
+            {
+              "titre": "El Corazón del Silencio",
+              "dialogue_avant": [
+                {
+                  "texte": "…una niña… un incendio… la llevé en brazos… cómo se llamaba…"
+                },
+                {
+                  "texte": "Nyra. Se llama Nyra, viejo loco. Y ha venido a devolverte el favor."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "La daga de Nyra no golpea al maestro. Corta el Silencio que lo rodea."
+            },
+            {
+              "texte": "Nyra… Has crecido."
+            },
+            {
+              "texte": "Y tú has envejecido. Ahora estamos en paz."
+            },
+            {
+              "texte": "Un fragmento de memoria vuelve al maestro."
+            }
+          ]
+        },
         null,
         null,
         null,
