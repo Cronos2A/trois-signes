@@ -1139,6 +1139,123 @@
           "name": "Vegliante della Notte"
         }
       ]
+    },
+    "economy": {
+      "chests": {
+        "simple": {
+          "name": "Forziere semplice",
+          "text": "1 cosmetico a caso"
+        },
+        "trois_signes": {
+          "name": "Forziere dei Tre Segni",
+          "text": "3 cosmetici, almeno 1 raro"
+        }
+      },
+      "rarities": {
+        "commun": {
+          "name": "Comune"
+        },
+        "rare": {
+          "name": "Raro"
+        },
+        "epique": {
+          "name": "Epico"
+        }
+      },
+      "gemPacks": [
+        {
+          "price": "0,99 €"
+        },
+        {
+          "price": "4,99 €"
+        },
+        {
+          "price": "9,99 €"
+        },
+        {
+          "price": "19,99 €"
+        }
+      ],
+      "ui": {
+        "tabs": [
+          [
+            "chests",
+            "Forzieri"
+          ],
+          [
+            "cosmetics",
+            "Cosmetici"
+          ],
+          [
+            "gems",
+            "Gemme"
+          ]
+        ],
+        "filters": [
+          [
+            "all",
+            "Tutto"
+          ],
+          [
+            "weapon",
+            "Armi"
+          ],
+          [
+            "color",
+            "Colori"
+          ],
+          [
+            "trail",
+            "Scie"
+          ],
+          [
+            "skin",
+            "Skin"
+          ]
+        ],
+        "open": "Apri",
+        "odds": "Probabilità",
+        "oddsTitle": "Probabilità",
+        "oddsIntro": "Ogni forziere dà cosmetici che non hai ancora, senza doppioni. I cosmetici non danno alcun vantaggio in gioco.",
+        "oddsGuarantee": "Forziere semplice: un oggetto epico garantito dopo {n} forzieri senza epici.",
+        "oddsMinRare": "Forziere dei Tre Segni: almeno 1 oggetto raro o epico.",
+        "pityLeft": "Epico garantito entro {n} forzieri",
+        "pityNow": "Epico garantito al prossimo forziere",
+        "complete": "Collezione completa",
+        "banned": "Forzieri non disponibili nel tuo paese: ogni cosmetico si compra direttamente.",
+        "notEnough": "Gemme insufficienti",
+        "notEnoughGold": "Oro insufficiente",
+        "buy": "Compra",
+        "owned": "Posseduto",
+        "equipped": "Equipaggiato",
+        "equip": "Equipaggia",
+        "confirmTitle": "Conferma l'acquisto",
+        "confirmText": "Comprare {name} per {price}?",
+        "confirmOk": "Compra",
+        "cancel": "Annulla",
+        "chestTitle": "Apertura",
+        "chestTap": "Tocca per aprire",
+        "chestOk": "Grande!",
+        "newItem": "Nuovo!",
+        "packsTitle": "Gemme",
+        "packsNote": "Disponibile nell'app",
+        "packsFree": "Le gemme si guadagnano anche giocando: guardiani del Viaggio battuti, storie completate, epilogo.",
+        "gain": "+{n}",
+        "gemsName": "+{n} gemme",
+        "gemsReward": "GEMME GUADAGNATE",
+        "gemsFor": {
+          "guardian": "Guardiano {of} battuto",
+          "story": "Storia {of} completata",
+          "epilogue": "Epilogo della storia"
+        },
+        "gemsOk": "Continua",
+        "gemsTotal": "Totale",
+        "testTitle": "Modalità test",
+        "testGold": "+{n} oro",
+        "testGems": "+{n} gemme",
+        "testCountry": "Paese",
+        "testReset": "Azzera il negozio"
+      }
     }
   }
 }
