@@ -328,5 +328,23 @@
   },
   "pseudo": {
     "reserved": "Questo nickname è riservato: scegline un altro."
+  },
+  "data": {
+    "grades": {
+      "miss": {
+        "name": "Mancato"
+      }
+    },
+    "enemies": {
+      "grunt": {
+        "name": "Scagnozzo"
+      },
+      "brute": {
+        "name": "Bruto"
+      },
+      "boss": {
+        "name": "Boss"
+      }
+    }
   }
 }
