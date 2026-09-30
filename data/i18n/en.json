@@ -664,6 +664,77 @@
         "title": "Turn your phone",
         "text": "Three Signs is played in portrait mode."
       }
+    },
+    "online": {
+      "damaged": {
+        "title": "Damaged save",
+        "text": "The save on this device is unreadable or damaged: the game can't use it.",
+        "searching": "Looking for an online save…",
+        "found": "There's an online save for your account (saved on {date}).",
+        "foundDetail": "Best {best} · Stories completed: {stories} · {gold} gold",
+        "none": "No online save for this account.",
+        "offline": "Can't reach the server: unable to look for an online save.",
+        "recover": "Recover my online save",
+        "reset": "Start from scratch",
+        "confirmReset": "All progress on this device will be lost.",
+        "confirmResetBtn": "Yes, start from scratch",
+        "retry": "Search again"
+      },
+      "leaderboard": {
+        "boards": [
+          {
+            "label": "Journey",
+            "scoreLabel": "Best score"
+          },
+          {
+            "label": "Duel",
+            "scoreLabel": "Imprints"
+          }
+        ],
+        "ui": {
+          "button": "Rankings",
+          "recordSynced": "Best score synced: {n} in the Journey rankings",
+          "title": "Rankings",
+          "world": "World top {n}",
+          "you": "You",
+          "unranked": "Not ranked yet",
+          "unrankedVoyage": "Finish a Journey game to enter the rankings.",
+          "unrankedDuel": "Earn Imprints in Random Duel to enter the rankings.",
+          "empty": "Nobody yet.",
+          "loading": "Loading…",
+          "offline": "Rankings need a connection to the server.",
+          "needPseudo": "Pick your username first.",
+          "close": "Close"
+        }
+      },
+      "pseudo": {
+        "suggest": "Signer"
+      },
+      "ui": {
+        "title": "Pick your username",
+        "intro": "This is the name other players will see in Duel. You can change it in Settings.",
+        "placeholder": "Your username",
+        "ok": "Confirm",
+        "cancel": "Cancel",
+        "suggest": "Random",
+        "tooShort": "At least {min} characters.",
+        "tooLong": "{max} characters max.",
+        "badChars": "Letters, numbers, space, hyphen, full stop and _ only (start with a letter or a number).",
+        "rude": "This username isn't allowed.",
+        "account": "Account",
+        "pseudoLabel": "Username",
+        "edit": "Edit",
+        "google": "Link my Google account",
+        "googleSoon": "Soon (Google Play Games)",
+        "status": {
+          "off": "Offline: saved on this device",
+          "connecting": "Connecting to the server…",
+          "online": "Online: save up to date",
+          "saving": "Online: saving…",
+          "offline": "No connection: saved on this device, sent when you're back online",
+          "error": "Can't reach the server: saved on this device"
+        }
+      }
     }
   }
 }
