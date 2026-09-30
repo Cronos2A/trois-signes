@@ -2474,7 +2474,232 @@
             }
           ]
         },
-        null
+        {
+          "titre": "Quelli che si possono salvare",
+          "cinematique_ouverture": [
+            {
+              "texte": "Fontclaire, la sua acqua limpida e la sua casetta di cura in fondo al sentiero."
+            },
+            {
+              "texte": "Una tisana per la tosse, un balsamo per le ginocchia e un sorriso per tutti!"
+            },
+            {
+              "texte": "Mira, curi troppo in fretta. Un giorno ti capiterà qualcosa che non potrai guarire."
+            },
+            {
+              "texte": "Allora cercherò finché non troverò!"
+            },
+            {
+              "texte": "Quella mattina, il suo primo paziente non ricordava più perché fosse venuto."
+            },
+            {
+              "texte": "Signor Fabre? Siete venuto per la schiena… ve lo ricordate?"
+            }
+          ],
+          "combats": [
+            {
+              "titre": "La casa di cura",
+              "dialogue_avant": [
+                {
+                  "texte": "Uno a uno, i pazienti diventano grigi."
+                },
+                {
+                  "texte": "Tutti calmi! Nessuno lascia la sala d'attesa!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Non sanno più chi sono… Non è una malattia che conosco."
+                }
+              ]
+            },
+            {
+              "titre": "La febbre grigia",
+              "dialogue_avant": [
+                {
+                  "texte": "Il Silenzio si diffonde a Fontclaire come una febbre."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Questo non si cura con le tisane. Mi serve qualcos'altro."
+                }
+              ]
+            },
+            {
+              "titre": "Il primo salvato",
+              "dialogue_avant": [
+                {
+                  "texte": "La nonna diceva: «Una mano posata nel punto giusto cura più di un rimedio». Proviamo."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "… Mira? Mi fa male la schiena."
+                },
+                {
+                  "texte": "Si ricorda! Si ricorda della sua schiena!"
+                },
+                {
+                  "texte": "Poi il grigio ritorna, piano piano. Ma Mira ha visto ciò che doveva vedere."
+                }
+              ]
+            },
+            {
+              "titre": "La strada dei villaggi",
+              "dialogue_avant": [
+                {
+                  "texte": "Se funziona qui, funzionerà anche altrove. In cammino!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Tre villaggi, undici ricordi restituiti! Qualche secondo ogni volta, d'accordo. Ma è un inizio!"
+                }
+              ]
+            },
+            {
+              "titre": "L'Erborista",
+              "dialogue_avant": [
+                {
+                  "texte": "…le piante… conoscevo tutte le piante…"
+                },
+                {
+                  "texte": "Zia Hélo… Siete voi che mi avete insegnato tutto."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Curare chi posso. Ricordarmi degli altri. D'accordo."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Mira posa entrambe le mani sulla fronte della sua maestra."
+                },
+                {
+                  "texte": "Mira… Curi sempre troppo in fretta."
+                },
+                {
+                  "texte": "E avevate ragione. Alcuni non posso guarirli."
+                },
+                {
+                  "texte": "Allora cura quelli che puoi. E ricordati degli altri."
+                }
+              ]
+            },
+            {
+              "titre": "Incontro: Boran",
+              "dialogue_avant": [
+                {
+                  "texte": "Fermo! Non colpire quello!"
+                },
+                {
+                  "texte": "Ci sta attaccando."
+                },
+                {
+                  "texte": "Perché ha paura. Coprimi, omone!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "L'hai salvato?"
+                },
+                {
+                  "texte": "Per un istante. E un istante è già un ricordo."
+                }
+              ]
+            },
+            {
+              "titre": "Il campo profughi",
+              "dialogue_avant": [
+                {
+                  "texte": "Duecento profughi, una sola guardia. Per fortuna vale per dieci."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Sotto la tenda di cura, Mira lavora tutta la notte. Fuori, Boran veglia."
+                }
+              ]
+            },
+            {
+              "titre": "Le cure impossibili",
+              "dialogue_avant": [
+                {
+                  "texte": "Alcuni Svuotati non reagiscono più al Tocco. Per niente."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Non posso salvarli tutti."
+                },
+                {
+                  "texte": "No. Ma ti ricordi di loro. Conta."
+                },
+                {
+                  "texte": "… Questa è la mia frase."
+                }
+              ]
+            },
+            {
+              "titre": "La Vegliante",
+              "dialogue_avant": [
+                {
+                  "texte": "Perché farli soffrire, guaritrice? L'oblio non fa male. Io li sollevo."
+                },
+                {
+                  "texte": "Non li sollevate. Li cancellate."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Vado al Cuore."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "La Vegliante vacilla. Sotto il cappuccio grigio, il volto di una vecchia infermiera."
+                },
+                {
+                  "texte": "Volevo solo… che nessuno avesse più male…"
+                },
+                {
+                  "texte": "Lo so. Anch'io. Ma il dolore fa parte dei ricordi."
+                },
+                {
+                  "texte": "Mira le tiene la mano fino alla fine. Poi si alza, e cammina verso il Cuore."
+                }
+              ]
+            },
+            {
+              "titre": "Il Cuore del Silenzio",
+              "dialogue_avant": [
+                {
+                  "texte": "…fa male… ricordare… lasciami dimenticare…"
+                },
+                {
+                  "texte": "No. Non voi. Voi posso ancora curarvi."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Mira posa le mani sulla fronte del maestro. Il Tocco, con tutte le sue forze."
+            },
+            {
+              "texte": "È caldo… come una tisana…"
+            },
+            {
+              "texte": "Con il miele. È questo il segreto."
+            },
+            {
+              "texte": "Un frammento di memoria torna al maestro."
+            }
+          ]
+        }
       ]
     }
   }
