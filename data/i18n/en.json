@@ -2252,7 +2252,226 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "The Map of the Silence",
+          "cinematique_ouverture": [
+            {
+              "texte": "The Pass Scouts. Their mission: to map the world. Their best recruit: Kestrel."
+            },
+            {
+              "texte": "Kestrel. You go on ahead. As usual."
+            },
+            {
+              "texte": "As usual."
+            },
+            {
+              "texte": "For a year now, Kestrel's map has been filling with grey patches. Nobody knows what they are."
+            },
+            {
+              "texte": "They're growing."
+            },
+            {
+              "texte": "Then mark them down. A good map is what separates the living from the lost."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "The Grey Edge",
+              "dialogue_avant": [
+                {
+                  "texte": "Something's moving in the grey trees."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Hostile. Noted."
+                }
+              ]
+            },
+            {
+              "titre": "The Scouts' Camp",
+              "dialogue_avant": [
+                {
+                  "texte": "Back at camp, at night. Too quiet."
+                },
+                {
+                  "texte": "Captain?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Camp's empty. Captain's gone."
+                }
+              ]
+            },
+            {
+              "titre": "The Torn Map",
+              "dialogue_avant": [
+                {
+                  "texte": "My map. Torn. Pieces everywhere."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Piece by piece, Kestrel puts a year of work back together."
+                },
+                {
+                  "texte": "It's all here. Almost."
+                }
+              ]
+            },
+            {
+              "titre": "The Windy Pass",
+              "dialogue_avant": [
+                {
+                  "texte": "The pass is closing. Now or never."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Through. Barely."
+                }
+              ]
+            },
+            {
+              "titre": "The Tracker",
+              "dialogue_avant": [
+                {
+                  "texte": "For three days, a grey figure has been on Kestrel's trail."
+                },
+                {
+                  "texte": "You're good. Not good enough."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "I won't leave anyone behind again."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "The Tracker falls. Around his neck, a badge of the Pass Scouts."
+                },
+                {
+                  "texte": "Pieter… You were in my unit."
+                },
+                {
+                  "texte": "He wasn't hunting her. He was trying to follow her, like before, without knowing why."
+                },
+                {
+                  "texte": "Rest. I'll go on for both of us."
+                }
+              ]
+            },
+            {
+              "titre": "Encounter: Ilwen",
+              "dialogue_avant": [
+                {
+                  "texte": "You there! Your map. I need it."
+                },
+                {
+                  "texte": "No."
+                },
+                {
+                  "texte": "It's for science!"
+                },
+                {
+                  "texte": "Then follow me. And be quiet."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "You are extremely unpleasant."
+                },
+                {
+                  "texte": "But I've got the map."
+                }
+              ]
+            },
+            {
+              "titre": "The Centre of the Map",
+              "dialogue_avant": [
+                {
+                  "texte": "All the zones converge. One point."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "At the centre of the map, Kestrel draws a star. Then she hesitates, and writes: “Heart”."
+                }
+              ]
+            },
+            {
+              "titre": "The Fading Forest",
+              "dialogue_avant": [
+                {
+                  "texte": "The trees are vanishing behind us. Don't look back."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "No way back. Good. Keep moving."
+                }
+              ]
+            },
+            {
+              "titre": "The Lookout",
+              "dialogue_avant": [
+                {
+                  "texte": "…a recruit… the best one… she always went on ahead…"
+                },
+                {
+                  "texte": "Captain. It's me."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "I'll finish it for you, Captain."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Captain Hardel drops to one knee. In his hand, an old compass."
+                },
+                {
+                  "texte": "Kestrel… a good map… separates the living… from the lost…"
+                },
+                {
+                  "texte": "I know, Captain."
+                },
+                {
+                  "texte": "The compass no longer points north. It points to the Heart."
+                }
+              ]
+            },
+            {
+              "titre": "The Heart of Silence",
+              "dialogue_avant": [
+                {
+                  "texte": "…so many paths… I don't know which one leads home any more…"
+                },
+                {
+                  "texte": "I do. I've got the map."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Kestrel unrolls her map before the master. A year of work."
+            },
+            {
+              "texte": "It's… every step of the way I've travelled."
+            },
+            {
+              "texte": "Then you're not lost any more."
+            },
+            {
+              "texte": "A memory fragment returns to the master."
+            }
+          ]
+        },
         null
       ]
     }
