@@ -491,6 +491,38 @@
           "text": "+10% di XP delle armi."
         }
       ]
+    },
+    "voyage": {
+      "name": "Il Viaggio",
+      "arenas": [
+        {
+          "name": "Foresta di Muschio"
+        },
+        {
+          "name": "Hautes-Gerbes"
+        },
+        {
+          "name": "Fontclaire"
+        },
+        {
+          "name": "Tetti di Vélis"
+        },
+        {
+          "name": "Biblioteca di Aubelle"
+        },
+        {
+          "name": "Passo dei Venti"
+        },
+        {
+          "name": "Scuola dei Segni"
+        },
+        {
+          "name": "Il Cuore del Silenzio"
+        }
+      ],
+      "beyond": {
+        "name": "Oltre il Silenzio"
+      }
     }
   }
 }
