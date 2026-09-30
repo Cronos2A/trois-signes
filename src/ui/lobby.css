@@ -367,3 +367,8 @@
 .rw-list li{display:flex;justify-content:space-between;gap:10px;font-size:14px;font-weight:700}
 .rw-list li b{color:#6B3FA0;white-space:nowrap}
 .rw-list .rw-total{border-top:2px solid var(--ink);padding-top:6px;font-weight:900}
+.rw-scroll{max-height:42vh;overflow-y:auto;gap:8px}
+.rw-tal{align-items:center;justify-content:flex-start !important}
+.rw-tal-ic{flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center}
+.rw-tal b{display:block;font-size:14px;color:var(--ink)}
+.rw-tal small{display:block;font-size:12px;font-weight:700;color:var(--text-soft);line-height:1.25}

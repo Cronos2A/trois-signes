@@ -7,7 +7,7 @@ import { server, whenOnline, pseudo } from './online.js';
 import { serverPrints } from './ranked.js';
 
 const L = () => D.online.leaderboard;
-let sent = null, remoteBest = null, busy = false;
+let sent = null, remoteBest = null, busy = false, pending = 0, pendingTimer = null;
 
 /** Héros favori : le plus joué (prog.played), sinon celui qui a le plus haut niveau. */
 export function favoriteHero() {
@@ -38,14 +38,47 @@ export async function syncBoard() {
     catch (e) {
       // Record refusé (pas de partie du Voyage enregistrée au serveur assez longue pour ce score) : le reste est quand même mis à jour.
       if (!(e && e.code === 'permission-denied') || row.voyage <= Math.max(remoteBest, 0)) throw e;
-      console.warn('Classements : record non retenu', row.voyage);
+      console.info('Classements : record en attente', row.voyage);
+      queueRecord(row.voyage);
       row.voyage = Math.max(remoteBest, 0);
       await put(row);
     }
     sent = key; remoteBest = row.voyage;
+    if (pending && remoteBest >= pending) {               // record fait hors connexion enfin classé : on le dit au joueur
+      const n = pending; pending = 0;
+      import('../ui/ad-ui.js').then(m => m.adToast(L().ui.recordSynced.replace('{n}', n.toLocaleString('fr-FR')))).catch(() => {});
+    }
   } catch (e) {
     console.warn('Classements :', e && (e.code || e.message));
   } finally { busy = false; }
+}
+
+/**
+ * Record refusé faute de partie notée au serveur assez longue (partie commencée hors connexion) : dès qu'on est de retour au lobby
+ * et connecté, on note au serveur un nouveau départ (runs/{uid}), on attend la durée minimale que les règles demandent pour ce score
+ * (data/duel.json → security.voyage), puis on renvoie la ligne. Jamais en pleine partie (le départ noté est celui de la partie en cours).
+ */
+function queueRecord(v) {
+  pending = Math.max(pending, v);
+  if (!pendingTimer) pendingTimer = setTimeout(syncRecord, 1000);
+}
+async function syncRecord() {
+  pendingTimer = null;
+  if (!pending) return;
+  const S = server();
+  if (!S || document.documentElement.classList.contains('in-game')) { pendingTimer = setTimeout(syncRecord, 5000); return; }
+  try {
+    await S.fb.fs.setDoc(S.fb.fs.doc(S.db, 'runs', S.uid), { startedAt: S.fb.fs.serverTimestamp() });
+  } catch (e) { pendingTimer = setTimeout(syncRecord, 20000); return; }
+  // Durée t telle que perSecond × t × (base + growth × t) ≥ record, plus une marge pour l'écart d'horloge.
+  const V = D.duel.security.voyage, a = V.perSecond * V.growth, b = V.perSecond * V.base;
+  const t = (-b + Math.sqrt(b * b + 4 * a * pending)) / (2 * a);
+  pendingTimer = setTimeout(() => {
+    pendingTimer = null;
+    if (document.documentElement.classList.contains('in-game')) { pendingTimer = setTimeout(syncRecord, 5000); return; }
+    sent = null;                                          // forcer le renvoi de la ligne
+    syncBoard();
+  }, (t * 1.05 + L().recordMargin) * 1000);
 }
 
 /** Début d'une partie du Voyage : heure notée au serveur (runs/{uid}), qui borne le record accepté selon la durée de la partie. */

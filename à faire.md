@@ -23,10 +23,6 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
   L'unicité demande un registre des pseudos au serveur (collection réservée par les règles) : à décider.
 
 ### G11. Petits défauts
-- Fin d'un premier long Voyage : les gemmes sont regroupées (G9), mais chaque talisman gagné garde sa propre fenêtre
-  (jusqu'à 8 d'affilée si le joueur bat les 8 gardiens pour la première fois). Les regrouper aussi, si cela gêne.
-- Réglages en mode test : le bouton « Passer les 10 min » dépasse de l'écran (visible seulement en développement).
-- Record du Voyage fait sans connexion au début de la partie : jamais classé (voulu par la sécurité), sans message pour le joueur.
 - Son : `ui_clic`, `ui_onglet`, `musique_triste` toujours absents (sons provisoires synthétisés) ; `musique_lobby` boucle toutes les 19 s.
 - Le « Coffre » de l'écran « Arène découverte » du Voyage n'est qu'un emplacement (message) : un coffre vide déçoit.
 
@@ -125,3 +121,13 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - **G9. Gemmes** : plusieurs gains à la fois (fin de Voyage, lancement) → un seul écran récapitulatif, une ligne par gain et le total.
 - **G10. Portrait** : manifeste `manifest.webmanifest` (`orientation: portrait`), tentative de verrouillage, et sur un téléphone tourné
   en paysage un écran « Tourne ton téléphone » ; la partie est en pause pendant ce temps, sauf en Duel.
+
+## Corrigé le 30/09/2026 (vérifié par les bots)
+- **Talismans** : plusieurs talismans reçus d'un coup → un seul écran « Nouveaux talismans », une ligne par talisman (icône, nom, effet ;
+  la liste défile si besoin), une seule fermeture. Précision : dans un Voyage, chaque talisman est déjà montré dans le coffre de l'écran
+  « Arène découverte » ; l'enchaînement de fenêtres venait des talismans reçus en bloc (lancement avec une ancienne sauvegarde).
+- **« Passer les 10 min »** (Réglages, mode test) : ne dépasse plus (les rangées de boutons passent à la ligne depuis la correction G6).
+- **Record du Voyage fait hors connexion** : au retour du réseau (et hors partie), le jeu note un nouveau départ au serveur, attend la durée
+  minimale que les règles demandent pour ce score (quelques secondes à environ 1 min), envoie le record, puis affiche
+  « Record synchronisé : 19 918 au classement du Voyage ». Même garantie qu'avant côté sécurité (le score doit rester possible
+  pour la durée écoulée) ; aucune règle Firestore modifiée.

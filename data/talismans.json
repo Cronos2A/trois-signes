@@ -8,7 +8,7 @@
     "unequip": "Retirer",
     "equipped": "Équipé",
     "locked": "Verrouillé",
-    "rewardKick": "NOUVEAU TALISMAN",
+    "rewardKick": "NOUVEAU TALISMAN", "rewardKickMany": "NOUVEAUX TALISMANS", "rewardNameMany": "{n} talismans",
     "chestTitle": "Coffre du gardien",
     "chestOpened": "Gardien battu : {arena}",
     "forgiven": "Raté pardonné",

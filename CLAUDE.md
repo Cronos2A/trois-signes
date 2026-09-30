@@ -272,7 +272,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Mouvements en attente hors connexion (`prog.eco.pending`). Anciennes sauvegardes : les gains déjà reçus sont rejoués un par un ;
   les gemmes d'avant venues des pubs ou du mode test ne sont pas reprises. Mode test sans émulateur : gemmes locales seulement.
 - **Record du Voyage** : début de chaque partie noté au serveur (`runs/{uid}`) ; record accepté si ≤ 600 × t × (3 + 0,025 × t)
-  (t : secondes depuis ce début ; `security.voyage`), jamais en baisse. Record fait hors connexion au départ : pas classé.
+  (t : secondes depuis ce début ; `security.voyage`), jamais en baisse. Record refusé faute de durée (partie commencée hors connexion) :
+  au retour du réseau et hors partie, nouveau départ noté, attente de la durée minimale pour ce score, renvoi, puis message
+  « Record synchronisé » (`leaderboard.js` → `queueRecord`, `online.json → leaderboard.recordMargin`, `ui.recordSynced`).
 - **Limites** (sans serveur de calcul) : les règles vérifient qu'un score est *possible*, pas qu'il a été *joué* ; un tricheur peut encore
   envoyer des scores sous les plafonds. Le contenu des coffres et les cosmétiques possédés restent dans la sauvegarde du joueur
   (sans avantage en jeu).
@@ -376,7 +378,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Duel** : l'adversaire n'est jugé déconnecté que sur des données confirmées par le serveur ; soi-même, plus de 30 s sans contact
   avec le serveur (réseau ou veille) = défaite « Tu as été déconnecté ». Calque des écrans du Duel : classe `.du-layer`.
 - **Textes** : `deName` (`src/util.js`) pour « de » devant un nom (d'Aldric, du Cœur…, des Hautes-Gerbes) ; les arènes ont un champ `de`.
-- **Gemmes** : plusieurs gains d'un coup = un seul écran récapitulatif (`reward-ui.js`). Pseudo normalisé en NFC avant vérification.
+- **Gemmes et talismans** : plusieurs gains d'un coup = un seul écran récapitulatif chacun (`reward-ui.js`). Pseudo normalisé en NFC avant vérification.
 
 ## Réglages et crédits
 - Engrenage du lobby (`src/ui/lobby.js` → `renderSettings`, `src/game/settings.js`, clé `ts_settings`) : volumes Musique / Effets, Vibrations,

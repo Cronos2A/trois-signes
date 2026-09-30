@@ -60,12 +60,23 @@ function gemsSummary(list) {
     text: `<ul class="rw-list">${lines}<li class="rw-total"><span>${U.gemsTotal}</span><b>${tpl(U.gain, { n })}</b></li></ul>` };
 }
 
-/** Affiche les récompenses l'une après l'autre ; les gains de gemmes sont regroupés sur un seul écran récapitulatif. */
+/** Plusieurs talismans à la fois (fin d'un long Voyage) : un seul écran, une ligne par talisman (icône, nom, effet). */
+function talismansSummary(list) {
+  const U = D.talismans.ui;
+  const lines = list.map(r => { const t = talismanData(r.id);
+    return `<li class="rw-tal"><span class="rw-tal-ic">${itemIcon('talismans', r.id, 30)}</span><span><b>${t.name}</b><small>${t.text}</small></span></li>`; }).join('');
+  return { kick: U.rewardKickMany, name: tpl(U.rewardNameMany, { n: list.length }), sub: '', icon: itemIcon('talismans', list[0].id, 64), bg: '#1F7A3D',
+    ok: U.rewardOk, text: `<ul class="rw-list rw-scroll">${lines}</ul>` };
+}
+
+/** Affiche les récompenses l'une après l'autre ; talismans et gains de gemmes sont chacun regroupés sur un seul écran récapitulatif. */
 export async function showRewards(list) {
   if (!list || !list.length) return;
   if (!el) build();
-  const gems = list.filter(r => r.kind === 'gems');
-  for (const r of list.filter(r => r.kind !== 'gems')) await one(rewardHtml(r));
+  const gems = list.filter(r => r.kind === 'gems'), tals = list.filter(r => r.kind === 'talisman');
+  for (const r of list.filter(r => r.kind === 'weapon')) await one(rewardHtml(r));
+  if (tals.length > 1) await one(talismansSummary(tals));
+  else if (tals.length) await one(rewardHtml(tals[0]));
   if (gems.length > 1) await one(gemsSummary(gems));
   else if (gems.length) await one(rewardHtml(gems[0]));
   el.classList.add('hidden');

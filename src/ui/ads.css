@@ -15,7 +15,7 @@
 .ad-card.ask .res-again{align-self:stretch;gap:8px}
 .ad-card.ask .mini-btn{align-self:stretch;background:var(--color-bg)}
 .ad-yes .ad-ic{flex-shrink:0}
-.ad-toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:70;max-width:calc(100% - 32px);padding:10px 16px;border-radius:999px;border:3px solid var(--ink);background:var(--sun);box-shadow:0 4px 0 var(--ink);font:800 13px var(--font-body);color:var(--ink);text-align:center;pointer-events:none}
+.ad-toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:70;width:max-content;max-width:calc(100% - 32px);box-sizing:border-box;padding:10px 16px;border-radius:999px;border:3px solid var(--ink);background:var(--sun);box-shadow:0 4px 0 var(--ink);font:800 13px var(--font-body);color:var(--ink);text-align:center;pointer-events:none}
 .ad-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .ad-btn .ad-ic{flex-shrink:0}
 .ad-count{font-size:11px;font-weight:800;color:var(--text-soft);white-space:nowrap}
