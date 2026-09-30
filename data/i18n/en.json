@@ -812,6 +812,162 @@
         "newArenaAt": "{prints} Imprints",
         "continue": "Continue"
       }
+    },
+    "weapons": {
+      "style": {
+        "label": "Full style effect"
+      },
+      "gauge": {
+        "label": "Super gauge fills 10% faster"
+      },
+      "gold": {
+        "label": "Golden weapon glow in battle"
+      },
+      "ui": {
+        "cardTitle": "WEAPONS",
+        "styleTitle": "Style effect",
+        "stylePower": "Strength {pct}%",
+        "equipped": "Equipped",
+        "equip": "Equip",
+        "maxLevel": "Max level",
+        "level": "Level {n}",
+        "levelShort": "Lv {n}",
+        "levelUp": "Level {n}!",
+        "xp": "{cur} / {need} XP",
+        "gain": "{name} +{n} XP",
+        "noBonus": "No bonus yet",
+        "attackBonus": "Attack +{pct}%",
+        "next": "Level {n}: {text}",
+        "counter": "Counter",
+        "reflect": "Reflect",
+        "burn": "Burn",
+        "shot": "Shot",
+        "rewardKick": "NEW WEAPON",
+        "rewardFor": "For {hero}",
+        "rewardOk": "Continue"
+      },
+      "weapons": {
+        "epee": {
+          "name": "Sword",
+          "style": {
+            "text": "Each combo restores {comboHeal} HP."
+          }
+        },
+        "hache_fendeuse": {
+          "name": "Cleaver Axe",
+          "lock": "Win battle 5 of your story",
+          "style": {
+            "text": "A Perfect also hits a 2nd enemy for {cleaveOnPerfect}% of the damage."
+          }
+        },
+        "lance_garde_fou": {
+          "name": "Guardrail Spear",
+          "lock": "Win battle 10 of your story",
+          "style": {
+            "text": "After a successful dodge, your next attack deals +{afterDodgeDamage}%."
+          }
+        },
+        "dague": {
+          "name": "Dagger",
+          "style": {
+            "text": "Perfect attacks: +{perfectDamage}% damage."
+          }
+        },
+        "couteaux_lancer": {
+          "name": "Throwing Knives",
+          "lock": "Win battle 5 of your story",
+          "style": {
+            "text": "Always targets the weakest enemy; each enemy defeated gives +{gaugePerKill} super gauge."
+          }
+        },
+        "lame_ombre": {
+          "name": "Shadow Blade",
+          "lock": "Win battle 10 of your story",
+          "style": {
+            "text": "A Perfect dodge triggers a free counter-attack ({perfectDodgeCounter}% of the damage)."
+          }
+        },
+        "gantelets": {
+          "name": "Gauntlets",
+          "style": {
+            "text": "−{damageReduction}% damage taken."
+          }
+        },
+        "masse_pierre": {
+          "name": "Stone Mace",
+          "lock": "Win battle 5 of your story",
+          "style": {
+            "text": "Each attack also hits the other enemies for {splash}%, but −{targetPenalty}% damage on the target."
+          }
+        },
+        "bouclier_tour": {
+          "name": "Tower Shield",
+          "lock": "Win battle 10 of your story",
+          "style": {
+            "text": "−{damageReduction}% damage taken, −{damagePenalty}% damage dealt."
+          }
+        },
+        "grimoire": {
+          "name": "Grimoire",
+          "style": {
+            "text": "Combo multiplier +{comboBonus}."
+          }
+        },
+        "baton_braises": {
+          "name": "Ember Staff",
+          "lock": "Win battle 5 of your story",
+          "style": {
+            "text": "A Perfect sets the enemy on fire: {burnOnPerfect} damage over {burnDuration}s."
+          }
+        },
+        "orbe_miroir": {
+          "name": "Mirror Orb",
+          "lock": "Win battle 10 of your story",
+          "style": {
+            "text": "A successful dodge sends {reflect}% of the avoided damage back to the attacker."
+          }
+        },
+        "arc": {
+          "name": "Bow",
+          "style": {
+            "text": "Each Perfect fills the super gauge {perfectGaugeBonus}% more."
+          }
+        },
+        "arbalete": {
+          "name": "Crossbow",
+          "lock": "Win battle 5 of your story",
+          "style": {
+            "text": "+{bossDamage}% damage to guardians and bosses, −{otherPenalty}% to the rest."
+          }
+        },
+        "fronde": {
+          "name": "Sling",
+          "lock": "Win battle 10 of your story",
+          "style": {
+            "text": "Each item you pick up fires an automatic {pickupShot}-damage shot at the nearest enemy."
+          }
+        },
+        "amulette": {
+          "name": "Amulet",
+          "style": {
+            "text": "+{healPerHit} HP healed on each successful attack."
+          }
+        },
+        "baton_seve": {
+          "name": "Sap Staff",
+          "lock": "Win battle 5 of your story",
+          "style": {
+            "text": "No more healing per attack; instead, each combo restores {comboHeal} HP."
+          }
+        },
+        "clochette": {
+          "name": "Little Bell",
+          "lock": "Win battle 10 of your story",
+          "style": {
+            "text": "Instead of healing, each successful attack gives a shield of {barrierPerHit} HP × the multiplier that absorbs damage, stacking up to {barrierMax}."
+          }
+        }
+      }
     }
   }
 }
