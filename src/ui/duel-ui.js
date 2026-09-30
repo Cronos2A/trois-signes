@@ -7,6 +7,7 @@ import { whenOnline, pseudo } from '../online/online.js';
 import { createRoom, joinRoom, watch, setMine, leaveRoom, current, search } from '../online/duel-net.js';
 import { prints, arenaIndex, arenaOf } from '../game/duel-rank.js';
 import { sfx, music } from '../audio/audio.js';
+import { tipOnce, tipBubble } from './tips.js';
 
 const U = () => D.duel.ui;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -118,6 +119,7 @@ let menuClick = null;
 function room(a) {
   const { uid, code } = current();
   let pick = (heroes().find(c => c.id === activeCharacter().id) || heroes()[0]).id, started = false, gone = false;
+  tipBubble('duel');                                             // premier Duel : comment ça se joue (une fois)
   const draw = d => {
     if (started) return;
     const other = d && d.players[d.host === uid ? d.guest : d.host];
@@ -163,25 +165,35 @@ export function showBanner(text, seconds) {
   return new Promise(r => { clearTimeout(banner); banner = setTimeout(() => { if (el && el.classList.contains('banner')) hideDuelUi(); r(); }, seconds * 1000); });
 }
 
-/** Attente entre deux vagues : l'adversaire n'a pas fini ; son score en direct. onLeave : « Abandonner ». */
-export function showWait(title, sub, score, onLeave) {
+/**
+ * Attente (l'adversaire n'a pas fini sa vague) : son score en direct et le temps restant, au plus, de sa vague,
+ * rafraîchis chaque seconde. live() et eta() : fonctions ; onLeave : « Abandonner ».
+ */
+export function showWait(title, sub, live, eta, onLeave) {
   if (!el || !el.classList.contains('wait')) {
     screen(`<div class="res-card du-card du-waitcard"><div class="res-title ol ol-5 du-title" id="duWT"></div>
-      <div class="du-sub" id="duWS"></div><div class="du-live"><b id="duWL"></b><span>points</span></div><span class="du-wait-dot big"></span>
+      <div class="du-sub" id="duWS"></div><div class="du-live"><b id="duWL"></b><span>points</span></div>
+      <div class="du-eta" id="duWE"></div><span class="du-wait-dot big"></span>
       <button class="mini-btn du-back" data-du="abandon">${U().abandon}</button></div>`, 'wait');
   }
   if (onLeave) onClick = act => { if (act === 'abandon') onLeave(); };
   el.querySelector('#duWT').textContent = title;
   el.querySelector('#duWS').textContent = sub;
-  el.querySelector('#duWL').textContent = nf(score);
+  const tick = () => {
+    const b = el && el.querySelector('#duWL');
+    if (!b) { clearInterval(liveTimer); return; }
+    b.textContent = nf(live());
+    el.querySelector('#duWE').textContent = eta ? eta() : '';
+  };
+  tick();
+  clearInterval(liveTimer);
+  liveTimer = setInterval(tick, 1000);
 }
 export function hideWait() { if (el && el.classList.contains('wait')) hideDuelUi(); }
 
 /** KO : attente du résultat (la vague de l'adversaire continue), son score en direct. */
-export function showWaitResult(text, live, onLeave) {
-  showWait(text, '', live(), onLeave);
-  clearInterval(liveTimer);
-  liveTimer = setInterval(() => { const b = el && el.querySelector('#duWL'); if (b) b.textContent = nf(live()); else clearInterval(liveTimer); }, 1000);
+export function showWaitResult(text, live, eta, onLeave) {
+  showWait(text, '', live, eta, onLeave);
 }
 
 /* ---------- Fin ---------- */
@@ -200,6 +212,7 @@ export function showResult(s, onHome) {
       <table class="du-table"><thead><tr><th>${U().tableWave}</th><th>${esc(U().you)}</th><th>${esc(s.opp.name)}</th><th>${U().pressureGot}</th><th>${U().pressureGave}</th></tr></thead>
         <tbody>${rows}<tr class="du-total"><td>${U().tableTotal}</td><td>${nf(tot(s.me.scores))}</td><td>${nf(tot(s.opp.scores))}</td><td></td><td></td></tr></tbody></table>
       ${s.rank ? `<div class="du-rank ${s.rank.delta > 0 ? 'up' : s.rank.delta < 0 ? 'down' : ''}">${fill(U().printsResult, { prints: nf(s.rank.after), delta: (s.rank.delta > 0 ? '+' : s.rank.delta < 0 ? '−' : '±') + Math.abs(s.rank.delta) })}</div>` : ''}
+      ${s.rank ? tipOnce('prints') : ''}
       <div class="du-note">${s.rank ? U().noRewardRandom : U().noReward}</div>
       <button class="res-again" data-du="home"><span class="ol ol-4">${U().again}</span></button>
     </div>`, 'result');

@@ -50,7 +50,9 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
   Mêmes seuils pour tous, sans réglage de tolérance ; seule la leçon guidée les abaisse (`data/tutorial.json` → `tolerance`).
 - **Combo** : 4 gestes de suite du même niveau (3 pour Ilwen, jamais pour Boran) → le dernier est multiplié. Esquive en combo = riposte.
   La série repart à zéro après un combo, un raté ou un niveau différent.
-- **Esquive** : part évitée = min(100 %, base × multiplicateur × combo), base 80 % (`data/rules.json` → `dodge.base`).
+- **Esquive** : part évitée = min(90 %, base × multiplicateur × combo), base 80 % (`data/rules.json` → `dodge.base`, `dodge.max`) ;
+  jamais 100 % par un Rond, même en Perfect ou pour Kestrel. Seuls les pouvoirs évitent tout, en nombre ou en durée limités
+  (Ombre de Nyra : 3 esquives ; répit de la Seconde chance : 1,5 s). Bonus `perfectScore` à l'esquive maximale.
 - **Ramassage** : précision selon la distance au doigt (`rules.json` → `pickup`). Pièce = points, cœur = PV.
 - **Ennemis** (`data/enemies.json`) : sbire 20 PV / 6, brute 28 PV / 9, boss 60 PV / 12. Alerte avant un coup 1,3 à 1,5 s,
   un seul ennemi prépare un coup à la fois.
@@ -210,8 +212,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   (`waves` : part de brutes, PV et dégâts croissants), puis à la 5e le même boss (gardien du Voyage tiré au sort, `boss`) avec escorte ;
   arène (voir Duel au hasard), variantes d'ennemis par vague (`variants`).
 - **Vagues synchronisées** : à la fin d'une vague, écran « En attente de [pseudo] » avec son score en direct (signe de vie toutes les
-  `heartbeatSeconds`) et « Abandonner ». Limite de `waveSeconds` (90 s) par vague : la vague s'arrête avec son score.
-- **Pression** : avant chaque vague, « Pression de [pseudo] : +X % » ; PV et dégâts des ennemis + 40 % × (score adverse sur la vague
+  `heartbeatSeconds`) et « Abandonner », plus le temps restant au plus de sa vague (« Fin de sa vague dans 32 s au plus », d'après
+  son `waveAt` et l'heure du serveur). Limite de `waveSeconds` (45 s) par vague : la vague s'arrête avec son score.
+- **Pression** : avant chaque vague, « Pression : [pseudo] +X % », puis discrètement dans le bandeau pendant la vague ; PV et dégâts des ennemis + 40 % × (score adverse sur la vague
   précédente ÷ score maximal théorique de cette vague), plafonné à 40 % (`pressure`). Score maximal théorique (`maxScore`) : partie sans faute
   (tout en Perfect avec une attaque de référence de 4, combos, 2 esquives Perfect par ennemi, pièces). Vague 1 : même départ pour les deux.
 - **Victoire** : KO avant la fin = défaite (l'autre doit finir la vague) ; KO tous les deux dans la même vague = meilleur score total ;
@@ -344,7 +347,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   annonce de la partie (`battle.intro` : transition d'arène 1 du Voyage, « Souvenir » de la leçon ; en Histoire, les dialogues d'avant)
   pendant que sprites et décor se préparent → seulement ensuite l'arène et le combat. Vérifié : Voyage, Rejouer, Histoire, Réessayer, leçon.
 - Gardiens et décors repris du mode Histoire ; la Forêt de Mousse garde le décor et le boss du Solo d'origine.
-- Coffres de cosmétiques : emplacement et message seulement (`chest`).
+- Coffre de l'écran « Arène découverte » : le talisman du gardien battu ; s'il est déjà possédé, de l'or à la place (`chestFallback`).
 - Sauvegarde : `prog.best` (record), `prog.voyage` (arène la plus lointaine, arènes découvertes).
 
 ## La première leçon (tutoriel) — **fait** (sauf une image)
@@ -378,7 +381,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Duel** : l'adversaire n'est jugé déconnecté que sur des données confirmées par le serveur ; soi-même, plus de 30 s sans contact
   avec le serveur (réseau ou veille) = défaite « Tu as été déconnecté ». Calque des écrans du Duel : classe `.du-layer`.
 - **Textes** : `deName` (`src/util.js`) pour « de » devant un nom (d'Aldric, du Cœur…, des Hautes-Gerbes) ; les arènes ont un champ `de`.
-- **Gemmes et talismans** : plusieurs gains d'un coup = un seul écran récapitulatif chacun (`reward-ui.js`). Pseudo normalisé en NFC avant vérification.
+- **Gemmes et talismans** : plusieurs gains d'un coup = un seul écran récapitulatif chacun (`reward-ui.js`).
+- **Explications** (`src/ui/tips.js`, textes `rules.json → tips`, vues notées dans `prog.tips`) : une seule fois, encadré dans l'écran
+  de la 1re arme alternative, du 1er talisman (récompense ou coffre d'arène), des 1res Empreintes (fin de Duel au hasard) ;
+  bulle « Compris » au 1er salon de Duel (pas la place d'un encadré). Pseudo normalisé en NFC avant vérification.
 
 ## Réglages et crédits
 - Engrenage du lobby (`src/ui/lobby.js` → `renderSettings`, `src/game/settings.js`, clé `ts_settings`) : volumes Musique / Effets, Vibrations,
@@ -430,7 +436,7 @@ src/
          tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (cartes Armes / Talisman, XP de fin de partie)
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman / Gemmes »)  shop-ui.js (boutique, coffres, carte Cosmétiques)
          looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)  cover.js (écran de lancement)
-         account-ui.js (pseudo, bloc Compte des Réglages, sauvegarde endommagée)
+         account-ui.js (pseudo, bloc Compte des Réglages, sauvegarde endommagée)  tips.js (explications à la 1re rencontre)
          back.js (bouton Retour du téléphone)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css
 data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel (.json)

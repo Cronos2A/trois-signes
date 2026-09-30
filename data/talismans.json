@@ -10,7 +10,7 @@
     "locked": "Verrouillé",
     "rewardKick": "NOUVEAU TALISMAN", "rewardKickMany": "NOUVEAUX TALISMANS", "rewardNameMany": "{n} talismans",
     "chestTitle": "Coffre du gardien",
-    "chestOpened": "Gardien battu : {arena}",
+    "chestOpened": "Gardien battu : {arena}", "chestFallback": "+{n} or", "chestFallbackText": "Talisman déjà en ta possession : le coffre contient de l'or.",
     "forgiven": "Raté pardonné",
     "rewardOk": "Continuer"
   },

@@ -14,10 +14,6 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 
 ## 🟠 Encore ouverts
 
-### G7 (suite). Formulation des textes du Duel
-- Les élisions sont corrigées (« Pression d'Alpha », « En attente d'Alpha »). Reste la formulation, à revoir avant la traduction
-  (par exemple « Pression : Alpha +18 % »), pour ne pas dépendre de la grammaire du français.
-
 ### G8 (suite). Pseudo : pas d'unicité
 - Accepté alors que discutable : « Admin », un pseudo déjà pris par un autre joueur (deux « Alpha » au classement).
   L'unicité demande un registre des pseudos au serveur (collection réservée par les règles) : à décider.
@@ -32,7 +28,8 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 
 ### Accueil du nouveau joueur, au-delà de la leçon
 - La leçon apprend les trois signes, mais rien n'explique ensuite : armes alternatives et leur style, talismans, niveaux d'arme,
-  Empreintes et arènes, **pression du Duel** (on découvre « Pression de X : +18 % » sans savoir ce que c'est), différence Duel au hasard / ami.
+  Empreintes et arènes, **pression du Duel**, différence Duel au hasard / ami. **Fait le 30/09** : explication à la première rencontre
+  (armes, talismans, Empreintes, Duel) ; reste un « ? » sur les cartes Armes / Talisman / Duel.
   Idée : une bulle d'aide à la première rencontre de chaque système (une seule fois), et un « ? » sur les cartes Armes / Talisman / Duel.
 - Le Voyage est le premier bouton, mais le mode Histoire guide mieux ; proposer « Commence par l'histoire d'Aldric » après la leçon.
 
@@ -65,9 +62,7 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - Rappel des mesures d'équilibre du 28/09 : Arbalète +12 à 17 % de score, à surveiller.
 
 ### Duel
-- **Attente** : un joueur qui a fini sa vague peut attendre jusqu'à 90 s l'autre (qui peut même ne faire qu'esquiver pour gagner du temps).
-  Suggestion : limite de 60 s, et pendant l'attente une vue de la partie de l'adversaire (ses coups, son score qui monte).
-- **Pression** : bonne idée mais invisible en combat ; afficher « +18 % » à côté de la vague dans l'interface pendant la vague.
+- **Attente** : **fait le 30/09** (45 s au plus, score en direct et temps restant). Reste l'idée d'une vue de la partie de l'adversaire.
 - Pas de revanche : ajouter « Rejouer contre lui » en fin de Duel entre amis.
 
 ### Retours visuels et sonores
@@ -131,3 +126,10 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
   minimale que les règles demandent pour ce score (quelques secondes à environ 1 min), envoie le record, puis affiche
   « Record synchronisé : 19 918 au classement du Voyage ». Même garantie qu'avant côté sécurité (le score doit rester possible
   pour la durée écoulée) ; aucune règle Firestore modifiée.
+
+## Fait le 30/09/2026 (points 3, 5 à 8 de la demande d'équilibrage)
+- **Esquive** plafonnée à 90 % pour tous (Kestrel comprise) ; Ombre de Nyra limitée à 3 esquives totales, répit de la Seconde chance à 1,5 s.
+- **Duel** : vague de 45 s au plus ; attente avec score de l'adversaire et « Fin de sa vague dans X s au plus » ; « Pression : X +18 % »
+  avant la vague et dans le bandeau pendant la vague.
+- **Explications** à la première rencontre : armes, talismans, Empreintes, Duel.
+- **Coffre « Arène découverte »** : talisman déjà possédé → 50 or à la place (il pouvait s'afficher sans rien avec une ancienne sauvegarde).

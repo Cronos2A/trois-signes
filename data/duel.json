@@ -55,7 +55,7 @@
       "growth": 0.025
     }
   },
-  "waveSeconds": 90,
+  "waveSeconds": 45,
   "disconnectSeconds": 30,
   "heartbeatSeconds": 5,
   "countdownSeconds": 3,
@@ -88,10 +88,13 @@
     "countdown": "Duel contre {name}",
     "waveLabel": "VAGUE",
     "hudLine": "{name} · {score}",
-    "pressure": "Pression {de} : +{pct} %",
+    "hudPressure": " · Pression +{pct} %",
+    "pressure": "Pression : {name} +{pct} %",
     "noPressure": "Vague {n} : même départ pour tous les deux",
     "waitTitle": "En attente {de}",
     "waitWave": "Vague {n} · score en direct",
+    "waitEta": "Fin de sa vague dans {s} s au plus",
+    "waitEtaSoon": "Sa vague se termine…",
     "waitKo": "Tu es KO : on attend la fin de la vague {de}",
     "resultWin": "Victoire !",
     "resultLose": "Défaite",

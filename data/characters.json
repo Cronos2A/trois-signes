@@ -43,7 +43,7 @@
       "weapon": "arc", "weaponLabel": "Arc", "color": "#9ACD32", "skinColor": "#3DDC5B", "accent": "#9ACD32",
       "stats": [4, 4, 2],
       "available": true, "hp": 105, "attack": 4.6,
-      "passive": { "name": "Pas léger", "text": "Esquive de base 120\u00a0% au lieu de 80\u00a0% (× le niveau de réussite) : dès Very Good, esquive totale.", "dodgeBase": 1.2 },
+      "passive": { "name": "Pas léger", "text": "Esquive de base 120\u00a0% au lieu de 80\u00a0% (× le niveau de réussite) : dès Very Good, esquive maximale (90\u00a0%).", "dodgeBase": 1.2 },
       "super": { "id": "faucon", "name": "Œil de faucon", "text": "Pendant 8\u00a0s, tout geste reconnu compte comme un Perfect.", "duration": 8 }
     },
     {

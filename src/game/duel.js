@@ -87,10 +87,19 @@ export async function startDuel(room, char) {
   let B = null, beat = 0, watchdog = 0, waiting = null;
   if (testMode()) window.__tsDuel = S;                               // tests (mode test seulement)
   const oppLive = () => (S.opp && S.opp.live) || 0;
+  // Attente : temps restant, au plus, de la vague de l'adversaire (sa vague a commencé à waveAt, heure du serveur ;
+  // skew = écart entre l'heure du serveur et celle de l'appareil, mesuré sur mes propres signes de vie).
+  let skew = 0;
+  const oppEta = () => {
+    const o = S.opp, at = o && !o.done && o.ko == null && ms(o.waveAt);
+    if (!at) return '';
+    const left = Math.ceil(DU().waveSeconds - (Date.now() + skew - at) / 1000);
+    return left > 1 ? fill(DU().ui.waitEta, { s: Math.min(left, DU().waveSeconds) }) : DU().ui.waitEtaSoon;
+  };
   const hud = () => {
-    const i = Math.max(0, S.active);
+    const i = Math.max(0, S.active), p = Math.round((S.pIn[i] || 0) * 100);
     G.duelHud = { wave: i + 1, total: n, label: DU().ui.waveLabel, left: S.active >= 0 ? DU().waveSeconds - (G.time - S.waveStart) : DU().waveSeconds,
-      line: fill(DU().ui.hudLine, { name: S.oppName, score: Math.round(oppLive()).toLocaleString('fr-FR') }) };
+      line: fill(DU().ui.hudLine, { name: S.oppName, score: Math.round(oppLive()).toLocaleString('fr-FR') }) + (p > 0 ? fill(DU().ui.hudPressure, { pct: p }) : '') };
   };
 
   // Résultat : null tant que rien n'est joué d'avance ; sinon { win: 'me' | 'opp' | 'tie', why, n }.
@@ -144,6 +153,7 @@ export async function startDuel(room, char) {
     if (!meta.fromCache) contact(true);
     S.opp = d.players[oppId];
     const mine = ms(d.players[uid] && d.players[uid].seen), his = ms(S.opp && S.opp.seen);
+    if (!meta.fromCache && !meta.pending && mine && mine !== S.mySeen) { S.mySeen = mine; skew = mine - Date.now(); }
     if (!meta.fromCache && !meta.pending && mine && his && mine - his > DISC && !(S.opp.done || S.opp.ko !== null)) S.disconnected = true;
     if (waiting) waiting();
     if (S.ko !== null || S.done || S.disconnected || (S.opp && S.opp.quit)) check();
@@ -186,7 +196,7 @@ export async function startDuel(room, char) {
           S.pIn[i] = pressureFrom(S.opp.scores[i - 1], maxScore(i - 1, S.pOut[i - 1], plan, bossSprite));
           S.pOut[i] = pressureFrom(S.scores[i - 1], maxScore(i - 1, S.pIn[i - 1], plan, bossSprite));
           G.paused = true;
-          showBanner(fill(DU().ui.pressure, { name: S.oppName, de: deName(S.oppName), pct: Math.round(S.pIn[i] * 100) }), DU().bannerSeconds)
+          showBanner(fill(DU().ui.pressure, { name: S.oppName, pct: Math.round(S.pIn[i] * 100) }), DU().bannerSeconds)
             .then(() => { S.stage[i] = 'go'; G.paused = false; });
           return false;
         }
@@ -215,7 +225,7 @@ export async function startDuel(room, char) {
           S.scores[i] = G.score - S.base; S.ko = i;
           setMine({ scores: S.scores, ko: i, live: G.score });
         }
-        showWaitResult(fill(DU().ui.waitKo, { name: S.oppName, de: deName(S.oppName) }), () => (S.opp && S.opp.live) || 0, api.quit);
+        showWaitResult(fill(DU().ui.waitKo, { name: S.oppName, de: deName(S.oppName) }), oppLive, oppEta, api.quit);
         check();
         return;
       }
@@ -235,7 +245,7 @@ export async function startDuel(room, char) {
 
   /** Écran d'attente (l'autre n'a pas fini) : son score en direct ; reprend dès que ok() devient vrai. */
   function waitFor(ok, title, waveNo) {
-    const upd = () => showWait(fill(title, { name: S.oppName, de: deName(S.oppName) }), fill(DU().ui.waitWave, { n: waveNo }), oppLive(), api.quit);
+    const upd = () => showWait(fill(title, { name: S.oppName, de: deName(S.oppName) }), fill(DU().ui.waitWave, { n: waveNo }), oppLive, oppEta, api.quit);
     waiting = () => {
       if (ok()) { waiting = null; hideWait(); G.paused = false; }
       else upd();

@@ -7,6 +7,7 @@ import { sfx } from '../audio/audio.js';
 import { facets } from './icons.js';
 import { itemIcon, tpl } from './weapon-ui.js';
 import { moneyIcon } from './money.js';
+import { tipOnce } from './tips.js';
 
 let el = null;
 
@@ -43,6 +44,7 @@ function one(R) {
       <div class="rw-name ol ol-5">${R.name}</div>
       ${R.sub ? `<div class="rw-sub">${R.sub}</div>` : ''}
       <div class="rw-text">${R.text}</div>
+      ${R.tip || ''}
       <button class="res-again" data-rw="ok"><span class="ol ol-4">${R.ok}</span></button>
     </div>`;
   el.classList.remove('hidden');
@@ -74,9 +76,9 @@ export async function showRewards(list) {
   if (!list || !list.length) return;
   if (!el) build();
   const gems = list.filter(r => r.kind === 'gems'), tals = list.filter(r => r.kind === 'talisman');
-  for (const r of list.filter(r => r.kind === 'weapon')) await one(rewardHtml(r));
-  if (tals.length > 1) await one(talismansSummary(tals));
-  else if (tals.length) await one(rewardHtml(tals[0]));
+  for (const r of list.filter(r => r.kind === 'weapon')) await one({ ...rewardHtml(r), tip: tipOnce('weapons') });   // 1re arme : explication
+  if (tals.length > 1) await one({ ...talismansSummary(tals), tip: tipOnce('talismans') });
+  else if (tals.length) await one({ ...rewardHtml(tals[0]), tip: tipOnce('talismans') });
   if (gems.length > 1) await one(gemsSummary(gems));
   else if (gems.length) await one(rewardHtml(gems[0]));
   el.classList.add('hidden');

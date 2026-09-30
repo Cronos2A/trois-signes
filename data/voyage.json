@@ -6,6 +6,7 @@
   "firstWaveDelay": 0.6,
   "betweenRounds": 1.2,
   "healBetweenArenas": 0.3,
+  "chestFallback": { "note": "Coffre de l'écran « Arène découverte » quand le talisman du gardien battu est déjà possédé : de l'or à la place (une fois par arène, à sa première découverte).", "gold": 50 },
   "transition": { "duration": 2.6, "discoveryMin": 0.6 },
   "scaling": {
     "hpPerArena": 0.15,

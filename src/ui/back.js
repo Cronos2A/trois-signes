@@ -47,6 +47,7 @@ function onBack() {
   const ask = visible('.ad-card.ask [data-ad="no"]'); if (ask) { ask.click(); return true; }
   const ps = $('pseudoModal');
   if (shown(ps)) { clickFirst(['#pseudoModal [data-pa="cancel"]']); return true; }  // pseudo obligatoire, sauvegarde endommagée : on reste
+  if ($('tipBubble')) { $('tipBubble').remove(); return true; }                     // explication : « Compris »
   if (shown($('cutscene'))) { $('csSkip')?.click(); return true; }
   if (shown($('voyageTr'))) { $('voyageTr').click(); return true; }
   if (shown($('reward'))) { clickFirst(['#reward button']); return true; }

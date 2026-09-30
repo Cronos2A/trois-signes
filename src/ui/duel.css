@@ -6,6 +6,7 @@
 .du-card{max-height:calc(100dvh - 32px)}
 .du-title{font-size:32px}
 .du-sub{text-align:center;font-family:var(--font-heading);font-size:18px;color:var(--moss)}
+.du-eta{min-height:18px;text-align:center;font-size:13px;font-weight:800;color:var(--text-soft)}
 .du-text{margin:0;text-align:center;font-size:14px;font-weight:700;color:var(--text-soft)}
 .du-busy{padding:18px 0;font-size:24px}
 .du-join{display:flex;gap:8px}

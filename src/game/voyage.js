@@ -9,6 +9,7 @@ import { reachArena } from './progress.js';
 import { enemyUrl, who } from '../ui/assets.js';
 import { placeMusic } from '../audio/audio.js';
 import { syncRewards } from './rewards.js';
+import { addGold } from './economy.js';
 import { variantArt, applyVariant, voyageVariant, voyageVariants } from './variants.js';
 
 const V = () => D.voyage;
@@ -83,9 +84,13 @@ export async function voyageBattle(hooks) {
       pop(p.x, p.y - 90, '+' + Math.round(heal * 100) + ' % PV', '', '#8CF09A', 1.4, 24);
     }
     // Coffre : le talisman du gardien qu'on vient de battre (écran « Arène découverte »).
+    // Talisman déjà possédé (sauvegarde ancienne ou venue d'ailleurs) : jamais de coffre vide, de l'or à la place.
     const rewards = syncRewards().filter(r => r.kind === 'talisman');
-    const first = (reachArena(info.id, st.stage) && st.stage < ARENAS()) || rewards.length > 0;
-    return hooks.onStage({ ...info, heal, first, rewards, total: ARENAS(), lieu: B.lieu, bg: B.bg });
+    const fresh = reachArena(info.id, st.stage);
+    let gold = 0;
+    if (fresh && st.stage > 0 && !rewards.length) { gold = V().chestFallback.gold; addGold(gold); G.goldGain += gold; }
+    const first = (fresh && st.stage < ARENAS()) || rewards.length > 0 || gold > 0;
+    return hooks.onStage({ ...info, heal, first, rewards, gold, total: ARENAS(), lieu: B.lieu, bg: B.bg });
   };
   const B = {
     endless: true, xpMode: 'voyage', label: 'Round', types: {}, waves: [], art, timeLimit: 0, lieu: null, bg: null,

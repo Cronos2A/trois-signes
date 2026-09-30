@@ -61,7 +61,9 @@ function doAttack(g, cm) {
   }
 }
 
-function dodgeShare(g, cm) { return Math.min(1, G.hero.dodgeBase * g.mult * cm); }
+// Part évitée par un Rond : jamais plus de dodge.max (90 %), même en Perfect et pour Kestrel ; seuls les pouvoirs
+// (Ombre de Nyra : 3 esquives, répit de la Seconde chance : 1,5 s) évitent tout, en nombre ou en durée limités.
+function dodgeShare(g, cm) { return Math.min(D.rules.dodge.max, G.hero.dodgeBase * g.mult * cm); }
 
 function doDodge(g, cm) {
   // Leçon : la garde tient tout le long de l'anneau rouge, pour qu'un Rond tracé tôt compte quand même.
@@ -225,7 +227,7 @@ export function strike(e) {
   addFx({ kind: 'bolt', x1: e.x, y1: e.y, x2: h.x, y2: h.y, col: '#FF5D73', life: 0.25 });
   if (auto) pop(h.x, h.y - 80, 'Ombre', 'esquive automatique', G.hero.col, 1, 22);
   else if (avoid > 0) pop(h.x, h.y - 80, 'Esquive ' + Math.round(avoid * 100) + ' %', avoid >= 1 ? 'aucun dégât' : '', '#3FD7C4', 1, 20);
-  if (avoid >= 1) addScore(D.rules.dodge.perfectScore);
+  if (avoid >= D.rules.dodge.max) addScore(D.rules.dodge.perfectScore);   // esquive maximale (ou totale, par un pouvoir)
   emit('strike', { avoid });
   if (avoid > 0 && G.mode === 'play') {
     // Esquive réussie : effets d'arme (le coup a été évité, en tout ou en partie).

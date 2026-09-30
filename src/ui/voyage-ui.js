@@ -7,6 +7,8 @@ import { facets, INK } from './icons.js';
 import { sfx } from '../audio/audio.js';
 import { talismanData } from '../game/talismans.js';
 import { itemIcon, tpl } from './weapon-ui.js';
+import { moneyIcon } from './money.js';
+import { tipOnce } from './tips.js';
 
 const $ = id => document.getElementById(id);
 let el = null, close = null, finish = null, gen = 0;
@@ -74,8 +76,10 @@ export async function showTransition(info) {
   await screen(`${facets.bg()}<div class="vy-in">
       <span class="vy-kick">ARÈNE DÉCOUVERTE</span>
       <h1 class="vy-name small">${info.name}</h1>
-      ${loot.length ? `<div class="vy-chest">${chest(info.tint)}<b>${U.chestTitle}</b>${prev ? `<span>${tpl(U.chestOpened, { arena: prev.name })}</span>` : ''}
-        ${loot.map(t => `<div class="vy-loot">${itemIcon('talismans', t.id, 40)}<div><b>${t.name}</b><span>${t.text}</span></div></div>`).join('')}</div>` : ''}
+      ${loot.length || info.gold ? `<div class="vy-chest">${chest(info.tint)}<b>${U.chestTitle}</b>${prev ? `<span>${tpl(U.chestOpened, { arena: prev.name })}</span>` : ''}
+        ${loot.map(t => `<div class="vy-loot">${itemIcon('talismans', t.id, 40)}<div><b>${t.name}</b><span>${t.text}</span></div></div>`).join('')}
+        ${!loot.length && info.gold ? `<div class="vy-loot">${moneyIcon('gold', 40)}<div><b>${tpl(U.chestFallback, { n: info.gold })}</b><span>${U.chestFallbackText}</span></div></div>` : ''}
+        ${loot.length ? tipOnce('talismans') : ''}</div>` : ''}
     </div><span class="vy-tap">toucher pour continuer</span>`, grad(info.tint), 0, T.discoveryMin);
   hide();
 }

@@ -1,5 +1,5 @@
 {
-  "dodge": { "base": 0.8, "shieldDuration": 0.9, "perfectScore": 30 },
+  "dodge": { "base": 0.8, "max": 0.9, "shieldDuration": 0.9, "perfectScore": 30 },
   "pickup": {
     "radius": 55,
     "accuracyLossPerPx": 0.9,
@@ -67,6 +67,14 @@
     "textTrain": "Tu reviendras au lobby.",
     "quit": "Quitter",
     "stay": "Continuer"
+  },
+  "tips": {
+    "ok": "Compris",
+    "note": "Explications montrées une seule fois, dans un petit encadré (ou une bulle quand la place manque), la première fois qu'un système apparaît (src/ui/tips.js). {wave}, {cap}, {win}, {loss} : tirés de data/duel.json.",
+    "weapons": { "title": "Les armes", "text": "Chaque héros a trois armes de même force : elles changent le style de combat, pas la puissance. Équipe-les dans l'onglet Personnage. Une arme gagne de l'XP dans le Voyage et en Histoire, jusqu'au niveau 10." },
+    "talismans": { "title": "Les talismans", "text": "Chaque gardien du Voyage battu donne un talisman. Chaque héros peut en porter un, à équiper dans l'onglet Personnage." },
+    "prints": { "title": "Les Empreintes", "text": "En Duel au hasard : +{win} pour une victoire, −{loss} pour une défaite. Elles ouvrent de nouvelles arènes de Duel et te classent parmi les joueurs." },
+    "duel": { "title": "Comment se joue un Duel", "text": "Vous affrontez les mêmes ennemis, vague par vague ({wave} s au plus). Tes points sur une vague durcissent la suivante de ton adversaire : c'est la pression (jusqu'à +{cap} %). Le plus gros score total gagne ; un KO fait perdre." }
   },
   "orientation": {
     "note": "Jeu en portrait seulement (src/ui/orient.js, manifest.webmanifest). Téléphone tourné en paysage : écran « Tourne ton téléphone » ; la partie est en pause pendant ce temps (sauf en Duel, qui ne s'arrête jamais).",

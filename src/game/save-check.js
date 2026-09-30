@@ -26,6 +26,7 @@ const SHAPE = {
   duel: v => isObj(v) && (v.prints === undefined || isNum(v.prints)),
   ads: isObj,
   played: isObj,
+  tips: isObj,
   best: isNum,
   active: v => typeof v === 'string'
 };

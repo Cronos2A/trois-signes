@@ -33,6 +33,7 @@ function ensureDefaults() {
   // Le Voyage : arène la plus lointaine atteinte (index, 8 = Au-delà du Silence) et arènes déjà découvertes.
   // Le meilleur score reste prog.best.
   if (!prog.voyage) prog.voyage = { maxArena: -1, found: [] };
+  if (!prog.tips) prog.tips = {};                                  // explications déjà montrées (ui/tips.js)
   fill(prog.voyage, { maxArena: -1, found: [], beaten: [] });   // beaten : arènes dont le gardien a été battu (talismans)
   // Armes et talismans : XP par arme ; armes et talismans débloqués ; arme et talisman équipés par héros.
   if (!prog.weapons) prog.weapons = {};
