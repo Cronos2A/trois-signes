@@ -369,11 +369,14 @@ function renderSettings() {
     </div>`;
 }
 
+/** Nom d'une langue dans la langue active (settings.langNames), sinon son nom d'origine (languages.json). */
+const langName = l => { const k = 'settings.langNames.' + l.id, s = tr(k); return s === k ? l.name : s; };
+
 /** Langue : celles de data/i18n/languages.json ; une langue pas encore traduite s'affiche en français (repli). */
 function langHtml() {
   const chips = languages().map(l => {
     const on = l.id === language();
-    return `<button class="chip${on ? ' on' : ''}" data-act="setLang" data-arg="${l.id}" aria-pressed="${on}" lang="${l.id}">${l.ready ? l.name : tr('settings.langSoon', { name: l.name })}</button>`;
+    return `<button class="chip${on ? ' on' : ''}" data-act="setLang" data-arg="${l.id}" aria-pressed="${on}">${l.ready ? langName(l) : tr('settings.langSoon', { name: langName(l) })}</button>`;
   }).join('');
   return `<div class="set-row"><span class="set-label">${tr('settings.language')}</span><div class="chips set-chips set-langs">${chips}</div></div>`;
 }

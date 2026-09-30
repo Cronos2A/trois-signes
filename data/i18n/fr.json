@@ -216,7 +216,14 @@
     "vibrate": "Vibrations",
     "credits": "Crédits",
     "language": "Langue",
-    "langSoon": "{name} (bientôt)"
+    "langSoon": "{name} (bientôt)",
+    "langNames": {
+      "fr": "Français",
+      "en": "Anglais",
+      "it": "Italien",
+      "es": "Espagnol",
+      "de": "Allemand"
+    }
   },
   "results": {
     "voyageEnd": "Fin du voyage",

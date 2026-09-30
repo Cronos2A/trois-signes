@@ -44,10 +44,21 @@ export async function loadI18n() {
 /** Textes des autres fichiers de data/ dans la langue active (section « data » du fichier de langue). */
 export function applyLanguageData(D) { if (cur.data) applyDataOverlay(D, cur.data); }
 
-/** Superpose les textes traduits aux fichiers de données (même chemin : { economy: { ui: { buy: "Buy" } } }). */
+/**
+ * Superpose les textes traduits aux fichiers de données (même chemin : { economy: { ui: { buy: "Buy" } } }).
+ * Tableau d'objets ou de tableaux (héros, répliques…) : fusionné case par case (seuls les textes sont donnés, null = case
+ * inchangée) ; tableau de textes : remplacé en entier.
+ */
 function applyDataOverlay(target, over) {
   for (const [k, v] of Object.entries(over)) {
-    if (v && typeof v === 'object' && !Array.isArray(v) && target[k] && typeof target[k] === 'object') applyDataOverlay(target[k], v);
+    const t = target[k];
+    if (Array.isArray(v) && Array.isArray(t) && v.some(x => x && typeof x === 'object')) {
+      v.forEach((x, i) => {
+        if (x == null) return;
+        if (typeof x === 'object' && t[i] && typeof t[i] === 'object') applyDataOverlay(t[i], x);
+        else t[i] = x;
+      });
+    } else if (v && typeof v === 'object' && !Array.isArray(v) && t && typeof t === 'object') applyDataOverlay(t, v);
     else target[k] = v;
   }
 }

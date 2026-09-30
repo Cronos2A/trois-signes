@@ -1,0 +1,334 @@
+{
+  "note": "English interface texts. Keys missing here fall back to French (fr.json). Texts from the other data/ files are translated in the \"data\" section, same path as in the original file.",
+  "units": {
+    "seconds": "{n}s",
+    "xp": "{n} XP",
+    "hp": "{n} HP",
+    "points": {
+      "one": "point",
+      "other": "points"
+    },
+    "hpGain": "+{n} HP",
+    "pctHp": "+{pct}% HP",
+    "goldGain": "+{n} gold"
+  },
+  "hud": {
+    "quit": "Quit",
+    "skip": "Skip",
+    "lesson": "LESSON",
+    "boss": "BOSS",
+    "guardian": "GUARDIAN",
+    "round": "ROUND",
+    "wave": "WAVE",
+    "super": "SUPER",
+    "streak": "Streak",
+    "streakMult": "Streak ×{m}",
+    "gaugeTitle": "Super gauge",
+    "score": "SCORE",
+    "superAria": "Unleash the super attack"
+  },
+  "battle": {
+    "wave": "Wave",
+    "round": "Round",
+    "lesson": "Lesson",
+    "numbered": "{label} {n}"
+  },
+  "signs": {
+    "triangle": "Triangle",
+    "circle": "Circle",
+    "tap": "Tap"
+  },
+  "combat": {
+    "noTarget": "No target",
+    "autoDodge": "auto-dodge",
+    "dodgePct": "Dodge {pct}%",
+    "noDamage": "no damage",
+    "attack": "Attack",
+    "dodge": "Dodge",
+    "combo": "{grade} combo",
+    "comboEffect": "effect ×{m}",
+    "eldanGuardSub": "he's guarding",
+    "eldanCallSub": "he calls a Hollowed",
+    "tooLate": "Too late",
+    "tooLateSub": "draw the Circle during the warning",
+    "pickup": "Pickup",
+    "gradeLine": "{label} · {acc}%"
+  },
+  "train": {
+    "intro": "Draw triangles and circles, tap the items. Your accuracy shows after every gesture.",
+    "pickup": "{grade} pickup",
+    "pickupCombo": "{grade} pickup, combo ×{m}",
+    "tapMiss": "Nothing there: tap a coin or a heart.",
+    "fail": "{reason}. Streak reset.",
+    "missedAttack": "Attack missed: {acc}% accuracy ({min}% needed). Streak reset.",
+    "missedDodge": "Dodge missed: {acc}% accuracy ({min}% needed). Streak reset.",
+    "attack": "{grade} attack: {dmg} damage",
+    "attackCombo": "{grade} attack: {dmg} damage (combo ×{m})",
+    "dodge": "{grade} dodge: {pct}% of the damage avoided",
+    "dodgeCombo": "{grade} dodge: {pct}% of the damage avoided + counter (combo)",
+    "streak": ". {grade} streak: {n}/{len}"
+  },
+  "error": {
+    "load": "Couldn't load the game data ({msg})."
+  },
+  "common": {
+    "tapSkip": "tap to skip",
+    "tapContinue": "tap to continue",
+    "back": "Back",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "soon": "Soon",
+    "continue": "Continue",
+    "play": "Play",
+    "replay": "Play again",
+    "retry": "Retry",
+    "later": "Later",
+    "labelValue": "{label}: {value}",
+    "ok": "OK"
+  },
+  "voyage": {
+    "kickArena": "ARENA {n} / {total}",
+    "kickBeyond": "ENDLESS",
+    "discovered": "ARENA DISCOVERED"
+  },
+  "dialogue": {
+    "note": "Articles and titles removed from a name to find the initial shown in place of a missing portrait.",
+    "titles": [
+      "The ",
+      "Sir ",
+      "Madam ",
+      "Aunt ",
+      "Captain ",
+      "Master ",
+      "Mr "
+    ],
+    "skip": "Skip"
+  },
+  "lesson": {
+    "range": "{min}–{max}%"
+  },
+  "gestures": {
+    "tooSmall": "Shape too small",
+    "notClosed": "Shape not closed",
+    "fourCorners": "4 corners: draw a triangle",
+    "unknown": "Shape not recognised"
+  },
+  "money": {
+    "gold": "gold",
+    "gems": "gems",
+    "goldAmount": "{n} gold",
+    "gemsAmount": "{n} gems",
+    "pct": "{n}%",
+    "plusPct": "+{n}%"
+  },
+  "story": {
+    "victoryToast": "Victory! +{xp} XP · +{gold} gold",
+    "title": "Story Mode",
+    "fragments": "MEMORY FRAGMENTS",
+    "found": "Found",
+    "eldanSoon": "The Master · coming soon",
+    "eldanUnknown": "???",
+    "eldanLocked": "Finish all six stories",
+    "backLobby": "Back to the lobby",
+    "backStories": "Back to the stories",
+    "stepAria": "Step {n}: {title}",
+    "heroStory": "{of} STORY",
+    "waves": {
+      "one": "{n} wave",
+      "other": "{n} waves"
+    },
+    "lastIs": "{type} in the last one",
+    "stepKick": "STEP {n} · {type}",
+    "lockedStep": "Finish step {n} to unlock",
+    "ko": "KO",
+    "reviewDialogue": "Replay the dialogue",
+    "victory": "Victory",
+    "heroXp": "Hero {v}",
+    "finished": "{title} · COMPLETE",
+    "fragmentFound": "Memory fragment recovered",
+    "memory": "A memory comes back to Master Eldan",
+    "newCharacter": "NEW CHARACTER",
+    "eldanTitle": "the Master",
+    "eldanSoonLong": "His story is coming soon",
+    "seeCharacter": "See the character"
+  },
+  "of": {
+    "note": "Possessive of each place and hero, written out in full (\"{of}\" variable).",
+    "hero": {
+      "aldric": "Aldric's",
+      "nyra": "Nyra's",
+      "boran": "Boran's",
+      "ilwen": "Ilwen's",
+      "kestrel": "Kestrel's",
+      "mira": "Mira's"
+    },
+    "arena": {
+      "foret_mousse": "of the Moss Forest",
+      "hautes_gerbes": "of Hautes-Gerbes",
+      "fontclaire": "of Fontclaire",
+      "velis_toits": "of the Rooftops of Vélis",
+      "aubelle_biblio": "of Aubelle Library",
+      "col_vents": "of the Windy Pass",
+      "ecole_ruines": "of the School of Signs",
+      "coeur_silence": "of the Heart of Silence"
+    }
+  },
+  "lobby": {
+    "tabs": {
+      "play": "Play",
+      "char": "Hero",
+      "shop": "Shop"
+    },
+    "settingsAria": "Settings",
+    "pseudoAria": "Username",
+    "gold": "Gold",
+    "gems": "Gems",
+    "soloKicker": "SOLO · {name}",
+    "record": "{name}: best {n}",
+    "farthest": "Furthest arena:",
+    "none": "none",
+    "lesson": "Replay the lesson",
+    "training": "Training",
+    "pve": "PVE",
+    "pvp": "PVP",
+    "solo": "Solo",
+    "soloSub": "The Journey",
+    "story": "Story",
+    "storySub": "6 heroes · 10 battles",
+    "duel": "Duel",
+    "activeChar": "Active hero",
+    "playWith": "Play as {name}",
+    "availableSoon": "Coming soon",
+    "prevChar": "Previous hero",
+    "nextChar": "Next hero",
+    "passive": "PASSIVE",
+    "super": "SUPER",
+    "attack": "Attack {n}",
+    "beginner": "Great for beginners"
+  },
+  "settings": {
+    "title": "Settings",
+    "music": "Music",
+    "sfx": "Sound effects",
+    "volume": "{name} volume",
+    "vibrate": "Vibration",
+    "credits": "Credits",
+    "language": "Language",
+    "langSoon": "{name} (soon)",
+    "langNames": {
+      "fr": "French",
+      "en": "English",
+      "it": "Italian",
+      "es": "Spanish",
+      "de": "German"
+    }
+  },
+  "results": {
+    "voyageEnd": "End of the Journey",
+    "victory": "Victory",
+    "ko": "KO",
+    "timeUp": "Time's up",
+    "combos": "Combos",
+    "newRecord": "New best!",
+    "arena": "Arena {n} / {total}",
+    "beyond": "Endless",
+    "where": "{stage}: {name} · round {round} / {rounds}",
+    "scoreLine": "{score} {points} in {time}s",
+    "scoreLineRecord": "{score} {points} in {time}s · new best!",
+    "home": "Back to the lobby"
+  },
+  "app": {
+    "title": "Three Signs"
+  },
+  "grammar": {
+    "of": {
+      "note": "Possessive of a player's username (ofName, src/i18n.js): first matching rule, else \"default\". Names ending in s take a bare apostrophe.",
+      "rules": [
+        {
+          "match": "[sS]$",
+          "out": "{name}'"
+        }
+      ],
+      "default": "{name}'s"
+    }
+  },
+  "daily": {
+    "button": "Rewards",
+    "title": "Rewards",
+    "dayTitle": "Daily reward",
+    "streakTitle": "7-DAY STREAK",
+    "streakNote": "Come back every day: miss a day and the streak goes back to day 1.",
+    "calNote": "Every day you log in counts, even after a break.",
+    "claim": "Claim",
+    "claimed": "Claimed!",
+    "claimedToday": "Claimed today",
+    "already": "Already claimed today.",
+    "comeBack": "Come back tomorrow for more.",
+    "offline": "Claim it as soon as you're back online",
+    "loading": "Connecting to the server…",
+    "adDouble": "Double the gold with an ad",
+    "adBonus": "Bonus: +{n} gold with an ad",
+    "adDone": "+{n} gold from the ad",
+    "boost": {
+      "xp": "XP ×{m}",
+      "gold": "Gold ×{m}"
+    },
+    "boostText": {
+      "xp": "Doubles hero and weapon XP.",
+      "gold": "Doubles the gold you earn."
+    },
+    "games": {
+      "one": "{n} game",
+      "other": "{n} games"
+    },
+    "drawColor": "Random colour",
+    "drawTrail": "Random trail",
+    "fallback": "You own everything: +{n} gold instead",
+    "stockFull": "Boost stock full: +{n} gold instead",
+    "gemsFor": "Login reward",
+    "newCosmetic": "NEW COSMETIC",
+    "cosmeticsMany": {
+      "one": "{n} new cosmetic",
+      "other": "{n} new cosmetics"
+    },
+    "fromDraw": "Login reward: a cosmetic you didn't have yet.",
+    "fromChest": "Free basic chest from the calendar.",
+    "rewardOk": "Great!",
+    "boostsTitle": "BOOST STOCK",
+    "boostsNote": "One active boost per type. A game counts when it ends (win, loss, or quitting after one round). Journey and Story only, never in Duel.",
+    "stock": "In stock: {n} / {max}",
+    "noStock": "None in stock",
+    "activeLeft": {
+      "one": "Active: {n} game left",
+      "other": "Active: {n} games left"
+    },
+    "isActive": "Active",
+    "activate": "Activate",
+    "activated": "{name} activated",
+    "offerTitle": "Activate a boost?",
+    "offerText": "You have boosts in stock. An active boost counts for this game and the next ones.",
+    "offerPlay": "Play",
+    "shopTab": "Boosts",
+    "shopNote": "Up to {max} boosts in stock per type. Journey and Story only, never in Duel or Training.",
+    "full": "Stock full",
+    "bought": "Boost added to your stock",
+    "notEnoughGold": "Not enough gold",
+    "testNext": "Rewards: +1 day",
+    "testSkip": "+2 days (missed day)",
+    "testReset": "Reset rewards and boosts",
+    "testState": "Simulated day: +{offset} · streak {streak} / {streakMax} · calendar {cal} / {calMax}",
+    "times": "× {n}",
+    "streakKick": "STREAK · DAY {n}",
+    "calKick": "CALENDAR · DAY {n}",
+    "streakDayShort": "Day {n}",
+    "calTitleLong": "CALENDAR · {n} DAYS",
+    "calCountShort": "{n} / {total}",
+    "stockGames": "In stock: {list}",
+    "count": "×{n}",
+    "hudLeft": "{n}"
+  },
+  "pseudo": {
+    "reserved": "This username is reserved: pick another one."
+  }
+}

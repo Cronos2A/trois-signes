@@ -12,7 +12,7 @@
       "id": "en",
       "name": "English",
       "locale": "en-GB",
-      "ready": false
+      "ready": true
     },
     {
       "id": "it",
