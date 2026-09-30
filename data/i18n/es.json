@@ -496,6 +496,38 @@
           "text": "+10 % de XP de arma."
         }
       ]
+    },
+    "voyage": {
+      "name": "El Viaje",
+      "arenas": [
+        {
+          "name": "Bosque de Musgo"
+        },
+        {
+          "name": "Hautes-Gerbes"
+        },
+        {
+          "name": "Fontclaire"
+        },
+        {
+          "name": "Tejados de Vélis"
+        },
+        {
+          "name": "Biblioteca de Aubelle"
+        },
+        {
+          "name": "Paso de los Vientos"
+        },
+        {
+          "name": "Escuela de los Signos"
+        },
+        {
+          "name": "El Corazón del Silencio"
+        }
+      ],
+      "beyond": {
+        "name": "Más allá del Silencio"
+      }
     }
   }
 }
