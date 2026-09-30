@@ -1787,7 +1787,247 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "Il campo silenzioso",
+          "cinematique_ouverture": [
+            {
+              "texte": "A Hautes-Gerbes, il grano arriva alle spalle. Tranne a quelle di Boran."
+            },
+            {
+              "texte": "Ultimo covone della stagione, fratellone! Dopo questo, dormiamo una settimana."
+            },
+            {
+              "texte": "Tu dormi. Io riparo il fienile."
+            },
+            {
+              "texte": "Da bambino, Boran aveva imparato tre gesti da un vecchio viaggiatore, come un gioco. Credeva di averli dimenticati."
+            },
+            {
+              "texte": "Quella sera il grano diventò grigio. E Oren smise di ridere."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Il raccolto",
+              "dialogue_avant": [
+                {
+                  "texte": "Gente nel campo. Camminano sul grano…"
+                },
+                {
+                  "texte": "Fuori dal mio campo."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Boran… ho freddo…"
+                },
+                {
+                  "texte": "Oren?"
+                }
+              ]
+            },
+            {
+              "titre": "I vicini cambiati",
+              "dialogue_avant": [
+                {
+                  "texte": "I vicini di sempre avanzano verso la fattoria. Senza una parola."
+                },
+                {
+                  "texte": "Vecchio Lucas. Signora Anselme. Vi ho portato i sacchi di farina per dieci anni…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Non mi riconoscono più. Ma io mi ricordo di loro. Conterà."
+                }
+              ]
+            },
+            {
+              "titre": "Il fienile assediato",
+              "dialogue_avant": [
+                {
+                  "texte": "Boran! Siamo tutti nel fienile, stanno per entrare!"
+                },
+                {
+                  "texte": "Non entra nessuno."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Sei il più forte del mondo."
+                },
+                {
+                  "texte": "No. Solo il più pesante."
+                }
+              ]
+            },
+            {
+              "titre": "La strada delle colline",
+              "dialogue_avant": [
+                {
+                  "texte": "Andiamo verso le colline. I bambini davanti, io dietro."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Alle loro spalle, la fattoria scompare nella nebbia grigia. Boran non si volta."
+                },
+                {
+                  "texte": "Oren è rimasto laggiù."
+                }
+              ]
+            },
+            {
+              "titre": "Il Toro di pietra",
+              "dialogue_avant": [
+                {
+                  "texte": "Tonnerre, il toro della tenuta, carica il convoglio. Le sue corna sono diventate di pietra grigia."
+                },
+                {
+                  "texte": "Tonnerre. Piano, bello. Sono io."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Cosa ho appena fatto?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Boran afferra le corna del toro e tiene duro. A lungo."
+                },
+                {
+                  "texte": "Poi, invece di colpire, gli posa la mano sulla fronte. Il Tocco."
+                },
+                {
+                  "texte": "Un soffio caldo. Per un secondo, Tonnerre torna marrone, e lo guarda."
+                },
+                {
+                  "texte": "Il gioco del vecchio viaggiatore… Non era un gioco."
+                }
+              ]
+            },
+            {
+              "titre": "Incontro: Mira",
+              "dialogue_avant": [
+                {
+                  "texte": "Non colpirlo! Quello posso ancora curarlo!"
+                },
+                {
+                  "texte": "Ci sta attaccando."
+                },
+                {
+                  "texte": "Ha paura. Non è la stessa cosa. Tieni lontani gli altri, al resto penso io."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Lo Svuotato curato da Mira si guarda le mani, sorride, poi si spegne dolcemente."
+                },
+                {
+                  "texte": "L'hai salvato?"
+                },
+                {
+                  "texte": "Per un istante. A volte, un istante è già tanto."
+                }
+              ]
+            },
+            {
+              "titre": "Il campo profughi",
+              "dialogue_avant": [
+                {
+                  "texte": "Il campo è pieno. Ci serve qualcuno che sorvegli la palizzata."
+                },
+                {
+                  "texte": "Ci sono io."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Boran, resti con noi, vero?"
+                },
+                {
+                  "texte": "Finché servirà."
+                }
+              ]
+            },
+            {
+              "titre": "La lunga guardia",
+              "dialogue_avant": [
+                {
+                  "texte": "La notte più lunga. Boran, da solo davanti alla palizzata."
+                },
+                {
+                  "texte": "Fino all'alba."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Il sole sorge. La palizzata regge. Anche Boran."
+                }
+              ]
+            },
+            {
+              "titre": "L'Aratore",
+              "dialogue_avant": [
+                {
+                  "texte": "…un fratello… avevo un fratello… grande… lento…"
+                },
+                {
+                  "texte": "Sempre il solito impertinente, Oren."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Dormi, fratellino."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Boran si toglie i guanti d'arme. Non ha più voglia di colpire."
+                },
+                {
+                  "texte": "Posa la mano sulla fronte del fratello, come con Tonnerre. Il Tocco."
+                },
+                {
+                  "texte": "Fratellone… il fienile… l'hai riparato?"
+                },
+                {
+                  "texte": "Non ancora. Aspettavo te."
+                },
+                {
+                  "texte": "Oren si addormenta, sereno. In lontananza, Mira indica una radura bianca."
+                }
+              ]
+            },
+            {
+              "titre": "Il Cuore del Silenzio",
+              "dialogue_avant": [
+                {
+                  "texte": "…un bambino… campi di grano… gli ho insegnato un gioco…"
+                },
+                {
+                  "texte": "Eravate voi. Il vecchio viaggiatore."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Boran non sferra l'ultimo colpo. Tende la mano."
+            },
+            {
+              "texte": "Il piccolo di Hautes-Gerbes… Sei cresciuto. Sei cresciuto parecchio."
+            },
+            {
+              "texte": "Mi avete insegnato un gioco. Mi è servito."
+            },
+            {
+              "texte": "Un frammento di memoria torna al maestro."
+            }
+          ]
+        },
         null,
         null,
         null
