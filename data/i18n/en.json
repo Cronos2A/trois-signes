@@ -1562,7 +1562,229 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "The Debt",
+          "cinematique_ouverture": [
+            {
+              "texte": "Vélis, the city of a thousand rooftops. And Nyra, the fastest thief of them all."
+            },
+            {
+              "texte": "One purse, two purses… Honestly, it's almost too easy."
+            },
+            {
+              "texte": "In her pocket, always, an old folded paper. A debt, written in a stranger's hand."
+            },
+            {
+              "texte": "“Eldan.” One day I'll find you, old man. And we'll be even."
+            },
+            {
+              "texte": "That night, for the first time, the guards chasing her had no faces."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "The Rooftops of Vélis",
+              "dialogue_avant": [
+                {
+                  "texte": "Guards usually shout. These ones don't say a word…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Right. New rule: we don't steal from people with no faces."
+                }
+              ]
+            },
+            {
+              "titre": "The Forgetting Market",
+              "dialogue_avant": [
+                {
+                  "texte": "The great market of Vélis. The merchants no longer remember what they sell."
+                },
+                {
+                  "texte": "…apples… no… what is an apple…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Old Tobbin gave me credit since I was six. He didn't even recognise me."
+                }
+              ]
+            },
+            {
+              "titre": "The Hideout",
+              "dialogue_avant": [
+                {
+                  "texte": "The guild will know what to do. The guild always knows what to do."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "The Cats of Vélis… All of them. There's only me left."
+                }
+              ]
+            },
+            {
+              "titre": "The Old Man's Trail",
+              "dialogue_avant": [
+                {
+                  "texte": "An old man was drawing circles of light near the East Gate. He said he was looking for his memories."
+                },
+                {
+                  "texte": "Eldan…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "East Gate. This time, the old man won't get away."
+                }
+              ]
+            },
+            {
+              "titre": "The Guild Leader",
+              "dialogue_avant": [
+                {
+                  "texte": "…a little one… there was a little one… faster than all the others…"
+                },
+                {
+                  "texte": "That was me, Sorel. That was me."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "My debt… not what I think? What did she mean?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Madam Sorel collapses, a grey dagger still in her hand."
+                },
+                {
+                  "texte": "Nyra… your debt… it isn't what you think…"
+                },
+                {
+                  "texte": "What? Sorel, wait!"
+                },
+                {
+                  "texte": "Too late. The Silence has taken her back."
+                }
+              ]
+            },
+            {
+              "titre": "Encounter: Aldric",
+              "dialogue_avant": [
+                {
+                  "texte": "You. You're following the same trail as me."
+                },
+                {
+                  "texte": "And you walk like a wardrobe. An old man, circles of light, ring any bells?"
+                },
+                {
+                  "texte": "He's my master."
+                },
+                {
+                  "texte": "Then we've got a problem in common. And a dozen Hollowed, too."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "You fight well, for a wardrobe."
+                },
+                {
+                  "texte": "… Thanks?"
+                }
+              ]
+            },
+            {
+              "titre": "The Register",
+              "dialogue_avant": [
+                {
+                  "texte": "In the archives of Vélis, an old register of foundlings."
+                },
+                {
+                  "texte": "There has to be a record of my debt somewhere…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "“Child, four years old, saved from a fire by the traveller Eldan. Nothing owed.”"
+                },
+                {
+                  "texte": "It wasn't a debt. It was a reminder. So I wouldn't forget him."
+                }
+              ]
+            },
+            {
+              "titre": "The Mimicking Shadows",
+              "dialogue_avant": [
+                {
+                  "texte": "They move like me… Did they learn by watching me?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Copying the gestures is easy. Knowing why you make them is another story."
+                }
+              ]
+            },
+            {
+              "titre": "The Reflection",
+              "dialogue_avant": [
+                {
+                  "texte": "Without him, you'd have died in the fire. Or you'd be me. Alone, fast… and empty."
+                },
+                {
+                  "texte": "Alone and fast, sure. But not empty."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Goodbye, me."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "The Reflection shatters into a thousand shards of grey glass."
+                },
+                {
+                  "texte": "…then remember… for both of us…"
+                },
+                {
+                  "texte": "That's the plan."
+                },
+                {
+                  "texte": "Far away, beyond the East Gate, a white clearing where nothing grows any more."
+                }
+              ]
+            },
+            {
+              "titre": "The Heart of Silence",
+              "dialogue_avant": [
+                {
+                  "texte": "…a little girl… a fire… I carried her… what was her name…"
+                },
+                {
+                  "texte": "Nyra. Her name is Nyra, you old fool. And she's come to return the favour."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Nyra's dagger doesn't strike the master. It slices through the Silence around him."
+            },
+            {
+              "texte": "Nyra… You've grown."
+            },
+            {
+              "texte": "And you've got old. We're even now."
+            },
+            {
+              "texte": "A memory fragment returns to the master."
+            }
+          ]
+        },
         null,
         null,
         null,
