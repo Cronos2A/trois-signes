@@ -128,7 +128,7 @@ export async function voyageBattle(hooks) {
       list = list.slice(0, max);
       B.waves[i] = {
         enemies: list, boss: !!gid,
-        title: gid ? B.types[gid].name : 'Round ' + (st.round + 1),
+        title: gid ? B.types[gid].name : tr('battle.numbered', { label: tr('battle.round'), n: st.round + 1 }),
         color: gid ? '#FF5A3C' : undefined
       };
       return true;

@@ -5,7 +5,7 @@ import { prog } from '../game/progress.js';
 import { setPseudo, pseudo, onlineState, onOnlineChange } from '../online/online.js';
 import { checkPseudo, suggestPseudo } from '../online/pseudo.js';
 import { sfx } from '../audio/audio.js';
-import { nfi, dateText } from '../i18n.js';
+import { tr, nfi, dateText } from '../i18n.js';
 
 const U = () => D.online.ui;
 const $ = id => document.getElementById(id);
@@ -69,7 +69,7 @@ function statusText(s) {
 /** Bloc Compte des Réglages : pseudo, état du serveur, « Lier mon compte Google » (plus tard). */
 export function accountHtml() {
   return `<div class="set-row acc-row"><span class="set-label">${U().account}</span>
-      <div class="acc-line"><span class="acc-pseudo">${U().pseudoLabel} : <b>${esc(pseudo() || '—')}</b></span>
+      <div class="acc-line"><span class="acc-pseudo">${tr('common.labelValue', { label: U().pseudoLabel, value: '<b>' + esc(pseudo() || '—') + '</b>' })}</span>
         <button class="chip acc-edit" data-act="pseudoEdit">${U().edit}</button></div>
       <span class="acc-status" id="accStatus">${statusText(onlineState())}</span>
       <button class="mini-btn acc-google" disabled aria-disabled="true">${U().google}<small>${U().googleSoon}</small></button>

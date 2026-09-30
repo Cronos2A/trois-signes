@@ -59,7 +59,7 @@ export function initLobby(a) {
     const k = e.target.dataset.vol;
     if (!k) return;
     setSetting(k, e.target.value / 100);
-    e.target.nextElementSibling.textContent = e.target.value + ' %';
+    e.target.nextElementSibling.textContent = tr('money.pct', { n: e.target.value });
     e.target.style.setProperty('--v', e.target.value + '%');
   });
   root.addEventListener('change', e => { if (e.target.dataset.vol === 'sfx') sfx('ui_clic'); });
@@ -351,7 +351,7 @@ function renderSettings() {
   const vol = (k, label) => {
     const v = Math.round(settings[k] * 100);
     return `<div class="set-row"><span class="set-label">${label}</span>
-      <div class="set-vol"><input type="range" min="0" max="100" step="5" value="${v}" data-vol="${k}" aria-label="${tr('settings.volume', { name: label })}" style="--v:${v}%"><b>${v} %</b></div></div>`;
+      <div class="set-vol"><input type="range" min="0" max="100" step="5" value="${v}" data-vol="${k}" aria-label="${tr('settings.volume', { name: label })}" style="--v:${v}%"><b>${tr('money.pct', { n: v })}</b></div></div>`;
   };
   const pick = (key, label, opts) => `<div class="set-row"><span class="set-label">${label}</span>
       <div class="chips set-chips">${opts.map(([val, txt, on]) =>

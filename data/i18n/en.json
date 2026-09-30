@@ -428,6 +428,9 @@
         "testGrace": "Skip the 10 min",
         "testResetAds": "Reset ads",
         "testState": "Play time: {min} min · Journey games: {games}"
+      },
+      "noAds": {
+        "price": "€2.99"
       }
     },
     "talismans": {
