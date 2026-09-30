@@ -350,6 +350,16 @@
       "boss": {
         "name": "Jefe"
       }
+    },
+    "progression": {
+      "ui": {
+        "level": "Nv {lvl}",
+        "levelLong": "Nivel {lvl}",
+        "levelMax": "Nv {lvl} · MÁX",
+        "barMax": "MÁX",
+        "reached": "¡Nivel {lvl} alcanzado!",
+        "maxReached": "¡Nivel máximo alcanzado!"
+      }
     }
   }
 }
