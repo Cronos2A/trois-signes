@@ -820,6 +820,162 @@
         "continue": "Continuar",
         "arena": "Arena: {name}"
       }
+    },
+    "weapons": {
+      "style": {
+        "label": "Efecto de estilo completo"
+      },
+      "gauge": {
+        "label": "Barra de súper un 10 % más rápida"
+      },
+      "gold": {
+        "label": "Destello dorado del arma en combate"
+      },
+      "ui": {
+        "cardTitle": "ARMAS",
+        "styleTitle": "Efecto de estilo",
+        "stylePower": "Fuerza {pct} %",
+        "equipped": "Equipada",
+        "equip": "Equipar",
+        "maxLevel": "Nivel máx.",
+        "level": "Nivel {n}",
+        "levelShort": "Nv {n}",
+        "levelUp": "¡Nivel {n}!",
+        "xp": "{cur} / {need} XP",
+        "gain": "{name} +{n} XP",
+        "noBonus": "Aún sin bonificación",
+        "attackBonus": "Ataque +{pct} %",
+        "next": "Nivel {n}: {text}",
+        "counter": "Contraataque",
+        "reflect": "Reflejo",
+        "burn": "Quemadura",
+        "shot": "Disparo",
+        "rewardKick": "NUEVA ARMA",
+        "rewardFor": "Para {hero}",
+        "rewardOk": "Continuar"
+      },
+      "weapons": {
+        "epee": {
+          "name": "Espada",
+          "style": {
+            "text": "Cada combo devuelve {comboHeal} PV."
+          }
+        },
+        "hache_fendeuse": {
+          "name": "Hacha partidora",
+          "lock": "Gana el combate 5 de tu historia",
+          "style": {
+            "text": "Un Perfect golpea también a un 2.º enemigo con el {cleaveOnPerfect} % del daño."
+          }
+        },
+        "lance_garde_fou": {
+          "name": "Lanza baranda",
+          "lock": "Gana el combate 10 de tu historia",
+          "style": {
+            "text": "Tras una esquiva lograda, el siguiente ataque hace +{afterDodgeDamage} %."
+          }
+        },
+        "dague": {
+          "name": "Daga",
+          "style": {
+            "text": "Ataques Perfect: +{perfectDamage} % de daño."
+          }
+        },
+        "couteaux_lancer": {
+          "name": "Cuchillos arrojadizos",
+          "lock": "Gana el combate 5 de tu historia",
+          "style": {
+            "text": "Apunta siempre al enemigo más débil; cada enemigo vencido da +{gaugePerKill} de barra de súper."
+          }
+        },
+        "lame_ombre": {
+          "name": "Hoja de sombra",
+          "lock": "Gana el combate 10 de tu historia",
+          "style": {
+            "text": "Una esquiva Perfect lanza un contraataque gratis ({perfectDodgeCounter} % del daño)."
+          }
+        },
+        "gantelets": {
+          "name": "Guanteletes",
+          "style": {
+            "text": "−{damageReduction} % de daño recibido."
+          }
+        },
+        "masse_pierre": {
+          "name": "Maza de piedra",
+          "lock": "Gana el combate 5 de tu historia",
+          "style": {
+            "text": "Cada ataque golpea también a los demás enemigos con el {splash} %, pero −{targetPenalty} % de daño al objetivo."
+          }
+        },
+        "bouclier_tour": {
+          "name": "Escudo torre",
+          "lock": "Gana el combate 10 de tu historia",
+          "style": {
+            "text": "−{damageReduction} % de daño recibido, −{damagePenalty} % de daño infligido."
+          }
+        },
+        "grimoire": {
+          "name": "Grimorio",
+          "style": {
+            "text": "Multiplicador de combo +{comboBonus}."
+          }
+        },
+        "baton_braises": {
+          "name": "Bastón de brasas",
+          "lock": "Gana el combate 5 de tu historia",
+          "style": {
+            "text": "Un Perfect prende fuego al enemigo: {burnOnPerfect} de daño en {burnDuration} s."
+          }
+        },
+        "orbe_miroir": {
+          "name": "Orbe espejo",
+          "lock": "Gana el combate 10 de tu historia",
+          "style": {
+            "text": "Una esquiva lograda devuelve al atacante el {reflect} % del daño evitado."
+          }
+        },
+        "arc": {
+          "name": "Arco",
+          "style": {
+            "text": "Cada Perfect llena la barra de súper un {perfectGaugeBonus} % más."
+          }
+        },
+        "arbalete": {
+          "name": "Ballesta",
+          "lock": "Gana el combate 5 de tu historia",
+          "style": {
+            "text": "+{bossDamage} % de daño a guardianes y jefes, −{otherPenalty} % a los demás."
+          }
+        },
+        "fronde": {
+          "name": "Honda",
+          "lock": "Gana el combate 10 de tu historia",
+          "style": {
+            "text": "Cada objeto recogido lanza un disparo automático de {pickupShot} de daño al enemigo más cercano."
+          }
+        },
+        "amulette": {
+          "name": "Amuleto",
+          "style": {
+            "text": "+{healPerHit} PV de curación en cada ataque acertado."
+          }
+        },
+        "baton_seve": {
+          "name": "Bastón de savia",
+          "lock": "Gana el combate 5 de tu historia",
+          "style": {
+            "text": "Ya no cura en cada ataque; a cambio, cada combo devuelve {comboHeal} PV."
+          }
+        },
+        "clochette": {
+          "name": "Campanilla",
+          "lock": "Gana el combate 10 de tu historia",
+          "style": {
+            "text": "En lugar de curar, cada ataque acertado da un escudo de {barrierPerHit} PV × el multiplicador que absorbe el daño, acumulable hasta {barrierMax}."
+          }
+        }
+      }
     }
   }
 }
