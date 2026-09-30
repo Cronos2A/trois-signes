@@ -84,7 +84,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 | Boran, Colosse (gantelets) | 170 / 6 | Force brute : jamais de combo | **Géant** : 8 s, taille ×1,4, coup sur tous ×2,5 |
 | Ilwen, Sorcière (grimoire) | 125 / 5 | Incantation : combo en 3 gestes | **Grimoire ouvert** : 2 attaques comptées comme combos |
 | Kestrel, Rôdeuse (arc) | 105 / 4,6 | Pas léger : esquive de base 120 % | **Œil de faucon** : 8 s, tout geste reconnu = Perfect |
-| Mira, Soigneuse (amulette) | 180 / 3 | Soin 4 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : PV au max, attaque ×2 pendant 10 s |
+| Mira, Soigneuse (amulette) | 150 / 3 | Soin 0,5 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : PV au max, attaque ×2 pendant 10 s |
 
 ## Armes, talismans et récompenses — `data/weapons.json`, `data/talismans.json` — **fait**
 - **3 armes par héros** (`weapons.json` → `heroes`) : l'arme de départ + 2 alternatives débloquées en Histoire
@@ -121,7 +121,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - Équilibre vérifié le 28/09/2026 par un bot à graine (4 Voyages par arme au niveau 6, précision 82 % puis 90 %) : pas d'arme
   nettement au-dessus ; Couteaux de lancer relevés (jauge 10 → 15 par ennemi vaincu) ; à surveiller : Arbalète (+12 à 17 % de score),
   Bâton de sève (Mira tombe plus tôt à faible précision). Rééquilibrage du 30/09/2026 (bot « humain » : un geste toutes les 0,7 s, précision 62 à 99 %, 80 % des alertes esquivées,
-  3 Voyages par héros) : rounds tenus Boran 29, Kestrel 29, Nyra 27 ; Aldric 20 → 27 (Garde, attaque 5), Ilwen 18 → 22 (125 PV, attaque 5).
+  3 Voyages par héros) : rounds tenus Boran 29, Kestrel 29, Nyra 27 ; Aldric 20 → 27 (Garde, attaque 5), Ilwen 18 → 22 (125 PV, attaque 5) ;
+  Mira (180 PV, soin 4) encore en vie après 25 min et 46 rounds → 150 PV, soin 0,5 : 29-30 rounds en 12 min, encore en vie à l'arrêt du test
+  (le plus dur des réglages essayés : soin 3, 2, 1,5 + super à 50 %, 1 et 0,5). À surveiller : peut-être encore un peu trop solide.
   Progression mesurée (un héros, Voyages seulement) : Nv 5 en 9 min, Nv 10 en 25 min, Nv 20 en 1 h 15, Nv 50 en 6 h, Nv 100 en 22 h ;
   arme au niveau 10 en ~6,5 Voyages (≈ 1 h), une histoire ≈ niveau 5. Voyage de 8 arènes sans pièce : 140 or (170 avec record).
 
