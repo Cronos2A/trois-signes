@@ -669,6 +669,78 @@
         "title": "Dreh dein Handy",
         "text": "Drei Zeichen wird im Hochformat gespielt."
       }
+    },
+    "online": {
+      "damaged": {
+        "title": "Spielstand beschädigt",
+        "text": "Der Spielstand auf diesem Gerät ist unlesbar oder beschädigt: Das Spiel kann ihn nicht verwenden.",
+        "searching": "Suche nach einem Online-Spielstand…",
+        "found": "Für dein Konto gibt es einen Online-Spielstand (gespeichert am {date}).",
+        "foundDetail": "Rekord {best} · Abgeschlossene Geschichten: {stories} · {gold} Gold",
+        "none": "Kein Online-Spielstand für dieses Konto.",
+        "offline": "Server nicht erreichbar: Online-Spielstand kann nicht gesucht werden.",
+        "recover": "Online-Spielstand laden",
+        "reset": "Neu beginnen",
+        "confirmReset": "Der gesamte Fortschritt auf diesem Gerät geht verloren.",
+        "confirmResetBtn": "Ja, neu beginnen",
+        "retry": "Erneut suchen"
+      },
+      "leaderboard": {
+        "boards": [
+          {
+            "label": "Reise",
+            "scoreLabel": "Bestpunktzahl"
+          },
+          {
+            "label": "Duell",
+            "scoreLabel": "Abdrücke"
+          }
+        ],
+        "ui": {
+          "button": "Ranglisten",
+          "recordSynced": "Rekord synchronisiert: {n} in der Rangliste der Reise",
+          "title": "Ranglisten",
+          "world": "Weltweite Top {n}",
+          "you": "Du",
+          "unranked": "Noch nicht platziert",
+          "unrankedVoyage": "Beende eine Reise, um in die Rangliste zu kommen.",
+          "unrankedDuel": "Sammle Abdrücke im Zufallsduell, um in die Rangliste zu kommen.",
+          "empty": "Noch niemand.",
+          "loading": "Lädt…",
+          "offline": "Die Ranglisten brauchen eine Verbindung zum Server.",
+          "needPseudo": "Wähle zuerst deinen Spielernamen.",
+          "close": "Schließen"
+        }
+      },
+      "pseudo": {
+        "suggest": "Zeichner"
+      },
+      "ui": {
+        "title": "Wähle deinen Spielernamen",
+        "intro": "Diesen Namen sehen die anderen Spieler im Duell. Du kannst ihn in den Einstellungen ändern.",
+        "placeholder": "Dein Spielername",
+        "ok": "OK",
+        "cancel": "Abbrechen",
+        "suggest": "Zufällig",
+        "tooShort": "Mindestens {min} Zeichen.",
+        "tooLong": "Höchstens {max} Zeichen.",
+        "badChars": "Nur Buchstaben, Ziffern, Leerzeichen, Bindestrich, Punkt und _ (Anfang mit Buchstabe oder Ziffer).",
+        "rude": "Dieser Name ist nicht erlaubt.",
+        "account": "Konto",
+        "pseudoLabel": "Spielername",
+        "edit": "Ändern",
+        "google": "Google-Konto verknüpfen",
+        "googleSoon": "Bald (Google Play Spiele)",
+        "id": "Spieler Nr. {id}",
+        "status": {
+          "off": "Offline: auf diesem Gerät gespeichert",
+          "connecting": "Verbinde mit dem Server…",
+          "online": "Online: Spielstand aktuell",
+          "saving": "Online: wird gespeichert…",
+          "offline": "Keine Verbindung: auf diesem Gerät gespeichert, wird gesendet, sobald das Netz zurück ist",
+          "error": "Server nicht erreichbar: auf diesem Gerät gespeichert"
+        }
+      }
     }
   }
 }
