@@ -1568,7 +1568,229 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "Die Schuld",
+          "cinematique_ouverture": [
+            {
+              "texte": "Vélis, die Stadt der tausend Dächer. Und Nyra, die schnellste Diebin von allen."
+            },
+            {
+              "texte": "Ein Beutel, zwei Beutel… Ehrlich, das ist fast zu leicht."
+            },
+            {
+              "texte": "In ihrer Tasche, immer, ein altes gefaltetes Papier. Eine Schuld, von der Hand eines Fremden geschrieben."
+            },
+            {
+              "texte": "„Eldan“. Eines Tages finde ich dich, Alter. Und dann sind wir quitt."
+            },
+            {
+              "texte": "In jener Nacht hatten die Wachen, die sie verfolgten, zum ersten Mal keine Gesichter."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Die Dächer von Vélis",
+              "dialogue_avant": [
+                {
+                  "texte": "Normalerweise brüllen die Wachen. Diese hier sagen keinen Ton…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Gut. Neue Regel: Wir bestehlen niemanden ohne Gesicht."
+                }
+              ]
+            },
+            {
+              "titre": "Der Markt, der vergisst",
+              "dialogue_avant": [
+                {
+                  "texte": "Der große Markt von Vélis. Die Händler wissen nicht mehr, was sie verkaufen."
+                },
+                {
+                  "texte": "…Äpfel… nein… was ist ein Apfel…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Der alte Tobbin hat mir anschreiben lassen, seit ich sechs war. Er hat mich nicht mal erkannt."
+                }
+              ]
+            },
+            {
+              "titre": "Das Versteck",
+              "dialogue_avant": [
+                {
+                  "texte": "Die Gilde wird wissen, was zu tun ist. Die Gilde weiß es immer."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Die Katzen von Vélis… Alle. Nur ich bin übrig."
+                }
+              ]
+            },
+            {
+              "titre": "Die Spur des Alten",
+              "dialogue_avant": [
+                {
+                  "texte": "Ein alter Herr hat am Osttor Lichtkreise gezeichnet. Er sagte, er sucht seine Erinnerungen."
+                },
+                {
+                  "texte": "Eldan…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Osttor. Diesmal entwischt mir der Alte nicht."
+                }
+              ]
+            },
+            {
+              "titre": "Die Gildenmeisterin",
+              "dialogue_avant": [
+                {
+                  "texte": "…eine Kleine… da war eine Kleine… schneller als alle anderen…"
+                },
+                {
+                  "texte": "Das war ich, Sorel. Das war ich."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Meine Schuld… nicht das, was ich glaube? Was meinte sie damit?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Frau Sorel bricht zusammen, einen grauen Dolch noch in der Hand."
+                },
+                {
+                  "texte": "Nyra… deine Schuld… ist nicht das, was du glaubst…"
+                },
+                {
+                  "texte": "Was? Sorel, warte!"
+                },
+                {
+                  "texte": "Zu spät. Die Stille hat sie wieder geholt."
+                }
+              ]
+            },
+            {
+              "titre": "Begegnung: Aldric",
+              "dialogue_avant": [
+                {
+                  "texte": "Du. Du folgst derselben Spur wie ich."
+                },
+                {
+                  "texte": "Und du läufst wie ein Kleiderschrank. Ein alter Mann, Lichtkreise, klingelt da was?"
+                },
+                {
+                  "texte": "Das ist mein Meister."
+                },
+                {
+                  "texte": "Dann haben wir ein gemeinsames Problem. Und ein Dutzend Verblasste dazu."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Du kämpfst gut, für einen Kleiderschrank."
+                },
+                {
+                  "texte": "… Danke?"
+                }
+              ]
+            },
+            {
+              "titre": "Das Register",
+              "dialogue_avant": [
+                {
+                  "texte": "In den Archiven von Vélis, ein altes Register der Findelkinder."
+                },
+                {
+                  "texte": "Irgendwo muss es eine Spur meiner Schuld geben…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "„Mädchen, vier Jahre, vom Reisenden Eldan aus einem Brand gerettet. Keine Summe geschuldet.“"
+                },
+                {
+                  "texte": "Es war keine Schuld. Es war eine Erinnerung. Damit ich ihn nicht vergesse."
+                }
+              ]
+            },
+            {
+              "titre": "Die nachahmenden Schatten",
+              "dialogue_avant": [
+                {
+                  "texte": "Sie bewegen sich wie ich… Haben sie es gelernt, indem sie mir zugesehen haben?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Gesten kopieren ist leicht. Zu wissen, warum man sie macht, ist eine andere Sache."
+                }
+              ]
+            },
+            {
+              "titre": "Das Spiegelbild",
+              "dialogue_avant": [
+                {
+                  "texte": "Ohne ihn wärst du im Feuer gestorben. Oder du wärst ich. Allein, schnell… und leer."
+                },
+                {
+                  "texte": "Allein und schnell, meinetwegen. Aber nicht leer."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Leb wohl, ich."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Das Spiegelbild zerspringt in tausend Splitter aus grauem Glas."
+                },
+                {
+                  "texte": "…dann erinnere dich… für uns beide…"
+                },
+                {
+                  "texte": "Das ist der Plan."
+                },
+                {
+                  "texte": "In der Ferne, hinter dem Osttor, eine weiße Lichtung, auf der nichts mehr wächst."
+                }
+              ]
+            },
+            {
+              "titre": "Das Herz der Stille",
+              "dialogue_avant": [
+                {
+                  "texte": "…ein kleines Mädchen… ein Brand… ich habe sie getragen… wie hieß sie…"
+                },
+                {
+                  "texte": "Nyra. Sie heißt Nyra, du alter Narr. Und sie ist gekommen, um sich zu revanchieren."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Nyras Dolch trifft nicht den Meister. Er zerschneidet die Stille um ihn herum."
+            },
+            {
+              "texte": "Nyra… Du bist groß geworden."
+            },
+            {
+              "texte": "Und du bist alt geworden. Jetzt sind wir quitt."
+            },
+            {
+              "texte": "Ein Erinnerungsfragment kehrt zum Meister zurück."
+            }
+          ]
+        },
         null,
         null,
         null,
