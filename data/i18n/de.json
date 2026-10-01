@@ -1143,6 +1143,123 @@
           "name": "Nachtwächterin"
         }
       ]
+    },
+    "economy": {
+      "chests": {
+        "simple": {
+          "name": "Einfache Truhe",
+          "text": "1 zufälliges Kosmetik-Item"
+        },
+        "trois_signes": {
+          "name": "Truhe der Drei Zeichen",
+          "text": "3 Kosmetik-Items, mindestens 1 seltenes"
+        }
+      },
+      "rarities": {
+        "commun": {
+          "name": "Gewöhnlich"
+        },
+        "rare": {
+          "name": "Selten"
+        },
+        "epique": {
+          "name": "Episch"
+        }
+      },
+      "gemPacks": [
+        {
+          "price": "0,99 €"
+        },
+        {
+          "price": "4,99 €"
+        },
+        {
+          "price": "9,99 €"
+        },
+        {
+          "price": "19,99 €"
+        }
+      ],
+      "ui": {
+        "tabs": [
+          [
+            "chests",
+            "Truhen"
+          ],
+          [
+            "cosmetics",
+            "Kosmetik"
+          ],
+          [
+            "gems",
+            "Edelsteine"
+          ]
+        ],
+        "filters": [
+          [
+            "all",
+            "Alle"
+          ],
+          [
+            "weapon",
+            "Waffen"
+          ],
+          [
+            "color",
+            "Farben"
+          ],
+          [
+            "trail",
+            "Spuren"
+          ],
+          [
+            "skin",
+            "Skins"
+          ]
+        ],
+        "open": "Öffnen",
+        "odds": "Chancen",
+        "oddsTitle": "Chancen",
+        "oddsIntro": "Jede Truhe gibt dir Kosmetik-Items, die du noch nicht hast, ohne Doppelte. Kosmetik bringt keinen Vorteil im Spiel.",
+        "oddsGuarantee": "Einfache Truhe: ein episches Item garantiert nach {n} Truhen ohne episches.",
+        "oddsMinRare": "Truhe der Drei Zeichen: mindestens 1 seltenes oder episches Item.",
+        "pityLeft": "Episch garantiert in {n} Truhen",
+        "pityNow": "Episch garantiert in der nächsten Truhe",
+        "complete": "Sammlung komplett",
+        "banned": "Truhen sind in deinem Land nicht verfügbar: Jedes Kosmetik-Item kann direkt gekauft werden.",
+        "notEnough": "Nicht genug Edelsteine",
+        "notEnoughGold": "Nicht genug Gold",
+        "buy": "Kaufen",
+        "owned": "Im Besitz",
+        "equipped": "Ausgerüstet",
+        "equip": "Ausrüsten",
+        "confirmTitle": "Kauf bestätigen",
+        "confirmText": "{name} für {price} kaufen?",
+        "confirmOk": "Kaufen",
+        "cancel": "Abbrechen",
+        "chestTitle": "Öffnen",
+        "chestTap": "Tippen zum Öffnen",
+        "chestOk": "Super!",
+        "newItem": "Neu!",
+        "packsTitle": "Edelsteine",
+        "packsNote": "In der App verfügbar",
+        "packsFree": "Edelsteine gibt es auch beim Spielen: besiegte Wächter der Reise, abgeschlossene Geschichten, der Epilog.",
+        "gain": "+{n}",
+        "gemsName": "+{n} Edelsteine",
+        "gemsReward": "EDELSTEINE ERHALTEN",
+        "gemsFor": {
+          "guardian": "Wächter {of} besiegt",
+          "story": "{of} Geschichte abgeschlossen",
+          "epilogue": "Epilog der Geschichte"
+        },
+        "gemsOk": "Weiter",
+        "gemsTotal": "Gesamt",
+        "testTitle": "Testmodus",
+        "testGold": "+{n} Gold",
+        "testGems": "+{n} Edelsteine",
+        "testCountry": "Land",
+        "testReset": "Shop zurücksetzen"
+      }
     }
   }
 }
