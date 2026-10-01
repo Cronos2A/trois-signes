@@ -13,7 +13,8 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 ---
 
 ## 🔵 Récompenses de connexion (30/09/2026) — à surveiller
-- **Règles publiées le 01/10/2026** (`firestore.rules` : collection `daily/{uid}` et gemmes du jour dans `wallet/{uid}`), confirmé par toi.
+- **Règles publiées le 01/10/2026** (`firestore.rules` : collection `daily/{uid}` et gemmes du jour dans `wallet/{uid}`), confirmé par toi,
+  et vérifiées le jour même sur le vrai serveur (récupération acceptée, 2e récupération, jour truqué, série et gemmes gonflées refusés).
 - Or, boosts et cosmétiques reçus vivent dans la sauvegarde (comme l'or des parties) : avec deux appareils sur le même compte, la sauvegarde
   la plus récente l'emporte (règle déjà en place pour tout le jeu). Le serveur empêche seulement de récupérer deux fois le même jour.
 - Rythme à observer au test fermé, pour 30 jours de suite (hors pubs) : ~4 800 or (2 650 du calendrier + ~2 150 de la série),
@@ -178,4 +179,7 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
   « vosotros » (espagnol d'Espagne : « os enfrentáis », « sentaos ») à revoir si le jeu vise l'Amérique latine.
 - **Corrigé au passage (toutes langues)** : sur la carte de l'histoire, des titres d'étape sortaient de l'écran, même en français
   (« La piste du vieil homme », « Le camp des réfugiés ») et le titre du haut était coupé (« Ceux qu'on peut sau… ») : ils passent à la ligne.
-- **Reste** : `de.json` ; relire la longueur des textes en 360 × 640 (l'allemand est souvent 30 % plus long).
+- **Allemand fait le 01/10/2026** (`de.json`) : voir CLAUDE.md → « Langues ». **À relire par un germanophone** : « Ihr » de respect entre
+  personnages (plus ancien que « Sie »), « Sir Corvin », « Frau Sorel », Tonnerre laissé en français (« Donner » ?), « Schutzlanze » (garde-fou),
+  « Scherge » / « Rohling », EP / LP (usuels dans les jeux allemands), « Story » sur le bouton du lobby mais « Geschichten » en titre.
+- **Les 5 langues sont faites.** Relecture par des locuteurs natifs conseillée avant le test fermé.

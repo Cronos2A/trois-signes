@@ -1,6 +1,6 @@
 # Trois Signes — brief pour Claude Code
 
-État du projet au 30/09/2026 (jeu en français, anglais, italien et espagnol ; récompenses de connexion et boosts en place ; reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
+État du projet au 30/09/2026 (jeu en français, anglais, italien, espagnol et allemand ; récompenses de connexion et boosts en place ; reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
@@ -205,6 +205,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   un seul crédit), gemmes versées au portefeuille `wallet/{uid}` **dans la même écriture**. Les règles refont tout le calcul (jour de Paris
   avec l'heure d'été européenne, série, calendrier, gemmes du jour) : `node tools/check-rules.mjs` vérifie leurs chiffres.
   Or, boosts et cosmétiques : dans la sauvegarde (`prog.eco`, `prog.boosts`, `prog.daily`), comme le reste. **Offre gratuite Spark suffit.**
+- **Vrai serveur** (règles publiées le 01/10/2026, testé le jour même, sans émulateur, mode test coupé) : document du jour créé, jour de Paris
+  lu à l'heure du serveur (01/10/2026), 1re récupération acceptée (série 1, calendrier 1) ; refusés (permission-denied) : 2e récupération le même
+  jour forcée, jour de demain, série gonflée, gemmes sans récupération, document d'un autre joueur. Les gemmes d'un jour (J7, J15, J30)
+  n'ont été vérifiées que sur l'émulateur.
 - **Fenêtre « Récompense du jour »** : à la première ouverture du jour (après le démarrage et la leçon, jamais en partie ni en Duel),
   une fois par jour (`prog.daily.shownDay`) ; aussi quand la connexion revient. Série et calendrier du jour, « Récupérer », pub du jour.
   Hors connexion : « À récupérer dès que la connexion revient ». Son `deblocage` ; gemmes et cosmétiques par les écrans de récompense
@@ -440,14 +444,14 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   de la 1re arme alternative, du 1er talisman (récompense ou coffre d'arène), des 1res Empreintes (fin de Duel au hasard) ;
   bulle « Compris » au 1er salon de Duel (pas la place d'un encadré). Pseudo normalisé en NFC avant vérification.
 
-## Langues (i18n) — `src/i18n.js`, `data/i18n/` — **fait (français, anglais, italien, espagnol)**
+## Langues (i18n) — `src/i18n.js`, `data/i18n/` — **fait (5 langues : français, anglais, italien, espagnol, allemand)**
 - **Aucun texte visible dans le code** : tout passe par `tr('clé', { variables })` (textes de `data/i18n/{langue}.json`).
   Les textes déjà rangés dans les autres fichiers de `data/` (noms, descriptions, `ui` de chaque fichier) y restent : une langue les
   remplace par sa section `"data"` (même chemin), superposée au chargement (`applyLanguageData`). Histoire : `story_mode.json`, `tutorial.json`.
   Tableau d'objets (héros, répliques, combats…) : fusionné case par case, on n'y écrit que les textes (`null` = case inchangée) ;
   tableau de textes (`statLabels`, lignes des crédits) : remplacé en entier.
   Textes fixes de `index.html` : attributs `data-i18n`, `data-i18n-title`, `data-i18n-aria` (`applyStatic`).
-- **Langues** (`data/i18n/languages.json`) : fr, en, it, es, de ; `fr.json`, `en.json`, `it.json` et `es.json` existent (`ready`) ; reste l'allemand. Langue par défaut : celle du téléphone si
+- **Langues** (`data/i18n/languages.json`) : fr, en, it, es, de ; les 5 fichiers existent (`ready`). Langue par défaut : celle du téléphone si
   elle est proposée, sinon l'anglais ; `?lang=de` pour tester ; choix dans les Réglages (`settings.lang`, le jeu se recharge).
   Clé absente dans la langue active → texte français (repli). Langues pas encore prêtes : « (bientôt) » dans les Réglages.
   Noms des langues traduits dans chaque langue (`settings.langNames`).
@@ -480,6 +484,13 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Señor ; « de » + pseudo : « de {name} » (« El X » → « del X ») ; sbire / brute / boss = Esbirro / Bruto / Jefe, Ombracé = Vaciado, boost = potenciador,
   pub = anuncio ; Kestrel = « la Exploradora ». Joueur tutoyé ; le « vous » de respect entre personnages devient « usted ».
   Vérifié comme l'anglais et l'italien : 0 clé en repli, 0 texte de `data/` resté en français, mêmes parcours aux deux tailles, aucune erreur.
+- **Allemand** (`de.json`, fait le 01/10/2026) : interface et section `data` complètes, histoire comprise. Choix : Le Voyage = **Die Reise** ;
+  lieux : Mooswald, Dächer von Vélis, Bibliothek von Aubelle, Windpass, Schule der Zeichen, Das Herz der Stille, Jenseits der Stille ;
+  Sire / Madame / Tante / Capitaine / Maître / Monsieur = Sir / Frau / Tante / Hauptmann / Meister / Herr ; `{of}` = génitif (« des Mooswalds »,
+  « Aldrics ») ; « de » + pseudo : « Names » (« Name' » après s, ß, x, z) ; XP = EP, PV = LP, niveau = Stufe (« St. 12 ») ; sbire / brute = Scherge /
+  Rohling, Ombracé = Verblasster, gemmes = Edelsteine ; Kestrel = « die Waldläuferin ». Joueur tutoyé (« du ») ; le « vous » de respect entre
+  personnages devient « Ihr » (ton de fantasy). Vérifié comme les autres langues (0 clé en repli, mêmes parcours, cartes et titres des 6 histoires) :
+  aucun débordement, aucune erreur, sans rien raccourcir.
 - **Carte de l'histoire** (corrigé le 30/09/2026, toutes langues, français compris) : titres d'étape sortant de l'écran (« La piste du vieil
   homme », « El campamento de los exploradores »…) et titre d'histoire coupé par « … » en haut (« Ceux qu'on peut sauver ») : l'étiquette a la
   place réelle à côté de son rond (`--room`, `story-ui.js` → `layout`) et passe à la ligne ; le titre du haut aussi.
