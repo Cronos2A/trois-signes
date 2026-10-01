@@ -29,5 +29,12 @@ const cDays = Object.entries(daily.calendar.special).filter(([, r]) => r.gems).m
 const lit = s => s.replace(/[()?]/g, m => '\\' + m);
 has('gemmes de la série', new RegExp('function streakGems\\(s\\) \\{ return ' + lit(ternary('s', sDays)) + '; \\}'));
 has('gemmes du calendrier', new RegExp('function calendarGems\\(c\\) \\{ return ' + lit(ternary('c', cDays)) + '; \\}'));
+// Signalements (data/online.json → report) et suppression du compte (→ account).
+const on = J('online');
+has('raisons des signalements', new RegExp("reason in \\[" + on.report.reasons.map(r => "'" + r + "'").join(', ') + '\\]'));
+has('origines des signalements', new RegExp("board in \\[" + on.report.boards.map(r => "'" + r + "'").join(', ') + '\\]'));
+has('collection des signalements', new RegExp('match /' + on.report.collection + '/\\{id\\}'));
+has('comptes supprimés', new RegExp('match /' + on.account.closed + '/\\{uid\\}'));
+for (const c of [...on.account.erase, on.account.ranked]) has('suppression de ' + c, new RegExp('match /' + c + '/\\{uid\\} \\{[^]*?allow delete: if isOwner\\(uid\\)'));
 console.log(bad.length ? 'À corriger dans firestore.rules : ' + bad.join(', ') : 'firestore.rules : chiffres identiques aux données.');
 process.exit(bad.length ? 1 : 0);

@@ -729,8 +729,6 @@
         "account": "Konto",
         "pseudoLabel": "Spielername",
         "edit": "Ändern",
-        "google": "Google-Konto verknüpfen",
-        "googleSoon": "Bald (Google Play Spiele)",
         "id": "Spieler Nr. {id}",
         "status": {
           "off": "Offline: auf diesem Gerät gespeichert",
@@ -2801,5 +2799,49 @@
         ]
       }
     }
+  },
+  "account": {
+    "googleSave": "Fortschritt mit Google sichern",
+    "googleSignIn": "Mit Google anmelden",
+    "googleHint": "Damit du ihn nach einer Neuinstallation oder auf einem anderen Handy wiederfindest.",
+    "googleLinked": "Fortschritt mit Google gesichert",
+    "googleAs": "Google-Konto: {email}",
+    "pseudoHasSave": "Ich habe schon Fortschritt: mit Google anmelden",
+    "linkedOk": "Erledigt: Dein Fortschritt ist mit deinem Google-Konto gesichert. Tippe auf einem anderen Handy in den Einstellungen auf „Mit Google anmelden“.",
+    "already": "Dieses Konto ist schon mit Google verknüpft.",
+    "offline": "Du brauchst eine Verbindung zum Server. Versuch es wieder, wenn das Netz zurück ist.",
+    "error": "Google konnte dich nicht anmelden ({code}). Versuch es später noch einmal.",
+    "noPlugin": "Die Anmeldung mit Google kommt bald in die App.",
+    "chooseTitle": "Zwei Spielstände",
+    "chooseText": "Dieses Google-Konto hat schon einen eigenen Spielstand. Welchen willst du behalten? Der andere wird gelöscht.",
+    "here": "Dieses Handy",
+    "google": "Google-Konto",
+    "noSave": "Kein Spielstand",
+    "record": "Rekord {n}",
+    "level": "Stufe {n}",
+    "stories": {
+      "one": "{n} Geschichte abgeschlossen",
+      "other": "{n} Geschichten abgeschlossen"
+    },
+    "wealth": "{gold} Gold · {gems} Edelsteine · {prints} Abdrücke",
+    "keep": "Diesen behalten",
+    "confirmPhone": "Der Spielstand dieses Handys ersetzt den des Google-Kontos, der verloren geht. Edelsteine, Abdrücke und die Anmeldeserie bleiben die des Google-Kontos.",
+    "confirmGoogle": "Der Spielstand des Google-Kontos ersetzt den dieses Handys, der verloren geht.",
+    "confirmOk": "Ja, diesen behalten",
+    "back": "Zurück",
+    "cancel": "Abbrechen",
+    "ok": "OK",
+    "working": "Einen Moment …",
+    "switched": "Erledigt: Das Spiel startet mit deinem Google-Konto neu.",
+    "deleteBtn": "Mein Konto und meine Daten löschen",
+    "deleteTitle": "Dein Konto löschen?",
+    "deleteText": "Gelöscht werden, auf dem Server und auf diesem Handy: dein ganzer Fortschritt, deine Edelsteine, deine Abdrücke, deine Anmeldebelohnungen, deine Einträge in den Ranglisten und zuletzt dein Konto selbst.",
+    "deleteContinue": "Weiter",
+    "deleteSure": "Das ist endgültig: Nichts lässt sich wiederherstellen, auch nicht mit Google. Endgültig löschen?",
+    "deleteConfirm": "Endgültig löschen",
+    "deleting": "Wird gelöscht …",
+    "deleted": "Dein Konto und deine Daten sind gelöscht. Das Spiel beginnt von vorn.",
+    "deleteError": "Das Löschen hat nicht geklappt ({code}). Versuch es später noch einmal.",
+    "deleteOffline": "Zum Löschen deines Kontos brauchst du eine Verbindung zum Server."
   }
 }

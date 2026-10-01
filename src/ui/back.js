@@ -45,6 +45,7 @@ function onBack() {
   if (confirmOpen) { confirmOpen(); return true; }                                 // « Retour » sur la confirmation = continuer
   if (shown($('testAd'))) return true;                                               // publicité en cours : on attend
   const ask = visible('.ad-card.ask [data-ad="no"]'); if (ask) { ask.click(); return true; }
+  if (shown($('accModal'))) { clickFirst(['#accModal [data-ac="cancel"]', '#accModal [data-ac="no"]', '#accModal [data-ac="back"]', '#accModal [data-ac="ok"]']); return true; }   // compte : annuler / retour
   const ps = $('pseudoModal');
   if (shown(ps)) { clickFirst(['#pseudoModal [data-pa="cancel"]']); return true; }  // pseudo obligatoire, sauvegarde endommagée : on reste
   if ($('tipBubble')) { $('tipBubble').remove(); return true; }                     // explication : « Compris »

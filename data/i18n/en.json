@@ -727,8 +727,6 @@
         "account": "Account",
         "pseudoLabel": "Username",
         "edit": "Edit",
-        "google": "Link my Google account",
-        "googleSoon": "Soon (Google Play Games)",
         "status": {
           "off": "Offline: saved on this device",
           "connecting": "Connecting to the server…",
@@ -2799,5 +2797,49 @@
         ]
       }
     }
+  },
+  "account": {
+    "googleSave": "Save my progress with Google",
+    "googleSignIn": "Sign in with Google",
+    "googleHint": "To get it back after reinstalling or on another phone.",
+    "googleLinked": "Progress saved with Google",
+    "googleAs": "Google account: {email}",
+    "pseudoHasSave": "I already have progress: sign in with Google",
+    "linkedOk": "Done: your progress is saved with your Google account. On another phone, tap “Sign in with Google” in the Settings.",
+    "already": "This account is already linked to Google.",
+    "offline": "You need a connection to the server. Try again when the network is back.",
+    "error": "Google couldn't sign you in ({code}). Try again later.",
+    "noPlugin": "Google sign-in is coming soon to the app.",
+    "chooseTitle": "Two progressions",
+    "chooseText": "This Google account already has its own progress. Which one do you want to keep? The other will be erased.",
+    "here": "This phone",
+    "google": "Google account",
+    "noSave": "No progress",
+    "record": "Best {n}",
+    "level": "Level {n}",
+    "stories": {
+      "one": "{n} story completed",
+      "other": "{n} stories completed"
+    },
+    "wealth": "{gold} gold · {gems} gems · {prints} Imprints",
+    "keep": "Keep this one",
+    "confirmPhone": "This phone's progress will replace the Google account's, which will be lost. Gems, Imprints and the login streak stay those of the Google account.",
+    "confirmGoogle": "The Google account's progress will replace this phone's, which will be lost.",
+    "confirmOk": "Yes, keep this one",
+    "back": "Back",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "working": "One moment…",
+    "switched": "Done: the game restarts on your Google account.",
+    "deleteBtn": "Delete my account and my data",
+    "deleteTitle": "Delete your account?",
+    "deleteText": "Erased from the server and from this phone: all your progress, your gems, your Imprints, your login rewards, your leaderboard entries, then your account itself.",
+    "deleteContinue": "Continue",
+    "deleteSure": "This is final: nothing can be recovered, not even with Google. Delete for good?",
+    "deleteConfirm": "Delete for good",
+    "deleting": "Deleting…",
+    "deleted": "Your account and your data are deleted. The game starts over.",
+    "deleteError": "The deletion couldn't be completed ({code}). Try again later.",
+    "deleteOffline": "You need a connection to the server to delete your account."
   }
 }

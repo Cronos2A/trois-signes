@@ -13,11 +13,35 @@ rules_version = '2';
 // - daily/{uid}        récompenses de connexion : une récupération par jour de Paris (série de 7 jours, calendrier de 30).
 // - runs/{uid}         début de la dernière partie du Voyage (heure du serveur) : borne le record accepté.
 // - leaderboard/{uid}  classements : Empreintes = ranked ; record du Voyage qui ne baisse jamais et plausible pour la durée de la partie.
+// - closed/{uid}       compte supprimé par son joueur (seulement { at }) : ses gemmes, Empreintes et récompenses de connexion peuvent
+//                      alors être effacées, et ne peuvent plus être recréées (sinon effacer puis recréer rejouerait les gains).
+// - reports/{id}       signalements de pseudos : écrits par les joueurs, lus seulement depuis la console Firebase.
 service cloud.firestore {
   match /databases/{database}/documents {
 
     function signedIn() { return request.auth != null; }
     function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+    function closed(uid) { return exists(/databases/$(database)/documents/closed/$(uid)); }
+
+    /* ---------- Suppression du compte (Réglages → « Supprimer mon compte et mes données ») ---------- */
+    // Le jeu écrit d'abord closed/{uid}, puis efface tous les documents du joueur, puis le compte lui-même.
+    match /closed/{uid} {
+      allow get: if isOwner(uid);
+      allow create: if isOwner(uid) && request.resource.data.keys().hasOnly(['at']) && request.resource.data.at == request.time;
+    }
+
+    /* ---------- Signalements de pseudos (data/online.json → report) ---------- */
+    // Un signalement par joueur et par pseudo : identifiant = uid du joueur + '_' + pseudo normalisé (key) ; jamais modifié.
+    match /reports/{id} {
+      allow create: if signedIn() && id == request.auth.uid + '_' + request.resource.data.key
+        && request.resource.data.keys().hasOnly(['pseudo', 'key', 'reason', 'by', 'at', 'board'])
+        && request.resource.data.pseudo is string && request.resource.data.pseudo.size() >= 1 && request.resource.data.pseudo.size() <= 16
+        && request.resource.data.key is string && request.resource.data.key.matches('^[a-z0-9_-]{1,96}$')
+        && request.resource.data.reason in ['insulte', 'haine', 'sexuel', 'usurpation']
+        && request.resource.data.board in ['voyage', 'duel', 'adversaire']
+        && request.resource.data.by == request.auth.uid
+        && request.resource.data.at == request.time;
+    }
 
     /* ---------- Sauvegarde ---------- */
     function validPlayer() {
@@ -168,9 +192,12 @@ service cloud.firestore {
     }
     match /ranked/{uid} {
       allow read: if signedIn();
-      allow create, update: if signedIn() && rankedStep(uid);
+      allow create: if signedIn() && rankedStep(uid) && !closed(uid);
+      allow update: if signedIn() && rankedStep(uid);
+      allow delete: if isOwner(uid) && closed(uid);
       match /games/{code} {
         allow read: if signedIn();
+        allow delete: if isOwner(uid) && closed(uid);
         allow create: if signedIn() && request.resource.data.keys().hasOnly(['at']) && request.resource.data.at == request.time
           && getAfter(/databases/$(database)/documents/ranked/$(uid)).data.last == code;
       }
@@ -235,8 +262,9 @@ service cloud.firestore {
       allow read: if isOwner(uid);
       allow create: if isOwner(uid) && request.resource.data.keys().hasOnly(['gems', 'granted', 'adDay', 'adCount', 'updatedAt'])
         && request.resource.data.gems == 0 && request.resource.data.granted == [] && request.resource.data.adDay == 0
-        && request.resource.data.adCount == 0 && request.resource.data.updatedAt == request.time;
+        && request.resource.data.adCount == 0 && request.resource.data.updatedAt == request.time && !closed(uid);
       allow update: if isOwner(uid) && walletStep();
+      allow delete: if isOwner(uid) && closed(uid);
     }
 
     /* ---------- Récompenses de connexion (data/daily.json) ---------- */
@@ -272,8 +300,9 @@ service cloud.firestore {
       allow read: if isOwner(uid);
       allow create: if isOwner(uid) && request.resource.data.keys().hasOnly(['lastDay', 'streak', 'cal', 'count', 'seenAt'])
         && request.resource.data.lastDay == 0 && request.resource.data.streak == 0 && request.resource.data.cal == 0
-        && request.resource.data.count == 0 && request.resource.data.seenAt == request.time;
+        && request.resource.data.count == 0 && request.resource.data.seenAt == request.time && !closed(uid);
       allow update: if isOwner(uid) && dailyStep();
+      allow delete: if isOwner(uid) && closed(uid);
     }
 
     /* ---------- Voyage et classements ---------- */
@@ -281,6 +310,7 @@ service cloud.firestore {
       allow read: if isOwner(uid);
       allow create, update: if isOwner(uid) && request.resource.data.keys().hasOnly(['startedAt'])
         && request.resource.data.startedAt == request.time;
+      allow delete: if isOwner(uid);
     }
     // Record plausible pour la durée t (s) de la dernière partie : 600 × t × (3 + 0,025 × t) (data/duel.json → security.voyage).
     function voyageOk(v) {

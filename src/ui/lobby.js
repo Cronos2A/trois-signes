@@ -17,7 +17,7 @@ import { showRewarded, afterVoyageResults, watchForGems, watchForChest, setNoAds
 import { adIcon, adToast } from './ad-ui.js';
 import { openChest } from '../game/economy.js';
 import { moneyIcon, goldGainHtml } from './money.js';
-import { accountHtml, askPseudo } from './account-ui.js';
+import { accountHtml, askPseudo, googleFlow, deleteFlow } from './account-ui.js';
 import { tr, nf, nfi, language, languages, setLanguage } from '../i18n.js';
 import { openDailyScreen, dailyButtonHtml, maybeDaily } from './daily-ui.js';
 import { buyBoost, resetBoosts } from '../game/boosts.js';
@@ -129,6 +129,8 @@ function onClick(e) {
     case 'closeSettings': $('settings').classList.add('hidden'); break;
     case 'credits': renderCredits(); break;
     case 'pseudoEdit': askPseudo(true).then(() => { renderSettings(); render(); }); break;
+    case 'googleLink': googleFlow().then(() => renderSettings()); break;
+    case 'deleteAccount': deleteFlow().then(() => renderSettings()); break;
     case 'backSettings': renderSettings(); break;
     case 'equipW': equipWeapon(chars()[ui.view].id, arg); render(); break;
     case 'tal': ui.tal = arg; render(); break;

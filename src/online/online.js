@@ -9,7 +9,7 @@ import { prog, onSaved, saveProg, saveState } from '../game/progress.js';
 
 const O = () => D.online;
 let fb = null, auth = null, db = null, user = null;
-let state = 'off', dirty = false, timer = 0, retry = 0, starting = null, hooks = {};
+let state = 'off', dirty = false, timer = 0, retry = 0, starting = null, hooks = {}, paused = false;
 const listeners = new Set();
 
 /** État affiché dans les Réglages : off | connecting | online | saving | offline | error, et l'identifiant. */
@@ -99,7 +99,7 @@ function schedule(ms = O().sync.debounceMs) {
 
 /** Envoie la progression (seulement une fois connecté ; sinon elle attend, gardée sur l'appareil). */
 async function upload() {
-  if (!dirty || saveState.damaged) return;
+  if (!dirty || saveState.damaged || paused) return;
   if (!user || !db) { start(); return; }
   if (navigator.onLine === false) { setState('offline'); return; }
   dirty = false;
@@ -153,6 +153,15 @@ export async function remoteSave() {
   const r = readSave(snap.data().save);
   return r.damaged || !Object.keys(r.data).length ? null : { data: r.data, savedAt: snap.data().savedAt || 0 };
 }
+
+/**
+ * Compte (online/account.js) : SDK, application Firebase, connexion, base ; null tant que la connexion n'est pas prête.
+ * pauseSync() : plus aucun envoi (changement ou suppression du compte, juste avant le rechargement du jeu).
+ */
+export const accountApi = () => (auth && db && user ? { fb, auth, db, app: auth.app, user: auth.currentUser } : null);
+export function pauseSync() { paused = true; clearTimeout(timer); clearTimeout(retry); }
+/** Envoie tout de suite la sauvegarde en attente (avant de lier le compte). */
+export async function flushSave() { if (dirty) await upload(); }
 
 /** Tests : envoie tout de suite ce qui attend, et lit un document (le sien, ou celui d'un autre : refusé par les règles). */
 export const flushNow = () => { dirty = true; return upload(); };

@@ -58,10 +58,12 @@ ensureDefaults();
 
 // Sauvegarde : datée (savedAt, pour savoir laquelle est la plus récente entre l'appareil et le serveur),
 // puis signalée à la sauvegarde en ligne (online/online.js), qui l'envoie un peu plus tard.
-let onSave = null;
+let onSave = null, frozen = false;
 export const onSaved = fn => { onSave = fn; };
+/** Plus rien n'est écrit sur l'appareil (compte changé ou supprimé, juste avant le rechargement du jeu). */
+export function freezeSave() { frozen = true; }
 export function saveProg() {
-  if (saveState.damaged) return;           // sauvegarde endommagée : rien n'est écrit (ni envoyé) avant le choix du joueur
+  if (saveState.damaged || frozen) return;           // sauvegarde endommagée : rien n'est écrit (ni envoyé) avant le choix du joueur
   prog.savedAt = Date.now();
   store.set(KEY, prog);
   if (onSave) onSave();

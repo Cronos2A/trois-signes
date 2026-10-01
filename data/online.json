@@ -99,8 +99,6 @@
     "account": "Compte",
     "pseudoLabel": "Pseudo",
     "edit": "Modifier",
-    "google": "Lier mon compte Google",
-    "googleSoon": "Bientôt (Google Play Games)",
     "status": {
       "off": "Hors ligne : sauvegarde sur cet appareil",
       "connecting": "Connexion au serveur…",
@@ -110,5 +108,19 @@
       "error": "Serveur injoignable : sauvegarde sur cet appareil"
     },
     "id": "Joueur n° {id}"
+  },
+  "account": {
+    "note": "Compte (src/online/account.js) : liaison du compte anonyme à Google (même joueur, rien ne change) ; « Se connecter avec Google » sur un autre appareil ; suppression du compte. Web : fenêtre Google (linkWithPopup). Application Android (Capacitor) : extension nativePlugin (@capacitor-firebase/authentication, à installer), puis linkWithCredential. Si le compte Google a déjà une progression : le joueur choisit laquelle garder, rien n'est écrit avant. Suppression : closed/{uid} d'abord (firestore.rules), puis tous les documents du joueur (erase, et ranked/{uid}/games), puis le compte.",
+    "nativePlugin": "FirebaseAuthentication",
+    "closed": "closed",
+    "erase": ["players", "leaderboard", "queue", "runs", "daily", "wallet"],
+    "ranked": "ranked",
+    "backupKey": "ts_prog_before_google"
+  },
+  "report": {
+    "note": "Signaler un pseudo (classements, adversaire du Duel) : document reports/{uid du joueur}_{pseudo normalisé} = { pseudo, key, reason, by, at, board }. Un seul par joueur et par pseudo ; lisible seulement depuis la console Firebase (Firestore Database → reports). Raisons et origines recopiées dans firestore.rules (node tools/check-rules.mjs).",
+    "collection": "reports",
+    "reasons": ["insulte", "haine", "sexuel", "usurpation"],
+    "boards": ["voyage", "duel", "adversaire"]
   }
 }

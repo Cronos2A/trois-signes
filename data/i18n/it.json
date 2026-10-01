@@ -725,8 +725,6 @@
         "account": "Account",
         "pseudoLabel": "Nickname",
         "edit": "Modifica",
-        "google": "Collega il mio account Google",
-        "googleSoon": "Presto (Google Play Games)",
         "id": "Giocatore n° {id}",
         "status": {
           "off": "Offline: salvataggio su questo dispositivo",
@@ -2797,5 +2795,49 @@
         ]
       }
     }
+  },
+  "account": {
+    "googleSave": "Salva i miei progressi con Google",
+    "googleSignIn": "Accedi con Google",
+    "googleHint": "Per ritrovarli dopo una reinstallazione o su un altro telefono.",
+    "googleLinked": "Progressi salvati con Google",
+    "googleAs": "Account Google: {email}",
+    "pseudoHasSave": "Ho già dei progressi: accedi con Google",
+    "linkedOk": "Fatto: i tuoi progressi sono salvati con il tuo account Google. Su un altro telefono, tocca «Accedi con Google» nelle Impostazioni.",
+    "already": "Questo account è già collegato a Google.",
+    "offline": "Serve una connessione al server. Riprova quando torna la rete.",
+    "error": "Google non è riuscito a collegarsi ({code}). Riprova più tardi.",
+    "noPlugin": "L'accesso con Google arriverà presto nell'app.",
+    "chooseTitle": "Due progressi",
+    "chooseText": "Questo account Google ha già i suoi progressi. Quali vuoi tenere? Gli altri saranno cancellati.",
+    "here": "Questo telefono",
+    "google": "Account Google",
+    "noSave": "Nessun progresso",
+    "record": "Record {n}",
+    "level": "Livello {n}",
+    "stories": {
+      "one": "{n} storia completata",
+      "other": "{n} storie completate"
+    },
+    "wealth": "{gold} oro · {gems} gemme · {prints} Impronte",
+    "keep": "Tieni questi",
+    "confirmPhone": "I progressi di questo telefono sostituiranno quelli dell'account Google, che andranno persi. Gemme, Impronte e serie di accessi restano quelle dell'account Google.",
+    "confirmGoogle": "I progressi dell'account Google sostituiranno quelli di questo telefono, che andranno persi.",
+    "confirmOk": "Sì, tieni questi",
+    "back": "Indietro",
+    "cancel": "Annulla",
+    "ok": "OK",
+    "working": "Un attimo…",
+    "switched": "Fatto: il gioco riparte con il tuo account Google.",
+    "deleteBtn": "Elimina il mio account e i miei dati",
+    "deleteTitle": "Eliminare il tuo account?",
+    "deleteText": "Verranno cancellati, sul server e su questo telefono: tutti i tuoi progressi, le gemme, le Impronte, le ricompense di accesso, le tue righe nelle classifiche, poi l'account stesso.",
+    "deleteContinue": "Continua",
+    "deleteSure": "È definitivo: non si potrà recuperare nulla, nemmeno con Google. Eliminare per sempre?",
+    "deleteConfirm": "Elimina per sempre",
+    "deleting": "Eliminazione…",
+    "deleted": "Il tuo account e i tuoi dati sono stati eliminati. Il gioco ricomincia da zero.",
+    "deleteError": "L'eliminazione non è riuscita ({code}). Riprova più tardi.",
+    "deleteOffline": "Serve una connessione al server per eliminare il tuo account."
   }
 }
