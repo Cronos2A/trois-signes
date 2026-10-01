@@ -349,6 +349,16 @@
       "boss": {
         "name": "Boss"
       }
+    },
+    "progression": {
+      "ui": {
+        "level": "St. {lvl}",
+        "levelLong": "Stufe {lvl}",
+        "levelMax": "St. {lvl} · MAX",
+        "barMax": "MAX",
+        "reached": "Stufe {lvl} erreicht!",
+        "maxReached": "Höchststufe erreicht!"
+      }
     }
   }
 }
