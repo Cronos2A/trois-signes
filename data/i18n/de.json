@@ -2478,7 +2478,232 @@
             }
           ]
         },
-        null
+        {
+          "titre": "Die, die man retten kann",
+          "cinematique_ouverture": [
+            {
+              "texte": "Fontclaire, sein klares Wasser und sein kleines Heilhaus am Ende des Weges."
+            },
+            {
+              "texte": "Ein Tee gegen den Husten, eine Salbe für die Knie und ein Lächeln für alle!"
+            },
+            {
+              "texte": "Mira, du heilst zu schnell. Eines Tages triffst du auf etwas, das du nicht heilen kannst."
+            },
+            {
+              "texte": "Dann suche ich, bis ich es finde!"
+            },
+            {
+              "texte": "An jenem Morgen wusste ihr erster Patient nicht mehr, warum er gekommen war."
+            },
+            {
+              "texte": "Herr Fabre? Ihr seid wegen Eures Rückens gekommen… erinnert Ihr Euch?"
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Das Heilhaus",
+              "dialogue_avant": [
+                {
+                  "texte": "Einer nach dem anderen werden die Patienten grau."
+                },
+                {
+                  "texte": "Alle bleiben ruhig! Niemand verlässt das Wartezimmer!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Sie wissen nicht mehr, wer sie sind… Diese Krankheit kenne ich nicht."
+                }
+              ]
+            },
+            {
+              "titre": "Das graue Fieber",
+              "dialogue_avant": [
+                {
+                  "texte": "Die Stille breitet sich in Fontclaire aus wie ein Fieber."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Das heilt man nicht mit Tee. Ich brauche etwas anderes."
+                }
+              ]
+            },
+            {
+              "titre": "Der erste Gerettete",
+              "dialogue_avant": [
+                {
+                  "texte": "Großmutter sagte immer: „Eine Hand an der richtigen Stelle heilt mehr als jedes Mittel.“ Versuchen wir's."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "… Mira? Mein Rücken tut weh."
+                },
+                {
+                  "texte": "Er erinnert sich! Er erinnert sich an seinen Rücken!"
+                },
+                {
+                  "texte": "Dann kehrt das Grau langsam zurück. Aber Mira hat gesehen, was sie sehen musste."
+                }
+              ]
+            },
+            {
+              "titre": "Die Straße der Dörfer",
+              "dialogue_avant": [
+                {
+                  "texte": "Wenn es hier klappt, klappt es auch anderswo. Los geht's!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Drei Dörfer, elf zurückgegebene Erinnerungen! Jedes Mal nur ein paar Sekunden, schon gut. Aber es ist ein Anfang!"
+                }
+              ]
+            },
+            {
+              "titre": "Die Kräuterfrau",
+              "dialogue_avant": [
+                {
+                  "texte": "…die Pflanzen… ich kannte alle Pflanzen…"
+                },
+                {
+                  "texte": "Tante Hélo… Ihr habt mir alles beigebracht."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Heilen, wen ich kann. Mich an die anderen erinnern. Einverstanden."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Mira legt beide Hände auf die Stirn ihrer Lehrmeisterin."
+                },
+                {
+                  "texte": "Mira… Du heilst immer noch zu schnell."
+                },
+                {
+                  "texte": "Und Ihr hattet recht. Manche kann ich nicht heilen."
+                },
+                {
+                  "texte": "Dann heile die, die du kannst. Und erinnere dich an die anderen."
+                }
+              ]
+            },
+            {
+              "titre": "Begegnung: Boran",
+              "dialogue_avant": [
+                {
+                  "texte": "Halt! Nicht den da schlagen!"
+                },
+                {
+                  "texte": "Er greift uns an."
+                },
+                {
+                  "texte": "Weil er Angst hat. Gebt mir Deckung, Großer!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ihr habt ihn gerettet?"
+                },
+                {
+                  "texte": "Für einen Moment. Und ein Moment ist schon eine Erinnerung."
+                }
+              ]
+            },
+            {
+              "titre": "Das Flüchtlingslager",
+              "dialogue_avant": [
+                {
+                  "texte": "Zweihundert Flüchtlinge, ein einziger Wächter. Zum Glück zählt er für zehn."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Im Heilzelt arbeitet Mira die ganze Nacht. Draußen hält Boran Wache."
+                }
+              ]
+            },
+            {
+              "titre": "Die unmöglichen Heilungen",
+              "dialogue_avant": [
+                {
+                  "texte": "Manche Verblasste reagieren nicht mehr auf das Tippen. Überhaupt nicht."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ich kann sie nicht alle retten."
+                },
+                {
+                  "texte": "Nein. Aber Ihr erinnert Euch an sie. Das zählt."
+                },
+                {
+                  "texte": "… Das ist mein Satz."
+                }
+              ]
+            },
+            {
+              "titre": "Die Nachtwache",
+              "dialogue_avant": [
+                {
+                  "texte": "Warum sie leiden lassen, Heilerin? Vergessen tut nicht weh. Ich lindere ihr Leid."
+                },
+                {
+                  "texte": "Ihr lindert nichts. Ihr löscht sie aus."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ich gehe zum Herzen."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Die Nachtwache wankt. Unter ihrer grauen Kapuze das Gesicht einer früheren Krankenschwester."
+                },
+                {
+                  "texte": "Ich wollte nur… dass niemand mehr Schmerzen hat…"
+                },
+                {
+                  "texte": "Ich weiß. Ich auch. Aber der Schmerz gehört zu den Erinnerungen."
+                },
+                {
+                  "texte": "Mira hält ihre Hand bis zum Ende. Dann steht sie auf und geht auf das Herz zu."
+                }
+              ]
+            },
+            {
+              "titre": "Das Herz der Stille",
+              "dialogue_avant": [
+                {
+                  "texte": "…es tut weh… sich zu erinnern… lass mich vergessen…"
+                },
+                {
+                  "texte": "Nein. Nicht Ihr. Euch kann ich noch heilen."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Mira legt die Hände auf die Stirn des Meisters. Das Tippen, mit aller Kraft."
+            },
+            {
+              "texte": "Das ist warm… wie ein Tee…"
+            },
+            {
+              "texte": "Mit Honig. Das ist das Geheimnis."
+            },
+            {
+              "texte": "Ein Erinnerungsfragment kehrt zum Meister zurück."
+            }
+          ]
+        }
       ]
     }
   }
