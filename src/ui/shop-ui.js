@@ -10,7 +10,7 @@ import { glyph, trailIcon, facets } from './icons.js';
 import { itemIcon, tpl } from './weapon-ui.js';
 import { moneyIcon, priceHtml, nf } from './money.js';
 import { sfx } from '../audio/audio.js';
-import { leftToday, noAds } from '../ads/ads.js';
+import { leftToday, noAds, adsReady } from '../ads/ads.js';
 import { adIcon } from './ad-ui.js';
 import { tr } from '../i18n.js';
 import { boostTypes, stockOf, activeOf, stockFull } from '../game/boosts.js';
@@ -74,12 +74,14 @@ function chestsHtml() {
 const AU = () => D.ads.ui;
 const perDay = k => { const left = leftToday(k); return left ? tpl(AU().perDay, { left, max: D.ads.rewarded[k].perDay }) : AU().noneLeft; };
 
+/** Pub impossible ici (site web publié) : « Disponible dans l'application » à la place du bouton. */
+const storeOnly = () => `<button class="mini-btn ad-btn ad-store" disabled>${AU().store}</button>`;
 /** Coffre simple gratuit contre une pub, 1 fois par jour. */
 function freeChestHtml() {
   const st = chestState(D.ads.rewarded.freeChest.chest, true), can = st.can && leftToday('freeChest') > 0;
   return `<div class="ad-card-shop"><img class="big-ic" src="${D.economy.chests.simple.image.closed}" width="56" height="56" alt="">
       <div class="txt"><b>${AU().freeChestBtn}</b><span class="ad-count">${perDay('freeChest')}</span></div>
-      <button class="mini-btn ad-btn" data-act="adChest" ${can ? '' : 'disabled'}>${adIcon(20)}${AU().watch}</button></div>`;
+      ${adsReady() ? `<button class="mini-btn ad-btn" data-act="adChest" ${can ? '' : 'disabled'}>${adIcon(20)}${AU().watch}</button>` : storeOnly()}</div>`;
 }
 
 /** +5 gemmes contre une pub (3 fois par jour) et « Sans publicité ». */
@@ -87,7 +89,7 @@ function adGemsHtml() {
   const n = D.ads.rewarded.gems.amount, left = leftToday('gems');
   return `<div class="ad-card-shop">${moneyIcon('gems', 48)}
       <div class="txt"><b>${AU().gemsTitle}</b><span>${tpl(AU().gemsText, { n })}</span><span class="ad-count">${perDay('gems')}</span></div>
-      <button class="mini-btn ad-btn" data-act="adGems" ${left ? '' : 'disabled'}>${adIcon(20)}${tpl(AU().gemsBtn, { n })}</button></div>`;
+      ${adsReady() ? `<button class="mini-btn ad-btn" data-act="adGems" ${left ? '' : 'disabled'}>${adIcon(20)}${tpl(AU().gemsBtn, { n })}</button>` : storeOnly()}</div>`;
 }
 function noAdsHtml() {
   const on = noAds();

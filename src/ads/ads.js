@@ -17,6 +17,13 @@ export async function initAds() {
   try { if (useAdmob()) await admobInit(A().admob); } catch (e) { /* sans pub, le jeu continue */ }
 }
 const useAdmob = () => A().provider !== 'test' && admobAvailable();
+/** Fausse pub de test : seulement sur les adresses de développement (data/ads.json → test.hosts), jamais dans l'application. */
+const fakeAllowed = () => { try { return !(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) && A().test.hosts.includes(location.hostname); } catch (e) { return false; } };
+/**
+ * Une pub peut-elle être montrée ici ? AdMob dans l'application, ou fausse pub en développement.
+ * Sur le web publié : non. Les boutons de pub sont alors masqués (ou « Disponible dans l'application ») et rien n'est gagné.
+ */
+export const adsReady = () => useAdmob() || fakeAllowed();
 
 /* ---------- Temps de jeu (pas de pub plein écran avant graceMinutes) ---------- */
 /** Appelé par la boucle de jeu pendant un combat, l'Entraînement ou la leçon. */
@@ -46,7 +53,7 @@ function useToday(k) { const u = daily(); u[k] = (u[k] || 0) + 1; saveProg(); }
  * ctx.duel : jamais en Duel (data/ads.json → duel).
  */
 export async function showRewarded(ctx = {}) {
-  if (busy || (ctx.duel && !A().duel.rewards)) return false;
+  if (busy || (ctx.duel && !A().duel.rewards) || !adsReady()) return false;
   busy = true;
   try {
     if (useAdmob()) return await admobRewarded(A().admob);
@@ -55,7 +62,7 @@ export async function showRewarded(ctx = {}) {
 }
 
 async function showInterstitial() {
-  if (busy) return;
+  if (busy || !adsReady()) return;
   busy = true;
   try {
     if (useAdmob()) await admobInterstitial(A().admob);

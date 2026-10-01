@@ -13,7 +13,7 @@ import { coinGold, arenaGold, voyageEndGold, addGold, syncGems } from './game/ec
 import { look } from './game/cosmetics.js';
 import { combatLook } from './ui/looks.js';
 import { showCover, hideCover } from './ui/cover.js';
-import { initAds, tickPlay, flushPlay, noteVoyageEnd, showRewarded } from './ads/ads.js';
+import { initAds, tickPlay, flushPlay, noteVoyageEnd, showRewarded, adsReady } from './ads/ads.js';
 import { askChoice, adToast } from './ui/ad-ui.js';
 import { showRewards } from './ui/reward-ui.js';
 import { rand } from './util.js';
@@ -259,7 +259,7 @@ async function start(mode, opts = {}) {
  */
 async function koOrSecondChance() {
   const R = D.ads.rewarded.secondChance, b = G.battle, U = D.ads.ui;
-  if (b.xpMode !== 'voyage' || b.duel || G.secondChances >= R.perGame) return endGame('ko');
+  if (b.xpMode !== 'voyage' || b.duel || G.secondChances >= R.perGame || !adsReady()) return endGame('ko');   // pas de pub ici : pas d'offre
   G.paused = true;
   const yes = await askChoice(U.secondTitle, U.secondText.replace('{pct}', Math.round(R.hp * 100)), U.secondYes, U.secondNo);
   const ok = yes && await showRewarded({ duel: b.duel });

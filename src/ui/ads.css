@@ -27,3 +27,4 @@
 .ad-card-shop .mini-btn{padding:0 12px;white-space:nowrap}
 .ad-card-shop .big-ic{flex-shrink:0}
 .res-ad{align-self:stretch;height:44px;gap:8px}
+.ad-card-shop .ad-store{white-space:normal;height:auto;min-height:34px;max-width:132px;padding:4px 10px;line-height:1.15;text-align:center;font-size:12px;background:var(--color-surface);opacity:1}

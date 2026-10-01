@@ -9,7 +9,7 @@ import { prog } from '../game/progress.js';
 import { dayRewards, streakReward, calendarReward, grantDay, adOffer, grantAd, shownToday, markShown } from '../game/daily.js';
 import { boostTypes, stockOf, activeOf, activateBoost, offerable } from '../game/boosts.js';
 import { dailyStatus, claimDaily } from '../online/daily-net.js';
-import { showRewarded } from '../ads/ads.js';
+import { showRewarded, adsReady } from '../ads/ads.js';
 import { adToast } from './ad-ui.js';
 import { showRewards } from './reward-ui.js';
 import { sfx } from '../audio/audio.js';
@@ -120,7 +120,7 @@ const dayGoldOf = s => { const R = dayRewards(s); return [...R.streak, ...R.cal]
 /** Bouton de pub du jour (vert, pastille « lecture ») : doubler l'or, ou bonus s'il n'y a pas d'or ce jour-là. */
 function adButton(today, before) {
   const o = before ? (dayGoldOf(nextOf(status)) > 0 ? { double: true } : { bonus: true, n: DD().ad.bonusGold }) : adOffer(today);
-  if (!o || prog.daily.adDay === today) return '';
+  if (!o || prog.daily.adDay === today || !adsReady()) return '';   // pas de pub ici (site web publié) : pas de bouton
   const label = o.double ? tr('daily.adDouble') : tr('daily.adBonus', { n: nfi(o.n) });
   return `<button class="dy-ad" data-dy="ad"><i class="dy-play" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" fill="#FFF1D6" stroke="#FFF1D6" stroke-width="2.75" stroke-linejoin="round"/></svg></i><span>${label}</span></button>`;
 }

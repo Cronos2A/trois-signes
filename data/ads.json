@@ -1,7 +1,7 @@
 {
   "note": "Publicités. Sur le web : fausse pub de test. Dans l'application (plus tard) : AdMob via @capacitor-community/admob, avec la fenêtre de consentement UMP de Google au premier lancement (src/ads/admob.js, pas encore installé). Les pubs récompensées sont toujours au choix du joueur ; la récompense n'est donnée que si la pub est regardée jusqu'au bout.",
   "provider": "auto",
-  "test": { "seconds": 5 },
+  "test": { "seconds": 5, "hosts": ["localhost", "127.0.0.1"], "note": "Fausse pub (ui/ad-ui.js) : seulement sur ces adresses (développement). Ailleurs sur le web, aucune pub : boutons de pub masqués, ou « Disponible dans l'application » dans la boutique ; rien n'est gagné. Dans l'application : AdMob (admob.js)." },
   "admob": {
     "note": "Identifiants à remplir à la mise en place d'AdMob (ceux-ci sont les identifiants de TEST de Google).",
     "initializeForTesting": true,

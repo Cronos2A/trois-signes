@@ -13,7 +13,7 @@ import { equipTalisman } from '../game/talismans.js';
 import { wallet, testMode, addGold, addGems, resetShop, countries } from '../game/economy.js';
 import { shopHtml, confirmHtml, boughtHtml, doBuy, oddsHtml, chestIntroHtml, chestRevealHtml, cosmeticCardHtml, heroLobbyHtml, equip, item } from './shop-ui.js';
 import { onSkinReady } from './looks.js';
-import { showRewarded, afterVoyageResults, watchForGems, watchForChest, setNoAds, noAds, resetAds, adsState, addPlaySeconds } from '../ads/ads.js';
+import { showRewarded, adsReady, afterVoyageResults, watchForGems, watchForChest, setNoAds, noAds, resetAds, adsState, addPlaySeconds } from '../ads/ads.js';
 import { adIcon, adToast } from './ad-ui.js';
 import { openChest } from '../game/economy.js';
 import { moneyIcon, goldGainHtml } from './money.js';
@@ -421,7 +421,7 @@ export function showResults(r) {
       </div>
       ${weaponGainHtml(r.weapon)}
       ${goldGainHtml(r.gold)}
-      ${r.gold && r.voyage && D.ads.rewarded.doubleGold.perGame > 0 ? `<button class="mini-btn res-ad ad-btn" data-act="adDouble">${adIcon(22)}${D.ads.ui.doubleGold.replace('{n}', nfi(r.gold))}</button>` : ''}
+      ${r.gold && r.voyage && D.ads.rewarded.doubleGold.perGame > 0 && adsReady() ? `<button class="mini-btn res-ad ad-btn" data-act="adDouble">${adIcon(22)}${D.ads.ui.doubleGold.replace('{n}', nfi(r.gold))}</button>` : ''}
       <button class="res-again" data-act="again"><span class="ol ol-4">${tr('common.replay')}</span></button>
       <button class="mini-btn res-home" data-act="home">${tr('results.home')}</button>
     </div>`;
