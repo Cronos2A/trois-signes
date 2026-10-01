@@ -2704,7 +2704,102 @@
             }
           ]
         }
-      ]
+      ],
+      "prologue_commun": [
+        {
+          "texte": "Vor langer Zeit schützten drei einfache Gesten die Menschen: der Kreis, um sich zu wehren, das Dreieck, um zuzuschlagen, das Tippen, um zu heilen und zu verbinden."
+        },
+        {
+          "texte": "Man nannte sie den Abdruck. Ein alter Meister, Eldan, lehrte sie jeden, der sie lernen wollte."
+        },
+        {
+          "texte": "Dann kam die Stille. Sie brach keine Türen auf: Sie löschte Erinnerungen."
+        },
+        {
+          "texte": "Wer alles vergisst, wird zu einem Verblassten. Graue, leere Gestalten… die nie Monster waren."
+        },
+        {
+          "texte": "Sechs Menschen erinnern sich noch an die drei Zeichen. Das sind ihre Geschichten."
+        }
+      ],
+      "arrivee_coeur": {
+        "cinematique": [
+          {
+            "texte": "In der Mitte der Welt eine weiße Lichtung. Kein Wind, kein Laut, keine Farbe."
+          },
+          {
+            "texte": "In ihrer Mitte zeichnet ein alter Mann Zeichen ins Leere. Wieder und wieder."
+          },
+          {
+            "texte": "Kreis… Dreieck… Tippen… Wozu war das noch gut?"
+          }
+        ]
+      },
+      "epilogue_final": {
+        "cinematique": [
+          {
+            "texte": "Sechs Fragmente. Sechs Helden. Und endlich eine ganze Erinnerung."
+          },
+          {
+            "texte": "Ich heiße Eldan. Ich bin… ich war… ein Meister."
+          },
+          {
+            "texte": "Das seid Ihr noch immer."
+          },
+          {
+            "texte": "Und Ihr schuldet uns ein paar Erklärungen."
+          },
+          {
+            "texte": "Dann setzt euch. Es ist eine lange Geschichte. Und dieses Mal gebe ich sie weiter."
+          },
+          {
+            "texte": "Neuer Charakter freigeschaltet: Eldan, der Meister. Seine Geschichte ist bald verfügbar."
+          }
+        ]
+      },
+      "ennemis_speciaux": {
+        "liste": [
+          {
+            "nom": "Bram, der Brückenwächter"
+          },
+          {
+            "nom": "Sir Corvin"
+          },
+          {
+            "nom": "Frau Sorel, die Gildenmeisterin"
+          },
+          {
+            "nom": "Das Spiegelbild"
+          },
+          {
+            "nom": "Tonnerre, der Steinstier"
+          },
+          {
+            "nom": "Oren, der Pflüger"
+          },
+          {
+            "nom": "Der Archivar"
+          },
+          {
+            "nom": "Séléna, die Feder ohne Tinte"
+          },
+          {
+            "nom": "Der Fährtenleser (Pieter)"
+          },
+          {
+            "nom": "Hauptmann Hardel, der Späher"
+          },
+          {
+            "nom": "Tante Hélo, die Kräuterfrau"
+          },
+          {
+            "nom": "Die Nachtwache"
+          },
+          {
+            "nom": "Meister Eldan, der Vergessene"
+          }
+        ]
+      }
     }
   }
 }
