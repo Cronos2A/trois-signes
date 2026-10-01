@@ -240,7 +240,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Chaque `saveProg()` date la sauvegarde (`prog.savedAt`) et déclenche un envoi différé (3 s) ; au lancement, la plus récente l'emporte
   (serveur plus récent → `replaceProg`, jamais en pleine partie : appliqué au retour au lobby). Hors connexion : `ts_prog` reste la référence,
   envoi au retour du réseau (nouvel essai toutes les 20 s). Les Réglages du son (`ts_settings`) restent propres à l'appareil.
-- **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026 ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
+- **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026, puis le 01/10/2026 avec `daily/{uid}` et les gemmes du jour ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
   chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ;
   salons `duels/{code}` et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}`, Empreintes `ranked/{uid}`,
   gemmes `wallet/{uid}`, début de partie du Voyage `runs/{uid}` (voir « Sécurité »), récompenses de connexion `daily/{uid}` ; tout le reste fermé.

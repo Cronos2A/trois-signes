@@ -12,10 +12,8 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 
 ---
 
-## 🔵 Récompenses de connexion (30/09/2026) — à faire de ton côté, puis à surveiller
-- **Publier les nouvelles règles** `firestore.rules` dans la console Firebase (Firestore Database → Règles) : collection `daily/{uid}`
-  et gemmes du jour dans `wallet/{uid}`. Tant qu'elles ne sont pas publiées, le serveur refuse les récupérations : le jeu affiche
-  « À récupérer dès que la connexion revient » (rien n'est perdu, le jour reste à récupérer). Offre gratuite Spark : suffit.
+## 🔵 Récompenses de connexion (30/09/2026) — à surveiller
+- **Règles publiées le 01/10/2026** (`firestore.rules` : collection `daily/{uid}` et gemmes du jour dans `wallet/{uid}`), confirmé par toi.
 - Or, boosts et cosmétiques reçus vivent dans la sauvegarde (comme l'or des parties) : avec deux appareils sur le même compte, la sauvegarde
   la plus récente l'emporte (règle déjà en place pour tout le jeu). Le serveur empêche seulement de récupérer deux fois le même jour.
 - Rythme à observer au test fermé, pour 30 jours de suite (hors pubs) : ~4 800 or (2 650 du calendrier + ~2 150 de la série),
