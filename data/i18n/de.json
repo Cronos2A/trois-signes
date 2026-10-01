@@ -400,6 +400,40 @@
           ]
         }
       ]
+    },
+    "ads": {
+      "noAds": {
+        "price": "2,99 €"
+      },
+      "ui": {
+        "testTitle": "Testwerbung",
+        "testText": "Hier erscheint in der App echte Werbung.",
+        "rewardHint": "Schau bis zum Ende, um die Belohnung zu bekommen.",
+        "rewardDone": "Belohnung freigeschaltet!",
+        "rewardLost": "Werbung zu früh geschlossen: keine Belohnung.",
+        "close": "Schließen",
+        "watch": "Werbung ansehen",
+        "doubleGold": "Gold verdoppeln (+{n})",
+        "doubled": "Gold verdoppelt!",
+        "secondTitle": "Zweite Chance?",
+        "secondText": "Sieh dir Werbung an, um die Reise mit {pct} % deiner LP fortzusetzen.",
+        "secondYes": "Zweite Chance",
+        "secondNo": "Nein danke",
+        "gemsTitle": "Gratis-Edelsteine",
+        "gemsText": "Sieh dir Werbung an und erhalte {n} Edelsteine.",
+        "gemsBtn": "+{n} Edelsteine",
+        "freeChestBtn": "Gratis-Truhe",
+        "perDay": "{left} / {max} heute",
+        "noneLeft": "Komm morgen wieder",
+        "noAdsTitle": "Werbefrei",
+        "noAdsText": "Keine Vollbildwerbung mehr. Werbung mit Belohnung bleibt verfügbar.",
+        "noAdsOwned": "Gekauft: keine Vollbildwerbung mehr",
+        "store": "In der App verfügbar",
+        "testNoAds": "Werbefrei (Test)",
+        "testGrace": "10 Min. überspringen",
+        "testResetAds": "Werbung zurücksetzen",
+        "testState": "Spielzeit: {min} Min. · Reisen: {games}"
+      }
     }
   }
 }
