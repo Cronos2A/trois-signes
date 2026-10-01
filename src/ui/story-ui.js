@@ -117,7 +117,7 @@ export function renderMap(h, st, on, toast) {
     const W = root.clientWidth, H = root.clientHeight, kx = W / 390;
     const top = root.querySelector('.st-head').getBoundingClientRect().bottom + 48;
     const cardTop = root.querySelector('#stSel').getBoundingClientRect().top;
-    const step = Math.max(54, (cardTop - 44 - top) / 9);
+    const step = Math.max(58, (cardTop - 44 - top) / 9);   // ronds de 50 px, au moins 8 px entre deux zones tactiles
     const bottom = top + step * 9, innerH = Math.max(H, bottom + (H - cardTop) + 44);
     inner.style.height = innerH + 'px';
     const pos = XS.map((x, i) => [x * kx, bottom - i * step - (i === 9 ? 4 : 0)]);
