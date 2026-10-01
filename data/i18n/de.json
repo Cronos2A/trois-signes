@@ -1330,6 +1330,250 @@
         }
       ],
       "handHint": "Folge der Hand"
+    },
+    "story_mode": {
+      "histoires": [
+        {
+          "titre": "Der letzte Schüler",
+          "cinematique_ouverture": [
+            {
+              "texte": "In Pierrelune beginnt jeder Morgen mit einer Lektion."
+            },
+            {
+              "texte": "Der Kreis schützt dich. Das Dreieck verteidigt dich. Das Tippen verbindet dich mit den anderen. Drei Gesten, Aldric. Nicht eine mehr."
+            },
+            {
+              "texte": "Und wenn ich sie auswendig kann, Meister?"
+            },
+            {
+              "texte": "Dann musst du sie jemand anderem beibringen. Nur so gehen sie nicht verloren."
+            },
+            {
+              "texte": "An jenem Morgen kam ein grauer Nebel vom Berg herab. Und der Meister beendete seine Lektion nie."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Pierrelune",
+              "dialogue_avant": [
+                {
+                  "texte": "Gestalten an den Toren des Dorfes… Sie haben keine Gesichter!"
+                },
+                {
+                  "texte": "Aldric! Die Zeichen, so wie ich sie dich gelehrt habe!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Meister? Meister, wo seid Ihr?"
+                },
+                {
+                  "texte": "Niemand antwortet. Der Nebel hat die Stimme des Meisters fortgetragen."
+                }
+              ]
+            },
+            {
+              "titre": "Die Nacht der Stille",
+              "dialogue_avant": [
+                {
+                  "texte": "Die Nacht senkt sich über Pierrelune, und die Farben erlöschen eine nach der anderen."
+                },
+                {
+                  "texte": "Bleibt hinter mir. Heute Nacht verschwindet niemand mehr."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Aldric… wie hieß noch mal mein Mann?"
+                },
+                {
+                  "texte": "Er hieß Jorran, Maud. Ich werde Euch jeden Tag daran erinnern, wenn es sein muss."
+                }
+              ]
+            },
+            {
+              "titre": "Das leere Haus",
+              "dialogue_avant": [
+                {
+                  "texte": "Die Tür des Meisters steht offen. Das sieht ihm nicht ähnlich."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Auf dem Tisch: eine aus dem Kodex gerissene Seite und eine hastig gekritzelte Karte."
+                },
+                {
+                  "texte": "„Die Nebelbrücke, dann die Schule.“ Welche Schule?"
+                }
+              ]
+            },
+            {
+              "titre": "Die Nebelbrücke",
+              "dialogue_avant": [
+                {
+                  "texte": "Die einzige Brücke, die noch steht. Wenn ich sie überquere, gibt es kein Zurück."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Pierrelune, ich komme wieder. Mit dem Meister."
+                }
+              ]
+            },
+            {
+              "titre": "Der Brückenwächter",
+              "dialogue_avant": [
+                {
+                  "texte": "…schmieden… ich musste… was schmieden, noch mal…"
+                },
+                {
+                  "texte": "Bram? Du hast mein Schwert geschmiedet…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ruh dich aus, Bram."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Der Verblasste bricht zusammen. Einen Moment lang sind seine Augen wieder die des alten Schmieds."
+                },
+                {
+                  "texte": "Aldric… dein Schwert… du hältst es immer noch zu hoch."
+                },
+                {
+                  "texte": "Ich weiß, Bram. Ich weiß."
+                },
+                {
+                  "texte": "Dann trägt ihn der Nebel fort, und die Brücke öffnet sich endlich vor ihm."
+                }
+              ]
+            },
+            {
+              "titre": "Begegnung: Nyra",
+              "dialogue_avant": [
+                {
+                  "texte": "Schicker Mantel, Ritter. Suchst du auch einen alten Mann, der Kreise in die Luft zeichnet?"
+                },
+                {
+                  "texte": "Du sprichst von meinem Meister. Wer bist du?"
+                },
+                {
+                  "texte": "Jemand, dem er etwas schuldet. Und wir sind umzingelt, also muss die Vorstellungsrunde warten."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Nicht übel, für jemanden, der so steif ist."
+                },
+                {
+                  "texte": "Wir reisen gemeinsam bis zur Schule. Danach sehen wir weiter."
+                }
+              ]
+            },
+            {
+              "titre": "Die Schule der Zeichen",
+              "dialogue_avant": [
+                {
+                  "texte": "Riesige Ruinen, bedeckt mit Dreiecken und Kreisen, die in den Stein gemeißelt sind."
+                },
+                {
+                  "texte": "An dieser Wand stehen Hunderte Namen… Alles seine Schüler?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Er hat mir nie gesagt, dass ich Waffenbrüder und -schwestern habe."
+                },
+                {
+                  "texte": "Mir hat er auch nie viel erzählt."
+                }
+              ]
+            },
+            {
+              "titre": "Die vergessenen Schüler",
+              "dialogue_avant": [
+                {
+                  "texte": "…Kreis… Dreieck… Kreis… warum… warum funktioniert es nicht mehr…"
+                },
+                {
+                  "texte": "Sie zeichnen die Zeichen noch. Aber es ist nichts mehr in ihnen."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ein Zeichen ohne Erinnerung ist nur eine Geste. Der Meister hatte recht."
+                }
+              ]
+            },
+            {
+              "titre": "Sir Corvin",
+              "dialogue_avant": [
+                {
+                  "texte": "Der Jüngste. Hat er dir dieselbe Lektion beigebracht wie mir? „Drei Gesten, nicht eine mehr“?"
+                },
+                {
+                  "texte": "Ihr… Ihr erinnert Euch?"
+                },
+                {
+                  "texte": "Ich erinnere mich an alles. Nur nicht daran, warum es wichtig war."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Dann erinnere ich mich für uns beide."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Corvin sinkt auf die Knie. Seine graue Klinge bekommt Risse wie Glas."
+                },
+                {
+                  "texte": "Er hat uns alles gegeben… und wir haben ihn mit seinen Erinnerungen allein gelassen."
+                },
+                {
+                  "texte": "Er ist im Herzen, Junge. Dort, wo alles zu erlöschen begann."
+                },
+                {
+                  "texte": "Dann gehe ich dorthin."
+                }
+              ]
+            },
+            {
+              "titre": "Das Herz der Stille",
+              "dialogue_avant": [
+                {
+                  "texte": "…ein Schüler… noch ein Schüler… ich habe euch alle vergessen…"
+                },
+                {
+                  "texte": "Meister?!"
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Aldrics letztes Zeichen durchdringt die Stille wie ein Sonnenstrahl."
+            },
+            {
+              "texte": "Aldric… Du hältst dein Schwert immer noch zu hoch."
+            },
+            {
+              "texte": "Das hat Bram auch immer gesagt."
+            },
+            {
+              "texte": "Ein Erinnerungsfragment kehrt zum Meister zurück."
+            }
+          ]
+        },
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
     }
   }
 }
