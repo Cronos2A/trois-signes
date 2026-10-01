@@ -1,0 +1,336 @@
+{
+  "note": "Deutsche Texte der Oberfläche. Fehlende Schlüssel werden aus dem Französischen (fr.json) genommen. Texte aus den anderen Dateien in data/ stehen im Abschnitt \"data\", unter demselben Pfad wie in der Originaldatei.",
+  "units": {
+    "seconds": "{n} s",
+    "xp": "{n} EP",
+    "hp": "{n} LP",
+    "points": {
+      "one": "Punkt",
+      "other": "Punkte"
+    },
+    "hpGain": "+{n} LP",
+    "pctHp": "+{pct} % LP",
+    "goldGain": "+{n} Gold"
+  },
+  "hud": {
+    "quit": "Beenden",
+    "skip": "Weiter",
+    "lesson": "LEKTION",
+    "boss": "BOSS",
+    "guardian": "WÄCHTER",
+    "round": "RUNDE",
+    "wave": "WELLE",
+    "super": "SUPER",
+    "streak": "Serie",
+    "streakMult": "Serie ×{m}",
+    "gaugeTitle": "Superleiste",
+    "score": "PUNKTE",
+    "superAria": "Superangriff auslösen"
+  },
+  "battle": {
+    "wave": "Welle",
+    "round": "Runde",
+    "lesson": "Lektion",
+    "numbered": "{label} {n}"
+  },
+  "signs": {
+    "triangle": "Dreieck",
+    "circle": "Kreis",
+    "tap": "Tippen"
+  },
+  "combat": {
+    "noTarget": "Kein Ziel",
+    "autoDodge": "automatisch ausgewichen",
+    "dodgePct": "Ausweichen {pct} %",
+    "noDamage": "kein Schaden",
+    "attack": "Angriff",
+    "dodge": "Ausweichen",
+    "combo": "Kombo {grade}",
+    "comboEffect": "Wirkung ×{m}",
+    "eldanGuardSub": "er schützt sich",
+    "eldanCallSub": "er ruft einen Verblassten",
+    "tooLate": "Zu spät",
+    "tooLateSub": "zeichne den Kreis während der Warnung",
+    "pickup": "Aufsammeln",
+    "gradeLine": "{label} · {acc} %"
+  },
+  "train": {
+    "intro": "Zeichne Dreiecke und Kreise, tippe auf die Gegenstände. Nach jeder Geste siehst du deine Genauigkeit.",
+    "pickup": "Aufsammeln {grade}",
+    "pickupCombo": "Aufsammeln {grade} in Kombo ×{m}",
+    "tapMiss": "Hier ist nichts: tippe auf eine Münze oder ein Herz.",
+    "fail": "{reason}. Serie zurückgesetzt.",
+    "missedAttack": "Angriff verfehlt: Genauigkeit {acc} % (mindestens {min} %). Serie zurückgesetzt.",
+    "missedDodge": "Ausweichen verfehlt: Genauigkeit {acc} % (mindestens {min} %). Serie zurückgesetzt.",
+    "attack": "Angriff {grade}: {dmg} Schaden",
+    "attackCombo": "Angriff {grade}: {dmg} Schaden (Kombo ×{m})",
+    "dodge": "Ausweichen {grade}: {pct} % des Schadens vermieden",
+    "dodgeCombo": "Ausweichen {grade}: {pct} % des Schadens vermieden + Konter (Kombo)",
+    "streak": ". Serie {grade}: {n}/{len}"
+  },
+  "error": {
+    "load": "Die Spieldaten konnten nicht geladen werden ({msg})."
+  },
+  "common": {
+    "tapSkip": "tippen zum Überspringen",
+    "tapContinue": "tippen zum Fortfahren",
+    "back": "Zurück",
+    "close": "Schließen",
+    "yes": "Ja",
+    "no": "Nein",
+    "soon": "Bald",
+    "continue": "Weiter",
+    "play": "Spielen",
+    "replay": "Nochmal",
+    "retry": "Nochmal",
+    "later": "Später",
+    "labelValue": "{label}: {value}",
+    "ok": "OK"
+  },
+  "voyage": {
+    "kickArena": "ARENA {n} / {total}",
+    "kickBeyond": "ENDLOS",
+    "discovered": "ARENA ENTDECKT"
+  },
+  "dialogue": {
+    "note": "Artikel und Titel, die von einem Namen entfernt werden, um den Anfangsbuchstaben für ein fehlendes Porträt zu finden.",
+    "titles": [
+      "Der ",
+      "Die ",
+      "Das ",
+      "Sir ",
+      "Frau ",
+      "Tante ",
+      "Hauptmann ",
+      "Meister ",
+      "Herr "
+    ],
+    "skip": "Überspringen"
+  },
+  "lesson": {
+    "range": "{min}–{max} %"
+  },
+  "gestures": {
+    "tooSmall": "Form zu klein",
+    "notClosed": "Form nicht geschlossen",
+    "fourCorners": "4 Ecken: zeichne ein Dreieck",
+    "unknown": "Form nicht erkannt"
+  },
+  "money": {
+    "gold": "Gold",
+    "gems": "Edelsteine",
+    "goldAmount": "{n} Gold",
+    "gemsAmount": "{n} Edelsteine",
+    "pct": "{n} %",
+    "plusPct": "+{n} %"
+  },
+  "story": {
+    "victoryToast": "Sieg! +{xp} EP · +{gold} Gold",
+    "title": "Geschichten",
+    "fragments": "ERINNERUNGSFRAGMENTE",
+    "found": "Gefunden",
+    "eldanSoon": "Der Meister · bald verfügbar",
+    "eldanUnknown": "???",
+    "eldanLocked": "Schließe alle sechs Geschichten ab",
+    "backLobby": "Zurück zur Lobby",
+    "backStories": "Zurück zu den Geschichten",
+    "stepAria": "Etappe {n}: {title}",
+    "heroStory": "{of} GESCHICHTE",
+    "waves": {
+      "one": "{n} Welle",
+      "other": "{n} Wellen"
+    },
+    "lastIs": "{type} in der letzten",
+    "stepKick": "ETAPPE {n} · {type}",
+    "lockedStep": "Schließe Etappe {n} ab, um sie freizuschalten",
+    "ko": "K.O.",
+    "reviewDialogue": "Dialog ansehen",
+    "victory": "Sieg",
+    "heroXp": "Held {v}",
+    "finished": "{title} · ABGESCHLOSSEN",
+    "fragmentFound": "Erinnerungsfragment gefunden",
+    "memory": "Meister Eldan kehrt eine Erinnerung zurück",
+    "newCharacter": "NEUER CHARAKTER",
+    "eldanTitle": "der Meister",
+    "eldanSoonLong": "Seine Geschichte ist bald verfügbar",
+    "seeCharacter": "Charakter ansehen"
+  },
+  "of": {
+    "note": "Genitiv jedes Ortes und Helden, ausgeschrieben (Variable {of}).",
+    "hero": {
+      "aldric": "Aldrics",
+      "nyra": "Nyras",
+      "boran": "Borans",
+      "ilwen": "Ilwens",
+      "kestrel": "Kestrels",
+      "mira": "Miras"
+    },
+    "arena": {
+      "foret_mousse": "des Mooswalds",
+      "hautes_gerbes": "von Hautes-Gerbes",
+      "fontclaire": "von Fontclaire",
+      "velis_toits": "der Dächer von Vélis",
+      "aubelle_biblio": "der Bibliothek von Aubelle",
+      "col_vents": "des Windpasses",
+      "ecole_ruines": "der Schule der Zeichen",
+      "coeur_silence": "des Herzens der Stille"
+    }
+  },
+  "lobby": {
+    "tabs": {
+      "play": "Spielen",
+      "char": "Held",
+      "shop": "Shop"
+    },
+    "settingsAria": "Einstellungen",
+    "pseudoAria": "Spielername",
+    "gold": "Gold",
+    "gems": "Edelsteine",
+    "soloKicker": "SOLO · {name}",
+    "record": "{name}: Rekord {n}",
+    "farthest": "Weiteste Arena:",
+    "none": "keine",
+    "lesson": "Lektion ansehen",
+    "training": "Training",
+    "pve": "PVE",
+    "pvp": "PVP",
+    "solo": "Solo",
+    "soloSub": "Die Reise",
+    "story": "Story",
+    "storySub": "6 Helden · 10 Kämpfe",
+    "duel": "Duell",
+    "activeChar": "Aktiver Held",
+    "playWith": "Mit {name} spielen",
+    "availableSoon": "Bald verfügbar",
+    "prevChar": "Vorheriger Held",
+    "nextChar": "Nächster Held",
+    "passive": "PASSIV",
+    "super": "SUPER",
+    "attack": "Angriff {n}",
+    "beginner": "Ideal für Einsteiger"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "music": "Musik",
+    "sfx": "Effekte",
+    "volume": "Lautstärke {name}",
+    "vibrate": "Vibration",
+    "credits": "Mitwirkende",
+    "language": "Sprache",
+    "langSoon": "{name} (bald)",
+    "langNames": {
+      "fr": "Französisch",
+      "en": "Englisch",
+      "it": "Italienisch",
+      "es": "Spanisch",
+      "de": "Deutsch"
+    }
+  },
+  "results": {
+    "voyageEnd": "Ende der Reise",
+    "victory": "Sieg",
+    "ko": "K.O.",
+    "timeUp": "Zeit abgelaufen",
+    "combos": "Kombos",
+    "newRecord": "Neuer Rekord!",
+    "arena": "Arena {n} / {total}",
+    "beyond": "Endlos",
+    "where": "{stage}: {name} · Runde {round} / {rounds}",
+    "scoreLine": "{score} {points} in {time} s",
+    "scoreLineRecord": "{score} {points} in {time} s · neuer Rekord!",
+    "home": "Zurück zur Lobby"
+  },
+  "app": {
+    "title": "Drei Zeichen"
+  },
+  "grammar": {
+    "of": {
+      "note": "Genitiv eines Spielernamens (ofName, src/i18n.js): « Names », nach s, ß, x, z nur ein Apostroph.",
+      "rules": [
+        {
+          "match": "[sßxzSXZ]$",
+          "out": "{name}'"
+        }
+      ],
+      "default": "{name}s"
+    }
+  },
+  "daily": {
+    "button": "Belohnungen",
+    "title": "Belohnungen",
+    "dayTitle": "Tagesbelohnung",
+    "streakTitle": "7-TAGE-SERIE",
+    "streakNote": "Komm jeden Tag wieder: Verpasst du einen Tag, beginnt die Serie wieder bei Tag 1.",
+    "calNote": "Jeder Tag, an dem du dich anmeldest, zählt, auch nach einer Pause.",
+    "claim": "Abholen",
+    "claimed": "Abgeholt!",
+    "claimedToday": "Heute abgeholt",
+    "already": "Heute schon abgeholt.",
+    "comeBack": "Komm morgen wieder.",
+    "offline": "Abholen, sobald die Verbindung zurück ist",
+    "loading": "Verbinde mit dem Server…",
+    "adDouble": "Gold ×2 per Werbung",
+    "adBonus": "Bonus: +{n} Gold per Werbung",
+    "adDone": "+{n} Gold dank Werbung",
+    "boost": {
+      "xp": "EP ×{m}",
+      "gold": "Gold ×{m}"
+    },
+    "boostText": {
+      "xp": "Verdoppelt die EP des Helden und der Waffen.",
+      "gold": "Verdoppelt das verdiente Gold."
+    },
+    "games": {
+      "one": "{n} Partie",
+      "other": "{n} Partien"
+    },
+    "drawColor": "Zufällige Farbe",
+    "drawTrail": "Zufällige Spur",
+    "fallback": "Du hast schon alles: stattdessen +{n} Gold",
+    "stockFull": "Booster-Vorrat voll: stattdessen +{n} Gold",
+    "gemsFor": "Anmeldebelohnung",
+    "newCosmetic": "NEUES KOSMETIK-ITEM",
+    "cosmeticsMany": {
+      "one": "{n} neues Kosmetik-Item",
+      "other": "{n} neue Kosmetik-Items"
+    },
+    "fromDraw": "Anmeldebelohnung: ein Kosmetik-Item, das du noch nicht hattest.",
+    "fromChest": "Einfache Truhe, geschenkt vom Kalender.",
+    "rewardOk": "Super!",
+    "boostsTitle": "BOOSTER-VORRAT",
+    "boostsNote": "Nur ein aktiver Booster pro Art. Eine Partie zählt am Ende (Sieg, Niederlage oder Aufgabe nach einer Runde). Nur in der Reise und den Geschichten, nie im Duell.",
+    "stock": "Vorrat: {n} / {max}",
+    "noStock": "Keiner auf Vorrat",
+    "activeLeft": {
+      "one": "Aktiv: noch {n} Partie",
+      "other": "Aktiv: noch {n} Partien"
+    },
+    "isActive": "Aktiv",
+    "activate": "Aktivieren",
+    "activated": "{name} aktiviert",
+    "offerTitle": "Booster aktivieren?",
+    "offerText": "Du hast Booster auf Vorrat. Ein aktivierter Booster gilt für diese und die folgenden Partien.",
+    "offerPlay": "Spielen",
+    "shopTab": "Booster",
+    "shopNote": "Höchstens {max} Booster pro Art auf Vorrat. Nur in der Reise und den Geschichten, nie im Duell oder Training.",
+    "full": "Vorrat voll",
+    "bought": "Booster zum Vorrat hinzugefügt",
+    "notEnoughGold": "Nicht genug Gold",
+    "testNext": "Belohnungen: +1 Tag",
+    "testSkip": "+2 Tage (Tag verpasst)",
+    "testReset": "Belohnungen und Booster zurücksetzen",
+    "testState": "Simulierter Tag: +{offset} · Serie {streak} / {streakMax} · Kalender {cal} / {calMax}",
+    "times": "× {n}",
+    "streakKick": "SERIE · TAG {n}",
+    "calKick": "KALENDER · TAG {n}",
+    "streakDayShort": "Tag {n}",
+    "calTitleLong": "KALENDER · {n} TAGE",
+    "calCountShort": "{n} / {total}",
+    "stockGames": "Vorrat: {list}",
+    "count": "×{n}",
+    "hudLeft": "{n}"
+  },
+  "pseudo": {
+    "reserved": "Dieser Name ist reserviert: wähle einen anderen."
+  }
+}

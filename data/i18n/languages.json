@@ -30,7 +30,7 @@
       "id": "de",
       "name": "Deutsch",
       "locale": "de-DE",
-      "ready": false
+      "ready": true
     }
   ]
 }
