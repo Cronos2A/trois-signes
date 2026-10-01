@@ -1791,7 +1791,247 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "Das stille Feld",
+          "cinematique_ouverture": [
+            {
+              "texte": "In Hautes-Gerbes reicht der Weizen bis zu den Schultern. Nur nicht bei Boran."
+            },
+            {
+              "texte": "Letzte Garbe der Saison, großer Bruder! Danach schlafen wir eine Woche."
+            },
+            {
+              "texte": "Du schläfst. Ich repariere die Scheune."
+            },
+            {
+              "texte": "Als Kind hatte Boran von einem alten Reisenden drei Gesten gelernt, wie ein Spiel. Er glaubte, er hätte sie vergessen."
+            },
+            {
+              "texte": "An jenem Abend wurde der Weizen grau. Und Oren hörte auf zu lachen."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Die Ernte",
+              "dialogue_avant": [
+                {
+                  "texte": "Leute auf dem Feld. Sie trampeln über den Weizen…"
+                },
+                {
+                  "texte": "Runter von meinem Feld."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Boran… mir ist kalt…"
+                },
+                {
+                  "texte": "Oren?"
+                }
+              ]
+            },
+            {
+              "titre": "Die veränderten Nachbarn",
+              "dialogue_avant": [
+                {
+                  "texte": "Die Nachbarn von jeher gehen auf den Hof zu. Ohne ein Wort."
+                },
+                {
+                  "texte": "Der alte Lucas. Frau Anselme. Ich habe Euch zehn Jahre lang die Mehlsäcke getragen…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Sie erkennen mich nicht mehr. Aber ich erinnere mich an sie. Das wird zählen."
+                }
+              ]
+            },
+            {
+              "titre": "Die belagerte Scheune",
+              "dialogue_avant": [
+                {
+                  "texte": "Boran! Wir sind alle in der Scheune, sie kommen gleich rein!"
+                },
+                {
+                  "texte": "Hier kommt keiner rein."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Du bist der Stärkste der Welt."
+                },
+                {
+                  "texte": "Nein. Nur der Schwerste."
+                }
+              ]
+            },
+            {
+              "titre": "Der Weg in die Hügel",
+              "dialogue_avant": [
+                {
+                  "texte": "Wir gehen in die Hügel. Die Kinder vorn, ich hinten."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Hinter ihnen verschwindet der Hof im grauen Nebel. Boran dreht sich nicht um."
+                },
+                {
+                  "texte": "Oren ist dort geblieben."
+                }
+              ]
+            },
+            {
+              "titre": "Der Steinstier",
+              "dialogue_avant": [
+                {
+                  "texte": "Tonnerre, der Stier des Hofes, stürmt auf den Zug zu. Seine Hörner sind zu grauem Stein geworden."
+                },
+                {
+                  "texte": "Tonnerre. Ruhig, Großer. Ich bin's."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Was habe ich gerade getan?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Boran packt den Stier bei den Hörnern und hält stand. Lange."
+                },
+                {
+                  "texte": "Dann, statt zuzuschlagen, legt er ihm die Hand auf die Stirn. Das Tippen."
+                },
+                {
+                  "texte": "Ein warmer Atemzug. Eine Sekunde lang ist Tonnerre wieder braun und sieht ihn an."
+                },
+                {
+                  "texte": "Das Spiel des alten Reisenden… Es war kein Spiel."
+                }
+              ]
+            },
+            {
+              "titre": "Begegnung: Mira",
+              "dialogue_avant": [
+                {
+                  "texte": "Nicht schlagen! Den kann ich noch heilen!"
+                },
+                {
+                  "texte": "Er greift uns an."
+                },
+                {
+                  "texte": "Er hat Angst. Das ist nicht dasselbe. Haltet Ihr die anderen fern, um den Rest kümmere ich mich."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Der Verblasste, den Mira geheilt hat, betrachtet seine Hände, lächelt und erlischt dann sanft."
+                },
+                {
+                  "texte": "Ihr habt ihn gerettet?"
+                },
+                {
+                  "texte": "Für einen Moment. Manchmal ist ein Moment schon viel."
+                }
+              ]
+            },
+            {
+              "titre": "Das Flüchtlingslager",
+              "dialogue_avant": [
+                {
+                  "texte": "Das Lager ist voll. Wir brauchen jemanden, der die Palisade bewacht."
+                },
+                {
+                  "texte": "Ich bin da."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Boran, du bleibst doch bei uns, oder?"
+                },
+                {
+                  "texte": "So lange es nötig ist."
+                }
+              ]
+            },
+            {
+              "titre": "Die lange Wache",
+              "dialogue_avant": [
+                {
+                  "texte": "Die längste Nacht. Boran, allein vor der Palisade."
+                },
+                {
+                  "texte": "Bis zum Morgengrauen."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Die Sonne geht auf. Die Palisade hält. Boran auch."
+                }
+              ]
+            },
+            {
+              "titre": "Der Pflüger",
+              "dialogue_avant": [
+                {
+                  "texte": "…ein Bruder… ich hatte einen Bruder… groß… langsam…"
+                },
+                {
+                  "texte": "Frech wie immer, Oren."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Schlaf, kleiner Bruder."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Boran zieht seine Panzerhandschuhe aus. Er will nicht mehr zuschlagen."
+                },
+                {
+                  "texte": "Er legt seinem Bruder die Hand auf die Stirn, wie bei Tonnerre. Das Tippen."
+                },
+                {
+                  "texte": "Großer Bruder… die Scheune… hast du sie repariert?"
+                },
+                {
+                  "texte": "Noch nicht. Ich habe auf dich gewartet."
+                },
+                {
+                  "texte": "Oren schläft ein, ganz ruhig. In der Ferne zeigt Mira auf eine weiße Lichtung."
+                }
+              ]
+            },
+            {
+              "titre": "Das Herz der Stille",
+              "dialogue_avant": [
+                {
+                  "texte": "…ein Kind… Weizenfelder… ich habe ihm ein Spiel beigebracht…"
+                },
+                {
+                  "texte": "Das wart Ihr. Der alte Reisende."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Boran führt den letzten Schlag nicht aus. Er reicht ihm die Hand."
+            },
+            {
+              "texte": "Der Kleine aus Hautes-Gerbes… Du bist groß geworden. Sehr groß."
+            },
+            {
+              "texte": "Ihr habt mir ein Spiel beigebracht. Es hat mir geholfen."
+            },
+            {
+              "texte": "Ein Erinnerungsfragment kehrt zum Meister zurück."
+            }
+          ]
+        },
         null,
         null,
         null
