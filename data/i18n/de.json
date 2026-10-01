@@ -495,6 +495,38 @@
           "text": "+10 % Waffen-EP."
         }
       ]
+    },
+    "voyage": {
+      "name": "Die Reise",
+      "arenas": [
+        {
+          "name": "Mooswald"
+        },
+        {
+          "name": "Hautes-Gerbes"
+        },
+        {
+          "name": "Fontclaire"
+        },
+        {
+          "name": "Dächer von Vélis"
+        },
+        {
+          "name": "Bibliothek von Aubelle"
+        },
+        {
+          "name": "Windpass"
+        },
+        {
+          "name": "Schule der Zeichen"
+        },
+        {
+          "name": "Das Herz der Stille"
+        }
+      ],
+      "beyond": {
+        "name": "Jenseits der Stille"
+      }
     }
   }
 }
