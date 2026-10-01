@@ -2258,7 +2258,226 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "Die Karte der Stille",
+          "cinematique_ouverture": [
+            {
+              "texte": "Die Kundschafter vom Pass. Ihre Aufgabe: die Welt kartieren. Ihre beste Rekrutin: Kestrel."
+            },
+            {
+              "texte": "Kestrel. Du gehst voraus. Wie immer."
+            },
+            {
+              "texte": "Wie immer."
+            },
+            {
+              "texte": "Seit einem Jahr füllt sich Kestrels Karte mit grauen Flecken. Niemand weiß, was sie sind."
+            },
+            {
+              "texte": "Sie wachsen."
+            },
+            {
+              "texte": "Dann trag sie ein. Eine gute Karte trennt die Lebenden von den Verlorenen."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Der graue Waldrand",
+              "dialogue_avant": [
+                {
+                  "texte": "Etwas bewegt sich in den grauen Bäumen."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Feindlich. Notiert."
+                }
+              ]
+            },
+            {
+              "titre": "Das Lager der Kundschafter",
+              "dialogue_avant": [
+                {
+                  "texte": "Zurück im Lager, nachts. Zu still."
+                },
+                {
+                  "texte": "Hauptmann?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Lager leer. Hauptmann verschwunden."
+                }
+              ]
+            },
+            {
+              "titre": "Die zerrissene Karte",
+              "dialogue_avant": [
+                {
+                  "texte": "Meine Karte. Zerrissen. Überall Fetzen."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Stück für Stück setzt Kestrel ein Jahr Arbeit wieder zusammen."
+                },
+                {
+                  "texte": "Alles da. Fast."
+                }
+              ]
+            },
+            {
+              "titre": "Der Windpass",
+              "dialogue_avant": [
+                {
+                  "texte": "Der Pass schließt sich. Jetzt oder nie."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Durch. Knapp."
+                }
+              ]
+            },
+            {
+              "titre": "Der Fährtenleser",
+              "dialogue_avant": [
+                {
+                  "texte": "Seit drei Tagen folgt eine graue Gestalt Kestrels Spur."
+                },
+                {
+                  "texte": "Du bist gut. Nicht gut genug."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ich lasse niemanden mehr zurück."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Der Fährtenleser fällt. Um seinen Hals ein Abzeichen der Kundschafter vom Pass."
+                },
+                {
+                  "texte": "Pieter… Du warst in meiner Einheit."
+                },
+                {
+                  "texte": "Er hat sie nicht gejagt. Er wollte ihr folgen, wie früher, ohne zu wissen, warum."
+                },
+                {
+                  "texte": "Ruh dich aus. Ich gehe für uns beide weiter."
+                }
+              ]
+            },
+            {
+              "titre": "Begegnung: Ilwen",
+              "dialogue_avant": [
+                {
+                  "texte": "Ihr da! Eure Karte. Ich brauche sie."
+                },
+                {
+                  "texte": "Nein."
+                },
+                {
+                  "texte": "Es ist für die Wissenschaft!"
+                },
+                {
+                  "texte": "Dann folg mir. Und sei still."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ihr seid äußerst unangenehm."
+                },
+                {
+                  "texte": "Aber ich habe die Karte."
+                }
+              ]
+            },
+            {
+              "titre": "Die Mitte der Karte",
+              "dialogue_avant": [
+                {
+                  "texte": "Alle Zonen laufen zusammen. Ein Punkt."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "In die Mitte der Karte zeichnet Kestrel einen Stern. Dann zögert sie und schreibt: „Herz“."
+                }
+              ]
+            },
+            {
+              "titre": "Der verblassende Wald",
+              "dialogue_avant": [
+                {
+                  "texte": "Die Bäume verschwinden hinter uns. Dreht euch nicht um."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Kein Zurück. Gut so. Weiter."
+                }
+              ]
+            },
+            {
+              "titre": "Der Späher",
+              "dialogue_avant": [
+                {
+                  "texte": "…eine Rekrutin… die beste… sie ging immer voraus…"
+                },
+                {
+                  "texte": "Hauptmann. Ich bin es."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ich bringe sie für Euch zu Ende, Hauptmann."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Hauptmann Hardel sinkt auf ein Knie. In seiner Hand ein alter Kompass."
+                },
+                {
+                  "texte": "Kestrel… eine gute Karte… trennt die Lebenden… von den Verlorenen…"
+                },
+                {
+                  "texte": "Ich weiß, Hauptmann."
+                },
+                {
+                  "texte": "Der Kompass zeigt nicht mehr nach Norden. Er zeigt zum Herzen."
+                }
+              ]
+            },
+            {
+              "titre": "Das Herz der Stille",
+              "dialogue_avant": [
+                {
+                  "texte": "…so viele Wege… ich weiß nicht mehr, welcher nach Hause führt…"
+                },
+                {
+                  "texte": "Ich schon. Ich habe die Karte."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Kestrel breitet ihre Karte vor dem Meister aus. Ein Jahr Arbeit."
+            },
+            {
+              "texte": "Das ist… der ganze Weg, den ich gegangen bin."
+            },
+            {
+              "texte": "Dann seid Ihr nicht mehr verloren."
+            },
+            {
+              "texte": "Ein Erinnerungsfragment kehrt zum Meister zurück."
+            }
+          ]
+        },
         null
       ]
     }
