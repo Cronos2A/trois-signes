@@ -2839,5 +2839,25 @@
     "deleted": "Il tuo account e i tuoi dati sono stati eliminati. Il gioco ricomincia da zero.",
     "deleteError": "L'eliminazione non è riuscita ({code}). Riprova più tardi.",
     "deleteOffline": "Serve una connessione al server per eliminare il tuo account."
+  },
+  "report": {
+    "title": "Segnala un nickname",
+    "who": "«{name}»",
+    "button": "Segnala {name}",
+    "short": "Segnala",
+    "ask": "Qual è il problema di questo nickname?",
+    "reasons": {
+      "insulte": "Insulto o volgarità",
+      "haine": "Odio o molestie",
+      "sexuel": "Contenuto sessuale",
+      "usurpation": "Si spaccia per qualcun altro"
+    },
+    "cancel": "Annulla",
+    "ok": "OK",
+    "sending": "Invio…",
+    "sent": "Grazie: la tua segnalazione è stata inviata. Questo nickname verrà controllato.",
+    "already": "Hai già segnalato questo nickname.",
+    "offline": "Serve una connessione al server per segnalare un nickname.",
+    "error": "Non è stato possibile inviare la segnalazione. Riprova più tardi."
   }
 }

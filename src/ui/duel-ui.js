@@ -9,6 +9,7 @@ import { prints, arenaIndex, arenaOf } from '../game/duel-rank.js';
 import { sfx, music } from '../audio/audio.js';
 import { tipOnce, tipBubble } from './tips.js';
 import { tr, nfi } from '../i18n.js';
+import { askReport } from './report-ui.js';
 
 const nf = nfi;
 
@@ -131,7 +132,7 @@ function room(a) {
     const me = d.players[uid] || {}, oid = d.host === uid ? d.guest : d.host, opp = oid ? d.players[oid] : null;
     const heroName = id => (D.characters.characters.find(c => c.id === id) || {}).name || '';
     const friend = !opp ? `<span class="du-wait-dot"></span>${U().waitingFriend}`
-      : `<b>${esc(opp.pseudo)}</b>${random ? ` <span class="du-pr">(${fill(U().oppPrints, { prints: nf(opp.prints) })})</span>` : ''} ${opp.ready ? fill(U().readyAs, { hero: heroName(opp.hero) }) : U().choosing}`;
+      : `<b>${esc(opp.pseudo)}</b> <button class="mini-btn du-report" data-du="report">${tr('report.short')}</button>${random ? ` <span class="du-pr">(${fill(U().oppPrints, { prints: nf(opp.prints) })})</span>` : ''} ${opp.ready ? fill(U().readyAs, { hero: heroName(opp.hero) }) : U().choosing}`;
     const grid = heroes().map(c => `<button class="du-hero${c.id === (me.ready ? me.hero : pick) ? ' on' : ''}" data-du="hero" data-arg="${c.id}" ${me.ready ? 'disabled' : ''}>
         <span class="du-face" style="background:${c.color}"><span class="ol ol-4">${esc(c.name[0])}</span></span><span class="du-hname">${esc(c.name)}</span></button>`).join('');
     screen(`<div class="res-card du-card">
@@ -156,6 +157,7 @@ function room(a) {
     if (act === 'hero') { pick = arg; draw(current().data); }
     else if (act === 'ready') setMine({ hero: pick, ready: true, pseudo: pseudo() });
     else if (act === 'leave') { leaveRoom(!gone); hideDuelUi(); a.back(); }
+    else if (act === 'report') { const d = current().data, o = d && d.players[d.host === uid ? d.guest : d.host]; if (o) askReport(o.pseudo, 'adversaire'); }
   };
 }
 
@@ -219,10 +221,12 @@ export function showResult(s, onHome) {
       ${s.rank ? tipOnce('prints') : ''}
       <div class="du-note">${s.rank ? U().noRewardRandom : U().noReward}</div>
       <button class="res-again" data-du="home"><span class="ol ol-4">${U().again}</span></button>
+      <button class="mini-btn du-report" data-du="report">${esc(tr('report.button', { name: s.opp.name }))}</button>
     </div>`, 'result');
   sfx(r.win === 'me' ? 'victoire' : 'defaite');
   music('musique_lobby');
   onClick = act => {
+    if (act === 'report') { askReport(s.opp.name, 'adversaire'); return; }
     if (act !== 'home') return;
     if (s.rank && s.rank.newArena != null) showNewArena(s.rank.newArena, () => { hideDuelUi(); onHome(); });
     else { hideDuelUi(); onHome(); }

@@ -397,5 +397,25 @@
     "deleted": "Ton compte et tes données sont supprimés. Le jeu repart de zéro.",
     "deleteError": "La suppression n'a pas pu se faire ({code}). Réessaie plus tard.",
     "deleteOffline": "Il faut une connexion au serveur pour supprimer ton compte."
+  },
+  "report": {
+    "title": "Signaler un pseudo",
+    "who": "« {name} »",
+    "button": "Signaler {name}",
+    "short": "Signaler",
+    "ask": "Pourquoi ce pseudo pose-t-il problème ?",
+    "reasons": {
+      "insulte": "Insulte ou grossièreté",
+      "haine": "Haine ou harcèlement",
+      "sexuel": "Contenu sexuel",
+      "usurpation": "Se fait passer pour quelqu'un d'autre"
+    },
+    "cancel": "Annuler",
+    "ok": "OK",
+    "sending": "Envoi…",
+    "sent": "Merci : ton signalement est envoyé. Ce pseudo sera vérifié.",
+    "already": "Tu as déjà signalé ce pseudo.",
+    "offline": "Il faut une connexion au serveur pour signaler un pseudo.",
+    "error": "Le signalement n'a pas pu être envoyé. Réessaie plus tard."
   }
 }

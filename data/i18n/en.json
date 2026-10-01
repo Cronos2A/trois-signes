@@ -2841,5 +2841,25 @@
     "deleted": "Your account and your data are deleted. The game starts over.",
     "deleteError": "The deletion couldn't be completed ({code}). Try again later.",
     "deleteOffline": "You need a connection to the server to delete your account."
+  },
+  "report": {
+    "title": "Report a username",
+    "who": "“{name}”",
+    "button": "Report {name}",
+    "short": "Report",
+    "ask": "What is wrong with this username?",
+    "reasons": {
+      "insulte": "Insult or rude language",
+      "haine": "Hate or harassment",
+      "sexuel": "Sexual content",
+      "usurpation": "Pretends to be someone else"
+    },
+    "cancel": "Cancel",
+    "ok": "OK",
+    "sending": "Sending…",
+    "sent": "Thank you: your report has been sent. This username will be checked.",
+    "already": "You have already reported this username.",
+    "offline": "You need a connection to the server to report a username.",
+    "error": "The report couldn't be sent. Try again later."
   }
 }

@@ -2843,5 +2843,25 @@
     "deleted": "Dein Konto und deine Daten sind gelöscht. Das Spiel beginnt von vorn.",
     "deleteError": "Das Löschen hat nicht geklappt ({code}). Versuch es später noch einmal.",
     "deleteOffline": "Zum Löschen deines Kontos brauchst du eine Verbindung zum Server."
+  },
+  "report": {
+    "title": "Spielernamen melden",
+    "who": "„{name}“",
+    "button": "{name} melden",
+    "short": "Melden",
+    "ask": "Was stimmt mit diesem Spielernamen nicht?",
+    "reasons": {
+      "insulte": "Beleidigung oder vulgäre Sprache",
+      "haine": "Hass oder Belästigung",
+      "sexuel": "Sexuelle Inhalte",
+      "usurpation": "Gibt sich als jemand anderes aus"
+    },
+    "cancel": "Abbrechen",
+    "ok": "OK",
+    "sending": "Wird gesendet …",
+    "sent": "Danke: Deine Meldung wurde gesendet. Dieser Spielername wird geprüft.",
+    "already": "Du hast diesen Spielernamen schon gemeldet.",
+    "offline": "Zum Melden eines Spielernamens brauchst du eine Verbindung zum Server.",
+    "error": "Die Meldung konnte nicht gesendet werden. Versuch es später noch einmal."
   }
 }

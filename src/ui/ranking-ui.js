@@ -4,12 +4,14 @@ import { D } from '../data.js';
 import { fetchBoard } from '../online/leaderboard.js';
 import { pseudo } from '../online/online.js';
 import { sfx } from '../audio/audio.js';
+import { askReport } from './report-ui.js';
 import { tr, nfi } from '../i18n.js';
 
 const nf = nfi;
 
 const L = () => D.online.leaderboard, U = () => L().ui;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const FLAG = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 15V2h9l-2 3.5L12 9H4.5" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
 const rankTxt = n => (n === 1 ? U().first : U().rank.replace('{n}', n));
 let el = null, tab = 'voyage', ask = 0;
 
@@ -38,7 +40,8 @@ async function load() {
   try { res = await fetchBoard(tab); } catch (e) { if (n === ask) shell(`<p class="rk-msg">${esc(U().offline)}</p>`); return; }
   if (n !== ask) return;                                              // onglet changé entre-temps
   const rows = res.rows.map(r => `<div class="rk-row${r.uid === res.me.uid ? ' me' : ''}${r.rank <= 3 ? ' top' + r.rank : ''}">
-      <span class="rk-rank">${r.rank}</span>${face(r.hero)}<span class="rk-name">${esc(r.pseudo)}</span><span class="rk-val">${nf(r.value)}</span></div>`).join('');
+      <span class="rk-rank">${r.rank}</span>${face(r.hero)}<span class="rk-name">${esc(r.pseudo)}</span><span class="rk-val">${nf(r.value)}</span>${r.uid === res.me.uid ? ''
+        : `<button class="rk-flag" data-rk="report" data-name="${esc(r.pseudo)}" aria-label="${esc(tr('report.button', { name: r.pseudo }))}" title="${esc(tr('report.button', { name: r.pseudo }))}">${FLAG}</button>`}</div>`).join('');
   const me = res.me.rank
     ? `<div class="rk-me"><span class="rk-rank">${rankTxt(res.me.rank)}</span><span class="rk-name">${esc(U().you)} · ${esc(pseudo())}</span><span class="rk-val">${nf(res.me.value)}</span></div>`
     : `<div class="rk-me none"><b>${esc(U().unranked)}</b><span>${esc(B.id === 'voyage' ? U().unrankedVoyage : U().unrankedDuel)}</span></div>`;
@@ -60,6 +63,7 @@ export function openRanking() {
       sfx('ui_clic');
       if (b.dataset.rk === 'close') close();
       else if (b.dataset.rk === 'tab' && b.dataset.arg !== tab) { tab = b.dataset.arg; load(); }
+      else if (b.dataset.rk === 'report') askReport(b.dataset.name, tab);
     });
     document.body.appendChild(el);
   }
