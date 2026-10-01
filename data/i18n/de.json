@@ -2032,7 +2032,232 @@
             }
           ]
         },
-        null,
+        {
+          "titre": "Die Krankheit des Gedächtnisses",
+          "cinematique_ouverture": [
+            {
+              "texte": "Die große Bibliothek von Aubelle. Hunderttausend Bücher, und Ilwen hat fast alle gelesen."
+            },
+            {
+              "texte": "Fast. Zweiundvierzig fehlen mir noch. Was eine Schande ist."
+            },
+            {
+              "texte": "Ilwen, du solltest öfter rausgehen. Die Welt sehen."
+            },
+            {
+              "texte": "Die Welt steht in den Büchern, Meister Aubin."
+            },
+            {
+              "texte": "An jenem Abend schlägt Ilwen das dreiundvierzigste Buch auf und findet leere Seiten."
+            },
+            {
+              "texte": "Gestern war dieses Buch noch voll. Wer hat die Wörter gelöscht?"
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Die Bibliothek von Aubelle",
+              "dialogue_avant": [
+                {
+                  "texte": "Die Regale leeren sich. Die Wörter fliegen davon wie grauer Staub."
+                },
+                {
+                  "texte": "Niemand rührt meine Bücher an."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Das ist kein Dieb. Das ist… eine Krankheit."
+                }
+              ]
+            },
+            {
+              "titre": "Die lebenden Seiten",
+              "dialogue_avant": [
+                {
+                  "texte": "Die gelöschten Seiten… sie bewegen sich!"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Faszinierend. Erschreckend, aber faszinierend. Ich muss mir Notizen machen."
+                }
+              ]
+            },
+            {
+              "titre": "Der Bibliothekar",
+              "dialogue_avant": [
+                {
+                  "texte": "Fräulein? Seid Ihr eine Leserin? Ich bin der… wie heiße ich noch gleich?"
+                },
+                {
+                  "texte": "Ihr seid Meister Aubin. Ihr habt mir das Lesen beigebracht."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ich finde ein Heilmittel. Und ich bringe es Euch zurück."
+                }
+              ]
+            },
+            {
+              "titre": "Das Experiment",
+              "dialogue_avant": [
+                {
+                  "texte": "Hypothese: Die drei Zeichen der alten Zauberbücher sind ein Heilmittel. Methode: ausprobieren."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ergebnis: Es wirkt. Ein bisschen. Ein Anfang."
+                }
+              ]
+            },
+            {
+              "titre": "Der Archivar",
+              "dialogue_avant": [
+                {
+                  "texte": "…ordnen… alles ordnen… löschen, was stört…"
+                },
+                {
+                  "texte": "Ihr bewacht die verbotene Abteilung. Tretet beiseite."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Eldan… Wer seid Ihr?"
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "In der verbotenen Abteilung hat ein einziges Buch seine Wörter behalten."
+                },
+                {
+                  "texte": "Auf dem Umschlag ein Name: Eldan. Und ein Titel: Der Kodex der drei Zeichen."
+                },
+                {
+                  "texte": "Die Hälfte der Seiten fehlt… Herausgerissen, mit Sorgfalt."
+                },
+                {
+                  "texte": "Jemand hat dieses Buch in Stücken versteckt. Wir müssen die anderen finden."
+                }
+              ]
+            },
+            {
+              "titre": "Begegnung: Kestrel",
+              "dialogue_avant": [
+                {
+                  "texte": "Laut. Für eine Gelehrte."
+                },
+                {
+                  "texte": "Und Ihr seid wortkarg, für eine Kundschafterin. Diese Karte… Zeigt sie mir."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Die grauen Zonen. Ich trage sie seit einem Jahr ein."
+                },
+                {
+                  "texte": "Sie bilden einen Kreis… Die Stille geht von einem bestimmten Punkt aus!"
+                }
+              ]
+            },
+            {
+              "titre": "Der Beobachtungsturm",
+              "dialogue_avant": [
+                {
+                  "texte": "Wir brauchen Höhe, um es zu prüfen."
+                },
+                {
+                  "texte": "Der Wachturm. Dreihundert Stufen."
+                },
+                {
+                  "texte": "… Natürlich."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Vom Gipfel aus sieht man alles: einen weißen Fleck in der Mitte der Welt, der langsam wächst."
+                }
+              ]
+            },
+            {
+              "titre": "Die Echos",
+              "dialogue_avant": [
+                {
+                  "texte": "…wir haben niemandem etwas beigebracht… nichts weitergegeben…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Endlich verstehe ich. Die Stille wächst, wenn man aufhört weiterzugeben. Wissen für sich zu behalten… heißt schon, es zu vergessen."
+                },
+                {
+                  "texte": "Und ich habe nie jemandem ein Buch geliehen."
+                }
+              ]
+            },
+            {
+              "titre": "Die Feder ohne Tinte",
+              "dialogue_avant": [
+                {
+                  "texte": "Ilwen. Immer die Zweite."
+                },
+                {
+                  "texte": "Séléna. Du hast immer schneller geschrieben als ich."
+                },
+                {
+                  "texte": "Ich habe alles aufgeschrieben. Und nie jemandem etwas gezeigt. Sieh, was davon übrig ist."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ich mache nicht denselben Fehler, Séléna."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Sélénas Hefte schlagen sich auf. Sie sind alle leer."
+                },
+                {
+                  "texte": "Du… bring es jemandem bei. Irgendwem…"
+                },
+                {
+                  "texte": "Ich verspreche es dir."
+                },
+                {
+                  "texte": "Ilwen reißt eine Seite aus ihrem eigenen Zauberbuch und reicht sie Kestrel. Das erste Wissen, das sie je geteilt hat."
+                }
+              ]
+            },
+            {
+              "titre": "Das Herz der Stille",
+              "dialogue_avant": [
+                {
+                  "texte": "…ein Buch… ich habe ein Buch versteckt… in Stücken… in meinem Kopf…"
+                },
+                {
+                  "texte": "Der Kodex. Ihr habt ihn in Eurem Gedächtnis versteckt. Und am Ende hat es sich um Euch geschlossen."
+                }
+              ],
+              "dialogue_apres": []
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Ilwen schlägt ihr Zauberbuch auf und liest die wiedergefundenen Seiten laut vor."
+            },
+            {
+              "texte": "Diese Worte… sind meine."
+            },
+            {
+              "texte": "Ich weiß. Ich habe sie dreiundvierzigmal gelesen."
+            },
+            {
+              "texte": "Ein Erinnerungsfragment kehrt zum Meister zurück."
+            }
+          ]
+        },
         null,
         null
       ]
