@@ -1,4 +1,4 @@
-# Crédits des sons
+# Crédits des sons et des polices
 
 Origine et licence de chaque fichier de `assets/audio/` (à garder à jour : c'est ce qu'un store demandera).
 Licences vérifiées le 27/09/2026.
@@ -56,6 +56,19 @@ Créées le 28/09/2026, pendant l'abonnement Pro. Dossier `assets/audio/musique/
 
 Licence : droits commerciaux acquis pour les morceaux créés pendant l'abonnement Pro ; ils restent acquis après
 l'arrêt de l'abonnement. (Suno ne garantit pas que ses morceaux soient protégés par le droit d'auteur.)
+
+## Polices — embarquées dans le jeu (`assets/fonts/`)
+
+Chargées en local par `src/ui/fonts.css` (plus aucun appel à Google Fonts depuis le 01/10/2026 : le jeu marche hors connexion
+et n'envoie pas l'adresse IP du joueur à Google). Fichiers WOFF2 du projet @fontsource 5.3.0, sous-ensembles latin et latin étendu.
+
+| Police | Graisses | Auteurs | Licence |
+|---|---|---|---|
+| Caprasimo (titres) | 400 | The Caprasimo Project Authors (github.com/docrepair-fonts/caprasimo-fonts) | SIL Open Font License 1.1 (`assets/fonts/OFL-Caprasimo.txt`) |
+| Figtree (texte) | 400, 600, 700 | The Figtree Project Authors (github.com/erikdkennedy/figtree) | SIL Open Font License 1.1 (`assets/fonts/OFL-Figtree.txt`) |
+
+Licence OFL : usage commercial, intégration et redistribution dans le jeu autorisés ; la licence doit accompagner les fichiers
+(c'est le cas) ; les polices ne peuvent pas être vendues seules.
 
 ## Sons faits en code
 

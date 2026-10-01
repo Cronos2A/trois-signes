@@ -22,6 +22,8 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
 - Style cartoon low-poly : lobby vert vif facetté, contours épais `#15301E`, boutons orange / jaune avec ombre portée, cartes crème,
   polices Caprasimo (titres) et Figtree (texte).
 - `src/ui/organic.css` : copie telle quelle du design system, **ne pas modifier**.
+  Seule exception (01/10/2026, à ta demande) : sa ligne `@import` de Google Fonts est retirée ; les polices Caprasimo et Figtree sont
+  embarquées (`assets/fonts/`, licence OFL) et déclarées dans `src/ui/fonts.css`, chargé juste avant. Aucun appel à Google Fonts.
 - Maquettes de référence dans `design/` (exports Claude Design, à reproduire telles quelles) :
   - `trois-signes-maquette-lobby` : lobby 3 onglets + `Mode Histoire Trois Signes.dc.html` (écrans 01 à 06 du mode Histoire)
     + `Planche Récompenses de connexion.dc.html` (fenêtre du jour, écran Récompenses, icônes `icones/recompenses/`, bouton du lobby, pastille de combat) ;
