@@ -1260,6 +1260,76 @@
         "testCountry": "Land",
         "testReset": "Shop zurücksetzen"
       }
+    },
+    "tutorial": {
+      "title": "Die erste Lektion",
+      "dummy": {
+        "name": "Übungspuppe"
+      },
+      "intro": {
+        "kicker": "ERINNERUNG",
+        "title": "Die erste Lektion",
+        "sub": "Pierrelune, vor der Stille"
+      },
+      "steps": [
+        {
+          "label": "Dreieck",
+          "consigne": "Zeichne ein Dreieck, um die Puppe zu treffen",
+          "eldan": [
+            {
+              "texte": "Das Dreieck verteidigt dich. Zeichne es in einem einzigen Zug."
+            }
+          ]
+        },
+        {
+          "label": "Kreis",
+          "consigne": "Zeichne einen Kreis, wenn sich der rote Ring schließt",
+          "eldan": [
+            {
+              "texte": "Wenn sich die Gefahr um dich schließt, zeichne den Kreis."
+            }
+          ]
+        },
+        {
+          "label": "Tippen",
+          "consigne": "Tippe auf die Münzen, um sie aufzusammeln",
+          "eldan": [
+            {
+              "texte": "Das Tippen verbindet. Sammle auf, was glänzt."
+            }
+          ]
+        },
+        {
+          "label": "Präzision",
+          "consigne": "Reihe Gesten derselben Stufe für eine Kombo aneinander",
+          "eldan": [
+            {
+              "texte": "Je reiner deine Geste, desto stärker ist sie."
+            }
+          ]
+        },
+        {
+          "label": "Super",
+          "consigne": "Tippe unten rechts auf SUPER",
+          "eldan": [
+            {
+              "texte": "Und wenn dein Herz voll ist… lass es frei."
+            }
+          ]
+        }
+      ],
+      "levelsPanel": {
+        "title": "Die 5 Erfolgsstufen",
+        "text": "Je genauer dein Strich, desto weiter reicht deine Geste.",
+        "miss": "Daneben: keine Wirkung, die Serie beginnt von vorn.",
+        "button": "Verstanden"
+      },
+      "fin": [
+        {
+          "texte": "Drei Gesten. Nicht eine mehr. Und eines Tages wirst du sie jemand anderem beibringen."
+        }
+      ],
+      "handHint": "Folge der Hand"
     }
   }
 }
