@@ -434,6 +434,67 @@
         "testResetAds": "Werbung zurücksetzen",
         "testState": "Spielzeit: {min} Min. · Reisen: {games}"
       }
+    },
+    "talismans": {
+      "ui": {
+        "cardTitle": "TALISMAN",
+        "slotEmpty": "Kein Talisman",
+        "equip": "Ausrüsten",
+        "unequip": "Ablegen",
+        "equipped": "Ausgerüstet",
+        "locked": "Gesperrt",
+        "rewardKick": "NEUER TALISMAN",
+        "rewardKickMany": "NEUE TALISMANE",
+        "rewardNameMany": "{n} Talismane",
+        "chestTitle": "Truhe des Wächters",
+        "chestOpened": "Wächter besiegt: {arena}",
+        "chestFallback": "+{n} Gold",
+        "chestFallbackText": "Diesen Talisman hast du schon: Die Truhe enthält Gold.",
+        "forgiven": "Fehler verziehen",
+        "rewardOk": "Weiter"
+      },
+      "talismans": [
+        {
+          "name": "Moos-Eichel",
+          "lock": "Besiege den Wächter des Mooswalds",
+          "text": "Aufsammelreichweite +25 %."
+        },
+        {
+          "name": "Goldähre",
+          "lock": "Besiege den Wächter von Hautes-Gerbes",
+          "text": "Münzen +20 %."
+        },
+        {
+          "name": "Klarer Tropfen",
+          "lock": "Besiege den Wächter von Fontclaire",
+          "text": "Herzen heilen 25 % mehr."
+        },
+        {
+          "name": "Dachschlüssel",
+          "lock": "Besiege den Wächter der Dächer von Vélis",
+          "text": "Der Warnring der Gegner erscheint 0,15 s früher."
+        },
+        {
+          "name": "Lesezeichen",
+          "lock": "Besiege den Wächter der Bibliothek von Aubelle",
+          "text": "Aufsammeln unterbricht die Kombo-Serie nicht."
+        },
+        {
+          "name": "Windfeder",
+          "lock": "Besiege den Wächter des Windpasses",
+          "text": "Die Superleiste startet bei 20 %."
+        },
+        {
+          "name": "Alte Kreide",
+          "lock": "Besiege den Wächter der Schule der Zeichen",
+          "text": "Eine verfehlte Geste pro Runde unterbricht die Kombo-Serie nicht."
+        },
+        {
+          "name": "Kodex-Seite",
+          "lock": "Besiege den Wächter des Herzens der Stille",
+          "text": "+10 % Waffen-EP."
+        }
+      ]
     }
   }
 }
