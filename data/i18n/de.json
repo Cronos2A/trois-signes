@@ -332,5 +332,23 @@
   },
   "pseudo": {
     "reserved": "Dieser Name ist reserviert: wähle einen anderen."
+  },
+  "data": {
+    "grades": {
+      "miss": {
+        "name": "Daneben"
+      }
+    },
+    "enemies": {
+      "grunt": {
+        "name": "Scherge"
+      },
+      "brute": {
+        "name": "Rohling"
+      },
+      "boss": {
+        "name": "Boss"
+      }
+    }
   }
 }
