@@ -417,5 +417,10 @@
     "already": "Tu as déjà signalé ce pseudo.",
     "offline": "Il faut une connexion au serveur pour signaler un pseudo.",
     "error": "Le signalement n'a pas pu être envoyé. Réessaie plus tard."
+  },
+  "about": {
+    "version": "Version {v} ({build})",
+    "by": "Un jeu de {studio}",
+    "contact": "Contact"
   }
 }

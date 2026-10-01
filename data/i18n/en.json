@@ -2861,5 +2861,10 @@
     "already": "You have already reported this username.",
     "offline": "You need a connection to the server to report a username.",
     "error": "The report couldn't be sent. Try again later."
+  },
+  "about": {
+    "version": "Version {v} ({build})",
+    "by": "A game by {studio}",
+    "contact": "Contact"
   }
 }

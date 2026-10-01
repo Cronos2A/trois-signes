@@ -2864,5 +2864,10 @@
     "already": "Ya has denunciado este apodo.",
     "offline": "Necesitas conexión con el servidor para denunciar un apodo.",
     "error": "No se ha podido enviar la denuncia. Inténtalo más tarde."
+  },
+  "about": {
+    "version": "Versión {v} ({build})",
+    "by": "Un juego de {studio}",
+    "contact": "Contacto"
   }
 }

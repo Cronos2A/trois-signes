@@ -261,6 +261,9 @@
 .cred-sec{display:flex;flex-direction:column;gap:3px}
 .cred-sec b{font-family:var(--font-heading);font-weight:400;font-size:17px;line-height:1.1}
 .cred-sec span{font-size:14px;line-height:1.3}
+.cred-by{align-items:center;text-align:center}
+.cred-mail{align-self:flex-start;display:inline-block;padding:6px 0;font-size:14px;font-weight:800;color:var(--ink);overflow-wrap:anywhere}
+.set-version{align-self:center;font-size:12px;font-weight:700;color:var(--text-soft)}
 /* Progression des armes : carte Arme (onglet Personnage) et bloc de fin de partie */
 .wx-xp{font-size:10.5px;font-weight:800;color:var(--text-soft);margin-top:-4px}
 .wx-bonus{display:flex;flex-direction:column;gap:2px;font-size:11px;font-weight:700;line-height:1.25}

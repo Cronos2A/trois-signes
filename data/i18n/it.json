@@ -2859,5 +2859,10 @@
     "already": "Hai già segnalato questo nickname.",
     "offline": "Serve una connessione al server per segnalare un nickname.",
     "error": "Non è stato possibile inviare la segnalazione. Riprova più tardi."
+  },
+  "about": {
+    "version": "Versione {v} ({build})",
+    "by": "Un gioco di {studio}",
+    "contact": "Contatto"
   }
 }

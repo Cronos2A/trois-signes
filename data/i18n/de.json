@@ -2863,5 +2863,10 @@
     "already": "Du hast diesen Spielernamen schon gemeldet.",
     "offline": "Zum Melden eines Spielernamens brauchst du eine Verbindung zum Server.",
     "error": "Die Meldung konnte nicht gesendet werden. Versuch es später noch einmal."
+  },
+  "about": {
+    "version": "Version {v} ({build})",
+    "by": "Ein Spiel von {studio}",
+    "contact": "Kontakt"
   }
 }

@@ -366,6 +366,7 @@ function renderSettings() {
       ${langHtml()}
       ${accountHtml()}
       <button class="mini-btn set-credits" data-act="credits">${tr('settings.credits')}</button>
+      <span class="set-version">${versionText()}</span>
       ${testMode() ? testHtml() : ''}
       <button class="res-again" data-act="closeSettings"><span class="ol ol-4">${tr('common.close')}</span></button>
     </div>`;
@@ -384,12 +385,17 @@ function langHtml() {
 }
 
 /** Crédits (Réglages → Crédits) : textes dans data/credits.json. */
+/** Version du jeu (data/version.json) ; adresse de contact seulement si c'est une vraie adresse e-mail. */
+const versionText = () => tr('about.version', { v: D.version.version, build: D.version.build });
+const contactMail = () => (/^[^\s@\[\]]+@[^\s@\[\]]+\.[^\s@\[\]]+$/.test(D.version.contact || '') ? D.version.contact : '');
 function renderCredits() {
-  const C = D.credits;
+  const C = D.credits, mail = contactMail();
   const secs = C.sections.map(s => `<div class="cred-sec"><b>${s.title}</b>${s.lines.map(l => `<span>${l}</span>`).join('')}</div>`).join('');
   $('settings').innerHTML = `<div class="res-card set-card">
       <div class="res-title ol ol-5 set-title">${C.title}</div>
+      <div class="cred-sec cred-by"><b>${tr('about.by', { studio: D.version.studio })}</b><span>${versionText()}</span></div>
       ${secs}
+      ${mail ? `<div class="cred-sec"><b>${tr('about.contact')}</b><a class="cred-mail" href="mailto:${mail}">${mail}</a></div>` : ''}
       <button class="res-again" data-act="backSettings"><span class="ol ol-4">${tr('common.back')}</span></button>
     </div>`;
 }
