@@ -359,6 +359,47 @@
         "reached": "Stufe {lvl} erreicht!",
         "maxReached": "Höchststufe erreicht!"
       }
+    },
+    "credits": {
+      "title": "Mitwirkende",
+      "sections": [
+        {
+          "title": "Soundeffekte",
+          "lines": [
+            "Erstellt mit ElevenLabs"
+          ]
+        },
+        {
+          "title": "Musik",
+          "lines": [
+            "Komponiert mit Suno"
+          ]
+        },
+        {
+          "title": "Erfolgstöne",
+          "lines": [
+            "Im Spiel synthetisiert"
+          ]
+        },
+        {
+          "title": "Grafik",
+          "lines": [
+            "Designsystem Organic, Entwürfe von Claude Design"
+          ]
+        },
+        {
+          "title": "Schriften",
+          "lines": [
+            "Caprasimo und Figtree (SIL Open Font License)"
+          ]
+        },
+        {
+          "title": "Server",
+          "lines": [
+            "Firebase (Google), SDK unter Apache-2.0-Lizenz"
+          ]
+        }
+      ]
     }
   }
 }
