@@ -819,6 +819,162 @@
         "continue": "Weiter",
         "arena": "Arena: {name}"
       }
+    },
+    "weapons": {
+      "style": {
+        "label": "Voller Stileffekt"
+      },
+      "gauge": {
+        "label": "Superleiste 10 % schneller"
+      },
+      "gold": {
+        "label": "Goldener Glanz der Waffe im Kampf"
+      },
+      "ui": {
+        "cardTitle": "WAFFEN",
+        "styleTitle": "Stileffekt",
+        "stylePower": "Stärke {pct} %",
+        "equipped": "Ausgerüstet",
+        "equip": "Ausrüsten",
+        "maxLevel": "Höchststufe",
+        "level": "Stufe {n}",
+        "levelShort": "St. {n}",
+        "levelUp": "Stufe {n}!",
+        "xp": "{cur} / {need} EP",
+        "gain": "{name} +{n} EP",
+        "noBonus": "Noch kein Bonus",
+        "attackBonus": "Angriff +{pct} %",
+        "next": "Stufe {n}: {text}",
+        "counter": "Konter",
+        "reflect": "Rückstoß",
+        "burn": "Brand",
+        "shot": "Schuss",
+        "rewardKick": "NEUE WAFFE",
+        "rewardFor": "Für {hero}",
+        "rewardOk": "Weiter"
+      },
+      "weapons": {
+        "epee": {
+          "name": "Schwert",
+          "style": {
+            "text": "Jede Kombo stellt {comboHeal} LP wieder her."
+          }
+        },
+        "hache_fendeuse": {
+          "name": "Spaltaxt",
+          "lock": "Gewinne Kampf 5 deiner Geschichte",
+          "style": {
+            "text": "Ein Perfect trifft auch einen 2. Gegner mit {cleaveOnPerfect} % des Schadens."
+          }
+        },
+        "lance_garde_fou": {
+          "name": "Schutzlanze",
+          "lock": "Gewinne Kampf 10 deiner Geschichte",
+          "style": {
+            "text": "Nach erfolgreichem Ausweichen macht der nächste Angriff +{afterDodgeDamage} %."
+          }
+        },
+        "dague": {
+          "name": "Dolch",
+          "style": {
+            "text": "Perfect-Angriffe: +{perfectDamage} % Schaden."
+          }
+        },
+        "couteaux_lancer": {
+          "name": "Wurfmesser",
+          "lock": "Gewinne Kampf 5 deiner Geschichte",
+          "style": {
+            "text": "Zielt immer auf den schwächsten Gegner; jeder besiegte Gegner gibt +{gaugePerKill} Superleiste."
+          }
+        },
+        "lame_ombre": {
+          "name": "Schattenklinge",
+          "lock": "Gewinne Kampf 10 deiner Geschichte",
+          "style": {
+            "text": "Ein Perfect-Ausweichen löst einen kostenlosen Konter aus ({perfectDodgeCounter} % des Schadens)."
+          }
+        },
+        "gantelets": {
+          "name": "Panzerhandschuhe",
+          "style": {
+            "text": "−{damageReduction} % erlittener Schaden."
+          }
+        },
+        "masse_pierre": {
+          "name": "Steinkeule",
+          "lock": "Gewinne Kampf 5 deiner Geschichte",
+          "style": {
+            "text": "Jeder Angriff trifft auch die anderen Gegner mit {splash} %, aber −{targetPenalty} % Schaden am Ziel."
+          }
+        },
+        "bouclier_tour": {
+          "name": "Turmschild",
+          "lock": "Gewinne Kampf 10 deiner Geschichte",
+          "style": {
+            "text": "−{damageReduction} % erlittener Schaden, −{damagePenalty} % verursachter Schaden."
+          }
+        },
+        "grimoire": {
+          "name": "Zauberbuch",
+          "style": {
+            "text": "Kombo-Multiplikator +{comboBonus}."
+          }
+        },
+        "baton_braises": {
+          "name": "Glutstab",
+          "lock": "Gewinne Kampf 5 deiner Geschichte",
+          "style": {
+            "text": "Ein Perfect setzt den Gegner in Brand: {burnOnPerfect} Schaden über {burnDuration} s."
+          }
+        },
+        "orbe_miroir": {
+          "name": "Spiegelkugel",
+          "lock": "Gewinne Kampf 10 deiner Geschichte",
+          "style": {
+            "text": "Erfolgreiches Ausweichen wirft {reflect} % des vermiedenen Schadens auf den Angreifer zurück."
+          }
+        },
+        "arc": {
+          "name": "Bogen",
+          "style": {
+            "text": "Jedes Perfect füllt die Superleiste um {perfectGaugeBonus} % mehr."
+          }
+        },
+        "arbalete": {
+          "name": "Armbrust",
+          "lock": "Gewinne Kampf 5 deiner Geschichte",
+          "style": {
+            "text": "+{bossDamage} % Schaden gegen Wächter und Bosse, −{otherPenalty} % gegen alle anderen."
+          }
+        },
+        "fronde": {
+          "name": "Schleuder",
+          "lock": "Gewinne Kampf 10 deiner Geschichte",
+          "style": {
+            "text": "Jeder aufgesammelte Gegenstand löst einen automatischen Schuss mit {pickupShot} Schaden auf den nächsten Gegner aus."
+          }
+        },
+        "amulette": {
+          "name": "Amulett",
+          "style": {
+            "text": "+{healPerHit} LP Heilung bei jedem gelungenen Angriff."
+          }
+        },
+        "baton_seve": {
+          "name": "Saftstab",
+          "lock": "Gewinne Kampf 5 deiner Geschichte",
+          "style": {
+            "text": "Keine Heilung mehr pro Angriff; dafür stellt jede Kombo {comboHeal} LP wieder her."
+          }
+        },
+        "clochette": {
+          "name": "Glöckchen",
+          "lock": "Gewinne Kampf 10 deiner Geschichte",
+          "style": {
+            "text": "Statt zu heilen, gibt jeder gelungene Angriff einen Schild von {barrierPerHit} LP × Multiplikator, der Schaden abfängt, bis zu {barrierMax} stapelbar."
+          }
+        }
+      }
     }
   }
 }
