@@ -975,6 +975,174 @@
           }
         }
       }
+    },
+    "cosmetics": {
+      "types": {
+        "color": {
+          "name": "Farbe"
+        },
+        "weapon": {
+          "name": "Waffen-Skin"
+        },
+        "trail": {
+          "name": "Spureffekt"
+        },
+        "skin": {
+          "name": "Voll-Skin"
+        }
+      },
+      "ui": {
+        "kicker": "KOSMETIK",
+        "toShop": "Zum Shop",
+        "locked": "{n} freizuschalten",
+        "skinNote": "Der Voll-Skin ersetzt Farbe und Waffen-Skin, solange er ausgerüstet ist."
+      },
+      "defaults": {
+        "tint": "Originaloutfit",
+        "weapon": "Originalwaffe",
+        "trail": "Originalspur",
+        "skin": "Keiner"
+      },
+      "items": [
+        {
+          "name": "Lagunenton"
+        },
+        {
+          "name": "Sonnenton"
+        },
+        {
+          "name": "Rubinton"
+        },
+        {
+          "name": "Lagunenton"
+        },
+        {
+          "name": "Sonnenton"
+        },
+        {
+          "name": "Rubinton"
+        },
+        {
+          "name": "Lagunenton"
+        },
+        {
+          "name": "Sonnenton"
+        },
+        {
+          "name": "Rubinton"
+        },
+        {
+          "name": "Lagunenton"
+        },
+        {
+          "name": "Sonnenton"
+        },
+        {
+          "name": "Rubinton"
+        },
+        {
+          "name": "Lagunenton"
+        },
+        {
+          "name": "Sonnenton"
+        },
+        {
+          "name": "Rubinton"
+        },
+        {
+          "name": "Lagunenton"
+        },
+        {
+          "name": "Sonnenton"
+        },
+        {
+          "name": "Rubinton"
+        },
+        {
+          "name": "Glutklinge"
+        },
+        {
+          "name": "Frostdolch"
+        },
+        {
+          "name": "Lavafäuste"
+        },
+        {
+          "name": "Jadebuch"
+        },
+        {
+          "name": "Korallenbogen"
+        },
+        {
+          "name": "Morgenrot-Amulett"
+        },
+        {
+          "name": "Funkenspur"
+        },
+        {
+          "name": "Efeuspur"
+        },
+        {
+          "name": "Regenbogenspur"
+        },
+        {
+          "name": "Sternenspur"
+        },
+        {
+          "name": "Blasenspur"
+        },
+        {
+          "name": "Flammenspur"
+        },
+        {
+          "name": "Konfettispur"
+        },
+        {
+          "name": "Tintenspur"
+        },
+        {
+          "name": "Pixelspur"
+        },
+        {
+          "name": "Notenspur"
+        },
+        {
+          "name": "Dämmerungswache"
+        },
+        {
+          "name": "Turnierritter"
+        },
+        {
+          "name": "Schatten der Märkte"
+        },
+        {
+          "name": "Klingentänzerin"
+        },
+        {
+          "name": "Der Baumeister"
+        },
+        {
+          "name": "Der Hafenarbeiter"
+        },
+        {
+          "name": "Wurzelalchemistin"
+        },
+        {
+          "name": "Sternschnuppe"
+        },
+        {
+          "name": "Gipfelwächterin"
+        },
+        {
+          "name": "Wüstenjägerin"
+        },
+        {
+          "name": "Quellhüterin"
+        },
+        {
+          "name": "Nachtwächterin"
+        }
+      ]
     }
   }
 }
