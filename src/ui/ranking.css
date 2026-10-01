@@ -32,7 +32,7 @@
 .rank-btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .rank-cup{width:16px;height:14px;background:var(--btn-orange);border:2px solid var(--ink);border-radius:2px 2px 8px 8px;box-sizing:border-box}
 /* Signaler un pseudo (src/ui/report-ui.js) : bouton drapeau sur chaque ligne d'un autre joueur, fenêtre au-dessus de tout. */
-.rk-list{gap:8px}
+.rk-list{gap:8px;padding:6px 2px 8px}
 .rk-row,.rk-me{min-height:48px}
 .rk-flag{flex:none;width:36px;height:36px;margin-right:-4px;border-radius:50%;border:2.5px solid var(--ink);background:var(--color-bg);
   display:flex;align-items:center;justify-content:center;padding:0;color:#B3261E;box-sizing:border-box}

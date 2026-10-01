@@ -12,6 +12,17 @@ Rien n'a été corrigé pendant cet état des lieux (voir « Coquilles relevées
 
 **Effort** : ⏱ moins d'1 h · ⏱⏱ une demi-journée à une journée · ⏱⏱⏱ plusieurs jours.
 
+## ✅ Avancement — premier lot de préparation (01/10/2026)
+| Point | État dans le jeu | Ce qui reste |
+|---|---|---|
+| **B1** Compte Google | ✅ « Sauvegarder ma progression avec Google », « Se connecter avec Google », choix entre deux progressions | 👤 E3 (console Firebase) ; 🤖 installer `@capacitor-firebase/authentication` à l'emballage ; essayer la fenêtre Google sur le site et sur un téléphone (bloquée dans l'environnement de test) |
+| **B2** Supprimer le compte | ✅ bouton, deux confirmations, tout effacé ; page `legal/supprimer-mon-compte.html` | 👤 publier les règles du 01/10 ; remplacer `[VOTRE E-MAIL DE CONTACT]` ; mettre la page en ligne et son adresse dans la Play Console |
+| **B5** Pubs | 🟡 fausses pubs seulement en développement : sur le web publié, aucune pub ne rapporte rien | AdMob réel (inchangé) |
+| **I-3** Polices | ✅ embarquées, plus aucun appel à Google Fonts | — |
+| **I-4** Signaler un pseudo | ✅ classements et Duel, 4 raisons, lisibles dans la console (`reports`) | 👤 consulter `reports` de temps en temps |
+| **I-9** Version, contact, crédits | ✅ `data/version.json` (0.9.0, build 1), « Un jeu de Cronos2A » | adresse de contact (masquée tant qu'elle est provisoire) |
+| **I-10** Zones tactiles | ✅ 48 × 48 px et 8 px d'écart sur 31 écrans, 5 langues | — |
+
 ---
 
 ## Ce qui a été vérifié pour cet état des lieux (et qui va bien)
@@ -424,13 +435,31 @@ Textes hors du jeu, à traduire (🤖 Claude Code peut tous les rédiger) :
    - suppression de compte (lien de B2).
 
 ### E3. Préparer la connexion Google dans Firebase (pour B1)
+**Pour le jeu sur le web (à faire maintenant)**
 1. Ouvre console.firebase.google.com → projet « trois-signes ».
-2. Authentication → Méthode de connexion → « Google » → Activer → choisis ton adresse e-mail d'assistance → Enregistrer.
-3. Paramètres du projet (roue dentée) → « Vos applications » → « Ajouter une application » → Android.
-4. Nom du paquet : celui choisi en D-4 (exemple `com.cronos2a.troissignes`).
-5. Ajoute l'**empreinte SHA-1**. Claude Code te la donnera après l'emballage ; ajoute aussi celle de la Play Console :
-   Configuration → Intégrité de l'application → « Certificat de la clé de signature de l'application ».
-6. Télécharge le fichier `google-services.json` et donne-le à Claude Code.
+2. **Authentication** → onglet **Méthode de connexion** (Sign-in method) → **Ajouter un fournisseur** → **Google** → **Activer**.
+   Choisis ton adresse e-mail d'assistance (elle s'affiche aux joueurs dans la fenêtre Google) → **Enregistrer**.
+   Laisse **Anonyme** activé : c'est lui qui crée le compte au premier lancement.
+3. **Authentication** → **Paramètres** → **Domaines autorisés** : `localhost` et `trois-signes.firebaseapp.com` y sont déjà ;
+   **ajoute l'adresse où le jeu est publié** (par exemple `cronos2a.github.io`), sinon la fenêtre Google refuse de s'ouvrir.
+4. **Authentication** → **Paramètres** → **Association de comptes utilisateur** : garde **« Associer les comptes qui utilisent la même adresse
+   e-mail »** (réglage par défaut).
+5. Rien d'autre côté web : la clé et `authDomain` sont déjà dans `data/online.json`.
+
+**Pour l'application Android (au moment de l'emballage)**
+6. Paramètres du projet (roue dentée) → **Vos applications** → **Ajouter une application** → **Android**.
+7. Nom du paquet : celui choisi en D-4 (exemple `com.cronos2a.troissignes`).
+8. **Empreintes SHA-1** (Paramètres du projet → ton application Android → **Ajouter une empreinte**) : la connexion Google d'Android ne marche
+   que pour une application signée par une clé dont l'empreinte est enregistrée ici. Il en faut **trois** :
+   - la clé de **débogage** (pour les essais sur ton téléphone) : Claude Code te la donnera (`./gradlew signingReport`) ;
+   - ta clé d'**importation** (celle avec laquelle tu signes l'APK/AAB envoyé au Play Store) ;
+   - la clé de **signature de l'application** gérée par Google : Play Console → ton application → **Test et publication** → **Intégrité de l'application**
+     → **Signature de l'application** → « Certificat de la clé de signature de l'application » → SHA-1.
+   Sans la bonne empreinte : erreur « DEVELOPER_ERROR » / code 10 au moment de choisir le compte Google.
+9. Télécharge le fichier **`google-services.json`** et donne-le à Claude Code (il va dans `android/app/`). À retélécharger après chaque ajout d'empreinte.
+10. Ce qui diffère dans l'application : pas de fenêtre web ; le jeu passe par l'extension `@capacitor-firebase/authentication`
+    (sélecteur de comptes Google d'Android), puis relie le compte avec `linkWithCredential`. Le code est prêt
+    (`data/online.json → account.nativePlugin`) ; l'extension est à installer lors de l'emballage.
 
 ### E4. Restreindre la clé Firebase (I-2)
 1. Va sur console.cloud.google.com, projet « trois-signes ».

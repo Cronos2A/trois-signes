@@ -1,6 +1,6 @@
 # Trois Signes — brief pour Claude Code
 
-État du projet au 30/09/2026 (jeu en français, anglais, italien, espagnol et allemand ; récompenses de connexion et boosts en place ; reste ouvert : `à faire.md`). À tenir à jour à chaque étape terminée.
+État du projet au 01/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
@@ -35,6 +35,9 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
 - Seuils « proposés » affichés dans la maquette de combat : **non repris** (seules les couleurs par palier le sont).
 - Combat : sprites de ¾ dos pour le héros (skins complets : de face en attendant leurs vues de dos, pas de socle), animations = simples transformations des sprites, déduites de l'état du jeu
   (`src/ui/anim.js`). Corps à corps (Aldric, Nyra, Boran) : ruée + coup d'arme ; à distance (Kestrel, Ilwen, Mira) : projectile.
+- **Zones tactiles** (`src/ui/touch.css`, chargé en dernier) : tout élément cliquable se touche sur au moins 48 × 48 px (zone invisible `::after`
+  qui agrandit les petits boutons sans changer leur dessin) et deux zones sont à 8 px au moins l'une de l'autre (écarts réglés écran par écran).
+  Tout nouvel écran : vérifier ces deux règles en 360 × 640 dans les 5 langues (outil des essais : `tapcheck.mjs`).
 - Ce qui n'est pas codé est affiché et marqué « Bientôt ». Gemmes (achat réel plus tard) : **cosmétiques seulement, jamais d'avantage en jeu**.
 
 ## Règles de combat (valeurs dans `data/`)
@@ -182,6 +185,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   « Doubler l'or » sur les résultats du Voyage (1 fois par partie) ; « Seconde chance » au KO dans le Voyage, reprise à 50 % des PV
   avec 1,5 s de garde (1 fois par partie) ; boutique : « +5 gemmes » (3 fois par jour) et « Coffre gratuit » simple (1 fois par jour,
   pas dans les pays sans coffres), compteur « 2 / 3 aujourd'hui ».
+- **Fausses pubs seulement en développement** (`ads.js` → `adsReady`, `ads.json → test.hosts` : localhost, 127.0.0.1) ; dans l'application : AdMob.
+  Ailleurs sur le web (site publié) : aucune pub, rien n'est gagné ; boutique « +5 gemmes » et « Coffre gratuit » : « Disponible dans l'application » ;
+  « Doubler l'or », pub du jour et Seconde chance masqués ; pas de pub plein écran. Vérifié le 01/10/2026 sur une adresse publique simulée.
 - **Plein écran** : seulement en quittant les résultats du Voyage (Rejouer ou Retour), une partie sur 3, après 10 minutes de jeu
   cumulées (combat, Entraînement, leçon). Jamais en combat, leçon, Histoire, cinématique. Fermer après le compte à rebours.
 - **Sans publicité** (onglet Gemmes) : 2,99 €, désactivé sur le web ; une fois acheté, plus de pub plein écran (les récompensées restent).
@@ -235,7 +241,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - Projet Firebase `trois-signes`, **offre gratuite Spark** (rien de payant utilisé). SDK web 12.19.0 **embarqué** dans
   `src/vendor/firebase/12.19.0/` (aucun CDN ; import de `firebase-app.js` rendu local, voir son README), chargé en arrière-plan.
 - **Connexion anonyme automatique** au premier lancement (aucune inscription) : `src/online/online.js` (`initOnline`, appelé par `main.js`).
-  Le compte est gardé par le navigateur ; effacer les données du site ou changer d'appareil = nouveau compte (la liaison Google le réglera).
+  Le compte est gardé par le navigateur ; effacer les données du site ou changer d'appareil = nouveau compte, sauf si la progression est sauvegardée avec Google (« Se connecter avec Google »).
 - **Pseudo** (`src/online/pseudo.js`, `src/ui/account-ui.js`) : demandé après le prologue et la première leçon (obligatoire, pseudo proposé
   au hasard), modifiable dans les Réglages ; 3 à 16 caractères, lettres / chiffres / espace / - . _ ; filtre des mots grossiers
   (`online.json → pseudo` : `banned` partout, `bannedWords` en mot entier, accents et chiffres « leet » ramenés) ;
@@ -249,12 +255,34 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026, puis le 01/10/2026 avec `daily/{uid}` et les gemmes du jour ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
   chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ;
   salons `duels/{code}` et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}`, Empreintes `ranked/{uid}`,
-  gemmes `wallet/{uid}`, début de partie du Voyage `runs/{uid}` (voir « Sécurité »), récompenses de connexion `daily/{uid}` ; tout le reste fermé.
+  gemmes `wallet/{uid}`, début de partie du Voyage `runs/{uid}` (voir « Sécurité »), récompenses de connexion `daily/{uid}`, comptes supprimés
+  `closed/{uid}` (`wallet`, `daily`, `ranked` effaçables seulement après, et jamais recréés), signalements `reports/{id}` ; tout le reste fermé.
+  **Règles du 01/10/2026 (comptes supprimés, signalements) : à publier dans la console** (sinon suppression et signalement échouent).
 - **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
   puis le jeu avec `?emu` dans l'adresse (`online.json → emulator`).
   `?longpoll` (`online.json → longPollParam`) : Firestore en requêtes classiques, pour les réseaux qui coupent son flux continu (proxy, tests).
 - **Réglages → Compte** : pseudo + « Modifier », état du serveur (en ligne, sauvegarde en cours, hors connexion, injoignable) et n° de joueur,
-  « Lier mon compte Google » désactivé (« Bientôt (Google Play Games) »).
+  « Sauvegarder ma progression avec Google », « Se connecter avec Google », « Supprimer mon compte et mes données », version du jeu.
+- **Compte Google** (`src/online/account.js`, fenêtres dans `account-ui.js`, `online.json → account`, textes `account.*`) :
+  « Sauvegarder ma progression avec Google » = le compte anonyme devient un compte Google (même n° de joueur, rien ne se perd) ;
+  « Se connecter avec Google » (Réglages, et « J'ai déjà une progression » dans la fenêtre du pseudo du premier lancement) = même déroulé.
+  Web : `linkWithPopup` ; application Android : extension `@capacitor-firebase/authentication` (**pas installée**, `nativePlugin`) puis
+  `linkWithCredential`. Ce compte Google a déjà une progression : lue à part (application Firebase secondaire, rien n'est écrit), le joueur choisit
+  « Ce téléphone » ou « Compte Google » puis confirme ; seulement alors l'ancien compte anonyme est fermé et effacé, et le jeu redémarre sur le compte
+  Google (copie de secours locale `ts_prog_before_google`). « Ce téléphone » gardé : les gemmes, Empreintes et la série de connexion restent celles
+  du compte Google (seuls les gains de la table fixe sont repris). Vérifié le 01/10/2026 sur l'émulateur (liaison, choix des deux côtés, annuler,
+  retour, ancien compte effacé) par le chemin de l'application (jeton simulé) : la fenêtre Google du web n'a pas pu être testée ici
+  (`apis.google.com` bloqué par le réseau de test) : **à essayer sur le site publié et sur un téléphone**.
+- **Suppression du compte** (`account.js` → `deleteAccount`, page `legal/supprimer-mon-compte.html`) : deux confirmations ; compte Google : reconnexion
+  d'abord ; puis `closed/{uid}`, effacement de `players`, `leaderboard`, `queue`, `runs`, `daily`, `wallet`, `ranked` (+ `games`), suppression du compte,
+  sauvegarde de l'appareil effacée (réglages gardés), retour au premier lancement. Vérifié le 01/10/2026 sur l'émulateur (390 × 800, 360 × 640) :
+  annuler aux deux étapes, tout effacé, compte supprimé, prologue au relancement ; effacer son portefeuille sans supprimer le compte : refusé.
+  Restent : salons de Duel joués (pseudo, scores) jusqu'au ménage des salons, signalements envoyés, trace `closed/{uid}` (n° et date).
+- **Signaler un pseudo** (`src/online/report.js`, `src/ui/report-ui.js`, `online.json → report`, textes `report.*`) : drapeau sur chaque ligne d'un autre
+  joueur dans les classements, « Signaler » à côté de l'adversaire dans le salon du Duel et sur l'écran de fin ; 4 raisons fixes (insulte, haine,
+  contenu sexuel, usurpation). Document `reports/{uid}_{pseudo normalisé}` = `{ pseudo, key, reason, by, at, board }`, un seul par joueur et par
+  pseudo, **lisible seulement dans la console Firebase** (Firestore Database → `reports`). Vérifié : envoi, doublon, réécriture, lecture, signalement
+  au nom d'un autre et raison inconnue refusés.
 - Console Firebase : Authentication → Anonyme activé, « Activer la création (inscription) » coché ; Firestore en Europe, mode production.
 - Testé le 29/09/2026 avec deux navigateurs : deux comptes distincts, chacun lit son document, lecture et écriture du document de l'autre
   refusées (permission-denied), hors connexion puis retour (or envoyé), sauvegarde serveur plus récente reprise au lancement, pseudo après la leçon.
@@ -502,13 +530,16 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 ## Réglages et crédits
 - Engrenage du lobby (`src/ui/lobby.js` → `renderSettings`, `src/game/settings.js`, clé `ts_settings`) : volumes Musique / Effets, Vibrations,
-  Compte (pseudo, état du serveur, liaison Google plus tard), bouton **Crédits**. Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
+  Langue, Compte (pseudo, état du serveur, Google, suppression du compte), bouton **Crédits**, version du jeu.
+- **Version** : `data/version.json` (`version` x.y.z, `build` entier qui ne fait que monter = versionCode Android, `studio`, `contact`) ; affichée en bas
+  des Réglages et en tête des Crédits avec « Un jeu de Cronos2A ». L'adresse de contact n'apparaît dans les Crédits que si c'est une vraie adresse
+  e-mail (aujourd'hui le texte provisoire « [VOTRE E-MAIL DE CONTACT] », aussi dans `legal/supprimer-mon-compte.html` : à remplacer). Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
 - Écran Crédits : texte dans `data/credits.json` (`renderCredits`). À tenir à jour avec `CREDITS.md` à chaque nouvelle source.
 
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
 - **Aucun texte visible dans le code** : `tr('clé')` et `data/i18n/fr.json` (voir « Langues ») ; nombres par `nf` / `nfi`, jamais `toLocaleString('fr-FR')`.
-  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -543,7 +574,7 @@ src/
          variants.js (variantes sbire / brute / boss selon l'arène ou le combat)  duel.js (Duel : programme, pression, victoire)
          duel-rank.js (Empreintes, arènes du Duel)  daily.js (récompenses de connexion)  boosts.js (boosts XP / or)
   story/story.js     déroulé du mode Histoire
-  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  leaderboard.js (classements)  ranked.js (Empreintes au serveur)  wallet.js (gemmes au serveur)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)  daily-net.js (récompenses de connexion au serveur)
+  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  account.js (Google, suppression du compte)  report.js (signalements)  leaderboard.js (classements)  ranked.js (Empreintes au serveur)  wallet.js (gemmes au serveur)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)  daily-net.js (récompenses de connexion au serveur)
   vendor/firebase/   SDK Firebase embarqué (app, auth, firestore)
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js
@@ -555,10 +586,12 @@ src/
          account-ui.js (pseudo, bloc Compte des Réglages, sauvegarde endommagée)  tips.js (explications à la 1re rencontre)
          back.js (bouton Retour du téléphone)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
          daily-ui.js (fenêtre du jour, écran Récompenses, bouton cadeau, proposition de boost, pastille de combat)
+         report-ui.js (fenêtre « Signaler un pseudo »)  fonts.css (polices embarquées)  touch.css (zones tactiles, chargé en dernier)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css  daily.css
-data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily (.json)
+data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version (.json)
   i18n/  languages.json  fr.json (textes de l'interface)  GLOSSAIRE.md
 firestore.rules  firebase.json   règles de sécurité Firestore
+legal/supprimer-mon-compte.html  page publique : supprimer son compte (Play Store : « URL de suppression du compte »)
 tools/check-rules.mjs            vérifie que les chiffres des règles sont ceux de data/
 assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  icones/recompenses/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
@@ -590,6 +623,7 @@ prototype/ prototype d'origine
 
 ## Prochaines tâches (dans cet ordre)
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
-2. **Duel, suite** : ménage des salons terminés, liaison du compte Google (offre Blaze : voir « Avant la publication sur le Play Store »).
+2. **Duel, suite** : ménage des salons terminés.
+3. **Avant le Play Store** : voir `AVANT_PUBLICATION.md` (adresse de contact, extension Google de Capacitor et empreintes SHA-1, règles à publier…).
 
 Plus tard : achat réel des gemmes et de « Sans publicité », AdMob (dans l'application), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.

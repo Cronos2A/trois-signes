@@ -12,6 +12,17 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 
 ---
 
+## 🔵 Préparation à la publication, premier lot (01/10/2026)
+- Fait : polices embarquées, zones tactiles (48 px, 8 px), compte Google (lier, se connecter, choisir entre deux progressions), suppression du
+  compte (+ `legal/supprimer-mon-compte.html`), signaler un pseudo, fausses pubs limitées au développement, version et crédits. Détails : `CLAUDE.md`,
+  état d'ensemble : `AVANT_PUBLICATION.md`.
+- **À faire de ton côté** : publier les nouvelles règles (`firestore.rules` : `closed`, `reports`, suppressions) ; activer Google dans Authentication
+  et ajouter le domaine du site (AVANT_PUBLICATION.md → E3) ; remplacer `[VOTRE E-MAIL DE CONTACT]` (`data/version.json`,
+  `legal/supprimer-mon-compte.html`).
+- **Pas testé ici** : la fenêtre Google du web (`apis.google.com` est bloqué dans l'environnement de test ; tout le reste du déroulé a été vérifié sur
+  l'émulateur avec un jeton simulé) ; l'extension Google d'Android (pas encore installée). À essayer sur le site publié puis sur un téléphone.
+- Salons de Duel joués : ils gardent le pseudo et les scores après une suppression de compte, jusqu'au ménage des salons (toujours à faire).
+
 ## 🔵 Récompenses de connexion (30/09/2026) — à surveiller
 - **Règles publiées le 01/10/2026** (`firestore.rules` : collection `daily/{uid}` et gemmes du jour dans `wallet/{uid}`), confirmé par toi,
   et vérifiées le jour même sur le vrai serveur (récupération acceptée, 2e récupération, jour truqué, série et gemmes gonflées refusés).
