@@ -614,6 +614,61 @@
           }
         }
       ]
+    },
+    "rules": {
+      "story": {
+        "roundLabel": "Welle",
+        "typeLabels": {
+          "normal": "Kampf",
+          "mini_boss": "Zwischenboss",
+          "rencontre": "Begegnung",
+          "lieutenant": "Leutnant",
+          "boss_final": "Endboss"
+        },
+        "npc": {
+          "eldan": {
+            "name": "Meister Eldan"
+          },
+          "eldan_oublie": {
+            "name": "Eldan der Vergessene"
+          },
+          "sbire": {
+            "name": "Verblasster"
+          }
+        }
+      },
+      "backButton": {
+        "title": "Partie verlassen?",
+        "text": "Dein Fortschritt in diesem Kampf geht verloren.",
+        "textDuel": "Wer das Duell verlässt, verliert.",
+        "textLesson": "Du kannst die Lektion im Tab Spielen erneut ansehen.",
+        "textTrain": "Du kehrst zur Lobby zurück.",
+        "quit": "Verlassen",
+        "stay": "Weiterspielen"
+      },
+      "tips": {
+        "ok": "Verstanden",
+        "weapons": {
+          "title": "Waffen",
+          "text": "Jeder Held hat drei gleich starke Waffen: Sie ändern den Kampfstil, nicht die Stärke. Rüste sie im Tab Held aus. Eine Waffe sammelt EP in der Reise und den Geschichten, bis Stufe 10."
+        },
+        "talismans": {
+          "title": "Talismane",
+          "text": "Jeder besiegte Wächter der Reise gibt dir einen Talisman. Jeder Held kann einen tragen: Rüste ihn im Tab Held aus."
+        },
+        "prints": {
+          "title": "Abdrücke",
+          "text": "Im Zufallsduell: +{win} für einen Sieg, −{loss} für eine Niederlage. Sie schalten neue Duell-Arenen frei und bestimmen deinen Rang unter den Spielern."
+        },
+        "duel": {
+          "title": "So funktioniert ein Duell",
+          "text": "Ihr kämpft gegen dieselben Gegner, Welle für Welle (höchstens {wave} s). Deine Punkte in einer Welle machen die nächste Welle deines Gegners schwerer: Das ist der Druck (bis +{cap} %). Die höchste Gesamtpunktzahl gewinnt; ein K.O. verliert."
+        }
+      },
+      "orientation": {
+        "title": "Dreh dein Handy",
+        "text": "Drei Zeichen wird im Hochformat gespielt."
+      }
     }
   }
 }
