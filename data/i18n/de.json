@@ -527,6 +527,93 @@
       "beyond": {
         "name": "Jenseits der Stille"
       }
+    },
+    "characters": {
+      "statLabels": [
+        "Schaden",
+        "Tempo",
+        "Ausdauer"
+      ],
+      "characters": [
+        {
+          "role": "Ritter",
+          "title": "Der Ritter",
+          "weaponLabel": "Schwert",
+          "passive": {
+            "name": "Deckung",
+            "text": "Der Ritter steckt mehr ein als alle anderen: −15 % erlittener Schaden."
+          },
+          "super": {
+            "name": "Bollwerk",
+            "text": "8 s lang halbierter erlittener Schaden, dazu ein Schlag gegen alle Gegner (2 × Angriff)."
+          }
+        },
+        {
+          "role": "Assassinin",
+          "title": "Die Assassinin",
+          "weaponLabel": "Dolch",
+          "passive": {
+            "name": "Zerbrechliche Klinge",
+            "text": "Schlägt hart zu, steckt aber nichts ein: die Verwundbarste von allen."
+          },
+          "super": {
+            "name": "Schatten",
+            "text": "Weicht den nächsten 3 Treffern ganz aus, auch ohne Kreis, und +50 % Angriff für 8 s."
+          }
+        },
+        {
+          "role": "Koloss",
+          "title": "Der Koloss",
+          "weaponLabel": "Panzerhandschuhe",
+          "passive": {
+            "name": "Rohe Kraft",
+            "text": "Sehr zäh und stark, kann aber nie eine Kombo auslösen."
+          },
+          "super": {
+            "name": "Riese",
+            "text": "Wächst 8 s lang und trifft alle Gegner (2,5 × Angriff)."
+          }
+        },
+        {
+          "role": "Hexe",
+          "title": "Die Hexe",
+          "weaponLabel": "Zauberbuch",
+          "passive": {
+            "name": "Beschwörung",
+            "text": "Eine Kombo braucht nur 3 gleiche Gesten in Folge statt 4."
+          },
+          "super": {
+            "name": "Offenes Zauberbuch",
+            "text": "Ihre nächsten 2 gelungenen Angriffe zählen als Kombos ihrer Stufe."
+          }
+        },
+        {
+          "role": "Waldläuferin",
+          "title": "Die Waldläuferin",
+          "weaponLabel": "Bogen",
+          "passive": {
+            "name": "Leichter Schritt",
+            "text": "Grundausweichen 120 % statt 80 % (× Erfolgsstufe): ab Very Good maximales Ausweichen (90 %)."
+          },
+          "super": {
+            "name": "Falkenauge",
+            "text": "8 s lang zählt jede erkannte Geste als Perfect."
+          }
+        },
+        {
+          "role": "Heilerin",
+          "title": "Die Heilerin",
+          "weaponLabel": "Amulett",
+          "passive": {
+            "name": "Heilung und Beschwörung",
+            "text": "Jeder gelungene Angriff heilt sie um 0,5 LP × Multiplikator, und jedes Perfect beschwört ein kleines Monster (1 Schaden pro Sekunde, 10 s lang)."
+          },
+          "super": {
+            "name": "Erneuerung",
+            "text": "Stellt 10 % ihrer max. LP wieder her und verdoppelt 10 s lang ihren Angriff."
+          }
+        }
+      ]
     }
   }
 }
