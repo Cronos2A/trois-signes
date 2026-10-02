@@ -388,3 +388,5 @@
 .rw-tal small{display:block;font-size:12px;font-weight:700;color:var(--text-soft);line-height:1.25}
 .set-langs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .set-langs .chip{font-size:12.5px;padding:6px 8px;min-width:0}
+.acc-sum-srv{font-weight:800}
+.acc-warn{padding:10px 12px;border:3px solid #B3261E;border-radius:14px;background:#FFE3DC;color:#8A1C14;font-weight:800}

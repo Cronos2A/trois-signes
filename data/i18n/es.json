@@ -2819,14 +2819,14 @@
     "google": "Cuenta de Google",
     "noSave": "Sin progreso",
     "record": "Récord {n}",
-    "level": "Nivel {n}",
+    "level": "Nivel más alto: {n}",
     "stories": {
       "one": "{n} historia terminada",
       "other": "{n} historias terminadas"
     },
-    "wealth": "{gold} oro · {gems} gemas · {prints} Huellas",
+    "wealth": "{gems} gemas · {prints} Huellas",
     "keep": "Conservar este",
-    "confirmPhone": "El progreso de este teléfono sustituirá al de la cuenta de Google, que se perderá. Las gemas, las Huellas y la racha de conexión siguen siendo las de la cuenta de Google.",
+    "confirmPhone": "El progreso de este teléfono sustituirá al de la cuenta de Google, que se perderá.",
     "confirmGoogle": "El progreso de la cuenta de Google sustituirá al de este teléfono, que se perderá.",
     "confirmOk": "Sí, conservar este",
     "back": "Volver",
@@ -2843,7 +2843,13 @@
     "deleting": "Eliminando…",
     "deleted": "Tu cuenta y tus datos se han eliminado. El juego empieza de cero.",
     "deleteError": "No se ha podido eliminar ({code}). Inténtalo más tarde.",
-    "deleteOffline": "Necesitas conexión con el servidor para eliminar tu cuenta."
+    "deleteOffline": "Necesitas conexión con el servidor para eliminar tu cuenta.",
+    "streak": {
+      "one": "Racha de conexión: {n} día",
+      "other": "Racha de conexión: {n} días"
+    },
+    "warnGoogle": "No se conservarán las gemas, las Huellas ni la racha de conexión del otro progreso.",
+    "warnPhone": "No se conservarán las gemas, las Huellas ni la racha de conexión de este teléfono: el servidor las guarda con la cuenta de Google, así que se quedan las de la cuenta de Google."
   },
   "report": {
     "title": "Denunciar un apodo",

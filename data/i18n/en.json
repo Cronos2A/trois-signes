@@ -2816,14 +2816,14 @@
     "google": "Google account",
     "noSave": "No progress",
     "record": "Best {n}",
-    "level": "Level {n}",
+    "level": "Highest level: {n}",
     "stories": {
       "one": "{n} story completed",
       "other": "{n} stories completed"
     },
-    "wealth": "{gold} gold · {gems} gems · {prints} Imprints",
+    "wealth": "{gems} gems · {prints} Imprints",
     "keep": "Keep this one",
-    "confirmPhone": "This phone's progress will replace the Google account's, which will be lost. Gems, Imprints and the login streak stay those of the Google account.",
+    "confirmPhone": "This phone's progress will replace the Google account's, which will be lost.",
     "confirmGoogle": "The Google account's progress will replace this phone's, which will be lost.",
     "confirmOk": "Yes, keep this one",
     "back": "Back",
@@ -2840,7 +2840,13 @@
     "deleting": "Deleting…",
     "deleted": "Your account and your data are deleted. The game starts over.",
     "deleteError": "The deletion couldn't be completed ({code}). Try again later.",
-    "deleteOffline": "You need a connection to the server to delete your account."
+    "deleteOffline": "You need a connection to the server to delete your account.",
+    "streak": {
+      "one": "Login streak: {n} day",
+      "other": "Login streak: {n} days"
+    },
+    "warnGoogle": "The gems, Imprints and login streak of the other progress will not be kept.",
+    "warnPhone": "This phone's gems, Imprints and login streak will not be kept: the server stores them with the Google account, so the Google account's stay."
   },
   "report": {
     "title": "Report a username",

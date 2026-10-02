@@ -8,6 +8,7 @@
 // - Suppression : closed/{uid} (firestore.rules), puis tous les documents du joueur, puis le compte ; le jeu repart de zéro.
 import { D } from '../data.js';
 import { prog, store, freezeSave } from '../game/progress.js';
+import { zoneDay } from '../game/daily.js';
 import { accountApi, whenOnline, pauseSync, flushSave, emuMode } from './online.js';
 
 const A = () => D.online.account;
@@ -35,14 +36,26 @@ async function nativeCredential(fb) {
 const cancelled = e => ['auth/popup-closed-by-user', 'auth/cancelled-popup-request', 'auth/user-cancelled'].includes(e && e.code)
   || /cancel/i.test((e && e.message) || '');
 
-/** Résumé d'une progression pour le choix : pseudo, record, histoires terminées, plus haut niveau, or, gemmes, Empreintes. */
+/**
+ * Chiffres gardés par le serveur pour un compte : gemmes (wallet), Empreintes (ranked), série de connexion (daily ; 0 si elle est
+ * déjà rompue, c'est-à-dire si le dernier jour récupéré est avant hier).
+ */
+async function serverStats(fs, db, uid) {
+  const get = async c => { try { const d = await fs.getDoc(fs.doc(db, c, uid)); return d.exists() ? d.data() : null; } catch (e) { return null; } };
+  const [wallet, ranked, daily] = await Promise.all([get('wallet'), get(A().ranked), get('daily')]);
+  const today = zoneDay(Date.now());
+  return { gems: wallet ? wallet.gems || 0 : 0, prints: ranked ? ranked.prints || 0 : 0,
+    streak: daily && daily.lastDay >= today - 1 ? daily.streak || 0 : 0 };
+}
+
+/** Résumé d'une progression pour le choix : pseudo, record, histoires, plus haut niveau, or ; gemmes, Empreintes, série (serveur). */
 export function summarize(save, extra = {}) {
   const s = save || {};
   const stories = Object.values((s.story && s.story.done) || {}).filter(l => l.length >= 10).length;
   const lvl = Math.max(1, ...Object.values(s.chars || {}).map(c => (c && c.lvl) || 1));
   return { pseudo: (s.profile && s.profile.pseudo) || '', best: s.best || 0, stories, lvl,
     gold: (s.eco && s.eco.gold) || 0, gems: extra.gems ?? ((s.eco && s.eco.gems) || 0), prints: extra.prints ?? ((s.duel && s.duel.prints) || 0),
-    savedAt: s.savedAt || 0, empty: !save };
+    streak: extra.streak || 0, savedAt: s.savedAt || 0, empty: !save };
 }
 
 /** Lit la progression d'un compte Google sans rien changer ici : application Firebase à part, connexion en mémoire seulement. */
@@ -59,12 +72,13 @@ async function peek(S, cred) {
       fb.fs.connectFirestoreEmulator(db, E.host, E.firestorePort);
     }
     const u = (await fb.auth.signInWithCredential(auth, cred)).user;
-    const get = async (col, id) => { try { const d = await fb.fs.getDoc(fb.fs.doc(db, col, id)); return d.exists() ? d.data() : null; } catch (e) { return null; } };
-    const [player, wallet, ranked] = await Promise.all([get(D.online.collection, u.uid), get('wallet', u.uid), get(A().ranked, u.uid)]);
+    let player = null;
+    try { const d = await fb.fs.getDoc(fb.fs.doc(db, D.online.collection, u.uid)); player = d.exists() ? d.data() : null; } catch (e) {}
+    const stats = await serverStats(fb.fs, db, u.uid);
     let save = null;
     try { save = player && player.save ? JSON.parse(player.save) : null; } catch (e) {}
     await fb.auth.signOut(auth).catch(() => {});
-    return { uid: u.uid, save, summary: summarize(save, { gems: wallet ? wallet.gems : 0, prints: ranked ? ranked.prints : 0 }) };
+    return { uid: u.uid, save, summary: summarize(save, stats) };
   } finally { fb.app.deleteApp(app).catch(() => {}); }
 }
 
@@ -96,7 +110,8 @@ export async function connectGoogle(choose) {
   // Ce compte Google a déjà sa progression : lue à part, rien n'est écrit avant le choix du joueur.
   let other;
   try { other = await peek(S, cred); } catch (e) { return { status: 'error', code: e.code || e.message }; }
-  const choice = await choose(summarize(prog), other.summary);
+  const mine = await serverStats(fb.fs, S.db, anon.uid);
+  const choice = await choose(summarize(prog, mine), other.summary);
   if (choice !== 'phone' && choice !== 'google') return { status: 'cancelled' };
   const keep = choice === 'phone' ? JSON.parse(JSON.stringify(prog)) : other.save;
   try { localStorage.setItem(A().backupKey, JSON.stringify(prog)); } catch (e) {}     // copie de secours de cet appareil

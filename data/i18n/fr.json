@@ -372,14 +372,14 @@
     "google": "Compte Google",
     "noSave": "Aucune progression",
     "record": "Record {n}",
-    "level": "Niveau {n}",
+    "level": "Niveau le plus haut : {n}",
     "stories": {
       "one": "{n} histoire terminée",
       "other": "{n} histoires terminées"
     },
-    "wealth": "{gold} or · {gems} gemmes · {prints} Empreintes",
+    "wealth": "{gems} gemmes · {prints} Empreintes",
     "keep": "Garder celle-ci",
-    "confirmPhone": "La progression de ce téléphone remplacera celle du compte Google, qui sera perdue. Les gemmes, les Empreintes et la série de connexion restent celles du compte Google.",
+    "confirmPhone": "La progression de ce téléphone remplacera celle du compte Google, qui sera perdue.",
     "confirmGoogle": "La progression du compte Google remplacera celle de ce téléphone, qui sera perdue.",
     "confirmOk": "Oui, garder celle-ci",
     "back": "Retour",
@@ -396,7 +396,13 @@
     "deleting": "Suppression…",
     "deleted": "Ton compte et tes données sont supprimés. Le jeu repart de zéro.",
     "deleteError": "La suppression n'a pas pu se faire ({code}). Réessaie plus tard.",
-    "deleteOffline": "Il faut une connexion au serveur pour supprimer ton compte."
+    "deleteOffline": "Il faut une connexion au serveur pour supprimer ton compte.",
+    "streak": {
+      "one": "Série de connexion : {n} jour",
+      "other": "Série de connexion : {n} jours"
+    },
+    "warnGoogle": "Les gemmes, les Empreintes et la série de connexion de l'autre progression ne seront pas conservées.",
+    "warnPhone": "Les gemmes, les Empreintes et la série de connexion de ce téléphone ne seront pas conservées : elles sont gardées par le serveur avec le compte Google, et ce sont celles du compte Google qui restent."
   },
   "report": {
     "title": "Signaler un pseudo",

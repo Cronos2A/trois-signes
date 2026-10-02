@@ -115,13 +115,14 @@ const info = (title, text) => dialog(title, `<p class="ps-intro">${text}</p>`, [
 function summaryHtml(t, s) {
   if (s.empty) return `<div class="acc-sum"><b>${t}</b><span>${tr('account.noSave')}</span></div>`;
   return `<div class="acc-sum"><b>${t}</b>${s.pseudo ? `<span class="acc-sum-name">${esc(s.pseudo)}</span>` : ''}
-    <span>${tr('account.record', { n: nfi(s.best) })} · ${tr('account.level', { n: s.lvl })}</span>
+    <span>${tr('account.level', { n: s.lvl })} · ${tr('account.record', { n: nfi(s.best) })}</span>
     <span>${tr('account.stories', { n: s.stories })}</span>
-    <span>${tr('account.wealth', { gold: nfi(s.gold), gems: nfi(s.gems), prints: nfi(s.prints) })}</span></div>`;
+    <span class="acc-sum-srv">${tr('account.wealth', { gems: nfi(s.gems), prints: nfi(s.prints) })}</span>
+    <span class="acc-sum-srv">${tr('account.streak', { n: s.streak })}</span></div>`;
 }
 
 /** Ce compte Google a déjà sa progression : le joueur choisit, puis confirme (rien n'est écrit avant). */
-async function chooseSave(here, google) {
+export async function chooseSave(here, google) {
   for (;;) {
     const pick = await dialog(tr('account.chooseTitle'), `<p class="ps-intro">${tr('account.chooseText')}</p>
         ${summaryHtml(tr('account.here'), here)}<button class="res-again" data-ac="phone"><span class="ol ol-4">${tr('account.keep')}</span></button>
@@ -129,7 +130,9 @@ async function chooseSave(here, google) {
       [{ id: 'cancel', label: tr('account.cancel') }]);
     if (pick === 'cancel') { closeAcc(); return null; }
     const which = pick === 'phone' ? tr('account.here') : tr('account.google');
-    const ok = await dialog(which, `<p class="ps-intro">${tr(pick === 'phone' ? 'account.confirmPhone' : 'account.confirmGoogle')}</p>`,
+    // Avertissement : gemmes, Empreintes et série vivent au serveur, sur le compte Google ; celles de l'autre progression sont perdues.
+    const ok = await dialog(which, `<p class="ps-intro">${tr(pick === 'phone' ? 'account.confirmPhone' : 'account.confirmGoogle')}</p>
+        <p class="ps-intro acc-warn" role="alert">${tr(pick === 'phone' ? 'account.warnPhone' : 'account.warnGoogle')}</p>`,
       [{ id: 'yes', label: tr('account.confirmOk'), main: true }, { id: 'back', label: tr('account.back') }]);
     if (ok === 'yes') { busy(tr('account.google')); return pick; }
   }

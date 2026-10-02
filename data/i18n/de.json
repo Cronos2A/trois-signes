@@ -2818,14 +2818,14 @@
     "google": "Google-Konto",
     "noSave": "Kein Spielstand",
     "record": "Rekord {n}",
-    "level": "Stufe {n}",
+    "level": "Höchste Stufe: {n}",
     "stories": {
       "one": "{n} Geschichte abgeschlossen",
       "other": "{n} Geschichten abgeschlossen"
     },
-    "wealth": "{gold} Gold · {gems} Edelsteine · {prints} Abdrücke",
+    "wealth": "{gems} Edelsteine · {prints} Abdrücke",
     "keep": "Diesen behalten",
-    "confirmPhone": "Der Spielstand dieses Handys ersetzt den des Google-Kontos, der verloren geht. Edelsteine, Abdrücke und die Anmeldeserie bleiben die des Google-Kontos.",
+    "confirmPhone": "Der Spielstand dieses Handys ersetzt den des Google-Kontos, der verloren geht.",
     "confirmGoogle": "Der Spielstand des Google-Kontos ersetzt den dieses Handys, der verloren geht.",
     "confirmOk": "Ja, diesen behalten",
     "back": "Zurück",
@@ -2842,7 +2842,13 @@
     "deleting": "Wird gelöscht …",
     "deleted": "Dein Konto und deine Daten sind gelöscht. Das Spiel beginnt von vorn.",
     "deleteError": "Das Löschen hat nicht geklappt ({code}). Versuch es später noch einmal.",
-    "deleteOffline": "Zum Löschen deines Kontos brauchst du eine Verbindung zum Server."
+    "deleteOffline": "Zum Löschen deines Kontos brauchst du eine Verbindung zum Server.",
+    "streak": {
+      "one": "Anmeldeserie: {n} Tag",
+      "other": "Anmeldeserie: {n} Tage"
+    },
+    "warnGoogle": "Edelsteine, Abdrücke und Anmeldeserie des anderen Spielstands werden nicht übernommen.",
+    "warnPhone": "Edelsteine, Abdrücke und Anmeldeserie dieses Handys werden nicht übernommen: Der Server speichert sie mit dem Google-Konto, deshalb bleiben die des Google-Kontos."
   },
   "report": {
     "title": "Spielernamen melden",

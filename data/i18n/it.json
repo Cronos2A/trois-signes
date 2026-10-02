@@ -2814,14 +2814,14 @@
     "google": "Account Google",
     "noSave": "Nessun progresso",
     "record": "Record {n}",
-    "level": "Livello {n}",
+    "level": "Livello più alto: {n}",
     "stories": {
       "one": "{n} storia completata",
       "other": "{n} storie completate"
     },
-    "wealth": "{gold} oro · {gems} gemme · {prints} Impronte",
+    "wealth": "{gems} gemme · {prints} Impronte",
     "keep": "Tieni questi",
-    "confirmPhone": "I progressi di questo telefono sostituiranno quelli dell'account Google, che andranno persi. Gemme, Impronte e serie di accessi restano quelle dell'account Google.",
+    "confirmPhone": "I progressi di questo telefono sostituiranno quelli dell'account Google, che andranno persi.",
     "confirmGoogle": "I progressi dell'account Google sostituiranno quelli di questo telefono, che andranno persi.",
     "confirmOk": "Sì, tieni questi",
     "back": "Indietro",
@@ -2838,7 +2838,13 @@
     "deleting": "Eliminazione…",
     "deleted": "Il tuo account e i tuoi dati sono stati eliminati. Il gioco ricomincia da zero.",
     "deleteError": "L'eliminazione non è riuscita ({code}). Riprova più tardi.",
-    "deleteOffline": "Serve una connessione al server per eliminare il tuo account."
+    "deleteOffline": "Serve una connessione al server per eliminare il tuo account.",
+    "streak": {
+      "one": "Serie di accessi: {n} giorno",
+      "other": "Serie di accessi: {n} giorni"
+    },
+    "warnGoogle": "Le gemme, le Impronte e la serie di accessi degli altri progressi non saranno conservate.",
+    "warnPhone": "Le gemme, le Impronte e la serie di accessi di questo telefono non saranno conservate: il server le custodisce con l'account Google, quindi restano quelle dell'account Google."
   },
   "report": {
     "title": "Segnala un nickname",

@@ -269,8 +269,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Web : `linkWithPopup` ; application Android : extension `@capacitor-firebase/authentication` (**pas installée**, `nativePlugin`) puis
   `linkWithCredential`. Ce compte Google a déjà une progression : lue à part (application Firebase secondaire, rien n'est écrit), le joueur choisit
   « Ce téléphone » ou « Compte Google » puis confirme ; seulement alors l'ancien compte anonyme est fermé et effacé, et le jeu redémarre sur le compte
-  Google (copie de secours locale `ts_prog_before_google`). « Ce téléphone » gardé : les gemmes, Empreintes et la série de connexion restent celles
-  du compte Google (seuls les gains de la table fixe sont repris). Vérifié le 01/10/2026 sur l'émulateur (liaison, choix des deux côtés, annuler,
+  Google (copie de secours locale `ts_prog_before_google`). Chaque côté montre niveau le plus haut, record, histoires, gemmes, Empreintes et
+  série de connexion (lues au serveur : `wallet`, `ranked`, `daily`) ; avant de confirmer, avertissement en rouge (`account.warnGoogle` / `warnPhone`).
+  Gemmes, Empreintes et série vivent au serveur avec le compte Google : quel que soit le choix, ce sont celles du compte Google qui restent
+  (« Ce téléphone » gardé : seuls les gains de la table fixe sont repris). Vérifié le 01/10/2026 sur l'émulateur (liaison, choix des deux côtés, annuler,
   retour, ancien compte effacé) par le chemin de l'application (jeton simulé) : la fenêtre Google du web n'a pas pu être testée ici
   (`apis.google.com` bloqué par le réseau de test) : **à essayer sur le site publié et sur un téléphone**.
 - **Suppression du compte** (`account.js` → `deleteAccount`, page `legal/supprimer-mon-compte.html`) : deux confirmations ; compte Google : reconnexion
