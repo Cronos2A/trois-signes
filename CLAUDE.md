@@ -533,7 +533,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Langue, Compte (pseudo, état du serveur, Google, suppression du compte), bouton **Crédits**, version du jeu.
 - **Version** : `data/version.json` (`version` x.y.z, `build` entier qui ne fait que monter = versionCode Android, `studio`, `contact`) ; affichée en bas
   des Réglages et en tête des Crédits avec « Un jeu de Cronos2A ». L'adresse de contact n'apparaît dans les Crédits que si c'est une vraie adresse
-  e-mail (aujourd'hui le texte provisoire « [VOTRE E-MAIL DE CONTACT] », aussi dans `legal/supprimer-mon-compte.html` : à remplacer). Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
+  e-mail (`cronos2a.jeux@gmail.com`, aussi dans `legal/supprimer-mon-compte.html`). Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
 - Écran Crédits : texte dans `data/credits.json` (`renderCredits`). À tenir à jour avec `CREDITS.md` à chaque nouvelle source.
 
 ## Conventions

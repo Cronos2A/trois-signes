@@ -17,7 +17,7 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
   compte (+ `legal/supprimer-mon-compte.html`), signaler un pseudo, fausses pubs limitées au développement, version et crédits. Détails : `CLAUDE.md`,
   état d'ensemble : `AVANT_PUBLICATION.md`.
 - **À faire de ton côté** : publier les nouvelles règles (`firestore.rules` : `closed`, `reports`, suppressions) ; activer Google dans Authentication
-  et ajouter le domaine du site (AVANT_PUBLICATION.md → E3) ; remplacer `[VOTRE E-MAIL DE CONTACT]` (`data/version.json`,
+  et ajouter le domaine du site (AVANT_PUBLICATION.md → E3). Adresse de contact en place le 02/10 : cronos2a.jeux@gmail.com (`data/version.json`,
   `legal/supprimer-mon-compte.html`).
 - **Pas testé ici** : la fenêtre Google du web (`apis.google.com` est bloqué dans l'environnement de test ; tout le reste du déroulé a été vérifié sur
   l'émulateur avec un jeton simulé) ; l'extension Google d'Android (pas encore installée). À essayer sur le site publié puis sur un téléphone.

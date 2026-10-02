@@ -16,7 +16,7 @@ Rien n'a été corrigé pendant cet état des lieux (voir « Coquilles relevées
 | Point | État dans le jeu | Ce qui reste |
 |---|---|---|
 | **B1** Compte Google | ✅ « Sauvegarder ma progression avec Google », « Se connecter avec Google », choix entre deux progressions | 👤 E3 (console Firebase) ; 🤖 installer `@capacitor-firebase/authentication` à l'emballage ; essayer la fenêtre Google sur le site et sur un téléphone (bloquée dans l'environnement de test) |
-| **B2** Supprimer le compte | ✅ bouton, deux confirmations, tout effacé ; page `legal/supprimer-mon-compte.html` | 👤 publier les règles du 01/10 ; remplacer `[VOTRE E-MAIL DE CONTACT]` ; mettre la page en ligne et son adresse dans la Play Console |
+| **B2** Supprimer le compte | ✅ bouton, deux confirmations, tout effacé ; page `legal/supprimer-mon-compte.html` | 👤 publier les règles du 01/10 ; adresse de contact (cronos2a.jeux@gmail.com) en place ; mettre la page en ligne et son adresse dans la Play Console |
 | **B5** Pubs | 🟡 fausses pubs seulement en développement : sur le web publié, aucune pub ne rapporte rien | AdMob réel (inchangé) |
 | **I-3** Polices | ✅ embarquées, plus aucun appel à Google Fonts | — |
 | **I-4** Signaler un pseudo | ✅ classements et Duel, 4 raisons, lisibles dans la console (`reports`) | 👤 consulter `reports` de temps en temps |
