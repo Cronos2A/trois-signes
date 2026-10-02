@@ -2872,8 +2872,9 @@
     "error": "No se ha podido enviar la denuncia. Inténtalo más tarde."
   },
   "about": {
-    "privacy": "Privacidad",
-    "terms": "Condiciones",
+    "privacy": "Política de privacidad",
+    "terms": "Condiciones de uso",
+    "deletePage": "Eliminar mi cuenta",
     "version": "Versión {v} ({build})",
     "by": "Un juego de {studio}",
     "contact": "Contacto"

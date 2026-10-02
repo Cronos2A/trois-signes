@@ -389,7 +389,8 @@ function langHtml() {
 /** Version du jeu (data/version.json) ; adresse de contact seulement si c'est une vraie adresse e-mail. */
 const versionText = () => tr('about.version', { v: D.version.version, build: D.version.build });
 /** Liens vers les pages légales (data/version.json → legal), ouvertes dans un nouvel onglet. */
-const legalLinks = () => `<div class="set-legal"><a href="${D.version.legal.privacy}" target="_blank" rel="noopener">${tr('about.privacy')}</a><a href="${D.version.legal.terms}" target="_blank" rel="noopener">${tr('about.terms')}</a></div>`;
+const legalLinks = () => `<div class="set-legal">${[['privacy', 'privacy'], ['terms', 'terms'], ['deleteAccount', 'deletePage']]
+  .map(([page, key]) => `<a href="${D.version.legal[page]}" target="_blank" rel="noopener">${tr('about.' + key)}</a>`).join('')}</div>`;
 const contactMail = () => (/^[^\s@\[\]]+@[^\s@\[\]]+\.[^\s@\[\]]+$/.test(D.version.contact || '') ? D.version.contact : '');
 function renderCredits() {
   const C = D.credits, mail = contactMail();

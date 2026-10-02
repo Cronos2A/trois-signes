@@ -536,8 +536,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Version** : `data/version.json` (`version` x.y.z, `build` entier qui ne fait que monter = versionCode Android, `studio`, `contact`) ; affichée en bas
   des Réglages et en tête des Crédits avec « Un jeu de Cronos2A ». L'adresse de contact n'apparaît dans les Crédits que si c'est une vraie adresse
   e-mail (`cronos2a.jeux@gmail.com`, aussi dans `legal/supprimer-mon-compte.html`).
-  Liens « Confidentialité » et « Conditions » (nouvel onglet) en bas des Réglages et dans les Crédits : `version.json → legal`
-  (`legal/politique-de-confidentialite.html`, `legal/conditions-utilisation.html`, pages fournies le 02/10/2026, en français). Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
+  Trois liens (nouvel onglet, 48 px de haut) en bas des Réglages et dans les Crédits : « Politique de confidentialité », « Conditions
+  d'utilisation », « Supprimer mon compte » (`version.json → legal`, textes `about.*` ; pages de `legal/`, fournies le 02/10/2026, en français).
+  Adresses publiques à donner à la Play Console : `AVANT_PUBLICATION.md` (en tête). Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
 - Écran Crédits : texte dans `data/credits.json` (`renderCredits`). À tenir à jour avec `CREDITS.md` à chaque nouvelle source.
 
 ## Conventions

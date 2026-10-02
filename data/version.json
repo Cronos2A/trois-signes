@@ -5,5 +5,5 @@
   "date": "2026-10-01",
   "studio": "Cronos2A",
   "contact": "cronos2a.jeux@gmail.com",
-  "legal": { "privacy": "legal/politique-de-confidentialite.html", "terms": "legal/conditions-utilisation.html" }
+  "legal": { "privacy": "legal/politique-de-confidentialite.html", "terms": "legal/conditions-utilisation.html", "deleteAccount": "legal/supprimer-mon-compte.html" }
 }

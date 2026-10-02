@@ -12,6 +12,19 @@ Rien n'a été corrigé pendant cet état des lieux (voir « Coquilles relevées
 
 **Effort** : ⏱ moins d'1 h · ⏱⏱ une demi-journée à une journée · ⏱⏱⏱ plusieurs jours.
 
+## 🔗 Adresses des pages légales (à donner à la Play Console)
+Adresses attendues si le jeu est publié par GitHub Pages depuis `cronos2a/trois-signes` (branche `main`, dossier racine) :
+| Page | Adresse | Où la donner |
+|---|---|---|
+| Politique de confidentialité | https://cronos2a.github.io/trois-signes/legal/politique-de-confidentialite.html | Play Console → Contenu de l'application → Règles de confidentialité ; aussi la fiche du store |
+| Conditions d'utilisation | https://cronos2a.github.io/trois-signes/legal/conditions-utilisation.html | (facultatif dans la Play Console) ; liée depuis le jeu |
+| Supprimer mon compte | https://cronos2a.github.io/trois-signes/legal/supprimer-mon-compte.html | Play Console → Contenu de l'application → Sécurité des données → « Suppression du compte » (URL) |
+
+⚠️ **À confirmer** : ces adresses n'ont pas pu être ouvertes depuis l'environnement de test (sites extérieurs bloqués). Ouvre-les une fois
+dans ton navigateur avant de les coller. Si le site est publié ailleurs (autre domaine), remplace seulement le début de l'adresse :
+la fin `legal/…html` reste la même. Vérifié en local (02/10/2026) : les trois pages s'affichent sans débordement en 360 × 640 et 390 × 800,
+et leurs liens entre elles marchent.
+
 ## ✅ Avancement — premier lot de préparation (01/10/2026)
 | Point | État dans le jeu | Ce qui reste |
 |---|---|---|

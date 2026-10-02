@@ -2867,8 +2867,9 @@
     "error": "Non è stato possibile inviare la segnalazione. Riprova più tardi."
   },
   "about": {
-    "privacy": "Privacy",
-    "terms": "Termini",
+    "privacy": "Informativa sulla privacy",
+    "terms": "Termini d'uso",
+    "deletePage": "Elimina il mio account",
     "version": "Versione {v} ({build})",
     "by": "Un gioco di {studio}",
     "contact": "Contatto"
