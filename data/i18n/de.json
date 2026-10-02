@@ -2871,6 +2871,8 @@
     "error": "Die Meldung konnte nicht gesendet werden. Versuch es später noch einmal."
   },
   "about": {
+    "privacy": "Datenschutz",
+    "terms": "Nutzungsbedingungen",
     "version": "Version {v} ({build})",
     "by": "Ein Spiel von {studio}",
     "contact": "Kontakt"

@@ -535,7 +535,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Langue, Compte (pseudo, état du serveur, Google, suppression du compte), bouton **Crédits**, version du jeu.
 - **Version** : `data/version.json` (`version` x.y.z, `build` entier qui ne fait que monter = versionCode Android, `studio`, `contact`) ; affichée en bas
   des Réglages et en tête des Crédits avec « Un jeu de Cronos2A ». L'adresse de contact n'apparaît dans les Crédits que si c'est une vraie adresse
-  e-mail (`cronos2a.jeux@gmail.com`, aussi dans `legal/supprimer-mon-compte.html`). Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
+  e-mail (`cronos2a.jeux@gmail.com`, aussi dans `legal/supprimer-mon-compte.html`).
+  Liens « Confidentialité » et « Conditions » (nouvel onglet) en bas des Réglages et dans les Crédits : `version.json → legal`
+  (`legal/politique-de-confidentialite.html`, `legal/conditions-utilisation.html`, pages fournies le 02/10/2026, en français). Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
 - Écran Crédits : texte dans `data/credits.json` (`renderCredits`). À tenir à jour avec `CREDITS.md` à chaque nouvelle source.
 
 ## Conventions
@@ -593,7 +595,7 @@ src/
 data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version (.json)
   i18n/  languages.json  fr.json (textes de l'interface)  GLOSSAIRE.md
 firestore.rules  firebase.json   règles de sécurité Firestore
-legal/supprimer-mon-compte.html  page publique : supprimer son compte (Play Store : « URL de suppression du compte »)
+legal/  supprimer-mon-compte.html (Play Store : « URL de suppression du compte »)  politique-de-confidentialite.html  conditions-utilisation.html
 tools/check-rules.mjs            vérifie que les chiffres des règles sont ceux de data/
 assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  icones/recompenses/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)

@@ -4,5 +4,6 @@
   "build": 1,
   "date": "2026-10-01",
   "studio": "Cronos2A",
-  "contact": "cronos2a.jeux@gmail.com"
+  "contact": "cronos2a.jeux@gmail.com",
+  "legal": { "privacy": "legal/politique-de-confidentialite.html", "terms": "legal/conditions-utilisation.html" }
 }

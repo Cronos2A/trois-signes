@@ -2872,6 +2872,8 @@
     "error": "No se ha podido enviar la denuncia. Inténtalo más tarde."
   },
   "about": {
+    "privacy": "Privacidad",
+    "terms": "Condiciones",
     "version": "Versión {v} ({build})",
     "by": "Un juego de {studio}",
     "contact": "Contacto"

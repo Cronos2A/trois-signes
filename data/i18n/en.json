@@ -2869,6 +2869,8 @@
     "error": "The report couldn't be sent. Try again later."
   },
   "about": {
+    "privacy": "Privacy",
+    "terms": "Terms",
     "version": "Version {v} ({build})",
     "by": "A game by {studio}",
     "contact": "Contact"

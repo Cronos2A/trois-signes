@@ -425,6 +425,8 @@
     "error": "Le signalement n'a pas pu être envoyé. Réessaie plus tard."
   },
   "about": {
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
     "version": "Version {v} ({build})",
     "by": "Un jeu de {studio}",
     "contact": "Contact"
