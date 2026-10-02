@@ -401,8 +401,8 @@
       "one": "Série de connexion : {n} jour",
       "other": "Série de connexion : {n} jours"
     },
-    "warnGoogle": "Les gemmes, les Empreintes et la série de connexion de l'autre progression ne seront pas conservées.",
-    "warnPhone": "Les gemmes, les Empreintes et la série de connexion de ce téléphone ne seront pas conservées : elles sont gardées par le serveur avec le compte Google, et ce sont celles du compte Google qui restent."
+    "warnGoogle": "Ta progression de ce téléphone sera perdue, y compris ses gemmes, ses Empreintes et sa série de connexion.",
+    "warnPhone": "Tes gemmes, tes Empreintes et ta série de connexion seront ceux de ton compte Google. Ceux de ce téléphone seront perdus."
   },
   "report": {
     "title": "Signaler un pseudo",

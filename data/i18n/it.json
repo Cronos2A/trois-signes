@@ -2843,8 +2843,8 @@
       "one": "Serie di accessi: {n} giorno",
       "other": "Serie di accessi: {n} giorni"
     },
-    "warnGoogle": "Le gemme, le Impronte e la serie di accessi degli altri progressi non saranno conservate.",
-    "warnPhone": "Le gemme, le Impronte e la serie di accessi di questo telefono non saranno conservate: il server le custodisce con l'account Google, quindi restano quelle dell'account Google."
+    "warnGoogle": "I progressi di questo telefono andranno persi, comprese le sue gemme, le sue Impronte e la sua serie di accessi.",
+    "warnPhone": "Le tue gemme, le tue Impronte e la tua serie di accessi saranno quelle del tuo account Google. Quelle di questo telefono andranno perse."
   },
   "report": {
     "title": "Segnala un nickname",

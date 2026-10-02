@@ -2845,8 +2845,8 @@
       "one": "Login streak: {n} day",
       "other": "Login streak: {n} days"
     },
-    "warnGoogle": "The gems, Imprints and login streak of the other progress will not be kept.",
-    "warnPhone": "This phone's gems, Imprints and login streak will not be kept: the server stores them with the Google account, so the Google account's stay."
+    "warnGoogle": "This phone's progress will be lost, including its gems, Imprints and login streak.",
+    "warnPhone": "Your gems, Imprints and login streak will be those of your Google account. This phone's will be lost."
   },
   "report": {
     "title": "Report a username",

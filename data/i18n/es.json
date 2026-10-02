@@ -2848,8 +2848,8 @@
       "one": "Racha de conexión: {n} día",
       "other": "Racha de conexión: {n} días"
     },
-    "warnGoogle": "No se conservarán las gemas, las Huellas ni la racha de conexión del otro progreso.",
-    "warnPhone": "No se conservarán las gemas, las Huellas ni la racha de conexión de este teléfono: el servidor las guarda con la cuenta de Google, así que se quedan las de la cuenta de Google."
+    "warnGoogle": "El progreso de este teléfono se perderá, incluidas sus gemas, sus Huellas y su racha de conexión.",
+    "warnPhone": "Tus gemas, tus Huellas y tu racha de conexión serán las de tu cuenta de Google. Las de este teléfono se perderán."
   },
   "report": {
     "title": "Denunciar un apodo",

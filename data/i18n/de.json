@@ -2847,8 +2847,8 @@
       "one": "Anmeldeserie: {n} Tag",
       "other": "Anmeldeserie: {n} Tage"
     },
-    "warnGoogle": "Edelsteine, Abdrücke und Anmeldeserie des anderen Spielstands werden nicht übernommen.",
-    "warnPhone": "Edelsteine, Abdrücke und Anmeldeserie dieses Handys werden nicht übernommen: Der Server speichert sie mit dem Google-Konto, deshalb bleiben die des Google-Kontos."
+    "warnGoogle": "Der Spielstand dieses Handys geht verloren, einschließlich seiner Edelsteine, Abdrücke und Anmeldeserie.",
+    "warnPhone": "Deine Edelsteine, Abdrücke und Anmeldeserie werden die deines Google-Kontos sein. Die dieses Handys gehen verloren."
   },
   "report": {
     "title": "Spielernamen melden",

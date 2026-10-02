@@ -22,6 +22,7 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - **Pas testé ici** : la fenêtre Google du web (`apis.google.com` est bloqué dans l'environnement de test ; tout le reste du déroulé a été vérifié sur
   l'émulateur avec un jeton simulé) ; l'extension Google d'Android (pas encore installée). À essayer sur le site publié puis sur un téléphone.
 - Salons de Duel joués : ils gardent le pseudo et les scores après une suppression de compte, jusqu'au ménage des salons (toujours à faire).
+- Fusionner les gemmes de deux comptes en cas de conflit, possible avec une fonction serveur une fois l'offre Blaze activée.
 
 ## 🔵 Récompenses de connexion (30/09/2026) — à surveiller
 - **Règles publiées le 01/10/2026** (`firestore.rules` : collection `daily/{uid}` et gemmes du jour dans `wallet/{uid}`), confirmé par toi,
