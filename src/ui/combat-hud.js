@@ -72,6 +72,7 @@ export function updateHud(A) {
     set('time', $('hudTime'), 'text', Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0'));
     set('timeC', $('hudTimer'), 'class', 'hud-timer' + (boss || left <= 20 ? ' hot' : ''));
     set('arena', $('hudArena'), 'text', H.line);
+    set('help', $('hudArena'), 'class', 'hud-arena' + (H.away ? ' away' : ''));   // adversaire déconnecté : compte à rebours en rouge
     set('score', $('hudScore'), 'text', nfi(G.score));
   } else if (G.mode === 'play' && G.battle.endless) {
     // Le Voyage : « Round 2 / 4 », multiplicateur de score à la place du chrono, nom de l'arène dessous.
@@ -85,6 +86,7 @@ export function updateHud(A) {
     set('time', $('hudTime'), 'text', '×' + nf(Math.round(G.scoreMult * 100) / 100));
     set('timeC', $('hudTimer'), 'class', 'hud-timer' + (boss ? ' hot' : ''));
     set('arena', $('hudArena'), 'text', V ? V.name : '');
+    set('help', $('hudArena'), 'class', 'hud-arena');
     set('score', $('hudScore'), 'text', nfi(G.score));
   } else if (G.mode === 'play') {
     set('voyage', $('hud'), 'voyageClass', false);

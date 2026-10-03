@@ -779,7 +779,7 @@
           "bothKoTie": "KO los dos en la oleada {n}, empatados a puntos.",
           "scoreTie": "Los dos habéis sobrevivido al jefe, empatados a puntos.",
           "disconnect": "{name} estuvo desconectado más de {s} s.",
-          "meDisconnect": "Has estado desconectado más de {s} s (sin red o teléfono en reposo).",
+          "meDisconnect": "Has estado desconectado más de {s} s (aplicación cerrada, sin red o teléfono en reposo).",
           "quit": "{name} se ha rendido."
         },
         "tableWave": "Oleada",
@@ -2872,21 +2872,34 @@
   },
   "quit": {
     "title": "¿Salir de la partida?",
-    "titleDuel": "¿Salir del Duelo?",
     "titleTrain": "¿Salir del entrenamiento?",
     "titleLesson": "¿Salir de la lección?",
     "voyage": "El oro y las gemas que ya has ganado se conservan. No recibirás el bono de fin de partida. Tu puntuación no contará para tu récord, y tu héroe y tu arma no ganarán XP.",
     "story": "Tendrás que repetir este combate. El oro de las rondas terminadas se conserva, pero no ganarás ni la XP ni las recompensas de este combate.",
     "lesson": "Podrás volver a verla más tarde desde la pestaña Jugar.",
-    "duelRandom": {
-      "one": "Salir cuenta como una derrota: perderás {n} Huella.",
-      "other": "Salir cuenta como una derrota: perderás {n} Huellas."
-    },
-    "duelRandomZero": "Salir cuenta como una derrota.",
-    "duelFriend": "Salir cuenta como una derrota. Contra un amigo, tus Huellas no cambian.",
-    "duelLive": "El combate sigue mientras decides.",
     "boost": "Tu potenciador contará como usado.",
     "stay": "Continuar",
     "quit": "Salir"
+  },
+  "end": {
+    "defeat": "DERROTA",
+    "defeatSub": "Has perdido.",
+    "victory": "VICTORIA",
+    "victorySub": "¡Bien jugado!",
+    "tie": "EMPATE",
+    "tieSub": "Nadie gana.",
+    "continue": "Continuar",
+    "testDefeat": "Ver la derrota",
+    "testVictory": "Ver la victoria"
+  },
+  "duelAway": {
+    "title": "Duelo en curso",
+    "info": "No puedes salir de un Duelo en curso. Si cierras la aplicación, tienes {s} s para volver; si no, es una derrota.",
+    "ok": "OK",
+    "opp": "Tu rival está desconectado: {s} s",
+    "resume": "Vuelta al Duelo contra {name}",
+    "cancelTitle": "PARTIDA ANULADA",
+    "cancel": "Los dos habéis estado ausentes más de {s} s: partida anulada, no se gana ni se pierde ninguna Huella.",
+    "cancelFriend": "Los dos habéis estado ausentes más de {s} s: partida anulada."
   }
 }

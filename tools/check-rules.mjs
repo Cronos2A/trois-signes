@@ -9,7 +9,7 @@ const has = (what, re) => { if (!re.test(rules)) bad.push(what); };
 has('plafonds des vagues', new RegExp('\\[' + S.waveCaps.join(',\\s*') + '\\]\\[k\\]'));
 has('durée minimale d\'une vague', new RegExp('minWaveSeconds\\(\\) \\{ return ' + S.minWaveSeconds + '; \\}'));
 has('nombre de vagues', new RegExp('function waves\\(\\) \\{ return ' + (duel.waves.length + 1) + '; \\}'));
-has('déconnexion', new RegExp('duration\\.value\\(' + duel.disconnectSeconds + ", 's'\\)"));
+has('déconnexion', new RegExp('duration\\.value\\(' + duel.absence_max_s + ", 's'\\)"));
 has('Empreintes +/-', new RegExp('o == 1 \\? ' + duel.prints.win + ' : \\(o == -1 \\? ' + duel.prints.loss + ' : ' + duel.prints.tie + '\\)'));
 has('record du Voyage', new RegExp('v <= ' + S.voyage.perSecond + ' \\* t \\* \\(' + S.voyage.base + ' \\+ ' + S.voyage.growth + ' \\* t\\)'));
 has('pub récompensée (gemmes)', new RegExp('n\\.gems == o\\.gems \\+ ' + ads.rewarded.gems.amount + ' '));

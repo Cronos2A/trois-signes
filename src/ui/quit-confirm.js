@@ -1,17 +1,16 @@
-// Confirmation « Quitter la partie ? » : une seule fenêtre pour le bouton « Quitter » de l'écran de combat, le bouton
-// « Abandonner » de l'attente du Duel et le bouton Retour du téléphone (ui/back.js). Textes : data/i18n → quit.*
+// Confirmation « Quitter la partie ? » : une seule fenêtre pour le bouton « Quitter » de l'écran de combat et le bouton Retour
+// du téléphone (ui/back.js). Textes : data/i18n → quit.*
+// Duel en cours (dès la 1re vague) : on ne peut pas le quitter ; Retour affiche seulement une information (duelInfo, duelAway.*).
 // Le message dit ce qui se passe vraiment (main.js → toLobby, game/duel.js → onQuit) :
 //  - Voyage : or et gemmes des rounds terminés gardés ; ni bonus de fin, ni record, ni XP du héros et de l'arme ;
 //  - combat d'Histoire : or des rounds terminés gardé ; le combat est à refaire ; ni XP, ni bonus de victoire, ni arme débloquée ;
 //  - Entraînement : rien ; leçon : à revoir depuis l'onglet Jouer ;
-//  - Duel : défaite ; au hasard, perte d'Empreintes (data/duel.json → prints.loss, jamais sous 0) ; le match continue pendant la question.
 // Boost actif et au moins un round terminé : la partie compte pour le boost (game/boosts.js → countBoostGame).
 import { D } from '../data.js';
 import { G } from '../game/state.js';
 import { boostable, activeOf, boostTypes } from '../game/boosts.js';
-import { prints } from '../game/duel-rank.js';
 import { sfx } from '../audio/audio.js';
-import { tr, nfi } from '../i18n.js';
+import { tr } from '../i18n.js';
 
 let box = null, open = null;
 
@@ -24,14 +23,7 @@ export function quitStay() { if (open) open(false); }
 function message() {
   const b = G.battle || {}, lines = [];
   let title = tr('quit.title');
-  if (b.duel) {
-    title = tr('quit.titleDuel');
-    if (b.random) {
-      const loss = Math.min(Math.abs(D.duel.prints.loss), prints());
-      lines.push(loss ? tr('quit.duelRandom', { n: nfi(loss) }) : tr('quit.duelRandomZero'));
-    } else lines.push(tr('quit.duelFriend'));
-    lines.push(tr('quit.duelLive'));
-  } else if (b.tutorial) { title = tr('quit.titleLesson'); lines.push(tr('quit.lesson')); }
+  if (b.tutorial) { title = tr('quit.titleLesson'); lines.push(tr('quit.lesson')); }
   else if (G.mode === 'train') title = tr('quit.titleTrain');
   else if (b.xpMode === 'voyage') lines.push(tr('quit.voyage'));
   else lines.push(tr('quit.story'));
@@ -39,8 +31,20 @@ function message() {
   return { title, lines };
 }
 
-/** Demande confirmation. Résolue avec true (quitter) ou false (continuer). Pause pendant la question, sauf en Duel. */
+/** Demande confirmation. Résolue avec true (quitter) ou false (continuer). Pause pendant la question. */
 export function confirmQuit() {
+  const { title, lines } = message();
+  return ask(title, lines, `<button class="res-again" data-bk="stay"><span class="ol ol-4">${tr('quit.stay')}</span></button>
+      <button class="mini-btn bk-quit" data-bk="quit">${tr('quit.quit')}</button>`, true);
+}
+
+/** Duel en cours : impossible de le quitter ; information seulement, avec « OK » (le match continue, sans pause). */
+export function duelInfo() {
+  return ask(tr('duelAway.title'), [tr('duelAway.info', { s: D.duel.absence_max_s })],
+    `<button class="res-again" data-bk="stay"><span class="ol ol-4">${tr('duelAway.ok')}</span></button>`, false);
+}
+
+function ask(title, lines, buttons, pause) {
   if (open) return Promise.resolve(false);
   if (!box) {
     box = document.createElement('div');
@@ -49,19 +53,17 @@ export function confirmQuit() {
     box.setAttribute('role', 'alertdialog');
     document.body.appendChild(box);
   }
-  const { title, lines } = message();
   box.innerHTML = `<div class="res-card bk-card" aria-label="${title}">
       <div class="res-title ol ol-5 bk-title">${title}</div>
       ${lines.map(l => `<p class="bk-text">${l}</p>`).join('')}
-      <button class="res-again" data-bk="stay"><span class="ol ol-4">${tr('quit.stay')}</span></button>
-      <button class="mini-btn bk-quit" data-bk="quit">${tr('quit.quit')}</button>
+      ${buttons}
     </div>`;
   box.classList.remove('hidden');
-  const duel = !!(G.battle && G.battle.duel), wasPaused = G.paused;
-  if (!duel) G.paused = true;
+  const wasPaused = G.paused;
+  if (pause) G.paused = true;
   box.querySelector('[data-bk="stay"]').focus();
   return new Promise(res => {
-    open = v => { box.classList.add('hidden'); box.innerHTML = ''; box.onclick = null; open = null; if (!duel) G.paused = wasPaused; res(v); };
+    open = v => { box.classList.add('hidden'); box.innerHTML = ''; box.onclick = null; open = null; if (pause) G.paused = wasPaused; res(v); };
     box.onclick = e => { const btn = e.target.closest('[data-bk]'); if (!btn) return; sfx('ui_clic'); open(btn.dataset.bk === 'quit'); };
   });
 }

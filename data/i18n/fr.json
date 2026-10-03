@@ -434,21 +434,34 @@
   },
   "quit": {
     "title": "Quitter la partie ?",
-    "titleDuel": "Quitter le Duel ?",
     "titleTrain": "Quitter l'entraînement ?",
     "titleLesson": "Quitter la leçon ?",
     "voyage": "L'or et les gemmes déjà gagnés sont conservés. Le bonus de fin de partie ne sera pas donné. Ton score ne comptera pas pour ton record, et ton héros et ton arme ne gagneront pas d'XP.",
     "story": "Tu devras recommencer ce combat. L'or des rounds terminés est conservé, mais tu ne gagneras ni l'XP ni les récompenses de ce combat.",
     "lesson": "Tu pourras la revoir plus tard dans l'onglet Jouer.",
-    "duelRandom": {
-      "one": "Quitter compte comme une défaite : tu perdras {n} Empreinte.",
-      "other": "Quitter compte comme une défaite : tu perdras {n} Empreintes."
-    },
-    "duelRandomZero": "Quitter compte comme une défaite.",
-    "duelFriend": "Quitter compte comme une défaite. Contre un ami, tes Empreintes ne changent pas.",
-    "duelLive": "Le match continue pendant que tu choisis.",
     "boost": "Ton boost sera compté comme utilisé.",
     "stay": "Continuer",
     "quit": "Quitter"
+  },
+  "end": {
+    "defeat": "DÉFAITE",
+    "defeatSub": "Tu as perdu.",
+    "victory": "VICTOIRE",
+    "victorySub": "Bien joué !",
+    "tie": "ÉGALITÉ",
+    "tieSub": "Personne ne l'emporte.",
+    "continue": "Continuer",
+    "testDefeat": "Voir la défaite",
+    "testVictory": "Voir la victoire"
+  },
+  "duelAway": {
+    "title": "Duel en cours",
+    "info": "Impossible de quitter un Duel en cours. Si tu fermes l'application, tu as {s} s pour revenir, sinon c'est une défaite.",
+    "ok": "OK",
+    "opp": "Ton adversaire est déconnecté : {s} s",
+    "resume": "Retour dans le Duel contre {name}",
+    "cancelTitle": "MATCH ANNULÉ",
+    "cancel": "Vous avez été absents tous les deux plus de {s} s : match annulé, aucune Empreinte gagnée ni perdue.",
+    "cancelFriend": "Vous avez été absents tous les deux plus de {s} s : match annulé."
   }
 }

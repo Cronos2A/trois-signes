@@ -71,7 +71,9 @@ async function launch(h, k, withDialogue) {
     await playScene(k.dialogue_avant, { decor: k.lieu });
   }
   const battle = await buildBattle(k);
-  battle.onEnd = (why, res) => afterCombat(h, k, why, res);
+  battle.storyRef = { h: h.id, n: k.n };                            // séquence de fin rejouée après fermeture (main.js → replayEnd)
+  battle.onRecord = why => recordCombat(h, k, why);                 // tout de suite, avant la séquence de fin (main.js → endGame)
+  battle.onEnd = (why, res, rec) => afterCombat(h, k, why, res, rec);
   battle.onQuit = () => showMap(h);
   api.startBattle({ char: hero(h.id), battle });
 }
@@ -102,14 +104,12 @@ async function buildBattle(k) {
   return { waves, types: applyVariant(types, v), art, xpMode: 'story', timeLimit: R.timeLimit, label: R.roundLabel, lieu: k.lieu, music: placeMusic(k.lieu) };
 }
 
-async function afterCombat(h, k, why, res) {
-  sfx(why === 'win' ? 'victoire' : 'defaite');
-  if (why !== 'win') {
-    music('musique_lobby');
-    // L'or des rounds terminés et des pièces est déjà versé (main.js → payRounds) ; pas de bonus de victoire.
-    renderDefeat(k, { retry: () => launch(h, k, false), review: () => launch(h, k, true), back: () => showMap(h) }, res.weapon, res.gold || 0);
-    return;
-  }
+/**
+ * Victoire enregistrée dès la fin du combat, avant la séquence de fin (fermer le jeu pendant celle-ci ne perd rien) :
+ * combat gagné, fin d'histoire, XP du héros, bonus d'or. Renvoie { xp, bonus } (gardé dans prog.pendingEnd), null sinon.
+ */
+function recordCombat(h, k, why) {
+  if (why !== 'win') return null;
   const done = st().done[h.id] || (st().done[h.id] = []);
   const first = !done.includes(k.n);
   // Combat 10 gagné : fragment et fin d'histoire notés tout de suite (si le jeu est fermé pendant les scènes de fin,
@@ -121,8 +121,27 @@ async function afterCombat(h, k, why, res) {
   const xp = addXp(h.id, (first ? X.firstWin : X.repeatWin) * boostMult('xp'));   // boost XP ×2 (game/boosts.js)
   const bonus = storyWinGold(first) * boostMult('gold');            // data/economy.json → gold.story ; boost or ×2
   addGold(bonus);
-  const gold = (res.gold || 0) + bonus;                            // + l'or déjà versé round par round
   saveProg();
+  return { xp, bonus };
+}
+
+/** Séquence de fin interrompue (jeu fermé) : la fiche du combat, rejouée à la réouverture (main.js → replayEnd). */
+export function replayStoryEnd(p) {
+  const h = story(p.h), k = h && combat(h, p.n);
+  if (k) afterCombat(h, k, p.why, p.res || {}, p.rec);
+  return !!k;
+}
+
+/** Fiche du combat (après la séquence de fin) : défaite (Réessayer…) ou victoire, puis dialogues et scènes d'après. */
+async function afterCombat(h, k, why, res, rec) {
+  if (why !== 'win' || !rec) {
+    music('musique_lobby');
+    // L'or des rounds terminés et des pièces est déjà versé (main.js → payRounds) ; pas de bonus de victoire.
+    renderDefeat(k, { retry: () => launch(h, k, false), review: () => launch(h, k, true), back: () => showMap(h) }, res.weapon, res.gold || 0);
+    return;
+  }
+  const { xp, bonus } = rec;
+  const gold = (res.gold || 0) + bonus;                            // + l'or déjà versé round par round
   await renderVictory(k, xp, res.weapon, gold);
   await showRewards(syncRewards());          // combats 5 et 10 : armes alternatives du héros
   hideStory();

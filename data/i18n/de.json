@@ -778,7 +778,7 @@
           "bothKoTie": "Beide K.O. in Welle {n}, punktgleich.",
           "scoreTie": "Beide haben den Boss überlebt, punktgleich.",
           "disconnect": "{name} war länger als {s} s getrennt.",
-          "meDisconnect": "Du warst länger als {s} s getrennt (kein Netz oder Handy im Ruhemodus).",
+          "meDisconnect": "Du warst länger als {s} s getrennt (App geschlossen, kein Netz oder Handy im Ruhemodus).",
           "quit": "{name} hat aufgegeben."
         },
         "tableWave": "Welle",
@@ -2871,21 +2871,34 @@
   },
   "quit": {
     "title": "Spiel verlassen?",
-    "titleDuel": "Duell verlassen?",
     "titleTrain": "Training verlassen?",
     "titleLesson": "Lektion verlassen?",
     "voyage": "Bereits verdientes Gold und Edelsteine bleiben dir. Den Bonus am Spielende bekommst du nicht. Deine Punkte zählen nicht für deinen Rekord, und dein Held und deine Waffe bekommen keine EP.",
     "story": "Du musst diesen Kampf wiederholen. Das Gold aus abgeschlossenen Runden bleibt dir, aber du bekommst weder die EP noch die Belohnungen dieses Kampfes.",
     "lesson": "Du kannst sie später im Tab Spielen noch einmal ansehen.",
-    "duelRandom": {
-      "one": "Verlassen zählt als Niederlage: Du verlierst {n} Abdruck.",
-      "other": "Verlassen zählt als Niederlage: Du verlierst {n} Abdrücke."
-    },
-    "duelRandomZero": "Verlassen zählt als Niederlage.",
-    "duelFriend": "Verlassen zählt als Niederlage. Gegen einen Freund ändern sich deine Abdrücke nicht.",
-    "duelLive": "Das Match läuft weiter, während du dich entscheidest.",
     "boost": "Dein Booster wird als verbraucht gezählt.",
     "stay": "Weiter",
     "quit": "Verlassen"
+  },
+  "end": {
+    "defeat": "NIEDERLAGE",
+    "defeatSub": "Du hast verloren.",
+    "victory": "SIEG",
+    "victorySub": "Gut gespielt!",
+    "tie": "UNENTSCHIEDEN",
+    "tieSub": "Niemand gewinnt.",
+    "continue": "Weiter",
+    "testDefeat": "Niederlage zeigen",
+    "testVictory": "Sieg zeigen"
+  },
+  "duelAway": {
+    "title": "Duell läuft",
+    "info": "Ein laufendes Duell kann man nicht verlassen. Wenn du die App schließt, hast du {s} s, um zurückzukommen, sonst ist es eine Niederlage.",
+    "ok": "OK",
+    "opp": "Dein Gegner ist getrennt: {s} s",
+    "resume": "Zurück ins Duell gegen {name}",
+    "cancelTitle": "SPIEL ABGEBROCHEN",
+    "cancel": "Ihr wart beide länger als {s} s weg: Spiel abgebrochen, keine Abdrücke gewonnen oder verloren.",
+    "cancelFriend": "Ihr wart beide länger als {s} s weg: Spiel abgebrochen."
   }
 }

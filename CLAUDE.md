@@ -1,6 +1,6 @@
 # Three Signs — brief pour Claude Code
 
-État du projet au 01/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
+État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 **Titre du jeu : « Three Signs » dans les 5 langues, jamais traduit** (décision du 03/10/2026 ; avant : « Trois Signes »).
@@ -257,10 +257,12 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   envoi au retour du réseau (nouvel essai toutes les 20 s). Les Réglages du son (`ts_settings`) restent propres à l'appareil.
 - **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026, puis le 01/10/2026 avec `daily/{uid}` et les gemmes du jour ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
   chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ;
-  salons `duels/{code}` et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}`, Empreintes `ranked/{uid}`,
+  salons `duels/{code}` (entrée figée après 30 s d'absence) et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}`, Empreintes `ranked/{uid}`,
   gemmes `wallet/{uid}`, début de partie du Voyage `runs/{uid}` (voir « Sécurité »), récompenses de connexion `daily/{uid}`, comptes supprimés
   `closed/{uid}` (`wallet`, `daily`, `ranked` effaçables seulement après, et jamais recréés), signalements `reports/{id}` ; tout le reste fermé.
   **Règles du 01/10/2026 (comptes supprimés, signalements) : à publier dans la console** (sinon suppression et signalement échouent).
+  **Règles du 03/10/2026 (Duel : absence de 30 s, entrée figée, match annulé, champ `hp`) : à publier dans la console** (sinon la reprise
+  après fermeture et l'annulation ne sont pas appliquées par le serveur, et le champ `hp` des signes de vie est refusé).
 - **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
   puis le jeu avec `?emu` dans l'adresse (`online.json → emulator`).
   `?longpoll` (`online.json → longPollParam`) : Firestore en requêtes classiques, pour les réseaux qui coupent son flux continu (proxy, tests).
@@ -305,13 +307,29 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   (`waves` : part de brutes, PV et dégâts croissants), puis à la 5e le même boss (gardien du Voyage tiré au sort, `boss`) avec escorte ;
   arène (voir Duel au hasard), variantes d'ennemis par vague (`variants`).
 - **Vagues synchronisées** : à la fin d'une vague, écran « En attente de [pseudo] » avec son score en direct (signe de vie toutes les
-  `heartbeatSeconds`) et « Abandonner », plus le temps restant au plus de sa vague (« Fin de sa vague dans 32 s au plus », d'après
+  `heartbeatSeconds`), plus le temps restant au plus de sa vague (« Fin de sa vague dans 32 s au plus », d'après
   son `waveAt` et l'heure du serveur). Limite de `waveSeconds` (45 s) par vague : la vague s'arrête avec son score.
 - **Pression** : avant chaque vague, « Pression : [pseudo] +X % », puis discrètement dans le bandeau pendant la vague ; PV et dégâts des ennemis + 40 % × (score adverse sur la vague
   précédente ÷ score maximal théorique de cette vague), plafonné à 40 % (`pressure`). Score maximal théorique (`maxScore`) : partie sans faute
   (tout en Perfect avec une attaque de référence de 4, combos, 2 esquives Perfect par ennemi, pièces). Vague 1 : même départ pour les deux.
 - **Victoire** : KO avant la fin = défaite (l'autre doit finir la vague) ; KO tous les deux dans la même vague = meilleur score total ;
-  les deux survivent au boss = plus gros score total ; abandon (« Quitter ») ou plus de 30 s sans signe de vie (`disconnectSeconds`, heure du serveur) = défaite.
+  les deux survivent au boss = plus gros score total ; absence de plus de 30 s = défaite (voir « On ne quitte pas un Duel »).
+- **On ne quitte pas un Duel** (décidé le 03/10/2026) : dès la 1re vague, aucun bouton « Quitter » (classe `duel-live`) ni « Abandonner » ;
+  le bouton Retour n'affiche qu'une information avec « OK » (`quit-confirm.js` → `duelInfo`, textes `duelAway.*`) : « Impossible de quitter
+  un Duel en cours. Si tu fermes l'application, tu as 30 s pour revenir, sinon c'est une défaite. » « Annuler » reste possible pendant la
+  recherche et dans le salon. **Une seule règle d'absence** (`duel.json → absence_max_s` = 30, remplace `disconnectSeconds`) pour
+  l'application fermée, l'écran verrouillé (plus de signe de vie quand la page est cachée) et le réseau coupé : une fois « Prêt » (signe de
+  vie aussi dans le salon), plus de 30 s sans signe de vie = défaite ; l'entrée est alors **figée par les règles** (`stale` : plus aucune
+  écriture), un signe de vie refusé vaut défaite. L'adversaire voit « Ton adversaire est déconnecté : X s » (bandeau rouge, ou écran
+  d'attente) dès `absence_alert_s` (8 s) ; à 0, il gagne. Absents tous les deux sans que l'un ait vu l'autre partir (signes de vie à moins de
+  30 s d'écart) : **match annulé**, aucune Empreinte (règles et `ranked.js` → `outcome` / `cancelled`). Issue déjà acquise par les KO ou les
+  scores : une absence venue ensuite n'y change rien. Mêmes règles entre amis (sans Empreintes).
+- **Reprise** (`duel.js` → `resumeDuel`, `duel-net.js` → `reopenRoom`) : le salon est noté dans la sauvegarde (`prog.duel.room = { code }`) ;
+  à l'ouverture, après la connexion, le jeu relit le salon et envoie un signe de vie : accepté → retour direct dans le Duel (bannière
+  « Retour dans le Duel contre X », vague en cours avec son temps restant d'après `waveAt`, scores, score en direct `live` et PV `hp`
+  envoyés à chaque signe de vie, pression recalculée ; la vague reprend avec des ennemis neufs) ; déjà KO ou boss vaincu → attente du
+  résultat ; refusé → défaite « Tu as été déconnecté plus de 30 s » (ou match annulé). Résultat enregistré (`prog.duel.room.summary`) :
+  panneau puis fiche, **une seule fois**. Connexion absente au lancement : reprise dès qu'elle revient.
 - **Écran de fin** : Victoire / Défaite / Égalité, raison, tableau par vague (mes points, les siens, pression reçue, pression donnée), total.
 - Bonus de niveau des héros et d'XP des armes neutralisés (`bonus_en_duel`), armes alternatives, style (100 %) et talismans actifs.
   **Ni or, ni gemmes, ni XP** (héros ou armes) en Duel ; aucune pub, aucune récompense de pub, pas de Seconde chance, aucun boost.
@@ -325,6 +343,11 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Règles publiées dans la console le 29/09/2026, vérifiées sur le vrai serveur : création, jointure, héros, prêt, signe de vie, scores,
   KO, fin, abandon acceptés ; entrée de l'autre joueur, liste des salons et écriture d'un tiers refusées ; salon vide supprimé par l'hôte.
   Un Duel complet en temps réel sur le vrai serveur n'a pas pu être joué depuis l'environnement de test (réseau trop instable) : à essayer sur deux téléphones.
+  Testé le 03/10/2026 sur l'émulateur (Duels au hasard, deux navigateurs) : Retour → information (aussi pendant l'attente et après un KO), aucun
+  Quitter ni Abandonner ; veille de 15 s et écran verrouillé 12 s → le Duel continue, l'autre voit le compte à rebours ; application fermée 12 s →
+  retour dans la même vague, mêmes scores et PV, fin normale ; fermée 40 s → « Tu as été déconnecté plus de 30 s » (−20 / +30), une seule fois ;
+  écran verrouillé 36 s et réseau coupé 36 s → défaite / victoire ; coupure de 10 s → rien ; les deux fermés 40 s → match annulé des deux côtés,
+  Empreintes inchangées ; KO → explosion, attente, panneaux DÉFAITE / VICTOIRE.
 
 ## Duel contre un adversaire au hasard — `data/duel.json` → `random`, `prints`, `arenas` — **fait (étape 3)**
 - Menu du Duel : **Adversaire au hasard** (en premier), puis « ou défie un ami » (Créer un salon / Rejoindre).
@@ -463,23 +486,47 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   État : `assets/audio/SONS.md`, sources et licences : `CREDITS.md`.
 - **Manquent** : `sfx/ui_clic`, `sfx/ui_onglet`, `musique/musique_triste`. `musique_lobby` ne dure que 19 s (boucle trop fréquente).
 
+## Fin de partie : séquences de défaite et de victoire — `data/fin_de_partie.json` — **fait (03/10/2026)**
+- Un seul composant, deux variantes (`src/ui/end-seq.js`, styles `.es-*` dans `style.css`, textes `end.*`) ; branché dans `main.js` → `endGame`
+  (Voyage, Histoire) et `duel.js` (Duel). Jamais en Entraînement ni dans la leçon.
+- **Le résultat est enregistré avant toute animation** (XP, or, record ; Histoire : `story.js` → `recordCombat` ; Duel : salon, Empreintes) ; puis
+  `prog.pendingEnd` (Voyage : la fiche ; Histoire : héros, combat, gains) ou `prog.duel.room.summary` : jeu fermé pendant la séquence → à la
+  réouverture, panneau puis fiche, une seule fois (`main.js` → `replayEnd`). La sauvegarde en ligne part une fois le panneau posé (`syncLater`).
+- **Défaite** (dès que les PV tombent à 0 ; Voyage : après la « Seconde chance » refusée) : gestes bloqués (`G.mode = 'ending'`, ni Quitter ni super),
+  temps du jeu à 25 % en 0,3 s, tenu 1,5 s, léger zoom (×1,08) sur le héros (CSS sur les deux canvas), le héros gonfle puis **explose** en
+  30 facettes low-poly à ses couleurs, son `ennemi_vaincu` et vibration (si activée) ; 1 s plus tard, la musique baisse en fondu et le panneau
+  descend du haut, rebondit 2 fois et se pose (son `defaite`) : « DÉFAITE » / « Tu as perdu. ». « Continuer » après 1,5 s (ou un tap n'importe où,
+  ou Retour) → la fiche existante, inchangée (résultats du Voyage, fiche de l'Histoire avec Réessayer, fiche du Duel).
+- **Victoire** (combat d'Histoire, Duel gagné) : ralenti de 1 s sur la dernière mort d'ennemi (Histoire, éclatement habituel) ou au moment où le
+  Duel est décidé, éclair doré, deux sauts du héros, pluie de 30 facettes dorées, son `victoire`, panneau « VICTOIRE » / « Bien joué ! ».
+  **Égalité** en Duel : même panneau, « ÉGALITÉ ». Match annulé : pas de panneau. Le Voyage n'a pas de victoire.
+- **Duel** : KO → noté au serveur, explosion, puis l'attente du résultat si l'autre joue encore, et le panneau quand le match est décidé.
+  Défaite sans KO (score, absence) : panneau sans explosion.
+- Titres : DÉFAITE / DEFEAT / SCONFITTA / DERROTA / NIEDERLAGE, VICTOIRE / VICTORY / VITTORIA / VICTORIA / SIEG, ÉGALITÉ / DRAW / PAREGGIO /
+  EMPATE / UNENTSCHIEDEN ; la police rétrécit si le titre ne tient pas (allemand en 360 px : 40 px, « UNENTSCHIEDEN » 30 px).
+- Réglages de test : « Voir la défaite », « Voir la victoire » (aperçu sur le décor de repos).
+- Performances (03/10/2026, processeur ×4 plus lent, 390 × 800) : 60 images/s pendant le ralenti, l'explosion et la chute du panneau, aucune image
+  au-delà de 50 ms ; un seul à-coup (0,3 s) ensuite, panneau posé, à l'envoi de la sauvegarde en ligne. 30 facettes gardées (passage
+  automatique à 16 si l'image moyenne dépasse 30 ms, `particles.low`). Sans ralentissement : 60 images/s partout.
+- Vérifié le 03/10/2026 (5 langues, 360 × 640 et 390 × 800, aucune erreur) : Voyage, Histoire (victoire et défaite), fermeture pendant la séquence
+  (panneau puis fiche, or ni perdu ni doublé, rien la fois suivante), Retour pendant l'animation (rien), sur le panneau (Continuer), sur la fiche.
+
 ## Robustesse (corrections du 29/09/2026, voir `à faire.md`)
 - **Sauvegarde abîmée** (`src/game/save-check.js` : `readSave`, `saveProblems`) : le jeu démarre toujours ; écran « Sauvegarde endommagée »
   (`account-ui.js` → `askDamagedSave`, textes `online.json → damaged`) : récupérer la sauvegarde en ligne ou repartir de zéro. Tant que le
   joueur n'a pas choisi, rien n'est écrit ni envoyé (`saveState.damaged`) ; l'ancienne est gardée dans `ts_prog_damaged`.
   Sauvegarde incomplète : complétée sans rien demander (`ensureDefaults`). Sauvegarde du serveur abîmée : ignorée (`replaceProg`).
-- **Quitter une partie** (`src/ui/quit-confirm.js`, textes `quit.*`) : une seule confirmation pour le bouton « Quitter » de l'écran,
-  « Abandonner » de l'attente du Duel et le bouton Retour du téléphone (`back.js` → `setLeave`, `main.js` → `askLeave`) ; Retour pendant
-  la fenêtre = « Continuer » (sélectionné par défaut). Pause pendant la question, sauf en Duel (le match continue, le message le dit).
-  Message selon le mode, d'après les règles du code : Voyage (or et gemmes gardés ; ni bonus de fin, ni record, ni XP), Histoire (combat à
-  refaire, or des rounds terminés gardé), Entraînement, leçon, Duel (défaite ; au hasard : perte réelle d'Empreintes, `duel.json → prints.loss`,
-  jamais sous 0), boost actif après au moins un round (« compté comme utilisé »). Vérifié le 03/10/2026 dans les 5 langues, deux tailles.
-- **Bouton Retour** (`src/ui/back.js`) : en partie, la confirmation ci-dessus ; cinématique passée, fenêtre du dessus fermée dans les menus ;
-  sur l'onglet Jouer, il quitte le jeu.
+- **Quitter une partie** (`src/ui/quit-confirm.js`, textes `quit.*`) : une seule confirmation pour le bouton « Quitter » de l'écran et le
+  bouton Retour du téléphone (`back.js` → `setLeave`, `main.js` → `askLeave`) ; Retour pendant la fenêtre = « Continuer » (sélectionné par
+  défaut), jeu en pause pendant la question. Message selon le mode, d'après les règles du code : Voyage (or et gemmes gardés ; ni bonus de fin,
+  ni record, ni XP), Histoire (combat à refaire, or des rounds terminés gardé), Entraînement, leçon, boost actif après au moins un round
+  (« compté comme utilisé »). Vérifié le 03/10/2026 dans les 5 langues, deux tailles. Duel : on ne le quitte pas (voir Duel).
+- **Bouton Retour** (`src/ui/back.js`) : en partie, la confirmation ci-dessus (Duel : l'information `duelInfo`) ; séquence de fin : rien, puis
+  « Continuer » quand il est proposé ; cinématique passée, fenêtre du dessus fermée dans les menus ; sur l'onglet Jouer, il quitte le jeu.
 - **Portrait** (`manifest.webmanifest`, `src/ui/orient.js`, textes `rules.json → orientation`) : téléphone en paysage → « Tourne ton téléphone »,
   partie en pause (sauf en Duel).
 - **Duel** : l'adversaire n'est jugé déconnecté que sur des données confirmées par le serveur ; soi-même, plus de 30 s sans contact
-  avec le serveur (réseau ou veille) = défaite « Tu as été déconnecté ». Calque des écrans du Duel : classe `.du-layer`.
+  avec le serveur (réseau, veille, écran verrouillé) ou un signe de vie refusé = défaite « Tu as été déconnecté ». Calque des écrans du Duel : classe `.du-layer`.
 - **Gemmes et talismans** : plusieurs gains d'un coup = un seul écran récapitulatif chacun (`reward-ui.js`).
 - **Explications** (`src/ui/tips.js`, textes `rules.json → tips`, vues notées dans `prog.tips`) : une seule fois, encadré dans l'écran
   de la 1re arme alternative, du 1er talisman (récompense ou coffre d'arène), des 1res Empreintes (fin de Duel au hasard) ;
@@ -553,7 +600,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
 - **Aucun texte visible dans le code** : `tr('clé')` et `data/i18n/fr.json` (voir « Langues ») ; nombres par `nf` / `nfi`, jamais `toLocaleString('fr-FR')`.
-  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version, fin_de_partie.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -600,9 +647,9 @@ src/
          account-ui.js (pseudo, bloc Compte des Réglages, sauvegarde endommagée)  tips.js (explications à la 1re rencontre)
          back.js (bouton Retour du téléphone)  quit-confirm.js (« Quitter la partie ? »)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
          daily-ui.js (fenêtre du jour, écran Récompenses, bouton cadeau, proposition de boost, pastille de combat)
-         report-ui.js (fenêtre « Signaler un pseudo »)  fonts.css (polices embarquées)  touch.css (zones tactiles, chargé en dernier)
+         report-ui.js (fenêtre « Signaler un pseudo »)  end-seq.js (séquences de défaite / victoire, panneau de fin)  fonts.css (polices embarquées)  touch.css (zones tactiles, chargé en dernier)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css  daily.css
-data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version (.json)
+data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version fin_de_partie (.json)
   i18n/  languages.json  fr.json (textes de l'interface)  GLOSSAIRE.md
 firestore.rules  firebase.json   règles de sécurité Firestore
 legal/  supprimer-mon-compte.html (Play Store : « URL de suppression du compte »)  politique-de-confidentialite.html  conditions-utilisation.html

@@ -774,7 +774,7 @@
           "bothKoTie": "KO entrambi all'ondata {n}, a pari punti.",
           "scoreTie": "Siete sopravvissuti entrambi al boss, a pari punti.",
           "disconnect": "{name} si è disconnesso per più di {s} s.",
-          "meDisconnect": "Sei stato disconnesso per più di {s} s (rete assente o telefono in standby).",
+          "meDisconnect": "Sei stato disconnesso per più di {s} s (app chiusa, rete assente o telefono in standby).",
           "quit": "{name} ha abbandonato."
         },
         "tableWave": "Ondata",
@@ -2867,21 +2867,34 @@
   },
   "quit": {
     "title": "Uscire dalla partita?",
-    "titleDuel": "Uscire dal Duello?",
     "titleTrain": "Uscire dall'allenamento?",
     "titleLesson": "Uscire dalla lezione?",
     "voyage": "L'oro e le gemme già guadagnati restano tuoi. Il bonus di fine partita non verrà dato. Il tuo punteggio non conterà per il record, e il tuo eroe e la tua arma non guadagneranno XP.",
     "story": "Dovrai rifare questo combattimento. L'oro dei round finiti resta tuo, ma non guadagnerai né l'XP né le ricompense di questo combattimento.",
     "lesson": "Potrai rivederla più tardi dalla scheda Gioca.",
-    "duelRandom": {
-      "one": "Uscire conta come una sconfitta: perderai {n} Impronta.",
-      "other": "Uscire conta come una sconfitta: perderai {n} Impronte."
-    },
-    "duelRandomZero": "Uscire conta come una sconfitta.",
-    "duelFriend": "Uscire conta come una sconfitta. Contro un amico, le tue Impronte non cambiano.",
-    "duelLive": "La partita continua mentre decidi.",
     "boost": "Il tuo boost verrà contato come usato.",
     "stay": "Continua",
     "quit": "Esci"
+  },
+  "end": {
+    "defeat": "SCONFITTA",
+    "defeatSub": "Hai perso.",
+    "victory": "VITTORIA",
+    "victorySub": "Ben fatto!",
+    "tie": "PAREGGIO",
+    "tieSub": "Nessuno vince.",
+    "continue": "Continua",
+    "testDefeat": "Vedi la sconfitta",
+    "testVictory": "Vedi la vittoria"
+  },
+  "duelAway": {
+    "title": "Duello in corso",
+    "info": "Non puoi lasciare un Duello in corso. Se chiudi l'app, hai {s} s per tornare, altrimenti è una sconfitta.",
+    "ok": "OK",
+    "opp": "Il tuo avversario è disconnesso: {s} s",
+    "resume": "Ritorno al Duello contro {name}",
+    "cancelTitle": "PARTITA ANNULLATA",
+    "cancel": "Siete stati assenti entrambi per più di {s} s: partita annullata, nessuna Impronta vinta o persa.",
+    "cancelFriend": "Siete stati assenti entrambi per più di {s} s: partita annullata."
   }
 }

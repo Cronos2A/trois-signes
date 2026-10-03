@@ -56,7 +56,9 @@
     }
   },
   "waveSeconds": 45,
-  "disconnectSeconds": 30,
+  "absence_note": "Une seule règle d'absence (application fermée, écran verrouillé, perte de connexion) : plus de absence_max_s sans signe de vie, une fois « Prêt », = défaite ; l'entrée du joueur est alors figée (firestore.rules → stale). Absents tous les deux sans que l'autre l'ait constaté : match annulé (aucune Empreinte). L'adversaire voit le compte à rebours dès absence_alert_s sans signe de vie. Même chiffre dans firestore.rules (tools/check-rules.mjs).",
+  "absence_max_s": 30,
+  "absence_alert_s": 8,
   "heartbeatSeconds": 5,
   "countdownSeconds": 3,
   "bannerSeconds": 2.2,
@@ -107,7 +109,7 @@
       "bothKoTie": "KO tous les deux à la vague {n}, à égalité de points.",
       "scoreTie": "Les deux ont survécu au boss, à égalité de points.",
       "disconnect": "{name} s'est déconnecté plus de {s} s.",
-      "meDisconnect": "Tu as été déconnecté plus de {s} s (réseau coupé ou téléphone en veille).",
+      "meDisconnect": "Tu as été déconnecté plus de {s} s (application fermée, réseau coupé ou téléphone en veille).",
       "quit": "{name} a abandonné."
     },
     "tableWave": "Vague",

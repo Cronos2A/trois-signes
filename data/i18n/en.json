@@ -776,7 +776,7 @@
           "bothKoTie": "Both KO in wave {n}, tied on points.",
           "scoreTie": "Both survived the boss, tied on points.",
           "disconnect": "{name} was disconnected for more than {s}s.",
-          "meDisconnect": "You were disconnected for more than {s}s (network lost or phone asleep).",
+          "meDisconnect": "You were disconnected for more than {s}s (app closed, network lost or phone asleep).",
           "quit": "{name} gave up."
         },
         "tableWave": "Wave",
@@ -2869,21 +2869,34 @@
   },
   "quit": {
     "title": "Quit the game?",
-    "titleDuel": "Quit the Duel?",
     "titleTrain": "Quit training?",
     "titleLesson": "Quit the lesson?",
     "voyage": "The gold and gems you've already earned are kept. The end-of-game bonus won't be given. Your score won't count towards your record, and your hero and weapon won't earn XP.",
     "story": "You'll have to replay this battle. Gold from finished rounds is kept, but you won't earn this battle's XP or rewards.",
     "lesson": "You can watch it again later from the Play tab.",
-    "duelRandom": {
-      "one": "Quitting counts as a defeat: you'll lose {n} Imprint.",
-      "other": "Quitting counts as a defeat: you'll lose {n} Imprints."
-    },
-    "duelRandomZero": "Quitting counts as a defeat.",
-    "duelFriend": "Quitting counts as a defeat. Against a friend, your Imprints don't change.",
-    "duelLive": "The match goes on while you decide.",
     "boost": "Your boost will count as used.",
     "stay": "Continue",
     "quit": "Quit"
+  },
+  "end": {
+    "defeat": "DEFEAT",
+    "defeatSub": "You lost.",
+    "victory": "VICTORY",
+    "victorySub": "Well played!",
+    "tie": "DRAW",
+    "tieSub": "Nobody wins.",
+    "continue": "Continue",
+    "testDefeat": "Show defeat",
+    "testVictory": "Show victory"
+  },
+  "duelAway": {
+    "title": "Duel in progress",
+    "info": "You can't leave a Duel in progress. If you close the app, you have {s}s to come back, or it's a defeat.",
+    "ok": "OK",
+    "opp": "Your opponent is disconnected: {s}s",
+    "resume": "Back to the Duel against {name}",
+    "cancelTitle": "MATCH CANCELLED",
+    "cancel": "You were both away for more than {s}s: match cancelled, no Imprints won or lost.",
+    "cancelFriend": "You were both away for more than {s}s: match cancelled."
   }
 }

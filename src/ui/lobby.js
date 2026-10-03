@@ -168,6 +168,7 @@ function onClick(e) {
     case 'testGems': addGems(D.economy.test.gems, 'test'); renderSettings(); render(); break;
     case 'testCountry': wallet().testCountry = arg; addGold(0); renderSettings(); render(); break;
     case 'testReset': resetShop(); renderSettings(); render(); break;
+    case 'testEnd': $('settings').classList.add('hidden'); actions.demoEnd(arg); break;           // aperçu des séquences de fin (ui/end-seq.js)
   }
 }
 
@@ -331,6 +332,7 @@ function testHtml() {
       <div class="chips set-chips"><button class="chip" data-act="testGold">${U.testGold.replace('{n}', T.gold)}</button><button class="chip" data-act="testGems">${U.testGems.replace('{n}', T.gems)}</button></div>
       <div class="chips set-chips">${opt('BE', 'BE')}${opt('FR', 'FR')}<span class="test-cur">${tr('common.labelValue', { label: U.testCountry, value: cur })}</span></div>
       <button class="chip" data-act="testReset">${U.testReset}</button>
+      <div class="chips set-chips"><button class="chip" data-act="testEnd" data-arg="defeat">${tr('end.testDefeat')}</button><button class="chip" data-act="testEnd" data-arg="victory">${tr('end.testVictory')}</button></div>
       ${adsTestHtml()}${dailyTestHtml()}</div>`;
 }
 /** Récompenses de connexion : jour du serveur simulé (mode test sans émulateur seulement). */

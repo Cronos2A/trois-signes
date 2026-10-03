@@ -1,0 +1,50 @@
+{
+  "note": "Séquences de fin de partie (src/ui/end-seq.js, branchées dans src/main.js → endGame et src/game/duel.js). Défaite : Voyage, Histoire, Duel (pas en Entraînement ni dans la leçon). Victoire : combat d'Histoire gagné, Duel gagné ; égalité en Duel : même panneau. Le résultat est enregistré AVANT la séquence ; fermée en cours de route, elle est rejouée (panneau puis fiche) à la réouverture (prog.pendingEnd, Duel : prog.duel.room). Durées en secondes.",
+  "defeat": {
+    "note": "Ralenti : le temps du jeu descend à slowScale en slowIn s, tient slowHold s (léger zoom sur le héros), puis le héros explose ; le panneau descend panelAfter s après l'explosion.",
+    "slowScale": 0.25,
+    "slowIn": 0.3,
+    "slowHold": 1.5,
+    "slowOut": 0.2,
+    "zoom": 1.08,
+    "swell": 0.12,
+    "swellTime": 0.15,
+    "panelAfter": 1,
+    "vibrate": [60, 40, 120]
+  },
+  "victory": {
+    "note": "Ralenti sur la dernière mort d'ennemi (Histoire) ou au moment où le Duel est décidé ; puis éclair doré, sauts de victoire du héros et pluie de facettes dorées ; le panneau descend panelAfter s après l'éclair.",
+    "slowScale": 0.25,
+    "slowIn": 0.15,
+    "slowHold": 0.7,
+    "slowOut": 0.15,
+    "flash": 0.45,
+    "flashAlpha": 0.55,
+    "jumps": 2,
+    "jumpTime": 0.42,
+    "jumpHeight": 46,
+    "rainTime": 1.2,
+    "panelAfter": 0.9
+  },
+  "particles": {
+    "note": "Nombre de facettes : max (30 au plus), réduit à low si les images sont trop lentes (moyenne au-dessus de slowFrameMs pendant la partie).",
+    "max": 30,
+    "low": 16,
+    "slowFrameMs": 30,
+    "explodeSpeed": [220, 520],
+    "explodeLife": [0.9, 1.4],
+    "size": [8, 17],
+    "gravity": 900,
+    "rainGravity": 260,
+    "rainLife": [1.4, 2.1],
+    "rainColors": ["#FFD23F", "#FFB800", "#FFF1A8", "#FF8C32"],
+    "heroColors": ["#EADFC8", "#15301E"]
+  },
+  "panel": {
+    "note": "Panneau : descend du haut en drop s, rebondit 2 fois (ressort) et se pose ; son à land (part de drop où il touche) ; « Continuer » (ou un tap n'importe où) après continueDelay s.",
+    "drop": 0.95,
+    "land": 0.42,
+    "continueDelay": 1.5,
+    "musicFade": true
+  }
+}

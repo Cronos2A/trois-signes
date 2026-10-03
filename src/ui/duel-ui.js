@@ -4,7 +4,7 @@
 import { D } from '../data.js';
 import { activeCharacter } from './lobby.js';
 import { whenOnline, pseudo } from '../online/online.js';
-import { createRoom, joinRoom, watch, setMine, leaveRoom, current, search } from '../online/duel-net.js';
+import { createRoom, joinRoom, watch, leaveRoom, current, search, heartbeat, markReady } from '../online/duel-net.js';
 import { prints, arenaIndex, arenaOf } from '../game/duel-rank.js';
 import { sfx, music } from '../audio/audio.js';
 import { tipOnce, tipBubble } from './tips.js';
@@ -121,7 +121,9 @@ let menuClick = null;
 /** Salon : code à partager, état de l'ami, choix du héros ; le combat part quand les deux sont prêts. */
 function room(a) {
   const { uid, code } = current();
-  let pick = (heroes().find(c => c.id === activeCharacter().id) || heroes()[0]).id, started = false, gone = false;
+  let pick = (heroes().find(c => c.id === activeCharacter().id) || heroes()[0]).id, started = false, gone = false, alive = 0;
+  // Une fois « Prêt », la règle d'absence compte (firestore.rules → stale) : signe de vie en attendant l'autre.
+  const stopAlive = () => { clearInterval(alive); alive = 0; };
   tipBubble('duel');                                             // premier Duel : comment ça se joue (une fois)
   const draw = d => {
     if (started) return;
@@ -147,6 +149,7 @@ function room(a) {
       </div>`);
     if (opp && me.ready && opp.ready && !started) {
       started = true;
+      stopAlive();
       const char = D.characters.characters.find(c => c.id === me.hero);
       hideDuelUi();
       a.start(d, char);
@@ -155,8 +158,11 @@ function room(a) {
   watch(draw);
   onClick = (act, arg) => {
     if (act === 'hero') { pick = arg; draw(current().data); }
-    else if (act === 'ready') setMine({ hero: pick, ready: true, pseudo: pseudo() });
-    else if (act === 'leave') { leaveRoom(!gone); hideDuelUi(); a.back(); }
+    else if (act === 'ready') {
+      markReady(pick);
+      if (!alive) alive = setInterval(() => { if (started || !current()) stopAlive(); else heartbeat(); }, D.duel.heartbeatSeconds * 1000);
+    }
+    else if (act === 'leave') { stopAlive(); leaveRoom(!gone); hideDuelUi(); a.back(); }
     else if (act === 'report') { const d = current().data, o = d && d.players[d.host === uid ? d.guest : d.host]; if (o) askReport(o.pseudo, 'adversaire'); }
   };
 }
@@ -170,17 +176,17 @@ export function showBanner(text, seconds) {
 }
 
 /**
- * Attente (l'adversaire n'a pas fini sa vague) : son score en direct et le temps restant, au plus, de sa vague,
- * rafraîchis chaque seconde. live() et eta() : fonctions ; onLeave : « Abandonner ».
+ * Attente (l'adversaire n'a pas fini sa vague) : son score en direct et le temps restant, au plus, de sa vague (ou « Ton
+ * adversaire est déconnecté : X s »), rafraîchis chaque seconde. live() et eta() : fonctions. Pas d'abandon : un Duel en cours
+ * ne se quitte pas.
  */
-export function showWait(title, sub, live, eta, onLeave) {
+export function showWait(title, sub, live, eta) {
   if (!el || !el.classList.contains('wait')) {
     screen(`<div class="res-card du-card du-waitcard"><div class="res-title ol ol-5 du-title" id="duWT"></div>
       <div class="du-sub" id="duWS"></div><div class="du-live"><b id="duWL"></b><span id="duWP">${tr('units.points', { n: 2 })}</span></div>
-      <div class="du-eta" id="duWE"></div><span class="du-wait-dot big"></span>
-      <button class="mini-btn du-back" data-du="abandon">${U().abandon}</button></div>`, 'wait');
+      <div class="du-eta" id="duWE" aria-live="polite"></div><span class="du-wait-dot big"></span></div>`, 'wait');
+    onClick = null;
   }
-  if (onLeave) onClick = act => { if (act === 'abandon') onLeave(); };
   el.querySelector('#duWT').textContent = title;
   el.querySelector('#duWS').textContent = sub;
   const tick = () => {
@@ -198,22 +204,24 @@ export function showWait(title, sub, live, eta, onLeave) {
 export function hideWait() { if (el && el.classList.contains('wait')) hideDuelUi(); }
 
 /** KO : attente du résultat (la vague de l'adversaire continue), son score en direct. */
-export function showWaitResult(text, live, eta, onLeave) {
-  showWait(text, '', live, eta, onLeave);
+export function showWaitResult(text, live, eta) {
+  showWait(text, '', live, eta);
 }
 
 /* ---------- Fin ---------- */
-/** s : { result: { win, why, n }, me, opp: { name, scores }, pIn, pOut, n } */
+/** s : { result: { win, why, n }, me, opp: { name, scores }, pIn, pOut, n, random } (après le panneau de fin : ui/end-seq.js). */
 export function showResult(s, onHome) {
   clearInterval(liveTimer);
-  const r = s.result, title = r.win === 'me' ? U().resultWin : r.win === 'opp' ? U().resultLose : U().resultTie;
-  const why = fill(U().why[r.why] || '', { name: s.opp.name, n: r.n || '', s: D.duel.disconnectSeconds });
+  const r = s.result, cancel = r.why === 'cancel';
+  const title = cancel ? tr('duelAway.cancelTitle') : r.win === 'me' ? U().resultWin : r.win === 'opp' ? U().resultLose : U().resultTie;
+  const why = cancel ? tr(s.random ? 'duelAway.cancel' : 'duelAway.cancelFriend', { s: D.duel.absence_max_s })
+    : fill(U().why[r.why] || '', { name: s.opp.name, n: r.n || '', s: D.duel.absence_max_s });
   const tot = a => a.reduce((x, y) => x + (y || 0), 0);
   const pct = p => (p ? tr('money.plusPct', { n: nf(Math.round(p * 100)) }) : '—');
   const rows = Array.from({ length: s.n }, (_, i) => `<tr><td>${i + 1}</td><td>${s.me.scores[i] != null ? nf(s.me.scores[i]) : '—'}</td>
       <td>${s.opp.scores[i] != null ? nf(s.opp.scores[i]) : '—'}</td><td>${pct(s.pIn[i])}</td><td>${pct(s.pOut[i])}</td></tr>`).join('');
   screen(`<div class="res-card du-card du-result">
-      <div class="res-title ol ol-5 ${r.win === 'me' ? 'win' : 'lose'}">${title}</div>
+      <div class="res-title ol ol-5 du-rtitle ${r.win === 'me' ? 'win' : 'lose'}">${title}</div>
       <div class="du-text">${esc(why)}</div>
       <table class="du-table"><thead><tr><th>${U().tableWave}</th><th>${esc(U().you)}</th><th>${esc(s.opp.name)}</th><th>${U().pressureGot}</th><th>${U().pressureGave}</th></tr></thead>
         <tbody>${rows}<tr class="du-total"><td>${U().tableTotal}</td><td>${nf(tot(s.me.scores))}</td><td>${nf(tot(s.opp.scores))}</td><td></td><td></td></tr></tbody></table>
@@ -223,7 +231,6 @@ export function showResult(s, onHome) {
       <button class="res-again" data-du="home"><span class="ol ol-4">${U().again}</span></button>
       <button class="mini-btn du-report" data-du="report">${esc(tr('report.button', { name: s.opp.name }))}</button>
     </div>`, 'result');
-  sfx(r.win === 'me' ? 'victoire' : 'defaite');
   music('musique_lobby');
   onClick = act => {
     if (act === 'report') { askReport(s.opp.name, 'adversaire'); return; }

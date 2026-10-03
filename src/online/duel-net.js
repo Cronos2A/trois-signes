@@ -77,8 +77,24 @@ export function setMine(fields) {
   return S.fb.fs.updateDoc(ref, up).then(() => true, e => { console.warn('Duel :', e && (e.code || e.message)); return false; });
 }
 
-/** Signe de vie (toutes les heartbeatSeconds) : heure du serveur et score en direct. */
-export const heartbeat = live => setMine({ seen: S.fb.fs.serverTimestamp(), live });
+/**
+ * Signe de vie (toutes les heartbeatSeconds) : heure du serveur, score en direct et PV (pour reprendre le Duel après une fermeture).
+ * Résolu avec false si le serveur refuse : absent plus de absence_max_s, l'entrée est figée (firestore.rules → stale).
+ */
+export const heartbeat = (live, hp) => setMine(live == null ? { seen: S.fb.fs.serverTimestamp() } : { seen: S.fb.fs.serverTimestamp(), live, ...(hp == null ? {} : { hp }) });
+
+/** Reprise après une fermeture : relit le salon code (le sien) et le reprend comme salon courant ; null s'il n'existe plus. */
+export async function reopenRoom(c) {
+  S = await whenOnline();
+  const r = S.fb.fs.doc(S.db, DU().collection, c);
+  let snap;
+  try { snap = await S.fb.fs.getDoc(r); } catch (e) { return null; }
+  if (!snap.exists() || !snap.data().players[S.uid]) return null;
+  ref = r; code = c; last = snap.data();
+  return last;
+}
+/** « Prêt » : héros figé ; le signe de vie part dans la même écriture (la règle d'absence compte dès maintenant). */
+export const markReady = hero => setMine({ hero, ready: true, pseudo: pseudo(), seen: S.fb.fs.serverTimestamp() });
 /** Début de la vague n (1 à 5) : l'heure du serveur est notée (les règles refusent un score de vague rendu trop vite). */
 export const startWave = n => setMine({ wave: n, waveAt: S.fb.fs.serverTimestamp() });
 

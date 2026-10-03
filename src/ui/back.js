@@ -1,11 +1,14 @@
 // Bouton Retour du téléphone (et du navigateur) : il ne quitte plus le jeu par surprise (data/rules.json → backButton).
 // Une entrée d'historique « garde » est posée au lancement ; chaque Retour la consomme (popstate) et on la repose,
 // sauf sur l'onglet Jouer sans rien d'ouvert : là, Retour quitte le jeu comme d'habitude.
-//  - en partie (combat, Duel, Entraînement, leçon) : la confirmation « Quitter la partie ? » du bouton Quitter (ui/quit-confirm.js) ;
+//  - en partie (combat, Entraînement, leçon) : la confirmation « Quitter la partie ? » du bouton Quitter (ui/quit-confirm.js) ;
+//  - Duel en cours (combat, attente, KO) : seulement l'information « Impossible de quitter un Duel en cours » (duelInfo) ;
+//  - séquence de fin (ui/end-seq.js) : rien pendant l'animation, puis « Continuer » quand il est proposé ;
 //  - cinématique : elle est passée ; écran « toucher pour continuer » : on continue ;
 //  - menus : la fenêtre du dessus se ferme (réglages, boutique, classements, salon du Duel, histoire…), sinon retour à l'onglet Jouer.
 import { G } from '../game/state.js';
 import { quitOpen, quitStay } from './quit-confirm.js';
+import { panelOpen, panelBack } from './end-seq.js';
 
 const $ = id => document.getElementById(id);
 const shown = el => !!el && !el.classList.contains('hidden') && getComputedStyle(el).display !== 'none';
@@ -19,6 +22,7 @@ export function setLeave(fn) { leave = fn; }
 /** Un Retour : true s'il a été traité (on reste dans le jeu), false pour laisser quitter. */
 function onBack() {
   if (quitOpen()) { quitStay(); return true; }                                     // « Retour » sur la confirmation = continuer
+  if (panelOpen()) { panelBack(); return true; }                                   // panneau de fin : « Continuer » s'il est proposé
   if (shown($('testAd'))) return true;                                               // publicité en cours : on attend
   const ask = visible('.ad-card.ask [data-ad="no"]'); if (ask) { ask.click(); return true; }
   if (shown($('reportModal'))) { clickFirst(['#reportModal [data-rp="cancel"]', '#reportModal [data-rp="ok"]']); return true; }   // signalement : annuler
@@ -34,10 +38,11 @@ function onBack() {
   if (shown($('dailyScr'))) { clickFirst(['#dailyScr [data-dy="close"]']); return true; }
   const du = $('duel');
   const inGame = document.documentElement.classList.contains('in-game') && (G.mode === 'play' || G.mode === 'train');
-  if (shown(du) && du.classList.contains('wait')) {                                  // attente de l'adversaire (ou KO) : abandonner ?
-    leave();                                                                         // même confirmation que « Abandonner »
+  if (shown(du) && du.classList.contains('wait')) {                                  // attente de l'adversaire (ou KO) : Duel en cours
+    leave();                                                                         // information seulement (main.js → askLeave)
     return true;
   }
+  if (G.mode === 'ending') return true;                                              // séquence de fin : on attend le panneau
   if (shown(du) && !du.classList.contains('banner')) {
     clickFirst(['#duel [data-du="cancel"]', '#duel [data-du="leave"]', '#duel [data-du="back"]', '#duel [data-du="home"]', '#duel [data-du="ok"]']);
     return true;

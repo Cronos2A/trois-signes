@@ -19,27 +19,36 @@ export async function serverPrints(uid) {
 }
 
 const tot = a => (a || []).reduce((s, x) => s + (x || 0), 0);
+const ms = t => (t && t.toMillis ? t.toMillis() : 0);
 /**
- * Issue d'un salon pour le joueur x (même calcul que les règles) : 1 victoire, −1 défaite, 0 égalité, null pas encore décidé.
- * now : heure (ms) pour la déconnexion (disconnectSeconds sans signe de vie).
+ * Issue d'un salon pour le joueur x (même calcul que les règles) : 1 victoire, −1 défaite, 0 égalité ou match annulé,
+ * null pas encore décidé. now : heure du serveur (ms) pour l'absence (absence_max_s sans signe de vie, une fois « Prêt »).
+ * Issue acquise par les KO ou les scores d'abord ; puis l'absence ; absents tous les deux : celui qui était encore là quand
+ * l'autre a dépassé la limite gagne, sinon match annulé (cancelled(room, now) le dit).
  */
 export function outcome(room, x, now) {
   const oid = room.host === x ? room.guest : room.host, me = room.players[x], op = room.players[oid];
   if (!me || !op) return null;
-  const ms = t => (t && t.toMillis ? t.toMillis() : 0);
-  const stale = p => !(p.done || p.ko != null) && now - ms(p.seen) > D.duel.disconnectSeconds * 1000;
   const by = Math.sign(tot(me.scores) - tot(op.scores));
   if (me.quit) return -1;
   if (op.quit) return 1;
-  if (stale(op) && !stale(me)) return 1;
-  if (stale(me) && !stale(op)) return -1;
-  if (me.ko != null) {
-    if (op.ko != null) return op.ko < me.ko ? 1 : op.ko > me.ko ? -1 : by;
-    return (op.scores || []).length > me.ko ? -1 : null;
-  }
-  if (op.ko != null) return (me.scores || []).length > op.ko ? 1 : null;
-  if (me.done && op.done) return by;
+  const played = me.ko != null ? (op.ko != null ? (op.ko < me.ko ? 1 : op.ko > me.ko ? -1 : by) : (op.scores || []).length > me.ko ? -1 : null)
+    : op.ko != null ? ((me.scores || []).length > op.ko ? 1 : null)
+    : me.done && op.done ? by : null;
+  if (played != null) return played;
+  const sm = stale(me, now), so = stale(op, now);
+  if (so && !sm) return 1;
+  if (sm && !so) return -1;
+  if (sm && so) return bothAway(me, op);
   return null;
+}
+/** Absent : « Prêt », partie pas finie, plus de absence_max_s sans signe de vie (heure du serveur). */
+export const stale = (p, now) => !!p && !!p.ready && !(p.done || p.ko != null) && now - ms(p.seen) > D.duel.absence_max_s * 1000;
+const bothAway = (me, op) => { const L = D.duel.absence_max_s * 1000; return ms(op.seen) + L < ms(me.seen) ? 1 : ms(me.seen) + L < ms(op.seen) ? -1 : 0; };
+/** Match annulé : absents tous les deux sans que l'un ait vu l'autre partir, et rien de décidé avant. */
+export function cancelled(room, x, now) {
+  const oid = room.host === x ? room.guest : room.host, me = room.players[x], op = room.players[oid];
+  return !!me && !!op && outcome(room, x, now) === 0 && stale(me, now) && stale(op, now) && bothAway(me, op) === 0;
 }
 const deltaOf = o => (o === 1 ? P().win : o === -1 ? P().loss : P().tie);
 

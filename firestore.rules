@@ -64,9 +64,9 @@ service cloud.firestore {
     function minWaveSeconds() { return 3; }
     function waves() { return 5; }
 
-    // Entrée d'un joueur : { pseudo, hero, ready, scores[], ko, done, quit, wave, waveAt, live, seen, arena, prints }.
+    // Entrée d'un joueur : { pseudo, hero, ready, scores[], ko, done, quit, wave, waveAt, live, hp, seen, arena, prints }.
     function validEntry(p) {
-      return p.keys().hasOnly(['pseudo', 'hero', 'ready', 'scores', 'ko', 'done', 'quit', 'wave', 'waveAt', 'live', 'seen', 'arena', 'prints'])
+      return p.keys().hasOnly(['pseudo', 'hero', 'ready', 'scores', 'ko', 'done', 'quit', 'wave', 'waveAt', 'live', 'hp', 'seen', 'arena', 'prints'])
         && p.pseudo is string && p.pseudo.size() <= 16
         && (p.hero == null || (p.hero is string && p.hero.size() <= 20))
         && p.ready is bool && p.done is bool && p.quit is bool
@@ -75,6 +75,7 @@ service cloud.firestore {
         && p.wave is int && p.wave >= 0 && p.wave <= waves()
         && (p.get('waveAt', null) == null || p.waveAt is timestamp)
         && p.live is number && p.live >= 0 && p.live <= 100000
+        && (!('hp' in p) || (p.hp is number && p.hp >= 0 && p.hp <= 10000))
         && p.seen is timestamp
         && (!('arena' in p) || (p.arena is int && p.arena >= 0 && p.arena < 8))
         && (!('prints' in p) || p.prints is int);
@@ -89,6 +90,9 @@ service cloud.firestore {
       return o.size() == 0 ? true : (n[0] == o[0] && (o.size() == 1 ? true : (n[1] == o[1] && (o.size() == 2 ? true
         : (n[2] == o[2] && (o.size() == 3 ? true : (n[3] == o[3] && (o.size() == 4 ? true : n[4] == o[4]))))))));
     }
+    // Absent (application fermée, écran verrouillé, réseau coupé) : « Prêt », partie pas finie, et plus de 30 s sans signe de vie
+    // (data/duel.json → absence_max_s). Une entrée absente est figée : plus aucune écriture (le joueur ne peut pas revenir).
+    function stale(p) { return p.ready && !(p.done || p.ko != null) && request.time > p.seen + duration.value(30, 's'); }
     // Un pas de jeu sur sa propre entrée (o : avant, n : après).
     function entryStep(o, n) {
       let k = o.scores.size();
@@ -103,7 +107,7 @@ service cloud.firestore {
       let nextWave = n.wave == o.wave + 1 && o.scores.size() == o.wave && o.ko == null && !o.done
         && n.get('waveAt', null) == request.time;
       let sameWave = n.wave == o.wave && n.get('waveAt', null) == o.get('waveAt', null);
-      return validEntry(n)
+      return validEntry(n) && !stale(o)
         && n.pseudo == o.pseudo && n.get('arena', 0) == o.get('arena', 0) && n.get('prints', 0) == o.get('prints', 0)
         && (n.hero == o.hero || !o.ready)
         && (n.ready == o.ready || (!o.ready && n.ready && n.hero != null))
@@ -155,8 +159,6 @@ service cloud.firestore {
       return (s.size() > 0 ? s[0] : 0) + (s.size() > 1 ? s[1] : 0) + (s.size() > 2 ? s[2] : 0)
         + (s.size() > 3 ? s[3] : 0) + (s.size() > 4 ? s[4] : 0);
     }
-    // Sans signe de vie depuis 30 s (data/duel.json → disconnectSeconds), alors que sa partie n'est pas finie.
-    function stale(p) { return !(p.done || p.ko != null) && request.time > p.seen + duration.value(30, 's'); }
     // Issue du salon r pour le joueur x : 1 victoire, -1 défaite, 0 égalité, 9 pas encore décidé (même calcul que src/online/ranked.js).
     function outcome(r, x) {
       let me = r.players[x];
@@ -164,13 +166,21 @@ service cloud.firestore {
       let myT = total(me.scores);
       let opT = total(op.scores);
       let by = myT > opT ? 1 : (myT < opT ? -1 : 0);
-      return me.quit ? -1
-        : op.quit ? 1
-        : (stale(op) && !stale(me)) ? 1
-        : (stale(me) && !stale(op)) ? -1
-        : me.ko != null ? (op.ko != null ? (op.ko < me.ko ? 1 : (op.ko > me.ko ? -1 : by)) : (op.scores.size() > me.ko ? -1 : 9))
+      // Issue déjà acquise par les KO ou les scores : une absence venue ensuite n'y change rien.
+      let played = me.ko != null ? (op.ko != null ? (op.ko < me.ko ? 1 : (op.ko > me.ko ? -1 : by)) : (op.scores.size() > me.ko ? -1 : 9))
         : op.ko != null ? (me.scores.size() > op.ko ? 1 : 9)
         : (me.done && op.done) ? by
+        : 9;
+      let sm = stale(me);
+      let so = stale(op);
+      // Absents tous les deux : celui qui était encore là quand l'autre a dépassé 30 s gagne ; sinon match annulé (0).
+      let both = op.seen + duration.value(30, 's') < me.seen ? 1 : (me.seen + duration.value(30, 's') < op.seen ? -1 : 0);
+      return me.quit ? -1
+        : op.quit ? 1
+        : played != 9 ? played
+        : (so && !sm) ? 1
+        : (sm && !so) ? -1
+        : (sm && so) ? both
         : 9;
     }
     // Nouvelles Empreintes de x après le salon d.last : +30 / −20 / 0 (data/duel.json → prints), jamais sous 0, une seule fois par salon.

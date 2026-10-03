@@ -160,6 +160,8 @@ export async function remoteSave() {
  */
 export const accountApi = () => (auth && db && user ? { fb, auth, db, app: auth.app, user: auth.currentUser } : null);
 export function pauseSync() { paused = true; clearTimeout(timer); clearTimeout(retry); }
+/** Retarde l'envoi en attente de ms (séquence de fin : pas d'envoi pendant que le panneau tombe, il coûterait une image). */
+export function syncLater(ms) { if (dirty) schedule(ms); }
 /** Envoie tout de suite la sauvegarde en attente (avant de lier le compte). */
 export async function flushSave() { if (dirty) await upload(); }
 

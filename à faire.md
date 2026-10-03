@@ -28,9 +28,21 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - Voyage abandonné : l'or et les gemmes des rounds terminés sont gardés, mais le héros et l'arme ne gagnent **aucune XP** (12 XP par round
   terminé perdus) et le score ne compte pas pour le record. À décider : garder l'XP des rounds terminés, comme l'or ?
 - Combat d'Histoire abandonné : l'or des rounds terminés est gardé (versé round par round) ; l'XP d'arme gagnée pendant le combat est perdue.
-- Duel : après son propre KO, « Abandonner » envoie un abandon que les règles refusent (KO déjà définitif) : sans effet (la défaite est déjà
-  acquise), mais une erreur « permission-denied » s'affiche dans la console. À nettoyer.
 - Activer un boost (écran Récompenses, proposition au lancement) se fait sans confirmation : voulu (c'est l'action demandée), à surveiller.
+
+## 🔵 Duel sans sortie et séquences de fin (03/10/2026)
+- **Règles Firestore du 03/10 à publier dans la console** (absence de 30 s, entrée figée, match annulé, champ `hp`). Sans elles : le champ `hp`
+  des signes de vie est refusé par les anciennes règles (les signes de vie échouent : la reprise et l'absence ne marchent pas).
+- Aucune valeur de « 40 s » trouvée dans le code ni les règles : la seule durée d'absence était `disconnectSeconds` (30 s), remplacée par
+  `absence_max_s`. Si un 40 s a été vu en jeu, c'est le délai réel : la défaite arrive au signe de vie suivant (toutes les 5 s) après les 30 s.
+- Reprise après fermeture : la vague en cours repart avec des ennemis neufs (son temps restant est gardé) ; le score de la vague depuis le dernier
+  signe de vie (5 s au plus) peut être perdu si l'application est tuée sans passer en arrière-plan. À observer au test fermé.
+- Les deux joueurs coupés du réseau en même temps : chacun voit « Tu as été déconnecté » sur l'appareil, alors que le serveur annule le match
+  (0 Empreinte) ; l'affichage des Empreintes se corrige à la connexion suivante. Rare.
+- Le compte à rebours de l'adversaire absent ne se rafraîchit pas dans le bandeau pendant l'annonce de pression (2 s) ; il est sur l'écran d'attente.
+- Fiche du Duel « Match annulé » en anglais, 360 × 640 : le bouton « Back to the lobby » est sous le pli (la carte défile).
+- Pas testé sur un vrai téléphone : vibration de l'explosion, vraie fermeture de l'application Android, verrouillage réel de l'écran
+  (simulés : page cachée puis gelée). À essayer avec deux téléphones.
 
 ## 🔵 Récompenses de connexion (30/09/2026) — à surveiller
 - **Règles publiées le 01/10/2026** (`firestore.rules` : collection `daily/{uid}` et gemmes du jour dans `wallet/{uid}`), confirmé par toi,

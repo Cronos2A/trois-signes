@@ -10,6 +10,7 @@ import { A, DUR, updateAnims, heroPose, heroAttack } from './anim.js';
 import { updateHud, HUD_BOTTOM } from './combat-hud.js';
 import { superActive } from '../game/supers.js';
 import { tr, nf } from '../i18n.js';
+import { heroFx, drawEndFx } from './end-seq.js';
 
 const INK = '#15301E';
 const HEAD = 'Caprasimo, system-ui, sans-serif', BODY = 'Figtree, system-ui, sans-serif';
@@ -44,7 +45,12 @@ export function draw(ctx, dt) {
   drawPops(ctx);
   ctx.restore();
   drawSuperLaunch(ctx, W, H);
+  drawEndFx(ctx, k, W, H);       // fin de partie : facettes du héros, pluie dorée, éclair (ui/end-seq.js)
 }
+
+/** Centre du héros à l'écran (dernière image dessinée) : zoom et explosion de la séquence de défaite. */
+let lastBody = null;
+export const heroBody = () => lastBody || { x: G.W / 2, y: G.H * 0.7 };
 
 /* ---------- Placement ---------- */
 
@@ -77,10 +83,15 @@ function sprite(ctx, S, x, y, sx, sy, rot, red, white) {
 
 function drawHero(ctx) {
   const S = ART.hero, home = heroFoot();
-  if (!S) return { x: home.x, y: home.y - 60 };
-  const P = heroPose(home, k), x = home.x + P.dx + P.shake, y = home.y + P.dy, Arm = ART.heroArm;
+  if (!S) return (lastBody = { x: home.x, y: home.y - 60 });
+  const fx = heroFx();                                  // fin de partie : héros qui gonfle puis explose, ou sauts de victoire
+  if (fx.gone) return (lastBody = { x: home.x, y: home.y - S.h * 0.5 });
+  const P = heroPose(home, k);
+  if (fx.swell) { P.sx *= 1 + fx.swell; P.sy *= 1 + fx.swell; P.red = Math.max(P.red, 0.6); }
+  P.dy += fx.dy * k;
+  const x = home.x + P.dx + P.shake, y = home.y + P.dy, Arm = ART.heroArm;
   const sp = superActive() ? G.hero.sp : null, g = giant(sp);
-  const body = { x, y: y - S.h * 0.5 * g };
+  const body = lastBody = { x, y: y - S.h * 0.5 * g };
   if (sp) aura(ctx, body, S.h * 0.5 * g, sp.col, false);
   // Sans calque de bras armé (arc de Kestrel), c'est tout le sprite qui s'incline pour frapper.
   const gold = G.weapon && G.weapon.gold ? D.weapons.gold_fx : null;   // arme niveau 10 : éclat doré

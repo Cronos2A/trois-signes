@@ -86,6 +86,28 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:
 .bk-title{font-size:28px}
 .bk-text{margin:0;text-align:center;font-size:14px;font-weight:700;color:var(--text-soft)}
 .bk-quit{align-self:center;padding:0 22px;background:var(--color-bg)}
+/* Fin de partie : panneau « DÉFAITE / VICTOIRE / ÉGALITÉ » qui tombe du haut et rebondit (ui/end-seq.js, data/fin_de_partie.json) */
+.es-layer{position:fixed;inset:0;z-index:45;display:flex;align-items:flex-start;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 16vh) 16px 16px;
+  box-sizing:border-box;background:color-mix(in srgb,var(--ink) 38%,transparent);animation:esDim .4s ease-out both}
+.es-panel{max-width:340px;align-items:center;text-align:center;gap:8px;overflow:visible;animation:esDrop .95s linear both;will-change:transform}
+.es-title{width:100%;font-size:54px;line-height:1.1;padding:4px 0;white-space:nowrap;overflow:hidden;text-shadow:0 4px 0 var(--ink)}
+.es-defeat .es-title{color:var(--coral)}
+.es-victory .es-title{color:var(--sun)}
+.es-tie .es-title{color:#3DDC5B}
+.es-sub{font-size:18px;font-weight:800;color:var(--ink)}
+.es-go{margin-top:8px;align-self:stretch}
+@keyframes esDim{from{background:transparent}}
+@keyframes esDrop{
+  0%{transform:translateY(-130vh);animation-timing-function:cubic-bezier(.55,0,1,.6)}
+  42%{transform:translateY(0);animation-timing-function:cubic-bezier(0,.45,.45,1)}
+  60%{transform:translateY(-38px);animation-timing-function:cubic-bezier(.55,0,1,.45)}
+  75%{transform:translateY(0);animation-timing-function:cubic-bezier(0,.45,.45,1)}
+  88%{transform:translateY(-12px);animation-timing-function:cubic-bezier(.55,0,1,.45)}
+  100%{transform:translateY(0)}}
+/* Pendant la séquence : ni « Quitter », ni super (les gestes sont bloqués) */
+.ending #quit,.ending #superBtn{visibility:hidden}
+/* Duel en cours : pas de bouton « Quitter » (ui/quit-confirm.js → duelInfo) */
+.duel-live #quit{visibility:hidden}
 /* Téléphone en paysage : « Tourne ton téléphone » (ui/orient.js) */
 .or-layer{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;box-sizing:border-box;
   background:var(--leaf);text-align:center}
