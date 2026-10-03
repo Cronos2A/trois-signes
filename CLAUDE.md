@@ -1,8 +1,11 @@
-# Trois Signes — brief pour Claude Code
+# Three Signs — brief pour Claude Code
 
 État du projet au 01/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
+**Titre du jeu : « Three Signs » dans les 5 langues, jamais traduit** (décision du 03/10/2026 ; avant : « Trois Signes »).
+Les trois gestes (« les trois signes ») et les noms d'objets (« Coffre des Trois Signes », « Codex des trois signes ») gardent leur traduction
+(`data/i18n/GLOSSAIRE.md`). Identifiants techniques inchangés : dossier et dépôt `trois-signes`, projet Firebase `trois-signes`, clés `ts_*`.
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
 Trois signes : **Triangle** = attaquer, **Rond** = esquiver, **Toucher** (tap) = ramasser.
 
@@ -491,7 +494,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   `{ "one": …, "other": … }` choisie par `Intl.PluralRules` (`vars.n`).
 - **Grammaire par langue** : « de » + lieu ou héros = forme complète (`of.arena.*`, `of.hero.*` : « de la Forêt de Mousse », « d'Aldric ») ;
   « de » + pseudo = règles `grammar.of` (`ofName`) ; articles et titres ôtés pour l'initiale d'un portrait manquant : `dialogue.titles` (`initialOf`).
-- Glossaire imposé : `data/i18n/GLOSSAIRE.md` (Trois Signes, Empreinte, Silence, Ombracés, Cœur du Silence, Fragment de mémoire, lieux).
+- Glossaire imposé : `data/i18n/GLOSSAIRE.md` (titre Three Signs jamais traduit, les trois signes, Empreinte, Silence, Ombracés, Cœur du Silence, Fragment de mémoire, lieux).
   Noms des héros et niveaux de réussite (OK … Perfect) identiques dans toutes les langues. Aucune image ne contient de texte.
 - Exceptions volontaires : message « lancez via un serveur » de `index.html` (ouvert en `file://`, aucun fichier ne se charge), nom de lieu
   de secours tiré de l'identifiant quand un décor manque (`placeName`), messages de la console (développeurs).

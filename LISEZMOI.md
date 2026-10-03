@@ -1,4 +1,4 @@
-# Trois Signes — dossier du projet
+# Three Signs — dossier du projet
 
 Jeu mobile à gestes (Triangle, Rond, Toucher), en HTML/JS. Modes : Le Voyage (Solo infini), Histoire (6 héros × 10 combats),
 Entraînement et « La première leçon » (tutoriel).

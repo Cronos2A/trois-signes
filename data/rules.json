@@ -79,6 +79,6 @@
   "orientation": {
     "note": "Jeu en portrait seulement (src/ui/orient.js, manifest.webmanifest). Téléphone tourné en paysage : écran « Tourne ton téléphone » ; la partie est en pause pendant ce temps (sauf en Duel, qui ne s'arrête jamais).",
     "title": "Tourne ton téléphone",
-    "text": "Trois Signes se joue en portrait."
+    "text": "Three Signs se joue en portrait."
   }
 }

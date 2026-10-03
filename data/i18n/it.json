@@ -242,7 +242,7 @@
     "home": "Torna alla lobby"
   },
   "app": {
-    "title": "Tre Segni"
+    "title": "Three Signs"
   },
   "grammar": {
     "of": {
@@ -663,7 +663,7 @@
       },
       "orientation": {
         "title": "Gira il telefono",
-        "text": "Tre Segni si gioca in verticale."
+        "text": "Three Signs si gioca in verticale."
       }
     },
     "online": {

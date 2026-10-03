@@ -1,4 +1,4 @@
-# Glossaire imposé — traduction de Trois Signes
+# Glossaire imposé — traduction de Three Signs
 
 Vocabulaire à respecter dans toutes les langues (fichiers `data/i18n/{fr,en,it,es,de}.json`).
 Le français est la langue de référence : une clé absente d'une langue est affichée en français.
@@ -7,7 +7,8 @@ Le français est la langue de référence : une clé absente d'une langue est af
 
 | Français | English | Italiano | Español | Deutsch |
 |---|---|---|---|---|
-| Trois Signes | Three Signs | Tre Segni | Tres Signos | Drei Zeichen |
+| les trois signes (les trois gestes : Triangle, Rond, Toucher ; le Codex des trois signes) | the three signs | i tre segni | los tres signos | die drei Zeichen |
+| Coffre des Trois Signes (coffre de la boutique) | Three Signs chest | Forziere dei Tre Segni | Cofre de los Tres Signos | Truhe der Drei Zeichen |
 | l'Empreinte (les Empreintes) | the Imprint (Imprints) | l'Impronta (le Impronte) | la Huella (las Huellas) | der Abdruck (die Abdrücke) |
 | le Silence | the Silence | il Silenzio | el Silencio | die Stille |
 | les Ombracés | the Hollowed | gli Svuotati | los Vaciados | die Verblassten |
@@ -15,6 +16,9 @@ Le français est la langue de référence : une clé absente d'une langue est af
 | Fragment de mémoire | Memory fragment | Frammento di memoria | Fragmento de memoria | Erinnerungsfragment |
 
 ## Ce qui ne se traduit jamais
+- **Titre du jeu** : **Three Signs**, dans les 5 langues, français compris (décision du 03/10/2026) : titre de la page et de
+  l'application (`app.title`, `manifest.webmanifest`, `appName` de Capacitor), Crédits, pages légales, tout message qui nomme le jeu.
+  Seuls les trois gestes (« les trois signes ») et les objets de l'histoire ou de la boutique qui en portent le nom gardent leur traduction.
 - **Noms des héros** : Aldric, Nyra, Boran, Ilwen, Kestrel, Mira, Eldan.
 - **Niveaux de réussite** : OK, Good, Very Good, Excellent, Perfect (identiques dans toutes les langues).
 - **Noms propres de lieux** : Fontclaire, Vélis, Aubelle, Pierrelune, Hautes-Gerbes…

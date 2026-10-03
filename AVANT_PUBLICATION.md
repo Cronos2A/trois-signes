@@ -1,6 +1,6 @@
 # Avant la publication sur le Play Store — état des lieux du 01/10/2026
 
-Ce document liste **tout ce qui manque concrètement** pour publier Trois Signes sur le Play Store.
+Ce document liste **tout ce qui manque concrètement** pour publier Three Signs sur le Play Store.
 Rien n'a été corrigé pendant cet état des lieux (voir « Coquilles relevées » en bas).
 
 **Qui s'en occupe :**
@@ -220,7 +220,8 @@ Liste exacte de ce que le jeu collecte, à recopier dans le formulaire (étapes 
 ## 🟠 IMPORTANT
 
 ### I-1. Emballage Capacitor : checklist (5. Technique)
-- **Nom du paquet** (définitif, impossible à changer ensuite) : par exemple `fr.troissignes.jeu` ou `com.cronos2a.troissignes`. 👤 décision.
+- **Nom de l'application** : `appName: "Three Signs"` dans `capacitor.config.json` (titre jamais traduit, même nom dans toutes les langues).
+- **Nom du paquet** (définitif, impossible à changer ensuite) : par exemple `com.cronos2a.threesigns` (ou l'ancien exemple `com.cronos2a.troissignes`). 👤 décision.
 - **Version** : `versionCode` 1 et `versionName` « 1.0.0 », à augmenter à chaque envoi. Afficher la version dans les Réglages (voir I-9).
 - **Icône adaptative et écran de démarrage** : voir B6.
 - **Orientation** : portrait seulement, à déclarer aussi dans l'application Android (le manifeste web le dit déjà).
@@ -436,7 +437,7 @@ Textes hors du jeu, à traduire (🤖 Claude Code peut tous les rédiger) :
 
 ### E2. Créer l'application dans la Play Console
 1. Play Console → « Créer une application ».
-2. Nom : « Trois Signes ». Langue par défaut : français. Type : Jeu. Gratuit.
+2. Nom : « Three Signs » (titre jamais traduit). Langue par défaut : français. Type : Jeu. Gratuit.
 3. Coche les déclarations (règlement, lois d'export).
 4. Dans « Configuration de l'application », remplis dans l'ordre :
    - accès à l'application (tout est accessible sans identifiant) ;
@@ -461,7 +462,7 @@ Textes hors du jeu, à traduire (🤖 Claude Code peut tous les rédiger) :
 
 **Pour l'application Android (au moment de l'emballage)**
 6. Paramètres du projet (roue dentée) → **Vos applications** → **Ajouter une application** → **Android**.
-7. Nom du paquet : celui choisi en D-4 (exemple `com.cronos2a.troissignes`).
+7. Nom du paquet : celui choisi en D-4 (exemple `com.cronos2a.threesigns`).
 8. **Empreintes SHA-1** (Paramètres du projet → ton application Android → **Ajouter une empreinte**) : la connexion Google d'Android ne marche
    que pour une application signée par une clé dont l'empreinte est enregistrée ici. Il en faut **trois** :
    - la clé de **débogage** (pour les essais sur ton téléphone) : Claude Code te la donnera (`./gradlew signingReport`) ;
@@ -484,7 +485,7 @@ Textes hors du jeu, à traduire (🤖 Claude Code peut tous les rédiger) :
 
 ### E5. AdMob (B5)
 1. Va sur admob.google.com, connecte-toi avec le même compte Google, et accepte les conditions.
-2. Applications → « Ajouter une application » → Android → choisis « Trois Signes » une fois publiée sur le Play Store
+2. Applications → « Ajouter une application » → Android → choisis « Three Signs » une fois publiée sur le Play Store
    (sinon, « pas encore publiée » et tu la relies plus tard).
 3. Dans l'application : « Blocs d'annonces » → « Ajouter » → **Avec récompense** (nom : « Récompense ») → crée.
    Recommence avec **Interstitiel** (nom : « Fin du Voyage »).

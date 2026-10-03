@@ -1,6 +1,6 @@
 rules_version = '2';
 
-// Trois Signes : règles de sécurité Cloud Firestore (offre gratuite Spark : aucune fonction serveur, tout est vérifié ici).
+// Three Signs : règles de sécurité Cloud Firestore (offre gratuite Spark : aucune fonction serveur, tout est vérifié ici).
 // À publier dans la console Firebase (Firestore Database → Règles) ou avec `firebase deploy --only firestore:rules`.
 // Les chiffres (plafonds, durées, gains) reprennent data/duel.json → security, data/economy.json → gems, data/ads.json → rewarded.gems,
 // data/daily.json (jour de Paris, gemmes des récompenses de connexion) : à tenir à jour ensemble (node tools/check-rules.mjs).
