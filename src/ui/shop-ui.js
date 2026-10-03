@@ -209,6 +209,7 @@ export function chestIntroHtml(id) {
   return `<div class="chest-open" data-act="chestReveal" data-arg="${id}">
       <img class="co-chest shake" src="${C.image.closed}" alt="" draggable="false">
       <div class="co-tap ol ol-4">${U().chestTap}</div>
+      <button class="mini-btn co-cancel" data-act="closeShop">${U().cancel}</button>
     </div>`;
 }
 

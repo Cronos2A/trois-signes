@@ -59,14 +59,7 @@
     "story": ["petit", "petit", "petit", "moyen", "moyen", "moyen", "grand", "grand", "costaud", "costaud"]
   },
   "backButton": {
-    "note": "Bouton Retour du téléphone (src/ui/back.js) : en partie (combat, Duel, Entraînement, leçon), il demande confirmation ; pendant une cinématique, il la passe ; dans les menus, il ferme la fenêtre du dessus ou revient à l'onglet Jouer ; sur l'onglet Jouer sans rien d'ouvert, il quitte le jeu.",
-    "title": "Quitter la partie ?",
-    "text": "Ta progression dans ce combat sera perdue.",
-    "textDuel": "Quitter le Duel compte comme une défaite.",
-    "textLesson": "Tu pourras revoir la leçon depuis l'onglet Jouer.",
-    "textTrain": "Tu reviendras au lobby.",
-    "quit": "Quitter",
-    "stay": "Continuer"
+    "note": "Bouton Retour du téléphone (src/ui/back.js) : en partie (combat, Duel, Entraînement, leçon), il demande confirmation (même fenêtre que le bouton « Quitter », src/ui/quit-confirm.js, textes data/i18n → quit.*) ; pendant une cinématique, il la passe ; dans les menus, il ferme la fenêtre du dessus ou revient à l'onglet Jouer ; sur l'onglet Jouer sans rien d'ouvert, il quitte le jeu."
   },
   "tips": {
     "ok": "Compris",

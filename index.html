@@ -57,7 +57,8 @@
 <script type="module" src="src/main.js"></script>
 <script>
 // Ouvert directement comme fichier, le navigateur bloque les modules : on le dit au joueur.
-setTimeout(function(){if(window.__tsReady)return;var e=document.getElementById('loadErr');if(e.textContent)return;
+// Seulement en file:// : sur un téléphone lent, le jeu peut mettre plus de 2,5 s à démarrer sans que rien ne soit cassé.
+if(location.protocol==='file:')setTimeout(function(){if(window.__tsReady)return;var e=document.getElementById('loadErr');if(e.textContent)return;
   e.textContent='Le jeu ne peut pas démarrer depuis un fichier local. Lancez-le via un serveur (voir LISEZMOI.md).';e.classList.remove('hidden')},2500);
 </script>
 </body>

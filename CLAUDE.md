@@ -468,8 +468,14 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   (`account-ui.js` → `askDamagedSave`, textes `online.json → damaged`) : récupérer la sauvegarde en ligne ou repartir de zéro. Tant que le
   joueur n'a pas choisi, rien n'est écrit ni envoyé (`saveState.damaged`) ; l'ancienne est gardée dans `ts_prog_damaged`.
   Sauvegarde incomplète : complétée sans rien demander (`ensureDefaults`). Sauvegarde du serveur abîmée : ignorée (`replaceProg`).
-- **Bouton Retour** (`src/ui/back.js`, textes `rules.json → backButton`) : confirmation « Quitter la partie ? » en partie (pause),
-  cinématique passée, fenêtre du dessus fermée dans les menus ; sur l'onglet Jouer, il quitte le jeu.
+- **Quitter une partie** (`src/ui/quit-confirm.js`, textes `quit.*`) : une seule confirmation pour le bouton « Quitter » de l'écran,
+  « Abandonner » de l'attente du Duel et le bouton Retour du téléphone (`back.js` → `setLeave`, `main.js` → `askLeave`) ; Retour pendant
+  la fenêtre = « Continuer » (sélectionné par défaut). Pause pendant la question, sauf en Duel (le match continue, le message le dit).
+  Message selon le mode, d'après les règles du code : Voyage (or et gemmes gardés ; ni bonus de fin, ni record, ni XP), Histoire (combat à
+  refaire, or des rounds terminés gardé), Entraînement, leçon, Duel (défaite ; au hasard : perte réelle d'Empreintes, `duel.json → prints.loss`,
+  jamais sous 0), boost actif après au moins un round (« compté comme utilisé »). Vérifié le 03/10/2026 dans les 5 langues, deux tailles.
+- **Bouton Retour** (`src/ui/back.js`) : en partie, la confirmation ci-dessus ; cinématique passée, fenêtre du dessus fermée dans les menus ;
+  sur l'onglet Jouer, il quitte le jeu.
 - **Portrait** (`manifest.webmanifest`, `src/ui/orient.js`, textes `rules.json → orientation`) : téléphone en paysage → « Tourne ton téléphone »,
   partie en pause (sauf en Duel).
 - **Duel** : l'adversaire n'est jugé déconnecté que sur des données confirmées par le serveur ; soi-même, plus de 30 s sans contact
@@ -592,7 +598,7 @@ src/
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman / Gemmes »)  shop-ui.js (boutique, coffres, carte Cosmétiques)
          looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)  cover.js (écran de lancement)
          account-ui.js (pseudo, bloc Compte des Réglages, sauvegarde endommagée)  tips.js (explications à la 1re rencontre)
-         back.js (bouton Retour du téléphone)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
+         back.js (bouton Retour du téléphone)  quit-confirm.js (« Quitter la partie ? »)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
          daily-ui.js (fenêtre du jour, écran Récompenses, bouton cadeau, proposition de boost, pastille de combat)
          report-ui.js (fenêtre « Signaler un pseudo »)  fonts.css (polices embarquées)  touch.css (zones tactiles, chargé en dernier)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css  daily.css

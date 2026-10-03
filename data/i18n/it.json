@@ -633,15 +633,6 @@
           }
         }
       },
-      "backButton": {
-        "title": "Uscire dalla partita?",
-        "text": "I tuoi progressi in questa battaglia andranno persi.",
-        "textDuel": "Uscire dal Duello conta come una sconfitta.",
-        "textLesson": "Potrai rivedere la lezione dalla scheda Gioca.",
-        "textTrain": "Tornerai alla lobby.",
-        "quit": "Esci",
-        "stay": "Continua"
-      },
       "tips": {
         "ok": "Capito",
         "weapons": {
@@ -2873,5 +2864,24 @@
     "version": "Versione {v} ({build})",
     "by": "Un gioco di {studio}",
     "contact": "Contatto"
+  },
+  "quit": {
+    "title": "Uscire dalla partita?",
+    "titleDuel": "Uscire dal Duello?",
+    "titleTrain": "Uscire dall'allenamento?",
+    "titleLesson": "Uscire dalla lezione?",
+    "voyage": "L'oro e le gemme già guadagnati restano tuoi. Il bonus di fine partita non verrà dato. Il tuo punteggio non conterà per il record, e il tuo eroe e la tua arma non guadagneranno XP.",
+    "story": "Dovrai rifare questo combattimento. L'oro dei round finiti resta tuo, ma non guadagnerai né l'XP né le ricompense di questo combattimento.",
+    "lesson": "Potrai rivederla più tardi dalla scheda Gioca.",
+    "duelRandom": {
+      "one": "Uscire conta come una sconfitta: perderai {n} Impronta.",
+      "other": "Uscire conta come una sconfitta: perderai {n} Impronte."
+    },
+    "duelRandomZero": "Uscire conta come una sconfitta.",
+    "duelFriend": "Uscire conta come una sconfitta. Contro un amico, le tue Impronte non cambiano.",
+    "duelLive": "La partita continua mentre decidi.",
+    "boost": "Il tuo boost verrà contato come usato.",
+    "stay": "Continua",
+    "quit": "Esci"
   }
 }

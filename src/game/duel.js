@@ -170,7 +170,7 @@ export async function startDuel(room, char) {
   };
 
   B = {
-    duel: true, endless: true, label: tr('battle.wave'), waves: [], types: {}, art, timeLimit: 0, lieu: arena.decor,
+    duel: true, random, endless: true, label: tr('battle.wave'), waves: [], types: {}, art, timeLimit: 0, lieu: arena.decor,
     bg: arena.index ? { tint: arena.tint, title: arena.name } : null, music: placeMusic(arena.id), betweenRounds: DU().betweenWaves, summary: null,
     intro: () => showBanner([fill(DU().ui.countdown, { name: S.oppName }), fill(DU().ui.arena, { name: arena.name }), fill(DU().ui.noPressure, { n: 1 })].join('\n'), DU().countdownSeconds),
     /** Vague i (0 à n-1) : enregistre la précédente, attend l'adversaire, montre la pression, puis lance la vague. */

@@ -638,15 +638,6 @@
           }
         }
       },
-      "backButton": {
-        "title": "¿Salir de la partida?",
-        "text": "Perderás tu progreso en este combate.",
-        "textDuel": "Salir del Duelo cuenta como una derrota.",
-        "textLesson": "Podrás repasar la lección desde la pestaña Jugar.",
-        "textTrain": "Volverás al lobby.",
-        "quit": "Salir",
-        "stay": "Seguir"
-      },
       "tips": {
         "ok": "Entendido",
         "weapons": {
@@ -2878,5 +2869,24 @@
     "version": "Versión {v} ({build})",
     "by": "Un juego de {studio}",
     "contact": "Contacto"
+  },
+  "quit": {
+    "title": "¿Salir de la partida?",
+    "titleDuel": "¿Salir del Duelo?",
+    "titleTrain": "¿Salir del entrenamiento?",
+    "titleLesson": "¿Salir de la lección?",
+    "voyage": "El oro y las gemas que ya has ganado se conservan. No recibirás el bono de fin de partida. Tu puntuación no contará para tu récord, y tu héroe y tu arma no ganarán XP.",
+    "story": "Tendrás que repetir este combate. El oro de las rondas terminadas se conserva, pero no ganarás ni la XP ni las recompensas de este combate.",
+    "lesson": "Podrás volver a verla más tarde desde la pestaña Jugar.",
+    "duelRandom": {
+      "one": "Salir cuenta como una derrota: perderás {n} Huella.",
+      "other": "Salir cuenta como una derrota: perderás {n} Huellas."
+    },
+    "duelRandomZero": "Salir cuenta como una derrota.",
+    "duelFriend": "Salir cuenta como una derrota. Contra un amigo, tus Huellas no cambian.",
+    "duelLive": "El combate sigue mientras decides.",
+    "boost": "Tu potenciador contará como usado.",
+    "stay": "Continuar",
+    "quit": "Salir"
   }
 }

@@ -24,6 +24,14 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - Salons de Duel joués : ils gardent le pseudo et les scores après une suppression de compte, jusqu'au ménage des salons (toujours à faire).
 - Fusionner les gemmes de deux comptes en cas de conflit, possible avec une fonction serveur une fois l'offre Blaze activée.
 
+## 🔵 Quitter une partie (03/10/2026) — règles à trancher
+- Voyage abandonné : l'or et les gemmes des rounds terminés sont gardés, mais le héros et l'arme ne gagnent **aucune XP** (12 XP par round
+  terminé perdus) et le score ne compte pas pour le record. À décider : garder l'XP des rounds terminés, comme l'or ?
+- Combat d'Histoire abandonné : l'or des rounds terminés est gardé (versé round par round) ; l'XP d'arme gagnée pendant le combat est perdue.
+- Duel : après son propre KO, « Abandonner » envoie un abandon que les règles refusent (KO déjà définitif) : sans effet (la défaite est déjà
+  acquise), mais une erreur « permission-denied » s'affiche dans la console. À nettoyer.
+- Activer un boost (écran Récompenses, proposition au lancement) se fait sans confirmation : voulu (c'est l'action demandée), à surveiller.
+
 ## 🔵 Récompenses de connexion (30/09/2026) — à surveiller
 - **Règles publiées le 01/10/2026** (`firestore.rules` : collection `daily/{uid}` et gemmes du jour dans `wallet/{uid}`), confirmé par toi,
   et vérifiées le jour même sur le vrai serveur (récupération acceptée, 2e récupération, jour truqué, série et gemmes gonflées refusés).

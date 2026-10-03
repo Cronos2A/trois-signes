@@ -635,15 +635,6 @@
           }
         }
       },
-      "backButton": {
-        "title": "Quit the game?",
-        "text": "Your progress in this battle will be lost.",
-        "textDuel": "Quitting the Duel counts as a loss.",
-        "textLesson": "You can replay the lesson from the Play tab.",
-        "textTrain": "You'll go back to the lobby.",
-        "quit": "Quit",
-        "stay": "Keep playing"
-      },
       "tips": {
         "ok": "Got it",
         "weapons": {
@@ -2875,5 +2866,24 @@
     "version": "Version {v} ({build})",
     "by": "A game by {studio}",
     "contact": "Contact"
+  },
+  "quit": {
+    "title": "Quit the game?",
+    "titleDuel": "Quit the Duel?",
+    "titleTrain": "Quit training?",
+    "titleLesson": "Quit the lesson?",
+    "voyage": "The gold and gems you've already earned are kept. The end-of-game bonus won't be given. Your score won't count towards your record, and your hero and weapon won't earn XP.",
+    "story": "You'll have to replay this battle. Gold from finished rounds is kept, but you won't earn this battle's XP or rewards.",
+    "lesson": "You can watch it again later from the Play tab.",
+    "duelRandom": {
+      "one": "Quitting counts as a defeat: you'll lose {n} Imprint.",
+      "other": "Quitting counts as a defeat: you'll lose {n} Imprints."
+    },
+    "duelRandomZero": "Quitting counts as a defeat.",
+    "duelFriend": "Quitting counts as a defeat. Against a friend, your Imprints don't change.",
+    "duelLive": "The match goes on while you decide.",
+    "boost": "Your boost will count as used.",
+    "stay": "Continue",
+    "quit": "Quit"
   }
 }

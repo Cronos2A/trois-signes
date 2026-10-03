@@ -1,4 +1,5 @@
 // Boucle de jeu et écrans.
+import { confirmQuit } from './ui/quit-confirm.js';
 import { D, loadData } from './data.js';
 import { G } from './game/state.js';
 import { attachInput } from './input/gestures.js';
@@ -29,7 +30,7 @@ import { initWallet } from './online/wallet.js';
 import { serverPrints } from './online/ranked.js';
 import { onOnlineChange } from './online/online.js';
 import { openRanking } from './ui/ranking-ui.js';
-import { initBack } from './ui/back.js';
+import { initBack, setLeave } from './ui/back.js';
 import { initOrientation } from './ui/orient.js';
 import { ensurePseudo, askDamagedSave } from './ui/account-ui.js';
 import { initStory, openStory, maybePrologue } from './story/story.js';
@@ -192,6 +193,17 @@ function setInGame(on) {
   if (on) hideLobby(); else showLobby();
 }
 
+/** « Quitter » (bouton de l'écran, « Abandonner » du Duel, bouton Retour) : toujours la même confirmation (ui/quit-confirm.js). */
+function askLeave() {
+  const b0 = G.battle;
+  return confirmQuit().then(q => {
+    // Partie finie pendant la question (fin de vague, KO, victoire) : on ne quitte plus rien.
+    const still = G.battle === b0 && (document.documentElement.classList.contains('in-game') || document.querySelector('#duel.wait'));
+    if (q && still) toLobby();
+    return q;
+  });
+}
+
 function toLobby() {
   const b = G.battle;
   flushPlay();                              // temps de jeu (pubs plein écran)
@@ -339,11 +351,11 @@ async function init() {
   });
   initLobby({ solo: () => start('play'), train: () => start('train'), again: () => start('play'), story: openStory, lesson: startTutorial, ranks: openRanking,
     duel: () => { openDuel({ start: (room, char) => startDuel(room, char), back: duelHome }); } });
-  initDuel({ startBattle: opts => start('play', opts), end: why => endGame(why), home: duelHome, quit: toLobby });
+  initDuel({ startBattle: opts => start('play', opts), end: why => endGame(why), home: duelHome, quit: askLeave });
   initTutorial({ startBattle: opts => start('play', opts), quit: toLobby });
   initStory({ startBattle: opts => start('play', opts), toLobby: showLobby });
-  $('quit').onclick = () => { sfx('ui_clic'); toLobby(); };
-  initBack();                              // bouton Retour du téléphone (ui/back.js)
+  $('quit').onclick = () => { sfx('ui_clic'); askLeave(); };
+  initBack(); setLeave(askLeave);           // bouton Retour du téléphone (ui/back.js) : même confirmation que « Quitter »
   initOrientation();                       // portrait seulement (ui/orient.js)
   // Bouton de super : réagit dès l'appui, et l'appui n'atteint jamais le canvas (pas de tap ni de tracé).
   $('superBtn').addEventListener('pointerdown', e => {

@@ -431,5 +431,24 @@
     "version": "Version {v} ({build})",
     "by": "Un jeu de {studio}",
     "contact": "Contact"
+  },
+  "quit": {
+    "title": "Quitter la partie ?",
+    "titleDuel": "Quitter le Duel ?",
+    "titleTrain": "Quitter l'entraînement ?",
+    "titleLesson": "Quitter la leçon ?",
+    "voyage": "L'or et les gemmes déjà gagnés sont conservés. Le bonus de fin de partie ne sera pas donné. Ton score ne comptera pas pour ton record, et ton héros et ton arme ne gagneront pas d'XP.",
+    "story": "Tu devras recommencer ce combat. L'or des rounds terminés est conservé, mais tu ne gagneras ni l'XP ni les récompenses de ce combat.",
+    "lesson": "Tu pourras la revoir plus tard dans l'onglet Jouer.",
+    "duelRandom": {
+      "one": "Quitter compte comme une défaite : tu perdras {n} Empreinte.",
+      "other": "Quitter compte comme une défaite : tu perdras {n} Empreintes."
+    },
+    "duelRandomZero": "Quitter compte comme une défaite.",
+    "duelFriend": "Quitter compte comme une défaite. Contre un ami, tes Empreintes ne changent pas.",
+    "duelLive": "Le match continue pendant que tu choisis.",
+    "boost": "Ton boost sera compté comme utilisé.",
+    "stay": "Continuer",
+    "quit": "Quitter"
   }
 }

@@ -1,48 +1,24 @@
 // Bouton Retour du téléphone (et du navigateur) : il ne quitte plus le jeu par surprise (data/rules.json → backButton).
 // Une entrée d'historique « garde » est posée au lancement ; chaque Retour la consomme (popstate) et on la repose,
 // sauf sur l'onglet Jouer sans rien d'ouvert : là, Retour quitte le jeu comme d'habitude.
-//  - en partie (combat, Duel, Entraînement, leçon) : confirmation « Quitter la partie ? » (le combat est en pause pendant ce temps) ;
+//  - en partie (combat, Duel, Entraînement, leçon) : la confirmation « Quitter la partie ? » du bouton Quitter (ui/quit-confirm.js) ;
 //  - cinématique : elle est passée ; écran « toucher pour continuer » : on continue ;
 //  - menus : la fenêtre du dessus se ferme (réglages, boutique, classements, salon du Duel, histoire…), sinon retour à l'onglet Jouer.
-import { D } from '../data.js';
 import { G } from '../game/state.js';
-import { sfx } from '../audio/audio.js';
+import { quitOpen, quitStay } from './quit-confirm.js';
 
-const B = () => D.rules.backButton;
 const $ = id => document.getElementById(id);
 const shown = el => !!el && !el.classList.contains('hidden') && getComputedStyle(el).display !== 'none';
 const visible = sel => [...document.querySelectorAll(sel)].find(e => e.offsetParent || getComputedStyle(e).position === 'fixed');
 const clickFirst = sels => { for (const s of sels) { const e = visible(s); if (e) { e.click(); return true; } } return false; };
-let box = null, confirmOpen = null;
-
-/** Fenêtre « Quitter la partie ? ». Résolue avec true (quitter) ou false (continuer). */
-function askQuit(text) {
-  if (!box) {
-    box = document.createElement('div');
-    box.id = 'backConfirm';
-    box.className = 'bk-layer hidden';
-    box.setAttribute('role', 'alertdialog');
-    document.body.appendChild(box);
-  }
-  box.innerHTML = `<div class="res-card bk-card">
-      <div class="res-title ol ol-5 bk-title">${B().title}</div>
-      <p class="bk-text">${text}</p>
-      <button class="res-again" data-bk="stay"><span class="ol ol-4">${B().stay}</span></button>
-      <button class="mini-btn bk-quit" data-bk="quit">${B().quit}</button>
-    </div>`;
-  box.classList.remove('hidden');
-  const wasPaused = G.paused;
-  G.paused = true;
-  return new Promise(res => {
-    const close = v => { box.classList.add('hidden'); box.innerHTML = ''; box.onclick = null; confirmOpen = null; G.paused = wasPaused; res(v); };
-    confirmOpen = () => close(false);
-    box.onclick = e => { const b = e.target.closest('[data-bk]'); if (!b) return; sfx('ui_clic'); close(b.dataset.bk === 'quit'); };
-  });
-}
+// Confirmation de sortie de partie : la même fenêtre que le bouton « Quitter » de l'écran (ui/quit-confirm.js).
+let leave = () => Promise.resolve(false);
+/** main.js fournit l'action « Quitter » (confirmation puis retour au lobby). */
+export function setLeave(fn) { leave = fn; }
 
 /** Un Retour : true s'il a été traité (on reste dans le jeu), false pour laisser quitter. */
 function onBack() {
-  if (confirmOpen) { confirmOpen(); return true; }                                 // « Retour » sur la confirmation = continuer
+  if (quitOpen()) { quitStay(); return true; }                                     // « Retour » sur la confirmation = continuer
   if (shown($('testAd'))) return true;                                               // publicité en cours : on attend
   const ask = visible('.ad-card.ask [data-ad="no"]'); if (ask) { ask.click(); return true; }
   if (shown($('reportModal'))) { clickFirst(['#reportModal [data-rp="cancel"]', '#reportModal [data-rp="ok"]']); return true; }   // signalement : annuler
@@ -59,7 +35,7 @@ function onBack() {
   const du = $('duel');
   const inGame = document.documentElement.classList.contains('in-game') && (G.mode === 'play' || G.mode === 'train');
   if (shown(du) && du.classList.contains('wait')) {                                  // attente de l'adversaire (ou KO) : abandonner ?
-    askQuit(B().textDuel).then(q => { if (q) clickFirst(['#duel [data-du="abandon"]']); });
+    leave();                                                                         // même confirmation que « Abandonner »
     return true;
   }
   if (shown(du) && !du.classList.contains('banner')) {
@@ -67,9 +43,7 @@ function onBack() {
     return true;
   }
   if (inGame) {
-    const b = G.battle || {};
-    const text = b.duel ? B().textDuel : b.tutorial ? B().textLesson : G.mode === 'train' ? B().textTrain : B().text;
-    askQuit(text).then(q => { if (q && document.documentElement.classList.contains('in-game')) $('quit')?.click(); });
+    leave();                                                                         // même confirmation que le bouton « Quitter »
     return true;
   }
   if (shown($('ranking'))) { clickFirst(['.rk-close']); return true; }
