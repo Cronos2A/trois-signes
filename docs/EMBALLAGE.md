@@ -166,10 +166,11 @@ mais c'est long. **Elle ne va jamais dans le dépôt GitHub** (les fichiers `*.j
 4. Le script demande de **retaper le mot de passe** pour afficher les empreintes. Tu dois voir :
    ```
    Clé créée : C:\Users\croga\.three-signs\three-signs-upload.jks
-   SHA1: AB:CD:…:12
-   SHA256: …
+   SHA-1   : 9E:27:33:…:B6:DC   (20 paires de caractères)
+   SHA-256 : B0:65:4F:…:9E:F2   (32 paires)
    ```
-   **Copie la ligne SHA1** : elle sert à l'étape 5.
+   **Copie la valeur SHA-1** (sans « SHA-1 : ») : elle sert à l'étape 5. Les empreintes s'affichent quelle que soit la langue
+   de Windows (keytool est lancé en anglais et les empreintes sont reconnues à leur forme).
 
 Le fichier `C:\Users\croga\.three-signs\keystore.properties` est créé à côté : il dit seulement où est la clé et son nom (`upload`),
 **sans mot de passe** (le mot de passe est demandé à chaque fabrication de l'AAB et n'est jamais écrit).
@@ -218,12 +219,12 @@ En cas d'erreur « licences non acceptées » ou « SDK platform 36 not found »
 ```
 tools\android\empreintes.ps1
 ```
-Tu dois voir deux blocs, chacun avec une ligne `SHA1:` :
+Tu dois voir deux blocs, chacun avec une ligne verte `SHA-1   : …` et une ligne `SHA-256 : …` :
 - **clé de DÉBOGAGE** (`C:\Users\croga\.android\debug.keystore`, créée par la première compilation) : pour la connexion Google dans l'APK de test ;
 - **clé d'ENVOI** (demande son mot de passe) : pour l'AAB.
 
 Je ne peux pas te donner ces empreintes moi-même : les deux clés sont créées sur ton PC (et doivent y rester). Envoie-moi les deux lignes
-`SHA1` si tu veux que je les note dans `AVANT_PUBLICATION.md` (une empreinte n'est pas un secret).
+`SHA-1` si tu veux que je les note dans `AVANT_PUBLICATION.md` (une empreinte n'est pas un secret).
 
 ---
 
@@ -238,7 +239,7 @@ Pour que Google accepte, Firebase doit connaître **le nom du paquet** et **l'em
 2. Roue dentée (en haut à gauche) → **Paramètres du projet** → onglet **Général** → en bas, **Vos applications** → **Ajouter une application**
    → l'icône **Android**.
 3. **Nom du package Android** : `com.cronos2a.troissignes` (exactement). **Pseudo de l'application** : `Three Signs`.
-   **Certificat de signature SHA-1** : colle la ligne SHA1 de la clé de **débogage** (`tools\android\empreintes.ps1`, étape 4.5).
+   **Certificat de signature SHA-1** : colle la valeur SHA-1 de la clé de **débogage** (`tools\android\empreintes.ps1`, étape 4.5).
    → **Enregistrer l'application**.
 4. Écran « Télécharger le fichier de configuration » : clique **Télécharger google-services.json**. Ignore les étapes suivantes de
    l'assistant (« Ajouter le SDK Firebase ») : c'est déjà fait. Clique **Suivant** jusqu'à **Accéder à la console**.

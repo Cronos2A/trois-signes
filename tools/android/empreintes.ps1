@@ -2,8 +2,8 @@
 . "$PSScriptRoot\env.ps1"
 $debug = Join-Path $env:USERPROFILE '.android\debug.keystore'
 Step "Clé de DÉBOGAGE (APK de test) : $debug"
-if (Test-Path $debug) { & keytool -list -v -keystore $debug -alias androiddebugkey -storepass android -keypass android | Select-String 'SHA1:|SHA256:' }
+if (Test-Path $debug) { Show-Fingerprints $debug 'androiddebugkey' 'android' }
 else { Write-Host "Pas encore créée : lance d'abord tools\android\apk.ps1 une fois (elle est créée à la première compilation)." -ForegroundColor Yellow }
 Step "Clé d'ENVOI (AAB pour la Play Console) : $KeyStore"
-if (Test-Path $KeyStore) { $pw = Read-Secret "Mot de passe de la clé d'envoi"; & keytool -list -v -keystore $KeyStore -alias upload -storepass $pw | Select-String 'SHA1:|SHA256:'; $pw = $null }
+if (Test-Path $KeyStore) { $pw = Read-Secret "Mot de passe de la clé d'envoi"; Show-Fingerprints $KeyStore 'upload' $pw; $pw = $null }
 else { Write-Host "Pas encore créée : lance tools\android\cle.ps1." -ForegroundColor Yellow }

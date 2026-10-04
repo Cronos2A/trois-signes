@@ -28,6 +28,30 @@ function Read-Secret($prompt) {
   $s = Read-Host $prompt -AsSecureString
   [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($s))
 }
+# Empreintes SHA-1 et SHA-256 d'une clé. keytool est forcé en anglais, ET les empreintes sont reconnues à leur forme
+# (20 ou 32 paires hexadécimales séparées par « : »), quelle que soit la langue de ses libellés (« SHA1: », « SHA 1: »…).
+function Get-Fingerprints([string]$store, [string]$alias, [string]$pass) {
+  $ErrorActionPreference = 'Continue'                         # keytool peut écrire sur stderr sans que ce soit une erreur
+  $out = (& keytool -J-Duser.language=en -J-Duser.country=US -list -v -keystore $store -alias $alias -storepass $pass 2>&1 | Out-String)
+  $hex = '(?<![0-9A-Fa-f:])((?:[0-9A-Fa-f]{2}:){N}[0-9A-Fa-f]{2})(?![0-9A-Fa-f:])'
+  $sha1 = [regex]::Match($out, $hex.Replace('N', '19'))
+  $sha256 = [regex]::Match($out, $hex.Replace('N', '31'))
+  [pscustomobject]@{
+    SHA1 = $(if ($sha1.Success) { $sha1.Groups[1].Value.ToUpper() } else { $null })
+    SHA256 = $(if ($sha256.Success) { $sha256.Groups[1].Value.ToUpper() } else { $null })
+    Raw = $out
+  }
+}
+function Show-Fingerprints([string]$store, [string]$alias, [string]$pass) {
+  $f = Get-Fingerprints $store $alias $pass
+  if (-not $f.SHA1) {
+    Write-Host "Empreintes introuvables (mot de passe faux ?). Réponse de keytool :" -ForegroundColor Red
+    Write-Host $f.Raw
+    return
+  }
+  Write-Host ("SHA-1   : " + $f.SHA1) -ForegroundColor Green
+  if ($f.SHA256) { Write-Host ("SHA-256 : " + $f.SHA256) }
+}
 function Step($t) { Write-Host ""; Write-Host "== $t" -ForegroundColor Cyan }
 function Done($t) { Write-Host $t -ForegroundColor Green }
 

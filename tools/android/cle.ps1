@@ -15,5 +15,5 @@ Write-Host "Maintenant : fais-en DEUX copies (clé USB + coffre en ligne), voir 
 Write-Host ""
 Step "Empreintes de la clé d'envoi (SHA-1 à donner à Firebase)"
 $pw = Read-Secret "Retape le mot de passe de la clé (pour lire ses empreintes)"
-& keytool -list -v -keystore $KeyStore -alias upload -storepass $pw | Select-String 'SHA1:|SHA256:'
+Show-Fingerprints $KeyStore 'upload' $pw
 $pw = $null
