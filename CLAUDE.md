@@ -1,6 +1,6 @@
 # Three Signs — brief pour Claude Code
 
-État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
+État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 **Titre du jeu : « Three Signs » dans les 5 langues, jamais traduit** (décision du 03/10/2026 ; avant : « Trois Signes »).
@@ -511,6 +511,34 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - Vérifié le 03/10/2026 (5 langues, 360 × 640 et 390 × 800, aucune erreur) : Voyage, Histoire (victoire et défaite), fermeture pendant la séquence
   (panneau puis fiche, or ni perdu ni doublé, rien la fois suivante), Retour pendant l'animation (rien), sur le panneau (Continuer), sur la fiche.
 
+## Application Android (Capacitor) — `docs/EMBALLAGE.md` — **préparée (04/10/2026), compilée sur le PC de l'utilisateur**
+- Capacitor **8.5.2** (`package.json`, `capacitor.config.json`, dossier `android/`) ; paquet **`com.cronos2a.troissignes`**, nom « Three Signs » ;
+  6 modules : App, Haptics, Browser, Splash Screen, Status Bar, `@capacitor-firebase/authentication` (`rgcfaIncludeGoogle`, `skipNativeAuth`).
+  **API cible 36** (exigée par Google Play depuis le 31/08/2026), min 24, plugin Gradle 8.13 (16 Ko : aucun code natif), AAB signé.
+- **Dossier de build `www/`** (`npm run www` → `tools/android/build-www.mjs`, puis `npx cap sync android`) : index.html, manifest, `src/`, `data/`,
+  `assets/` (sans `assets/icone-app/`, sans notes `.md`) ; jamais design, docs, legal, prototype, tools. 30 Mo. Refuse `test.autorise` à true.
+  Tout le jeu est dans l'application ; seul Firebase passe par Internet. Adresse interne `https://localhost`.
+- **Natif** (`src/native.js`, rien sur le web ; `src/game/lifecycle.js` : premier plan / arrière-plan, web et Android) : bouton Retour de Capacitor →
+  `back.js → onBack` (onglet Jouer sans rien d'ouvert → `minimizeApp`) ; `appStateChange` → absence du Duel et musique ; vibrations par Haptics
+  (`effects.js → vibrate`, option des Réglages) ; liens `target="_blank"` en https → Browser ; pages légales à `version.json → legalBase` ;
+  écran de démarrage caché au lobby ; barre d'état claire ; zones sûres par `env(safe-area-inset-*)` (SystemBars de Capacitor, `viewport-fit=cover`).
+  Boutique dans l'application : pubs, packs de gemmes, Sans publicité → « Bientôt » (AdMob et Google Play pas branchés).
+  Mode test et fausses pubs toujours coupés dans l'application (`testMode`, `fakeAllowed` : `Capacitor.isNativePlatform()`).
+- **Manifeste** : `INTERNET` (+ `VIBRATE` par Haptics), AD_ID / localisation / notifications retirés, portrait, `usesCleartextTraffic="false"` +
+  `network_security_config.xml`, `allowBackup="false"` (désinstallation = tout effacé sauf ce qui est lié au compte Google).
+- **Icône** : source unique `assets/icone-app/icone.svg` (calques `fond` / `logo`, provisoire), `npm run icons` (`tools/android/icons.mjs`, sharp)
+  → icône adaptative + monochrome, anciennes icônes, écran de démarrage (fond `#174A28` + logo), icône Play Store 512.
+- **Versions** : `versionName` = `data/version.json → version`, `versionCode` = `→ build` (+1 à chaque envoi). **Signature** : clé d'envoi hors du dépôt
+  (`%USERPROFILE%\.three-signs\three-signs-upload.jks` + `keystore.properties` sans mot de passe ; mots de passe demandés par `aab.ps1`).
+- **Scripts Windows** (`tools/android/*.ps1`, UTF-8 avec BOM) : `cle.ps1`, `apk.ps1` (APK de test + installation USB), `aab.ps1`, `empreintes.ps1`, `verifier.ps1`
+  (permissions fusionnées, alignement 16 Ko). Java d'Android Studio (jbr), SDK `%LOCALAPPDATA%\Android\Sdk`.
+- **Pas compilé dans l'environnement de Claude** (`dl.google.com` bloqué) : la compilation, la signature et les essais sur téléphone se font sur le PC.
+  Testé le 04/10/2026 dans Chromium avec un faux `window.Capacitor` (360 × 640, 390 × 800) : Retour, arrière-plan, vibrations, liens, outils de test
+  absents, « Bientôt », premier lancement hors connexion, rotation, zones sûres simulées (CDP), Duel entre amis application / navigateur
+  (arrière-plan 12 s, fermeture et reprise, arrière-plan 36 s → défaite / victoire).
+- **Firebase Android** : à ajouter dans la console (paquet + SHA-1 débogage et envoi), `google-services.json` dans `android/app/` (appliqué tout seul) ;
+  3e empreinte (signature Google Play) après le premier envoi. Clé web : restriction « Sites web » avec `https://localhost/*` (pas « Applications Android »).
+
 ## Robustesse (corrections du 29/09/2026, voir `à faire.md`)
 - **Sauvegarde abîmée** (`src/game/save-check.js` : `readSave`, `saveProblems`) : le jeu démarre toujours ; écran « Sauvegarde endommagée »
   (`account-ui.js` → `askDamagedSave`, textes `online.json → damaged`) : récupérer la sauvegarde en ligne ou repartir de zéro. Tant que le
@@ -633,10 +661,11 @@ src/
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
          talismans.js  rewards.js (récompenses méritées, rétroactives)  economy.js (or, gemmes, coffres)  cosmetics.js
          variants.js (variantes sbire / brute / boss selon l'arène ou le combat)  duel.js (Duel : programme, pression, victoire)
-         duel-rank.js (Empreintes, arènes du Duel)  daily.js (récompenses de connexion)  boosts.js (boosts XP / or)
+         duel-rank.js (Empreintes, arènes du Duel)  daily.js (récompenses de connexion)  boosts.js (boosts XP / or)  lifecycle.js (arrière-plan)
   story/story.js     déroulé du mode Histoire
   online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  account.js (Google, suppression du compte)  report.js (signalements)  leaderboard.js (classements)  ranked.js (Empreintes au serveur)  wallet.js (gemmes au serveur)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)  daily-net.js (récompenses de connexion au serveur)
   vendor/firebase/   SDK Firebase embarqué (app, auth, firestore)
+  native.js          application Android (Capacitor) : Retour, cycle de vie, Haptics, Browser, écran de démarrage
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js
   ui/    lobby.js (+ réglages, crédits, résultats)  hud.js (rendu canvas)  combat-hud.js  combat-art.js  anim.js  sprites.js
@@ -654,6 +683,9 @@ data/    characters grades enemies waves rules story_mode voyage tutorial audio 
 firestore.rules  firebase.json   règles de sécurité Firestore
 legal/  supprimer-mon-compte.html (Play Store : « URL de suppression du compte »)  politique-de-confidentialite.html  conditions-utilisation.html
 tools/check-rules.mjs            vérifie que les chiffres des règles sont ceux de data/
+tools/android/                   emballage Android : build-www.mjs, icons.mjs, cle/apk/aab/empreintes/verifier.ps1
+package.json  capacitor.config.json  android/   projet Capacitor (docs/EMBALLAGE.md)
+docs/EMBALLAGE.md                guide pas à pas de l'emballage Android
 assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  icones/recompenses/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
 prototype/ prototype d'origine
@@ -674,6 +706,7 @@ prototype/ prototype d'origine
   `Capacitor.isNativePlatform()` vrai), quelle que soit l'adresse. Vérifié : `autorise` à `false` → aucun outil sur `localhost` ni réseau
   local ; à `true` → outils sur `localhost` et réseau local + `?test`, jamais sur un domaine public ; Capacitor natif → aucun outil,
   même à `true` sur `localhost` ; Capacitor en navigateur (non natif) → outils visibles.
+- **Application Android** : `tools/android/build-www.mjs` et `aab.ps1` refusent de fabriquer l'application si `test.autorise` vaut `true`.
 - **Au moment de l'emballage Capacitor, vérifier que les outils de test sont invisibles dans l'APK** (Réglages : aucun bloc « Mode test »,
   ni « +1 jour », ni « +1000 or »), et que `test.autorise` vaut `false`.
 
@@ -685,6 +718,6 @@ prototype/ prototype d'origine
 ## Prochaines tâches (dans cet ordre)
 1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
 2. **Duel, suite** : ménage des salons terminés.
-3. **Avant le Play Store** : voir `AVANT_PUBLICATION.md` (adresse de contact, extension Google de Capacitor et empreintes SHA-1, règles à publier…).
+3. **Avant le Play Store** : compiler et tester l'application sur le PC (`docs/EMBALLAGE.md`), puis `AVANT_PUBLICATION.md` (empreintes SHA-1, règles à publier…).
 
 Plus tard : achat réel des gemmes et de « Sans publicité », AdMob (dans l'application), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.

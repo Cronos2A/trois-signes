@@ -1,4 +1,4 @@
-# Avant la publication sur le Play Store — état des lieux du 01/10/2026
+# Avant la publication sur le Play Store — état des lieux du 01/10/2026 (emballage Android préparé le 04/10/2026)
 
 Ce document liste **tout ce qui manque concrètement** pour publier Three Signs sur le Play Store.
 Rien n'a été corrigé pendant cet état des lieux (voir « Coquilles relevées » en bas).
@@ -219,30 +219,26 @@ Liste exacte de ce que le jeu collecte, à recopier dans le formulaire (étapes 
 
 ## 🟠 IMPORTANT
 
-### I-1. Emballage Capacitor : checklist (5. Technique)
-- **Nom de l'application** : `appName: "Three Signs"` dans `capacitor.config.json` (titre jamais traduit, même nom dans toutes les langues).
-- **Nom du paquet** (définitif, impossible à changer ensuite) : par exemple `com.cronos2a.threesigns` (ou l'ancien exemple `com.cronos2a.troissignes`). 👤 décision.
-- **Version** : `versionCode` 1 et `versionName` « 1.0.0 », à augmenter à chaque envoi. Afficher la version dans les Réglages (voir I-9).
-- **Icône adaptative et écran de démarrage** : voir B6.
-- **Orientation** : portrait seulement, à déclarer aussi dans l'application Android (le manifeste web le dit déjà).
-- **Permissions** :
-  - à garder : `INTERNET`, `VIBRATE` (sinon l'option Vibrations ne fait rien), `AD_ID` (AdMob, déclaré automatiquement),
-    `BILLING` (achats, ajouté par le module) ;
-  - aucune autre (pas de position, de caméra ni de stockage) : vérifier qu'aucun module n'en ajoute.
-- **Niveau d'Android visé** : la dernière version exigée par Google au moment de l'envoi (Android 15, API 35, depuis 2025 ;
-  probablement API 36 pour les nouvelles applications en 2026).
-- **Format** : AAB (Android App Bundle), signé ; la « signature d'application par Google Play » est conseillée.
-- **Taille** : environ 31 Mo (sans le dossier `design/`, ni `prototype/`, ni les fichiers `.md` : ils ne doivent pas être embarqués).
-- **Bouton Retour d'Android** : le jeu le gère par l'historique du navigateur (`src/ui/back.js`). À **vérifier dans l'application** : sinon, brancher
-  le module Capacitor `App` (évènement « backButton »).
-- **Écran toujours allumé** pendant un combat (optionnel), et **son coupé** quand l'application passe en arrière-plan : à vérifier sur téléphone.
-- **Qui** : 🤖 Claude Code (+ 👤 compte développeur Google, voir E1) · **Effort** : ⏱⏱
+### I-1. Emballage Capacitor : checklist (5. Technique) — ✅ préparé le 04/10/2026 (`docs/EMBALLAGE.md`)
+- ✅ **Nom de l'application** « Three Signs » ; **nom du paquet** `com.cronos2a.troissignes` (décidé, définitif).
+- ✅ **Version** : `versionName` = `data/version.json → version`, `versionCode` = `→ build` (1), +1 à chaque envoi (EMBALLAGE 4.3).
+- ✅ **Icône adaptative et écran de démarrage** provisoires, régénérés par `npm run icons` (EMBALLAGE 3) ; vraie icône : voir B6.
+- ✅ **Portrait** verrouillé ; zones sûres (encoche, barre de navigation) gérées ; vérifié sur deux écrans simulés.
+- ✅ **Permissions** : `INTERNET`, `VIBRATE` (Haptics) ; identifiant publicitaire, localisation, notifications retirés de force.
+  Quand AdMob et les achats seront branchés : `AD_ID` (AdMob) et `BILLING` (achats) seront à remettre.
+- ✅ **API cible 36** (exigée depuis le 31/08/2026), plugin Gradle 8.13 (16 Ko), **AAB signé** par la clé d'envoi (`tools/android/aab.ps1`),
+  signature d'application par Google Play.
+- ✅ **Taille** : `www/` = 30 Mo (sans `design/`, `docs/`, `legal/`, `prototype/`, `tools/`, notes) ; application ≈ 35 à 40 Mo.
+- ✅ **Bouton Retour** branché sur l'évènement Capacitor ; **son coupé en arrière-plan** ; absence du Duel ; liens par Browser ;
+  mode test et fausses pubs coupés ; pubs et achats « Bientôt ».
+- 👤 **Reste** : compiler sur ton PC (EMBALLAGE 4.4), clé d'envoi et ses 2 copies (4.1, 4.2), Firebase Android + `google-services.json` (5),
+  tests sur le téléphone (6.3), 3e empreinte après le premier envoi (5.4). Écran toujours allumé en combat : optionnel, non fait.
+- **Qui** : 🤖 fait ; 👤 étapes de `docs/EMBALLAGE.md`
 
 ### I-2. Firebase : protéger la clé, éviter les abus (5. Firebase)
 - **Règles** : publiées et vérifiées (01/10/2026). Bien.
 - **Clé API** (`data/online.json`) : visible par tous, c'est normal pour Firebase, mais il faut la **restreindre** (étapes en E4) :
-  - à l'application Android (nom du paquet et empreinte SHA-1) ;
-  - au domaine web si le jeu reste en ligne ;
+  - aux adresses du jeu : `https://localhost` (l'application, qui passe par la WebView) et le domaine du site ;
   - aux seules API utilisées (Identity Toolkit, Firestore, Token Service).
 - **App Check** (gratuit) : vérifie que les requêtes viennent bien de *ton* application (Play Integrity sur Android), et bloque les scripts
   qui créeraient des milliers de comptes ou rempliraient la base. Conseillé dès l'offre Blaze. 🤖 branchement, 👤 activation dans la console.
@@ -391,7 +387,7 @@ Textes hors du jeu, à traduire (🤖 Claude Code peut tous les rédiger) :
 | D-1 | **Pseudos uniques ?** Aujourd'hui, deux joueurs peuvent s'appeler « Alpha ». | Ouvert depuis le 29/09 (G8). Demande un registre des pseudos au serveur. |
 | D-2 | **Public visé : plus de 13 ans ?** (B9) | À décider avant de remplir la Play Console. |
 | D-3 | **Version web** gardée, en démo ou retirée ? (I-6) | À décider. |
-| D-4 | **Nom du paquet** Android (I-1) et **nom de l'application** traduit ou non (I-11). | À décider, définitif. |
+| D-4 | **Nom du paquet** Android (I-1) et **nom de l'application** traduit ou non (I-11). | ✅ Décidé : `com.cronos2a.troissignes`, « Three Signs » partout. |
 | D-5 | **Polices** embarquées : exception à « ne pas modifier `organic.css` » ? (I-3) | À décider. |
 | D-6 | **Histoire d'Eldan** : réellement prévue ? Sinon, retirer « bientôt disponible ». (I-7) | À décider. |
 | D-7 | **Quand activer Blaze ?** Conseil : avant l'ouverture au public (B7), pas seulement pour les achats. | Décidé le 29/09 : « juste avant le Play Store ». À confirmer. |
@@ -420,7 +416,7 @@ Textes hors du jeu, à traduire (🤖 Claude Code peut tous les rédiger) :
    L'alerte de budget limite la casse.
 10. **Coffres payants** : bien déclarer « objets aléatoires achetés avec de l'argent réel » ; les garder désactivés en Belgique (déjà fait).
     Ne pas viser les moins de 13 ans avec des coffres payants.
-11. **Bouton Retour d'Android** dans l'application (I-1) : à vérifier, sinon il quitte le jeu en plein combat.
+11. **Bouton Retour d'Android** dans l'application (I-1) : ✅ branché sur l'évènement Capacitor (04/10/2026) ; à essayer sur le téléphone (EMBALLAGE 6.3).
 12. **Polices Google Fonts** (I-3) : risque RGPD faible mais réel en Europe, et apparence dégradée hors connexion.
 
 ---
@@ -462,24 +458,27 @@ Textes hors du jeu, à traduire (🤖 Claude Code peut tous les rédiger) :
 
 **Pour l'application Android (au moment de l'emballage)**
 6. Paramètres du projet (roue dentée) → **Vos applications** → **Ajouter une application** → **Android**.
-7. Nom du paquet : celui choisi en D-4 (exemple `com.cronos2a.threesigns`).
+7. Nom du paquet : `com.cronos2a.troissignes` (pas à pas complet : `docs/EMBALLAGE.md`, étape 5).
 8. **Empreintes SHA-1** (Paramètres du projet → ton application Android → **Ajouter une empreinte**) : la connexion Google d'Android ne marche
    que pour une application signée par une clé dont l'empreinte est enregistrée ici. Il en faut **trois** :
-   - la clé de **débogage** (pour les essais sur ton téléphone) : Claude Code te la donnera (`./gradlew signingReport`) ;
+   - la clé de **débogage** (pour les essais sur ton téléphone) : `tools\android\empreintes.ps1` sur ton PC ;
    - ta clé d'**importation** (celle avec laquelle tu signes l'APK/AAB envoyé au Play Store) ;
    - la clé de **signature de l'application** gérée par Google : Play Console → ton application → **Test et publication** → **Intégrité de l'application**
      → **Signature de l'application** → « Certificat de la clé de signature de l'application » → SHA-1.
    Sans la bonne empreinte : erreur « DEVELOPER_ERROR » / code 10 au moment de choisir le compte Google.
 9. Télécharge le fichier **`google-services.json`** et donne-le à Claude Code (il va dans `android/app/`). À retélécharger après chaque ajout d'empreinte.
 10. Ce qui diffère dans l'application : pas de fenêtre web ; le jeu passe par l'extension `@capacitor-firebase/authentication`
-    (sélecteur de comptes Google d'Android), puis relie le compte avec `linkWithCredential`. Le code est prêt
-    (`data/online.json → account.nativePlugin`) ; l'extension est à installer lors de l'emballage.
+    (sélecteur de comptes Google d'Android), puis relie le compte avec `linkWithCredential`. ✅ Installée et configurée le 04/10/2026
+    (`rgcfaIncludeGoogle`, `skipNativeAuth`) ; à essayer sur le téléphone dès que `google-services.json` est fourni.
 
 ### E4. Restreindre la clé Firebase (I-2)
 1. Va sur console.cloud.google.com, projet « trois-signes ».
 2. Menu → API et services → Identifiants → clique sur la clé « Browser key » (ou « Android key »).
-3. « Restrictions relatives aux applications » : choisis « Applications Android », ajoute le nom du paquet et l'empreinte SHA-1.
-   Si le jeu reste sur le web, crée une seconde clé limitée à « Sites web » avec ton adresse.
+3. « Restrictions relatives aux applications » : choisis **« Sites web »** (pas « Applications Android » : dans l'application, le jeu
+   utilise Firebase par la WebView, depuis l'adresse interne `https://localhost`). Ajoute : `https://localhost/*` (l'application Android),
+   `https://cronos2a.github.io/*` (le site) et `http://localhost:8123/*` (tests sur ton PC).
+   (La clé « Android key » créée par Firebase avec `google-services.json` sert au module de connexion Google : celle-là peut être
+   limitée à « Applications Android », paquet `com.cronos2a.troissignes` + empreintes SHA-1.)
 4. « Restrictions relatives aux API » : « Restreindre la clé », coche *Identity Toolkit API*, *Cloud Firestore API*, *Token Service API*.
 5. Enregistre. Préviens Claude Code pour qu'il vérifie que le jeu se connecte toujours.
 

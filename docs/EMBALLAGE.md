@@ -18,6 +18,16 @@ Pourquoi ce n'est pas moi qui compile : dans mon environnement de travail en lig
 Android (`dl.google.com`) sont bloqués, et de toute façon la **clé de signature doit rester chez toi**, jamais sur un serveur.
 Je prépare donc tout le projet ; ton PC le compile et le signe.
 
+### Tes étapes, dans l'ordre
+1. Préparer le PC : Node.js, `npm install` (**1.1**).
+2. Créer la clé d'envoi et la sauvegarder à 2 endroits (**4.1**, **4.2**).
+3. Fabriquer une première fois l'APK de test sur ton téléphone (**4.4**, **6.2**) : cela crée aussi la clé de débogage.
+4. Lire les deux empreintes SHA-1 (**4.5**).
+5. Ajouter l'application Android dans Firebase, télécharger `google-services.json` et me le donner (**5.1**, **5.2**).
+6. Refaire l'APK, tester sur le téléphone (**5.3**, **6.3**, **6.4**).
+7. Fabriquer l'AAB signé et l'envoyer en test interne dans la Play Console (**4.4**).
+8. Après ce premier envoi : ajouter la 3e empreinte (signature Google Play) dans Firebase (**5.4**).
+
 ---
 
 ## 0. Exigences de Google Play (vérifiées le 04/10/2026)
@@ -259,3 +269,71 @@ Play Store ont donc une application signée par Google : il faut aussi son empre
 2. Copie la **SHA-1** du « **Certificat de la clé de signature de l'application** » (pas celle du « certificat de la clé d'importation »,
    qui est ta clé d'envoi, déjà ajoutée).
 3. Ajoute-la dans Firebase (5.1, étape 5) et retélécharge `google-services.json`, puis envoie une nouvelle version (versionCode + 1).
+
+---
+
+## 6. Tests
+
+### 6.1 Ce que j'ai vérifié de mon côté (04/10/2026)
+Sans émulateur Android possible ici (SDK bloqué), le jeu a été testé dans Chromium **en se faisant passer pour l'application** (un faux
+`window.Capacitor` qui envoie les mêmes évènements que le vrai : Retour, arrière-plan, vibrations…), en 360 × 640 et 390 × 800 :
+
+| Point | Résultat |
+|---|---|
+| Premier lancement sans Internet | prologue puis leçon, aucune erreur ; seules les 4 requêtes vers Firebase échouent |
+| Récompenses du jour hors connexion | « À récupérer dès que la connexion revient » |
+| Bouton Retour | Réglages fermés ; onglet Jouer → application en arrière-plan ; en partie → « Quitter la partie ? » ; Retour sur la question → on continue ; en Duel → information |
+| Arrière-plan / retour | musique et sons coupés puis repris |
+| Vibrations | par Haptics (40 ms puis 70 ms) ; rien avec « Vibrations : Non » |
+| Liens des Réglages | ouverts par Browser à `https://cronos2a.github.io/trois-signes/legal/…`, le jeu reste affiché |
+| Outils de développement | aucun dans les Réglages, même avec `test.autorise` forcé à `true` et l'adresse `localhost` |
+| Boutique | « Bientôt » sur les pubs, les packs de gemmes et Sans publicité |
+| Rotation | paysage → « Tourne ton téléphone » ; retour en portrait → le jeu reprend |
+| Zones sûres simulées | grand écran 412 × 915 (encoche 48 px, barre 34 px) et petit 360 × 640 (24 px, barre à 3 boutons 48 px) : bandeau du combat et boutons sous l'encoche et au-dessus de la barre ; sur le petit écran, le bas du lobby défile |
+| Duel entre amis (application contre navigateur, émulateur Firebase) | arrière-plan 12 s → l'autre voit « Ton adversaire est déconnecté : 22 s », le Duel continue ; application fermée puis rouverte 10 s après → retour direct dans le Duel ; arrière-plan 36 s → DÉFAITE « Tu as été déconnecté plus de 30 s » / VICTOIRE pour l'autre |
+| Fluidité, processeur 4 fois plus lent | mesurée le 03/10 : 60 images/s en combat et pendant les séquences de fin |
+
+**Pas vérifiable ici, à faire sur ton téléphone** (6.3) : la compilation elle-même, le vrai sélecteur Google, les vraies vibrations, le son,
+le verrouillage réel de l'écran et la fermeture par Android.
+
+### 6.2 Installer l'APK sur ton Samsung
+1. Sur le téléphone, le **débogage USB** est déjà activé (Paramètres → Options de développement).
+2. Branche le téléphone en USB et **déverrouille-le**. La première fois, une fenêtre « Autoriser le débogage USB ? » apparaît sur le
+   téléphone : coche « Toujours autoriser sur cet ordinateur » → **Autoriser**.
+3. Sur le PC : `tools\android\apk.ps1`. À la fin : `Installé et lancé sur le téléphone : Three Signs.` L'icône Three Signs apparaît sur le
+   téléphone et le jeu s'ouvre (écran vert foncé avec le logo, puis le prologue au premier lancement).
+4. Si `Aucun téléphone` : débranche/rebranche, choisis le mode USB « Transfert de fichiers » dans la notification du téléphone, accepte la
+   fenêtre de débogage, relance. Si `INSTALL_FAILED_UPDATE_INCOMPATIBLE` : une version signée autrement est déjà installée → désinstalle
+   Three Signs du téléphone (appui long sur l'icône → Désinstaller), relance.
+5. Sans câble : copie `android\app\build\outputs\apk\debug\app-debug.apk` sur le téléphone et ouvre-le (Android demandera d'autoriser
+   « Installer des applications inconnues » pour l'application Fichiers).
+
+### 6.3 Liste de vérification sur le téléphone
+- [ ] **Premier lancement** : écran de démarrage vert + logo, prologue, leçon, pseudo.
+- [ ] **Hors connexion** : mode avion, ferme et rouvre le jeu : le lobby s'affiche, un Voyage se joue ; Réglages → Compte « hors connexion ».
+- [ ] **Connexion Google** (après l'étape 5) : Réglages → Compte → « Sauvegarder ma progression avec Google » → sélecteur Android.
+- [ ] **Bouton Retour** (geste ou bouton) : ferme les menus ; en partie « Quitter la partie ? » ; en Duel le message d'information ;
+      sur l'onglet Jouer, l'application passe en arrière-plan.
+- [ ] **Rotation** : le jeu reste en portrait (rotation automatique activée sur le téléphone).
+- [ ] **Audio** : musique et sons ; appuie sur le bouton d'accueil : le son s'arrête ; reviens : il reprend.
+- [ ] **Vibrations** : un combo en Voyage, ou un KO, fait vibrer ; « Vibrations : Non » dans les Réglages : plus rien.
+- [ ] **Récompenses de connexion** : fenêtre du jour, « Récupérer ».
+- [ ] **Duel entre amis** avec un autre appareil (ou le site sur le PC) : pendant une vague, ferme l'application (bouton des applications
+      récentes → balaie Three Signs), rouvre-la avant 30 s : retour dans le Duel. Recommence en attendant plus de 30 s : « Tu as été
+      déconnecté plus de 30 s ».
+- [ ] **Fluidité** : un Voyage jusqu'au gardien sans saccade.
+- [ ] **Liens** : Réglages → « Politique de confidentialité » s'ouvre dans un navigateur intégré (le site doit être publié).
+
+### 6.4 Vérifier l'APK (permissions et 16 Ko)
+```
+tools\android\verifier.ps1
+```
+Tu dois voir la liste des permissions : `android.permission.INTERNET`, `android.permission.VIBRATE`, et peut-être
+`android.permission.ACCESS_NETWORK_STATE` et une permission `…DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` (ajoutées par les bibliothèques
+Google, sans demande au joueur). Puis `Verification successful` pour l'alignement et
+`Aucune bibliothèque native (.so) : compatible 16 Ko d'office.` Envoie-moi cette sortie : je l'ajouterai au manifeste final ci-dessus.
+
+### 6.5 Si je dois compiler moi-même un jour
+Mon environnement bloque `dl.google.com`. Pour que je puisse compiler et vérifier l'APK de mon côté, il faudrait ajouter `dl.google.com`
+aux domaines autorisés de l'environnement (réglages de l'environnement dans Claude, « Network access »). La signature, elle, restera
+toujours sur ton PC.
