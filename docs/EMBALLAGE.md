@@ -226,6 +226,11 @@ Tu dois voir deux blocs, chacun avec une ligne verte `SHA-1   : …` et une lign
 Je ne peux pas te donner ces empreintes moi-même : les deux clés sont créées sur ton PC (et doivent y rester). Envoie-moi les deux lignes
 `SHA-1` si tu veux que je les note dans `AVANT_PUBLICATION.md` (une empreinte n'est pas un secret).
 
+### 4.6 Les scripts PowerShell n'ont jamais tourné chez moi
+Mon environnement n'a pas PowerShell : `cle.ps1`, `apk.ps1`, `aab.ps1`, `empreintes.ps1` et `verifier.ps1` ont été relus, et les commandes
+qu'ils lancent (keytool…) testées à part, mais **les scripts eux-mêmes n'ont été lancés que sur ton PC**. Si l'un d'eux affiche une erreur
+rouge, copie-moi tout le texte affiché.
+
 ---
 
 ## 5. Firebase pour l'application Android (connexion Google native)

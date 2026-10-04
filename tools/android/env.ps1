@@ -32,7 +32,8 @@ function Read-Secret($prompt) {
 # (20 ou 32 paires hexadécimales séparées par « : »), quelle que soit la langue de ses libellés (« SHA1: », « SHA 1: »…).
 function Get-Fingerprints([string]$store, [string]$alias, [string]$pass) {
   $ErrorActionPreference = 'Continue'                         # keytool peut écrire sur stderr sans que ce soit une erreur
-  $out = (& keytool -J-Duser.language=en -J-Duser.country=US -list -v -keystore $store -alias $alias -storepass $pass 2>&1 | Out-String)
+  # Arguments entre guillemets : sans eux, PowerShell coupe « -J-Duser.language=en » au point (« Option non admise : .language=en »).
+  $out = (& keytool "-J-Duser.language=en" "-J-Duser.country=US" -list -v -keystore $store -alias $alias -storepass $pass 2>&1 | Out-String)
   $hex = '(?<![0-9A-Fa-f:])((?:[0-9A-Fa-f]{2}:){N}[0-9A-Fa-f]{2})(?![0-9A-Fa-f:])'
   $sha1 = [regex]::Match($out, $hex.Replace('N', '19'))
   $sha256 = [regex]::Match($out, $hex.Replace('N', '31'))
@@ -59,7 +60,7 @@ function Done($t) { Write-Host $t -ForegroundColor Green }
 function Sync-Web {
   Step "Préparation du jeu (www) et copie dans android"
   Push-Location $Root
-  try { node tools/android/build-www.mjs; if ($LASTEXITCODE) { throw "build-www a échoué" }
+  try { node "tools/android/build-www.mjs"; if ($LASTEXITCODE) { throw "build-www a échoué" }
         npx cap sync android; if ($LASTEXITCODE) { throw "cap sync a échoué" } }
   finally { Pop-Location }
 }

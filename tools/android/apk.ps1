@@ -15,5 +15,5 @@ Step "Installation sur le téléphone"
 $devices = & $Adb devices | Select-String "`tdevice$"
 if (-not $devices) { throw "Aucun téléphone : branche-le en USB, déverrouille-le et accepte « Autoriser le débogage USB ». Puis relance." }
 & $Adb install -r $apk; if ($LASTEXITCODE) { throw "Installation refusée (voir docs/EMBALLAGE.md 6.2)." }
-& $Adb shell monkey -p com.cronos2a.troissignes -c android.intent.category.LAUNCHER 1 | Out-Null
+& $Adb shell monkey -p "com.cronos2a.troissignes" -c "android.intent.category.LAUNCHER" 1 | Out-Null
 Done "Installé et lancé sur le téléphone : Three Signs."
