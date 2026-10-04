@@ -9,10 +9,30 @@ docs/*.pdf
 # Emballage Android (docs/EMBALLAGE.md)
 node_modules/
 www/
-*.jks
-*.keystore
-keystore.properties
+android/build/
+android/app/build/
+android/app/release/
+android/app/debug/
+android/.gradle/
+android/local.properties
 android/app/google-services.json.bak
 
-# AAB copiés par tools/android/aab.ps1
-three-signs-*.aab
+# Applications fabriquées (APK, AAB : three-signs-*.aab copiés par tools/android/aab.ps1), où qu'elles soient
+*.apk
+*.aab
+*.apks
+*.idsig
+
+# Clés de signature et leurs réglages : JAMAIS dans le dépôt (la clé d'envoi vit dans %USERPROFILE%\.three-signs\)
+.three-signs/
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pepk
+*.pem
+*.der
+keystore.properties
+key.properties
+signing.properties
+upload_certificate.*
