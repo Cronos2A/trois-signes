@@ -214,3 +214,48 @@ Tu dois voir deux blocs, chacun avec une ligne `SHA1:` :
 
 Je ne peux pas te donner ces empreintes moi-même : les deux clés sont créées sur ton PC (et doivent y rester). Envoie-moi les deux lignes
 `SHA1` si tu veux que je les note dans `AVANT_PUBLICATION.md` (une empreinte n'est pas un secret).
+
+---
+
+## 5. Firebase pour l'application Android (connexion Google native)
+
+Dans l'application, le jeu garde le même Firebase que sur le web (compte anonyme, sauvegarde, Duel) ; seule la **fenêtre Google** change :
+c'est le sélecteur de comptes d'Android (module `@capacitor-firebase/authentication`), puis le compte est relié comme sur le web.
+Pour que Google accepte, Firebase doit connaître **le nom du paquet** et **l'empreinte SHA-1** de la clé qui a signé l'application.
+
+### 5.1 Ajouter l'application Android dans la console Firebase
+1. Va sur [console.firebase.google.com](https://console.firebase.google.com) → projet **trois-signes**.
+2. Roue dentée (en haut à gauche) → **Paramètres du projet** → onglet **Général** → en bas, **Vos applications** → **Ajouter une application**
+   → l'icône **Android**.
+3. **Nom du package Android** : `com.cronos2a.troissignes` (exactement). **Pseudo de l'application** : `Three Signs`.
+   **Certificat de signature SHA-1** : colle la ligne SHA1 de la clé de **débogage** (`tools\android\empreintes.ps1`, étape 4.5).
+   → **Enregistrer l'application**.
+4. Écran « Télécharger le fichier de configuration » : clique **Télécharger google-services.json**. Ignore les étapes suivantes de
+   l'assistant (« Ajouter le SDK Firebase ») : c'est déjà fait. Clique **Suivant** jusqu'à **Accéder à la console**.
+5. Retourne dans **Paramètres du projet** → ta nouvelle application Android → **Ajouter une empreinte** : colle la SHA1 de la clé
+   d'**envoi**. Tu dois voir deux empreintes SHA-1 dans la liste.
+6. **Authentication** → **Méthode de connexion** : **Google** doit être **Activé** (c'est déjà le cas pour le web), **Anonyme** aussi.
+7. Après l'ajout des empreintes, **retélécharge** `google-services.json` (même bouton, dans la fiche de l'application Android) :
+   il contient alors le client OAuth dont la connexion Google a besoin (`default_web_client_id`).
+
+### 5.2 Me donner le fichier
+- **Le plus simple** : dépose `google-services.json` dans `android\app\` (à côté de `build.gradle`), puis commit et push
+  (ou envoie-le-moi dans la conversation et je le mets à sa place). Ce fichier n'est pas un secret : il contient les mêmes identifiants
+  publics que `data/online.json`.
+- Sans ce fichier, l'application se compile et tout marche **sauf** la connexion Google (le jeu affiche une erreur à ce moment-là).
+
+### 5.3 Essayer sur ton téléphone
+1. `tools\android\apk.ps1` (APK de test, signé par la clé de débogage).
+2. Dans le jeu : Réglages → Compte → **Sauvegarder ma progression avec Google**. Tu dois voir le **sélecteur de comptes Google d'Android**
+   (une fenêtre qui monte du bas, avec tes comptes), choisir ton compte, puis revenir dans le jeu avec « Progression sauvegardée avec Google ».
+3. Si un message parle de « DEVELOPER_ERROR », « code 10 » ou « No credentials available » : l'empreinte SHA-1 de la clé de débogage manque
+   dans Firebase, ou `google-services.json` n'a pas été retéléchargé après l'ajout. Refais 5.1 (étapes 5 et 7), recompile.
+
+### 5.4 Après le premier envoi dans la Play Console : une 3e empreinte
+Google re-signe l'application avec **sa propre clé** (« clé de signature de l'application »). Les joueurs qui installent depuis le
+Play Store ont donc une application signée par Google : il faut aussi son empreinte.
+1. Play Console → **Three Signs** → **Tester et publier** → **Configuration** → **Intégrité de l'application** → onglet
+   **Signature de l'application**.
+2. Copie la **SHA-1** du « **Certificat de la clé de signature de l'application** » (pas celle du « certificat de la clé d'importation »,
+   qui est ta clé d'envoi, déjà ajoutée).
+3. Ajoute-la dans Firebase (5.1, étape 5) et retélécharge `google-services.json`, puis envoie une nouvelle version (versionCode + 1).
