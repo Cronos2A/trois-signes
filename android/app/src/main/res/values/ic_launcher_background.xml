@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Généré par tools/android/icons.mjs : couleur du fond de l'écran de démarrage et de l'icône. -->
 <resources>
-    <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="ic_launcher_background">#174A28</color>
+    <color name="splash_background">#174A28</color>
 </resources>

@@ -114,3 +114,19 @@ Tout est dans `src/native.js` (rien ne s'y exécute sur le web) et `src/game/lif
 | SDK | min 24 (Android 7), cible 36 (Android 16) |
 
 Pour vérifier le manifeste réellement fusionné après compilation : étape 6.4.
+
+---
+
+## 3. Icône et écran de démarrage
+
+- **Source unique** : `assets/icone-app/icone.svg` (icône provisoire : le rond jaune, le triangle orange et le point du toucher, sur un fond
+  vert foncé facetté, contours épais comme dans le jeu). Mode d'emploi : `assets/icone-app/LISEZMOI.md`.
+- **Tout est régénéré** par `npm run icons` (`tools/android/icons.mjs`) : icône adaptative (fond + logo + icône monochrome pour le thème
+  d'Android 13), icônes rondes et carrées des anciens Android, écran de démarrage d'Android 12+ (fond vert foncé `#174A28` + logo) et
+  d'Android 7 à 11 (image plein écran), et l'icône 512 × 512 de la fiche Play Store (`assets/icone-app/sortie/`).
+- **Quand tu auras la vraie icône** : remplace `icone.svg` (ou dépose un `icone.png` de 1024 × 1024), puis dans PowerShell :
+  ```
+  npm run icons
+  ```
+  Tu dois voir : `Icône et écran de démarrage régénérés depuis assets/icone-app/icone.svg.` Puis recompile l'application.
+- L'écran de démarrage disparaît dès que le lobby est prêt (au plus 5 s).

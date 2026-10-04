@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Icône PROVISOIRE de Three Signs (style Organic : low-poly, contours épais #15301E).
+       Deux calques lus par tools/android/icons.mjs : id="fond" (arrière-plan de l'icône adaptative, plein cadre)
+       et id="logo" (premier plan : garder le dessin dans le cercle central de 66 % du côté, zone sûre d'Android).
+       Pour la vraie icône : remplace ce fichier (mêmes id) puis lance « npm run icons ». Voir assets/icone-app/LISEZMOI.md. -->
+  <g id="fond">
+    <rect width="1024" height="1024" fill="#174A28"/>
+    <polygon points="0,0 420,0 180,360" fill="#1D5A31"/>
+    <polygon points="420,0 1024,0 760,300" fill="#1A5230"/>
+    <polygon points="1024,0 1024,520 760,300" fill="#215F35"/>
+    <polygon points="0,0 180,360 0,620" fill="#1A5230"/>
+    <polygon points="0,620 260,1024 0,1024" fill="#1D5A31"/>
+    <polygon points="1024,520 1024,1024 700,1024" fill="#1A5230"/>
+    <polygon points="180,360 420,0 760,300 512,512" fill="#1B5631"/>
+    <polygon points="0,620 180,360 512,512 260,1024" fill="#164625"/>
+    <polygon points="512,512 760,300 1024,520 700,1024" fill="#174A28"/>
+    <polygon points="260,1024 512,512 700,1024" fill="#1B5631"/>
+  </g>
+  <g id="logo" stroke="#15301E" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Rond (esquiver) -->
+    <circle cx="512" cy="512" r="232" fill="none" stroke="#15301E" stroke-width="92"/>
+    <circle cx="512" cy="512" r="232" fill="none" stroke="#FFD23F" stroke-width="56"/>
+    <!-- Triangle (attaquer), avec son ombre portée -->
+    <polygon points="512,350 662,606 362,606" fill="#15301E" stroke-width="36" transform="translate(0 16)"/>
+    <polygon points="512,350 662,606 362,606" fill="#FF8C32" stroke-width="36"/>
+    <polygon points="512,368 512,594 380,594" fill="#FFA95E" stroke="none"/>
+    <!-- Toucher (ramasser) -->
+    <circle cx="694" cy="330" r="46" fill="#FFF6E5" stroke-width="22"/>
+  </g>
+</svg>
