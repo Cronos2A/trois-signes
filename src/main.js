@@ -31,7 +31,8 @@ import { initWallet } from './online/wallet.js';
 import { serverPrints } from './online/ranked.js';
 import { onOnlineChange } from './online/online.js';
 import { openRanking } from './ui/ranking-ui.js';
-import { initBack, setLeave } from './ui/back.js';
+import { initBack, setLeave, onBack } from './ui/back.js';
+import { initNative, hideSplash } from './native.js';
 import { initOrientation } from './ui/orient.js';
 import { ensurePseudo, askDamagedSave } from './ui/account-ui.js';
 import { initStory, openStory, maybePrologue, replayStoryEnd } from './story/story.js';
@@ -446,6 +447,7 @@ async function init() {
   initStory({ startBattle: opts => start('play', opts), toLobby: showLobby });
   $('quit').onclick = () => { sfx('ui_clic'); askLeave(); };
   initBack(); setLeave(askLeave);           // bouton Retour du téléphone (ui/back.js) : même confirmation que « Quitter »
+  initNative({ back: onBack });            // application Android : Retour, arrière-plan, liens, barre d'état (src/native.js)
   initOrientation();                       // portrait seulement (ui/orient.js)
   // Bouton de super : réagit dès l'appui, et l'appui n'atteint jamais le canvas (pas de tap ni de tracé).
   $('superBtn').addEventListener('pointerdown', e => {
@@ -458,6 +460,7 @@ async function init() {
   setTimeout(() => prepareArt(activeCharacter(), idleBattle()).catch(() => {}), 50);
   if (document.fonts) document.fonts.load('60px Caprasimo').catch(() => {});
   window.__tsReady = true;
+  hideSplash();                            // application Android : l'écran de démarrage laisse place au lobby
   requestAnimationFrame(loop);
   // Sauvegarde de l'appareil endommagée : le jeu a démarré sur une progression neuve ; le joueur choisit
   // de récupérer sa sauvegarde en ligne ou de repartir à zéro (rien n'est écrit ni envoyé avant ce choix).

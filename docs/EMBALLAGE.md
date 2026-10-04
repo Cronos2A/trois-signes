@@ -70,3 +70,47 @@ l'envoi, c'est elle qui a raison : dis-le-moi.
 
 Le Java et le SDK Android sont trouvés tout seuls par les scripts : le Java fourni avec Android Studio
 (`C:\Program Files\Android\Android Studio\jbr`) et ton SDK (`C:\Users\croga\AppData\Local\Android\Sdk`).
+
+---
+
+## 2. Comportement dans l'application (déjà fait dans le code)
+
+Tout est dans `src/native.js` (rien ne s'y exécute sur le web) et `src/game/lifecycle.js` :
+
+- **Bouton Retour** : la même logique que sur le web (`src/ui/back.js`). En partie : « Quitter la partie ? » ; en Duel : l'information
+  « Impossible de quitter un Duel en cours… » ; dans un menu : il le ferme ; sur l'onglet Jouer sans rien d'ouvert : l'application passe en
+  arrière-plan (comme toute application Android).
+- **Arrière-plan, écran verrouillé, fermeture** : la musique et les sons sont coupés, et repris au retour. En Duel, la règle d'absence de
+  30 s s'applique : un dernier signe de vie part au passage en arrière-plan ; au retour avant 30 s, le Duel continue ; après, c'est la défaite.
+  Si l'application est fermée (balayée), le Duel est repris à la réouverture (ou son résultat est montré une fois).
+- **Vibrations** : par le module Haptics, seulement si « Vibrations : Oui » dans les Réglages.
+- **Portrait verrouillé** ; barre d'état et barre de navigation transparentes, le jeu se place dans les **zones sûres** (encoche comprise).
+  Sur les grandes tablettes, Android 16 peut ignorer le verrouillage : l'écran « Tourne ton téléphone » du jeu prend alors le relais.
+- **Liens des Réglages et des Crédits** (confidentialité, conditions, suppression du compte) : ouverts dans le navigateur intégré, à
+  l'adresse publique `https://cronos2a.github.io/trois-signes/legal/…` (`data/version.json → legalBase`) — les pages ne sont pas dans
+  l'application. **Le site doit donc être publié** (voir `AVANT_PUBLICATION.md`).
+- **Outils de développement coupés** : dans l'application, l'adresse interne est `https://localhost`, mais le mode test (Réglages de test,
+  +1000 or, jour simulé…) et les fausses pubs sont **toujours coupés** dès que le jeu tourne dans l'application native, même si
+  `test.autorise` valait `true` (vérifié). Et le script de build refuse de fabriquer l'application si `test.autorise` vaut `true`.
+- **Pubs et achats pas encore branchés** : boutons de pub de la boutique (« +5 gemmes », « Coffre gratuit »), packs de gemmes et
+  « Sans publicité » affichent **« Bientôt »** et ne donnent rien. « Doubler l'or », la pub du jour et la Seconde chance restent masqués,
+  comme sur le site.
+- **Sécurité réseau** : trafic non chiffré (`http://`) interdit (`usesCleartextTraffic="false"` et `network_security_config.xml`).
+- **Sauvegarde** : la progression est gardée dans la WebView de l'application (`localStorage`, `ts_prog`) et survit à la fermeture et au
+  redémarrage du téléphone ; elle est aussi envoyée au serveur (Firebase). **À la désinstallation**, Android efface tout ce que l'application
+  avait sur le téléphone, y compris le compte anonyme : la progression n'est retrouvée que si elle était **sauvegardée avec Google**
+  (Réglages → Compte → « Sauvegarder ma progression avec Google »), puis « Se connecter avec Google » après réinstallation. La sauvegarde
+  automatique d'Android est désactivée exprès (`allowBackup="false"`), pour ne jamais restaurer un vieux compte anonyme à moitié.
+
+### Manifeste final (`android/app/src/main/AndroidManifest.xml`)
+
+| Élément | Valeur |
+|---|---|
+| Permissions | `INTERNET` (Firebase) ; `VIBRATE` ajoutée par le module Haptics (aucune demande au joueur). **Rien d'autre.** |
+| Retirées de force | identifiant publicitaire (`AD_ID`, `ACCESS_ADSERVICES_*`), localisation, notifications (`tools:node="remove"`) |
+| Activité | une seule, `MainActivity`, portrait (`screenOrientation="portrait"`), `singleTask` |
+| Réseau | `usesCleartextTraffic="false"`, `networkSecurityConfig` (https seulement) |
+| Sauvegarde Android | `allowBackup="false"`, `fullBackupContent="false"`, `dataExtractionRules` : rien n'est copié |
+| SDK | min 24 (Android 7), cible 36 (Android 16) |
+
+Pour vérifier le manifeste réellement fusionné après compilation : étape 6.4.

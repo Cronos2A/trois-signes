@@ -15,6 +15,7 @@ import { applyRanked, stale } from '../online/ranked.js';
 import { showWait, hideWait, showBanner, showResult, showWaitResult } from '../ui/duel-ui.js';
 import { prog, saveProg } from './progress.js';
 import { sfx } from '../audio/audio.js';
+import { onLifecycle, appHidden } from './lifecycle.js';
 import { arenaOf, applyDuelResult } from './duel-rank.js';
 import { testMode } from './economy.js';
 import { tr, ofName, nf, nfi } from '../i18n.js';
@@ -189,7 +190,7 @@ export async function startDuel(room, char, resume = null) {
     if (S.disconnected) return { win: 'me', why: 'disconnect' };
     return null;
   };
-  const stop = () => { clearInterval(beat); clearInterval(watchdog); document.removeEventListener('visibilitychange', onVisible); removeEventListener('pagehide', onHide); };
+  const stop = () => { clearInterval(beat); clearInterval(watchdog); offLife(); removeEventListener('pagehide', onHide); };
   /** Issue décidée : enregistrée tout de suite (Empreintes, salon, sauvegarde), puis séquence de fin et fiche. */
   const finish = r => {
     if (S.ended || !r) return;
@@ -233,14 +234,15 @@ export async function startDuel(room, char, resume = null) {
       if (!S.ended && playing()) meOut();                           // refusé : absent trop longtemps, l'entrée est figée
     });
   };
-  // Écran verrouillé, application en arrière-plan : plus de signe de vie (l'adversaire voit le compte à rebours).
-  const onVisible = () => {
+  // Écran verrouillé, application en arrière-plan (game/lifecycle.js : web et Android) : plus de signe de vie (l'adversaire voit
+  // le compte à rebours) ; au retour, défaite si l'absence a dépassé absence_max_s, sinon le Duel continue.
+  const onVisible = state => {
     if (S.ended) return;
-    if (document.visibilityState === 'hidden') { beatNow(); return; }
+    if (state === 'hidden') { beatNow(); return; }
     selfCheck();
     if (!S.ended) beatNow();
   };
-  document.addEventListener('visibilitychange', onVisible);
+  const offLife = onLifecycle(onVisible);
   const onHide = () => { if (!S.ended) beatNow(); };                // application fermée : dernier score et PV envoyés si possible
   addEventListener('pagehide', onHide);
   const isAway = p => !!p && !!p.ready && !(p.done || p.ko != null);
@@ -255,7 +257,7 @@ export async function startDuel(room, char, resume = null) {
     if (waiting) waiting();
     check();
   });
-  beat = setInterval(() => { if (document.visibilityState !== 'hidden') beatNow(); }, DU().heartbeatSeconds * 1000);
+  beat = setInterval(() => { if (!appHidden()) beatNow(); }, DU().heartbeatSeconds * 1000);
   watchdog = setInterval(() => { selfCheck(); check(); }, 1000);
 
   /** Fin de la vague i : score de la vague, envoyé au serveur. */

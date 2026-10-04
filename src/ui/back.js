@@ -9,6 +9,7 @@
 import { G } from '../game/state.js';
 import { quitOpen, quitStay } from './quit-confirm.js';
 import { panelOpen, panelBack } from './end-seq.js';
+import { isNative } from '../native.js';
 
 const $ = id => document.getElementById(id);
 const shown = el => !!el && !el.classList.contains('hidden') && getComputedStyle(el).display !== 'none';
@@ -19,8 +20,8 @@ let leave = () => Promise.resolve(false);
 /** main.js fournit l'action « Quitter » (confirmation puis retour au lobby). */
 export function setLeave(fn) { leave = fn; }
 
-/** Un Retour : true s'il a été traité (on reste dans le jeu), false pour laisser quitter. */
-function onBack() {
+/** Un Retour : true s'il a été traité (on reste dans le jeu), false pour laisser quitter. Aussi appelé par src/native.js (Android). */
+export function onBack() {
   if (quitOpen()) { quitStay(); return true; }                                     // « Retour » sur la confirmation = continuer
   if (panelOpen()) { panelBack(); return true; }                                   // panneau de fin : « Continuer » s'il est proposé
   if (shown($('testAd'))) return true;                                               // publicité en cours : on attend
@@ -63,6 +64,7 @@ function onBack() {
 
 /** À appeler une fois au démarrage. */
 export function initBack() {
+  if (isNative()) return;                                                            // Android : évènement Retour de Capacitor (native.js)
   try {
     history.pushState({ ts: 'garde' }, '');
     addEventListener('popstate', () => {

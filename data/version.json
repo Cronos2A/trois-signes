@@ -1,9 +1,10 @@
 {
-  "note": "Version du jeu, affichée dans les Réglages et l'écran Crédits. À augmenter à chaque publication : version (lisible, x.y.z) et build (entier qui ne fait que monter, = versionCode de l'application Android). contact : adresse e-mail de contact (Crédits, page legal/supprimer-mon-compte.html) ; tant qu'elle n'est pas une vraie adresse, elle n'est pas affichée dans le jeu.",
+  "note": "Version du jeu, affichée dans les Réglages et l'écran Crédits. À augmenter à chaque publication : version (lisible, x.y.z) et build (entier qui ne fait que monter, = versionCode de l'application Android). contact : adresse e-mail de contact (Crédits, page legal/supprimer-mon-compte.html) ; tant qu'elle n'est pas une vraie adresse, elle n'est pas affichée dans le jeu. legal : pages légales (relatives : le site) ; legalBase : adresse du site publié, utilisée dans l'application Android (les pages n'y sont pas).",
   "version": "0.9.0",
   "build": 1,
   "date": "2026-10-01",
   "studio": "Cronos2A",
   "contact": "cronos2a.jeux@gmail.com",
+  "legalBase": "https://cronos2a.github.io/trois-signes/",
   "legal": { "privacy": "legal/politique-de-confidentialite.html", "terms": "legal/conditions-utilisation.html", "deleteAccount": "legal/supprimer-mon-compte.html" }
 }

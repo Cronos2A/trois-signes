@@ -4,6 +4,7 @@
 // Tant qu'un fichier manque, un son provisoire est synthétisé (audio/synth.js) : jamais d'erreur ni de silence.
 // Effets chargés au démarrage, musiques à la demande. Audio débloqué au premier toucher (mobile),
 // coupé quand l'application passe en arrière-plan et repris au retour.
+import { onLifecycle, appHidden } from '../game/lifecycle.js';
 import { D } from '../data.js';
 import { settings, onSettings } from '../game/settings.js';
 import * as S from './synth.js';
@@ -45,7 +46,7 @@ export function initAudio() {
 
   // Déblocage au premier toucher (obligatoire sur iPhone et Android).
   const unlock = () => {
-    if (document.hidden) return;
+    if (appHidden()) return;
     ctx.resume().then(() => {
       if (ctx.state !== 'running') return;
       unlocked = true;
@@ -57,12 +58,13 @@ export function initAudio() {
   const EV = ['pointerdown', 'touchend', 'click', 'keydown'];
   for (const t of EV) addEventListener(t, unlock, true);
 
-  // Arrière-plan : on coupe tout, on reprend au retour.
+  // Arrière-plan (onglet caché, écran verrouillé, application en arrière-plan : game/lifecycle.js) : on coupe tout,
+  // on reprend au retour.
   const vis = () => {
-    if (document.hidden) { traceStop(); ctx.suspend().catch(() => {}); }
+    if (appHidden()) { traceStop(); ctx.suspend().catch(() => {}); }
     else if (unlocked) ctx.resume().catch(() => {});
   };
-  document.addEventListener('visibilitychange', vis);
+  onLifecycle(vis);
   addEventListener('pagehide', () => ctx.suspend().catch(() => {}));
   addEventListener('pageshow', vis);
 }

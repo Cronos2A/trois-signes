@@ -1,6 +1,7 @@
 // Lobby (onglets Jouer / Personnage / Boutique) et fenêtre de résultats.
 // Recréé d'après la maquette Claude Design design/trois-signes-maquette-lobby,
 // portraits tirés de la planche design/planche-de-personnages-trois-signes.
+import { isNative } from '../native.js';
 import { prints as duelPrints, arenaIndex as duelArena, arenaOf as duelArenaOf } from '../game/duel-rank.js';
 import { D } from '../data.js';
 import { prog, heroLevel, saveActive } from '../game/progress.js';
@@ -391,8 +392,11 @@ function langHtml() {
 /** Version du jeu (data/version.json) ; adresse de contact seulement si c'est une vraie adresse e-mail. */
 const versionText = () => tr('about.version', { v: D.version.version, build: D.version.build });
 /** Liens vers les pages légales (data/version.json → legal), ouvertes dans un nouvel onglet. */
+// Application Android : les pages légales ne sont pas dans l'application ; adresse publique (version.json → legalBase), ouverte
+// par le navigateur intégré (src/native.js → Browser).
+const legalUrl = page => (isNative() ? new URL(D.version.legal[page], D.version.legalBase).href : D.version.legal[page]);
 const legalLinks = () => `<div class="set-legal">${[['privacy', 'privacy'], ['terms', 'terms'], ['deleteAccount', 'deletePage']]
-  .map(([page, key]) => `<a href="${D.version.legal[page]}" target="_blank" rel="noopener">${tr('about.' + key)}</a>`).join('')}</div>`;
+  .map(([page, key]) => `<a href="${legalUrl(page)}" target="_blank" rel="noopener">${tr('about.' + key)}</a>`).join('')}</div>`;
 const contactMail = () => (/^[^\s@\[\]]+@[^\s@\[\]]+\.[^\s@\[\]]+$/.test(D.version.contact || '') ? D.version.contact : '');
 function renderCredits() {
   const C = D.credits, mail = contactMail();
