@@ -13,3 +13,6 @@ www/
 *.keystore
 keystore.properties
 android/app/google-services.json.bak
+
+# AAB copiés par tools/android/aab.ps1
+three-signs-*.aab

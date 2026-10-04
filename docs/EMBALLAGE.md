@@ -130,3 +130,87 @@ Pour vérifier le manifeste réellement fusionné après compilation : étape 6.
   ```
   Tu dois voir : `Icône et écran de démarrage régénérés depuis assets/icone-app/icone.svg.` Puis recompile l'application.
 - L'écran de démarrage disparaît dès que le lobby est prêt (au plus 5 s).
+
+---
+
+## 4. Signature, versions, APK et AAB
+
+### 4.1 Créer la clé d'envoi (une seule fois dans la vie du jeu)
+
+La **clé d'envoi** (« upload key ») prouve à Google que c'est bien toi qui envoies une nouvelle version. Google garde de son côté la vraie
+clé de signature de l'application (« signature d'application par Google Play ») : si tu perdais ta clé d'envoi, Google peut la remplacer,
+mais c'est long. **Elle ne va jamais dans le dépôt GitHub** (les fichiers `*.jks` sont refusés par `.gitignore`).
+
+1. **Prépare le mot de passe AVANT** : invente un mot de passe long (au moins 12 caractères) et **note-le dans ton gestionnaire de mots de
+   passe** (Bitwarden, le coffre de Google, ou une feuille rangée à part). Jamais dans un fichier du jeu, jamais dans un message.
+2. Dans PowerShell, dans le dossier du jeu :
+   ```
+   tools\android\cle.ps1
+   ```
+3. `keytool` pose des questions (en français si Windows est en français) :
+   - « Entrez le mot de passe du fichier de clés » : tape ton mot de passe (rien ne s'affiche, c'est normal), Entrée, puis une 2e fois ;
+   - « Quels sont vos nom et prénom ? » : `Cronos2A` (ou ton nom) ; unité, organisation, ville, région : ce que tu veux ;
+     « code pays » : `FR` ;
+   - « Est-ce CN=… correct ? » : `oui` ;
+   - s'il demande un mot de passe pour la clé `upload` : appuie sur Entrée (même mot de passe).
+4. Le script demande de **retaper le mot de passe** pour afficher les empreintes. Tu dois voir :
+   ```
+   Clé créée : C:\Users\croga\.three-signs\three-signs-upload.jks
+   SHA1: AB:CD:…:12
+   SHA256: …
+   ```
+   **Copie la ligne SHA1** : elle sert à l'étape 5.
+
+Le fichier `C:\Users\croga\.three-signs\keystore.properties` est créé à côté : il dit seulement où est la clé et son nom (`upload`),
+**sans mot de passe** (le mot de passe est demandé à chaque fabrication de l'AAB et n'est jamais écrit).
+
+### 4.2 Sauvegarder la clé en 2 endroits (obligatoire)
+
+Copie le dossier `C:\Users\croga\.three-signs` (il contient `three-signs-upload.jks`) :
+1. **sur une clé USB** (ou un disque externe) que tu ranges chez toi ;
+2. **dans un coffre en ligne** : Google Drive ou OneDrive, dans un dossier privé (le fichier est lui-même protégé par son mot de passe).
+
+Le mot de passe reste dans ton gestionnaire de mots de passe, **pas** à côté du fichier. Vérifie une fois que la copie s'ouvre :
+`tools\android\empreintes.ps1` doit afficher le même SHA1.
+
+### 4.3 Versions : `data/version.json`
+
+- `version` (ex. `0.9.0`) devient le **versionName** (le numéro affiché dans le Play Store et dans les Réglages du jeu).
+- `build` (ex. `1`) devient le **versionCode** : un entier que Google exige **plus grand à chaque envoi**.
+- **À chaque nouvel envoi à la Play Console** : ouvre `data/version.json`, ajoute 1 à `build` (1 → 2 → 3…), change `version` si tu
+  veux (ex. `0.9.1`), et mets à jour `date`. Puis fabrique l'AAB. `aab.ps1` affiche les deux numéros et demande confirmation.
+- Un APK de test peut être réinstallé sans changer ces numéros.
+
+### 4.4 Fabriquer l'APK de test et l'AAB
+
+**APK de test** (signé automatiquement avec la clé de débogage de ton PC, à installer sur ton téléphone) :
+```
+tools\android\apk.ps1
+```
+La première fois, compte **5 à 15 minutes** : Gradle télécharge ses outils et Android Studio peut ajouter « Android 16 (API 36) » au SDK.
+Tu dois voir à la fin : `APK prêt : …\app-debug.apk (≈ 40 Mo)`, puis `Installé et lancé sur le téléphone : Three Signs.`
+(installation détaillée à l'étape 6.2).
+
+**AAB de production signé** (pour la Play Console) :
+```
+tools\android\aab.ps1
+```
+1. Il affiche `Version : 0.9.0   versionCode : 1` : réponds `o` si c'est bien le numéro voulu.
+2. Il demande le **mot de passe de la clé d'envoi** (rien ne s'affiche quand tu tapes).
+3. À la fin : `jar verified.` puis `AAB prêt : C:\Jeux\trois-signes\three-signs-0.9.0-1.aab (≈ 35 Mo)`.
+   Ce fichier ne va pas dans GitHub (refusé par `.gitignore`).
+
+En cas d'erreur « licences non acceptées » ou « SDK platform 36 not found » : ouvre Android Studio → **More Actions** (ou File) →
+**SDK Manager** → onglet **SDK Platforms** → coche **Android 16 (API 36)** → **Apply** → accepte la licence. Puis relance le script.
+
+### 4.5 Empreintes SHA-1
+
+```
+tools\android\empreintes.ps1
+```
+Tu dois voir deux blocs, chacun avec une ligne `SHA1:` :
+- **clé de DÉBOGAGE** (`C:\Users\croga\.android\debug.keystore`, créée par la première compilation) : pour la connexion Google dans l'APK de test ;
+- **clé d'ENVOI** (demande son mot de passe) : pour l'AAB.
+
+Je ne peux pas te donner ces empreintes moi-même : les deux clés sont créées sur ton PC (et doivent y rester). Envoie-moi les deux lignes
+`SHA1` si tu veux que je les note dans `AVANT_PUBLICATION.md` (une empreinte n'est pas un secret).

@@ -5,6 +5,15 @@ import groovy.json.JsonSlurper
 //   version → versionName (x.y.z, affichée) ; build → versionCode (entier, +1 à chaque envoi à la Play Console).
 def gameVersion = new JsonSlurper().parse(rootProject.file('../data/version.json'))
 
+// Clé d'envoi (upload keystore) : JAMAIS dans le dépôt. Fichier de réglages hors du dépôt, par défaut
+// %USERPROFILE%\.three-signs\keystore.properties (ou le chemin de la variable TS_KEYSTORE_PROPS) :
+//   storeFile=C:/Users/.../three-signs-upload.jks
+//   keyAlias=upload
+// Mots de passe : variables TS_STORE_PASSWORD et TS_KEY_PASSWORD, demandées par tools/android/aab.ps1 (jamais écrites).
+def ksPropsFile = file(System.getenv('TS_KEYSTORE_PROPS') ?: (System.getProperty('user.home') + '/.three-signs/keystore.properties'))
+def ksProps = new Properties()
+if (ksPropsFile.exists()) ksPropsFile.withInputStream { ksProps.load(it) }
+
 android {
     namespace = "com.cronos2a.troissignes"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -21,8 +30,19 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        release {
+            if (ksProps['storeFile']) {
+                storeFile file(ksProps['storeFile'])
+                keyAlias ksProps['keyAlias'] ?: 'upload'
+                storePassword System.getenv('TS_STORE_PASSWORD') ?: ksProps['storePassword']
+                keyPassword System.getenv('TS_KEY_PASSWORD') ?: ksProps['keyPassword'] ?: System.getenv('TS_STORE_PASSWORD')
+            }
+        }
+    }
     buildTypes {
         release {
+            if (ksProps['storeFile']) signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
