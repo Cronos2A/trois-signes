@@ -1,0 +1,26 @@
+{
+  "name": "three-signs",
+  "private": true,
+  "version": "0.9.0",
+  "description": "Three Signs — emballage Android (Capacitor). Le jeu lui-même n'a besoin d'aucune dépendance : voir docs/EMBALLAGE.md.",
+  "scripts": {
+    "www": "node tools/android/build-www.mjs",
+    "icons": "node tools/android/icons.mjs",
+    "sync": "node tools/android/build-www.mjs && npx cap sync android",
+    "check-rules": "node tools/check-rules.mjs"
+  },
+  "dependencies": {
+    "@capacitor-firebase/authentication": "8.5.2",
+    "@capacitor/android": "8.5.2",
+    "@capacitor/app": "8.1.2",
+    "@capacitor/browser": "8.0.5",
+    "@capacitor/core": "8.5.2",
+    "@capacitor/haptics": "8.0.2",
+    "@capacitor/splash-screen": "8.0.2",
+    "@capacitor/status-bar": "8.0.4"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.2",
+    "firebase": "12.19.0"
+  }
+}

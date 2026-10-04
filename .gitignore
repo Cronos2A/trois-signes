@@ -5,3 +5,11 @@ Thumbs.db
 .DS_Store
 # Documents de conception : hors du dépôt, le jeu n'en dépend pas.
 docs/*.pdf
+
+# Emballage Android (docs/EMBALLAGE.md)
+node_modules/
+www/
+*.jks
+*.keystore
+keystore.properties
+android/app/google-services.json.bak

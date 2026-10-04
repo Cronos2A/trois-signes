@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Three Signs</string>
+    <string name="title_activity_main">Three Signs</string>
+    <string name="package_name">com.cronos2a.troissignes</string>
+    <string name="custom_url_scheme">com.cronos2a.troissignes</string>
+</resources>
