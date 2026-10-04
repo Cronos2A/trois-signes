@@ -1,4 +1,4 @@
-﻿# Réglages communs des scripts d'emballage (docs/EMBALLAGE.md) : Java d'Android Studio, SDK Android, dossiers.
+﻿# Réglages communs des scripts d'emballage (docs/EMBALLAGE.md) : JDK 21 (Adoptium), SDK Android, dossiers.
 # Ne pas lancer seul : les autres scripts le chargent (. "$PSScriptRoot\env.ps1").
 $ErrorActionPreference = 'Stop'
 $Root = (Resolve-Path "$PSScriptRoot\..\..").Path            # dossier du jeu
@@ -7,14 +7,47 @@ $KeyDir = Join-Path $env:USERPROFILE '.three-signs'           # clé d'envoi et 
 $KeyStore = Join-Path $KeyDir 'three-signs-upload.jks'
 $KeyProps = Join-Path $KeyDir 'keystore.properties'
 
-# Java : celui fourni avec Android Studio (jbr), sauf si JAVA_HOME est déjà réglé.
-if (-not $env:JAVA_HOME -or -not (Test-Path "$env:JAVA_HOME\bin\java.exe")) {
-  foreach ($j in @("$env:ProgramFiles\Android\Android Studio\jbr", "$env:LOCALAPPDATA\Programs\Android Studio\jbr", "$env:ProgramFiles\Android\Android Studio\jre")) {
-    if (Test-Path "$j\bin\java.exe") { $env:JAVA_HOME = $j; break }
-  }
+# Java : un JDK 21 (Eclipse Adoptium / Temurin), JAMAIS celui d'Android Studio (sa version peut être trop récente pour Gradle).
+# Cherché dans : JAVA_HOME s'il désigne déjà un JDK 21 hors d'Android Studio, puis
+#   %LOCALAPPDATA%\Programs\Eclipse Adoptium\jdk-21*  et  %ProgramFiles%\Eclipse Adoptium\jdk-21*  (le plus récent).
+# JAVA_HOME et Path ne sont changés que pour ce script (la fenêtre PowerShell retrouve les siens ensuite).
+$JdkLink = 'https://adoptium.net/temurin/releases/?version=21'
+function Get-JavaMajor([string]$dir) {
+  $exe = Join-Path $dir 'bin\java.exe'
+  if (-not (Test-Path $exe)) { return $null }
+  $ErrorActionPreference = 'Continue'                         # java -version écrit sur stderr : ce n'est pas une erreur
+  $txt = (& $exe -version 2>&1 | ForEach-Object { "$_" }) -join "`n"
+  if ($txt -match 'version "(\d+)') { return [int]$Matches[1] }
+  return $null
 }
-if (-not $env:JAVA_HOME) { throw "Java introuvable : installe Android Studio (il fournit Java), ou règle JAVA_HOME." }
-$env:Path = "$env:JAVA_HOME\bin;$env:Path"
+function Find-Jdk21 {
+  $cands = @()
+  if ($env:JAVA_HOME -and $env:JAVA_HOME -notmatch 'Android Studio') { $cands += $env:JAVA_HOME }
+  foreach ($base in @("$env:LOCALAPPDATA\Programs\Eclipse Adoptium", "$env:ProgramFiles\Eclipse Adoptium")) {
+    if (Test-Path $base) {
+      # le plus récent d'abord (numéros comparés comme des nombres : jdk-21.0.10 après jdk-21.0.9)
+      $cands += Get-ChildItem $base -Directory -Filter 'jdk-21*' |
+        Sort-Object { (([regex]::Matches($_.Name, '\d+') | ForEach-Object { $_.Value.PadLeft(6, '0') }) -join '.') } -Descending |
+        ForEach-Object { $_.FullName }
+    }
+  }
+  foreach ($c in $cands) { if ($c -notmatch 'Android Studio' -and (Get-JavaMajor $c) -eq 21) { return $c } }
+  return $null
+}
+$jdk = Find-Jdk21
+if (-not $jdk) {
+  Write-Host ""
+  Write-Host "JDK 21 introuvable." -ForegroundColor Red
+  Write-Host "Les scripts ont besoin de Java 21 (le Java d'Android Studio n'est jamais utilisé)."
+  Write-Host "Installe « Eclipse Temurin 21 (LTS) », version Windows x64, fichier .msi, en laissant les options par défaut :"
+  Write-Host "  $JdkLink" -ForegroundColor Yellow
+  Write-Host "Il doit s'installer dans « C:\Program Files\Eclipse Adoptium\jdk-21… » (ou dans ton dossier AppData\Local\Programs)."
+  Write-Host "Ferme puis rouvre PowerShell, et relance le script."
+  throw "JDK 21 introuvable"
+}
+$env:JAVA_HOME = $jdk
+$env:Path = "$jdk\bin;$env:Path"
+Write-Host "Java 21 : $jdk" -ForegroundColor DarkGray
 
 # SDK Android : C:\Users\<toi>\AppData\Local\Android\Sdk par défaut.
 if (-not $env:ANDROID_HOME) { $env:ANDROID_HOME = "$env:LOCALAPPDATA\Android\Sdk" }

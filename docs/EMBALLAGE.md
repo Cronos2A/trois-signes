@@ -11,7 +11,9 @@ Tout ce qui est en `police fixe` se tape ou se copie tel quel.
 - `apk.ps1` : fabrique l'APK de test et l'installe sur ton téléphone branché en USB ;
 - `aab.ps1` : fabrique le fichier AAB signé à envoyer à la Play Console.
 
-Android Studio sert seulement à fournir le **SDK Android** et le **Java** dont la compilation a besoin (il est déjà installé : c'est parfait).
+Android Studio sert seulement à fournir le **SDK Android** (il est déjà installé : c'est parfait). Pour Java, les scripts utilisent un
+**JDK 21 Eclipse Temurin**, à installer à part (étape 1.1) : le Java fourni avec Android Studio n'est jamais utilisé (sa version, 25 chez toi,
+est trop récente pour l'outil de compilation Gradle).
 Tu pourras l'ouvrir plus tard si tu veux voir les journaux du téléphone (Logcat), mais ce n'est pas obligatoire.
 
 Pourquoi ce n'est pas moi qui compile : dans mon environnement de travail en ligne, les serveurs de Google qui fournissent le SDK
@@ -78,8 +80,21 @@ l'envoi, c'est elle qui a raison : dis-le-moi.
    ```
    Réponds `O` (ou `Y`) si une question s'affiche.
 
-Le Java et le SDK Android sont trouvés tout seuls par les scripts : le Java fourni avec Android Studio
-(`C:\Program Files\Android\Android Studio\jbr`) et ton SDK (`C:\Users\croga\AppData\Local\Android\Sdk`).
+5. **Installer Java 21 (JDK Eclipse Temurin 21)** : va sur
+   [adoptium.net/temurin/releases/?version=21](https://adoptium.net/temurin/releases/?version=21), choisis **Windows**, **x64**, **JDK**,
+   **21 (LTS)**, et télécharge le fichier **.msi**. Installe-le en laissant les options par défaut. Il se place dans
+   `C:\Program Files\Eclipse Adoptium\jdk-21…` (ou `C:\Users\croga\AppData\Local\Programs\Eclipse Adoptium\jdk-21…` si tu l'installes
+   pour toi seul). Ferme puis rouvre PowerShell.
+
+Le Java 21 et le SDK Android sont trouvés tout seuls par les scripts :
+- **Java** : un JDK 21 dans les deux dossiers `Eclipse Adoptium` ci-dessus (le plus récent s'il y en a plusieurs), ou celui de `JAVA_HOME`
+  s'il est déjà en version 21. Le Java d'Android Studio (`…\Android Studio\jbr`) n'est **jamais** utilisé, même si `JAVA_HOME` le désigne.
+  Chaque script vérifie que `java -version` répond bien 21, puis affiche en gris par exemple
+  `Java 21 : C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot`. `JAVA_HOME` et `Path` ne sont changés que pendant le script.
+  S'il n'en trouve pas, il s'arrête avec en rouge « JDK 21 introuvable. » et le lien d'adoptium.net.
+- **SDK** : `C:\Users\croga\AppData\Local\Android\Sdk`.
+- Si tu as un jour réglé `org.gradle.java.home` dans `C:\Users\croga\.gradle\gradle.properties`, retire cette ligne : elle passerait
+  avant le JDK 21 choisi par les scripts.
 
 ---
 

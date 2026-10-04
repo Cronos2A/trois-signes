@@ -531,7 +531,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Versions** : `versionName` = `data/version.json → version`, `versionCode` = `→ build` (+1 à chaque envoi). **Signature** : clé d'envoi hors du dépôt
   (`%USERPROFILE%\.three-signs\three-signs-upload.jks` + `keystore.properties` sans mot de passe ; mots de passe demandés par `aab.ps1`).
 - **Scripts Windows** (`tools/android/*.ps1`, UTF-8 avec BOM) : `cle.ps1`, `apk.ps1` (APK de test + installation USB), `aab.ps1`, `empreintes.ps1`, `verifier.ps1`
-  (permissions fusionnées, alignement 16 Ko). Java d'Android Studio (jbr), SDK `%LOCALAPPDATA%\Android\Sdk`.
+  (permissions fusionnées, alignement 16 Ko). Java : **JDK 21 Eclipse Temurin** cherché par `env.ps1` (`Eclipse Adoptium\jdk-21*` dans
+  `%LOCALAPPDATA%\Programs` ou `%ProgramFiles%`, ou `JAVA_HOME` en 21), vérifié par `java -version` ; **jamais le Java d'Android Studio** (25 chez
+  l'utilisateur, trop récent pour Gradle). SDK `%LOCALAPPDATA%\Android\Sdk`.
 - **Pas compilé dans l'environnement de Claude** (`dl.google.com` bloqué) : la compilation, la signature et les essais sur téléphone se font sur le PC.
   Testé le 04/10/2026 dans Chromium avec un faux `window.Capacitor` (360 × 640, 390 × 800) : Retour, arrière-plan, vibrations, liens, outils de test
   absents, « Bientôt », premier lancement hors connexion, rotation, zones sûres simulées (CDP), Duel entre amis application / navigateur
