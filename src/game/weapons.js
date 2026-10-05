@@ -39,8 +39,8 @@ export function unlockWeapon(id) {
   return true;
 }
 
-/** XP pour passer du niveau lvl au suivant. */
-const needFor = lvl => Math.round(W().firstLevelXp * Math.pow(W().growth, lvl - 1));
+/** XP pour passer du niveau lvl au suivant (data/weapons.json → levels : niveau 2, 3, … maxLevel). */
+const needFor = lvl => W().levels[lvl - 1];
 
 /** Niveau d'une arme d'après son XP : { lvl, cur, need, pct, max }. */
 export function weaponLevel(xp) {

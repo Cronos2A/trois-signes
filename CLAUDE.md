@@ -110,9 +110,17 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Effet de style** (`style.scale` : monte de 50 % au niveau 1 à 100 % au niveau 6 ; `style.fixed` : valeurs fixes).
   « Esquive réussie » = un coup ennemi vraiment évité, pas le simple tracé d'un Rond.
 - **XP et niveaux** (chaque arme a les siens, `prog.weapons` = `{ epee: { xp } }`) : Voyage et Histoire seulement (`xpModes`) ;
-  attaque OK 0, Good 1, Very Good 1, Excellent 2, Perfect 3 ; combo +3 ; super +3 ; gardien ou boss vaincu +5 ; le tout × 0,6
-  (`xp.gainMult`). Ajoutée en fin de partie seulement. Niveaux 1 à 10 : 50 XP pour le niveau 2, puis +50 % par niveau ; +2 % d'attaque par niveau ;
+  attaque OK 0, Good 1, Very Good 1, Excellent 2, Perfect 3 ; combo +3 ; super +3 ; gardien ou boss vaincu +5 ; le tout × 0,5
+  (`xp.gainMult`, 0,6 avant le 05/10/2026). Ajoutée en fin de partie seulement. Niveaux 1 à 10 : table `levels` (XP pour passer au niveau 2 … 10 :
+  250, 350, 680, 840, 1 150, 1 300, 1 480, 2 100, 2 450 ; total 600 au niveau 3, 2 120 au 5, 6 050 au 8, 10 600 au 10) ; +2 % d'attaque par niveau ;
   niveau 3 : jauge ×1,1 ; niveau 6 : style complet ; niveau 10 : éclat doré en combat (`gold_fx`).
+  **Courbe du 05/10/2026** (avant : 50 XP puis +50 % par niveau, niveau 5 en un seul Voyage). Mesurée par bots (6 héros, 2 Voyages complets chacun,
+  héros rendu invincible pour finir les 8 arènes ; joueur moyen : précision 80 ± 9 %, un geste toutes les 1 à 1,6 s, 80 % d'esquives ; très bon joueur :
+  92 ± 5 %, 0,7 à 1 s, 95 %) : XP brute par Voyage complet, moyenne 1 209 (moyen) et 1 461 (très bon). Joueur moyen : niveau 3 en 1 Voyage, 5 en 3,5,
+  8 en 10, 10 en 17,5 (selon le héros : Kestrel et Ilwen les plus rapides, Boran le plus lent, 14 à 24 Voyages pour le niveau 10) ; très bon joueur :
+  0,8 / 2,9 / 8,3 / 14,5. Histoire complète : niveau 2 (très bon joueur avec Kestrel : niveau 3 tout juste), jamais plus de 3.
+  **Conversion** (`progress.js` → `migrateWeapons`, `weapons.json → curve`, `prog.weaponCurve`) : une fois par sauvegarde (aussi pour une
+  sauvegarde reçue du serveur), chaque arme garde son niveau et la même part de son niveau en cours ; jamais de baisse de niveau.
 - **Talismans** (`talismans.json`, `src/game/talismans.js`) : 1 emplacement par héros, 8 talismans, un par gardien d'arène du
   Voyage battu (Gland de mousse : ramassage +25 % ; Épi d'or : pièces +20 % ; Goutte claire : cœurs +25 % ; Clé des toits :
   alerte 0,15 s plus tôt ; Marque-page : ramasser ne casse pas la série ; Plume de vent : jauge de départ 20 % ;
@@ -140,7 +148,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   **Mira est à réévaluer après le test fermé**, en comparant les rounds atteints par héros dans le classement du Voyage.
   Décidé le 30/09 : on garde ce réglage ; Mira est l'héroïne accessible pour les débutants (plus solide que les autres, voulu).
   Progression mesurée (un héros, Voyages seulement) : Nv 5 en 9 min, Nv 10 en 25 min, Nv 20 en 1 h 15, Nv 50 en 6 h, Nv 100 en 22 h ;
-  arme au niveau 10 en ~6,5 Voyages (≈ 1 h), une histoire ≈ niveau 5. Voyage de 8 arènes sans pièce : 140 or (170 avec record).
+  arme : voir la courbe du 05/10/2026 ci-dessus (avant : niveau 10 en ~6,5 Voyages, une histoire ≈ niveau 5). Voyage de 8 arènes sans pièce : 140 or (170 avec record).
 
 ## Économie et cosmétiques — `data/economy.json`, `data/cosmetics.json` — **fait**
 - **Versé round par round** (`main.js` → `payRounds`, Voyage et Histoire) dès qu'un round est terminé, **acquis même en abandonnant** :

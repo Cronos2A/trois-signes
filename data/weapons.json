@@ -2,8 +2,12 @@
   "note": "Armes : 3 par héros (départ + 2 alternatives), chacune avec son XP et son niveau. Toutes les armes d'un héros ont la même puissance de base : elles changent le style, pas la force. Équilibre vérifié le 28/09/2026 par un bot à graine (4 Voyages par arme au niveau 6, précision 82 % puis 90 % ; Mira à 72 %) : aucune arme ne sort nettement du lot ; Couteaux de lancer relevés (jauge par ennemi vaincu 10 → 15) ; Arbalète (+12 à 17 % de score) et Bâton de sève (Mira tombe plus tôt à faible précision) à surveiller.",
   "bonus_en_duel": false,
   "maxLevel": 10,
-  "firstLevelXp": 50,
-  "growth": 1.5,
+  "levels": [250, 350, 680, 840, 1150, 1300, 1480, 2100, 2450],
+  "curve": {
+    "note": "Courbe changée le 05/10/2026 (XP trop rapide : niveau 5 en un seul Voyage), avec xp.gainMult 0,6 → 0,5. Mesure par bots, joueur moyen : niveau 3 en 1 Voyage complet, 5 en 3,5, 8 en 10, 10 en 17,5 ; une histoire complète : niveau 2 (3 au plus). levels = XP pour passer au niveau 2, 3, … 10. Les sauvegardes d'avant (prog.weaponCurve absent ou plus petit que version) sont converties une fois (progress.js → migrateWeapons) : niveau gardé, même part du niveau en cours ; legacy = l'ancienne courbe (50 XP puis +50 % par niveau).",
+    "version": 2,
+    "legacy": { "firstLevelXp": 50, "growth": 1.5 }
+  },
   "attackPerLevel": 0.02,
   "xpModes": ["voyage", "story"],
   "xp": {
@@ -11,7 +15,7 @@
     "combo": 3,
     "super": 3,
     "bossKill": 5,
-    "gainMult": 0.6
+    "gainMult": 0.5
   },
   "style": { "startPower": 0.5, "fullLevel": 6, "label": "Effet de style complet" },
   "gauge": { "level": 3, "mult": 1.1, "label": "Jauge de super +10 % plus rapide" },

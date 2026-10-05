@@ -101,6 +101,7 @@ export const levelNeed = n => PR().levelXp.base + PR().levelXp.perLevel * n;
  */
 export function migrateProgress() {
   const L = PR().legacy;
+  if (migrateWeapons() && (prog.heroSave || 0) >= L.saveVersion) saveProg();
   if ((prog.heroSave || 0) >= L.saveVersion) return;
   for (const c of Object.values(prog.chars)) {
     let lvl = 1, need = L.firstLevelXp, x = c.xp || 0;
@@ -110,6 +111,23 @@ export function migrateProgress() {
   }
   prog.heroSave = L.saveVersion;
   saveProg();
+}
+
+/**
+ * Armes : courbe d'XP changée (data/weapons.json → curve). Une fois par sauvegarde : chaque arme garde son niveau
+ * et la même part de son niveau en cours ; seule l'XP qui reste à gagner suit la nouvelle courbe. Niveau max : gardé.
+ */
+export function migrateWeapons() {
+  const W = D.weapons, C = W.curve;
+  if ((prog.weaponCurve || 1) >= C.version) return false;
+  const oldNeed = l => Math.round(C.legacy.firstLevelXp * Math.pow(C.legacy.growth, l - 1)), cum = l => W.levels.slice(0, l - 1).reduce((a, b) => a + b, 0);
+  for (const s of Object.values(prog.weapons || {})) {
+    let lvl = 1, x = s.xp || 0;
+    while (lvl < W.maxLevel && x >= oldNeed(lvl)) { x -= oldNeed(lvl); lvl++; }
+    s.xp = lvl >= W.maxLevel ? cum(W.maxLevel) : cum(lvl) + Math.floor(W.levels[lvl - 1] * x / oldNeed(lvl));
+  }
+  prog.weaponCurve = C.version;
+  return true;
 }
 
 const hero = id => prog.chars[id] || (prog.chars[id] = { lvl: 1, xp: 0 });
