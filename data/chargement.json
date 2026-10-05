@@ -1,0 +1,18 @@
+{
+  "note": "Écran de chargement d'un démarrage à froid (src/ui/loading.js ; balisage dans index.html pour s'afficher avant tout script). Jamais au retour de l'arrière-plan (la page n'est pas rechargée). Même fond et même logo que l'écran de démarrage natif de Capacitor (capacitor.config.json → SplashScreen, tools/android/icons.mjs) : fond uni #174A28, logo de 288 px au centre, pour un passage sans saut. Durées en secondes.",
+  "minSeconds": 2.2,
+  "maxSeconds": 6,
+  "fadeMs": 300,
+  "tipKeys": ["loading.tip1", "loading.tip2", "loading.tip3", "loading.tip4", "loading.tip5", "loading.tip6", "loading.tip7", "loading.tip8", "loading.tip9", "loading.tip10"],
+  "fonts": ["400 60px Caprasimo", "400 16px Figtree", "600 16px Figtree", "700 16px Figtree"],
+  "sounds": { "sfx": true, "music": ["musique_lobby"] },
+  "images": ["assets/icones/monnaies/or.svg", "assets/icones/monnaies/gemme.svg", "assets/icones/recompenses/cadeau.svg", "assets/icones/recompenses/pastille_notif.svg"],
+  "lobbyImages": true,
+  "sprites": true,
+  "progress": {
+    "note": "Part de la barre pour chaque étape (somme 1) ; la barre ne recule jamais et finit à 100 % juste avant le fondu.",
+    "data": 0.25,
+    "assets": 0.6,
+    "lobby": 0.15
+  }
+}

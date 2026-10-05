@@ -2900,5 +2900,19 @@
     "cancelTitle": "SPIEL ABGEBROCHEN",
     "cancel": "Ihr wart beide länger als {s} s weg: Spiel abgebrochen, keine Abdrücke gewonnen oder verloren.",
     "cancelFriend": "Ihr wart beide länger als {s} s weg: Spiel abgebrochen."
+  },
+  "loading": {
+    "aria": "Wird geladen",
+    "tip": "Tipp",
+    "tip1": "Zeichne einen Kreis, um auszuweichen.",
+    "tip2": "Reihe 4 Gesten derselben Stufe aneinander für eine Kombo.",
+    "tip3": "Deine Super lädt sich mit jeder gelungenen Geste auf.",
+    "tip4": "Zeichne ein Dreieck, um anzugreifen.",
+    "tip5": "Tippe Münzen und Herzen an, um sie aufzusammeln.",
+    "tip6": "Holt ein Gegner zum Schlag aus, zeichne einen Kreis, bevor er zuschlägt.",
+    "tip7": "Je genauer dein Strich, desto stärker dein Schlag.",
+    "tip8": "Ein Ausweichen in einer Kombo löst einen Gegenangriff aus.",
+    "tip9": "Jede Waffe hat ihren eigenen Stil: Probier sie alle aus.",
+    "tip10": "Besiege die Wächter der Reise, um ihre Talismane zu erhalten."
   }
 }

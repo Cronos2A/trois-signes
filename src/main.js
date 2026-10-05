@@ -33,6 +33,8 @@ import { onOnlineChange } from './online/online.js';
 import { openRanking } from './ui/ranking-ui.js';
 import { initBack, setLeave, onBack } from './ui/back.js';
 import { initNative, hideSplash } from './native.js';
+import { loadingProgress, loadingTip, loadingFonts, finishLoading, dropLoading } from './ui/loading.js';
+import { preloadAudio } from './audio/audio.js';
 import { initOrientation } from './ui/orient.js';
 import { ensurePseudo, askDamagedSave } from './ui/account-ui.js';
 import { initStory, openStory, maybePrologue, replayStoryEnd } from './story/story.js';
@@ -412,15 +414,33 @@ async function backToDuel() {
 }
 
 /* ---------- Démarrage ---------- */
+/** Ce que l'écran de chargement précharge (data/chargement.json) : une promesse par élément. */
+function preloads() {
+  const C = D.chargement, img = src => new Promise(ok => { const i = new Image(); i.onload = i.onerror = ok; i.src = src; });
+  const lobbyImgs = C.lobbyImages ? [...document.querySelectorAll('#lobby img')].map(i => i.complete ? null : new Promise(ok => { i.addEventListener('load', ok); i.addEventListener('error', ok); })) : [];
+  return [
+    ...(document.fonts ? C.fonts.map(f => document.fonts.load(f)) : []),
+    ...C.images.map(img), ...lobbyImgs,
+    preloadAudio(C.sounds.sfx, C.sounds.music),
+    C.sprites ? prepareArt(activeCharacter(), idleBattle()) : null
+  ];
+}
+
 async function init() {
   addEventListener('resize', resize);
   resize();
+  hideSplash();                            // application Android : l'écran de chargement (identique) prend le relais de l'écran natif
+  loadingFonts();
   try {
     await loadI18n();                      // textes de l'interface (data/i18n), avant les données
+    loadingProgress(0.08);
     await loadData();
     applyLanguageData(D);                  // textes des autres fichiers de data/ dans la langue active
     applyStatic();                         // textes fixes de index.html (data-i18n)
+    loadingTip();
+    loadingProgress(D.chargement.progress.data);
   } catch (err) {
+    dropLoading();
     const msg = tr('error.load', { msg: err.message });
     $('loadErr').textContent = msg === 'error.load' ? err.message : msg;   // langue illisible : message technique seul
     $('loadErr').classList.remove('hidden');
@@ -456,12 +476,11 @@ async function init() {
   });
   resetGame(activeCharacter(), idleBattle());
   toLobby();
-  // Sprites préparés juste après le premier affichage du lobby, pour ne pas le retarder.
-  setTimeout(() => prepareArt(activeCharacter(), idleBattle()).catch(() => {}), 50);
-  if (document.fonts) document.fonts.load('60px Caprasimo').catch(() => {});
-  window.__tsReady = true;
-  hideSplash();                            // application Android : l'écran de démarrage laisse place au lobby
   requestAnimationFrame(loop);
+  // Écran de chargement (ui/loading.js, data/chargement.json) : polices, images du lobby, sons essentiels et sprites
+  // du combat préchargés pendant au moins minSeconds, au plus maxSeconds depuis l'ouverture de la page ; puis fondu vers le lobby.
+  await finishLoading(preloads(), D.chargement.progress.data, 1 - D.chargement.progress.lobby);
+  window.__tsReady = true;
   // Sauvegarde de l'appareil endommagée : le jeu a démarré sur une progression neuve ; le joueur choisit
   // de récupérer sa sauvegarde en ligne ou de repartir à zéro (rien n'est écrit ni envoyé avant ce choix).
   if (saveState.damaged) {

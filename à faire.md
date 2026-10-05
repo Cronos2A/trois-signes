@@ -18,6 +18,11 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - À surveiller au test fermé : l'écart entre héros (Boran ≈ 24 Voyages pour le niveau 10, Kestrel ≈ 14) vient des gains par geste (Perfect, combos,
   supers) ; les bots jouaient avec un héros invincible pour finir les 8 arènes, un vrai joueur moyen tombe souvent avant : il lui faudra plus de parties.
 
+## 🔵 Écran de chargement (05/10/2026)
+- Fait (`data/chargement.json`, détails dans `CLAUDE.md`). **À vérifier sur le téléphone** : passage de l'écran natif à l'écran du jeu sans saut
+  (testé seulement dans Chromium ; sur Android 7 à 11, l'image native plein écran est recadrée et le logo peut y être un peu plus petit).
+- Si l'icône définitive remplace `assets/icone-app/icone.svg`, recopier son calque « logo » dans `index.html` (`#loading`).
+
 ## 🔵 Préparation à la publication, premier lot (01/10/2026)
 - Fait : polices embarquées, zones tactiles (48 px, 8 px), compte Google (lier, se connecter, choisir entre deux progressions), suppression du
   compte (+ `legal/supprimer-mon-compte.html`), signaler un pseudo, fausses pubs limitées au développement, version et crédits. Détails : `CLAUDE.md`,

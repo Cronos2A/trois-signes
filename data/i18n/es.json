@@ -2901,5 +2901,19 @@
     "cancelTitle": "PARTIDA ANULADA",
     "cancel": "Los dos habéis estado ausentes más de {s} s: partida anulada, no se gana ni se pierde ninguna Huella.",
     "cancelFriend": "Los dos habéis estado ausentes más de {s} s: partida anulada."
+  },
+  "loading": {
+    "aria": "Cargando",
+    "tip": "Consejo",
+    "tip1": "Traza un círculo para esquivar.",
+    "tip2": "Encadena 4 gestos del mismo nivel para hacer un combo.",
+    "tip3": "Tu súper se carga con cada gesto logrado.",
+    "tip4": "Traza un triángulo para atacar.",
+    "tip5": "Toca las monedas y los corazones para recogerlos.",
+    "tip6": "Cuando un enemigo prepare un golpe, traza un círculo antes de que ataque.",
+    "tip7": "Cuanto más preciso sea tu trazo, más fuerte será tu golpe.",
+    "tip8": "Una esquiva en combo lanza un contraataque.",
+    "tip9": "Cada arma tiene su estilo: pruébalas todas.",
+    "tip10": "Vence a los guardianes del Viaje para ganar sus talismanes."
   }
 }

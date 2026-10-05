@@ -549,6 +549,22 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Firebase Android** : à ajouter dans la console (paquet + SHA-1 débogage et envoi), `google-services.json` dans `android/app/` (appliqué tout seul) ;
   3e empreinte (signature Google Play) après le premier envoi. Clé web : restriction « Sites web » avec `https://localhost/*` (pas « Applications Android »).
 
+## Écran de chargement — `data/chargement.json` — **fait (05/10/2026)**
+- À chaque démarrage à froid (page chargée ; jamais au retour de l'arrière-plan) : balisage `#loading` dans `index.html` (affiché avant tout script),
+  styles `src/ui/loading.css` (chargé en premier), code `src/ui/loading.js`, branché dans `main.js → init`. Logo des trois signes + « Three Signs »
+  (montré quand la police Caprasimo est prête), barre de progression (ne recule jamais) avec reflet animé, une astuce sur 10 tirée au hasard
+  (`tipKeys`, textes `loading.tip1` … `tip10` dans les 5 langues).
+- **Même fond et même logo que l'écran de démarrage natif** (fond uni `#174A28`, logo de `assets/icone-app/icone.svg` recopié dans `index.html`,
+  288 px au centre comme l'icône d'Android 12+) : l'écran natif est caché dès le début de `init` (`hideSplash`) et laisse voir le même dessin.
+  À changer ensemble si l'icône change. Android 7 à 11 : image plein écran recadrée, le logo peut y être un peu plus petit.
+- Durée : au moins `minSeconds` (2,2 s) depuis l'ouverture de la page, pendant lesquelles le jeu précharge vraiment : polices (`fonts`), icônes du
+  lobby (`images`) et toutes les images affichées dans le lobby (`lobbyImages`), effets sonores et `musique_lobby` décodés (`sounds`, `audio.js →
+  preloadAudio`), sprites du combat du héros actif (`sprites`). Au plus `maxSeconds` (6 s) : le lobby apparaît même si un fichier traîne (réseau lent ;
+  Firebase n'est jamais attendu). Puis barre pleine 0,2 s et fondu de `fadeMs` (300 ms). Prologue, leçon, récompenses et fenêtre du jour
+  attendent la fin de l'écran.
+- Vérifié le 05/10/2026 (5 langues, 360 × 640 et 390 × 800, aucune erreur) : disparu à ≈ 2,75 s ; fichiers retardés de 10 s → retiré à 6,5 s ;
+  sans Firebase → 2,7 s ; zones sûres simulées (48 px en bas) ; processeur ×4 : ≈ 60 images peintes par seconde, une seule au-delà de 50 ms.
+
 ## Robustesse (corrections du 29/09/2026, voir `à faire.md`)
 - **Sauvegarde abîmée** (`src/game/save-check.js` : `readSave`, `saveProblems`) : le jeu démarre toujours ; écran « Sauvegarde endommagée »
   (`account-ui.js` → `askDamagedSave`, textes `online.json → damaged`) : récupérer la sauvegarde en ligne ou repartir de zéro. Tant que le
@@ -638,7 +654,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
 - **Aucun texte visible dans le code** : `tr('clé')` et `data/i18n/fr.json` (voir « Langues ») ; nombres par `nf` / `nfi`, jamais `toLocaleString('fr-FR')`.
-  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version, fin_de_partie.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version, fin_de_partie, chargement.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -686,9 +702,9 @@ src/
          account-ui.js (pseudo, bloc Compte des Réglages, sauvegarde endommagée)  tips.js (explications à la 1re rencontre)
          back.js (bouton Retour du téléphone)  quit-confirm.js (« Quitter la partie ? »)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
          daily-ui.js (fenêtre du jour, écran Récompenses, bouton cadeau, proposition de boost, pastille de combat)
-         report-ui.js (fenêtre « Signaler un pseudo »)  end-seq.js (séquences de défaite / victoire, panneau de fin)  fonts.css (polices embarquées)  touch.css (zones tactiles, chargé en dernier)
+         report-ui.js (fenêtre « Signaler un pseudo »)  loading.js + loading.css (écran de chargement)  end-seq.js (séquences de défaite / victoire, panneau de fin)  fonts.css (polices embarquées)  touch.css (zones tactiles, chargé en dernier)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css  daily.css
-data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version fin_de_partie (.json)
+data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version fin_de_partie chargement (.json)
   i18n/  languages.json  fr.json (textes de l'interface)  GLOSSAIRE.md
 firestore.rules  firebase.json   règles de sécurité Firestore
 legal/  supprimer-mon-compte.html (Play Store : « URL de suppression du compte »)  politique-de-confidentialite.html  conditions-utilisation.html

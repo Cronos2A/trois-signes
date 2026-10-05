@@ -463,5 +463,19 @@
     "cancelTitle": "MATCH ANNULÉ",
     "cancel": "Vous avez été absents tous les deux plus de {s} s : match annulé, aucune Empreinte gagnée ni perdue.",
     "cancelFriend": "Vous avez été absents tous les deux plus de {s} s : match annulé."
+  },
+  "loading": {
+    "aria": "Chargement",
+    "tip": "Astuce",
+    "tip1": "Trace un rond pour esquiver.",
+    "tip2": "Enchaîne 4 gestes du même niveau pour un combo.",
+    "tip3": "Ta super se charge à chaque geste réussi.",
+    "tip4": "Trace un triangle pour attaquer.",
+    "tip5": "Touche les pièces et les cœurs pour les ramasser.",
+    "tip6": "Quand un ennemi prépare un coup, trace un rond avant qu'il frappe.",
+    "tip7": "Plus ton tracé est précis, plus ton coup est fort.",
+    "tip8": "Une esquive en combo déclenche une riposte.",
+    "tip9": "Chaque arme a son style : essaie-les toutes.",
+    "tip10": "Bats les gardiens du Voyage pour gagner leurs talismans."
   }
 }

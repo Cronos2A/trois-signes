@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#2BA84A">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Three Signs</title>
+<link rel="stylesheet" href="src/ui/loading.css">
 <link rel="stylesheet" href="src/ui/fonts.css">
 <link rel="stylesheet" href="src/ui/organic.css">
 <link rel="stylesheet" href="src/ui/lobby.css">
@@ -21,6 +22,22 @@
 <link rel="stylesheet" href="src/ui/touch.css">
 </head>
 <body>
+<div id="loading" class="ld" role="progressbar" aria-busy="true" aria-valuemin="0" aria-valuemax="100" data-i18n-aria="loading.aria">
+  <!-- Même logo que assets/icone-app/icone.svg (calque « logo »), à la taille de l'écran de démarrage natif. -->
+  <svg class="ld-logo" viewBox="0 0 1024 1024" aria-hidden="true"><g stroke="#15301E" stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="512" cy="512" r="232" fill="none" stroke="#15301E" stroke-width="92"/>
+    <circle cx="512" cy="512" r="232" fill="none" stroke="#FFD23F" stroke-width="56"/>
+    <polygon points="512,350 662,606 362,606" fill="#15301E" stroke-width="36" transform="translate(0 16)"/>
+    <polygon points="512,350 662,606 362,606" fill="#FF8C32" stroke-width="36"/>
+    <polygon points="512,368 512,594 380,594" fill="#FFA95E" stroke="none"/>
+    <circle cx="694" cy="330" r="46" fill="#FFF6E5" stroke-width="22"/>
+  </g></svg>
+  <div class="ld-foot">
+    <div class="ld-title">Three Signs</div>
+    <div class="ld-bar"><i id="ldBar"></i><b></b></div>
+    <p class="ld-tip" id="ldTip"></p>
+  </div>
+</div>
 <div id="safe"></div>
 <canvas id="bg"></canvas>
 <canvas id="c"></canvas>
@@ -59,6 +76,7 @@
 // Ouvert directement comme fichier, le navigateur bloque les modules : on le dit au joueur.
 // Seulement en file:// : sur un téléphone lent, le jeu peut mettre plus de 2,5 s à démarrer sans que rien ne soit cassé.
 if(location.protocol==='file:')setTimeout(function(){if(window.__tsReady)return;var e=document.getElementById('loadErr');if(e.textContent)return;
+  var l=document.getElementById('loading');if(l)l.remove();
   e.textContent='Le jeu ne peut pas démarrer depuis un fichier local. Lancez-le via un serveur (voir LISEZMOI.md).';e.classList.remove('hidden')},2500);
 </script>
 </body>

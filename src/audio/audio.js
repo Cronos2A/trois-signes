@@ -10,7 +10,7 @@ import { settings, onSettings } from '../game/settings.js';
 import * as S from './synth.js';
 
 const A = () => D.audio;
-let ctx = null, master, musicBus, duckBus, sfxBus, unlocked = false;
+let ctx = null, master, musicBus, duckBus, sfxBus, unlocked = false, sfxReady = Promise.resolve();
 const sfxBuf = {};            // id → AudioBuffer, ou null si le fichier manque
 const musicBuf = new Map();   // id → Promise<AudioBuffer | null>
 
@@ -42,7 +42,7 @@ export function initAudio() {
   duckBus.connect(musicBus).connect(master); sfxBus.connect(master);
   applyVolumes();
   onSettings(k => { if (k === 'music' || k === 'sfx') applyVolumes(); });
-  for (const id of A().sfx) load(url('sfx', id)).then(b => { sfxBuf[id] = b; });
+  sfxReady = Promise.all(A().sfx.map(id => load(url('sfx', id)).then(b => { sfxBuf[id] = b; })));
 
   // Déblocage au premier toucher (obligatoire sur iPhone et Android).
   const unlock = () => {
@@ -156,6 +156,12 @@ function bufferLoop(buf, dest, id) {
   };
   seg(ctx.currentTime + 0.02, false);
   return () => { alive = false; clearTimeout(timer); for (const s of srcs) try { s.stop(); } catch (_) {} };
+}
+
+/** Écran de chargement (ui/loading.js) : effets chargés et musiques ids décodées d'avance. */
+export function preloadAudio(withSfx, ids = []) {
+  if (!ctx) return Promise.resolve();
+  return Promise.all([withSfx ? sfxReady : null, ...ids.map(musicFile)]);
 }
 
 function musicFile(id) {

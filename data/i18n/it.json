@@ -2896,5 +2896,19 @@
     "cancelTitle": "PARTITA ANNULLATA",
     "cancel": "Siete stati assenti entrambi per più di {s} s: partita annullata, nessuna Impronta vinta o persa.",
     "cancelFriend": "Siete stati assenti entrambi per più di {s} s: partita annullata."
+  },
+  "loading": {
+    "aria": "Caricamento",
+    "tip": "Consiglio",
+    "tip1": "Traccia un cerchio per schivare.",
+    "tip2": "Concatena 4 gesti dello stesso livello per una combo.",
+    "tip3": "La tua super si carica a ogni gesto riuscito.",
+    "tip4": "Traccia un triangolo per attaccare.",
+    "tip5": "Tocca monete e cuori per raccoglierli.",
+    "tip6": "Quando un nemico prepara un colpo, traccia un cerchio prima che colpisca.",
+    "tip7": "Più il tuo tratto è preciso, più il colpo è forte.",
+    "tip8": "Una schivata in combo fa scattare un contrattacco.",
+    "tip9": "Ogni arma ha il suo stile: provale tutte.",
+    "tip10": "Sconfiggi i guardiani del Viaggio per ottenere i loro talismani."
   }
 }

@@ -2898,5 +2898,19 @@
     "cancelTitle": "MATCH CANCELLED",
     "cancel": "You were both away for more than {s}s: match cancelled, no Imprints won or lost.",
     "cancelFriend": "You were both away for more than {s}s: match cancelled."
+  },
+  "loading": {
+    "aria": "Loading",
+    "tip": "Tip",
+    "tip1": "Draw a circle to dodge.",
+    "tip2": "Chain 4 gestures of the same grade for a combo.",
+    "tip3": "Your super charges with every successful gesture.",
+    "tip4": "Draw a triangle to attack.",
+    "tip5": "Tap coins and hearts to pick them up.",
+    "tip6": "When an enemy winds up a blow, draw a circle before it strikes.",
+    "tip7": "The more precise your stroke, the stronger your blow.",
+    "tip8": "A dodge in a combo triggers a counterattack.",
+    "tip9": "Every weapon has its own style: try them all.",
+    "tip10": "Beat the guardians of the Journey to earn their talismans."
   }
 }
