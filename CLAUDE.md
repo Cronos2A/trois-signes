@@ -1,6 +1,6 @@
 # Three Signs — brief pour Claude Code
 
-État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
+État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 **Titre du jeu : « Three Signs » dans les 5 langues, jamais traduit** (décision du 03/10/2026 ; avant : « Trois Signes »).
@@ -265,10 +265,11 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   envoi au retour du réseau (nouvel essai toutes les 20 s). Les Réglages du son (`ts_settings`) restent propres à l'appareil.
 - **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026, puis le 01/10/2026 avec `daily/{uid}` et les gemmes du jour ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
   chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ;
-  salons `duels/{code}` (entrée figée après 30 s d'absence) et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}`, Empreintes `ranked/{uid}`,
+  salons `duels/{code}` (entrée figée après 30 s d'absence) et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}`, Empreintes et plus haute arène `ranked/{uid}`,
   gemmes `wallet/{uid}`, début de partie du Voyage `runs/{uid}` (voir « Sécurité »), récompenses de connexion `daily/{uid}`, comptes supprimés
   `closed/{uid}` (`wallet`, `daily`, `ranked` effaçables seulement après, et jamais recréés), signalements `reports/{id}` ; tout le reste fermé.
   **Règles du 01/10/2026 (comptes supprimés, signalements) : à publier dans la console** (sinon suppression et signalement échouent).
+  **Règles du 05/10/2026 (`ranked/{uid}.areneMaxDuel`, plus haute arène de Duel jamais en baisse) : à publier dans la console.**
   **Règles du 03/10/2026 (Duel : absence de 30 s, entrée figée, match annulé, champ `hp`) : à publier dans la console** (sinon la reprise
   après fermeture et l'annulation ne sont pas appliquées par le serveur, et le champ `hp` des signes de vie est refusé).
 - **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
@@ -381,6 +382,25 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Sur deux essais en ligne depuis l'environnement de test, un seul a abouti (l'autre : personne trouvé en 60 s, sans erreur,
   réseau de test instable) : à confirmer sur deux téléphones.
 
+## Fond du lobby selon l'arène de Duel — `data/lobby_themes.json` — **fait (05/10/2026)**
+- Le fond de l'accueil (dégradé + facettes seulement ; boutons, cartes et barre des onglets inchangés) suit la **plus haute arène de Duel atteinte**
+  (`source: "max"`, par défaut) ou l'arène des Empreintes actuelles (`"actuelle"`). Arènes 1 à 8 = paliers de `duel.json → arenas.thresholds`.
+  Palettes : Forêt de Mousse (vert d'origine), Hautes-Gerbes (or, ocre), Fontclaire (turquoise), Toits de Vélis (bleu nuit, indigo), Bibliothèque
+  d'Aubelle (brun chaud, rouille), Col des Vents (bleu glacier), École des Signes (gris pierre, violet doux), Cœur du Silence (blanc cassé, lavande).
+  Code : `src/ui/lobby-theme.js` (calques empilés, fondu de `fadeMs` = 600 ms quand l'arène change, par exemple au retour de l'écran
+  « Nouvelle arène débloquée »), appelé par `lobby.js → render`. **Ce fichier servira aussi aux bannières d'arène du futur classement** (ne pas dupliquer).
+- **Plus haute arène** : `ranked/{uid}.areneMaxDuel` (1 à 8) au serveur, qui ne baisse jamais : les règles exigent
+  `areneMaxDuel == max(ancienne, arène des nouvelles Empreintes)` à chaque résultat (ancienne absente = arène des Empreintes du document) ;
+  impossible de l'écrire autrement. Reflet local `prog.duel.areneMaxDuel` (`duel-rank.js → maxArena`, `noteMaxArena` ; aussi d'après `unlocked`
+  et les Empreintes), relu à chaque connexion (`ranked.js → serverPrints`). Sans Duel : arène 1 ; hors connexion : dernière valeur sauvegardée.
+  Règles pas encore republiées : `applyRanked` renvoie le résultat sans ce champ (les Empreintes continuent de compter).
+- Textes posés directement sur le fond (« 0 / 115 XP » de l'en-tête) : couleur `text` du thème (`--on-bg`), contraste ≥ 4,5:1 vérifié sur tout le
+  dégradé, facettes comprises, dans les 3 onglets, les 5 langues et les 2 tailles (Toits de Vélis et Bibliothèque d'Aubelle assombries pour le texte blanc,
+  École des Signes éclaircie en haut).
+- Mode test (Réglages) : « Fond du lobby (arène de Duel) » : Auto ou 1 à 8 (aperçu, pas sauvegardé).
+- Vérifié le 05/10/2026 sur l'émulateur : fiche d'avant à 290 → victoire → 320 et `areneMaxDuel` 2 ; joueur déjà en arène 5 redescendu à 980 → garde 5 ;
+  refusés : arène trop haute, en baisse, champ absent, remise à 1 ou à 8 à la main. Fondu observé (opacité intermédiaire à 300 ms), fond gardé après relance.
+
 ## Sécurité (étape 5) — `firestore.rules`, `data/duel.json` → `security` — **fait, sans offre payante**
 - Tout est vérifié par les **règles Firestore** (gratuites) : le client ne peut plus changer directement Empreintes, gemmes ni classements.
   Les chiffres recopiés dans les règles sont vérifiés par `node tools/check-rules.mjs` (à lancer après tout changement de `duel.json`,
@@ -389,7 +409,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   (`security.waveCaps` : 4 000 / 4 400 / 4 800 / 5 400 / 6 000), jamais rendus moins de `minWaveSeconds` (3 s) après le début de la vague
   (`waveAt`, heure du serveur, notée par `startWave`) ; vague suivante seulement après avoir rendu la précédente ; KO, fin, abandon
   définitifs ; héros figé une fois « Prêt ». Mesures (bot surhumain) : 3 216 points au plus sur une vague, vague la plus rapide 4,7 s.
-- **Empreintes** : `ranked/{uid}` = `{ prints, last, updatedAt }` fait foi (`src/online/ranked.js`). Après un Duel au hasard, chaque joueur
+- **Empreintes** : `ranked/{uid}` = `{ prints, areneMaxDuel, last, updatedAt }` fait foi (`src/online/ranked.js`). Après un Duel au hasard, chaque joueur
   envoie le résultat des **deux** joueurs ; les règles recalculent l'issue d'après le salon (même calcul que `outcome` en JS : abandon,
   déconnexion de 30 s, KO, scores) et n'acceptent que +30 / −20 / 0, une seule fois par salon (`ranked/{uid}/games/{code}`).
   Un perdant ne peut donc pas éviter sa défaite en ne l'envoyant pas. File d'attente et classement Duel : Empreintes = celles du serveur.
@@ -654,7 +674,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
 - **Aucun texte visible dans le code** : `tr('clé')` et `data/i18n/fr.json` (voir « Langues ») ; nombres par `nf` / `nfi`, jamais `toLocaleString('fr-FR')`.
-  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version, fin_de_partie, chargement.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version, fin_de_partie, chargement, lobby_themes.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -694,7 +714,7 @@ src/
   native.js          application Android (Capacitor) : Retour, cycle de vie, Haptics, Browser, écran de démarrage
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
   audio/ audio.js  synth.js
-  ui/    lobby.js (+ réglages, crédits, résultats)  hud.js (rendu canvas)  combat-hud.js  combat-art.js  anim.js  sprites.js
+  ui/    lobby.js (+ réglages, crédits, résultats)  lobby-theme.js (fond selon l'arène de Duel)  hud.js (rendu canvas)  combat-hud.js  combat-art.js  anim.js  sprites.js
          art.js  icons.js  assets.js (images + replis)  cutscene.js  story-ui.js  story-art.js
          tutorial-ui.js  tutorial-art.js  voyage-ui.js  weapon-ui.js (cartes Armes / Talisman, XP de fin de partie)
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman / Gemmes »)  shop-ui.js (boutique, coffres, carte Cosmétiques)
@@ -704,7 +724,7 @@ src/
          daily-ui.js (fenêtre du jour, écran Récompenses, bouton cadeau, proposition de boost, pastille de combat)
          report-ui.js (fenêtre « Signaler un pseudo »)  loading.js + loading.css (écran de chargement)  end-seq.js (séquences de défaite / victoire, panneau de fin)  fonts.css (polices embarquées)  touch.css (zones tactiles, chargé en dernier)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css  daily.css
-data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version fin_de_partie chargement (.json)
+data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version fin_de_partie chargement lobby_themes (.json)
   i18n/  languages.json  fr.json (textes de l'interface)  GLOSSAIRE.md
 firestore.rules  firebase.json   règles de sécurité Firestore
 legal/  supprimer-mon-compte.html (Play Store : « URL de suppression du compte »)  politique-de-confidentialite.html  conditions-utilisation.html

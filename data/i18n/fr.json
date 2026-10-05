@@ -477,5 +477,9 @@
     "tip8": "Une esquive en combo déclenche une riposte.",
     "tip9": "Chaque arme a son style : essaie-les toutes.",
     "tip10": "Bats les gardiens du Voyage pour gagner leurs talismans."
+  },
+  "lobbyTheme": {
+    "test": "Fond du lobby (arène de Duel)",
+    "auto": "Auto"
   }
 }

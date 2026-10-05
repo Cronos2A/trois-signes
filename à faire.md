@@ -23,6 +23,14 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
   (testé seulement dans Chromium ; sur Android 7 à 11, l'image native plein écran est recadrée et le logo peut y être un peu plus petit).
 - Si l'icône définitive remplace `assets/icone-app/icone.svg`, recopier son calque « logo » dans `index.html` (`#loading`).
 
+## 🔵 Fond du lobby selon l'arène de Duel (05/10/2026)
+- **Règles Firestore du 05/10 à publier dans la console** (`ranked/{uid}.areneMaxDuel`). D'ici là, le jeu envoie les résultats sans ce champ
+  (les Empreintes comptent, la plus haute arène ne vit que dans la sauvegarde).
+- Les joueurs qui avaient déjà des Empreintes avant : leur plus haute arène part de l'arène de leurs Empreintes actuelles (au serveur) ou de la
+  plus haute arène déjà annoncée sur l'appareil (`unlocked`) ; un passage plus haut puis une redescente d'avant le 05/10 n'est pas connu du serveur.
+- Les boutons « pilule » vert foncé (Revoir la leçon, Entraînement, monnaies) se détachent moins sur les fonds sombres (Toits de Vélis, Aubelle) :
+  leur texte reste lisible (il est sur leur propre fond) ; à regarder sur téléphone.
+
 ## 🔵 Préparation à la publication, premier lot (01/10/2026)
 - Fait : polices embarquées, zones tactiles (48 px, 8 px), compte Google (lier, se connecter, choisir entre deux progressions), suppression du
   compte (+ `legal/supprimer-mon-compte.html`), signaler un pseudo, fausses pubs limitées au développement, version et crédits. Détails : `CLAUDE.md`,

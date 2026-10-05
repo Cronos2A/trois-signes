@@ -2910,5 +2910,9 @@
     "tip8": "Una schivata in combo fa scattare un contrattacco.",
     "tip9": "Ogni arma ha il suo stile: provale tutte.",
     "tip10": "Sconfiggi i guardiani del Viaggio per ottenere i loro talismani."
+  },
+  "lobbyTheme": {
+    "test": "Sfondo della lobby (arena del Duello)",
+    "auto": "Auto"
   }
 }

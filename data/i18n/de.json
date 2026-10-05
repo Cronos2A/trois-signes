@@ -2914,5 +2914,9 @@
     "tip8": "Ein Ausweichen in einer Kombo löst einen Gegenangriff aus.",
     "tip9": "Jede Waffe hat ihren eigenen Stil: Probier sie alle aus.",
     "tip10": "Besiege die Wächter der Reise, um ihre Talismane zu erhalten."
+  },
+  "lobbyTheme": {
+    "test": "Lobby-Hintergrund (Duell-Arena)",
+    "auto": "Auto"
   }
 }

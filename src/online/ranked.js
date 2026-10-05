@@ -1,10 +1,11 @@
-// Empreintes au serveur : ranked/{uid} = { prints, last, updatedAt } fait foi (prog.duel.prints n'en est que le reflet).
+// Empreintes au serveur : ranked/{uid} = { prints, areneMaxDuel, last, updatedAt } fait foi (prog.duel.prints n'en est que le reflet).
 // Après un Duel au hasard, chaque joueur envoie le résultat des DEUX joueurs : ranked/{x} + ranked/{x}/games/{code} (partie comptée
 // une seule fois). Les règles (firestore.rules → outcome) recalculent le vainqueur d'après le salon et n'acceptent que +30, −20 ou 0 :
 // un joueur ne peut ni changer ses Empreintes à la main, ni éviter une défaite en ne l'envoyant pas (l'autre l'envoie pour lui).
 import { D } from '../data.js';
 import { prog, saveProg } from '../game/progress.js';
 import { server, whenOnline } from './online.js';
+import { arenaIndex, noteMaxArena } from '../game/duel-rank.js';
 
 const P = () => D.duel.prints;
 const rankedRef = (S, uid) => S.fb.fs.doc(S.db, 'ranked', uid);
@@ -14,7 +15,11 @@ export async function serverPrints(uid) {
   const S = await whenOnline(), id = uid || S.uid;
   const s = await S.fb.fs.getDoc(rankedRef(S, id));
   const p = s.exists() ? (s.data().prints || 0) : 0;
-  if (id === S.uid && prog.duel && prog.duel.prints !== p) { prog.duel.prints = p; saveProg(); }
+  if (id === S.uid && prog.duel) {
+    // Plus haute arène atteinte (1 à 8, ne baisse jamais) : celle du serveur, sinon celle des Empreintes actuelles.
+    const max = noteMaxArena(s.exists() ? (s.data().areneMaxDuel || arenaIndex(p) + 1) : 1);
+    if (prog.duel.prints !== p || max) { prog.duel.prints = p; saveProg(); }
+  }
   return p;
 }
 
@@ -60,23 +65,34 @@ export async function applyRanked(code, uids) {
   const S = server();
   if (!S) return null;
   const { fb, db } = S;
+  const counted = x => fb.fs.getDoc(fb.fs.doc(db, 'ranked', x, 'games', code)).then(d => d.exists(), () => false);
   for (const x of uids) {
-    try {
-      const room = (await fb.fs.getDoc(fb.fs.doc(db, D.duel.collection, code))).data();
-      const o = outcome(room, x, Date.now());
-      if (o == null) continue;
-      const game = fb.fs.doc(db, 'ranked', x, 'games', code);
-      await fb.fs.runTransaction(db, async tx => {
-        const g = await tx.get(game), r = await tx.get(rankedRef(S, x));
-        if (g.exists()) return;                                       // déjà compté (par l'autre joueur)
-        const old = r.exists() ? (r.data().prints || 0) : 0;
-        tx.set(rankedRef(S, x), { prints: Math.max(P().min, old + deltaOf(o)), last: code, updatedAt: fb.fs.serverTimestamp() });
-        tx.set(game, { at: fb.fs.serverTimestamp() });
-      });
-    } catch (e) {
-      // Déjà compté par l'autre joueur entre-temps (course entre les deux envois) : normal, rien à faire.
-      const counted = await fb.fs.getDoc(fb.fs.doc(db, 'ranked', x, 'games', code)).then(d => d.exists(), () => false);
-      if (!counted) console.warn('Empreintes :', x === S.uid ? 'moi' : 'adversaire', e && (e.code || e.message));
+    let withMax = true;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const room = (await fb.fs.getDoc(fb.fs.doc(db, D.duel.collection, code))).data();
+        const o = outcome(room, x, Date.now());
+        if (o == null) break;
+        const game = fb.fs.doc(db, 'ranked', x, 'games', code);
+        await fb.fs.runTransaction(db, async tx => {
+          const g = await tx.get(game), r = await tx.get(rankedRef(S, x));
+          if (g.exists()) return;                                       // déjà compté (par l'autre joueur)
+          const old = r.exists() ? (r.data().prints || 0) : 0, prints = Math.max(P().min, old + deltaOf(o));
+          // Plus haute arène atteinte (1 à 8) : jamais en baisse ; les règles la recalculent d'après les Empreintes.
+          const max = Math.max(r.exists() ? (r.data().areneMaxDuel || arenaIndex(old) + 1) : 1, arenaIndex(prints) + 1);
+          tx.set(rankedRef(S, x), withMax ? { prints, areneMaxDuel: max, last: code, updatedAt: fb.fs.serverTimestamp() }
+            : { prints, last: code, updatedAt: fb.fs.serverTimestamp() });
+          tx.set(game, { at: fb.fs.serverTimestamp() });
+        });
+        break;
+      } catch (e) {
+        // Déjà compté par l'autre joueur entre-temps (course entre les deux envois) : normal, rien à faire.
+        if (await counted(x)) break;
+        // Règles d'avant le 05/10/2026 pas encore republiées (champ areneMaxDuel inconnu) : un nouvel essai sans ce champ.
+        if (withMax && e && e.code === 'permission-denied') { withMax = false; continue; }
+        console.warn('Empreintes :', x === S.uid ? 'moi' : 'adversaire', e && (e.code || e.message));
+        break;
+      }
     }
   }
   return serverPrints();

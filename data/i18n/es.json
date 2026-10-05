@@ -2915,5 +2915,9 @@
     "tip8": "Una esquiva en combo lanza un contraataque.",
     "tip9": "Cada arma tiene su estilo: pruébalas todas.",
     "tip10": "Vence a los guardianes del Viaje para ganar sus talismanes."
+  },
+  "lobbyTheme": {
+    "test": "Fondo del lobby (arena de Duelo)",
+    "auto": "Auto"
   }
 }

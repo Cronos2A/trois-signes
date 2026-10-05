@@ -6,6 +6,7 @@ import { prints as duelPrints, arenaIndex as duelArena, arenaOf as duelArenaOf }
 import { D } from '../data.js';
 import { prog, heroLevel, saveActive } from '../game/progress.js';
 import { glyph, facets } from './icons.js';
+import { applyLobbyTheme, previewTheme, previewed } from './lobby-theme.js';
 import { settings, setSetting } from '../game/settings.js';
 import { sfx } from '../audio/audio.js';
 import { weaponsCardHtml, talismanCardHtml, weaponGainHtml, playWeaponGain, itemIcon } from './weapon-ui.js';
@@ -41,7 +42,7 @@ export function initLobby(a) {
   document.documentElement.style.setProperty('--lvl-ring', ring.color);
   document.documentElement.style.setProperty('--lvl-glow', ring.glow);
   const root = $('lobby');
-  root.innerHTML = facets.bg() +
+  root.innerHTML =
     '<header class="lb-head" id="lbHead"></header>' +
     '<main class="lb-main">' +
     '<section class="lb-panel" id="tab-play"></section>' +
@@ -169,11 +170,13 @@ function onClick(e) {
     case 'testGems': addGems(D.economy.test.gems, 'test'); renderSettings(); render(); break;
     case 'testCountry': wallet().testCountry = arg; addGold(0); renderSettings(); render(); break;
     case 'testReset': resetShop(); renderSettings(); render(); break;
+    case 'testTheme': previewTheme(+arg); renderSettings(); render(); break;
     case 'testEnd': $('settings').classList.add('hidden'); actions.demoEnd(arg); break;           // aperçu des séquences de fin (ui/end-seq.js)
   }
 }
 
 function render() {
+  applyLobbyTheme($('lobby'));                         // fond selon l'arène de Duel (ui/lobby-theme.js)
   $('lbHead').innerHTML = headHtml();
   $('lbTabs').innerHTML = TABS.map(([k, g]) => {
     const label = tr('lobby.tabs.' + k);
@@ -334,7 +337,13 @@ function testHtml() {
       <div class="chips set-chips">${opt('BE', 'BE')}${opt('FR', 'FR')}<span class="test-cur">${tr('common.labelValue', { label: U.testCountry, value: cur })}</span></div>
       <button class="chip" data-act="testReset">${U.testReset}</button>
       <div class="chips set-chips"><button class="chip" data-act="testEnd" data-arg="defeat">${tr('end.testDefeat')}</button><button class="chip" data-act="testEnd" data-arg="victory">${tr('end.testVictory')}</button></div>
-      ${adsTestHtml()}${dailyTestHtml()}</div>`;
+      ${themeTestHtml()}${adsTestHtml()}${dailyTestHtml()}</div>`;
+}
+/** Fond du lobby : aperçu des 8 arènes de Duel (data/lobby_themes.json), « Auto » = le vrai fond. */
+function themeTestHtml() {
+  const p = previewed(), chip = (n, label) => `<button class="chip${p === n ? ' on' : ''}" data-act="testTheme" data-arg="${n}" aria-pressed="${p === n}">${label}</button>`;
+  return `<span class="test-cur">${tr('lobbyTheme.test')}</span>
+      <div class="chips set-chips">${chip(0, tr('lobbyTheme.auto'))}${D.lobby_themes.arenas.map(a => chip(a.arena, String(a.arena))).join('')}</div>`;
 }
 /** Récompenses de connexion : jour du serveur simulé (mode test sans émulateur seulement). */
 function dailyTestHtml() {

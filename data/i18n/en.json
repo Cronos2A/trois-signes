@@ -2912,5 +2912,9 @@
     "tip8": "A dodge in a combo triggers a counterattack.",
     "tip9": "Every weapon has its own style: try them all.",
     "tip10": "Beat the guardians of the Journey to earn their talismans."
+  },
+  "lobbyTheme": {
+    "test": "Lobby background (Duel arena)",
+    "auto": "Auto"
   }
 }

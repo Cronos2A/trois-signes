@@ -46,8 +46,8 @@ function ensureDefaults() {
   if (!prog.profile) prog.profile = { pseudo: '' };
   if (typeof prog.profile.pseudo !== 'string') prog.profile.pseudo = '';
   // Duel au hasard : Empreintes et plus haute arène déjà annoncée (game/duel-rank.js).
-  if (!prog.duel) prog.duel = { prints: 0, unlocked: 0 };
-  fill(prog.duel, { prints: 0, unlocked: 0 });
+  if (!prog.duel) prog.duel = { prints: 0, unlocked: 0, areneMaxDuel: 1 };
+  fill(prog.duel, { prints: 0, unlocked: 0, areneMaxDuel: 1 });
   // Récompenses de connexion (game/daily.js) : fenêtre du jour déjà montrée, pub du jour, dernière récupération ; boosts (game/boosts.js).
   if (!prog.daily) prog.daily = {};
   if (!prog.boosts) prog.boosts = { stock: {}, active: {} };

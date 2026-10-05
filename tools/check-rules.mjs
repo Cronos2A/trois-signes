@@ -11,6 +11,10 @@ has('durée minimale d\'une vague', new RegExp('minWaveSeconds\\(\\) \\{ return 
 has('nombre de vagues', new RegExp('function waves\\(\\) \\{ return ' + (duel.waves.length + 1) + '; \\}'));
 has('déconnexion', new RegExp('duration\\.value\\(' + duel.absence_max_s + ", 's'\\)"));
 has('Empreintes +/-', new RegExp('o == 1 \\? ' + duel.prints.win + ' : \\(o == -1 \\? ' + duel.prints.loss + ' : ' + duel.prints.tie + '\\)'));
+// Arènes du Duel (areneMaxDuel) : paliers d'Empreintes, de la plus haute à la plus basse.
+{ const T = duel.arenas.thresholds, n = T.length, parts = [];
+  for (let i = n - 1; i >= 1; i--) parts.push('p >= ' + T[i] + ' \\? ' + (i + 1) + ' : ');
+  has('paliers des arènes du Duel', new RegExp('return ' + parts.join('\\(') + '1' + '\\)'.repeat(n - 2) + ';')); }
 has('record du Voyage', new RegExp('v <= ' + S.voyage.perSecond + ' \\* t \\* \\(' + S.voyage.base + ' \\+ ' + S.voyage.growth + ' \\* t\\)'));
 has('pub récompensée (gemmes)', new RegExp('n\\.gems == o\\.gems \\+ ' + ads.rewarded.gems.amount + ' '));
 has('pubs par jour', new RegExp('n\\.adCount <= ' + ads.rewarded.gems.perDay));

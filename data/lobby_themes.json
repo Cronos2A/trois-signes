@@ -1,0 +1,15 @@
+{
+  "note": "Fond de l'accueil (lobby) selon l'arène de Duel (src/ui/lobby-theme.js). Seul le fond change (dégradé et facettes) : ni les boutons, ni les cartes, ni la barre des onglets. source : \"max\" = plus haute arène de Duel atteinte (areneMaxDuel, ne baisse jamais : garde le fond même si les Empreintes repassent sous un palier), \"actuelle\" = arène des Empreintes actuelles. Arènes 1 à 8 = paliers de data/duel.json → arenas.thresholds (0, 300, 600, 1 000, 1 500, 2 100, 2 800, 3 600), dans l'ordre des arènes du Voyage. Sans Duel ou hors connexion : arène 1, ou la dernière valeur connue (sauvegarde). Ce fichier sert aussi aux bannières d'arène du futur classement : ne pas dupliquer ces couleurs ailleurs. gradient : haut, milieu (45 %), bas. text : couleur des textes posés directement sur le fond (contraste ≥ 4,5:1 sur tout le dégradé, facettes comprises, vérifié le 05/10/2026). facets : graine et intensité des facettes claires / sombres.",
+  "source": "max",
+  "fadeMs": 600,
+  "arenas": [
+    { "arena": 1, "id": "foret_mousse", "gradient": ["#3DDC5B", "#2BA84A", "#1F7A3D"], "text": "#15301E", "facets": { "seed": 7, "intensity": 0.12 } },
+    { "arena": 2, "id": "hautes_gerbes", "gradient": ["#F7C948", "#DDA02A", "#A8701C"], "text": "#15301E", "facets": { "seed": 11, "intensity": 0.12 } },
+    { "arena": 3, "id": "fontclaire", "gradient": ["#45DCCB", "#22ABA2", "#147772"], "text": "#15301E", "facets": { "seed": 19, "intensity": 0.12 } },
+    { "arena": 4, "id": "velis_toits", "gradient": ["#3A49AD", "#2B3685", "#1B2257"], "text": "#FFFFFF", "facets": { "seed": 23, "intensity": 0.12 } },
+    { "arena": 5, "id": "aubelle_biblio", "gradient": ["#8F4E2A", "#743D20", "#4E2614"], "text": "#FFFFFF", "facets": { "seed": 29, "intensity": 0.12 } },
+    { "arena": 6, "id": "col_vents", "gradient": ["#C4E8F8", "#86C8E8", "#4F97C2"], "text": "#15301E", "facets": { "seed": 31, "intensity": 0.12 } },
+    { "arena": 7, "id": "ecole_ruines", "gradient": ["#B4B0C4", "#8A84A3", "#5D5676"], "text": "#15301E", "facets": { "seed": 37, "intensity": 0.12 } },
+    { "arena": 8, "id": "coeur_silence", "gradient": ["#F8F4ED", "#DED5EF", "#B8AADB"], "text": "#15301E", "facets": { "seed": 41, "intensity": 0.1 } }
+  ]
+}

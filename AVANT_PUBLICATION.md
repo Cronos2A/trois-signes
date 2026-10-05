@@ -236,7 +236,7 @@ Liste exacte de ce que le jeu collecte, à recopier dans le formulaire (étapes 
 - **Qui** : 🤖 fait ; 👤 étapes de `docs/EMBALLAGE.md`
 
 ### I-2. Firebase : protéger la clé, éviter les abus (5. Firebase)
-- **Règles** : publiées et vérifiées (01/10/2026). Bien.
+- **Règles** : publiées et vérifiées (01/10/2026). **À republier** : celles du 03/10 (Duel sans sortie) et du 05/10 (`ranked/{uid}.areneMaxDuel`, plus haute arène de Duel), toutes deux dans `firestore.rules`.
 - **Clé API** (`data/online.json`) : visible par tous, c'est normal pour Firebase, mais il faut la **restreindre** (étapes en E4) :
   - aux adresses du jeu : `https://localhost` (l'application, qui passe par la WebView) et le domaine du site ;
   - aux seules API utilisées (Identity Toolkit, Firestore, Token Service).
