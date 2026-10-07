@@ -12,6 +12,16 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 
 ---
 
+## 🔵 Classement par arène, global et par pays (07/10/2026)
+- **À faire de ton côté** : publier `firestore.rules` et créer les 8 index (`AVANT_PUBLICATION.md`, en tête : étapes et estimation des lectures).
+  Sans les index, les vues du classement tombent sur « Hors ligne » (le vrai serveur refuse les requêtes) ; l'émulateur ne les exige pas : à vérifier
+  sur le vrai serveur en ouvrant les 5 vues.
+- La ligne d'un joueur n'est mise à jour que par lui (après l'envoi de sa sauvegarde) : après un Duel, celle de l'adversaire garde ses anciennes
+  Empreintes (et son ancienne arène) jusqu'à sa prochaine connexion.
+- Le rang affiché sous ma ligne quand je regarde une autre arène (ou un autre pays) est celui de mon arène (de mon pays).
+- Drapeaux en émoji : Windows les affiche en lettres (FR, BE) ; Android et iPhone en drapeaux.
+- Joueurs déjà classés avant : leur date d'obtention est celle de leur dernier Duel (`updatedAt`) jusqu'au prochain.
+
 ## 🔵 XP des armes (05/10/2026)
 - Fait : nouvelle courbe (`data/weapons.json → levels`, `gainMult` 0,5) et conversion des sauvegardes (niveau gardé). Mesures et tableau : `CLAUDE.md`
   (Armes → « Courbe du 05/10/2026 »).

@@ -19,6 +19,7 @@ import { showRewarded, adsReady, afterVoyageResults, watchForGems, watchForChest
 import { adIcon, adToast } from './ad-ui.js';
 import { openChest } from '../game/economy.js';
 import { moneyIcon, goldGainHtml } from './money.js';
+import { changeCountry } from './ranking-ui.js';
 import { accountHtml, askPseudo, googleFlow, deleteFlow } from './account-ui.js';
 import { tr, nf, nfi, language, languages, setLanguage } from '../i18n.js';
 import { openDailyScreen, dailyButtonHtml, maybeDaily } from './daily-ui.js';
@@ -64,7 +65,10 @@ export function initLobby(a) {
     e.target.nextElementSibling.textContent = tr('money.pct', { n: e.target.value });
     e.target.style.setProperty('--v', e.target.value + '%');
   });
-  root.addEventListener('change', e => { if (e.target.dataset.vol === 'sfx') sfx('ui_clic'); });
+  root.addEventListener('change', e => {
+    if (e.target.dataset.vol === 'sfx') sfx('ui_clic');
+    if (e.target.matches('[data-country]')) changeCountry(e.target.value);       // pays des classements (ui/ranking-ui.js)
+  });
   const saved = chars().findIndex(c => c.id === prog.active && c.available);
   if (saved >= 0) ui.active = saved;
   render();

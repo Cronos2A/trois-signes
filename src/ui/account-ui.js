@@ -1,5 +1,7 @@
 // Compte du joueur : fenêtre « Choisis ton pseudo » (premier lancement, ou Réglages → Modifier) et bloc Compte des Réglages.
 // Textes et règles : data/online.json (ui, pseudo). Logique : online/online.js et online/pseudo.js.
+import { countrySelect } from './ranking-ui.js';
+import { myCountry } from '../game/country.js';
 import { D } from '../data.js';
 import { prog } from '../game/progress.js';
 import { setPseudo, pseudo, onlineState, onOnlineChange } from '../online/online.js';
@@ -81,6 +83,7 @@ export function accountHtml() {
       <div class="acc-line"><span class="acc-pseudo">${tr('common.labelValue', { label: U().pseudoLabel, value: '<b>' + esc(pseudo() || '—') + '</b>' })}</span>
         <button class="chip acc-edit" data-act="pseudoEdit">${U().edit}</button></div>
       <span class="acc-status" id="accStatus">${statusText(onlineState())}</span>
+      <label class="acc-country"><span>${tr('ranking.countryLabel')}</span>${countrySelect('data-country', myCountry() || '', true)}</label>
       ${google}
       <button class="mini-btn acc-delete" data-act="deleteAccount">${tr('account.deleteBtn')}</button>
     </div>`;

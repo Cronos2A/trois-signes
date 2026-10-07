@@ -12,6 +12,40 @@ Rien n'a été corrigé pendant cet état des lieux (voir « Coquilles relevées
 
 **Effort** : ⏱ moins d'1 h · ⏱⏱ une demi-journée à une journée · ⏱⏱⏱ plusieurs jours.
 
+## 🗂 Classement par arène et par pays (07/10/2026) — à faire dans la console Firebase 👤
+**1. Publier les règles** : console.firebase.google.com → projet **trois-signes** → **Firestore Database** → onglet **Règles** → coller tout le
+contenu de `firestore.rules` → **Publier**. (Elles contiennent aussi celles du 03/10 et du 05/10.)
+
+**2. Créer les 8 index composites** (sans eux, le classement affiche « Hors ligne » : le serveur refuse les requêtes).
+Méthode la plus simple, à la main : Firestore Database → onglet **Index** → **Composite** → **Créer un index**, puis pour chacun :
+- **ID de la collection** : `leaderboard` · **Champs** : ceux du tableau, dans cet ordre (bouton « Ajouter un champ » pour chaque ligne) ·
+  **Portée de la requête** : **Collection** → **Créer**.
+
+| N° | 1er champ | 2e champ | 3e champ |
+|---|---|---|---|
+| 1 | `arene` Croissant | `prints` Décroissant | `since` Croissant |
+| 2 | `arene` Croissant | `prints` Croissant | `since` Croissant |
+| 3 | `pays` Croissant | `prints` Décroissant | `since` Croissant |
+| 4 | `pays` Croissant | `prints` Croissant | `since` Croissant |
+| 5 | `prints` Décroissant | `since` Croissant | — |
+| 6 | `prints` Croissant | `since` Croissant | — |
+| 7 | `pays` Croissant | `voyage` Décroissant | — |
+| 8 | `pays` Croissant | `voyage` Croissant | — |
+
+Chaque index passe de « Création en cours » à « Activé » en quelques minutes. Autre méthode, en une commande depuis le dossier du jeu (si
+l'outil `firebase` est installé et connecté) : `firebase deploy --only firestore:indexes,firestore:rules`.
+Si un index manque, la console du navigateur affiche une erreur « The query requires an index » avec un lien qui le crée directement.
+*Non vérifiable dans l'environnement de Claude : l'émulateur n'exige pas les index. À contrôler sur le vrai serveur en ouvrant les 5 vues.*
+
+**3. Lectures consommées** (offre gratuite : 50 000 lectures par jour) :
+- ouvrir une vue : ≈ 53 lectures (50 lignes, ma ligne, ma fiche, 2 comptages si je ne suis pas dans les 50) ; « Voir plus » : 25 ;
+  même vue dans les 5 minutes : 0 (cache) ; un comptage coûte 1 lecture par tranche de 1 000 joueurs comptés.
+- joueur moyen : 1 ouverture par jour, 1,5 vue ≈ **80 lectures** → classement seul : quota dépassé vers **600 joueurs actifs par jour** ;
+  joueur assidu : 2 ouvertures × 2 vues ≈ **220 lectures** → vers **230 joueurs actifs par jour**.
+- avec le reste du jeu (≈ 10 lectures au lancement : sauvegarde, portefeuille, connexion du jour, Empreintes ; un Duel ≈ 100 lectures par
+  joueur pour suivre le salon), un joueur qui fait 3 Duels et ouvre le classement une fois ≈ 400 lectures : **≈ 120 joueurs actifs par jour**.
+  Les écritures du Duel (20 000 par jour, ≈ 60 Duels complets) restent la première limite. Au-delà : offre Blaze (≈ 0,03 € les 100 000 lectures).
+
 ## 🔗 Adresses des pages légales (à donner à la Play Console)
 Adresses attendues si le jeu est publié par GitHub Pages depuis `cronos2a/trois-signes` (branche `main`, dossier racine) :
 | Page | Adresse | Où la donner |
@@ -236,7 +270,7 @@ Liste exacte de ce que le jeu collecte, à recopier dans le formulaire (étapes 
 - **Qui** : 🤖 fait ; 👤 étapes de `docs/EMBALLAGE.md`
 
 ### I-2. Firebase : protéger la clé, éviter les abus (5. Firebase)
-- **Règles** : publiées et vérifiées (01/10/2026). **À republier** : celles du 03/10 (Duel sans sortie) et du 05/10 (`ranked/{uid}.areneMaxDuel`, plus haute arène de Duel), toutes deux dans `firestore.rules`.
+- **Règles** : publiées et vérifiées (01/10/2026). **À republier** : celles du 03/10 (Duel sans sortie), du 05/10 (`ranked/{uid}.areneMaxDuel`) et du 07/10 (classement : arène, pays, date d'obtention), toutes dans `firestore.rules` ; plus les 8 index (voir en tête).
 - **Clé API** (`data/online.json`) : visible par tous, c'est normal pour Firebase, mais il faut la **restreindre** (étapes en E4) :
   - aux adresses du jeu : `https://localhost` (l'application, qui passe par la WebView) et le domaine du site ;
   - aux seules API utilisées (Identity Toolkit, Firestore, Token Service).

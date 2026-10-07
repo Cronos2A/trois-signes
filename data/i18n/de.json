@@ -2918,5 +2918,43 @@
   "lobbyTheme": {
     "test": "Lobby-Hintergrund (Duell-Arena)",
     "auto": "Auto"
+  },
+  "ranking": {
+    "view": {
+      "arena": "Meine Arena",
+      "global": "Global",
+      "country": "Land"
+    },
+    "arenaN": "Arena {n}",
+    "range": "{from} bis {to} Abdrücke",
+    "rangeTop": "Ab {from} Abdrücken",
+    "prevArena": "Vorherige Arena",
+    "nextArena": "Nächste Arena",
+    "toNext": {
+      "one": "Nur noch {n} Abdruck bis zur nächsten Arena",
+      "other": "Nur noch {n} Abdrücke bis zur nächsten Arena"
+    },
+    "maxArena": "Höchste Arena",
+    "firstOfArena": "Du bist der Erste in deiner Arena!",
+    "emptyArena": "Noch niemand in dieser Arena.",
+    "emptyCountry": "Noch niemand aus diesem Land in der Rangliste.",
+    "emptyGlobal": "Noch niemand in der Rangliste.",
+    "playDuel": "Spiel ein Duell, um in die Rangliste zu kommen.",
+    "offline": "Offline",
+    "offlineNoCache": "Offline: Die Rangliste erscheint, sobald die Verbindung zurück ist.",
+    "more": "Mehr anzeigen",
+    "pull": "Zum Aktualisieren nach unten ziehen",
+    "release": "Zum Aktualisieren loslassen",
+    "refreshing": "Wird aktualisiert…",
+    "unspecified": "Nicht angegeben",
+    "countryLabel": "Land (Ranglisten)",
+    "countryAria": "Land wählen",
+    "pickCountry": "Wähle ein Land",
+    "pickCountryHint": "Wähle ein Land, um seine Spieler zu sehen.",
+    "noCountry": "Land nicht angegeben",
+    "noCountryHint": "Wähle dein Land in den Einstellungen, um dort gelistet zu werden.",
+    "askTitle": "Dein Land",
+    "askText": "Wähle dein Land für die Länder-Ranglisten. Du kannst es jederzeit in den Einstellungen ändern.",
+    "validate": "Bestätigen"
   }
 }

@@ -1,0 +1,27 @@
+{
+  "note": "Classement du Duel par arène, global et par pays, et classement du Voyage global et par pays (src/online/leaderboard.js, écran src/ui/ranking-ui.js, textes data/i18n → ranking). Ligne leaderboard/{uid} = { pseudo, hero, voyage, prints, arene, pays, since, updatedAt } : arene (1 à 8, d'après les Empreintes et data/duel.json → arenas.thresholds), pays (code ISO 3166 à 2 lettres ou null = « Non précisé ») et since (date d'obtention des Empreintes actuelles, départage les égalités : le plus ancien devant) sont recopiés de ranked/{uid} et vérifiés par les règles ; arene et since n'existent que pour un joueur qui a joué au moins un Duel au hasard. Une vue = pageSize lignes, puis « Voir plus » par moreSize. Rang : requêtes de comptage (count), jamais en lisant tous les joueurs. Cache sur l'appareil cacheMinutes, rafraîchi en tirant la liste vers le bas (pullPx) ; hors connexion : dernier classement en cache. Requête abandonnée après timeoutSeconds (hors ligne).",
+  "pageSize": 50,
+  "moreSize": 25,
+  "cacheMinutes": 5,
+  "timeoutSeconds": 8,
+  "pullPx": 70,
+  "cacheKey": "ts_rank_cache",
+  "boards": [
+    {
+      "id": "duel",
+      "views": [
+        "arena",
+        "global",
+        "country"
+      ]
+    },
+    {
+      "id": "voyage",
+      "views": [
+        "global",
+        "country"
+      ]
+    }
+  ],
+  "countries": ["AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FM", "FO", "FR", "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HM", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT", "JE", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY", "QA", "RE", "RO", "RS", "RU", "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "ZA", "ZM", "ZW"]
+}

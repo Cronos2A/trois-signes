@@ -30,7 +30,7 @@
     "retry": "Chercher à nouveau"
   },
   "leaderboard": {
-    "note": "Classements (src/online/leaderboard.js, écran src/ui/ranking-ui.js) : document leaderboard/{uid} = { pseudo, hero (héros favori : le plus joué), voyage (meilleur score du Voyage, ne baisse jamais), prints (Empreintes du Duel), updatedAt }. Mis à jour après chaque envoi de la sauvegarde, seulement si une valeur a changé. Top et position : lus à l'ouverture de l'écran.",
+    "note": "Classements (src/online/leaderboard.js, écran src/ui/ranking-ui.js ; vues, pages, cache et pays : data/classement.json) : document leaderboard/{uid} = { pseudo, hero (héros favori : le plus joué), voyage (meilleur score du Voyage, ne baisse jamais), prints (Empreintes du Duel), arene, pays, since, updatedAt }. Mis à jour après chaque envoi de la sauvegarde, seulement si une valeur a changé. top : plus utilisé depuis le 07/10/2026 (classement.json → pageSize).",
     "collection": "leaderboard",
     "top": 100,
     "recordMargin": 3,

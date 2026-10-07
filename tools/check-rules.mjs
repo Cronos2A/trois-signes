@@ -3,7 +3,7 @@
 import { readFileSync } from 'fs';
 const rules = readFileSync('firestore.rules', 'utf8');
 const J = f => JSON.parse(readFileSync('data/' + f + '.json', 'utf8'));
-const duel = J('duel'), eco = J('economy'), ads = J('ads'), voyage = J('voyage'), chars = J('characters'), daily = J('daily');
+const classement = J('classement'), duel = J('duel'), eco = J('economy'), ads = J('ads'), voyage = J('voyage'), chars = J('characters'), daily = J('daily');
 const S = duel.security, bad = [];
 const has = (what, re) => { if (!re.test(rules)) bad.push(what); };
 has('plafonds des vagues', new RegExp('\\[' + S.waveCaps.join(',\\s*') + '\\]\\[k\\]'));
@@ -15,6 +15,8 @@ has('Empreintes +/-', new RegExp('o == 1 \\? ' + duel.prints.win + ' : \\(o == -
 { const T = duel.arenas.thresholds, n = T.length, parts = [];
   for (let i = n - 1; i >= 1; i--) parts.push('p >= ' + T[i] + ' \\? ' + (i + 1) + ' : ');
   has('paliers des arènes du Duel', new RegExp('return ' + parts.join('\\(') + '1' + '\\)'.repeat(n - 2) + ';')); }
+// Pays du classement (data/classement.json → countries) : même liste, même ordre.
+has('liste des pays', new RegExp('c in \\[' + classement.countries.map(c => "'" + c + "'").join(', ') + '\\]'));
 has('record du Voyage', new RegExp('v <= ' + S.voyage.perSecond + ' \\* t \\* \\(' + S.voyage.base + ' \\+ ' + S.voyage.growth + ' \\* t\\)'));
 has('pub récompensée (gemmes)', new RegExp('n\\.gems == o\\.gems \\+ ' + ads.rewarded.gems.amount + ' '));
 has('pubs par jour', new RegExp('n\\.adCount <= ' + ads.rewarded.gems.perDay));

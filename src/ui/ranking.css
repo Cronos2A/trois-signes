@@ -44,3 +44,37 @@
 .rp-reason{height:auto;min-height:48px;padding:6px 14px;line-height:1.2;text-align:center;background:var(--color-bg)}
 .rp-card{gap:10px}
 .du-report{align-self:center;padding:0 16px;background:var(--color-bg);color:#B3261E}
+/* Classement par arène, global et par pays (07/10/2026) */
+.rk-card{gap:8px}
+.rk-vtabs{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:8px}
+.rk-vtab{height:34px;min-width:0;border-radius:999px;border:2.5px solid var(--ink);background:var(--color-bg);font-weight:800;font-size:13px;color:var(--ink);padding:0 4px;
+  white-space:nowrap}
+.rk-vtab.on{background:var(--sun);box-shadow:0 3px 0 var(--ink)}
+.rk-arena{display:flex;align-items:center;gap:8px;padding:6px 8px;border:3px solid var(--ink);border-radius:18px;box-shadow:0 3px 0 var(--ink);min-height:52px;box-sizing:border-box}
+.rk-arena .rk-arrow{color:var(--ink)}
+.rk-arena .rk-arrow:disabled{opacity:.35}
+.rk-arena-txt{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;line-height:1.2}
+.rk-arena-txt b{font-family:var(--font-heading);font-weight:400;font-size:15px}
+.rk-arena-txt span{font-size:12px;font-weight:800}
+.rk-country{display:flex;align-items:center;gap:8px}
+.rk-country select,.rk-ask-sel,.acc-country select{flex:1;min-width:0;width:100%;height:48px;padding:0 10px;border:3px solid var(--ink);border-radius:14px;
+  background:var(--color-bg);color:var(--ink);font:inherit;font-weight:700;font-size:14px;box-sizing:border-box}
+.rk-cflag{flex:none;width:20px;text-align:center;font-size:16px;line-height:1}
+.rk-badge{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-heading);font-size:12px;box-sizing:border-box}
+.rk-pull{flex:none;height:0;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;font-size:12px;font-weight:800;color:var(--text-soft);transition:height .15s}
+.rk-more{align-self:center;flex:none;padding:0 18px;margin:6px 0}
+.rk-foot{display:flex;flex-direction:column;gap:4px}
+.rk-note{text-align:center;font-size:12px;font-weight:800;color:var(--text-soft)}
+.rk-off{color:#B3261E}
+.rk-row .rk-name{font-size:13.5px}
+/* Pays demandé à la première ouverture */
+.rk-ask{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;
+  background:color-mix(in srgb,var(--ink) 55%,transparent);font-family:var(--font-body);color:var(--ink)}
+.rk-ask-card{gap:12px;max-width:360px}
+.rk-ask-title{font-size:28px}
+.rk-ask-txt{margin:0;text-align:center;font-size:14px;font-weight:700}
+/* Réglages → Compte : pays */
+.acc-country{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:800;width:100%}
+.acc-country select,.rk-ask-sel{flex:none}
+.acc-country{margin-bottom:10px}

@@ -52,6 +52,7 @@ export function onBack() {
     leave();                                                                         // même confirmation que le bouton « Quitter »
     return true;
   }
+  if (document.querySelector('.rk-ask')) { clickFirst(['.rk-ask [data-ok]']); return true; }   // pays demandé : validé tel quel
   if (shown($('ranking'))) { clickFirst(['.rk-close']); return true; }
   if (shown($('shopModal'))) { if (!clickFirst(['#shopModal [data-act="closeShop"]'])) { $('shopModal').className = 'lb-modal hidden'; $('shopModal').innerHTML = ''; } return true; }
   if (shown($('settings'))) { clickFirst(['#settings [data-act="backSettings"]', '#settings [data-act="closeSettings"]']); return true; }

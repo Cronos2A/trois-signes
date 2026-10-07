@@ -1,6 +1,6 @@
 # Three Signs — brief pour Claude Code
 
-État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
+État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 **Titre du jeu : « Three Signs » dans les 5 langues, jamais traduit** (décision du 03/10/2026 ; avant : « Trois Signes »).
@@ -265,11 +265,12 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   envoi au retour du réseau (nouvel essai toutes les 20 s). Les Réglages du son (`ts_settings`) restent propres à l'appareil.
 - **Règles de sécurité** : `firestore.rules` (publiées dans la console le 29/09/2026, puis le 01/10/2026 avec `daily/{uid}` et les gemmes du jour ; `firebase.json` pour `firebase deploy --only firestore:rules`) :
   chaque joueur ne lit, n'écrit et ne supprime QUE `players/{son uid}` ; document validé (champs, pseudo ≤ 16, sauvegarde < 400 Ko) ;
-  salons `duels/{code}` (entrée figée après 30 s d'absence) et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}`, Empreintes et plus haute arène `ranked/{uid}`,
+  salons `duels/{code}` (entrée figée après 30 s d'absence) et file d'attente `queue/{uid}` (voir Duel), classements `leaderboard/{uid}`, Empreintes, plus haute arène, arène de classement et pays `ranked/{uid}`,
   gemmes `wallet/{uid}`, début de partie du Voyage `runs/{uid}` (voir « Sécurité »), récompenses de connexion `daily/{uid}`, comptes supprimés
   `closed/{uid}` (`wallet`, `daily`, `ranked` effaçables seulement après, et jamais recréés), signalements `reports/{id}` ; tout le reste fermé.
   **Règles du 01/10/2026 (comptes supprimés, signalements) : à publier dans la console** (sinon suppression et signalement échouent).
   **Règles du 05/10/2026 (`ranked/{uid}.areneMaxDuel`, plus haute arène de Duel jamais en baisse) : à publier dans la console.**
+  **Règles du 07/10/2026 (classement : `arene`, `pays`, `since` dans `ranked` et `leaderboard`) + index de `firestore.indexes.json` : à publier.**
   **Règles du 03/10/2026 (Duel : absence de 30 s, entrée figée, match annulé, champ `hp`) : à publier dans la console** (sinon la reprise
   après fermeture et l'annulation ne sont pas appliquées par le serveur, et le champ `hp` des signes de vie est refusé).
 - **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
@@ -409,7 +410,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   (`security.waveCaps` : 4 000 / 4 400 / 4 800 / 5 400 / 6 000), jamais rendus moins de `minWaveSeconds` (3 s) après le début de la vague
   (`waveAt`, heure du serveur, notée par `startWave`) ; vague suivante seulement après avoir rendu la précédente ; KO, fin, abandon
   définitifs ; héros figé une fois « Prêt ». Mesures (bot surhumain) : 3 216 points au plus sur une vague, vague la plus rapide 4,7 s.
-- **Empreintes** : `ranked/{uid}` = `{ prints, areneMaxDuel, last, updatedAt }` fait foi (`src/online/ranked.js`). Après un Duel au hasard, chaque joueur
+- **Empreintes** : `ranked/{uid}` = `{ prints, areneMaxDuel, arene, pays, since, last, updatedAt }` fait foi (`src/online/ranked.js`). Après un Duel au hasard, chaque joueur
   envoie le résultat des **deux** joueurs ; les règles recalculent l'issue d'après le salon (même calcul que `outcome` en JS : abandon,
   déconnexion de 30 s, KO, scores) et n'acceptent que +30 / −20 / 0, une seule fois par salon (`ranked/{uid}/games/{code}`).
   Un perdant ne peut donc pas éviter sa défaite en ne l'envoyant pas. File d'attente et classement Duel : Empreintes = celles du serveur.
@@ -444,21 +445,43 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   score au-dessus du plafond et score réécrit refusés, score normal accepté. La durée minimale d'une vague n'a pas pu être prise en défaut
   depuis l'environnement de test (7 s de réseau entre deux écritures) : vérifiée sur l'émulateur (score rendu 0,5 s après : refusé).
 
-## Classements — `data/online.json` → `leaderboard` — **fait (étape 4)**
-- Onglet Jouer : bouton **Classements** sur la carte du Voyage → écran à deux onglets **Voyage** (meilleur score) et **Duel** (Empreintes) :
-  top 100 mondial (rang, héros favori, pseudo, score ; ex æquo au même rang), ma ligne surlignée, ma position en bas
-  (« 71e · Toi · Alpha 5 050 », aussi hors du top 100 ; « Pas encore classé » à 0). Code : `src/online/leaderboard.js`, `src/ui/ranking-ui.js`, `ranking.css`.
-- Ligne `leaderboard/{uid}` = `{ pseudo, hero, voyage, prints, updatedAt }`, écrite après chaque envoi de la sauvegarde si une valeur a changé.
-  **Seul le meilleur score du Voyage** est gardé : jamais plus bas que celui déjà au serveur (le client prend le plus haut, les règles refusent une baisse),
-  et plausible pour la durée de la partie (voir « Sécurité »). Empreintes : celles de `ranked/{uid}`.
-  Héros favori = le plus joué (`prog.played`, compté à chaque partie hors leçon ; sinon le plus haut niveau).
-- Position : nombre de joueurs strictement devant + 1 (requête de comptage, offre Spark). Chaque joueur envoie ses propres valeurs : pas de contrôle anti-triche.
-- Règles : lecture pour tout joueur connecté ; écriture et suppression de sa seule ligne ; champs validés (pseudo 3 à 16, entiers ≥ 0).
-- Testé le 29/09/2026 sur l'émulateur avec 120 joueurs fictifs et deux navigateurs (390 × 800 et 360 × 640) : Alpha 71e au Voyage (dans le top),
-  Bravo 122e (hors top) et 60e en Duel, « Pas encore classé » à 0 Empreinte, héros favori (Kestrel), baisse du score et écriture
-  de la ligne d'un autre refusées, nouveau record → 1er, record local plus bas → la ligne garde le meilleur, aucune erreur ni débordement.
-  Règles republiées le 29/09/2026 et vérifiées sur le vrai serveur : ligne écrite (pseudo, héros favori, record, Empreintes), top et position
-  lus pour les deux classements, baisse du record refusée (permission-denied) ; ligne de test supprimée ensuite.
+## Classements — `data/classement.json`, `data/online.json` → `leaderboard` — **fait (étape 4, refait le 07/10/2026)**
+- Onglet Jouer : bouton **Classements** sur la carte du Voyage → écran (`src/ui/ranking-ui.js`, `ranking.css`, textes `ranking.*` + `leaderboard.ui`) :
+  sélecteur **Duel / Voyage**, puis les vues. **Duel** : « Mon arène » (par défaut), « Global », « Pays ». **Voyage** : « Global », « Pays » (pas d'arènes).
+  Règles de gain et de perte d'Empreintes inchangées.
+- **Arène de classement** = arène des Empreintes actuelles (paliers `duel.json → arenas.thresholds`, arènes 1 à 8, noms du Voyage) : chaque arène
+  a son tableau. « Mon arène » : bannière (nom, couleurs du fond du lobby de cette arène `lobby_themes.json`, fourchette d'Empreintes), flèches pour
+  voir les autres arènes, top 50 ; sous ma ligne « Plus que N Empreintes pour l'arène suivante » ou « Arène maximale ». Global et Pays : badge
+  d'arène (numéro aux couleurs du thème) sur chaque ligne. Chaque ligne : rang, héros favori, drapeau, pseudo, valeur, « Signaler ».
+- **Ma ligne toujours visible** en bas (rang dans mon arène / global / mon pays, drapeau, badge) ; jamais classé : « Joue un Duel pour entrer au
+  classement. » ; arène presque vide : « Tu es le premier de ton arène ! » ; arène, pays ou classement vides : un message, jamais d'écran vide.
+- **Égalités** : le premier arrivé devant (`since` = date d'obtention des Empreintes actuelles, la plus ancienne gagne) ; le rang d'une ligne est sa
+  position. Voyage : ex æquo au même rang (comme avant).
+- **Pays** (`src/game/country.js`) : aucune localisation ni adresse IP. Par défaut la région de la langue du téléphone (fr-FR → FR) ; sans région,
+  demandé à la première ouverture du classement (fenêtre « Ton pays »). Liste ISO 3166 (`classement.json → countries`, 249 pays), noms par
+  `Intl.DisplayNames` dans la langue du jeu, drapeau en émoji, « Non précisé » (null : présent dans Global, absent des listes de pays).
+  Modifiable dans Réglages → Compte (« Pays (classements) »). Sauvegarde `prog.profile.pays`.
+- **Données** : `ranked/{uid}` reçoit `arene` (= arène des Empreintes, recalculée par les règles à chaque résultat), `pays` (changé par le joueur
+  seul : `countryStep`, code de la liste ou null) et `since` (gardé si les Empreintes ne changent pas). La ligne `leaderboard/{uid}` =
+  `{ pseudo, hero, voyage, prints, arene, pays, since, updatedAt }` les recopie, vérifiées par les règles ; sans Duel au hasard joué : ni `arene`
+  ni `since` (absent des classements du Duel), pays valide ou null. Règles d'avant pas publiées : le jeu renvoie l'ancienne forme (rien ne casse).
+- **Coût** (`classement.json`) : une vue = 50 lignes (`pageSize`), « Voir plus » par 25 (`moreSize`) ; rang par requêtes de comptage `count()`
+  (joueurs de la même arène / du même pays / de tous avec plus d'Empreintes, plus ceux à égalité arrivés avant) ; cache de 5 minutes sur l'appareil
+  (`cacheMinutes`, clé `ts_rank_cache`), rafraîchi en tirant la liste vers le bas (`pullPx`), jamais en continu ; hors connexion (ou serveur muet
+  `timeoutSeconds`) : dernier classement en cache marqué « Hors ligne ». Lectures à l'ouverture d'une vue ≈ 53 (50 lignes + ma ligne + ma fiche
+  ranked + 2 comptages si je ne suis pas dans le top) ; même vue dans les 5 minutes : 0.
+- **Index composites** (`firestore.indexes.json`, référencé par `firebase.json`) : leaderboard (arene, prints ↓, since ↑), (arene, prints ↑, since ↑),
+  (pays, prints ↓, since ↑), (pays, prints ↑, since ↑), (prints ↓, since ↑), (prints ↑, since ↑), (pays, voyage ↓), (pays, voyage ↑).
+  **À créer dans la console** (étapes dans `AVANT_PUBLICATION.md`) ; l'émulateur ne les exige pas (non testables ici).
+- Suppression du compte : `ranked` (pays compris) et `leaderboard` effacés, cache du classement retiré de l'appareil.
+- Vérifié le 07/10/2026 sur l'émulateur avec **200 joueurs simulés** (8 arènes, 10 pays, égalités) : les 7 vues (arène 2 et 8, global, France, Maroc,
+  Voyage global et France) identiques au calcul indépendant (lignes, ordre, mon rang), « Voir plus » (100 lignes dans l'ordre), égalités
+  (4 joueurs à 400, ordre d'arrivée), cache (2e lecture en cache, tirer vers le bas relit), hors ligne (cache + « Hors ligne », sans cache :
+  message), passage d'arène par de vrais Duels (290 → 320 : arène 2 ; 590 → 620 : arène 3), arène 8 (« Arène maximale »), changement de pays
+  dans les Réglages (ranked et ligne en BE, vue Pays relue), pays demandé à la 1re ouverture (langue sans région), joueur jamais classé,
+  « premier de ton arène », arène vide, suppression du compte ; règles : arène fausse (1 ou 3), pays ≠ ranked, pays XX ou « fr », date avancée,
+  ligne sans arène, `ranked` arène 5, pays + Empreintes, pays d'un autre joueur refusés ; pays BE ou null acceptés. 5 langues, 360 × 640 et
+  390 × 800 : aucun débordement, aucun écart trop serré, aucune erreur ; contraste bannière et badges ≥ 5,2:1 sur les 8 arènes.
 
 ## Mode Histoire — `data/story_mode.json`
 - **Tout le texte y est, affiché tel quel : ne pas le réécrire.** Code : `src/story/story.js` (déroulé), `src/ui/story-ui.js` (écrans),
@@ -674,7 +697,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
 - **Aucun texte visible dans le code** : `tr('clé')` et `data/i18n/fr.json` (voir « Langues ») ; nombres par `nf` / `nfi`, jamais `toLocaleString('fr-FR')`.
-  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version, fin_de_partie, chargement, lobby_themes.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version, fin_de_partie, chargement, lobby_themes, classement.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -707,7 +730,7 @@ src/
          supers.js  settings.js  tutorial.js  voyage.js  weapons.js (armes, XP, niveaux, style)
          talismans.js  rewards.js (récompenses méritées, rétroactives)  economy.js (or, gemmes, coffres)  cosmetics.js
          variants.js (variantes sbire / brute / boss selon l'arène ou le combat)  duel.js (Duel : programme, pression, victoire)
-         duel-rank.js (Empreintes, arènes du Duel)  daily.js (récompenses de connexion)  boosts.js (boosts XP / or)  lifecycle.js (arrière-plan)
+         duel-rank.js (Empreintes, arènes du Duel)  country.js (pays des classements)  daily.js (récompenses de connexion)  boosts.js (boosts XP / or)  lifecycle.js (arrière-plan)
   story/story.js     déroulé du mode Histoire
   online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  account.js (Google, suppression du compte)  report.js (signalements)  leaderboard.js (classements)  ranked.js (Empreintes au serveur)  wallet.js (gemmes au serveur)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)  daily-net.js (récompenses de connexion au serveur)
   vendor/firebase/   SDK Firebase embarqué (app, auth, firestore)
@@ -720,13 +743,13 @@ src/
          reward-ui.js (écran « Nouvelle arme / Nouveau talisman / Gemmes »)  shop-ui.js (boutique, coffres, carte Cosmétiques)
          looks.js (apparence des héros)  money.js (or et gemmes)  ad-ui.js (fausse pub, Seconde chance)  cover.js (écran de lancement)
          account-ui.js (pseudo, bloc Compte des Réglages, sauvegarde endommagée)  tips.js (explications à la 1re rencontre)
-         back.js (bouton Retour du téléphone)  quit-confirm.js (« Quitter la partie ? »)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements)
+         back.js (bouton Retour du téléphone)  quit-confirm.js (« Quitter la partie ? »)  orient.js (portrait, « Tourne ton téléphone »)  duel-ui.js (salon, attente, pression, fin du Duel)  ranking-ui.js (classements : Duel / Voyage, arène, global, pays)
          daily-ui.js (fenêtre du jour, écran Récompenses, bouton cadeau, proposition de boost, pastille de combat)
          report-ui.js (fenêtre « Signaler un pseudo »)  loading.js + loading.css (écran de chargement)  end-seq.js (séquences de défaite / victoire, panneau de fin)  fonts.css (polices embarquées)  touch.css (zones tactiles, chargé en dernier)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css  daily.css
-data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version fin_de_partie chargement lobby_themes (.json)
+data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version fin_de_partie chargement lobby_themes classement (.json)
   i18n/  languages.json  fr.json (textes de l'interface)  GLOSSAIRE.md
-firestore.rules  firebase.json   règles de sécurité Firestore
+firestore.rules  firebase.json  firestore.indexes.json   règles de sécurité et index Firestore
 legal/  supprimer-mon-compte.html (Play Store : « URL de suppression du compte »)  politique-de-confidentialite.html  conditions-utilisation.html
 tools/check-rules.mjs            vérifie que les chiffres des règles sont ceux de data/
 tools/android/                   emballage Android : build-www.mjs, icons.mjs, cle/apk/aab/empreintes/verifier.ps1

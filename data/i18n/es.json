@@ -2919,5 +2919,43 @@
   "lobbyTheme": {
     "test": "Fondo del lobby (arena de Duelo)",
     "auto": "Auto"
+  },
+  "ranking": {
+    "view": {
+      "arena": "Mi arena",
+      "global": "Global",
+      "country": "País"
+    },
+    "arenaN": "Arena {n}",
+    "range": "De {from} a {to} Huellas",
+    "rangeTop": "{from} Huellas o más",
+    "prevArena": "Arena anterior",
+    "nextArena": "Arena siguiente",
+    "toNext": {
+      "one": "Solo {n} Huella para la arena siguiente",
+      "other": "Solo {n} Huellas para la arena siguiente"
+    },
+    "maxArena": "Arena máxima",
+    "firstOfArena": "¡Eres el primero de tu arena!",
+    "emptyArena": "Todavía no hay nadie en esta arena.",
+    "emptyCountry": "Todavía no hay nadie de este país en la clasificación.",
+    "emptyGlobal": "Todavía no hay nadie en la clasificación.",
+    "playDuel": "Juega un Duelo para entrar en la clasificación.",
+    "offline": "Sin conexión",
+    "offlineNoCache": "Sin conexión: la clasificación aparecerá en cuanto vuelva la conexión.",
+    "more": "Ver más",
+    "pull": "Desliza hacia abajo para actualizar",
+    "release": "Suelta para actualizar",
+    "refreshing": "Actualizando…",
+    "unspecified": "Sin especificar",
+    "countryLabel": "País (clasificaciones)",
+    "countryAria": "Elegir un país",
+    "pickCountry": "Elige un país",
+    "pickCountryHint": "Elige un país para ver a sus jugadores.",
+    "noCountry": "País sin especificar",
+    "noCountryHint": "Elige tu país en los Ajustes para aparecer en su clasificación.",
+    "askTitle": "Tu país",
+    "askText": "Elige tu país para las clasificaciones por país. Podrás cambiarlo en cualquier momento en los Ajustes.",
+    "validate": "Confirmar"
   }
 }

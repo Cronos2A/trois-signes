@@ -2916,5 +2916,43 @@
   "lobbyTheme": {
     "test": "Lobby background (Duel arena)",
     "auto": "Auto"
+  },
+  "ranking": {
+    "view": {
+      "arena": "My arena",
+      "global": "Global",
+      "country": "Country"
+    },
+    "arenaN": "Arena {n}",
+    "range": "{from} to {to} Imprints",
+    "rangeTop": "{from} Imprints and up",
+    "prevArena": "Previous arena",
+    "nextArena": "Next arena",
+    "toNext": {
+      "one": "Just {n} Imprint to the next arena",
+      "other": "Just {n} Imprints to the next arena"
+    },
+    "maxArena": "Highest arena",
+    "firstOfArena": "You're the first in your arena!",
+    "emptyArena": "No one in this arena yet.",
+    "emptyCountry": "No one from this country is ranked yet.",
+    "emptyGlobal": "No one is ranked yet.",
+    "playDuel": "Play a Duel to enter the rankings.",
+    "offline": "Offline",
+    "offlineNoCache": "Offline: the rankings will show as soon as you're back online.",
+    "more": "Show more",
+    "pull": "Pull down to refresh",
+    "release": "Release to refresh",
+    "refreshing": "Updating…",
+    "unspecified": "Not specified",
+    "countryLabel": "Country (rankings)",
+    "countryAria": "Choose a country",
+    "pickCountry": "Choose a country",
+    "pickCountryHint": "Choose a country to see its players.",
+    "noCountry": "Country not specified",
+    "noCountryHint": "Choose your country in Settings to be ranked there.",
+    "askTitle": "Your country",
+    "askText": "Choose your country for the country rankings. You can change it at any time in Settings.",
+    "validate": "Confirm"
   }
 }

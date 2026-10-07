@@ -9,11 +9,13 @@ rules_version = '2';
 // - duels/{code}       salon de Duel : chacun n'écrit que son entrée ; scores de vague seulement ajoutés, plafonnés, pas trop rapides.
 // - queue/{uid}        file du Duel au hasard ; Empreintes = celles du serveur.
 // - ranked/{uid}       Empreintes : seulement +30 / −20 / 0 d'après le résultat d'un salon, une fois par partie (ranked/{uid}/games/{code}) ;
-//                      areneMaxDuel (plus haute arène atteinte) jamais en baisse, cohérente avec les Empreintes.
+//                      areneMaxDuel (plus haute arène atteinte) jamais en baisse, cohérente avec les Empreintes ; arene (arène de classement)
+//                      = celle des Empreintes ; pays changé par le joueur seul ; since = date d'obtention des Empreintes.
 // - wallet/{uid}       gemmes : gains d'une table fixe (une fois chacun), pub +5 (3 par jour), dépenses, récompense de connexion.
 // - daily/{uid}        récompenses de connexion : une récupération par jour de Paris (série de 7 jours, calendrier de 30).
 // - runs/{uid}         début de la dernière partie du Voyage (heure du serveur) : borne le record accepté.
-// - leaderboard/{uid}  classements : Empreintes = ranked ; record du Voyage qui ne baisse jamais et plausible pour la durée de la partie.
+// - leaderboard/{uid}  classements : Empreintes, arène, pays et date d'obtention = ranked ; record du Voyage qui ne baisse jamais et plausible
+//                      pour la durée de la partie.
 // - closed/{uid}       compte supprimé par son joueur (seulement { at }) : ses gemmes, Empreintes et récompenses de connexion peuvent
 //                      alors être effacées, et ne peuvent plus être recréées (sinon effacer puis recréer rejouerait les gains).
 // - reports/{id}       signalements de pseudos : écrits par les joueurs, lus seulement depuis la console Firebase.
@@ -188,6 +190,10 @@ service cloud.firestore {
     function arenaOf(p) {
       return p >= 3600 ? 8 : (p >= 2800 ? 7 : (p >= 2100 ? 6 : (p >= 1500 ? 5 : (p >= 1000 ? 4 : (p >= 600 ? 3 : (p >= 300 ? 2 : 1))))));
     }
+    // Pays choisi par le joueur (data/classement.json → countries, codes ISO 3166 à 2 lettres) ; null = « Non précisé ».
+    function validCountry(c) {
+      return c == null || (c is string && c in ['AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AW', 'AX', 'AZ', 'BA', 'BB', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BL', 'BM', 'BN', 'BO', 'BQ', 'BR', 'BS', 'BT', 'BV', 'BW', 'BY', 'BZ', 'CA', 'CC', 'CD', 'CF', 'CG', 'CH', 'CI', 'CK', 'CL', 'CM', 'CN', 'CO', 'CR', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ', 'DE', 'DJ', 'DK', 'DM', 'DO', 'DZ', 'EC', 'EE', 'EG', 'EH', 'ER', 'ES', 'ET', 'FI', 'FJ', 'FK', 'FM', 'FO', 'FR', 'GA', 'GB', 'GD', 'GE', 'GF', 'GG', 'GH', 'GI', 'GL', 'GM', 'GN', 'GP', 'GQ', 'GR', 'GS', 'GT', 'GU', 'GW', 'GY', 'HK', 'HM', 'HN', 'HR', 'HT', 'HU', 'ID', 'IE', 'IL', 'IM', 'IN', 'IO', 'IQ', 'IR', 'IS', 'IT', 'JE', 'JM', 'JO', 'JP', 'KE', 'KG', 'KH', 'KI', 'KM', 'KN', 'KP', 'KR', 'KW', 'KY', 'KZ', 'LA', 'LB', 'LC', 'LI', 'LK', 'LR', 'LS', 'LT', 'LU', 'LV', 'LY', 'MA', 'MC', 'MD', 'ME', 'MF', 'MG', 'MH', 'MK', 'ML', 'MM', 'MN', 'MO', 'MP', 'MQ', 'MR', 'MS', 'MT', 'MU', 'MV', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NC', 'NE', 'NF', 'NG', 'NI', 'NL', 'NO', 'NP', 'NR', 'NU', 'NZ', 'OM', 'PA', 'PE', 'PF', 'PG', 'PH', 'PK', 'PL', 'PM', 'PN', 'PR', 'PS', 'PT', 'PW', 'PY', 'QA', 'RE', 'RO', 'RS', 'RU', 'RW', 'SA', 'SB', 'SC', 'SD', 'SE', 'SG', 'SH', 'SI', 'SJ', 'SK', 'SL', 'SM', 'SN', 'SO', 'SR', 'SS', 'ST', 'SV', 'SX', 'SY', 'SZ', 'TC', 'TD', 'TF', 'TG', 'TH', 'TJ', 'TK', 'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UA', 'UG', 'UM', 'US', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VI', 'VN', 'VU', 'WF', 'WS', 'YE', 'YT', 'ZA', 'ZM', 'ZW']);
+    }
     // Nouvelles Empreintes de x après le salon d.last : +30 / −20 / 0 (data/duel.json → prints), jamais sous 0, une seule fois par salon.
     // areneMaxDuel : plus haute arène atteinte, jamais en baisse = max(l'ancienne, l'arène des nouvelles Empreintes) ;
     // ancienne absente (document d'avant le 05/10/2026) : l'arène des Empreintes qu'il contenait.
@@ -199,8 +205,15 @@ service cloud.firestore {
       let next = old + (o == 1 ? 30 : (o == -1 ? -20 : 0));
       let p = next < 0 ? 0 : next;
       let oldMax = resource == null ? 1 : resource.data.get('areneMaxDuel', arenaOf(old));
-      return d.keys().hasOnly(['prints', 'areneMaxDuel', 'last', 'updatedAt']) && d.updatedAt == request.time
+      // arene : arène de classement = celle des nouvelles Empreintes ; pays : inchangé (seul le joueur le change, voir countryStep) ;
+      // since : date d'obtention des Empreintes actuelles (départage les égalités), gardée si elles ne changent pas.
+      let oldPays = resource == null ? null : resource.data.get('pays', null);
+      let oldSince = resource == null ? null : resource.data.get('since', resource.data.updatedAt);
+      return d.keys().hasOnly(['prints', 'areneMaxDuel', 'arene', 'pays', 'since', 'last', 'updatedAt']) && d.updatedAt == request.time
         && d.areneMaxDuel == (arenaOf(p) > oldMax ? arenaOf(p) : oldMax)
+        && d.arene == arenaOf(p)
+        && d.pays == oldPays
+        && d.since == ((resource == null || p != old) ? request.time : oldSince)
         && d.last is string && d.last.size() == 6
         && r.mode == 'random' && r.guest != null
         && (request.auth.uid == r.host || request.auth.uid == r.guest)
@@ -210,10 +223,15 @@ service cloud.firestore {
         && existsAfter(/databases/$(database)/documents/ranked/$(x)/games/$(d.last))
         && d.prints == p;
     }
+    // Le joueur change son pays (Réglages, classement) : seul le champ pays, code valide ou null.
+    function countryStep(x) {
+      return isOwner(x) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['pays'])
+        && validCountry(request.resource.data.pays);
+    }
     match /ranked/{uid} {
       allow read: if signedIn();
       allow create: if signedIn() && rankedStep(uid) && !closed(uid);
-      allow update: if signedIn() && rankedStep(uid);
+      allow update: if signedIn() && (rankedStep(uid) || countryStep(uid));
       allow delete: if isOwner(uid) && closed(uid);
       match /games/{code} {
         allow read: if signedIn();
@@ -339,13 +357,22 @@ service cloud.firestore {
       return exists(/databases/$(database)/documents/runs/$(request.auth.uid)) && v <= 600 * t * (3 + 0.025 * t);
     }
     match /leaderboard/{uid} {
+      // arene, since et pays : recopiés de ranked/{uid} (arène des Empreintes, date d'obtention, pays) ; sans Duel au hasard joué,
+      // ni arene ni since (la ligne n'entre pas au classement du Duel) et un pays valide ou null (classement du Voyage par pays).
+      function sameAsRanked(d, rk) {
+        return d.arene == arenaOf(rk.prints) && d.since == rk.get('since', rk.updatedAt) && d.get('pays', null) == rk.get('pays', null);
+      }
       function validBoard() {
         let d = request.resource.data;
-        return d.keys().hasOnly(['pseudo', 'hero', 'voyage', 'prints', 'updatedAt'])
+        let has = exists(/databases/$(database)/documents/ranked/$(uid));
+        return d.keys().hasOnly(['pseudo', 'hero', 'voyage', 'prints', 'arene', 'pays', 'since', 'updatedAt'])
           && d.pseudo is string && d.pseudo.size() >= 3 && d.pseudo.size() <= 16
           && d.hero is string && d.hero.size() <= 20
           && d.voyage is int && d.voyage >= 0
           && d.prints == rankedPrints(uid)
+          && validCountry(d.get('pays', null))
+          && (has ? sameAsRanked(d, get(/databases/$(database)/documents/ranked/$(uid)).data)
+                  : (!('arene' in d) && !('since' in d)))
           && d.updatedAt == request.time;
       }
       allow read: if signedIn();

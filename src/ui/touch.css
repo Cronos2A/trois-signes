@@ -24,7 +24,9 @@ input[type=range] { min-height: 48px; }
 .set-langs { gap: 22px 8px; }
 .cos-opts { gap: 8px; }
 .cos-card > .mini-btn { margin-top: 14px; }             /* « Voir la boutique » sous les puces de 30 px */
-.rk-tabs { gap: 8px; margin-top: 6px; }                 /* sous la croix de fermeture */
+.rk-tabs { gap: 8px; margin-top: 12px; }                /* sous la croix de fermeture */
+.rk-vtabs { margin-top: 14px; margin-bottom: 7px; }      /* sous Duel / Voyage (zones de 48 px), au-dessus de la liste */
+.rk-arena, .rk-country { margin-top: 8px; }             /* sous les onglets des vues */
 .ps-input, .ps-dice, .du-code-in, .du-join-btn { height: 48px; }
 .shop-tabs { margin-bottom: 4px; }                      /* au-dessus des filtres de la boutique */
 .car-item.far { pointer-events: none; }                 /* héros lointains du carrousel : simple aperçu (les flèches y mènent) */

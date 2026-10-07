@@ -179,5 +179,5 @@ export async function deleteAccount() {
 
 /** Efface la progression de cet appareil (les réglages du son et de la langue restent). */
 export function wipeDevice() {
-  for (const k of ['ts_prog', 'ts_prog_damaged', A().backupKey]) { try { localStorage.removeItem(k); } catch (e) {} }
+  for (const k of ['ts_prog', 'ts_prog_damaged', A().backupKey, D.classement.cacheKey]) { try { localStorage.removeItem(k); } catch (e) {} }
 }

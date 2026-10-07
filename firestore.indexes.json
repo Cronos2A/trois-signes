@@ -1,0 +1,133 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "leaderboard",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "arene",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "prints",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "since",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "leaderboard",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "arene",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "prints",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "since",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "leaderboard",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "pays",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "prints",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "since",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "leaderboard",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "pays",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "prints",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "since",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "leaderboard",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "prints",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "since",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "leaderboard",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "prints",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "since",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "leaderboard",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "pays",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "voyage",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "leaderboard",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "pays",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "voyage",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
