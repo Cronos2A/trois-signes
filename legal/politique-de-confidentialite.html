@@ -8,21 +8,16 @@
 :root{
   --ink:#1E2A22; --muted:#5B6B60; --paper:#FBFAF6; --card:#FFFFFF;
   --green:#1F5C35; --green-l:#EAF3EC; --orange:#E8710A; --orange-l:#FDEEDD;
-  --line:#E4E2D8; --hl:#FFE97A;
+  --line:#E4E2D8;
   --radius:14px;
   font-family: "Iowan Old Style","Palatino Linotype",Georgia,"Noto Serif",serif;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
+  :root{
     --ink:#EDEFE9; --muted:#A9B4A9; --paper:#141812; --card:#1B211B;
     --green:#7FD7A0; --green-l:#1C2A20; --orange:#FFA855; --orange-l:#2A2013;
-    --line:#2C3229; --hl:#4A4322;
+    --line:#2C3229;
   }
-}
-:root[data-theme="dark"]{
-  --ink:#EDEFE9; --muted:#A9B4A9; --paper:#141812; --card:#1B211B;
-  --green:#7FD7A0; --green-l:#1C2A20; --orange:#FFA855; --orange-l:#2A2013;
-  --line:#2C3229; --hl:#4A4322;
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--paper);color:var(--ink)}
@@ -55,7 +50,6 @@ p{margin:0 0 14px}
   background:var(--orange-l); border-left:4px solid var(--orange); border-radius:0 var(--radius) var(--radius) 0;
   padding:14px 18px; margin:14px 0; font-family:system-ui,-apple-system,sans-serif; font-size:14.5px;
 }
-mark{background:var(--hl); color:inherit; padding:0 .15em; border-radius:3px}
 strong{font-weight:600}
 ul{margin:0 0 14px; padding-left:22px}
 li{margin-bottom:6px}
@@ -83,6 +77,11 @@ footer{
   margin-top:56px; padding-top:20px; border-top:1px solid var(--line);
   font-family:system-ui,-apple-system,sans-serif; font-size:13px; color:var(--muted);
 }
+.en{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 20px;margin:0 0 22px;
+  font-family:system-ui,-apple-system,sans-serif;font-size:14.5px}
+.en h2{border:0;margin:0 0 8px;padding:0;font-size:16px}
+.en ul{margin:0;padding-left:20px}
+.en li{margin-bottom:3px}
 @media (max-width:480px){
   h1{font-size:28px} header.top{padding:38px 18px 28px} body{font-size:16px}
 }
@@ -95,11 +94,27 @@ table{table-layout:fixed}
 <header class="top"><div class="in">
   <p class="kicker">THREE SIGNS</p>
   <h1>Politique de confidentialité</h1>
-  <p class="sub">Dernière mise à jour : 2 octobre 2026</p>
+  <p class="sub">Dernière mise à jour : 9 octobre 2026</p>
 </div></header>
 
 <div class="wrap">
 <main>
+
+<section class="en" lang="en">
+<h2>In English</h2>
+<ul>
+<li>Three Signs is published by Charles-Antoine Zanettacci (Cronos2A), an independent developer.</li>
+<li>An anonymous player account is created automatically (Firebase, by Google): no name, e-mail or password.</li>
+<li>Stored online: your username, your game progress, your Duel results and Imprints, your daily rewards and gems.</li>
+<li>Your country is chosen by you (by default, the region of your phone's language); it is optional and never comes from location or IP address.</li>
+<li>Linking a Google account is optional; its e-mail is shown only to you, in the game's Settings.</li>
+<li>Visible to other players: username, favourite hero, country flag, Imprints, Duel arena and best Journey score.</li>
+<li>Usernames can be reported; reports are kept for moderation.</li>
+<li>The game currently has no ads and no purchases. Nothing is sold or shared for advertising.</li>
+<li>Delete everything at any time: Settings, “Delete my account and my data” (two confirmations, immediate).</li>
+<li>Not intended for children under 13. Contact: <a href="mailto:cronos2a.jeux@gmail.com">cronos2a.jeux@gmail.com</a>.</li>
+</ul>
+</section>
 
 <p class="intro">Cette page explique, <strong>simplement et en entier</strong>, quelles données le jeu <strong>Three Signs</strong> utilise, pourquoi, et comment les joueurs gardent le contrôle dessus. Three Signs est édité par <strong>Charles-Antoine Zanettacci</strong> (Cronos2A), développeur indépendant, responsable du traitement des données décrites ici.</p>
 
@@ -119,83 +134,90 @@ table{table-layout:fixed}
 </div>
 
 <h2 id="donnees"><span class="num">1.</span>Les données que le jeu utilise</h2>
-<p>Three Signs utilise le <strong>strict minimum</strong> de données nécessaires pour faire fonctionner la progression, le mode multijoueur et, le cas échéant, les publicités et les achats.</p>
+<p>Three Signs utilise le <strong>strict minimum</strong> de données nécessaires pour faire fonctionner la progression, le mode Duel et les classements.</p>
 
 <table>
 <tr><th>Donnée</th><th>Ce que c'est</th><th>Obligatoire ?</th></tr>
 <tr><td><strong>Identifiant de compte anonyme</strong></td><td>Un numéro généré automatiquement au premier lancement (via Firebase Authentication), sans nom, e-mail ni mot de passe</td><td>Oui</td></tr>
-<tr><td><strong>Pseudonyme</strong></td><td>Le nom affiché aux autres joueurs, choisi librement</td><td>Oui</td></tr>
-<tr><td><strong>Progression de jeu</strong></td><td>Niveaux, armes, talismans, cosmétiques, histoire terminée, scores, or et gemmes, récompenses de connexion</td><td>Oui</td></tr>
-<tr><td><strong>Données de Duel</strong></td><td>Résultats des parties en mode Duel, utilisés pour l'appariement et le classement</td><td>Oui</td></tr>
-<tr><td><strong>Compte Google</strong></td><td>Si vous choisissez « Sauvegarder ma progression avec Google » : l'identifiant de votre compte Google et son adresse e-mail, utilisés uniquement pour retrouver votre progression</td><td>Non — seulement si vous le choisissez</td></tr>
-<tr><td><strong>Signalements</strong></td><td>Lorsqu'un joueur en signale un autre : le pseudonyme signalé, le motif choisi, la date et l'identifiant du joueur qui signale</td><td>Non — seulement en cas de signalement</td></tr>
-<tr><td><strong>Identifiant publicitaire</strong></td><td>Un identifiant fourni par votre appareil, utilisé si des publicités sont affichées</td><td>Non — seulement si vous acceptez les publicités personnalisées</td></tr>
-<tr><td><strong>Informations d'achat</strong></td><td>Confirmation d'un achat effectué (gemmes, retrait des publicités), traitée par Google Play</td><td>Non — seulement en cas d'achat</td></tr>
+<tr><td><strong>Pseudonyme</strong></td><td>Le nom affiché aux autres joueurs, choisi librement (3 à 16 caractères)</td><td>Oui</td></tr>
+<tr><td><strong>Progression de jeu</strong></td><td>Niveaux, armes, talismans, cosmétiques, histoires, records, or et pays choisi, sauvegardés en ligne ; gemmes ; récompenses de connexion (jours de connexion, série) ; heure de début des parties du Voyage (pour vérifier les records)</td><td>Oui</td></tr>
+<tr><td><strong>Données de Duel</strong></td><td>Empreintes, arène, date d'obtention des Empreintes, résultats des parties ; pendant un Duel : pseudonyme, héros, scores par vague, points de vie et heure des derniers signaux de connexion, partagés avec l'adversaire</td><td>Oui, pour jouer en Duel</td></tr>
+<tr><td><strong>Pays</strong></td><td>Choisi par le joueur (par défaut, la région de la langue du téléphone, par exemple « France » pour un téléphone réglé en fr-FR), sert au classement par pays. Jamais de géolocalisation, et le jeu n'utilise pas votre adresse IP</td><td>Non — modifiable à tout moment dans les Réglages, « Non précisé » possible</td></tr>
+<tr><td><strong>Compte Google</strong></td><td>Uniquement si vous choisissez « Sauvegarder ma progression avec Google » (ou « Se connecter avec Google ») : l'identifiant de votre compte Google, conservé par Firebase Authentication pour retrouver votre progression. Le jeu affiche son adresse e-mail <strong>à vous seul</strong>, dans les Réglages ; il ne l'enregistre pas dans ses propres données, ne la montre jamais aux autres joueurs et n'utilise pas votre nom</td><td>Non — seulement si vous le choisissez</td></tr>
+<tr><td><strong>Données visibles dans les classements</strong></td><td>Pseudonyme, héros favori (le plus joué), pays (drapeau), Empreintes, arène, meilleur score du Voyage ; pendant la recherche d'un adversaire, votre pseudonyme et vos Empreintes</td><td>Oui pour les joueurs classés (pays : non)</td></tr>
+<tr><td><strong>Signalements</strong></td><td>Un joueur peut signaler un pseudonyme : le pseudonyme signalé, le motif choisi, le classement concerné, la date et l'identifiant du joueur qui signale. Le signalement est conservé pour la modération</td><td>Non — seulement en cas de signalement</td></tr>
+<tr><td><strong>Trace de suppression</strong></td><td>Après la suppression d'un compte : son identifiant au hasard et la date, sans pseudonyme ni autre donnée, pour empêcher de recréer des gemmes ou des récompenses sur ce compte</td><td>Seulement après une suppression</td></tr>
+<tr><td><strong>Identifiant publicitaire</strong></td><td>Pas utilisé aujourd'hui : le jeu ne contient pas de publicité. Si le jeu en propose un jour, un identifiant fourni par votre appareil pourra être utilisé, avec votre accord</td><td>Non</td></tr>
+<tr><td><strong>Informations d'achat</strong></td><td>Pas utilisées aujourd'hui : le jeu ne propose aucun achat. Si le jeu en propose un jour, la confirmation de l'achat sera traitée par Google Play</td><td>Non</td></tr>
 </table>
 
-<p>Le jeu <strong>ne demande jamais</strong> votre nom réel, votre numéro de téléphone ni votre localisation précise. Les polices du jeu sont intégrées à l'application : aucune donnée n'est envoyée à un service de polices en ligne.</p>
+<p>Sur votre téléphone, le jeu garde aussi votre progression, vos réglages (son, langue, vibrations) et une copie récente des classements, pour fonctionner sans connexion. Le jeu <strong>ne demande jamais</strong> votre nom réel, votre numéro de téléphone ni votre localisation. Il ne demande pas d'adresse e-mail : seule la liaison facultative avec un compte Google en fait connaître une, à vous seul. Comme pour tout service en ligne, les serveurs de Google reçoivent techniquement l'adresse IP de connexion ; le jeu ne la lit pas, ne la conserve pas et ne s'en sert pas pour vous localiser. Les polices du jeu sont intégrées : aucune donnée n'est envoyée à un service de polices en ligne. Le jeu n'utilise aucun outil de mesure d'audience.</p>
 
 <h2 id="pourquoi"><span class="num">2.</span>Pourquoi ces données sont utilisées</h2>
 <ul>
 <li><strong>Sauvegarder votre progression</strong>, et la retrouver si vous changez de téléphone ou réinstallez le jeu (avec un compte Google lié).</li>
-<li><strong>Faire fonctionner le mode Duel</strong> : trouver un adversaire, synchroniser les vagues de combat, calculer le résultat.</li>
-<li><strong>Afficher les classements</strong> (Voyage et Duel), avec votre pseudonyme.</li>
+<li><strong>Faire fonctionner le mode Duel</strong> : trouver un adversaire, synchroniser les vagues de combat, calculer le résultat et les Empreintes.</li>
+<li><strong>Afficher les classements</strong> (Duel par arène, mondial et par pays ; Voyage mondial et par pays).</li>
+<li><strong>Vérifier les scores</strong> (records du Voyage, Empreintes, gemmes) pour limiter la triche.</li>
 <li><strong>Modérer les pseudonymes</strong> et traiter les signalements des joueurs.</li>
-<li><strong>Traiter vos achats</strong>, si vous en faites, via Google Play.</li>
-<li><strong>Afficher des publicités</strong>, si le jeu en propose, et vous permettre de les retirer par un achat.</li>
+<li><strong>Traiter des achats et afficher des publicités</strong>, si le jeu en propose un jour : ce n'est pas le cas aujourd'hui.</li>
 </ul>
 <p>Ces données ne sont <strong>jamais vendues</strong>, et ne sont partagées qu'avec les prestataires techniques listés ci-dessous, dans la stricte mesure nécessaire au fonctionnement du jeu.</p>
 
 <h2 id="tiers"><span class="num">3.</span>Les services tiers utilisés</h2>
-<p>Three Signs s'appuie sur des services de <strong>Google</strong>, pour l'hébergement, le multijoueur, la connexion facultative à un compte Google et, le cas échéant, la publicité et les achats.</p>
+<p>Three Signs s'appuie sur <strong>Firebase</strong> (Google) pour l'hébergement des données, le mode Duel, les classements et la connexion facultative à un compte Google.</p>
 
 <table>
 <tr><th>Service</th><th>Rôle dans le jeu</th><th>Sa politique</th></tr>
 <tr><td><strong>Firebase</strong> (Google)</td><td>Comptes de joueur, sauvegarde de la progression, mode Duel, classements, connexion avec Google</td><td><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">firebase.google.com/support/privacy</a></td></tr>
-<tr><td><strong>Google AdMob</strong></td><td>Publicités dans le jeu, si elles sont activées</td><td><a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">policies.google.com/technologies/ads</a></td></tr>
-<tr><td><strong>Google Play</strong> (facturation)</td><td>Traitement des achats intégrés (gemmes, retrait des publicités)</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+<tr><td><strong>Google AdMob</strong></td><td>Pas utilisé aujourd'hui. Publicités, si le jeu en propose un jour</td><td><a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">policies.google.com/technologies/ads</a></td></tr>
+<tr><td><strong>Google Play</strong> (facturation)</td><td>Pas utilisé aujourd'hui. Achats intégrés, si le jeu en propose un jour</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
 </table>
 
-<p>Ces prestataires peuvent traiter des données en dehors de votre pays, y compris aux États-Unis, dans le cadre des garanties prévues par Google pour les transferts internationaux de données.</p>
+<p>Les données du jeu sont hébergées par Firebase en Europe. Google peut traiter certaines données en dehors de votre pays, y compris aux États-Unis, dans le cadre des garanties prévues pour les transferts internationaux de données.</p>
 
-<div class="note">Si des publicités personnalisées sont proposées dans l'Union européenne, au Royaume-Uni ou en Suisse, le jeu vous demande votre <strong>consentement</strong> avant tout affichage, via la fenêtre officielle de Google (UMP). Vous pouvez le refuser sans que cela vous empêche de jouer.</div>
+<div class="note">Si des publicités personnalisées sont un jour proposées dans l'Union européenne, au Royaume-Uni ou en Suisse, le jeu vous demandera votre <strong>consentement</strong> avant tout affichage, via la fenêtre officielle de Google. Vous pourrez le refuser sans que cela vous empêche de jouer.</div>
 
 <h2 id="duree"><span class="num">4.</span>Conservation et suppression des données</h2>
 <p>Votre progression et votre compte sont conservés <strong>tant que vous utilisez le jeu</strong>. Vous pouvez tout supprimer vous-même, à tout moment :</p>
 <ul>
-<li><strong>Dans le jeu</strong> : Réglages, puis « Supprimer mon compte et mes données » (avec deux confirmations). Votre progression, votre portefeuille, vos récompenses de connexion, vos classements et votre compte sont effacés des serveurs.</li>
-<li><strong>Par e-mail</strong>, si vous n'avez plus accès au jeu : écrivez à l'adresse de contact en bas de page, la suppression est faite <strong>sous 30 jours</strong>.</li>
-<li>La page <a href="supprimer-mon-compte.html">Supprimer mon compte</a> détaille la procédure.</li>
+<li><strong>Dans le jeu</strong> : Réglages, puis le bouton « Supprimer mon compte et mes données », avec deux confirmations. L'effacement est <strong>immédiat</strong> : votre progression, vos gemmes, vos récompenses de connexion, vos Empreintes, votre pays, vos lignes dans les classements, votre place dans la recherche d'adversaire et votre compte lui-même sont effacés des serveurs, ainsi que la sauvegarde de votre téléphone.</li>
+<li>La page <a href="supprimer-mon-compte.html">Supprimer mon compte</a> détaille la procédure, ce qui est effacé et ce qui est gardé ; elle indique aussi comment nous écrire si vous n'avez plus accès au jeu.</li>
 </ul>
-<p>Deux précisions : les salons de Duel déjà joués peuvent conserver un temps votre pseudonyme et vos scores, jusqu'au nettoyage des anciens salons ; les signalements de pseudonymes sont conservés le temps nécessaire à leur traitement.</p>
+<p>Ce qui reste après une suppression :</p>
+<ul>
+<li>les <strong>salons de Duel déjà joués</strong> gardent votre pseudonyme et vos scores de ces parties. Le nettoyage automatique des anciens salons <strong>n'existe pas encore</strong> : en attendant, ils sont conservés ; vous pouvez demander leur effacement par e-mail ;</li>
+<li>les <strong>signalements</strong> que vous avez envoyés, conservés pour la modération ;</li>
+<li>la <strong>trace de suppression</strong> décrite plus haut (identifiant au hasard et date).</li>
+</ul>
 
 <h2 id="droits"><span class="num">5.</span>Vos droits</h2>
 <p>Si vous résidez dans l'Union européenne, au Royaume-Uni ou en Suisse, le règlement européen sur la protection des données (RGPD) vous donne les droits suivants sur vos données :</p>
 <ul>
 <li><strong>Accès</strong> : savoir quelles données sont conservées sur votre compte.</li>
-<li><strong>Rectification</strong> : corriger une donnée inexacte (par exemple votre pseudonyme).</li>
+<li><strong>Rectification</strong> : corriger une donnée inexacte (votre pseudonyme et votre pays se modifient dans les Réglages).</li>
 <li><strong>Suppression</strong> : effacer votre compte et votre progression, directement dans le jeu ou sur demande.</li>
-<li><strong>Opposition</strong> : refuser les publicités personnalisées, à tout moment, depuis les réglages du jeu ou de votre appareil.</li>
+<li><strong>Opposition</strong> : vous opposer à un traitement, par exemple en retirant votre pays (« Non précisé »).</li>
 <li><strong>Portabilité</strong> : recevoir une copie de vos données dans un format exploitable.</li>
 <li><strong>Réclamation</strong> : contacter la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>) si vous estimez que vos droits ne sont pas respectés.</li>
 </ul>
 <p>Pour exercer un de ces droits, écrivez à l'adresse de contact en bas de page.</p>
 
 <h2 id="enfants"><span class="num">6.</span>Les enfants</h2>
-<p>Three Signs est un jeu cartoon accessible à un <strong>large public</strong>. Il ne demande jamais de nom réel, d'adresse e-mail (hors liaison facultative avec un compte Google) ni de donnée personnelle identifiante. <mark>[À compléter selon la tranche d'âge finalement déclarée sur la fiche Google Play]</mark> Si le jeu est proposé à des enfants, seules des publicités et des mesures conformes aux règles de Google pour les applications familiales sont utilisées.</p>
+<p>Three Signs n'est pas destiné aux enfants de moins de 13 ans et ne leur est pas proposé comme public cible. Le jeu peut toutefois être joué par des enfants, de préférence avec l'accord et sous la surveillance de leurs parents. Il ne demande jamais de nom réel, d'adresse e-mail, de numéro de téléphone ni de localisation précise. Si vous êtes parent et pensez qu'un enfant a communiqué des informations personnelles via le jeu, écrivez-nous : nous supprimerons son compte.</p>
 
 <h2 id="securite"><span class="num">7.</span>Sécurité</h2>
-<p>Les données sont stockées sur les serveurs sécurisés de Firebase, avec des règles d'accès qui garantissent que <strong>chaque joueur ne peut lire et modifier que ses propres données</strong>. Aucune méthode de transmission ou de stockage n'est totalement infaillible, mais des mesures raisonnables sont mises en œuvre pour protéger vos informations.</p>
+<p>Les données sont stockées sur les serveurs sécurisés de Firebase, avec des règles d'accès qui garantissent que <strong>chaque joueur ne peut modifier que ses propres données</strong>. Les autres joueurs ne peuvent lire que ce qui est nécessaire au jeu : les classements, la recherche d'adversaire et, pendant un Duel, les données de la partie. Aucune méthode de transmission ou de stockage n'est totalement infaillible, mais des mesures raisonnables sont mises en œuvre pour protéger vos informations.</p>
 
 <h2 id="modifications"><span class="num">8.</span>Modifications de cette politique</h2>
-<p>Cette politique peut évoluer, par exemple lors de l'ajout de nouveaux services. La date de dernière mise à jour, en haut de page, est actualisée à chaque changement. Les changements importants seront signalés dans le jeu.</p>
+<p>Cette politique peut évoluer, par exemple lors de l'ajout de nouveaux services (publicités, achats). La date de dernière mise à jour, en haut de page, est actualisée à chaque changement. Les changements importants seront signalés dans le jeu.</p>
 
 <h2 id="contact"><span class="num">9.</span>Contact</h2>
 <p>Pour toute question sur cette politique ou pour exercer vos droits, écrivez à :<br>
 <strong><a href="mailto:cronos2a.jeux@gmail.com">cronos2a.jeux@gmail.com</a></strong></p>
 
 <footer>
-Three Signs — Charles-Antoine Zanettacci (Cronos2A), développeur indépendant. Cette page ne constitue pas un avis juridique ; en cas de doute sur sa conformité, l'avis d'un professionnel du droit est recommandé.
+Three Signs — Charles-Antoine Zanettacci (Cronos2A), développeur indépendant. Voir aussi les <a href="conditions-utilisation.html">conditions d'utilisation</a> et la page <a href="supprimer-mon-compte.html">Supprimer mon compte</a>. Cette page ne constitue pas un avis juridique ; en cas de doute sur sa conformité, l'avis d'un professionnel du droit est recommandé.
 </footer>
 
 </main>
