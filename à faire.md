@@ -16,6 +16,9 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 - **Avant d'activer les achats intégrés : ajouter la mention d'un médiateur de la consommation dans les conditions, et l'adresse du développeur.**
 - Pas encore de nettoyage des anciens salons de Duel : les pages légales le disent tel quel (pseudo et scores gardés). Quand le ménage
   des salons sera fait (TTL), mettre à jour la politique de confidentialité et `supprimer-mon-compte.html`.
+- Le jeu **affiche l'e-mail du compte Google lié** dans Réglages → Compte (« Compte Google : … », `account-ui.js`), au joueur seul ; la politique
+  le dit tel quel. Si l'on préfère ne plus l'afficher, retirer cette ligne du jeu puis la phrase de la politique.
+- Adresses publiques des pages (GitHub Pages, dépôt public) : pas pu être ouvertes depuis l'environnement de Claude (site bloqué) : à ouvrir une fois.
 - Si des publicités ou des achats arrivent : mettre à jour la politique (tableau, services tiers) et les conditions (section « Achats et
   publicités ») **avant** leur sortie.
 

@@ -1,6 +1,6 @@
 # Three Signs — brief pour Claude Code
 
-État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
+État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; le 09/10/2026 : pages légales alignées sur le jeu ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 **Titre du jeu : « Three Signs » dans les 5 langues, jamais traduit** (décision du 03/10/2026 ; avant : « Trois Signes »).
@@ -691,6 +691,12 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   e-mail (`cronos2a.jeux@gmail.com`, aussi dans `legal/supprimer-mon-compte.html`).
   Trois liens (nouvel onglet, 48 px de haut) en bas des Réglages et dans les Crédits : « Politique de confidentialité », « Conditions
   d'utilisation », « Supprimer mon compte » (`version.json → legal`, textes `about.*` ; pages de `legal/`, fournies le 02/10/2026, en français).
+  **Pages légales mises à jour le 09/10/2026** d'après le code et `firestore.rules` (date affichée : 9 octobre 2026) : politique (tableau des données :
+  compte anonyme, pseudo, progression, Duel, pays choisi, compte Google facultatif, données visibles dans les classements, signalements, trace de
+  suppression ; pas de publicité ni d'achat aujourd'hui, formulation conditionnelle ; section Enfants : pas destiné aux moins de 13 ans ; résumé en
+  anglais), conditions (13 ans, pays, signalements, triche au Duel, ni achat ni publicité, plus de médiateur), suppression (deux confirmations,
+  effacement immédiat, salons de Duel gardés tant que leur nettoyage n'existe pas). **À tenir à jour** à chaque nouvelle donnée enregistrée,
+  à l'arrivée des pubs ou des achats (avec un médiateur de la consommation et l'adresse du développeur), et au ménage des salons.
   Adresses publiques à donner à la Play Console : `AVANT_PUBLICATION.md` (en tête). Pas de réglage de tolérance des gestes (retiré pour de bon : équité, futur Duel).
 - Écran Crédits : texte dans `data/credits.json` (`renderCredits`). À tenir à jour avec `CREDITS.md` à chaque nouvelle source.
 
