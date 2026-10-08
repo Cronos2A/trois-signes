@@ -8,21 +8,16 @@
 :root{
   --ink:#1E2A22; --muted:#5B6B60; --paper:#FBFAF6; --card:#FFFFFF;
   --green:#1F5C35; --green-l:#EAF3EC; --orange:#E8710A; --orange-l:#FDEEDD;
-  --line:#E4E2D8; --hl:#FFE97A;
+  --line:#E4E2D8;
   --radius:14px;
   font-family: "Iowan Old Style","Palatino Linotype",Georgia,"Noto Serif",serif;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
+  :root{
     --ink:#EDEFE9; --muted:#A9B4A9; --paper:#141812; --card:#1B211B;
     --green:#7FD7A0; --green-l:#1C2A20; --orange:#FFA855; --orange-l:#2A2013;
-    --line:#2C3229; --hl:#4A4322;
+    --line:#2C3229;
   }
-}
-:root[data-theme="dark"]{
-  --ink:#EDEFE9; --muted:#A9B4A9; --paper:#141812; --card:#1B211B;
-  --green:#7FD7A0; --green-l:#1C2A20; --orange:#FFA855; --orange-l:#2A2013;
-  --line:#2C3229; --hl:#4A4322;
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--paper);color:var(--ink)}
@@ -55,7 +50,6 @@ p{margin:0 0 14px}
   background:var(--orange-l); border-left:4px solid var(--orange); border-radius:0 var(--radius) var(--radius) 0;
   padding:14px 18px; margin:14px 0; font-family:system-ui,-apple-system,sans-serif; font-size:14.5px;
 }
-mark{background:var(--hl); color:inherit; padding:0 .15em; border-radius:3px}
 strong{font-weight:600}
 ul{margin:0 0 14px; padding-left:22px}
 li{margin-bottom:6px}
@@ -95,23 +89,24 @@ table{table-layout:fixed}
 <header class="top"><div class="in">
   <p class="kicker">THREE SIGNS</p>
   <h1>Conditions d'utilisation</h1>
-  <p class="sub">Dernière mise à jour : 2 octobre 2026</p>
+  <p class="sub">Dernière mise à jour : 9 octobre 2026</p>
 </div></header>
 
 <div class="wrap">
 <main>
 
-<p class="intro">Ces conditions expliquent <strong>comment jouer à Three Signs</strong> en toute confiance : ce que vous pouvez faire, ce qui est interdit, et ce qu'il faut savoir sur les objets virtuels. En utilisant le jeu, vous les acceptez. Le jeu est édité par <strong>Charles-Antoine Zanettacci</strong> (Cronos2A).</p>
+<p class="intro">Ces conditions expliquent <strong>comment jouer à Three Signs</strong> en toute confiance : ce que vous pouvez faire, ce qui est interdit, et ce qu'il faut savoir sur les objets virtuels. En utilisant le jeu, vous les acceptez. Le jeu est édité par <strong>Charles-Antoine Zanettacci</strong> (Cronos2A), développeur indépendant.</p>
 
 <div class="toc">
 <h2>Sommaire</h2>
 <ol>
+<li><a href="#age">Âge</a></li>
 <li><a href="#compte">Votre compte</a></li>
-<li><a href="#pseudo">Pseudonyme et comportement</a></li>
+<li><a href="#pseudo">Pseudonyme, pays et comportement</a></li>
 <li><a href="#fairplay">Fair-play</a></li>
 <li><a href="#virtuel">Monnaies et objets virtuels</a></li>
 <li><a href="#coffres">Les coffres</a></li>
-<li><a href="#pubs">Publicités</a></li>
+<li><a href="#pubs">Achats et publicités</a></li>
 <li><a href="#service">Disponibilité du jeu</a></li>
 <li><a href="#responsabilite">Responsabilité</a></li>
 <li><a href="#pi">Propriété intellectuelle</a></li>
@@ -121,57 +116,62 @@ table{table-layout:fixed}
 </ol>
 </div>
 
-<h2 id="compte"><span class="num">1.</span>Votre compte</h2>
-<p>Un compte <strong>anonyme</strong> est créé automatiquement au premier lancement. Vous pouvez le lier à votre compte Google, ce qui est facultatif, pour retrouver votre progression sur un autre téléphone. Vous êtes responsable de votre appareil et de votre compte Google. Vous pouvez <strong>supprimer votre compte à tout moment</strong> depuis les Réglages du jeu.</p>
+<h2 id="age"><span class="num">1.</span>Âge</h2>
+<p>Three Signs s'adresse aux joueurs de <strong>13 ans et plus</strong>. Pour un joueur mineur, l'accord et l'accompagnement de ses parents sont conseillés. Le jeu peut être joué par de plus jeunes enfants avec l'accord et sous la surveillance de leurs parents : il ne leur demande aucune information personnelle (voir la <a href="politique-de-confidentialite.html#enfants">politique de confidentialité</a>).</p>
 
-<h2 id="pseudo"><span class="num">2.</span>Pseudonyme et comportement</h2>
-<p>Votre pseudonyme est visible des autres joueurs. Sont interdits :</p>
+<h2 id="compte"><span class="num">2.</span>Votre compte</h2>
+<p>Un compte <strong>anonyme</strong> est créé automatiquement au premier lancement. Vous pouvez le lier à votre compte Google, ce qui est facultatif, pour retrouver votre progression sur un autre téléphone. Vous êtes responsable de votre appareil et de votre compte Google.</p>
+<p>Vous pouvez <strong>supprimer votre compte à tout moment</strong> : Réglages, puis « Supprimer mon compte et mes données », avec deux confirmations. L'effacement est immédiat et définitif (progression, gemmes, Empreintes, classements, compte). La page <a href="supprimer-mon-compte.html">Supprimer mon compte</a> détaille la procédure.</p>
+
+<h2 id="pseudo"><span class="num">3.</span>Pseudonyme, pays et comportement</h2>
+<p>Votre pseudonyme est visible des autres joueurs, dans les classements et en Duel. Sont interdits :</p>
 <ul>
 <li>les pseudonymes <strong>injurieux, haineux ou à caractère sexuel</strong> ;</li>
 <li>l'<strong>usurpation d'identité</strong>, y compris celle de l'éditeur ou d'un modérateur (certains mots comme « admin » ou « support » sont réservés) ;</li>
 <li>la publicité ou les coordonnées personnelles dans un pseudonyme.</li>
 </ul>
-<p>Si vous voyez un pseudonyme inapproprié, utilisez le bouton <strong>Signaler</strong> dans les classements ou après un Duel. Un pseudonyme peut être modifié ou refusé sans préavis.</p>
+<p>Le <strong>pays</strong> affiché dans les classements est celui que vous choisissez (par défaut, la région de la langue de votre téléphone) ; il est facultatif (« Non précisé ») et se change à tout moment dans les Réglages. Choisissez-le de bonne foi.</p>
+<p>Si vous voyez un pseudonyme inapproprié, utilisez le bouton <strong>Signaler</strong> dans les classements, dans le salon du Duel ou après un Duel. Les signalements sont conservés et examinés pour la modération ; un signalement abusif est lui-même un comportement interdit. Un pseudonyme peut être modifié ou refusé sans préavis.</p>
 
-<h2 id="fairplay"><span class="num">3.</span>Fair-play</h2>
-<p>Three Signs est un jeu de précision où <strong>c'est le geste qui fait la différence</strong>. Sont interdits : la triche, la modification du jeu, la falsification de scores ou de progression, l'exploitation volontaire d'une faille, et l'usage de plusieurs comptes pour manipuler un classement. En cas de triche, l'éditeur peut remettre un score à zéro, retirer un joueur des classements, ou suspendre un compte.</p>
+<h2 id="fairplay"><span class="num">4.</span>Fair-play</h2>
+<p>Three Signs est un jeu de précision où <strong>c'est le geste qui fait la différence</strong>. Sont interdits : la triche, en particulier <strong>au Duel</strong> (scores falsifiés, déconnexion volontaire pour éviter une défaite, partie arrangée entre deux comptes), la modification du jeu, la falsification de scores ou de progression, l'exploitation volontaire d'une faille, et l'usage de plusieurs comptes pour manipuler un classement. En cas de triche, l'éditeur peut remettre un score ou des Empreintes à zéro, retirer un joueur des classements, ou suspendre un compte.</p>
 
-<h2 id="virtuel"><span class="num">4.</span>Monnaies et objets virtuels</h2>
+<h2 id="virtuel"><span class="num">5.</span>Monnaies et objets virtuels</h2>
 <div class="note">L'or, les gemmes, les cosmétiques, les armes et les talismans n'ont de valeur <strong>que dans le jeu</strong> : ils ne peuvent être ni échangés, ni revendus, ni convertis en argent réel.</div>
 <ul>
-<li>Les <strong>gemmes</strong> peuvent être gagnées en jouant ou achetées via <strong>Google Play</strong>. Les achats suivent les conditions et la politique de remboursement de Google Play.</li>
+<li>Les <strong>gemmes</strong> se gagnent aujourd'hui uniquement en jouant : le jeu ne propose aucun achat avec de l'argent réel.</li>
 <li>Les <strong>cosmétiques</strong> sont purement visuels : ils ne donnent aucun avantage en jeu.</li>
-<li>La suppression d'un compte entraîne la <strong>perte définitive</strong> de tous ses objets virtuels, y compris des gemmes achetées et non utilisées.</li>
+<li>La suppression d'un compte entraîne la <strong>perte définitive</strong> de tous ses objets virtuels.</li>
 <li>L'éditeur peut modifier les prix et les récompenses pour équilibrer le jeu.</li>
 </ul>
 
-<h2 id="coffres"><span class="num">5.</span>Les coffres</h2>
-<p>Les coffres ne contiennent que des <strong>objets cosmétiques</strong>. Les <strong>probabilités</strong> de chaque rareté et la liste des objets possibles sont affichées <strong>avant tout achat</strong>. Un coffre ne donne jamais un objet déjà possédé. Les coffres payants peuvent être indisponibles dans certains pays, par exemple en Belgique.</p>
+<h2 id="coffres"><span class="num">6.</span>Les coffres</h2>
+<p>Les coffres s'ouvrent avec des gemmes gagnées en jouant et ne contiennent que des <strong>objets cosmétiques</strong>. Les <strong>probabilités</strong> de chaque rareté et la liste des objets possibles sont affichées <strong>avant toute ouverture</strong>. Un coffre ne donne jamais un objet déjà possédé. Les coffres peuvent être indisponibles dans certains pays, par exemple en Belgique.</p>
 
-<h2 id="pubs"><span class="num">6.</span>Publicités</h2>
-<p>Le jeu peut proposer des publicités. Certaines sont <strong>facultatives</strong> : vous choisissez de les regarder en échange d'une récompense. Un achat « Sans publicité » supprime les publicités imposées. Aucune publicité n'est affichée pendant un Duel.</p>
+<h2 id="pubs"><span class="num">7.</span>Achats et publicités</h2>
+<p>Le jeu ne contient aujourd'hui <strong>ni achat intégré ni publicité</strong>. S'il en propose un jour, ces conditions et la politique de confidentialité seront mises à jour avant leur arrivée, et les achats suivront les conditions et la politique de remboursement de Google Play. Aucune publicité ne sera affichée pendant un Duel.</p>
 
-<h2 id="service"><span class="num">7.</span>Disponibilité du jeu</h2>
+<h2 id="service"><span class="num">8.</span>Disponibilité du jeu</h2>
 <p>Le jeu évolue : de nouveaux contenus arrivent, et l'équilibrage peut changer. Les modes en ligne (Duel, classements, sauvegarde) peuvent être indisponibles temporairement, par exemple pendant une maintenance. Si le service devait s'arrêter, vous en seriez informé dans le jeu avec un préavis raisonnable.</p>
 
-<h2 id="responsabilite"><span class="num">8.</span>Responsabilité</h2>
+<h2 id="responsabilite"><span class="num">9.</span>Responsabilité</h2>
 <p>Le jeu est fourni « en l'état », avec le soin d'un développeur indépendant. L'éditeur ne peut garantir qu'il soit exempt d'erreurs ou ininterrompu. <strong>Aucune de ces conditions ne limite les droits que la loi vous reconnaît en tant que consommateur.</strong></p>
 
-<h2 id="pi"><span class="num">9.</span>Propriété intellectuelle</h2>
-<p>Le jeu, ses personnages, ses histoires, ses graphismes, ses sons et ses musiques appartiennent à l'éditeur ou à ses concédants. Vous pouvez y jouer pour un usage personnel. Toute copie, extraction ou réutilisation sans autorisation est interdite.</p>
+<h2 id="pi"><span class="num">10.</span>Propriété intellectuelle</h2>
+<p>Le jeu, ses personnages, ses histoires, ses graphismes, ses sons et ses musiques appartiennent à l'éditeur ou à ses concédants (voir l'écran Crédits du jeu). Vous pouvez y jouer pour un usage personnel. Toute copie, extraction ou réutilisation sans autorisation est interdite.</p>
 
-<h2 id="donnees"><span class="num">10.</span>Données personnelles</h2>
+<h2 id="donnees"><span class="num">11.</span>Données personnelles</h2>
 <p>L'utilisation de vos données est expliquée dans la <a href="politique-de-confidentialite.html">politique de confidentialité</a>. La page <a href="supprimer-mon-compte.html">Supprimer mon compte</a> explique comment les effacer.</p>
 
-<h2 id="droit"><span class="num">11.</span>Droit applicable</h2>
-<p>Ces conditions sont régies par le <strong>droit français</strong>, sans priver un consommateur de la protection que lui accordent les lois impératives de son pays de résidence. <mark>[À compléter si vous êtes considéré comme un professionnel : coordonnées du médiateur de la consommation]</mark></p>
+<h2 id="droit"><span class="num">12.</span>Droit applicable</h2>
+<p>Ces conditions sont régies par le <strong>droit français</strong>, sans priver un consommateur de la protection que lui accordent les lois impératives de son pays de résidence.</p>
 
-<h2 id="contact"><span class="num">12.</span>Contact</h2>
+<h2 id="contact"><span class="num">13.</span>Contact</h2>
 <p>Pour toute question sur ces conditions :<br>
 <strong><a href="mailto:cronos2a.jeux@gmail.com">cronos2a.jeux@gmail.com</a></strong></p>
 
 <footer>
-Three Signs — Charles-Antoine Zanettacci (Cronos2A), développeur indépendant. Cette page ne constitue pas un avis juridique ; l'avis d'un professionnel du droit est recommandé avant la publication.
+Three Signs — Charles-Antoine Zanettacci (Cronos2A), développeur indépendant. Cette page ne constitue pas un avis juridique ; l'avis d'un professionnel du droit est recommandé.
 </footer>
 
 </main>

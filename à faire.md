@@ -12,6 +12,13 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 
 ---
 
+## 🔵 Pages légales (09/10/2026)
+- **Avant d'activer les achats intégrés : ajouter la mention d'un médiateur de la consommation dans les conditions, et l'adresse du développeur.**
+- Pas encore de nettoyage des anciens salons de Duel : les pages légales le disent tel quel (pseudo et scores gardés). Quand le ménage
+  des salons sera fait (TTL), mettre à jour la politique de confidentialité et `supprimer-mon-compte.html`.
+- Si des publicités ou des achats arrivent : mettre à jour la politique (tableau, services tiers) et les conditions (section « Achats et
+  publicités ») **avant** leur sortie.
+
 ## 🔵 Classement par arène, global et par pays (07/10/2026)
 - **À faire de ton côté** : publier `firestore.rules` et créer les 8 index (`AVANT_PUBLICATION.md`, en tête : étapes et estimation des lectures).
   Sans les index, les vues du classement tombent sur « Hors ligne » (le vrai serveur refuse les requêtes) ; l'émulateur ne les exige pas : à vérifier

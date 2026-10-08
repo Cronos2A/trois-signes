@@ -59,6 +59,8 @@ dans ton navigateur avant de les coller. Si le site est publié ailleurs (autre 
 la fin `legal/…html` reste la même. Vérifié en local (02/10/2026) : les trois pages s'affichent sans débordement en 360 × 640 et 390 × 800,
 et leurs liens entre elles marchent.
 
+⚖️ **Avant d'activer les achats intégrés : ajouter la mention d'un médiateur de la consommation dans les conditions, et l'adresse du développeur.** (`legal/conditions-utilisation.html` → « Droit applicable » ; la mention a été retirée le 09/10/2026 : pas de vente pour l'instant.)
+
 ## ✅ Avancement — premier lot de préparation (01/10/2026)
 | Point | État dans le jeu | Ce qui reste |
 |---|---|---|
