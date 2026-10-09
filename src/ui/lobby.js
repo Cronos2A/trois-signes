@@ -2,7 +2,7 @@
 // Recréé d'après la maquette Claude Design design/trois-signes-maquette-lobby,
 // portraits tirés de la planche design/planche-de-personnages-trois-signes.
 import { isNative } from '../native.js';
-import { prints as duelPrints, arenaIndex as duelArena, arenaOf as duelArenaOf } from '../game/duel-rank.js';
+import { prints as duelPrints } from '../game/duel-rank.js';
 import { D } from '../data.js';
 import { prog, heroLevel, saveActive } from '../game/progress.js';
 import { glyph, facets } from './icons.js';
@@ -186,7 +186,7 @@ function render() {
     const label = tr('lobby.tabs.' + k);
     const on = ui.tab === k;
     return `<button class="tab${on ? ' on' : ''}" data-act="tab" data-arg="${k}" aria-pressed="${on}">` +
-      glyph(g, on ? '#FFD23F' : '#9ACD32', on ? 22 : 20) + `<span>${label}</span></button>`;
+      glyph(g, on ? '#FFD23F' : '#9ACD32', on ? 25 : 23) + `<span>${label}</span></button>`;
   }).join('');
   for (const [k] of TABS) $('tab-' + k).classList.toggle('on', ui.tab === k);
   $('tab-play').innerHTML = playHtml();
@@ -227,7 +227,7 @@ function playHtml() {
   const pips = V.arenas.map((a, i) => `<i style="background:${i <= max ? a.tint : '#E4D3B4'}"></i>`).join('');
   return `<div class="stage-card">
       <div class="stage-top">
-        <div class="stage-titles"><div class="kicker">${tr('lobby.soloKicker', { name: V.name.toLocaleUpperCase() })}</div><div class="stage-name">${tr('lobby.record', { name: V.name, n: nfi(prog.best || 0) })}</div></div>
+        <div class="stage-titles"><div class="stage-name">${tr('lobby.record', { name: V.name, n: nfi(prog.best || 0) })}</div></div>
         <button class="rank-btn" data-act="ranks" aria-label="${D.online.leaderboard.ui.button}"><span class="rank-cup" aria-hidden="true"></span><span>${D.online.leaderboard.ui.button}</span></button>
       </div>
       <div class="stage-far">${tr('lobby.farthest')} <b>${far ? far.name : tr('lobby.none')}</b></div>
@@ -250,12 +250,12 @@ function playHtml() {
     <div class="mode-row three">
       <button class="mode-btn solo" data-act="solo">
         <span class="badge">${tr('lobby.pve')}</span>
-        <span class="mode-txt"><span class="mode-title ol ol-5">${tr('lobby.solo')}</span><span class="mode-sub">${tr('lobby.soloSub')}</span></span>
+        <span class="mode-txt"><span class="mode-title ol ol-5">${tr('lobby.solo')}</span></span>
         <span class="mode-tri">${glyph('tri', '#FFD23F', 34)}</span>
       </button>
       <button class="mode-btn story" data-act="story">
         <span class="badge">${tr('lobby.pve')}</span>
-        <span class="mode-txt"><span class="mode-title ol ol-5">${tr('lobby.story')}</span><span class="mode-sub">${tr('lobby.storySub')}</span></span>
+        <span class="mode-txt"><span class="mode-title ol ol-5">${tr('lobby.story')}</span></span>
       </button>
       <button class="mode-btn duel" data-act="duel">
         <span class="badge">${tr('lobby.pvp')}</span>
@@ -264,9 +264,9 @@ function playHtml() {
     </div>`;
 }
 
-/** Duel : Empreintes et arène actuelle (data/duel.json → ui.printsLine). */
+/** Duel : nombre d'Empreintes seulement, sur une ligne courte (data/duel.json → ui.oppPrints). */
 function duelLine() {
-  return D.duel.ui.printsLine.replace('{prints}', nfi(duelPrints())).replace('{arena}', duelArenaOf(duelArena()).name);
+  return D.duel.ui.oppPrints.replace('{prints}', nfi(duelPrints()));
 }
 
 /* ---------- 02 · Personnage ---------- */

@@ -372,7 +372,10 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Arène actuelle = palier des Empreintes actuelles. Tout Duel (au hasard ou entre amis) se joue dans l'arène la plus haute des deux joueurs
   (décor, fond et musique de l'arène du Voyage, annoncée au départ). Boss toujours tiré au sort (`boss.pool`).
   Premier passage d'un palier : écran « Nouvelle arène débloquée » après la fin du Duel (`unlocked`).
-- Onglet Jouer : carte Duel « 320 Empreintes · Hautes-Gerbes » (aussi en tête du menu du Duel).
+- Onglet Jouer : tuile Duel « 320 Empreintes » (une ligne courte, depuis le 09/10/2026) ; « 320 Empreintes · Hautes-Gerbes » en tête du menu du Duel.
+  Lobby allégé le 09/10/2026 (retours de testeurs Android) : plus de libellé « SOLO · LE VOYAGE » ni de sous-texte sous Solo / Histoire ;
+  médaillon du héros placé sous « Revoir la leçon » / « Entraînement » (aucun chevauchement de 360 à 412 px) ; barre des onglets moins haute,
+  onglets plus grands (65 / 72 px, texte 16 / 17 px).
 - Règles : fiche de file lisible par tout joueur connecté, écrite par son propriétaire ; un autre joueur ne peut qu'y inscrire (une fois)
   le code d'un salon dont il est l'hôte. Salon au hasard : seul le joueur invité peut le rejoindre.
 - Testé le 29/09/2026 sur l'émulateur (trois navigateurs, 390 × 800 et 360 × 640) : recherche annulée (fiche retirée), rencontre 290 / 300,
