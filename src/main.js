@@ -33,7 +33,7 @@ import { onOnlineChange } from './online/online.js';
 import { openRanking } from './ui/ranking-ui.js';
 import { initBack, setLeave, onBack } from './ui/back.js';
 import { initNative, hideSplash } from './native.js';
-import { loadingProgress, loadingTip, loadingFonts, finishLoading, dropLoading } from './ui/loading.js';
+import { loadingProgress, loadingTip, loadingFonts, loadingReady, loadingFade, dropLoading, loadingTransition, transitioning } from './ui/loading.js';
 import { preloadAudio } from './audio/audio.js';
 import { initOrientation } from './ui/orient.js';
 import { ensurePseudo, askDamagedSave } from './ui/account-ui.js';
@@ -43,7 +43,7 @@ import { initTutorial, startTutorial } from './game/tutorial.js';
 import { initDuel, startDuel, resumeDuel, duelSaved } from './game/duel.js';
 import { openDuel, hideDuelUi } from './ui/duel-ui.js';
 import { showTransition, hideTransition } from './ui/voyage-ui.js';
-import { initAudio, sfx, music, placeMusic, traceStart, traceStop } from './audio/audio.js';
+import { initAudio, sfx, music, placeMusic, traceStart, traceStop, fadeOutMusic } from './audio/audio.js';
 import { tr, nf, loadI18n, applyLanguageData, applyStatic } from './i18n.js';
 import { startBoosts, boostMult, countBoostGame, boostable, offerable } from './game/boosts.js';
 import { initDaily, enableDaily, maybeDaily, offerBoosts } from './ui/daily-ui.js';
@@ -212,15 +212,20 @@ function askLeave() {
   const b0 = G.battle;
   if (G.mode === 'ending' && !document.querySelector('#duel.wait')) return Promise.resolve(false);
   if (b0 && b0.duel && (G.mode === 'play' || G.mode === 'ending' || document.querySelector('#duel.wait'))) return duelInfo().then(() => false);
+  if (transitioning()) return Promise.resolve(false);
+  const here = () => G.battle === b0 && (document.documentElement.classList.contains('in-game') || document.querySelector('#duel.wait'));
   return confirmQuit().then(q => {
     // Partie finie pendant la question (fin de vague, KO, victoire) : on ne quitte plus rien.
-    const still = G.battle === b0 && (document.documentElement.classList.contains('in-game') || document.querySelector('#duel.wait'));
-    if (q && still) toLobby();
+    if (!q || !here() || transitioning()) return false;
+    // Écran de chargement (ui/loading.js) : la musique de la partie s'éteint en fondu, le combat reste figé dessous, puis le lobby.
+    G.paused = true;
+    loadingTransition(() => { if (here()) toLobby(); });
     return q;
   });
 }
 
-function toLobby() {
+/** Retour au lobby ; quiet : sans lancer la musique du lobby (premier lancement : le prologue vient ensuite). */
+function toLobby(quiet) {
   const b = G.battle;
   flushPlay();                              // temps de jeu (pubs plein écran)
   const gems = G.gemGains || [];             // abandon : l'or et les gemmes des rounds terminés restent acquis
@@ -231,7 +236,7 @@ function toLobby() {
   hideCover();
   traceStop();
   if (b && b.onQuit) b.onQuit();          // Histoire : « Quitter » ramène au chemin des combats
-  else music('musique_lobby');
+  else if (!quiet) music('musique_lobby');
   // Boosts : un abandon compte comme une partie s'il vient après au moins un round terminé.
   if (b && G.roundsCleared >= 1) countBoostGame();
   const shown = gems.length || (b && b.xpMode === 'voyage') ? showRewards([...syncRewards(), ...gems]) : null;   // talisman, gemmes déjà versées
@@ -258,7 +263,7 @@ async function start(mode, opts = {}) {
   if (starting) return;
   starting = true;
   resetEnd();
-  showCover();
+  if (!opts.loader) showCover();                                       // Entraînement : sous l'écran de chargement (initLobby)
   const c = opts.char || activeCharacter();
   let battle = opts.battle || idleBattle();
   if (mode === 'play' && !opts.battle) { try { battle = await newVoyage(); } catch (e) { starting = false; hideCover(); throw e; } }
@@ -278,7 +283,7 @@ async function start(mode, opts = {}) {
   setupHud(c);
   G.mode = mode;
   setInGame(true);
-  hideCover();
+  if (!opts.loader) hideCover();
   if (mode === 'train') music('musique_tuto');
   if (mode === 'train') G.trainMsg = tr('train.intro');
 }
@@ -342,13 +347,16 @@ async function endGame(why) {
   syncLater(1000 * (F.defeat.slowIn + F.defeat.slowHold + F.defeat.panelAfter + F.panel.drop + 0.3));
   if (why === 'ko') await koFx(heroBody(), heroCols(c));
   else if (kind === 'victory') await victoryFx();
-  if (kind) await endPanel(kind);
-  leaveGame();
-  if (prog.pendingEnd) { delete prog.pendingEnd; saveProg(); }
-  if (b.onEnd) { showLobby(); b.onEnd(why, res, rec); return; }
-  music('musique_lobby');
-  showResults(results);
-  showRewards([...syncRewards(), ...G.gemGains, ...syncGems()]);   // talisman et gemmes (déjà versées) d'un gardien battu
+  const toSheet = () => {
+    leaveGame();
+    if (prog.pendingEnd) { delete prog.pendingEnd; saveProg(); }
+    if (b.onEnd) { showLobby(); b.onEnd(why, res, rec); return; }
+    music('musique_lobby');
+    showResults(results);
+    showRewards([...syncRewards(), ...G.gemGains, ...syncGems()]);   // talisman et gemmes (déjà versées) d'un gardien battu
+  };
+  // Après le panneau de victoire ou de défaite : écran de chargement (fondu de la musique, puis la fiche et la musique suivante).
+  if (kind) { await endPanel(kind); if (!await loadingTransition(toSheet)) toSheet(); } else toSheet();
 }
 
 /** Après la séquence : plus d'interface de combat. */
@@ -459,11 +467,11 @@ async function init() {
     onDraw: d => { G.drawing = d; },
     onGesture
   });
-  initLobby({ demoEnd, solo: () => start('play'), train: () => start('train'), again: () => start('play'), story: openStory, lesson: startTutorial, ranks: openRanking,
+  initLobby({ demoEnd, solo: () => start('play'), train: () => { if (!starting) loadingTransition(() => start('train', { loader: true })); }, again: () => start('play'), story: openStory, lesson: startTutorial, ranks: openRanking,
     duel: () => { openDuel({ start: (room, char) => startDuel(room, char), back: duelHome }); } });
-  initDuel({ startBattle: opts => start('play', opts), end: why => endGame(why), home: duelHome, leaveGame, panel: endPanel,
+  initDuel({ startBattle: opts => start('play', opts), end: why => endGame(why), home: duelHome, leaveGame, panel: endPanel, transition: loadingTransition,
     koFx: () => koFx(heroBody(), heroCols(curChar)), victoryFx: slow => victoryFx(slow) });
-  initTutorial({ startBattle: opts => start('play', opts), quit: toLobby });
+  initTutorial({ startBattle: opts => start('play', opts), quit: () => loadingTransition(toLobby) });   // fin de la leçon : écran de chargement
   initStory({ startBattle: opts => start('play', opts), toLobby: showLobby });
   $('quit').onclick = () => { sfx('ui_clic'); askLeave(); };
   initBack(); setLeave(askLeave);           // bouton Retour du téléphone (ui/back.js) : même confirmation que « Quitter »
@@ -474,12 +482,26 @@ async function init() {
     e.preventDefault(); e.stopPropagation();
     if (G.mode === 'play' || G.mode === 'train') useSuper();
   });
+  // Premier lancement (prologue pas encore vu) : le lobby ne doit jamais se montrer avant le prologue et la leçon.
+  // Il est préparé (sans sa musique) sous l'écran de lancement, et le prologue démarre sous l'écran de chargement,
+  // qui ne s'efface qu'une fois la première image du prologue posée. Sauvegarde endommagée : choix d'abord (voir plus bas).
+  const fresh = !saveState.damaged && !prog.story.prologue;
   resetGame(activeCharacter(), idleBattle());
-  toLobby();
+  toLobby(fresh);
+  if (fresh) showCover();
   requestAnimationFrame(loop);
   // Écran de chargement (ui/loading.js, data/chargement.json) : polices, images du lobby, sons essentiels et sprites
-  // du combat préchargés pendant au moins minSeconds, au plus maxSeconds depuis l'ouverture de la page ; puis fondu vers le lobby.
-  await finishLoading(preloads(), D.chargement.progress.data, 1 - D.chargement.progress.lobby);
+  // du combat préchargés pendant au moins minSeconds, au plus maxSeconds depuis l'ouverture de la page ; puis fondu
+  // vers l'écran final (lobby, ou prologue au premier lancement).
+  await loadingReady(preloads(), D.chargement.progress.data, 1 - D.chargement.progress.lobby);
+  let prologue = null;
+  if (fresh) {
+    let shown;
+    const ready = new Promise(r => { shown = r; });
+    prologue = maybePrologue({ onShown: shown });
+    await Promise.race([ready, prologue]);
+  }
+  await loadingFade();
   window.__tsReady = true;
   // Sauvegarde de l'appareil endommagée : le jeu a démarré sur une progression neuve ; le joueur choisit
   // de récupérer sa sauvegarde en ligne ou de repartir à zéro (rien n'est écrit ni envoyé avant ce choix).
@@ -493,8 +515,12 @@ async function init() {
   // Premier démarrage : prologue, puis la première leçon.
   // Sinon : récompenses déjà méritées et pas encore reçues (sauvegardes d'avant les armes alternatives et talismans).
   // Séquence de fin interrompue (jeu fermé pendant celle-ci) : panneau puis fiche. Duel en cours : on y retourne.
-  maybePrologue().then(first => {
-    if (first && !prog.tutorial) return startTutorial();
+  // Prologue → leçon : l'écran de lancement reste dessous jusqu'à l'arène de la leçon (main.js → start), jamais le lobby ;
+  // la musique du prologue s'éteint avant celle de la leçon.
+  (prologue || maybePrologue()).then(async first => {
+    if (first && !prog.tutorial) { showCover(); await fadeOutMusic(D.chargement.transition.musicFadeMs); return startTutorial(); }
+    hideCover();
+    if (first) music('musique_lobby');
     if (prog.pendingEnd) return replayEnd().then(() => 'end');
     return showRewards([...syncRewards(), ...syncGems()]).then(showLobby).then(ensurePseudo).then(backToDuel);
   }).then(r => { enableDaily(); if (!r) return maybeDaily(); });

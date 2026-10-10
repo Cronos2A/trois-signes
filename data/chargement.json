@@ -9,6 +9,12 @@
   "images": ["assets/icones/monnaies/or.svg", "assets/icones/monnaies/gemme.svg", "assets/icones/recompenses/cadeau.svg", "assets/icones/recompenses/pastille_notif.svg"],
   "lobbyImages": true,
   "sprites": true,
+  "transition": {
+    "note": "Même écran pour une transition (src/ui/loading.js → loadingTransition) : sortie d'une partie vers le lobby (« Quitter », après le panneau de victoire ou de défaite, fin de la leçon) et lancement de l'Entraînement. La musique en cours s'éteint en fondu de musicFadeMs (ms) et la suivante ne démarre qu'une fois la première vraiment arrêtée ; l'écran reste au moins minSeconds (s), puis fondu de fadeMs (ms).",
+    "minSeconds": 1.2,
+    "musicFadeMs": 600,
+    "fadeMs": 250
+  },
   "progress": {
     "note": "Part de la barre pour chaque étape (somme 1) ; la barre ne recule jamais et finit à 100 % juste avant le fondu.",
     "data": 0.25,

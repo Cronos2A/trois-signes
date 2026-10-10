@@ -127,6 +127,28 @@ export function traceStop() {
 
 /* ---------- Musique : une voix à la fois, fondu enchaîné, boucle propre ---------- */
 let voice = null, wanted = null;
+const fading = new Set();     // voix en train de s'éteindre : promesse résolue une fois la voix vraiment arrêtée
+
+/** Éteint la voix old en fondu de ms ; la promesse (gardée dans fading) se résout quand elle est arrêtée et débranchée. */
+function release(old, ms) {
+  const t = ctx.currentTime;
+  old.g.gain.cancelScheduledValues(t); old.g.gain.setValueAtTime(old.g.gain.value, t);
+  old.g.gain.linearRampToValueAtTime(0.0001, t + ms / 1000);
+  const p = new Promise(res => setTimeout(() => { old.stop(); old.g.disconnect(); fading.delete(p); res(); }, ms + 60));
+  fading.add(p);
+  return p;
+}
+
+/**
+ * Transitions (ui/loading.js) : la musique en cours s'éteint en fondu de ms ; résolue quand plus aucune musique ne joue
+ * (y compris une voix qui s'éteignait déjà). La musique suivante (music(id)) peut alors démarrer sans chevauchement.
+ */
+export async function fadeOutMusic(ms) {
+  if (!ctx) return;
+  wanted = null;
+  if (voice) { release(voice, ms); voice = null; }
+  await Promise.all([...fading]);
+}
 
 /** Boucle d'un fichier : naturelle s'il boucle parfaitement (audio.json → seamless), sinon fondu à la boucle. */
 function bufferLoop(buf, dest, id) {
@@ -176,13 +198,7 @@ export async function music(id) {
   const buf = id ? await musicFile(id) : null;
   if (wanted !== id) return;                                       // une autre musique a été demandée entre-temps
   const X = A().crossfade, t = ctx.currentTime;
-  if (voice) {
-    const old = voice;
-    old.g.gain.cancelScheduledValues(t); old.g.gain.setValueAtTime(old.g.gain.value, t);
-    old.g.gain.linearRampToValueAtTime(0.0001, t + X);
-    setTimeout(() => { old.stop(); old.g.disconnect(); }, X * 1000 + 200);
-    voice = null;
-  }
+  if (voice) { release(voice, X * 1000); voice = null; }
   if (!id) return;
   const g = ctx.createGain();
   g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(1, t + X);
@@ -208,7 +224,7 @@ export function duck(on) {
 
 /** État lisible (débogage, tests) : contexte, musique en cours, fichiers trouvés, derniers effets. */
 export const audioState = () => ({
-  state: ctx ? ctx.state : 'none', unlocked, music: voice && voice.id, wanted, trace: !!trace,
+  state: ctx ? ctx.state : 'none', unlocked, music: voice && voice.id, wanted, voices: fading.size + (voice ? 1 : 0), trace: !!trace,
   duck: ctx ? duckBus.gain.value : 1, musicVol: ctx ? musicBus.gain.value : 0, sfxVol: ctx ? sfxBus.gain.value : 0,
   files: Object.keys(sfxBuf).filter(k => sfxBuf[k]), loaded: Object.keys(sfxBuf).length, recent: recent.slice()
 });

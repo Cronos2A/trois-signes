@@ -49,7 +49,7 @@ const SLOTS = { 1: [.5], 2: [.29, .71], 3: [.22, .5, .78], 4: [.16, .39, .61, .8
  * Joue une suite de lignes. startDecor : décor par défaut (lieu du combat) quand une ligne n'en donne pas.
  * Renvoie une promesse résolue à la fin (ou quand le joueur appuie sur « Passer »).
  */
-export function playScene(lines, { decor: startDecor } = {}) {
+export function playScene(lines, { decor: startDecor, onShown } = {}) {
   if (!lines || !lines.length) return Promise.resolve();
   if (!el) build();
   const speed = D.rules.story.lettersPerSecond;
@@ -108,6 +108,7 @@ export function playScene(lines, { decor: startDecor } = {}) {
       el.classList.remove('cs-ready');
       busy = false;
       type();
+      if (i === 0 && onShown) onShown();                    // première image posée (main.js : fin de l'écran de chargement)
     };
 
     // Un tap : affiche la ligne en entier ; un second tap : ligne suivante.

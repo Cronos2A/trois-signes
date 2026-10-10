@@ -25,14 +25,16 @@ const hero = id => D.characters.characters.find(c => c.id === id);
 
 export function initStory(a) { api = a; }
 
-/** Premier lancement du jeu : prologue commun. */
-export async function maybePrologue() {
+/**
+ * Premier lancement du jeu : prologue commun. onShown : appelé quand sa première image est posée (main.js efface alors
+ * l'écran de chargement). La musique suivante (leçon, ou lobby) est lancée par main.js, après un fondu de celle-ci.
+ */
+export async function maybePrologue({ onShown } = {}) {
   if (st().prologue) return false;
   music(placeMusic(SM().prologue_commun[0].decor));
-  await playScene(SM().prologue_commun);
+  await playScene(SM().prologue_commun, { onShown });
   st().prologue = true;
   saveProg();
-  music('musique_lobby');
   return true;
 }
 

@@ -1,6 +1,6 @@
 # Three Signs — brief pour Claude Code
 
-État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; le 09/10/2026 : pages légales alignées sur le jeu ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
+État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; le 09/10/2026 : pages légales alignées sur le jeu ; le 10/10/2026 : écran de chargement aux transitions (sortie de partie, Entraînement), musiques sans chevauchement, plus de lobby avant le didacticiel ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 **Titre du jeu : « Three Signs » dans les 5 langues, jamais traduit** (décision du 03/10/2026 ; avant : « Trois Signes »).
@@ -611,6 +611,19 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - Vérifié le 05/10/2026 (5 langues, 360 × 640 et 390 × 800, aucune erreur) : disparu à ≈ 2,75 s ; fichiers retardés de 10 s → retiré à 6,5 s ;
   sans Firebase → 2,7 s ; zones sûres simulées (48 px en bas) ; processeur ×4 : ≈ 60 images peintes par seconde, une seule au-delà de 50 ms.
 
+- **Transitions** (10/10/2026, `chargement.json → transition`, `loading.js → loadingTransition`) : le même écran couvre la sortie d'une partie vers le lobby
+  (« Quitter » confirmé, « Continuer » après le panneau de victoire ou de défaite, Duel compris, fin de la leçon) et le lancement de l'Entraînement
+  (à la place de l'écran de lancement). Il couvre tout aussitôt (aucun appui, bouton Retour sans effet, un second appel ignoré), le combat reste figé
+  dessous (`G.paused`) ; la musique en cours s'éteint en fondu de `musicFadeMs` (600 ms) et la suivante ne démarre qu'une fois la voix **vraiment arrêtée**
+  (`audio.js → fadeOutMusic`, promesses des voix qui s'éteignent) ; l'écran reste au moins `minSeconds` (1,2 s), puis fondu de `fadeMs` (250 ms).
+  Les effets sonores ne sont pas touchés. `audioState().voices` : nombre de voix de musique encore audibles (tests).
+- **Premier lancement** (corrigé le 10/10/2026) : le lobby apparaissait un instant avant le prologue (l'écran de chargement s'effaçait sur le lobby déjà
+  rendu, puis le prologue attendait son décor) et entre le prologue et la leçon (la leçon attend son mannequin avant l'écran de lancement). Désormais,
+  sans prologue vu, le lobby est préparé sans sa musique sous l'écran de lancement (`cover.js`), le prologue démarre sous l'écran de chargement, qui ne
+  s'efface qu'à sa première image (`playScene → onShown`) ; à la fin du prologue, l'écran de lancement reste jusqu'à l'arène de la leçon, et la musique
+  du prologue s'éteint avant celle de la leçon (`main.js → init`). Vérifié image par image (Playwright, élément au premier plan à chaque image) :
+  chargement → prologue → lancement → souvenir → leçon, aucune image du lobby ; sauvegarde existante : chargement → lobby ; Entraînement (1,4 s),
+  Quitter (Entraînement, Voyage), défaite (Voyage), victoire (Histoire) : chargement puis lobby ou fiche, jamais deux musiques à la fois, en 390 × 800 et 360 × 640.
 ## Robustesse (corrections du 29/09/2026, voir `à faire.md`)
 - **Sauvegarde abîmée** (`src/game/save-check.js` : `readSave`, `saveProblems`) : le jeu démarre toujours ; écran « Sauvegarde endommagée »
   (`account-ui.js` → `askDamagedSave`, textes `online.json → damaged`) : récupérer la sauvegarde en ligne ou repartir de zéro. Tant que le

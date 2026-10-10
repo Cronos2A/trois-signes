@@ -72,7 +72,7 @@ const pressureFrom = (score, max) => Math.min(DU().pressure.cap, DU().pressure.f
 
 /* ---------- Déroulé ---------- */
 let api = {};
-/** { startBattle(opts), end(why), home(), leaveGame(), panel(kind), koFx(), victoryFx(slow) } fourni par main.js. */
+/** { startBattle(opts), end(why), home(), leaveGame(), panel(kind), transition(work), koFx(), victoryFx(slow) } fourni par main.js. */
 export function initDuel(a) { api = a; }
 
 /** Duel noté dans la sauvegarde : { code, summary (résultat déjà enregistré, à montrer) } ; null sinon. */
@@ -87,10 +87,9 @@ async function presentResult(summary, withFx) {
   const k = kindOf(summary.result);
   if (k === 'victory' && withFx) await api.victoryFx(true);
   else if (k === 'victory') sfx('victoire');
-  if (k) await api.panel(k);
-  api.leaveGame();
-  saveRoom(null);
-  showResult(summary, () => api.home());
+  const after = () => { api.leaveGame(); saveRoom(null); showResult(summary, () => api.home()); };
+  // Après le panneau : écran de chargement (fondu de la musique) avant la fiche du Duel.
+  if (k) { await api.panel(k); if (!await api.transition(after)) after(); } else after();
 }
 
 /**

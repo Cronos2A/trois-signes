@@ -3,6 +3,7 @@
 // sauf sur l'onglet Jouer sans rien d'ouvert : là, Retour quitte le jeu comme d'habitude.
 //  - en partie (combat, Entraînement, leçon) : la confirmation « Quitter la partie ? » du bouton Quitter (ui/quit-confirm.js) ;
 //  - Duel en cours (combat, attente, KO) : seulement l'information « Impossible de quitter un Duel en cours » (duelInfo) ;
+//  - écran de chargement (démarrage, transition) : rien ;
 //  - séquence de fin (ui/end-seq.js) : rien pendant l'animation, puis « Continuer » quand il est proposé ;
 //  - cinématique : elle est passée ; écran « toucher pour continuer » : on continue ;
 //  - menus : la fenêtre du dessus se ferme (réglages, boutique, classements, salon du Duel, histoire…), sinon retour à l'onglet Jouer.
@@ -10,6 +11,7 @@ import { G } from '../game/state.js';
 import { quitOpen, quitStay } from './quit-confirm.js';
 import { panelOpen, panelBack } from './end-seq.js';
 import { isNative } from '../native.js';
+import { loadingOn } from './loading.js';
 
 const $ = id => document.getElementById(id);
 const shown = el => !!el && !el.classList.contains('hidden') && getComputedStyle(el).display !== 'none';
@@ -22,6 +24,7 @@ export function setLeave(fn) { leave = fn; }
 
 /** Un Retour : true s'il a été traité (on reste dans le jeu), false pour laisser quitter. Aussi appelé par src/native.js (Android). */
 export function onBack() {
+  if (loadingOn()) return true;                                                      // écran de chargement (démarrage, transition) : rien
   if (quitOpen()) { quitStay(); return true; }                                     // « Retour » sur la confirmation = continuer
   if (panelOpen()) { panelBack(); return true; }                                   // panneau de fin : « Continuer » s'il est proposé
   if (shown($('testAd'))) return true;                                               // publicité en cours : on attend

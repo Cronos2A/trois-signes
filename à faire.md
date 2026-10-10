@@ -12,6 +12,13 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 
 ---
 
+## 🔵 Transitions (10/10/2026)
+- Fait : écran de chargement à la sortie d'une partie (Quitter, après victoire ou défaite, Duel, fin de la leçon) et au lancement de l'Entraînement ;
+  musique en fondu avant la suivante ; plus de lobby visible avant le prologue ni entre le prologue et la leçon.
+- Reste : la fiche de victoire de l'Histoire est sans musique (le panneau l'a éteinte et l'histoire ne relance la musique du lieu qu'aux dialogues
+  d'après) : comportement d'avant, à décider. Les autres changements de musique (en partie, cinématiques) restent des fondus enchaînés d'une seconde.
+- À essayer sur téléphone : durée de 1,2 s ressentie, et le bouton Retour pendant l'écran (sans effet, voulu).
+
 ## 🔵 Pages légales (09/10/2026)
 - **Avant d'activer les achats intégrés : ajouter la mention d'un médiateur de la consommation dans les conditions, et l'adresse du développeur.**
 - Pas encore de nettoyage des anciens salons de Duel : les pages légales le disent tel quel (pseudo et scores gardés). Quand le ménage

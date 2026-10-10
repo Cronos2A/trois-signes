@@ -4,6 +4,7 @@
 .ld{position:fixed;inset:0;z-index:1000;background:#174A28;color:#FFF6E5;overflow:hidden;transition:opacity .3s ease-out;
   font-family:'Figtree',system-ui,sans-serif;-webkit-user-select:none;user-select:none;touch-action:none}
 .ld.out{opacity:0;pointer-events:none}
+.ld.off{display:none}
 .ld-logo{position:absolute;left:50%;top:50%;width:288px;height:288px;margin:-144px 0 0 -144px}
 .ld-foot{position:absolute;left:0;right:0;top:calc(50% + 92px);bottom:0;display:flex;flex-direction:column;align-items:center;
   padding:0 max(24px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left))}
