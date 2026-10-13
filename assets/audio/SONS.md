@@ -49,7 +49,7 @@ volume ramené à un niveau commun (≈ -16 LUFS, crête ≤ -1 dBTP), ré-encod
 
 | | Fichier | Où | Durée |
 |---|---|---|---|
-| ✅ | `musique/musique_lobby.mp3` | lobby, choix et chemin du mode Histoire | 19,0 s |
+| ✅ | `musique/musique_lobby.mp3` | lobby, choix et chemin du mode Histoire | 55,9 s (remplacée le 13/10/2026) |
 | ✅ | `musique/musique_tuto.mp3` | Entraînement et « La première leçon » | 1 min 30 |
 | ✅ | `musique/musique_nature.mp3` | Forêt de Mousse, Hautes-Gerbes, Fontclaire (et lieux de campagne de l'Histoire) | 2 min 17 |
 | ✅ | `musique/musique_cite.mp3` | Toits de Vélis, Aubelle | 1 min 57 |
@@ -64,4 +64,3 @@ volume ramené à un niveau commun (≈ -16 LUFS, crête ≤ -1 dBTP), ré-encod
 - `sfx/ui_clic.mp3` : clic sur un bouton
 - `sfx/ui_onglet.mp3` : changement d'onglet du lobby
 - `musique/musique_triste.mp3` : cinématique après un mini-boss ou un lieutenant
-- `musique/musique_lobby.mp3` ne dure que 19 s : la boucle (fondu de 1 s) revient souvent ; un morceau plus long serait plus agréable.

@@ -538,7 +538,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   `musique_triste` après un mini-boss ou un lieutenant, `musique_epilogue` pour les fins. Musique baissée de moitié pendant les dialogues.
 - Fichiers reçus le 28/09/2026 : effets ElevenLabs (**plan payant**, aucun crédit exigé), musiques Suno Pro ; normalisés à ≈ -16 LUFS.
   État : `assets/audio/SONS.md`, sources et licences : `CREDITS.md`.
-- **Manquent** : `sfx/ui_clic`, `sfx/ui_onglet`, `musique/musique_triste`. `musique_lobby` ne dure que 19 s (boucle trop fréquente).
+- **Manquent** : `sfx/ui_clic`, `sfx/ui_onglet`, `musique/musique_triste`. `musique_lobby` remplacée le 13/10/2026 (55,9 s, ≈ -16 LUFS ; avant : 19 s).
 
 ## Fin de partie : séquences de défaite et de victoire — `data/fin_de_partie.json` — **fait (03/10/2026)**
 - Un seul composant, deux variantes (`src/ui/end-seq.js`, styles `.es-*` dans `style.css`, textes `end.*`) ; branché dans `main.js` → `endGame`
@@ -807,7 +807,7 @@ prototype/ prototype d'origine
   Jusque-là, rester sur l'offre gratuite Spark.
 
 ## Prochaines tâches (dans cet ordre)
-1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`, et une `musique_lobby` plus longue.
+1. **Terminer le son** si besoin : `ui_clic`, `ui_onglet`, `musique_triste`.
 2. **Duel, suite** : ménage des salons terminés.
 3. **Avant le Play Store** : compiler et tester l'application sur le PC (`docs/EMBALLAGE.md`), puis `AVANT_PUBLICATION.md` (empreintes SHA-1, règles à publier…).
 

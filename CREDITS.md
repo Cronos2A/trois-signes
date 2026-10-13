@@ -45,7 +45,7 @@ Créées le 28/09/2026, pendant l'abonnement Pro. Dossier `assets/audio/musique/
 
 | Fichier | Source | Créé le |
 |---|---|---|
-| `musique_lobby.mp3` | Suno Pro | 28/09/2026 |
+| `musique_lobby.mp3` | Suno Pro | 13/10/2026 (remplace celle du 28/09/2026) |
 | `musique_tuto.mp3` | Suno Pro (fichier reçu : « musique_tuto (Instrumental).mp3 ») | 28/09/2026 |
 | `musique_nature.mp3` | Suno Pro | 28/09/2026 |
 | `musique_cite.mp3` | Suno Pro | 28/09/2026 |

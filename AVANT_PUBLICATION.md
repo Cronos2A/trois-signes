@@ -342,7 +342,7 @@ Liste exacte de ce que le jeu collecte, à recopier dans le formulaire (étapes 
 | `sfx/ui_clic.mp3` | clic court et doux sur un bouton (< 0,3 s) | 👤 Toi (ElevenLabs) |
 | `sfx/ui_onglet.mp3` | changement d'onglet du lobby (< 0,4 s) | 👤 Toi (ElevenLabs) |
 | `musique/musique_triste.mp3` | musique triste après un mini-boss ou un lieutenant (1 à 2 min, bouclable) | 👤 Toi (Suno Pro) |
-| `musique/musique_lobby.mp3` | à rallonger : 19 s aujourd'hui, la boucle revient trop souvent (viser 1 min 30 à 3 min) | 👤 Toi (Suno Pro) |
+| `musique/musique_lobby.mp3` | ✅ remplacée le 13/10/2026 : 55,9 s (au lieu de 19 s) | 👤 Toi (Suno Pro) |
 
 Tant qu'ils manquent, le jeu joue un son synthétisé : aucun bug, mais les menus sonnent « vides ». Après dépôt des fichiers,
 🤖 Claude Code les normalise et met à jour `SONS.md` et `CREDITS.md`. **Effort** : ⏱ pour toi.

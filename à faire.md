@@ -109,7 +109,7 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
   L'unicité demande un registre des pseudos au serveur (collection réservée par les règles) : à décider.
 
 ### G11. Petits défauts
-- Son : `ui_clic`, `ui_onglet`, `musique_triste` toujours absents (sons provisoires synthétisés) ; `musique_lobby` boucle toutes les 19 s.
+- Son : `ui_clic`, `ui_onglet`, `musique_triste` toujours absents (sons provisoires synthétisés) ; `musique_lobby` remplacée le 13/10/2026 (55,9 s au lieu de 19 s).
 - Le « Coffre » de l'écran « Arène découverte » du Voyage n'est qu'un emplacement (message) : un coffre vide déçoit.
 
 ---
