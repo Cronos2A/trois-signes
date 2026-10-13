@@ -128,6 +128,16 @@ export const cachedView = v => readCache()[viewKey(v)] || null;
 /** Oublie le cache (compte supprimé, changement de pays). */
 export function clearRankCache() { try { store.set(K().cacheKey, {}); } catch (e) { /* rien */ } }
 
+/**
+ * Nature d'une erreur de lecture : 'offline' (pas de réseau : navigator.onLine faux, serveur injoignable « unavailable »,
+ * ou muet après timeoutSeconds) ; 'db' (la base répond mais refuse : permission refusée, index manquant, autre).
+ */
+export function errorKind(e) {
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) return 'offline';
+  const c = e && e.code;
+  return c === 'unavailable' || c === 'deadline-exceeded' || (!c && e && e.message === 'offline') ? 'offline' : 'db';
+}
+
 const withTimeout = p => Promise.race([p, new Promise((ok, ko) => setTimeout(() => ko(new Error('offline')), K().timeoutSeconds * 1000))]);
 
 /** Filtres et ordre d'une vue (sans limite). */
@@ -166,6 +176,13 @@ async function myRank(fb, col, v, me, rows) {
   return (await count(...scope, f.where('voyage', '>', me.value))) + 1;
 }
 
+/** Le joueur fait-il partie de cette vue (son arène, son pays, ou le global) ? */
+function inView(v, me) {
+  if (v.view === 'global') return true;
+  if (v.view === 'arena') return v.board === 'duel' && v.arena === me.arene;
+  return v.view === 'country' && !!me.pays && v.country === me.pays;
+}
+
 /** Rangs des lignes : Duel = position (égalités départagées par since) ; Voyage = ex æquo au même rang. */
 function rankRows(board, rows, from = 0, prev = null) {
   let r = prev ? prev.rank : 0, pv = prev ? prev.value : null;
@@ -194,8 +211,10 @@ export async function fetchView(v, opts = {}) {
     writeCache(key, res);
     return { ...res, cached: false, offline: false };
   } catch (e) {
-    if (cache) return { ...cache, cached: true, offline: true };
-    throw e;
+    const kind = errorKind(e);
+    if (kind === 'offline' && cache) return { ...cache, cached: true, offline: true };
+    if (kind === 'db') console.error('Classements : lecture refusée par la base', e && (e.code || e.message));
+    throw Object.assign(e instanceof Error ? e : new Error(String(e)), { kind });
   }
 }
 
@@ -209,13 +228,20 @@ async function readView(v, base) {
     const rows = rankRows(v.board, docs.map(d => rowOf(v.board, d)), base.rows.length, last);
     return { ...base, rows: [...base.rows, ...rows], more: docs.length === K().moreSize, at: base.at };
   }
-  await syncBoard();
+  // Ma ligne d'abord mise à jour ; un refus ici (règles, record en attente) n'empêche jamais de lire le classement.
+  await syncBoard().catch(e => console.warn('Classements : ma ligne pas mise à jour', e && (e.code || e.message)));
+  // Liste : une vue sans joueur (arène, pays) donne simplement une liste vide, jamais une erreur.
   const snap = await fb.fs.getDocs(fb.fs.query(viewQuery(fb, col, v), fb.fs.limit(K().pageSize)));
   const rows = rankRows(v.board, snap.docs.map(d => rowOf(v.board, d)));
-  const mine = await fb.fs.getDoc(ref(S));
-  const md = mine.exists() ? mine.data() : {};
+  let md = {};
+  try { const mine = await fb.fs.getDoc(ref(S)); md = mine.exists() ? mine.data() : {}; }
+  catch (e) { if (errorKind(e) === 'offline') throw e; console.warn('Classements : ma ligne illisible', e && (e.code || e.message)); }
   const me = { uid, ranked: v.board === 'duel' ? md.since != null : (md.voyage || 0) > 0, pays: md.pays || null,
     value: (v.board === 'duel' ? md.prints : md.voyage) || 0, arene: md.arene || 1, since: ms(md.since) };
-  me.rank = await myRank(fb, col, v, me, rows);
+  // Je fais partie de cette vue mais la liste ne me montre pas encore (vue vide) : ma ligne est ajoutée.
+  if (!rows.length && me.ranked && inView(v, me) && md.pseudo) rows.push(rankRows(v.board, [rowOf(v.board, { id: uid, get: k => md[k] })])[0]);
+  // Rang par comptage : un échec (ou 0) ne fait jamais tomber la vue ; le rang reste simplement inconnu (« — »).
+  try { me.rank = await myRank(fb, col, v, me, rows); }
+  catch (e) { if (errorKind(e) === 'offline') throw e; console.warn('Classements : rang indisponible', e && (e.code || e.message)); me.rank = null; }
   return { rows, more: snap.docs.length === K().pageSize, me, at: Date.now() };
 }

@@ -4,7 +4,7 @@
 // Voyage : « Global » et « Pays ». 50 lignes, puis « Voir plus » ; ma ligne toujours visible en bas ; tirer la liste vers le bas
 // pour rafraîchir (sinon cache de 5 minutes) ; hors connexion : dernier classement gardé, marqué « Hors ligne ».
 import { D } from '../data.js';
-import { fetchView, cachedView, syncBoard, clearRankCache } from '../online/leaderboard.js';
+import { fetchView, cachedView, syncBoard, clearRankCache, errorKind } from '../online/leaderboard.js';
 import { pseudo } from '../online/online.js';
 import { prog } from '../game/progress.js';
 import { arenaIndex } from '../game/duel-rank.js';
@@ -120,9 +120,8 @@ function emptyHtml(res) {
   const rows = res.rows, me = res.me;
   if (st.board === 'duel' && st.view === 'arena') {
     if (me.ranked && st.arena === me.arene && rows.length <= 1) return `<p class="rk-msg">${esc(tr('ranking.firstOfArena'))}</p>`;
-    if (!rows.length) return `<p class="rk-msg">${esc(tr('ranking.emptyArena'))}</p>`;
   }
-  if (!rows.length) return `<p class="rk-msg">${esc(tr(st.view === 'country' ? 'ranking.emptyCountry' : 'ranking.emptyGlobal'))}</p>`;
+  if (!rows.length) return `<p class="rk-msg">${esc(tr('ranking.emptyView'))}</p>`;
   return '';
 }
 
@@ -140,13 +139,16 @@ async function load(opts = {}) {
   if (!opts.more) {
     const c = cachedView(viewOf());                                   // affichage immédiat du cache pendant la lecture
     if (c && !opts.force) render({ ...c, offline: false });
-    else if (!opts.force) frame(ctxHtml(), `<p class="rk-msg">${esc(U().loading)}</p>`, footHtml(null));
+    else if (!opts.force || opts.retry) frame(ctxHtml(), `<p class="rk-msg">${esc(U().loading)}</p>`, footHtml(null));
   }
   let res;
   try { res = await fetchView(viewOf(), opts); }
   catch (e) {
     if (n !== ask) return;
-    frame(ctxHtml(), `<p class="rk-msg">${esc(tr('ranking.offlineNoCache'))}</p>`, footHtml({ me: null, offline: true }));
+    // Hors ligne (pas de réseau) : comme avant. Base qui refuse (permission, index, autre ; code écrit en console) : message
+    // générique et « Réessayer ».
+    if ((e && e.kind || errorKind(e)) === 'offline') frame(ctxHtml(), `<p class="rk-msg">${esc(tr('ranking.offlineNoCache'))}</p>`, footHtml({ me: null, offline: true }));
+    else frame(ctxHtml(), `<p class="rk-msg">${esc(tr('ranking.unavailable'))}</p><button class="mini-btn rk-more rk-retry" data-rk="retry">${esc(tr('ranking.retry'))}</button>`, '');
     return;
   }
   if (n !== ask) return;                                              // vue changée entre-temps
@@ -217,6 +219,7 @@ export async function openRanking() {
       else if (a === 'view' && arg !== st.view) { st.view = arg; if (arg === 'arena') st.arena = myArena(); load(); }
       else if (a === 'arena') { st.arena = Math.min(N(), Math.max(1, st.arena + Number(arg))); load(); }
       else if (a === 'more') load({ more: true });
+      else if (a === 'retry') load({ force: true, retry: true });
       else if (a === 'report') askReport(b.dataset.name, st.board);
     });
     el.addEventListener('change', e => {

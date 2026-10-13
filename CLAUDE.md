@@ -493,6 +493,11 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Index composites** (`firestore.indexes.json`, référencé par `firebase.json`) : leaderboard (arene, prints ↓, since ↑), (arene, prints ↑, since ↑),
   (pays, prints ↓, since ↑), (pays, prints ↑, since ↑), (prints ↓, since ↑), (prints ↑, since ↑), (pays, voyage ↓), (pays, voyage ↑).
   **À créer dans la console** (étapes dans `AVANT_PUBLICATION.md`) ; l'émulateur ne les exige pas (non testables ici).
+- **Trois états distincts** (13/10/2026, `leaderboard.js → errorKind`) : hors ligne (`navigator.onLine` faux, erreur `unavailable` ou serveur muet) →
+  « Hors ligne » comme avant (cache s'il existe) ; refus de la base (permission, index manquant, autre) → « Classement indisponible pour le moment »
+  + « Réessayer », code écrit en console ; vue vide → « Aucun joueur ici pour l'instant. Sois le premier ! » (`ranking.emptyView`). La mise à jour de
+  ma ligne (`syncBoard`), la lecture de ma fiche et le comptage du rang (`count()`) ne font plus jamais tomber la vue (rang « — » si le comptage
+  échoue) ; vue vide dont je fais partie : ma ligne y est ajoutée. Avant : tout échec, même un refus de `syncBoard`, affichait « Hors ligne ».
 - Suppression du compte : `ranked` (pays compris) et `leaderboard` effacés, cache du classement retiré de l'appareil.
 - Vérifié le 07/10/2026 sur l'émulateur avec **200 joueurs simulés** (8 arènes, 10 pays, égalités) : les 7 vues (arène 2 et 8, global, France, Maroc,
   Voyage global et France) identiques au calcul indépendant (lignes, ordre, mon rang), « Voir plus » (100 lignes dans l'ordre), égalités
