@@ -329,7 +329,12 @@
     "hudLeft": "{n}"
   },
   "pseudo": {
-    "reserved": "This username is reserved: pick another one."
+    "reserved": "This username is reserved: pick another one.",
+    "taken": "This username is already taken.",
+    "takenPick": "This username is already taken, pick another one.",
+    "offline": "No connection: you can't change your username right now. Try again once you're online.",
+    "error": "The server isn't responding: try again in a moment.",
+    "checking": "Checking…"
   },
   "data": {
     "grades": {
@@ -2794,7 +2799,7 @@
     "googleSignIn": "Sign in with Google",
     "googleHint": "To get it back after reinstalling or on another phone.",
     "googleLinked": "Progress saved with Google",
-    "googleAs": "Google account: {email}",
+    "googleAs": "Signed in with Google: {pseudo}",
     "pseudoHasSave": "I already have progress: sign in with Google",
     "linkedOk": "Done: your progress is saved with your Google account. On another phone, tap “Sign in with Google” in the Settings.",
     "already": "This account is already linked to Google.",

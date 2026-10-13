@@ -7,6 +7,7 @@ import { prog } from '../game/progress.js';
 import { setPseudo, pseudo, onlineState, onOnlineChange } from '../online/online.js';
 import { connectGoogle, googleInfo, deleteAccount } from '../online/account.js';
 import { checkPseudo, suggestPseudo } from '../online/pseudo.js';
+import { claimPseudo } from '../online/pseudo-net.js';
 import { sfx } from '../audio/audio.js';
 import { tr, nfi, dateText } from '../i18n.js';
 
@@ -17,9 +18,12 @@ let open = null;   // fenêtre ouverte : { resolve }
 
 /**
  * Fenêtre du pseudo. canCancel : depuis les Réglages (sinon obligatoire, au premier lancement).
+ * opts.taken : le pseudo de la sauvegarde appartient déjà à un autre joueur (« Ce pseudo est déjà pris, choisis-en un autre »).
+ * Le pseudo est réservé au serveur (online/pseudo-net.js, pseudos uniques) : refusé s'il est déjà pris. Hors connexion :
+ * changement refusé depuis les Réglages ; premier choix (obligatoire) gardé sur l'appareil et vérifié au retour du réseau.
  * Renvoie une promesse résolue avec le pseudo validé (ou null si annulé).
  */
-export function askPseudo(canCancel = false) {
+export function askPseudo(canCancel = false, opts = {}) {
   if (open) return open.promise;
   const m = $('pseudoModal');
   const cur = pseudo() || suggestPseudo(), P = D.online.pseudo;
@@ -32,20 +36,30 @@ export function askPseudo(canCancel = false) {
       <div class="ps-err" id="psErr" role="alert"></div>
       <button class="res-again" data-pa="ok"><span class="ol ol-4">${U().ok}</span></button>
       ${canCancel ? `<button class="mini-btn ps-cancel" data-pa="cancel">${U().cancel}</button>`
-        : googleInfo().linked ? '' : `<button class="mini-btn ps-google" data-pa="google">${tr('account.pseudoHasSave')}</button>`}
+        : googleInfo().linked || opts.taken ? '' : `<button class="mini-btn ps-google" data-pa="google">${tr('account.pseudoHasSave')}</button>`}
     </div>`;
   m.classList.remove('hidden');
-  const input = $('psInput'), err = $('psErr');
-  let resolve;
+  const input = $('psInput'), err = $('psErr'), okBtn = m.querySelector('[data-pa="ok"]');
+  if (opts.taken) err.textContent = tr('pseudo.takenPick');
+  let resolve, busy = false;
   const promise = new Promise(r => { resolve = r; });
   const close = v => { m.classList.add('hidden'); m.innerHTML = ''; m.onclick = null; open = null; resolve(v); };
-  const submit = () => {
+  const submit = async () => {
+    if (busy) return;
     const r = checkPseudo(input.value);
     if (r.error) { err.textContent = r.error; input.focus(); return; }
-    setPseudo(r.ok);
+    const old = pseudo();
+    if (r.ok === old && !opts.taken) { close(r.ok); return; }            // inchangé
+    busy = true; okBtn.disabled = true; err.textContent = tr('pseudo.checking');
+    const res = await claimPseudo(r.ok, old);
+    busy = false; okBtn.disabled = false;
+    if (!m.contains(input)) return;                                          // fenêtre fermée entre-temps
+    if (res === 'taken') { err.textContent = tr('pseudo.taken'); input.focus(); return; }
+    if (res !== 'ok' && canCancel) { err.textContent = tr(res === 'offline' ? 'pseudo.offline' : 'pseudo.error'); return; }
+    setPseudo(r.ok);                     // réservé ; ou premier choix hors connexion : vérifié au retour du réseau (main.js)
     close(r.ok);
   };
-  input.addEventListener('input', () => { const r = checkPseudo(input.value); err.textContent = input.value.trim().length >= P.min ? (r.error || '') : ''; });
+  input.addEventListener('input', () => { if (busy) return; const r = checkPseudo(input.value); err.textContent = input.value.trim().length >= P.min ? (r.error || '') : ''; });
   input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
   m.onclick = e => {
     const b = e.target.closest('[data-pa]');
@@ -75,7 +89,7 @@ function statusText(s) {
 export function accountHtml() {
   const g = googleInfo();
   const google = g.linked
-    ? `<span class="acc-linked">${tr('account.googleLinked')}${g.email ? `<small>${esc(tr('account.googleAs', { email: g.email }))}</small>` : ''}</span>`
+    ? `<span class="acc-linked">${tr('account.googleLinked')}<small>${esc(tr('account.googleAs', { pseudo: pseudo() || '—' }))}</small></span>`
     : `<button class="mini-btn acc-google" data-act="googleLink">${tr('account.googleSave')}</button>
        <span class="acc-status">${tr('account.googleHint')}</span>
        <button class="mini-btn acc-google" data-act="googleLink">${tr('account.googleSignIn')}</button>`;

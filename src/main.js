@@ -36,7 +36,9 @@ import { initNative, hideSplash } from './native.js';
 import { loadingProgress, loadingTip, loadingFonts, loadingReady, loadingFade, dropLoading, loadingTransition, transitioning } from './ui/loading.js';
 import { preloadAudio } from './audio/audio.js';
 import { initOrientation } from './ui/orient.js';
-import { ensurePseudo, askDamagedSave } from './ui/account-ui.js';
+import { ensurePseudo, askDamagedSave, askPseudo } from './ui/account-ui.js';
+import { ownPseudo } from './online/pseudo-net.js';
+import { pseudo } from './online/online.js';
 import { initStory, openStory, maybePrologue, replayStoryEnd } from './story/story.js';
 import { voyageBattle } from './game/voyage.js';
 import { initTutorial, startTutorial } from './game/tutorial.js';
@@ -241,7 +243,7 @@ function toLobby(quiet) {
   if (b && G.roundsCleared >= 1) countBoostGame();
   const shown = gems.length || (b && b.xpMode === 'voyage') ? showRewards([...syncRewards(), ...gems]) : null;   // talisman, gemmes déjà versées
   if (pendingRemote) { const d = pendingRemote; pendingRemote = null; applyRemote(d); }
-  const named = window.__tsReady ? ensurePseudo() : null;   // fin de la première leçon : le joueur choisit son pseudo
+  const named = window.__tsReady ? ensurePseudo().then(verifyPseudo) : null;   // fin de la première leçon : le joueur choisit son pseudo
   Promise.all([shown, named]).then(() => maybeDaily());     // récompenses de connexion : fenêtre du jour, s'il y a lieu
 }
 
@@ -407,6 +409,7 @@ function duelHome() {
   setInGame(false);
   music('musique_lobby');
   if (pendingRemote) { const d = pendingRemote; pendingRemote = null; applyRemote(d); }
+  verifyPseudo();
   maybeDaily();
 }
 
@@ -419,6 +422,29 @@ async function backToDuel() {
     if (!duelSaved().summary) await whenOnline(15000);
     return (await resumeDuel()) ? 'duel' : null;
   } catch (e) { return null; } finally { resuming = false; }
+}
+
+/**
+ * Pseudos uniques (online/pseudo-net.js) : le pseudo de la sauvegarde est-il bien à ce joueur ? Libre : réservé maintenant.
+ * Déjà pris par un autre joueur (le premier arrivé le garde) : fenêtre du pseudo « déjà pris, choisis-en un autre ».
+ * Sans pseudo (jamais choisi), hors connexion ou en partie : rien, le jeu n'est jamais bloqué. Une fois par pseudo et par session.
+ */
+let pseudoOk = '', pseudoBusy = false;
+async function verifyPseudo() {
+  const p = pseudo();
+  if (!p || p === pseudoOk || pseudoBusy || saveState.damaged) return;
+  pseudoBusy = true;
+  try {
+    await whenOnline(15000).catch(() => {});             // connexion encore en cours au lancement
+    if (pseudo() !== p) return;
+    const r = await ownPseudo(p);
+    if (r === 'ok') pseudoOk = p;
+    else if (r === 'taken' && pseudo() === p && G.mode !== 'play' && G.mode !== 'train' && G.mode !== 'ending') {
+      await askPseudo(false, { taken: true });
+      pseudoOk = pseudo() !== p ? '' : pseudoOk;
+    }
+  } finally { pseudoBusy = false; }
+  if (pseudo() && pseudo() !== p && !pseudoBusy) verifyPseudo();       // nouveau pseudo choisi hors connexion : vérifié à son tour
 }
 
 /* ---------- Démarrage ---------- */
@@ -522,8 +548,10 @@ async function init() {
     hideCover();
     if (first) music('musique_lobby');
     if (prog.pendingEnd) return replayEnd().then(() => 'end');
-    return showRewards([...syncRewards(), ...syncGems()]).then(showLobby).then(ensurePseudo).then(backToDuel);
+    return showRewards([...syncRewards(), ...syncGems()]).then(showLobby).then(ensurePseudo).then(() => { verifyPseudo(); }).then(backToDuel);
   }).then(r => { enableDaily(); if (!r) return maybeDaily(); });
+  // Connexion revenue plus tard : pseudo à vérifier (choisi hors connexion, ou pas encore réservé).
+  { let was = false; onOnlineChange(s => { const on = s.state === 'online' || s.state === 'saving'; if (on && !was && window.__tsReady && G.mode === 'menu') verifyPseudo(); was = on; }); }
   // Connexion revenue plus tard : Duel resté en attente de reprise.
   onOnlineChange(s => { if (s.state === 'online' && duelSaved() && G.mode !== 'play' && G.mode !== 'ending') backToDuel(); });
 }

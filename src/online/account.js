@@ -5,20 +5,22 @@
 // - Ce compte Google a déjà sa propre progression (autre appareil, réinstallation) : on la lit à part (application Firebase
 //   secondaire, rien n'est écrit), le joueur choisit laquelle garder ; seulement après sa confirmation, le compte anonyme
 //   de cet appareil est effacé et le jeu se recharge sur le compte Google, avec la progression choisie.
-// - Suppression : closed/{uid} (firestore.rules), puis tous les documents du joueur, puis le compte ; le jeu repart de zéro.
+// - Suppression : closed/{uid} (firestore.rules), puis tous les documents du joueur (pseudos réservés libérés), puis le compte ;
+//   le jeu repart de zéro.
 import { D } from '../data.js';
 import { prog, store, freezeSave } from '../game/progress.js';
 import { zoneDay } from '../game/daily.js';
 import { accountApi, whenOnline, pauseSync, flushSave, emuMode } from './online.js';
+import { releasePseudos } from './pseudo-net.js';
 
 const A = () => D.online.account;
 const PROVIDER = 'google.com';
 
-/** { linked, email } : compte lié à Google ? */
+/** { linked } : compte lié à Google ? (L'adresse e-mail du compte Google n'est jamais lue ni affichée.) */
 export function googleInfo() {
   const S = accountApi();
-  const g = S && S.user && S.user.providerData.find(p => p.providerId === PROVIDER);
-  return { linked: !!g, email: g ? g.email || '' : '' };
+  const g = S && S.user && S.user.providerData.some(p => p.providerId === PROVIDER);
+  return { linked: !!g };
 }
 
 const native = () => !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
@@ -146,6 +148,7 @@ async function eraseServerData(S, uid) {
   const games = await fb.fs.getDocs(fb.fs.collection(db, A().ranked, uid, 'games')).catch(() => null);
   const dels = [...(games ? games.docs.map(g => fb.fs.deleteDoc(g.ref)) : []),
     ...[...A().erase, A().ranked].map(c => fb.fs.deleteDoc(doc(c, uid)))];
+  dels.push(releasePseudos());                                     // pseudos réservés : libérés (pseudos/{id})
   const r = await Promise.allSettled(dels);
   const failed = r.filter(x => x.status === 'rejected');
   if (failed.length) throw failed[0].reason;

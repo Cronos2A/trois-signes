@@ -352,14 +352,19 @@
     "hudLeft": "{n}"
   },
   "pseudo": {
-    "reserved": "Ce pseudo est réservé : choisis-en un autre."
+    "reserved": "Ce pseudo est réservé : choisis-en un autre.",
+    "taken": "Ce pseudo est déjà pris.",
+    "takenPick": "Ce pseudo est déjà pris, choisis-en un autre.",
+    "offline": "Pas de connexion : impossible de changer de pseudo pour l'instant. Réessaie une fois connecté.",
+    "error": "Le serveur ne répond pas : réessaie dans un instant.",
+    "checking": "Vérification…"
   },
   "account": {
     "googleSave": "Sauvegarder ma progression avec Google",
     "googleSignIn": "Se connecter avec Google",
     "googleHint": "Pour la retrouver après une réinstallation ou sur un autre téléphone.",
     "googleLinked": "Progression sauvegardée avec Google",
-    "googleAs": "Compte Google : {email}",
+    "googleAs": "Connecté avec Google : {pseudo}",
     "pseudoHasSave": "J'ai déjà une progression : me connecter avec Google",
     "linkedOk": "C'est fait : ta progression est sauvegardée avec ton compte Google. Sur un autre téléphone, touche « Se connecter avec Google » dans les Réglages.",
     "already": "Ce compte est déjà lié à Google.",

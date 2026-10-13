@@ -12,6 +12,13 @@ Rien n'a été corrigé pendant cet état des lieux (voir « Coquilles relevées
 
 **Effort** : ⏱ moins d'1 h · ⏱⏱ une demi-journée à une journée · ⏱⏱⏱ plusieurs jours.
 
+## 🔤 Pseudos uniques (13/10/2026) — règles à publier 👤 🔴
+**Publier `firestore.rules`** (même manipulation que ci-dessous : Firestore Database → Règles → coller tout le fichier → Publier) : elles
+contiennent la nouvelle collection `pseudos` (et toutes les règles d'avant). **Tant qu'elles ne sont pas publiées**, le serveur refuse la
+réservation des pseudos : changer de pseudo dans les Réglages affiche « Le serveur ne répond pas » ; le premier choix de pseudo reste
+possible (gardé sur l'appareil, vérifié plus tard). Aucun index à créer (requête simple sur `uid`).
+Ensuite, au premier lancement de chaque joueur, son pseudo est réservé ; si quelqu'un l'a réservé avant lui, il doit en choisir un autre.
+
 ## 🗂 Classement par arène et par pays (07/10/2026) — à faire dans la console Firebase 👤
 **1. Publier les règles** : console.firebase.google.com → projet **trois-signes** → **Firestore Database** → onglet **Règles** → coller tout le
 contenu de `firestore.rules` → **Publier**. (Elles contiennent aussi celles du 03/10 et du 05/10.)

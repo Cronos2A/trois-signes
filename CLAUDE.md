@@ -1,6 +1,6 @@
 # Three Signs — brief pour Claude Code
 
-État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; le 09/10/2026 : pages légales alignées sur le jeu ; le 10/10/2026 : écran de chargement aux transitions (sortie de partie, Entraînement), musiques sans chevauchement, plus de lobby avant le didacticiel ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
+État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; le 09/10/2026 : pages légales alignées sur le jeu ; le 10/10/2026 : écran de chargement aux transitions (sortie de partie, Entraînement), musiques sans chevauchement, plus de lobby avant le didacticiel ; le 13/10/2026 : pseudos uniques, adresse Google jamais affichée ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 **Titre du jeu : « Three Signs » dans les 5 langues, jamais traduit** (décision du 03/10/2026 ; avant : « Trois Signes »).
@@ -259,6 +259,20 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   **pseudos réservés** (`pseudo.reserved`, `isReserved`) : admin, modo, modérateur, support, staff, trois signes, cronos2a et leurs équivalents
   anglais, italiens, espagnols, allemands, refusés même avec majuscules, accents, espaces, chiffres ou symboles glissés au milieu
   (message `pseudo.reserved`). Sauvegarde : `prog.profile.pseudo`.
+- **Pseudos uniques** (13/10/2026, `src/online/pseudo-net.js`, `online.json → pseudoUnique`) : document `pseudos/{encodeURIComponent(pseudo)}` =
+  `{ uid, pseudo, at }`. Comparaison **exacte, sensible aux majuscules** (« Aldric » ≠ « aldric »), seuls les espaces du début et de la fin retirés
+  (le pseudo lui-même reste nettoyé comme avant : NFC, espaces répétés réduits). Réservation en transaction (`claimPseudo`) : déjà à un autre
+  joueur → « Ce pseudo est déjà pris » (`pseudo.taken`) ; changement = nouveau réservé et ancien libéré dans la même transaction ; suppression du
+  compte (et compte anonyme remplacé par un compte Google) = pseudos libérés (`releasePseudos`). Règles : lecture d'un document par tout joueur,
+  liste de ses seuls pseudos, création à son nom seulement (document absent), jamais de modification, suppression par le propriétaire.
+  Hors connexion : changement refusé depuis les Réglages (`pseudo.offline`) ; premier choix obligatoire gardé sur l'appareil, vérifié au retour du
+  réseau. **Joueurs existants** (`main.js → verifyPseudo`, au lancement, au retour de la connexion, au retour au lobby) : pseudo libre → réservé ;
+  pris par un autre (le premier arrivé le garde) → fenêtre obligatoire « Ce pseudo est déjà pris, choisis-en un autre » (`pseudo.takenPick`),
+  jamais en partie ; sans pseudo → rien. Les autres pseudos encore réservés par ce joueur sont libérés.
+  Vérifié le 13/10/2026 sur l'émulateur (390 × 800, 360 × 640, fenêtre dans les 5 langues) : réservation au lancement, même pseudo pris →
+  fenêtre, « aldric » accepté à côté de « Aldric », pseudo avec espace, changement (pris refusé, libre réservé, ancien libéré), hors connexion refusé,
+  suppression du compte → libéré ; règles : écraser, effacer ou changer le propriétaire du pseudo d'un autre, créer au nom d'un autre, identifiant
+  faux, lister tous les pseudos : refusés.
 - **Sauvegarde en ligne** : document Firestore `players/{uid}` = `{ pseudo, save (toute la progression prog en JSON), savedAt, updatedAt, v }`.
   Chaque `saveProg()` date la sauvegarde (`prog.savedAt`) et déclenche un envoi différé (3 s) ; au lancement, la plus récente l'emporte
   (serveur plus récent → `replaceProg`, jamais en pleine partie : appliqué au retour au lobby). Hors connexion : `ts_prog` reste la référence,
@@ -271,6 +285,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   **Règles du 01/10/2026 (comptes supprimés, signalements) : à publier dans la console** (sinon suppression et signalement échouent).
   **Règles du 05/10/2026 (`ranked/{uid}.areneMaxDuel`, plus haute arène de Duel jamais en baisse) : à publier dans la console.**
   **Règles du 07/10/2026 (classement : `arene`, `pays`, `since` dans `ranked` et `leaderboard`) + index de `firestore.indexes.json` : à publier.**
+  **Règles du 13/10/2026 (pseudos uniques, collection `pseudos`) : à publier** (sinon changer de pseudo est refusé : « Le serveur ne répond pas »).
   **Règles du 03/10/2026 (Duel : absence de 30 s, entrée figée, match annulé, champ `hp`) : à publier dans la console** (sinon la reprise
   après fermeture et l'annulation ne sont pas appliquées par le serveur, et le champ `hp` des signes de vie est refusé).
 - **Émulateur** (tests) : `firebase emulators:start --only auth,firestore --project trois-signes` (réglages dans `firebase.json`),
@@ -280,6 +295,8 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   « Sauvegarder ma progression avec Google », « Se connecter avec Google », « Supprimer mon compte et mes données », version du jeu.
 - **Compte Google** (`src/online/account.js`, fenêtres dans `account-ui.js`, `online.json → account`, textes `account.*`) :
   « Sauvegarder ma progression avec Google » = le compte anonyme devient un compte Google (même n° de joueur, rien ne se perd) ;
+  **l'adresse e-mail du compte Google n'est jamais lue, affichée ni enregistrée** (13/10/2026 ; avant : « Compte Google : adresse » dans les Réglages) :
+  Réglages → « Connecté avec Google : pseudo » (`account.googleAs`) ; jamais stockée dans Firestore (vérifié : players, leaderboard, ranked) ;
   « Se connecter avec Google » (Réglages, et « J'ai déjà une progression » dans la fenêtre du pseudo du premier lancement) = même déroulé.
   Web : `linkWithPopup` ; application Android : extension `@capacitor-firebase/authentication` (**pas installée**, `nativePlugin`) puis
   `linkWithCredential`. Ce compte Google a déjà une progression : lue à part (application Firebase secondaire, rien n'est écrit), le joueur choisit
@@ -707,7 +724,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   e-mail (`cronos2a.jeux@gmail.com`, aussi dans `legal/supprimer-mon-compte.html`).
   Trois liens (nouvel onglet, 48 px de haut) en bas des Réglages et dans les Crédits : « Politique de confidentialité », « Conditions
   d'utilisation », « Supprimer mon compte » (`version.json → legal`, textes `about.*` ; pages de `legal/`, fournies le 02/10/2026, en français).
-  **Pages légales mises à jour le 09/10/2026** d'après le code et `firestore.rules` (date affichée : 9 octobre 2026) : politique (tableau des données :
+  **Pages légales mises à jour le 09/10/2026** d'après le code et `firestore.rules`, puis le 13/10/2026 (pseudos uniques, adresse Google jamais affichée ; date affichée : 13 octobre 2026) : politique (tableau des données :
   compte anonyme, pseudo, progression, Duel, pays choisi, compte Google facultatif, données visibles dans les classements, signalements, trace de
   suppression ; pas de publicité ni d'achat aujourd'hui, formulation conditionnelle ; section Enfants : pas destiné aux moins de 13 ans ; résumé en
   anglais), conditions (13 ans, pays, signalements, triche au Duel, ni achat ni publicité, plus de médiateur), suppression (deux confirmations,
@@ -754,7 +771,7 @@ src/
          variants.js (variantes sbire / brute / boss selon l'arène ou le combat)  duel.js (Duel : programme, pression, victoire)
          duel-rank.js (Empreintes, arènes du Duel)  country.js (pays des classements)  daily.js (récompenses de connexion)  boosts.js (boosts XP / or)  lifecycle.js (arrière-plan)
   story/story.js     déroulé du mode Histoire
-  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  account.js (Google, suppression du compte)  report.js (signalements)  leaderboard.js (classements)  ranked.js (Empreintes au serveur)  wallet.js (gemmes au serveur)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)  daily-net.js (récompenses de connexion au serveur)
+  online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  account.js (Google, suppression du compte)  pseudo-net.js (pseudos uniques)  report.js (signalements)  leaderboard.js (classements)  ranked.js (Empreintes au serveur)  wallet.js (gemmes au serveur)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)  daily-net.js (récompenses de connexion au serveur)
   vendor/firebase/   SDK Firebase embarqué (app, auth, firestore)
   native.js          application Android (Capacitor) : Retour, cycle de vie, Haptics, Browser, écran de démarrage
   ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)

@@ -331,7 +331,12 @@
     "hudLeft": "{n}"
   },
   "pseudo": {
-    "reserved": "Dieser Name ist reserviert: wähle einen anderen."
+    "reserved": "Dieser Name ist reserviert: wähle einen anderen.",
+    "taken": "Dieser Name ist schon vergeben.",
+    "takenPick": "Dieser Name ist schon vergeben, wähle einen anderen.",
+    "offline": "Keine Verbindung: Du kannst deinen Namen gerade nicht ändern. Versuch es wieder, sobald du online bist.",
+    "error": "Der Server antwortet nicht: versuch es gleich noch einmal.",
+    "checking": "Wird geprüft…"
   },
   "data": {
     "grades": {
@@ -2796,7 +2801,7 @@
     "googleSignIn": "Mit Google anmelden",
     "googleHint": "Damit du ihn nach einer Neuinstallation oder auf einem anderen Handy wiederfindest.",
     "googleLinked": "Fortschritt mit Google gesichert",
-    "googleAs": "Google-Konto: {email}",
+    "googleAs": "Mit Google verbunden: {pseudo}",
     "pseudoHasSave": "Ich habe schon Fortschritt: mit Google anmelden",
     "linkedOk": "Erledigt: Dein Fortschritt ist mit deinem Google-Konto gesichert. Tippe auf einem anderen Handy in den Einstellungen auf „Mit Google anmelden“.",
     "already": "Dieses Konto ist schon mit Google verknüpft.",

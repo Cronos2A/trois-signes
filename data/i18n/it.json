@@ -327,7 +327,12 @@
     "hudLeft": "{n}"
   },
   "pseudo": {
-    "reserved": "Questo nickname è riservato: scegline un altro."
+    "reserved": "Questo nickname è riservato: scegline un altro.",
+    "taken": "Questo nickname è già in uso.",
+    "takenPick": "Questo nickname è già in uso, scegline un altro.",
+    "offline": "Nessuna connessione: per ora non puoi cambiare nickname. Riprova quando sei online.",
+    "error": "Il server non risponde: riprova tra un attimo.",
+    "checking": "Verifica in corso…"
   },
   "data": {
     "grades": {
@@ -2792,7 +2797,7 @@
     "googleSignIn": "Accedi con Google",
     "googleHint": "Per ritrovarli dopo una reinstallazione o su un altro telefono.",
     "googleLinked": "Progressi salvati con Google",
-    "googleAs": "Account Google: {email}",
+    "googleAs": "Connesso con Google: {pseudo}",
     "pseudoHasSave": "Ho già dei progressi: accedi con Google",
     "linkedOk": "Fatto: i tuoi progressi sono salvati con il tuo account Google. Su un altro telefono, tocca «Accedi con Google» nelle Impostazioni.",
     "already": "Questo account è già collegato a Google.",

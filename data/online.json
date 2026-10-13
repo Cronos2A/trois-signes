@@ -58,6 +58,10 @@
   },
   "saveVersion": 1,
   "sync": { "debounceMs": 3000, "retryMs": 20000 },
+  "pseudoUnique": {
+    "note": "Pseudos uniques (src/online/pseudo-net.js, firestore.rules → match /pseudos) : document pseudos/{encodeURIComponent(pseudo)} = { uid, pseudo, at }. Comparaison exacte, sensible aux majuscules (« Aldric » ≠ « aldric ») ; seuls les espaces du début et de la fin sont retirés. Le premier qui réserve garde le pseudo ; changement de pseudo = nouveau réservé et ancien libéré dans la même transaction ; suppression du compte = pseudos libérés. Au lancement : pseudo de la sauvegarde réservé s'il est libre, sinon fenêtre du pseudo « déjà pris ». Changer de pseudo demande une connexion (premier choix hors connexion : gardé sur l'appareil, vérifié au retour du réseau).",
+    "collection": "pseudos"
+  },
   "pseudo": {
     "min": 3,
     "max": 16,

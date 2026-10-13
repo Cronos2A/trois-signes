@@ -332,7 +332,12 @@
     "hudLeft": "{n}"
   },
   "pseudo": {
-    "reserved": "Este apodo está reservado: elige otro."
+    "reserved": "Este apodo está reservado: elige otro.",
+    "taken": "Este apodo ya está en uso.",
+    "takenPick": "Este apodo ya está en uso, elige otro.",
+    "offline": "Sin conexión: ahora no puedes cambiar de apodo. Vuelve a intentarlo cuando estés conectado.",
+    "error": "El servidor no responde: inténtalo de nuevo en un momento.",
+    "checking": "Comprobando…"
   },
   "data": {
     "grades": {
@@ -2797,7 +2802,7 @@
     "googleSignIn": "Iniciar sesión con Google",
     "googleHint": "Para recuperarlo tras reinstalar o en otro teléfono.",
     "googleLinked": "Progreso guardado con Google",
-    "googleAs": "Cuenta de Google: {email}",
+    "googleAs": "Conectado con Google: {pseudo}",
     "pseudoHasSave": "Ya tengo progreso: iniciar sesión con Google",
     "linkedOk": "Hecho: tu progreso está guardado con tu cuenta de Google. En otro teléfono, toca «Iniciar sesión con Google» en los Ajustes.",
     "already": "Esta cuenta ya está vinculada a Google.",

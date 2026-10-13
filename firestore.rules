@@ -19,6 +19,8 @@ rules_version = '2';
 // - closed/{uid}       compte supprimé par son joueur (seulement { at }) : ses gemmes, Empreintes et récompenses de connexion peuvent
 //                      alors être effacées, et ne peuvent plus être recréées (sinon effacer puis recréer rejouerait les gains).
 // - reports/{id}       signalements de pseudos : écrits par les joueurs, lus seulement depuis la console Firebase.
+// - pseudos/{id}       pseudos uniques (id = pseudo encodé, sensible aux majuscules) : { uid, pseudo, at } ; créé ou libéré par son
+//                      propriétaire seul, jamais modifié (le propriétaire ne change pas), jamais pris à un autre joueur.
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -44,6 +46,28 @@ service cloud.firestore {
         && request.resource.data.board in ['voyage', 'duel', 'adversaire']
         && request.resource.data.by == request.auth.uid
         && request.resource.data.at == request.time;
+    }
+
+    /* ---------- Pseudos uniques (data/online.json → pseudoUnique, src/online/pseudo-net.js) ---------- */
+    // Un document par pseudo réservé. Lecture d'un document précis (le pseudo est-il libre ?) par tout joueur connecté ;
+    // liste seulement de ses propres pseudos. Création : à son nom, document absent (un pseudo déjà pris ne peut pas être
+    // écrasé : ce serait une modification, toujours refusée). Suppression : par le propriétaire seul.
+    // Identifiant = encodeURIComponent(pseudo) : pour un pseudo sans espace ni accent, il doit être le pseudo lui-même.
+    match /pseudos/{id} {
+      function validPseudo() {
+        let d = request.resource.data;
+        return d.keys().hasOnly(['uid', 'pseudo', 'at'])
+          && d.uid == request.auth.uid
+          && d.pseudo is string && d.pseudo.size() >= 3 && d.pseudo.size() <= 16
+          && (!d.pseudo.matches('^[A-Za-z0-9._-]+$') || id == d.pseudo)
+          && id.size() <= 200
+          && d.at == request.time;
+      }
+      allow get: if signedIn();
+      allow list: if signedIn() && resource.data.uid == request.auth.uid;
+      allow create: if signedIn() && !closed(request.auth.uid) && validPseudo();
+      allow update: if false;
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
     }
 
     /* ---------- Sauvegarde ---------- */
