@@ -131,8 +131,9 @@ Tout est dans `src/native.js` (rien ne s'y exécute sur le web) et `src/game/lif
 
 | Élément | Valeur |
 |---|---|
-| Permissions | `INTERNET` (Firebase) ; `VIBRATE` ajoutée par le module Haptics (aucune demande au joueur). **Rien d'autre.** |
-| Retirées de force | identifiant publicitaire (`AD_ID`, `ACCESS_ADSERVICES_*`), localisation, notifications (`tools:node="remove"`) |
+| Permissions | `INTERNET` (Firebase, pubs, achats) ; `VIBRATE` (Haptics), `BILLING` (achats Google Play), `AD_ID` (AdMob, si `pubs_actives`) : aucune demande au joueur |
+| Retirées de force | localisation, notifications (`tools:node="remove"`) ; identifiant publicitaire seulement si `pubs_actives` vaut false (bloc « pubs » réécrit par `build-www.mjs`) |
+| AdMob | `meta-data` `APPLICATION_ID` = `@string/admob_app_id` (recopié de `data/monetisation.json` par `build-www.mjs`) |
 | Activité | une seule, `MainActivity`, portrait (`screenOrientation="portrait"`), `singleTask` |
 | Réseau | `usesCleartextTraffic="false"`, `networkSecurityConfig` (https seulement) |
 | Sauvegarde Android | `allowBackup="false"`, `fullBackupContent="false"`, `dataExtractionRules` : rien n'est copié |

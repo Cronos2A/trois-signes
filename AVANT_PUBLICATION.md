@@ -12,6 +12,41 @@ Rien n'a été corrigé pendant cet état des lieux (voir « Coquilles relevées
 
 **Effort** : ⏱ moins d'1 h · ⏱⏱ une demi-journée à une journée · ⏱⏱⏱ plusieurs jours.
 
+## 💰 Pubs récompensées et achats (13/10/2026) — à faire dans AdMob et la Play Console 👤
+Le jeu est prêt **en mode test** (identifiants de test publics de Google, `data/monetisation.json → mode_test: true`). Pour passer en réel,
+on ne change que ce fichier (voir CLAUDE.md, « Monétisation »).
+
+**AdMob** (admob.google.com)
+1. Créer le compte AdMob (profil de paiement, informations fiscales).
+2. Applications → Ajouter une application → Android → « pas encore publiée » (la relier au Play Store après la publication).
+3. Blocs d'annonces → **Avec récompense** (un seul suffit). Recopier l'identifiant d'application (`ca-app-pub-…~…`) et celui du bloc
+   (`ca-app-pub-…/…`) dans `data/monetisation.json → admob.reel`, puis `mode_test: false` **seulement le jour de la publication**.
+4. Confidentialité et messages → **RGPD** (EEE, Royaume-Uni, Suisse) : créer et publier le message de consentement (le jeu affiche ce formulaire au
+   premier lancement et via Réglages → « Choix de confidentialité des pubs »). Choisir les partenaires publicitaires proposés.
+5. Contrôle des annonces (Blocking controls) → **Classification maximale du contenu : G** (tous publics) ; bloquer au besoin les catégories sensibles
+   (jeux d'argent, rencontres…).
+6. Ajouter l'appareil de test (Paramètres → Appareils de test) pour essayer sans risque ; puis `app-ads.txt` sur le site du développeur.
+
+**Play Console**
+1. Profil de paiement (compte marchand Google) : obligatoire pour vendre.
+2. Envoyer un AAB sur la piste **Test interne** (il contient la permission BILLING : sans cela, les produits ne peuvent pas être créés).
+3. Monétiser → Produits → **Produits intégrés** : créer exactement `gemmes_80`, `gemmes_450`, `gemmes_1000`, `gemmes_2200` et `sans_pub`
+   (non récurrents), prix 0,99 / 4,99 / 9,99 / 19,99 € (provisoires) et le prix de « Sans pub » ; titres et descriptions dans les 5 langues ; activer.
+4. Paramètres → **Test des licences** : ajouter ses comptes Google testeurs (achats de test, sans paiement réel). Google n'a pas de produit de test
+   public avec la bibliothèque Billing actuelle : c'est le seul moyen d'essayer les achats.
+5. Contenu de l'application :
+   - **Annonces** : « Oui, mon application contient des annonces ».
+   - **Identifiant publicitaire** : « Oui » ; utilisation : **Publicité ou marketing** (et Analyse, Prévention de la fraude si proposés).
+   - **Sécurité des données** (en plus de ce qui est déjà déclaré pour Firebase) : *Identifiants de l'appareil ou autres* (identifiant publicitaire) :
+     collectés et **partagés** (AdMob) ; finalités : publicité ou marketing, analyse, prévention de la fraude ; *Position approximative* (déduite
+     de l'adresse IP par AdMob) : collectée, publicité / prévention de la fraude ; *Infos et performances de l'appli* (diagnostics AdMob) ;
+     *Interactions avec l'application* (pubs vues) ; *Historique des achats* (produit et jeton d'achat gardés avec la sauvegarde) : collecté, pas
+     partagé, finalité : fonctionnalités de l'appli. Données chiffrées en transit : oui ; suppression possible : oui (page de suppression).
+     Vérifier ces réponses avec la page officielle « Google Mobile Ads SDK — Sécurité des données » au moment de remplir.
+   - **Public cible** : 13 ans et plus (pas destiné aux enfants). **Classification du contenu** : refaire le questionnaire (annonces, achats intégrés).
+   - Fiche du Play Store : mention « Contient des annonces » et « Achats via l'application » (automatique d'après les déclarations).
+6. Avant les vrais achats : vérification au serveur (offre Blaze, Cloud Functions) et mentions légales (médiateur, adresse) : voir `à faire.md`.
+
 ## 🔤 Pseudos uniques (13/10/2026) — règles à publier 👤 🔴
 **Publier `firestore.rules`** (même manipulation que ci-dessous : Firestore Database → Règles → coller tout le fichier → Publier) : elles
 contiennent la nouvelle collection `pseudos` (et toutes les règles d'avant). **Tant qu'elles ne sont pas publiées**, le serveur refuse la
@@ -268,7 +303,7 @@ Liste exacte de ce que le jeu collecte, à recopier dans le formulaire (étapes 
 - ✅ **Icône adaptative et écran de démarrage** provisoires, régénérés par `npm run icons` (EMBALLAGE 3) ; vraie icône : voir B6.
 - ✅ **Portrait** verrouillé ; zones sûres (encoche, barre de navigation) gérées ; vérifié sur deux écrans simulés.
 - ✅ **Permissions** : `INTERNET`, `VIBRATE` (Haptics) ; identifiant publicitaire, localisation, notifications retirés de force.
-  Quand AdMob et les achats seront branchés : `AD_ID` (AdMob) et `BILLING` (achats) seront à remettre.
+  Depuis le 13/10/2026 : `AD_ID` permis si `pubs_actives` (bloc réécrit par `build-www.mjs`), `BILLING` ajouté par l'extension d'achats.
 - ✅ **API cible 36** (exigée depuis le 31/08/2026), plugin Gradle 8.13 (16 Ko), **AAB signé** par la clé d'envoi (`tools/android/aab.ps1`),
   signature d'application par Google Play.
 - ✅ **Taille** : `www/` = 30 Mo (sans `design/`, `docs/`, `legal/`, `prototype/`, `tools/`, notes) ; application ≈ 35 à 40 Mo.

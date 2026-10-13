@@ -10,6 +10,7 @@
     "check-rules": "node tools/check-rules.mjs"
   },
   "dependencies": {
+    "@capacitor-community/admob": "8.2.1",
     "@capacitor-firebase/authentication": "8.5.2",
     "@capacitor/android": "8.5.2",
     "@capacitor/app": "8.1.2",
@@ -17,7 +18,8 @@
     "@capacitor/core": "8.5.2",
     "@capacitor/haptics": "8.0.2",
     "@capacitor/splash-screen": "8.0.2",
-    "@capacitor/status-bar": "8.0.4"
+    "@capacitor/status-bar": "8.0.4",
+    "@capgo/native-purchases": "8.9.5"
   },
   "devDependencies": {
     "@capacitor/cli": "8.5.2",

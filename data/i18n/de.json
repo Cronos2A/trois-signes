@@ -431,11 +431,10 @@
         "perDay": "{left} / {max} heute",
         "noneLeft": "Komm morgen wieder",
         "noAdsTitle": "Werbefrei",
-        "noAdsText": "Keine Vollbildwerbung mehr. Werbung mit Belohnung bleibt verfügbar.",
-        "noAdsOwned": "Gekauft: keine Vollbildwerbung mehr",
+        "noAdsText": "Keine Werbung mehr: Belohnungen aus Shop und Lobby gibt es ohne Video (außer bei der Zweiten Chance).",
+        "noAdsOwned": "Gekauft: keine Werbung mehr",
         "store": "In der App verfügbar",
         "testNoAds": "Werbefrei (Test)",
-        "testGrace": "10 Min. überspringen",
         "testResetAds": "Werbung zurücksetzen",
         "testState": "Spielzeit: {min} Min. · Reisen: {games}"
       }
@@ -2964,5 +2963,29 @@
     "askTitle": "Dein Land",
     "askText": "Wähle dein Land für die Länder-Ranglisten. Du kannst es jederzeit in den Einstellungen ändern.",
     "validate": "Bestätigen"
+  },
+  "ads": {
+    "closed": "Werbung zu früh geschlossen: keine Belohnung.",
+    "nofill": "Gerade ist keine Werbung verfügbar. Versuch es später noch einmal.",
+    "offline": "Keine Verbindung: Werbung kann nicht geladen werden.",
+    "noconsent": "Werbung ist aus: Du hast nicht zugestimmt. Du kannst das in den Einstellungen ändern.",
+    "privacyLabel": "Werbung",
+    "privacyBtn": "Datenschutzoptionen für Werbung",
+    "privacyNotRequired": "In deiner Region ist keine Auswahl nötig.",
+    "privacyError": "Das Formular konnte nicht geöffnet werden. Versuch es später noch einmal."
+  },
+  "iap": {
+    "loading": "…",
+    "unavailable": "Nicht verfügbar",
+    "pendingTag": "Ausstehend",
+    "ok": "Danke! {n} Edelsteine hinzugefügt.",
+    "okNoAds": "Danke! Keine Werbung mehr.",
+    "cancelled": "Kauf abgebrochen.",
+    "pending": "Zahlung ausstehend: Dein Kauf kommt, sobald sie bestätigt ist.",
+    "owned": "Schon bezahlt: Dein Kauf wurde wiederhergestellt.",
+    "notfound": "Produkt gerade nicht gefunden.",
+    "offline": "Keine Verbindung zu Google Play. Versuch es später noch einmal.",
+    "error": "Der Kauf hat nicht geklappt. Versuch es später noch einmal.",
+    "note": "Käufe über Google Play. Edelsteine sind nur für Kosmetik: kein Vorteil im Spiel."
   }
 }

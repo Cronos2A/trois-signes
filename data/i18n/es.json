@@ -432,11 +432,10 @@
         "perDay": "{left} / {max} hoy",
         "noneLeft": "Vuelve mañana",
         "noAdsTitle": "Sin anuncios",
-        "noAdsText": "Se acabaron los anuncios a pantalla completa. Los anuncios con recompensa siguen disponibles.",
-        "noAdsOwned": "Comprado: sin anuncios a pantalla completa",
+        "noAdsText": "Se acabaron los anuncios: las recompensas de la tienda y del lobby llegan sin vídeo (salvo la Segunda oportunidad).",
+        "noAdsOwned": "Comprado: sin anuncios",
         "store": "Disponible en la app",
         "testNoAds": "Sin anuncios (prueba)",
-        "testGrace": "Saltar los 10 min",
         "testResetAds": "Anuncios a cero",
         "testState": "Juego: {min} min · partidas del Viaje: {games}"
       }
@@ -2965,5 +2964,29 @@
     "askTitle": "Tu país",
     "askText": "Elige tu país para las clasificaciones por país. Podrás cambiarlo en cualquier momento en los Ajustes.",
     "validate": "Confirmar"
+  },
+  "ads": {
+    "closed": "Anuncio cerrado demasiado pronto: sin recompensa.",
+    "nofill": "No hay anuncios disponibles por ahora. Inténtalo más tarde.",
+    "offline": "Sin conexión: no se puede cargar un anuncio.",
+    "noconsent": "Anuncios desactivados: no has dado tu consentimiento. Puedes cambiarlo en Ajustes.",
+    "privacyLabel": "Anuncios",
+    "privacyBtn": "Opciones de privacidad de los anuncios",
+    "privacyNotRequired": "No hay nada que elegir en tu región.",
+    "privacyError": "No se ha podido abrir el formulario. Inténtalo más tarde."
+  },
+  "iap": {
+    "loading": "…",
+    "unavailable": "No disponible",
+    "pendingTag": "Pendiente",
+    "ok": "¡Gracias! {n} gemas añadidas.",
+    "okNoAds": "¡Gracias! Se acabaron los anuncios.",
+    "cancelled": "Compra cancelada.",
+    "pending": "Pago pendiente: tu compra llegará en cuanto se confirme.",
+    "owned": "Ya pagado: tu compra se ha recuperado.",
+    "notfound": "Producto no encontrado por ahora.",
+    "offline": "Sin conexión con Google Play. Inténtalo más tarde.",
+    "error": "No se ha podido completar la compra. Inténtalo más tarde.",
+    "note": "Compras a través de Google Play. Las gemas son para cosméticos: ninguna ventaja en el juego."
   }
 }

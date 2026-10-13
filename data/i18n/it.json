@@ -427,11 +427,10 @@
         "perDay": "{left} / {max} oggi",
         "noneLeft": "Torna domani",
         "noAdsTitle": "Senza pubblicità",
-        "noAdsText": "Niente più pubblicità a schermo intero. Le pubblicità con ricompensa restano disponibili.",
-        "noAdsOwned": "Acquistato: niente più pubblicità a schermo intero",
+        "noAdsText": "Niente più pubblicità: le ricompense del negozio e della lobby arrivano senza video (tranne la Seconda possibilità).",
+        "noAdsOwned": "Acquistato: niente più pubblicità",
         "store": "Disponibile nell'app",
         "testNoAds": "Senza pubblicità (test)",
-        "testGrace": "Salta i 10 min",
         "testResetAds": "Azzera le pubblicità",
         "testState": "Gioco: {min} min · partite del Viaggio: {games}"
       }
@@ -2960,5 +2959,29 @@
     "askTitle": "Il tuo paese",
     "askText": "Scegli il tuo paese per le classifiche per paese. Potrai cambiarlo in qualsiasi momento nelle Impostazioni.",
     "validate": "Conferma"
+  },
+  "ads": {
+    "closed": "Pubblicità chiusa troppo presto: niente ricompensa.",
+    "nofill": "Nessuna pubblicità disponibile al momento. Riprova più tardi.",
+    "offline": "Nessuna connessione: impossibile caricare una pubblicità.",
+    "noconsent": "Pubblicità disattivate: non hai dato il consenso. Puoi cambiarlo nelle Impostazioni.",
+    "privacyLabel": "Pubblicità",
+    "privacyBtn": "Scelte sulla privacy delle pubblicità",
+    "privacyNotRequired": "Nessuna scelta da fare nella tua regione.",
+    "privacyError": "Impossibile aprire il modulo. Riprova più tardi."
+  },
+  "iap": {
+    "loading": "…",
+    "unavailable": "Non disponibile",
+    "pendingTag": "In attesa",
+    "ok": "Grazie! {n} gemme aggiunte.",
+    "okNoAds": "Grazie! Niente più pubblicità.",
+    "cancelled": "Acquisto annullato.",
+    "pending": "Pagamento in attesa: il tuo acquisto arriverà appena sarà confermato.",
+    "owned": "Già pagato: il tuo acquisto è stato recuperato.",
+    "notfound": "Prodotto non trovato al momento.",
+    "offline": "Nessuna connessione a Google Play. Riprova più tardi.",
+    "error": "Impossibile completare l'acquisto. Riprova più tardi.",
+    "note": "Acquisti tramite Google Play. Le gemme servono per i cosmetici: nessun vantaggio in gioco."
   }
 }

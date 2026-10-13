@@ -15,7 +15,8 @@ import { coinGold, arenaGold, voyageEndGold, addGold, syncGems } from './game/ec
 import { look } from './game/cosmetics.js';
 import { combatLook } from './ui/looks.js';
 import { showCover, hideCover } from './ui/cover.js';
-import { initAds, tickPlay, flushPlay, noteVoyageEnd, showRewarded, adsReady } from './ads/ads.js';
+import { initAds, tickPlay, flushPlay, noteVoyageEnd, showRewarded, adsReady, adFailText } from './ads/ads.js';
+import { initPurchases } from './ads/achats.js';
 import { askChoice, adToast } from './ui/ad-ui.js';
 import { showRewards } from './ui/reward-ui.js';
 import { rand } from './util.js';
@@ -299,9 +300,9 @@ async function koOrSecondChance() {
   if (b.xpMode !== 'voyage' || b.duel || G.secondChances >= R.perGame || !adsReady()) return endGame('ko');   // pas de pub ici : pas d'offre
   G.paused = true;
   const yes = await askChoice(U.secondTitle, U.secondText.replace('{pct}', Math.round(R.hp * 100)), U.secondYes, U.secondNo);
-  const ok = yes && await showRewarded({ duel: b.duel });
+  const ok = yes && await showRewarded({ duel: b.duel, gameplay: true });   // avantage en partie : toujours une vraie pub
   if (G.battle !== b || G.mode !== 'play') return;          // partie quittée entre-temps
-  if (!ok) { if (yes) adToast(U.rewardLost); G.paused = false; return endGame('ko'); }
+  if (!ok) { if (yes) adToast(adFailText()); G.paused = false; return endGame('ko'); }
   G.secondChances++;
   G.hero.hp = Math.round(G.hero.max * R.hp);
   G.hero.shieldUntil = G.time + R.graceSeconds; G.hero.shieldAvoid = 1;   // un court répit pour se remettre en garde
@@ -486,7 +487,8 @@ async function init() {
   initDaily({ refresh: refreshLobby });                    // récompenses de connexion (ui/daily-ui.js)
   { let was = false; onOnlineChange(s => { const on = s.state === 'online'; if (on && !was) maybeDaily(); was = on; }); }   // connexion revenue : jour à récupérer ?
   { let was = false; onOnlineChange(s => { if (s.state === 'online' && !was) serverPrints().then(refreshLobby, () => {}); was = s.state === 'online'; }); }   // Empreintes du serveur             // compte anonyme + sauvegarde en ligne, en arrière-plan (data/online.json)
-  initAds();                               // AdMob + consentement dans l'application ; rien sur le web
+  initAds();                               // AdMob + consentement UMP dans l'application ; rien sur le web
+  initPurchases({ changed: refreshLobby }); // Google Play : prix localisés, achats payés à traiter (application seulement)
   initAudio();                             // effets chargés maintenant, musiques à la demande
   attachInput(cv, {
     isActive: () => G.mode === 'play' || G.mode === 'train',

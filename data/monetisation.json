@@ -1,0 +1,37 @@
+{
+  "note": "Monétisation (src/ads/admob.js, src/ads/achats.js). Passer en réel : remplir admob.reel et mettre mode_test à false ; rien d'autre à changer (tools/android/build-www.mjs recopie l'identifiant d'application AdMob dans android/app/src/main/res/values/strings.xml et règle la permission AD_ID du manifeste d'après pubs_actives). Aucun identifiant réel n'est écrit dans le code. Sur le web : ni AdMob ni Google Play (fausse pub de test seulement en développement, data/ads.json).",
+  "pubs_actives": true,
+  "achats_actifs": true,
+  "mode_test": true,
+  "admob": {
+    "note": "test : identifiants de test publics de Google (application d'exemple et bloc « récompensée » de démonstration ; aucune vraie pub, aucun revenu). reel : à remplir depuis la console AdMob (Applications → Paramètres de l'application ; Blocs d'annonces → Avec récompense). maxAdContentRating : niveau le plus sûr (General = tous publics, G). tagForChildDirectedTreatment : false = application non destinée aux enfants (13+) ; tagForUnderAgeOfConsent : false (pas de traitement « mineur » général) : à confirmer, voir à faire.md.",
+    "test": {
+      "app_android": "ca-app-pub-3940256099942544~3347511713",
+      "rewarded_android": "ca-app-pub-3940256099942544/5224354917"
+    },
+    "reel": {
+      "app_android": "",
+      "rewarded_android": ""
+    },
+    "maxAdContentRating": "General",
+    "tagForChildDirectedTreatment": false,
+    "tagForUnderAgeOfConsent": false,
+    "consentDebugGeography": "DISABLED",
+    "testDeviceIdentifiers": [],
+    "consentNote": "consentDebugGeography (mode_test seulement) : DISABLED, EEA, NOT_EEA… pour simuler une région sur un appareil de test déclaré dans testDeviceIdentifiers (identifiant affiché dans le logcat par le SDK UMP)."
+  },
+  "achats": {
+    "note": "Produits « intégrés » (non récurrents) de Google Play, à créer dans la Play Console avec exactement ces identifiants (minuscules, stables). Prix : fixés dans la Play Console (0,99 / 4,99 / 9,99 / 19,99 € provisoires) ; le jeu affiche toujours le prix localisé renvoyé par Google Play. prix_simulation : seulement pour les essais dans le navigateur. Gemmes d'un paquet : data/economy.json → gemPacks (pack). Google n'a pas de produits de test publics avec la bibliothèque Billing actuelle : en mode_test, les achats se font avec des comptes testeurs de licence (aucun paiement réel).",
+    "produits": [
+      { "id": "gemmes_80", "type": "gemmes", "pack": "pack_1", "prix_simulation": "0,99 €" },
+      { "id": "gemmes_450", "type": "gemmes", "pack": "pack_2", "prix_simulation": "4,99 €" },
+      { "id": "gemmes_1000", "type": "gemmes", "pack": "pack_3", "prix_simulation": "9,99 €" },
+      { "id": "gemmes_2200", "type": "gemmes", "pack": "pack_4", "prix_simulation": "19,99 €" },
+      { "id": "sans_pub", "type": "sans_pub", "prix_simulation": "2,99 €" }
+    ],
+    "verification_serveur": {
+      "active": false,
+      "note": "Plus tard (offre Blaze) : une Cloud Function vérifie le jeton d'achat auprès de Google Play avant d'accorder les gemmes. Aujourd'hui (false) : accordées sur l'appareil, donc falsifiables. Point d'accroche : src/ads/achats.js → verifyPurchase."
+    }
+  }
+}

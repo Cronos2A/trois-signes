@@ -12,6 +12,7 @@ import { itemIcon, tpl } from './weapon-ui.js';
 import { moneyIcon, priceHtml, nf } from './money.js';
 import { sfx } from '../audio/audio.js';
 import { leftToday, noAds, adsReady } from '../ads/ads.js';
+import { purchasesReady, priceOf, pricesLoaded, pendingIds, productOf } from '../ads/achats.js';
 import { adIcon } from './ad-ui.js';
 import { tr } from '../i18n.js';
 import { boostTypes, stockOf, activeOf, stockFull } from '../game/boosts.js';
@@ -78,8 +79,19 @@ const perDay = k => { const left = leftToday(k); return left ? tpl(AU().perDay, 
 /** Pub impossible ici (site web publié) : « Disponible dans l'application » à la place du bouton. */
 // Pas de pub ici : site web → « Disponible dans l'application » ; application Android sans AdMob (pas encore branché) → « Bientôt ».
 const storeOnly = () => `<button class="mini-btn ad-btn ad-store" disabled>${isNative() ? tr('common.soon') : AU().store}</button>`;
-/** Achats réels (gemmes, Sans publicité) : pas encore branchés ; dans l'application, « Bientôt » à la place du prix. */
-const priceOrSoon = price => (isNative() ? tr('common.soon') : price);
+/**
+ * Bouton d'achat Google Play d'un produit (data/monetisation.json) : prix localisé renvoyé par Google Play.
+ * Site web : « Disponible dans l'application » ; application sans achats (drapeau coupé, extension absente) : « Bientôt ».
+ */
+function buyBtn(id) {
+  if (!D.monetisation.achats_actifs || !isNative()) return `<button class="shop-price iap-off" disabled>${isNative() ? tr('common.soon') : AU().store}</button>`;
+  if (!purchasesReady()) return `<button class="shop-price iap-off" disabled>${tr('common.soon')}</button>`;
+  if (pendingIds().includes(id)) return `<button class="shop-price iap-off" disabled>${tr('iap.pendingTag')}</button>`;
+  const price = priceOf(id);
+  if (!price) return `<button class="shop-price iap-off" disabled>${pricesLoaded() ? tr('iap.unavailable') : tr('iap.loading')}</button>`;
+  return `<button class="shop-price buy iap-buy" data-act="iapBuy" data-arg="${id}">${price}</button>`;
+}
+const productFor = (type, pack) => D.monetisation.achats.produits.find(p => p.type === type && (!pack || p.pack === pack));
 /** Coffre simple gratuit contre une pub, 1 fois par jour. */
 function freeChestHtml() {
   const st = chestState(D.ads.rewarded.freeChest.chest, true), can = st.can && leftToday('freeChest') > 0;
@@ -98,7 +110,7 @@ function adGemsHtml() {
 function noAdsHtml() {
   const on = noAds();
   return `<div class="ad-card-shop no-ads"><div class="txt"><b>${AU().noAdsTitle}</b><span>${on ? AU().noAdsOwned : AU().noAdsText}</span></div>
-      ${on ? '' : `<button class="shop-price" disabled>${priceOrSoon(D.ads.noAds.price)}</button>`}</div>`;
+      ${on ? '' : buyBtn((productFor('sans_pub') || {}).id)}</div>`;
 }
 
 function cosmeticsHtml(ui) {
@@ -150,9 +162,9 @@ function gemsHtml() {
   const packs = D.economy.gemPacks.map(p => `<div class="pack">
       <img src="${p.image}" alt="" draggable="false">
       <div class="pack-n">${moneyIcon('gems', 18)}<b>${nf(p.gems)}</b></div>
-      <button class="shop-price" disabled>${priceOrSoon(p.price)}</button>
+      ${buyBtn((productFor('gemmes', p.id) || {}).id)}
     </div>`).join('');
-  return `${adGemsHtml()}<div class="shop-note">${U().packsFree}</div><div class="pack-grid">${packs}</div>${noAdsHtml()}<div class="shop-note soft">${isNative() ? tr('common.soon') : U().packsNote}</div>`;
+  return `${adGemsHtml()}<div class="shop-note">${U().packsFree}</div><div class="pack-grid">${packs}</div>${noAdsHtml()}<div class="shop-note soft">${tr('iap.note')}</div>`;
 }
 
 /* ---------- Fenêtres (dans #shopModal du lobby) ---------- */

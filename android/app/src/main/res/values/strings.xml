@@ -4,4 +4,6 @@
     <string name="title_activity_main">Three Signs</string>
     <string name="package_name">com.cronos2a.troissignes</string>
     <string name="custom_url_scheme">com.cronos2a.troissignes</string>
+    <!-- Recopié de data/monetisation.json par tools/android/build-www.mjs (identifiant de test de Google tant que mode_test est vrai). -->
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
 </resources>

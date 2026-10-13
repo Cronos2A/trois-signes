@@ -12,6 +12,18 @@ Légende : 🔴 bug bloquant · 🟠 bug gênant · 🟢 amélioration souhaitab
 
 ---
 
+## 🔵 Monétisation en mode test (13/10/2026)
+- **Décisions à confirmer** : (1) « Sans pub » donne les récompenses de la boutique et du lobby sans vidéo, mais la Seconde chance garde sa vidéo
+  (sinon ce serait un avantage payant en partie) ; (2) la Seconde chance reste proposée au KO du Voyage (le combat est terminé, la pub est au choix) ;
+  (3) AdMob : contenu `General` (le plus sûr), `tagForChildDirectedTreatment` et `tagForUnderAgeOfConsent` à false (jeu 13+, pas destiné aux enfants) ;
+  si le public cible de la Play Console inclut des moins de 13 ans, il faudra les passer à true et suivre le programme Familles ; (4) les anciennes pubs
+  plein écran sont retirées (l'ancien test `tads.mjs` ne s'applique plus).
+- **Avant de passer en réel** : vérification des achats au serveur (Cloud Functions, offre Blaze ; `achats.js → verifyPurchase`) ; mention d'un
+  médiateur de la consommation et de l'adresse du développeur dans les conditions ; essayer pubs et achats sur un vrai téléphone (comptes testeurs).
+- Les gemmes achetées sont dans la sauvegarde (`prog.eco.bought`), pas au serveur : un joueur qui change de compte Google en gardant « Compte Google »
+  perd celles de ce téléphone (« Sans pub » revient tout seul par Google Play).
+- Mesure 16 Ko : le SDK AdMob est nouveau dans l'APK : relancer `tools/android/verifier.ps1` après la compilation (alignement des bibliothèques natives).
+
 ## 🔵 Pseudos uniques (13/10/2026)
 - **À faire de ton côté** : publier `firestore.rules` (collection `pseudos`) ; sans elles, changer de pseudo est refusé.
 - Possible plus tard (non fait) : obliger les lignes du classement et la sauvegarde à porter un pseudo réservé par le joueur (règles), et limiter

@@ -527,5 +527,29 @@
     "askTitle": "Ton pays",
     "askText": "Choisis ton pays pour les classements par pays. Tu pourras le changer à tout moment dans les Réglages.",
     "validate": "Valider"
+  },
+  "ads": {
+    "closed": "Pub fermée trop tôt : pas de récompense.",
+    "nofill": "Aucune pub disponible pour le moment. Réessaie plus tard.",
+    "offline": "Pas de connexion : impossible de charger une pub.",
+    "noconsent": "Pubs désactivées : tu n'as pas donné ton accord. Tu peux le modifier dans les Réglages.",
+    "privacyLabel": "Publicités",
+    "privacyBtn": "Choix de confidentialité des pubs",
+    "privacyNotRequired": "Aucun choix à faire dans ta région.",
+    "privacyError": "Le formulaire n'a pas pu s'ouvrir. Réessaie plus tard."
+  },
+  "iap": {
+    "loading": "…",
+    "unavailable": "Indisponible",
+    "pendingTag": "En attente",
+    "ok": "Merci ! {n} gemmes ajoutées.",
+    "okNoAds": "Merci ! Plus aucune pub.",
+    "cancelled": "Achat annulé.",
+    "pending": "Paiement en attente : ton achat arrivera dès qu'il sera validé.",
+    "owned": "Achat déjà payé : il a été récupéré.",
+    "notfound": "Produit introuvable pour le moment.",
+    "offline": "Pas de connexion à Google Play. Réessaie plus tard.",
+    "error": "L'achat n'a pas pu aboutir. Réessaie plus tard.",
+    "note": "Achats via Google Play. Les gemmes servent aux cosmétiques : aucun avantage en jeu."
   }
 }

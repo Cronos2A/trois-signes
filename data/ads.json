@@ -1,29 +1,43 @@
 {
-  "note": "Publicités. Sur le web : fausse pub de test. Dans l'application (plus tard) : AdMob via @capacitor-community/admob, avec la fenêtre de consentement UMP de Google au premier lancement (src/ads/admob.js, pas encore installé). Les pubs récompensées sont toujours au choix du joueur ; la récompense n'est donnée que si la pub est regardée jusqu'au bout.",
+  "note": "Publicités : vidéos récompensées seulement (13/10/2026 : plus de pub plein écran ni de bannière), toujours au choix du joueur ; la récompense n'est donnée que si la pub est regardée jusqu'au bout. Jamais pendant un Duel. Dans l'application : AdMob (src/ads/admob.js, identifiants et drapeaux dans data/monetisation.json, consentement UMP au premier lancement). Sur le web : fausse pub de test en développement seulement.",
   "provider": "auto",
-  "test": { "seconds": 5, "hosts": ["localhost", "127.0.0.1"], "note": "Fausse pub (ui/ad-ui.js) : seulement sur ces adresses (développement). Ailleurs sur le web, aucune pub : boutons de pub masqués, ou « Disponible dans l'application » dans la boutique ; rien n'est gagné. Dans l'application : AdMob (admob.js)." },
+  "test": {
+    "seconds": 5,
+    "hosts": [
+      "localhost",
+      "127.0.0.1"
+    ],
+    "note": "Fausse pub (ui/ad-ui.js) : seulement sur ces adresses (développement). Ailleurs sur le web, aucune pub : boutons de pub masqués, ou « Disponible dans l'application » dans la boutique ; rien n'est gagné. Dans l'application : AdMob (admob.js)."
+  },
   "admob": {
-    "note": "Identifiants à remplir à la mise en place d'AdMob (ceux-ci sont les identifiants de TEST de Google).",
-    "initializeForTesting": true,
-    "rewarded": { "android": "ca-app-pub-3940256099942544/5224354917", "ios": "ca-app-pub-3940256099942544/1712485313" },
-    "interstitial": { "android": "ca-app-pub-3940256099942544/1033173712", "ios": "ca-app-pub-3940256099942544/4411468910" }
+    "note": "Identifiants : data/monetisation.json → admob (test ou réels selon mode_test)."
   },
   "rewarded": {
-    "doubleGold": { "perGame": 1 },
-    "secondChance": { "perGame": 1, "hp": 0.5, "graceSeconds": 1.5 },
-    "gems": { "amount": 5, "perDay": 3 },
-    "freeChest": { "chest": "simple", "perDay": 1 }
-  },
-  "interstitial": {
-    "everyGames": 3,
-    "graceMinutes": 10,
-    "note": "Seulement après une partie du Voyage. Jamais pendant un combat, la leçon, le mode Histoire, une cinématique, ni avant 10 minutes de jeu cumulées."
+    "doubleGold": {
+      "perGame": 1
+    },
+    "secondChance": {
+      "perGame": 1,
+      "hp": 0.5,
+      "graceSeconds": 1.5
+    },
+    "gems": {
+      "amount": 5,
+      "perDay": 3
+    },
+    "freeChest": {
+      "chest": "simple",
+      "perDay": 1
+    }
   },
   "noAds": {
-    "price": "2,99 €",
-    "note": "Sans publicité : plus aucune pub plein écran ; les pubs récompensées restent proposées."
+    "note": "Sans pub (achat Google Play, data/monetisation.json → achats → sans_pub) : plus aucune pub ; les récompenses de la boutique et du lobby (gemmes, coffre, or) sont données sans vidéo, dans les mêmes limites par jour ; la Seconde chance (avantage en partie) garde sa vidéo."
   },
-  "duel": { "ads": false, "rewards": false, "note": "Aucune pub pendant un Duel, aucune récompense de pub utilisable en Duel." },
+  "duel": {
+    "ads": false,
+    "rewards": false,
+    "note": "Aucune pub pendant un Duel, aucune récompense de pub utilisable en Duel."
+  },
   "ui": {
     "testTitle": "Publicité de test",
     "testText": "Ici s'affichera une vraie publicité dans l'application.",
@@ -46,11 +60,10 @@
     "perDay": "{left} / {max} aujourd'hui",
     "noneLeft": "Reviens demain",
     "noAdsTitle": "Sans publicité",
-    "noAdsText": "Plus aucune pub plein écran. Les pubs récompensées restent proposées.",
-    "noAdsOwned": "Acheté : plus de pubs plein écran",
+    "noAdsText": "Plus aucune pub : les récompenses de la boutique et du lobby sont données sans vidéo (sauf la Seconde chance).",
+    "noAdsOwned": "Acheté : plus aucune pub",
     "store": "Disponible dans l'application",
     "testNoAds": "Sans publicité (test)",
-    "testGrace": "Passer les 10 min",
     "testResetAds": "Remettre les pubs à zéro",
     "testState": "Jeu : {min} min · parties du Voyage : {games}"
   }

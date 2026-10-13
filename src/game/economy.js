@@ -1,5 +1,5 @@
 // Économie (data/economy.json) : or et gemmes, gains de fin de partie, gemmes méritées (rétroactives), coffres, achats.
-// Sauvegarde : prog.eco = { gold, gems, granted, owned, equipped, pity, opened }.
+// Sauvegarde : prog.eco = { gold, gems, bought (gemmes achetées), granted, owned, equipped, pity, opened }.
 import { D } from '../data.js';
 import { prog, saveProg } from './progress.js';
 import { items, item, owned, grant } from './cosmetics.js';
@@ -23,9 +23,26 @@ export function addGems(n, source = 'ad') {
   if (source === 'ad' && k) gemOp({ op: 'ad', n: k });
 }
 
+/*
+ * Gemmes achetées (Google Play, src/ads/achats.js) : prog.eco.bought, à part du portefeuille du serveur (dont les règles
+ * n'acceptent pas d'achat). Sans vérification au serveur, elles sont accordées sur l'appareil (donc falsifiables) ; elles ne
+ * servent qu'aux cosmétiques et n'ont aucun effet sur les classements. Dépense : les gemmes achetées d'abord, puis celles du serveur.
+ */
+export const boughtGems = () => Math.max(0, prog.eco.bought || 0);
+/** Gemmes disponibles : portefeuille du serveur + gemmes achetées. */
+export const gemsTotal = () => (prog.eco.gems || 0) + boughtGems();
+/** Achat validé : ajoute n gemmes achetées. */
+export function addBoughtGems(n) { prog.eco.bought = boughtGems() + Math.max(0, Math.round(n)); saveProg(); }
+function spendGems(n) {
+  if (!n) return;
+  const fromBought = Math.min(boughtGems(), n), rest = n - fromBought;
+  prog.eco.bought = boughtGems() - fromBought;
+  if (rest) { prog.eco.gems -= rest; gemOp({ op: 'spend', n: rest }); }
+}
+
 /** Prix { gold } ou { gems }. */
-export const canAfford = p => (p.gold || 0) <= prog.eco.gold && (p.gems || 0) <= prog.eco.gems;
-function pay(p) { prog.eco.gold -= p.gold || 0; prog.eco.gems -= p.gems || 0; if (p.gems) gemOp({ op: 'spend', n: p.gems }); }
+export const canAfford = p => (p.gold || 0) <= prog.eco.gold && (p.gems || 0) <= gemsTotal();
+function pay(p) { prog.eco.gold -= p.gold || 0; spendGems(p.gems || 0); }
 
 /* ---------- Gains de fin de partie ---------- */
 /** Or des pièces ramassées pendant la partie. */
@@ -144,7 +161,7 @@ export function chestState(id, free = false) {
   const C = E().chests[id];
   if (!chestsAllowed()) return { can: false, reason: 'banned' };
   if (unownedCount() < C.count) return { can: false, reason: 'complete' };
-  if (!free && prog.eco.gems < C.price) return { can: false, reason: 'money' };
+  if (!free && gemsTotal() < C.price) return { can: false, reason: 'money' };
   return { can: true, reason: null };
 }
 
@@ -155,7 +172,7 @@ export function chestState(id, free = false) {
 export function openChest(id, rnd = Math.random, free = false) {     // free : coffre offert (pub récompensée)
   const C = E().chests[id], st = chestState(id, free);
   if (!st.can) return { error: st.reason };
-  if (!free) { prog.eco.gems -= C.price; gemOp({ op: 'spend', n: C.price }); }
+  if (!free) spendGems(C.price);
   const got = [], pity = id === 'simple' && C.guaranteeEpicAfter && prog.eco.pity >= C.guaranteeEpicAfter - 1;
   for (let k = 0; k < C.count; k++) {
     let r;

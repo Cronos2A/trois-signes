@@ -426,11 +426,10 @@
         "perDay": "{left} / {max} today",
         "noneLeft": "Come back tomorrow",
         "noAdsTitle": "No ads",
-        "noAdsText": "No more full-screen ads. Rewarded ads are still offered.",
-        "noAdsOwned": "Purchased: no more full-screen ads",
+        "noAdsText": "No more ads: shop and lobby rewards are given without a video (except Second chance).",
+        "noAdsOwned": "Purchased: no more ads",
         "store": "Available in the app",
         "testNoAds": "No ads (test)",
-        "testGrace": "Skip the 10 min",
         "testResetAds": "Reset ads",
         "testState": "Play time: {min} min · Journey games: {games}"
       },
@@ -2962,5 +2961,29 @@
     "askTitle": "Your country",
     "askText": "Choose your country for the country rankings. You can change it at any time in Settings.",
     "validate": "Confirm"
+  },
+  "ads": {
+    "closed": "Ad closed too early: no reward.",
+    "nofill": "No ad available right now. Try again later.",
+    "offline": "No connection: an ad can't be loaded.",
+    "noconsent": "Ads are off: you didn't give your consent. You can change this in Settings.",
+    "privacyLabel": "Ads",
+    "privacyBtn": "Ad privacy choices",
+    "privacyNotRequired": "No choice needed in your region.",
+    "privacyError": "The form couldn't open. Try again later."
+  },
+  "iap": {
+    "loading": "…",
+    "unavailable": "Unavailable",
+    "pendingTag": "Pending",
+    "ok": "Thank you! {n} gems added.",
+    "okNoAds": "Thank you! No more ads.",
+    "cancelled": "Purchase cancelled.",
+    "pending": "Payment pending: your purchase will arrive as soon as it's confirmed.",
+    "owned": "Already paid: your purchase has been restored.",
+    "notfound": "Product not found right now.",
+    "offline": "No connection to Google Play. Try again later.",
+    "error": "The purchase couldn't go through. Try again later.",
+    "note": "Purchases through Google Play. Gems are for cosmetics only: no in-game advantage."
   }
 }

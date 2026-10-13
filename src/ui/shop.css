@@ -122,3 +122,4 @@
 }
 .no-ads .shop-price{padding:0 12px;opacity:.6;flex-shrink:0}
 .co-cancel{margin-top:10px;padding:0 22px;background:var(--color-bg)}
+.pack .shop-price.buy,.no-ads .shop-price.buy{opacity:1}                 /* achats Google Play actifs (prix localisé) */

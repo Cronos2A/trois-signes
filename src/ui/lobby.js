@@ -12,12 +12,14 @@ import { sfx } from '../audio/audio.js';
 import { weaponsCardHtml, talismanCardHtml, weaponGainHtml, playWeaponGain, itemIcon } from './weapon-ui.js';
 import { equipWeapon, equippedWeapon, weaponData } from '../game/weapons.js';
 import { equipTalisman } from '../game/talismans.js';
-import { wallet, testMode, addGold, addGems, resetShop, countries } from '../game/economy.js';
+import { wallet, testMode, addGold, addGems, resetShop, countries, gemsTotal } from '../game/economy.js';
 import { shopHtml, confirmHtml, boughtHtml, doBuy, oddsHtml, chestIntroHtml, chestRevealHtml, cosmeticCardHtml, heroLobbyHtml, equip, item } from './shop-ui.js';
 import { onSkinReady } from './looks.js';
-import { showRewarded, adsReady, afterVoyageResults, watchForGems, watchForChest, setNoAds, noAds, resetAds, adsState, addPlaySeconds } from '../ads/ads.js';
+import { showRewarded, adsReady, afterVoyageResults, watchForGems, watchForChest, setNoAds, noAds, resetAds, adsState, addPlaySeconds, adFailText } from '../ads/ads.js';
 import { adIcon, adToast } from './ad-ui.js';
 import { openChest } from '../game/economy.js';
+import { buyProduct, packOf } from '../ads/achats.js';
+import { admobAvailable, admobPrivacyForm } from '../ads/admob.js';
 import { moneyIcon, goldGainHtml } from './money.js';
 import { changeCountry } from './ranking-ui.js';
 import { accountHtml, askPseudo, googleFlow, deleteFlow } from './account-ui.js';
@@ -93,7 +95,7 @@ async function doubleGold(btn) {
   const r = lastRes;
   if (!r || r.doubled || !r.gold) return;
   btn.disabled = true;
-  if (!await showRewarded()) { btn.disabled = false; adToast(D.ads.ui.rewardLost); return; }
+  if (!await showRewarded()) { btn.disabled = false; adToast(adFailText()); return; }
   r.doubled = true;
   addGold(r.gold);
   const line = $('results').querySelector('.money-gain b');
@@ -161,13 +163,30 @@ function onClick(e) {
     case 'closeShop': closeModal(); render(); break;
     // Pubs récompensées (ads/ads.js) : récompense seulement si la pub est vue jusqu'au bout
     case 'adDouble': doubleGold(el); break;
-    case 'adGems': watchForGems(addGems).then(n => { adToast(n ? D.ads.ui.gemsBtn.replace('{n}', n) : D.ads.ui.rewardLost); render(); }); break;
+    case 'adGems': watchForGems(addGems).then(n => { adToast(n ? D.ads.ui.gemsBtn.replace('{n}', n) : adFailText()); render(); }); break;
     case 'adChest': watchForChest(() => openChest(D.ads.rewarded.freeChest.chest, Math.random, true)).then(res => {
-      if (res && res.items) modal(chestRevealHtml(D.ads.rewarded.freeChest.chest, res), 'chest'); else adToast(D.ads.ui.rewardLost);
+      if (res && res.items) modal(chestRevealHtml(D.ads.rewarded.freeChest.chest, res), 'chest'); else adToast(adFailText());
       render();
     }); break;
+    // Achats Google Play (ads/achats.js) : un seul à la fois ; le résultat (réussi, annulé, en attente…) en petit message
+    case 'iapBuy': {
+      if (iapBusy) break;
+      iapBusy = true; el.disabled = true;
+      buyProduct(arg).then(r => {
+        iapBusy = false;
+        const p = r.product, pk = packOf(p);
+        if (r.status === 'ok') sfx('deblocage');
+        adToast(r.status === 'ok' ? (p.type === 'gemmes' ? tr('iap.ok', { n: nfi(pk ? pk.gems : 0) }) : tr('iap.okNoAds')) : tr('iap.' + r.status));
+        render();
+      });
+      break;
+    }
+    // Réglages → « Choix de confidentialité des pubs » (formulaire UMP de Google)
+    case 'adsPrivacy': admobPrivacyForm().then(r => {
+      if (r === 'notRequired') adToast(tr('ads.privacyNotRequired')); else if (r !== 'shown') adToast(tr('ads.privacyError'));
+      renderSettings();
+    }); break;
     case 'testNoAds': setNoAds(!noAds()); renderSettings(); render(); break;
-    case 'testGrace': addPlaySeconds(D.ads.interstitial.graceMinutes * 60); renderSettings(); break;
     case 'testResetAds': resetAds(); renderSettings(); render(); break;
     // Mode test (développement)
     case 'testGold': addGold(D.economy.test.gold); renderSettings(); render(); break;
@@ -214,7 +233,7 @@ function headHtml() {
     </div>
     <div class="head-pills">
       <div class="cur-pill gold" title="${tr('lobby.gold')}">${moneyIcon('gold', 22)}<span>${nfi(wallet().gold)}</span></div>
-      <button class="cur-pill gems" data-act="gemsPlus" title="${tr('lobby.gems')}">${moneyIcon('gems', 22)}<span>${nfi(wallet().gems)}</span><i class="plus">+</i></button>
+      <button class="cur-pill gems" data-act="gemsPlus" title="${tr('lobby.gems')}">${moneyIcon('gems', 22)}<span>${nfi(gemsTotal())}</span><i class="plus">+</i></button>
     </div>
     <button class="gear-btn" data-act="settings" aria-label="${tr('lobby.settingsAria')}">${gearIcon(22)}</button>`;
 }
@@ -360,11 +379,19 @@ function dailyTestHtml() {
 }
 function adsTestHtml() {
   const A = D.ads.ui, s = adsState();
-  return `<div class="chips set-chips"><button class="chip${s.noAds ? ' on' : ''}" data-act="testNoAds">${A.testNoAds}</button><button class="chip" data-act="testGrace">${A.testGrace}</button></div>
+  return `<div class="chips set-chips"><button class="chip${s.noAds ? ' on' : ''}" data-act="testNoAds">${A.testNoAds}</button></div>
       <button class="chip" data-act="testResetAds">${A.testResetAds}</button>
       <span class="test-cur">${A.testState.replace('{min}', Math.floor(s.playSeconds / 60)).replace('{games}', s.voyageGames || 0)}</span>`;
 }
 
+/** Pubs (application) : bouton du formulaire de confidentialité de Google, pour modifier son consentement à tout moment. */
+function adsPrivacyHtml() {
+  if (!admobAvailable()) return '';
+  return `<div class="set-row"><span class="set-label">${tr('ads.privacyLabel')}</span>
+      <button class="mini-btn set-privacy" data-act="adsPrivacy">${tr('ads.privacyBtn')}</button></div>`;
+}
+
+let iapBusy = false;
 function renderSettings() {
   const vol = (k, label) => {
     const v = Math.round(settings[k] * 100);
@@ -381,6 +408,7 @@ function renderSettings() {
       ${pick('vibrate', tr('settings.vibrate'), [['1', tr('common.yes'), settings.vibrate], ['0', tr('common.no'), !settings.vibrate]])}
       ${langHtml()}
       ${accountHtml()}
+      ${adsPrivacyHtml()}
       <button class="mini-btn set-credits" data-act="credits">${tr('settings.credits')}</button>
       ${legalLinks()}
       <span class="set-version">${versionText()}</span>

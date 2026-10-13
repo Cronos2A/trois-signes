@@ -1,6 +1,6 @@
 # Three Signs — brief pour Claude Code
 
-État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; le 09/10/2026 : pages légales alignées sur le jeu ; le 10/10/2026 : écran de chargement aux transitions (sortie de partie, Entraînement), musiques sans chevauchement, plus de lobby avant le didacticiel ; le 13/10/2026 : pseudos uniques, adresse Google jamais affichée ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
+État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; le 09/10/2026 : pages légales alignées sur le jeu ; le 10/10/2026 : écran de chargement aux transitions (sortie de partie, Entraînement), musiques sans chevauchement, plus de lobby avant le didacticiel ; le 13/10/2026 : pseudos uniques, adresse Google jamais affichée, monétisation en mode test (pubs récompensées AdMob, achats Google Play) ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 **Titre du jeu : « Three Signs » dans les 5 langues, jamais traduit** (décision du 03/10/2026 ; avant : « Trois Signes »).
@@ -186,27 +186,41 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   Trois Signes jamais sans rare, collection complète après 40 objets, Belgique bloquée, achats refusés sans assez d'or ou en double.
 - Sauvegarde : `prog.eco = { gold, gems, granted, owned, equipped, pity, opened }`.
 
-## Publicités — `data/ads.json` — **fait (fausses pubs)**
-- Un seul module `src/ads/ads.js` : pubs **récompensées** et **plein écran**, règles, limites, sauvegarde `prog.ads`
-  (`noAds`, `playSeconds`, `voyageGames`, `day`, `used`). Web : fausse pub « Publicité de test » de 5 s (`src/ui/ad-ui.js`, `ads.css`).
-- **AdMob (plus tard)** : `src/ads/admob.js` prêt pour `@capacitor-community/admob` (**pas installé**), lu depuis
-  `window.Capacitor.Plugins.AdMob` ; consentement UMP de Google au premier lancement (`initAds` → `admobInit`) ; identifiants
-  dans `ads.json → admob` (aujourd'hui ceux de test de Google). `provider: "test"` force la fausse pub.
-- **Récompensées** (toujours au choix, bouton avec icône « écran ▶ » ; récompense seulement si la pub est vue jusqu'au bout) :
-  « Doubler l'or » sur les résultats du Voyage (1 fois par partie) ; « Seconde chance » au KO dans le Voyage, reprise à 50 % des PV
-  avec 1,5 s de garde (1 fois par partie) ; boutique : « +5 gemmes » (3 fois par jour) et « Coffre gratuit » simple (1 fois par jour,
-  pas dans les pays sans coffres), compteur « 2 / 3 aujourd'hui ».
-- **Fausses pubs seulement en développement** (`ads.js` → `adsReady`, `ads.json → test.hosts` : localhost, 127.0.0.1) ; dans l'application : AdMob.
-  Ailleurs sur le web (site publié) : aucune pub, rien n'est gagné ; boutique « +5 gemmes » et « Coffre gratuit » : « Disponible dans l'application » ;
-  « Doubler l'or », pub du jour et Seconde chance masqués ; pas de pub plein écran. Vérifié le 01/10/2026 sur une adresse publique simulée.
-- **Plein écran** : seulement en quittant les résultats du Voyage (Rejouer ou Retour), une partie sur 3, après 10 minutes de jeu
-  cumulées (combat, Entraînement, leçon). Jamais en combat, leçon, Histoire, cinématique. Fermer après le compte à rebours.
-- **Sans publicité** (onglet Gemmes) : 2,99 €, désactivé sur le web ; une fois acheté, plus de pub plein écran (les récompensées restent).
-- **Duel** : `ads.json → duel` : aucune pub, aucune récompense de pub (`showRewarded({ duel })` refuse).
-- Mode test (Réglages) : Sans publicité on / off, « Passer les 10 min », remise à zéro, compteurs affichés.
-- Testé le 28/09/2026 : seconde chance (65 / 130 PV), 2e KO sans proposition, or doublé seulement si la pub est vue en entier,
-  pas de pub avant 10 min, pub plein écran à la 3e partie seulement, aucune avec Sans publicité, 3 fois +5 gemmes puis « Reviens demain »,
-  coffre gratuit une fois par jour.
+## Monétisation : pubs récompensées et achats intégrés — `data/monetisation.json`, `data/ads.json` — **fait en mode TEST (13/10/2026)**
+- **Config unique** `data/monetisation.json` : drapeaux `pubs_actives`, `achats_actifs`, `mode_test` (true) ; identifiants AdMob `admob.test`
+  (identifiants de test publics de Google) et `admob.reel` (vides) ; 5 produits `achats.produits` (`gemmes_80`, `gemmes_450`, `gemmes_1000`,
+  `gemmes_2200` → paquets `economy.json → gemPacks`, et `sans_pub`) ; `verification_serveur.active` (false). **Passer en réel** : remplir
+  `admob.reel`, `mode_test` à false, créer les produits dans la Play Console ; rien d'autre (`build-www.mjs` recopie l'identifiant d'application
+  AdMob dans `android/app/src/main/res/values/strings.xml` et réécrit le bloc « pubs » du manifeste : AD_ID permis si `pubs_actives`, retiré sinon ;
+  il refuse de construire si les identifiants du mode choisi manquent). Aucun identifiant réel dans le code.
+- **Extensions** (vérifiées sur npm et dans leurs définitions le 13/10/2026) : `@capacitor-community/admob` **8.2.1** (Capacitor ≥ 8.5, SDK Google
+  Mobile Ads 25.4, UMP 4.0) et `@capgo/native-purchases` **8.9.5** (Capacitor ≥ 8, Google Play Billing 9.1) ; installées (`package.json`, versions
+  exactes) et synchronisées (`npx cap sync android`). Lues depuis `window.Capacitor.Plugins` : rien ne casse sur le web.
+- **Pubs** (`src/ads/admob.js`, `src/ads/ads.js`) : **vidéos récompensées seulement** (plus de pub plein écran depuis le 13/10/2026, aucune
+  bannière), jamais en Duel. Au lancement : consentement UMP (`requestConsentInfo`, formulaire si `REQUIRED`), puis `initialize`
+  (`maxAdContentRating: General`, `tagForChildDirectedTreatment` / `tagForUnderAgeOfConsent` : false, à confirmer) ; sans `canRequestAds`, aucune pub
+  demandée. Réglages → « Choix de confidentialité des pubs » (`showPrivacyOptionsForm`, application seulement). Récompense seulement sur l'événement
+  de récompense de Google (la fermeture règle toujours la promesse : `showRewardVideoAd` ne se résout jamais si la pub est fermée trop tôt).
+  Messages : fermée trop tôt, aucune pub (`nofill`), pas de réseau, consentement absent, limite du jour (`ads.*`, `adFailText`).
+  Boutons existants : « +5 gemmes » et « Coffre gratuit » (boutique), « Doubler l'or », pub du jour, Seconde chance (au KO du Voyage).
+- **Sans pub** (achat) : plus aucune pub ; les récompenses de la boutique et du lobby (gemmes, coffre, or) sont données **sans vidéo**, dans les mêmes
+  limites ; la **Seconde chance garde sa vidéo** (avantage en partie, `showRewarded({ gameplay: true })`). Choix à confirmer (`à faire.md`).
+- **Achats** (`src/ads/achats.js`) : prix localisés de Google Play (`getProducts → priceString`, jamais en dur ; « … » puis « Indisponible ») ;
+  `purchaseProduct` sans acquittement automatique ; gemmes accordées puis **consommées** (`consumePurchase`), Sans pub **acquitté** ; jeton noté
+  dans `prog.iap.done` avant d'appeler Google (jamais deux fois) ; annulé, en attente (`prog.iap.pending`, bouton « En attente »), déjà possédé
+  (récupéré), introuvable, pas de réseau ; **restauration** au lancement et au retour de l'arrière-plan (`getPurchases` : achat payé non traité après
+  un plantage, paiement en attente devenu valide, Sans pub après réinstallation). `verifyPurchase` : point d'accroche d'une future vérification par
+  Cloud Functions (offre Blaze). **Limite** : sans serveur, attribution sur l'appareil, donc falsifiable.
+- **Gemmes achetées** : `prog.eco.bought`, à part du portefeuille du serveur (`wallet/{uid}`, dont les règles n'acceptent pas d'achat ; règles
+  inchangées) ; affichées avec lui (`economy.js → gemsTotal`), dépensées en premier ; cosmétiques seulement, aucun effet sur les classements.
+- **Web** : fausse pub de test seulement en développement (`ads.json → test.hosts`) ; site publié : « Disponible dans l'application ». Application sans
+  extension ou drapeau coupé : « Bientôt ». `provider: "test"` force la fausse pub.
+- Testé le 13/10/2026 (Playwright, fausses extensions dans le navigateur, 390 × 800 et 360 × 640) : consentement avant l'initialisation, contenu
+  « General » ; pub vue (+5), fermée trop tôt, non chargée, pas de réseau, jamais en Duel ; consentement refusé → SDK jamais initialisé, aucune pub ;
+  bouton des Réglages ; achats réussi (+80, consommé), annulé, en attente puis validé (+450), déjà possédé (récupéré une fois), introuvable ; Sans pub
+  (acquitté, +5 sans vidéo, restauré après réinstallation) ; plantage pendant l'achat → 2 200 gemmes au relancement, jamais deux fois. Mise en page :
+  onglet Gemmes et Réglages en 360 × 640, 390 × 844, 412 × 915, 5 langues : aucun texte coupé, aucun écart trop serré, aucune erreur.
+  **Pas encore essayé sur un vrai téléphone** (compilation sur le PC).
 
 ## Récompenses de connexion et boosts — `data/daily.json` — **fait**
 - Code : `src/game/daily.js` (récompenses d'un jour, passage au jour suivant, remise, pub du jour), `src/online/daily-net.js` (serveur),
@@ -589,7 +603,8 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 
 ## Application Android (Capacitor) — `docs/EMBALLAGE.md` — **préparée (04/10/2026), compilée sur le PC de l'utilisateur**
 - Capacitor **8.5.2** (`package.json`, `capacitor.config.json`, dossier `android/`) ; paquet **`com.cronos2a.troissignes`**, nom « Three Signs » ;
-  6 modules : App, Haptics, Browser, Splash Screen, Status Bar, `@capacitor-firebase/authentication` (`rgcfaIncludeGoogle`, `skipNativeAuth`).
+  8 modules : App, Haptics, Browser, Splash Screen, Status Bar, `@capacitor-firebase/authentication` (`rgcfaIncludeGoogle`, `skipNativeAuth`),
+  `@capacitor-community/admob` 8.2.1 et `@capgo/native-purchases` 8.9.5 (13/10/2026, voir « Monétisation »).
   **API cible 36** (exigée par Google Play depuis le 31/08/2026), min 24, plugin Gradle 8.13 (16 Ko : aucun code natif), AAB signé.
 - **Dossier de build `www/`** (`npm run www` → `tools/android/build-www.mjs`, puis `npx cap sync android`) : index.html, manifest, `src/`, `data/`,
   `assets/` (sans `assets/icone-app/`, sans notes `.md`) ; jamais design, docs, legal, prototype, tools. 30 Mo. Refuse `test.autorise` à true.
@@ -598,9 +613,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   `back.js → onBack` (onglet Jouer sans rien d'ouvert → `minimizeApp`) ; `appStateChange` → absence du Duel et musique ; vibrations par Haptics
   (`effects.js → vibrate`, option des Réglages) ; liens `target="_blank"` en https → Browser ; pages légales à `version.json → legalBase` ;
   écran de démarrage caché au lobby ; barre d'état claire ; zones sûres par `env(safe-area-inset-*)` (SystemBars de Capacitor, `viewport-fit=cover`).
-  Boutique dans l'application : pubs, packs de gemmes, Sans publicité → « Bientôt » (AdMob et Google Play pas branchés).
+  Boutique dans l'application : pubs AdMob et achats Google Play (voir « Monétisation ») ; « Bientôt » si une extension manque.
   Mode test et fausses pubs toujours coupés dans l'application (`testMode`, `fakeAllowed` : `Capacitor.isNativePlatform()`).
-- **Manifeste** : `INTERNET` (+ `VIBRATE` par Haptics), AD_ID / localisation / notifications retirés, portrait, `usesCleartextTraffic="false"` +
+- **Manifeste** : `INTERNET` (+ `VIBRATE` par Haptics, `BILLING` par Google Play, `AD_ID` par AdMob si `pubs_actives`), localisation / notifications retirés, portrait, `usesCleartextTraffic="false"` +
   `network_security_config.xml`, `allowBackup="false"` (désinstallation = tout effacé sauf ce qui est lié au compte Google).
 - **Icône** : source unique `assets/icone-app/icone.svg` (calques `fond` / `logo`, provisoire), `npm run icons` (`tools/android/icons.mjs`, sharp)
   → icône adaptative + monochrome, anciennes icônes, écran de démarrage (fond `#174A28` + logo), icône Play Store 512.
@@ -729,7 +744,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   e-mail (`cronos2a.jeux@gmail.com`, aussi dans `legal/supprimer-mon-compte.html`).
   Trois liens (nouvel onglet, 48 px de haut) en bas des Réglages et dans les Crédits : « Politique de confidentialité », « Conditions
   d'utilisation », « Supprimer mon compte » (`version.json → legal`, textes `about.*` ; pages de `legal/`, fournies le 02/10/2026, en français).
-  **Pages légales mises à jour le 09/10/2026** d'après le code et `firestore.rules`, puis le 13/10/2026 (pseudos uniques, adresse Google jamais affichée ; date affichée : 13 octobre 2026) : politique (tableau des données :
+  **Pages légales mises à jour le 09/10/2026** d'après le code et `firestore.rules`, puis le 13/10/2026 (pseudos uniques, adresse Google jamais affichée, pubs récompensées et consentement, achats Google Play ; date affichée : 13 octobre 2026) : politique (tableau des données :
   compte anonyme, pseudo, progression, Duel, pays choisi, compte Google facultatif, données visibles dans les classements, signalements, trace de
   suppression ; pas de publicité ni d'achat aujourd'hui, formulation conditionnelle ; section Enfants : pas destiné aux moins de 13 ans ; résumé en
   anglais), conditions (13 ans, pays, signalements, triche au Duel, ni achat ni publicité, plus de médiateur), suppression (deux confirmations,
@@ -741,7 +756,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 ## Conventions
 - **Toutes les valeurs dans `data/*.json`**, jamais en dur dans le code (seule exception : `TUNING` des gestes).
 - **Aucun texte visible dans le code** : `tr('clé')` et `data/i18n/fr.json` (voir « Langues ») ; nombres par `nf` / `nfi`, jamais `toLocaleString('fr-FR')`.
-  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version, fin_de_partie, chargement, lobby_themes, classement.
+  `src/data.js` charge : grades, characters, enemies, waves, rules, story_mode, voyage, audio, tutorial, credits, weapons, talismans, progression, economy, cosmetics, ads, online, duel, daily, version, fin_de_partie, chargement, lobby_themes, classement, monetisation.
 - **Noms de fichiers des images** (SVG, état dans `assets/IMAGES.md`) :
   - `assets/portraits/{id}_{expression}.svg` (expressions : neutre, joie, colere, tristesse, surprise, determine) ;
   - boss : `assets/portraits/{bossId}_ombrace.svg` (forme d'ennemi) et `{bossId}_humain.svg` (forme humaine) ;
@@ -779,7 +794,7 @@ src/
   online/ online.js (Firebase : compte anonyme, sauvegarde en ligne)  account.js (Google, suppression du compte)  pseudo-net.js (pseudos uniques)  report.js (signalements)  leaderboard.js (classements)  ranked.js (Empreintes au serveur)  wallet.js (gemmes au serveur)  pseudo.js (pseudo : règles et filtre)  duel-net.js (salon de Duel, file d'attente)  daily-net.js (récompenses de connexion au serveur)
   vendor/firebase/   SDK Firebase embarqué (app, auth, firestore)
   native.js          application Android (Capacitor) : Retour, cycle de vie, Haptics, Browser, écran de démarrage
-  ads/   ads.js (gestionnaire des pubs)  admob.js (emplacement AdMob + consentement UMP, pas encore installé)
+  ads/   ads.js (gestionnaire des pubs récompensées)  admob.js (AdMob + consentement UMP)  achats.js (achats Google Play, restauration)
   audio/ audio.js  synth.js
   ui/    lobby.js (+ réglages, crédits, résultats)  lobby-theme.js (fond selon l'arène de Duel)  hud.js (rendu canvas)  combat-hud.js  combat-art.js  anim.js  sprites.js
          art.js  icons.js  assets.js (images + replis)  cutscene.js  story-ui.js  story-art.js
@@ -791,7 +806,7 @@ src/
          daily-ui.js (fenêtre du jour, écran Récompenses, bouton cadeau, proposition de boost, pastille de combat)
          report-ui.js (fenêtre « Signaler un pseudo »)  loading.js + loading.css (écran de chargement)  end-seq.js (séquences de défaite / victoire, panneau de fin)  fonts.css (polices embarquées)  touch.css (zones tactiles, chargé en dernier)
          organic.css (ne pas modifier)  lobby.css  shop.css  ads.css  style.css  story.css  tutorial.css  voyage.css  duel.css  ranking.css  daily.css
-data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads online duel daily version fin_de_partie chargement lobby_themes classement (.json)
+data/    characters grades enemies waves rules story_mode voyage tutorial audio credits weapons talismans progression economy cosmetics ads monetisation online duel daily version fin_de_partie chargement lobby_themes classement (.json)
   i18n/  languages.json  fr.json (textes de l'interface)  GLOSSAIRE.md
 firestore.rules  firebase.json  firestore.indexes.json   règles de sécurité et index Firestore
 legal/  supprimer-mon-compte.html (Play Store : « URL de suppression du compte »)  politique-de-confidentialite.html  conditions-utilisation.html
@@ -833,4 +848,4 @@ prototype/ prototype d'origine
 2. **Duel, suite** : ménage des salons terminés.
 3. **Avant le Play Store** : compiler et tester l'application sur le PC (`docs/EMBALLAGE.md`), puis `AVANT_PUBLICATION.md` (empreintes SHA-1, règles à publier…).
 
-Plus tard : achat réel des gemmes et de « Sans publicité », AdMob (dans l'application), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.
+Plus tard : passer pubs et achats en réel (`data/monetisation.json`, comptes AdMob et Play Console, vérification au serveur), histoire jouable d'Eldan, jeu installable et jouable hors-ligne.

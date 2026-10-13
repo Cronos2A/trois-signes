@@ -357,7 +357,8 @@
 .acc-google small{font-size:11px;font-weight:700}
 .acc-linked{display:flex;flex-direction:column;gap:2px;font-weight:800;font-size:14px;color:#1F7A3D}
 .acc-linked small{font-size:12px;font-weight:700;color:var(--text-soft);overflow-wrap:anywhere}
-.acc-google,.acc-delete{min-height:48px}
+.acc-google,.acc-delete,.set-privacy{min-height:48px}
+.set-privacy{background:var(--color-bg);margin-bottom:6px;white-space:normal}
 .acc-delete{background:var(--color-bg);color:#B3261E;margin-top:6px}
 #accModal{z-index:40}
 .acc-sum{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:3px solid var(--ink);border-radius:16px;background:var(--color-surface);font-size:13px;font-weight:700;line-height:1.3}

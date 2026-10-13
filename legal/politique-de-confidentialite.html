@@ -111,7 +111,9 @@ table{table-layout:fixed}
 <li>Each username is unique (case-sensitive): it is reserved in your name and released when you change it or delete your account.</li>
 <li>Visible to other players: username, favourite hero, country flag, Imprints, Duel arena and best Journey score.</li>
 <li>Usernames can be reported; reports are kept for moderation.</li>
-<li>The game currently has no ads and no purchases. Nothing is sold or shared for advertising.</li>
+<li>The Android app offers optional rewarded video ads (Google AdMob, family-friendly content only, never during a fight or a Duel) and in-app purchases through Google Play (gem packs, “No ads”). Your data is never sold.</li>
+<li>Ads: in the EEA, the UK and Switzerland, Google's consent form is shown first; without valid consent no ad is requested. Change your choice any time in Settings (“Ad privacy choices”).</li>
+<li>Purchases: payment is handled by Google Play; the game only receives the product and a purchase token.</li>
 <li>Delete everything at any time: Settings, “Delete my account and my data” (two confirmations, immediate).</li>
 <li>Not intended for children under 13. Contact: <a href="mailto:cronos2a.jeux@gmail.com">cronos2a.jeux@gmail.com</a>.</li>
 </ul>
@@ -148,8 +150,8 @@ table{table-layout:fixed}
 <tr><td><strong>Données visibles dans les classements</strong></td><td>Pseudonyme, héros favori (le plus joué), pays (drapeau), Empreintes, arène, meilleur score du Voyage ; pendant la recherche d'un adversaire, votre pseudonyme et vos Empreintes</td><td>Oui pour les joueurs classés (pays : non)</td></tr>
 <tr><td><strong>Signalements</strong></td><td>Un joueur peut signaler un pseudonyme : le pseudonyme signalé, le motif choisi, le classement concerné, la date et l'identifiant du joueur qui signale. Le signalement est conservé pour la modération</td><td>Non — seulement en cas de signalement</td></tr>
 <tr><td><strong>Trace de suppression</strong></td><td>Après la suppression d'un compte : son identifiant au hasard et la date, sans pseudonyme ni autre donnée, pour empêcher de recréer des gemmes ou des récompenses sur ce compte</td><td>Seulement après une suppression</td></tr>
-<tr><td><strong>Identifiant publicitaire</strong></td><td>Pas utilisé aujourd'hui : le jeu ne contient pas de publicité. Si le jeu en propose un jour, un identifiant fourni par votre appareil pourra être utilisé, avec votre accord</td><td>Non</td></tr>
-<tr><td><strong>Informations d'achat</strong></td><td>Pas utilisées aujourd'hui : le jeu ne propose aucun achat. Si le jeu en propose un jour, la confirmation de l'achat sera traitée par Google Play</td><td>Non</td></tr>
+<tr><td><strong>Identifiant publicitaire</strong></td><td>Dans l'application Android, uniquement quand vous choisissez de regarder une pub récompensée : l'identifiant publicitaire de l'appareil et des données techniques (modèle, système, adresse IP, interactions avec la pub) sont traités par Google AdMob pour afficher la pub, mesurer son affichage et lutter contre la fraude. Publicités personnalisées seulement avec votre consentement là où il est exigé. Vous pouvez réinitialiser ou supprimer cet identifiant dans les réglages d'Android. Le jeu lui-même ne le lit pas et ne l'enregistre pas</td><td>Non — seulement si vous regardez une pub</td></tr>
+<tr><td><strong>Informations d'achat</strong></td><td>Achats intégrés de l'application Android (paquets de gemmes, « Sans pub »), faits via Google Play : le paiement et vos coordonnées bancaires sont traités par Google, jamais par le jeu. Le jeu reçoit seulement l'identifiant du produit et un jeton d'achat, gardés sur votre téléphone (et avec votre sauvegarde) pour accorder chaque achat une seule fois et le restaurer. Aucune adresse e-mail n'est lue ni affichée</td><td>Non — seulement si vous achetez</td></tr>
 </table>
 
 <p>Sur votre téléphone, le jeu garde aussi votre progression, vos réglages (son, langue, vibrations) et une copie récente des classements, pour fonctionner sans connexion. Le jeu <strong>ne demande jamais</strong> votre nom réel, votre numéro de téléphone ni votre localisation. Il ne demande pas d'adresse e-mail et n'affiche jamais celle d'un compte Google lié. Comme pour tout service en ligne, les serveurs de Google reçoivent techniquement l'adresse IP de connexion ; le jeu ne la lit pas, ne la conserve pas et ne s'en sert pas pour vous localiser. Les polices du jeu sont intégrées : aucune donnée n'est envoyée à un service de polices en ligne. Le jeu n'utilise aucun outil de mesure d'audience.</p>
@@ -161,23 +163,23 @@ table{table-layout:fixed}
 <li><strong>Afficher les classements</strong> (Duel par arène, mondial et par pays ; Voyage mondial et par pays).</li>
 <li><strong>Vérifier les scores</strong> (records du Voyage, Empreintes, gemmes) pour limiter la triche.</li>
 <li><strong>Modérer les pseudonymes</strong> et traiter les signalements des joueurs.</li>
-<li><strong>Traiter des achats et afficher des publicités</strong>, si le jeu en propose un jour : ce n'est pas le cas aujourd'hui.</li>
+<li><strong>Afficher les pubs récompensées</strong> que vous choisissez de regarder, et <strong>traiter vos achats intégrés</strong> via Google Play (application Android).</li>
 </ul>
 <p>Ces données ne sont <strong>jamais vendues</strong>, et ne sont partagées qu'avec les prestataires techniques listés ci-dessous, dans la stricte mesure nécessaire au fonctionnement du jeu.</p>
 
 <h2 id="tiers"><span class="num">3.</span>Les services tiers utilisés</h2>
-<p>Three Signs s'appuie sur <strong>Firebase</strong> (Google) pour l'hébergement des données, le mode Duel, les classements et la connexion facultative à un compte Google.</p>
+<p>Three Signs s'appuie sur <strong>Firebase</strong> (Google) pour l'hébergement des données, le mode Duel, les classements et la connexion facultative à un compte Google ; dans l'application Android, sur <strong>Google AdMob</strong> pour les pubs récompensées et sur <strong>Google Play</strong> pour les achats.</p>
 
 <table>
 <tr><th>Service</th><th>Rôle dans le jeu</th><th>Sa politique</th></tr>
 <tr><td><strong>Firebase</strong> (Google)</td><td>Comptes de joueur, sauvegarde de la progression, mode Duel, classements, connexion avec Google</td><td><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">firebase.google.com/support/privacy</a></td></tr>
-<tr><td><strong>Google AdMob</strong></td><td>Pas utilisé aujourd'hui. Publicités, si le jeu en propose un jour</td><td><a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">policies.google.com/technologies/ads</a></td></tr>
-<tr><td><strong>Google Play</strong> (facturation)</td><td>Pas utilisé aujourd'hui. Achats intégrés, si le jeu en propose un jour</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+<tr><td><strong>Google AdMob</strong></td><td>Vidéos publicitaires récompensées, toujours au choix du joueur (application Android) ; formulaire de consentement de Google (User Messaging Platform)</td><td><a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">policies.google.com/technologies/ads</a></td></tr>
+<tr><td><strong>Google Play</strong> (facturation)</td><td>Achats intégrés : paiement, prix affichés dans votre monnaie, remboursements</td><td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
 </table>
 
 <p>Les données du jeu sont hébergées par Firebase en Europe. Google peut traiter certaines données en dehors de votre pays, y compris aux États-Unis, dans le cadre des garanties prévues pour les transferts internationaux de données.</p>
 
-<div class="note">Si des publicités personnalisées sont un jour proposées dans l'Union européenne, au Royaume-Uni ou en Suisse, le jeu vous demandera votre <strong>consentement</strong> avant tout affichage, via la fenêtre officielle de Google. Vous pourrez le refuser sans que cela vous empêche de jouer.</div>
+<div class="note"><strong>Publicités et consentement.</strong> Le jeu ne montre que des <strong>vidéos récompensées</strong>, que vous choisissez de regarder : aucune bannière, aucune pub plein écran, jamais pendant un combat ni un Duel. Les contenus sont limités au niveau <strong>tous publics</strong>. Dans l'Espace économique européen, au Royaume-Uni et en Suisse, le jeu affiche au premier lancement le <strong>formulaire officiel de Google</strong> pour recueillir votre consentement ; sans consentement valide, <strong>aucune pub n'est demandée</strong> et vous continuez à jouer normalement. Vous pouvez changer d'avis à tout moment : Réglages → « Choix de confidentialité des pubs ».</div>
 
 <h2 id="duree"><span class="num">4.</span>Conservation et suppression des données</h2>
 <p>Votre progression et votre compte sont conservés <strong>tant que vous utilisez le jeu</strong>. Vous pouvez tout supprimer vous-même, à tout moment :</p>
@@ -205,7 +207,7 @@ table{table-layout:fixed}
 <p>Pour exercer un de ces droits, écrivez à l'adresse de contact en bas de page.</p>
 
 <h2 id="enfants"><span class="num">6.</span>Les enfants</h2>
-<p>Three Signs n'est pas destiné aux enfants de moins de 13 ans et ne leur est pas proposé comme public cible. Le jeu peut toutefois être joué par des enfants, de préférence avec l'accord et sous la surveillance de leurs parents. Il ne demande jamais de nom réel, d'adresse e-mail, de numéro de téléphone ni de localisation précise. Si vous êtes parent et pensez qu'un enfant a communiqué des informations personnelles via le jeu, écrivez-nous : nous supprimerons son compte.</p>
+<p>Three Signs n'est pas destiné aux enfants de moins de 13 ans et ne leur est pas proposé comme public cible. Le jeu peut toutefois être joué par des enfants, de préférence avec l'accord et sous la surveillance de leurs parents. Il ne demande jamais de nom réel, d'adresse e-mail, de numéro de téléphone ni de localisation précise. Les publicités sont limitées aux contenus tous publics, et les achats passent par Google Play, dont le contrôle parental peut exiger l'accord d'un parent. Si vous êtes parent et pensez qu'un enfant a communiqué des informations personnelles via le jeu, écrivez-nous : nous supprimerons son compte.</p>
 
 <h2 id="securite"><span class="num">7.</span>Sécurité</h2>
 <p>Les données sont stockées sur les serveurs sécurisés de Firebase, avec des règles d'accès qui garantissent que <strong>chaque joueur ne peut modifier que ses propres données</strong>. Les autres joueurs ne peuvent lire que ce qui est nécessaire au jeu : les classements, la recherche d'adversaire et, pendant un Duel, les données de la partie. Aucune méthode de transmission ou de stockage n'est totalement infaillible, mais des mesures raisonnables sont mises en œuvre pour protéger vos informations.</p>

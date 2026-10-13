@@ -3,7 +3,7 @@
 // Jamais : design/, docs/, legal/ (pages publiées sur le site), prototype/, tools/, tests, PDF, notes (*.md), journaux,
 // la source de l'icône (assets/icone-app/, convertie dans android/ par tools/android/icons.mjs).
 // Lancer depuis le dossier du jeu : node tools/android/build-www.mjs (ou npm run www). Affiche le poids final.
-import { cpSync, rmSync, mkdirSync, statSync, readdirSync, existsSync } from 'fs';
+import { cpSync, rmSync, mkdirSync, statSync, readdirSync, existsSync, readFileSync, writeFileSync } from 'fs';
 import { join, extname, basename } from 'path';
 
 const ROOT = process.cwd(), OUT = join(ROOT, 'www');
@@ -16,6 +16,21 @@ const KEEP_TXT = /^OFL-/;                                       // licences des 
 if (!existsSync(join(ROOT, 'index.html')) || !existsSync(join(ROOT, 'data'))) { console.error('Lancer depuis le dossier du jeu.'); process.exit(1); }
 const eco = JSON.parse(await import('fs').then(f => f.readFileSync(join(ROOT, 'data/economy.json'), 'utf8')));
 if (eco.test && eco.test.autorise) { console.error('ARRÊT : data/economy.json → test.autorise doit valoir false dans une application publiée.'); process.exit(1); }
+
+// Monétisation (data/monetisation.json) : identifiant d'application AdMob et permission AD_ID du manifeste Android,
+// d'après mode_test (identifiants de test de Google ou réels) et pubs_actives. Rien d'autre à changer pour passer en réel.
+const mon = JSON.parse(readFileSync(join(ROOT, 'data/monetisation.json'), 'utf8'));
+const adIds = mon.mode_test ? mon.admob.test : mon.admob.reel;
+if (!adIds.app_android || (mon.pubs_actives && !adIds.rewarded_android)) { console.error('ARRÊT : data/monetisation.json → admob.' + (mon.mode_test ? 'test' : 'reel') + ' : identifiants AdMob manquants.'); process.exit(1); }
+const STR = join(ROOT, 'android/app/src/main/res/values/strings.xml'), MAN = join(ROOT, 'android/app/src/main/AndroidManifest.xml');
+if (existsSync(STR)) writeFileSync(STR, readFileSync(STR, 'utf8').replace(/(<string name="admob_app_id">)[^<]*(<\/string>)/, `$1${adIds.app_android}$2`));
+if (existsSync(MAN)) {
+  const block = mon.pubs_actives ? '    <!-- Pubs actives : identifiant publicitaire permis (AdMob). -->\n'
+    : ['com.google.android.gms.permission.AD_ID', 'android.permission.ACCESS_ADSERVICES_AD_ID', 'android.permission.ACCESS_ADSERVICES_ATTRIBUTION']
+      .map(p => `    <uses-permission android:name="${p}" tools:node="remove" />\n`).join('');
+  writeFileSync(MAN, readFileSync(MAN, 'utf8').replace(/(    <!-- pubs:debut[^\n]*\n)[\s\S]*?(    <!-- pubs:fin -->)/, `$1${block}$2`));
+}
+console.log(`Monétisation : ${mon.mode_test ? 'TEST (identifiants de Google)' : 'RÉEL'} · pubs ${mon.pubs_actives ? 'actives' : 'coupées'} · achats ${mon.achats_actifs ? 'actifs' : 'coupés'}`);
 
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });

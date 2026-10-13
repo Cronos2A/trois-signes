@@ -9,7 +9,7 @@ import { prog } from '../game/progress.js';
 import { dayRewards, streakReward, calendarReward, grantDay, adOffer, grantAd, shownToday, markShown } from '../game/daily.js';
 import { boostTypes, stockOf, activeOf, activateBoost, offerable } from '../game/boosts.js';
 import { dailyStatus, claimDaily } from '../online/daily-net.js';
-import { showRewarded, adsReady } from '../ads/ads.js';
+import { showRewarded, adsReady, adFailText } from '../ads/ads.js';
 import { adToast } from './ad-ui.js';
 import { showRewards } from './reward-ui.js';
 import { sfx } from '../audio/audio.js';
@@ -208,7 +208,7 @@ async function doAd(where, btn) {
   adBusy = true;
   btn.disabled = true;
   try {
-    if (!await showRewarded()) { adToast(D.ads.ui.rewardLost); btn.disabled = false; return; }
+    if (!await showRewarded()) { adToast(adFailText()); btn.disabled = false; return; }
     if (status && status.ok && status.can) {
       const got = await doClaim(where, true);
       if (!got) return;
