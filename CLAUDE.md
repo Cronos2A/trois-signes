@@ -93,7 +93,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 | Boran, Colosse (gantelets) | 170 / 6 | Force brute : jamais de combo | **Géant** : 8 s, taille ×1,4, coup sur tous ×2,5 |
 | Ilwen, Sorcière (grimoire) | 125 / 5 | Incantation : combo en 3 gestes | **Grimoire ouvert** : 2 attaques comptées comme combos |
 | Kestrel, Rôdeuse (arc) | 105 / 4,6 | Pas léger : esquive de base 120 % | **Œil de faucon** : 8 s, tout geste reconnu = Perfect |
-| Mira, Soigneuse (amulette) — **héroïne accessible pour les débutants** (étiquette « Idéal pour débuter », `beginner`) | 150 / 3 | Soin 0,5 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : +10 % des PV max, attaque ×2 pendant 10 s |
+| Mira, Soigneuse (amulette) — **héroïne accessible pour les débutants** (étiquette « Idéal pour débuter », `beginner`) | 95 / 3 | Soin 0,25 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : +5 % des PV max, attaque ×2 pendant 10 s |
 
 ## Armes, talismans et récompenses — `data/weapons.json`, `data/talismans.json` — **fait**
 - **3 armes par héros** (`weapons.json` → `heroes`) : l'arme de départ + 2 alternatives débloquées en Histoire
@@ -146,6 +146,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   17 supers, soit une Renouveau toutes les 28 s environ). Puis Renouveau à 10 % des PV et Clochette à 1 PV × multiplicateur :
   KO à 16,3 et 16,6 min (Amulette), 9,0 et 12,7 min (Bâton de sève), 15,0 et 20,2 min (Clochette), moyenne 15 min (cible 8-13 min).
   **Mira est à réévaluer après le test fermé**, en comparant les rounds atteints par héros dans le classement du Voyage.
+  **Nerf du 26/10/2026 (build 5, retours du test)** : PV 150 → 95, soin par attaque 0,5 → 0,25 PV, Renouveau 10 % → 5 % des PV max (textes dans les 5 langues ; barre « Résistance » de la fiche 4 → 2, comme Nyra et Kestrel). Les chiffres ci-dessous datent d'avant.
   Décidé le 30/09 : on garde ce réglage ; Mira est l'héroïne accessible pour les débutants (plus solide que les autres, voulu).
   Progression mesurée (un héros, Voyages seulement) : Nv 5 en 9 min, Nv 10 en 25 min, Nv 20 en 1 h 15, Nv 50 en 6 h, Nv 100 en 22 h ;
   arme : voir la courbe du 05/10/2026 ci-dessus (avant : niveau 10 en ~6,5 Voyages, une histoire ≈ niveau 5). Voyage de 8 arènes sans pièce : 140 or (170 avec record).
@@ -666,6 +667,11 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   du prologue s'éteint avant celle de la leçon (`main.js → init`). Vérifié image par image (Playwright, élément au premier plan à chaque image) :
   chargement → prologue → lancement → souvenir → leçon, aucune image du lobby ; sauvegarde existante : chargement → lobby ; Entraînement (1,4 s),
   Quitter (Entraînement, Voyage), défaite (Voyage), victoire (Histoire) : chargement puis lobby ou fiche, jamais deux musiques à la fois, en 390 × 800 et 360 × 640.
+## Boutons Solo / Histoire / Duel du lobby — titre centré (26/10/2026, build 5)
+- `.mode-btn` (`lobby.css`) : le titre était poussé en bas (`justify-content:space-between`) ; grille `1fr auto 1fr`, titre centré dans la hauteur du bouton,
+  badge en haut ; sans assez de place (360 × 640, Duel avec sa ligne d'Empreintes), le titre passe juste sous le badge. La police (Caprasimo) n'y était pour rien :
+  ses capitales sont centrées dans la ligne. Vérifié en 360 × 640 et 390 × 800, français et allemand.
+
 ## Robustesse (corrections du 29/09/2026, voir `à faire.md`)
 - **Sauvegarde abîmée** (`src/game/save-check.js` : `readSave`, `saveProblems`) : le jeu démarre toujours ; écran « Sauvegarde endommagée »
   (`account-ui.js` → `askDamagedSave`, textes `online.json → damaged`) : récupérer la sauvegarde en ligne ou repartir de zéro. Tant que le

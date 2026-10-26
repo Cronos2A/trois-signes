@@ -611,11 +611,11 @@
           "weaponLabel": "Amuleto",
           "passive": {
             "name": "Curación e invocaciones",
-            "text": "Cada ataque acertado la cura 0,5 PV × el multiplicador, y cada Perfect invoca un pequeño monstruo (1 de daño por segundo durante 10 s)."
+            "text": "Cada ataque acertado la cura 0,25 PV × el multiplicador, y cada Perfect invoca un pequeño monstruo (1 de daño por segundo durante 10 s)."
           },
           "super": {
             "name": "Renovación",
-            "text": "Recupera el 10 % de sus PV máximos y duplica su ataque durante 10 s."
+            "text": "Recupera el 5 % de sus PV máximos y duplica su ataque durante 10 s."
           }
         }
       ]

@@ -608,11 +608,11 @@
           "weaponLabel": "Amulet",
           "passive": {
             "name": "Healing and Summons",
-            "text": "Each successful attack heals her 0.5 HP × the multiplier, and each Perfect summons a little monster (1 damage per second for 10s)."
+            "text": "Each successful attack heals her 0.25 HP × the multiplier, and each Perfect summons a little monster (1 damage per second for 10s)."
           },
           "super": {
             "name": "Renewal",
-            "text": "Recovers 10% of her max HP and doubles her attack for 10s."
+            "text": "Recovers 5% of her max HP and doubles her attack for 10s."
           }
         }
       ]

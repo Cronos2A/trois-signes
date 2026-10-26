@@ -610,11 +610,11 @@
           "weaponLabel": "Amulett",
           "passive": {
             "name": "Heilung und Beschwörung",
-            "text": "Jeder gelungene Angriff heilt sie um 0,5 LP × Multiplikator, und jedes Perfect beschwört ein kleines Monster (1 Schaden pro Sekunde, 10 s lang)."
+            "text": "Jeder gelungene Angriff heilt sie um 0,25 LP × Multiplikator, und jedes Perfect beschwört ein kleines Monster (1 Schaden pro Sekunde, 10 s lang)."
           },
           "super": {
             "name": "Erneuerung",
-            "text": "Stellt 10 % ihrer max. LP wieder her und verdoppelt 10 s lang ihren Angriff."
+            "text": "Stellt 5 % ihrer max. LP wieder her und verdoppelt 10 s lang ihren Angriff."
           }
         }
       ]
