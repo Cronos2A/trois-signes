@@ -75,8 +75,11 @@ async function step(i, id) {
   if (id !== run) return;
   setup(S, t);
   // Titre en gros (combat toujours en pause), puis la main montre aussitôt le geste, jusqu'à la première réussite (ok → hideHand).
+  // Pendant le titre, le combat est en pause et les gestes, touches et le bouton de super sont ignorés (main.js → inputOn) :
+  // aucun événement ne part avant que l'étape écoute. Les pièces n'apparaissent qu'après le titre.
   if (S.titreGros) await showBigTitle(tr(S.titreGros), T.dureeTitreGros);
   if (id !== run) return;
+  if (S.id === 'toucher') dropCoins();
   showHand(S.hand);
   G.paused = false;
   await new Promise(done => { G.listen = (ev, d) => onEvent(S, t, ev, d, done); });
@@ -85,23 +88,27 @@ async function step(i, id) {
   await wait(T.pauseBetweenSteps);
 }
 
-/** Prépare l'étape : le mannequin attaque ou non, pièces, série remise à zéro, jauge pleine. */
+/** Prépare l'étape : le mannequin attaque ou non, série remise à zéro (à chaque étape : un 1er geste ne fait jamais combo), jauge pleine. */
 function setup(S, t) {
   const T = X();
   let e = G.enemies[0];
   if (!e) { addEnemy(T.dummy.id, 0.5, 0, 0); e = G.enemies[0]; e.state = 'idle'; }
   e.T = S.id === 'rond' ? types.attack : types.passive;
   if (e.state === 'windup') e.state = 'idle';
+  e.t = 0; G.globalGap = 0;                                  // rien ne retient le 1er coup du Rond
   e.cd = S.id === 'rond' ? 0.8 : 1e9;
-  if (S.id === 'toucher') {
-    const C = T.coins;
-    G.loots = Array.from({ length: C.count }, (_, k) => ({
-      x: G.W / 2 + (k - (C.count - 1) / 2) * Math.min(C.spread, G.W * 0.28), y: G.H * C.row + (k % 2) * 30,
-      type: 'coin', life: 1e9, t: k * 0.3
-    }));
-  }
-  if (S.id === 'justesse') G.streak = { name: null, n: 0 };
+  G.loots = [];
+  G.streak = { name: null, n: 0 };
   if (S.fillGauge) { G.hero.sp = null; G.hero.gauge = D.characters.superGauge.max; }
+}
+
+/** Les pièces de l'étape « Toucher » (après le titre en gros). */
+function dropCoins() {
+  const C = X().coins;
+  G.loots = Array.from({ length: C.count }, (_, k) => ({
+    x: G.W / 2 + (k - (C.count - 1) / 2) * Math.min(C.spread, G.W * 0.28), y: G.H * C.row + (k % 2) * 30,
+    type: 'coin', life: 1e9, t: k * 0.3
+  }));
 }
 
 /** Événements du combat (state.js → emit) : réussite de l'étape, ou échec (main animée au bout de deux). */
@@ -123,6 +130,7 @@ function onEvent(S, t, ev, d, done) {
     case 'toucher':
       if (ev === 'pickup') plus();
       else if (ev === 'tapMiss' || ev === 'gesture') bad();
+      if (!G.loots.some(l => l.type === 'coin')) { t.count = t.goal; done(); }   // plus aucune pièce : l'étape est réussie
       break;
     case 'justesse':
       if (ev !== 'gesture') break;

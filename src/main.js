@@ -189,6 +189,10 @@ function loop(now) {
   requestAnimationFrame(loop);
 }
 
+/** Gestes, touches et bouton de super acceptés ? Pas dans la leçon tant qu'elle est en pause (réplique, titre en gros) :
+ *  l'étape n'écoute pas encore, l'événement serait perdu (pièce ramassée ou super lancée sans compter). */
+const inputOn = () => (G.mode === 'play' || G.mode === 'train') && !(G.paused && G.battle && G.battle.tutorial);
+
 /* ---------- Écrans ---------- */
 const TRAIL_COL = { triangle: '#FF5A3C', circle: '#3DDC5B' };
 
@@ -491,7 +495,7 @@ async function init() {
   initPurchases({ changed: refreshLobby }); // Google Play : prix localisés, achats payés à traiter (application seulement)
   initAudio();                             // effets chargés maintenant, musiques à la demande
   attachInput(cv, {
-    isActive: () => G.mode === 'play' || G.mode === 'train',
+    isActive: inputOn,
     onDraw: d => { G.drawing = d; },
     onGesture
   });
@@ -508,7 +512,7 @@ async function init() {
   // Bouton de super : réagit dès l'appui, et l'appui n'atteint jamais le canvas (pas de tap ni de tracé).
   $('superBtn').addEventListener('pointerdown', e => {
     e.preventDefault(); e.stopPropagation();
-    if (G.mode === 'play' || G.mode === 'train') useSuper();
+    if (inputOn()) useSuper();
   });
   // Premier lancement (prologue pas encore vu) : le lobby ne doit jamais se montrer avant le prologue et la leçon.
   // Il est préparé (sans sa musique) sous l'écran de lancement, et le prologue démarre sous l'écran de chargement,

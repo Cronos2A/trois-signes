@@ -17,7 +17,7 @@
     "name": "Mannequin",
     "hp": 999,
     "dmg": 0,
-    "wind": 4.5,
+    "wind": 2.0,
     "cd": [
       1.2,
       1.8

@@ -90,7 +90,7 @@ function tryPickup(x, y) {
   const cm = registerGrade(g, 'pickup');
   summon(g);
   showGrade(g, acc, tr('combat.pickup'), 'tap');
-  if (!g) { best.life = Math.min(best.life, P.missLifeCap); emit('tapMiss'); return true; }
+  if (!g) { if (!G.battle.tutorial) best.life = Math.min(best.life, P.missLifeCap); emit('tapMiss'); return true; }   // leçon : la pièce reste
   G.loots.splice(G.loots.indexOf(best), 1);
   sfx(best.type === 'coin' ? 'piece' : 'coeur');
   emit('pickup');

@@ -567,6 +567,12 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   disparaît, la **main animée** montre le geste avant la première tentative et reste jusqu'à la première réussite (`tutorial-ui.js → showBigTitle`,
   `tutorial.js → step`). Après deux échecs de suite, elle revient comme avant (« Suis la main »). « Passer » pendant le titre : tout est retiré.
   Vérifié le 26/10/2026 (Playwright, 5 étapes, fr / en / it / es / de, 390 × 800 et 360 × 640) : titre 2,0 s, main aussitôt, cachée à la 1re réussite.
+- **Corrections du 26/10/2026 (retours de testeurs)** :
+  - Série (`G.streak`) remise à zéro au début de **chaque** étape (`tutorial.js → setup`) : avant, seulement à « Justesse », d'où un combo au 1er Rond après 3 triangles de même niveau.
+  - Rond : anneau du mannequin `dummy.wind` 4,5 → 2,0 s (c'est bien lui qui règle la fermeture de l'anneau, `windOf`) ; aucun blocage trouvé dans le code (il attaquait, mais une fois toutes les ~6 s) :
+    maintenant un coup toutes les 3,3 à 3,8 s, aussi avec des ronds tracés en boucle ; `setup` remet aussi `e.t` et `globalGap` à zéro. Garde de la leçon (`shieldDuration` 4,5 s) inchangée.
+  - Toucher : pièces posées seulement après le titre en gros ; gestes, touches et bouton de super ignorés tant que la leçon est en pause (`main.js → inputOn`) : avant, une pièce
+    (ou la super) prise pendant le titre était perdue pour l'étape, qui restait bloquée ; étape réussie dès qu'il n'y a plus de pièce ; une touche ratée ne fait plus disparaître la pièce dans la leçon (`missLifeCap`).
 - Impossible à rater : mannequin immortel sans dégâts, seuils abaissés de `tolerance` (20 points), garde du Rond sur tout l'anneau ;
   après 2 échecs de suite, main animée « Suis la main ». « Passer » remplace « Quitter ».
 - Lancée d'office au premier démarrage après le prologue ; « Revoir la leçon » dans l'onglet Jouer. Sauvegarde : `prog.tutorial`.
