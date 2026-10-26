@@ -6,6 +6,8 @@
   "music": "musique_tuto",
   "tolerance": 20,
   "failsBeforeHand": 2,
+  "dureeTitreGros": 2,
+  "titreGrosNote": "Titre en gros au centre au début de chaque étape (après la réplique d'Eldan et le tableau des niveaux), pendant dureeTitreGros secondes, puis la main animée montre le geste jusqu'à la première réussite. titreGros : clé de texte (data/i18n → tuto.big.*).",
   "pauseBetweenSteps": 0.9,
   "shieldDuration": 4.5,
   "dummy": {
@@ -45,7 +47,7 @@
   },
   "steps": [
     {
-      "id": "triangle",
+      "id": "triangle", "titreGros": "tuto.big.triangle",
       "label": "Triangle",
       "goal": 3,
       "hand": "triangle",
@@ -59,7 +61,7 @@
       ]
     },
     {
-      "id": "rond",
+      "id": "rond", "titreGros": "tuto.big.rond",
       "label": "Rond",
       "goal": 2,
       "hand": "circle",
@@ -73,7 +75,7 @@
       ]
     },
     {
-      "id": "toucher",
+      "id": "toucher", "titreGros": "tuto.big.toucher",
       "label": "Toucher",
       "goal": 3,
       "hand": "tap",
@@ -87,7 +89,7 @@
       ]
     },
     {
-      "id": "justesse",
+      "id": "justesse", "titreGros": "tuto.big.justesse",
       "label": "Justesse",
       "goal": 1,
       "hand": "triangle",
@@ -102,7 +104,7 @@
       ]
     },
     {
-      "id": "super",
+      "id": "super", "titreGros": "tuto.big.super",
       "label": "Super",
       "goal": 1,
       "hand": "button",

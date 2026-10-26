@@ -551,5 +551,14 @@
     "offline": "Pas de connexion à Google Play. Réessaie plus tard.",
     "error": "L'achat n'a pas pu aboutir. Réessaie plus tard.",
     "note": "Achats via Google Play. Les gemmes servent aux cosmétiques : aucun avantage en jeu."
+  },
+  "tuto": {
+    "big": {
+      "triangle": "Trace un TRIANGLE pour attaquer",
+      "rond": "Trace un ROND quand l'anneau rouge se referme",
+      "toucher": "TOUCHE les pièces",
+      "justesse": "Enchaîne des gestes du même niveau",
+      "super": "Appuie sur SUPER"
+    }
   }
 }

@@ -2985,5 +2985,14 @@
     "offline": "No connection to Google Play. Try again later.",
     "error": "The purchase couldn't go through. Try again later.",
     "note": "Purchases through Google Play. Gems are for cosmetics only: no in-game advantage."
+  },
+  "tuto": {
+    "big": {
+      "triangle": "Draw a TRIANGLE to attack",
+      "rond": "Draw a CIRCLE when the red ring closes in",
+      "toucher": "TAP the coins",
+      "justesse": "Chain gestures of the same grade",
+      "super": "Press SUPER"
+    }
   }
 }

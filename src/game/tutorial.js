@@ -1,8 +1,9 @@
 // Leçon guidée « La première leçon » (tout le contenu dans data/tutorial.json).
 // Un souvenir : Maître Eldan enseigne à Aldric, à Pierrelune avant le Silence. Cinq étapes, chacune ouverte
 // par une réplique d'Eldan (lecteur de dialogues) : Triangle, Rond, Toucher, Justesse (5 niveaux puis un combo),
-// Super. Impossible à rater : mannequin sans dégâts, seuils plus tolérants (voir grades.js → toleranceOffset),
-// et après deux échecs de suite une main animée montre le geste. « Passer » (bouton Quitter) ramène au lobby.
+// Super. Chaque étape : réplique, titre en gros (titreGros, dureeTitreGros), puis la main animée montre le geste jusqu'à
+// la première réussite. Impossible à rater : mannequin sans dégâts, seuils plus tolérants (voir grades.js → toleranceOffset),
+// et après deux échecs de suite la main revient (« Suis la main »). « Passer » (bouton Quitter) ramène au lobby.
 import { D } from '../data.js';
 import { G, heroPos } from './state.js';
 import { prog, saveProg } from './progress.js';
@@ -10,7 +11,7 @@ import { addEnemy } from './enemies.js';
 import { comboLength } from './grades.js';
 import { pop } from './effects.js';
 import { playScene } from '../ui/cutscene.js';
-import { showIntro, showLevels, showHand, hideHand, hideTutorialUi } from '../ui/tutorial-ui.js';
+import { showIntro, showLevels, showHand, hideHand, hideTutorialUi, showBigTitle } from '../ui/tutorial-ui.js';
 import { enemyUrl } from '../ui/assets.js';
 import { dummyUrl } from '../ui/tutorial-art.js';
 import { music } from '../audio/audio.js';
@@ -73,6 +74,10 @@ async function step(i, id) {
   if (S.levels) await showLevels();
   if (id !== run) return;
   setup(S, t);
+  // Titre en gros (combat toujours en pause), puis la main montre aussitôt le geste, jusqu'à la première réussite (ok → hideHand).
+  if (S.titreGros) await showBigTitle(tr(S.titreGros), T.dureeTitreGros);
+  if (id !== run) return;
+  showHand(S.hand);
   G.paused = false;
   await new Promise(done => { G.listen = (ev, d) => onEvent(S, t, ev, d, done); });
   G.listen = null;

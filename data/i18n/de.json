@@ -2987,5 +2987,14 @@
     "offline": "Keine Verbindung zu Google Play. Versuch es später noch einmal.",
     "error": "Der Kauf hat nicht geklappt. Versuch es später noch einmal.",
     "note": "Käufe über Google Play. Edelsteine sind nur für Kosmetik: kein Vorteil im Spiel."
+  },
+  "tuto": {
+    "big": {
+      "triangle": "Zeichne ein DREIECK, um anzugreifen",
+      "rond": "Zeichne einen KREIS, wenn sich der rote Ring schließt",
+      "toucher": "TIPPE auf die Münzen",
+      "justesse": "Verkette Gesten derselben Stufe",
+      "super": "Drücke SUPER"
+    }
   }
 }

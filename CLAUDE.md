@@ -561,6 +561,11 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - Souvenir : Maître Eldan enseigne à Aldric à Pierrelune avant le Silence. Tout dans `data/tutorial.json` (répliques d'Eldan telles quelles).
   Code : `src/game/tutorial.js`, `src/ui/tutorial-ui.js`, `src/ui/tutorial-art.js`.
 - 5 étapes : Triangle (3 réussites sur un mannequin), Rond (2 esquives), Toucher (3 pièces), Justesse (tableau des 5 niveaux, puis un combo), Super.
+- **Début de chaque étape** (26/10/2026) : réplique d'Eldan (et tableau des niveaux pour Justesse), puis **titre en gros** au centre (`steps[].titreGros`,
+  clé `tuto.big.*` dans les 5 langues ; police des titres, petite apparition, fondu), pendant `dureeTitreGros` (2 s), combat en pause ; dès qu'il
+  disparaît, la **main animée** montre le geste avant la première tentative et reste jusqu'à la première réussite (`tutorial-ui.js → showBigTitle`,
+  `tutorial.js → step`). Après deux échecs de suite, elle revient comme avant (« Suis la main »). « Passer » pendant le titre : tout est retiré.
+  Vérifié le 26/10/2026 (Playwright, 5 étapes, fr / en / it / es / de, 390 × 800 et 360 × 640) : titre 2,0 s, main aussitôt, cachée à la 1re réussite.
 - Impossible à rater : mannequin immortel sans dégâts, seuils abaissés de `tolerance` (20 points), garde du Rond sur tout l'anneau ;
   après 2 échecs de suite, main animée « Suis la main ». « Passer » remplace « Quitter ».
 - Lancée d'office au premier démarrage après le prologue ; « Revoir la leçon » dans l'onglet Jouer. Sauvegarde : `prog.tutorial`.

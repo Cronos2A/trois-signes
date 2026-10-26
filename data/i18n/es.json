@@ -2988,5 +2988,14 @@
     "offline": "Sin conexión con Google Play. Inténtalo más tarde.",
     "error": "No se ha podido completar la compra. Inténtalo más tarde.",
     "note": "Compras a través de Google Play. Las gemas son para cosméticos: ninguna ventaja en el juego."
+  },
+  "tuto": {
+    "big": {
+      "triangle": "Traza un TRIÁNGULO para atacar",
+      "rond": "Traza un CÍRCULO cuando el anillo rojo se cierre",
+      "toucher": "TOCA las monedas",
+      "justesse": "Encadena gestos del mismo nivel",
+      "super": "Pulsa SÚPER"
+    }
   }
 }

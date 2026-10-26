@@ -29,3 +29,11 @@
 .hud.tuto .hud-timer{padding:0 12px}
 .hud.tuto .hud-arena{display:block;left:14px;right:14px;transform:none;width:max-content;max-width:calc(100% - 28px);margin:0 auto;white-space:normal;text-align:center}
 .hud.tuto .hud-arena.help{background:var(--sun);color:var(--ink);font-size:13px}
+/* Titre en gros au début d'une étape (tutorial-ui.js → showBigTitle) : au centre, sous les fenêtres de la leçon, sans bloquer les appuis. */
+.tu-big{position:fixed;left:16px;right:16px;top:50%;z-index:24;transform:translateY(-50%);display:flex;justify-content:center;pointer-events:none;
+  animation:tuBigIn .35s cubic-bezier(.2,1.4,.4,1) both;transition:opacity .35s ease-out}
+.tu-big .ol{max-width:360px;font-size:clamp(26px,8vw,34px);line-height:1.15;text-align:center;color:#FFD23F;overflow-wrap:anywhere;
+  text-shadow:0 4px 0 var(--ink)}
+.tu-big.out{opacity:0}
+@keyframes tuBigIn{from{opacity:0;transform:translateY(-50%) scale(.7)}to{opacity:1;transform:translateY(-50%) scale(1)}}
+@media (prefers-reduced-motion:reduce){.tu-big{animation:none}}

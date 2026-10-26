@@ -93,7 +93,7 @@ export function showHand(kind) {
   cancelAnimationFrame(raf);
   const finger = hand.querySelector('.tu-finger'), trail = hand.querySelector('path'), t0 = performance.now();
   const frame = now => {
-    const t = ((now - t0) / 1000) % 2.2;                      // 1,5 s de geste, puis une courte pause
+    const t = (Math.max(0, now - t0) / 1000) % 2.2;           // 1,5 s de geste, puis une courte pause (horloge d'image parfois < t0)
     const pts = pathFor(kind);
     let x, y, press = 1;
     if (pts) {
@@ -121,8 +121,35 @@ export function hideHand() {
   if (hand) hand.classList.add('hidden');
 }
 
+/* ---------- Titre en gros au début d'une étape (data/tutorial.json → steps[].titreGros, dureeTitreGros) ---------- */
+let big = null, bigTimers = [];
+/**
+ * Titre centré, police des titres du jeu, petite apparition ; visible pendant seconds secondes puis fondu de sortie.
+ * Résolue quand il a disparu (ou tout de suite si la leçon est quittée entre-temps : hideTutorialUi le retire).
+ */
+export function showBigTitle(text, seconds) {
+  hideBigTitle();
+  big = document.createElement('div');
+  big.id = 'tutoBig'; big.className = 'tu-big';
+  big.setAttribute('role', 'status');
+  big.innerHTML = '<span class="ol ol-5"></span>';
+  big.firstChild.textContent = text;
+  document.body.appendChild(big);
+  const el = big, fade = 350;
+  return new Promise(resolve => {
+    bigTimers.push(setTimeout(() => el.classList.add('out'), Math.max(0, seconds * 1000 - fade)));
+    bigTimers.push(setTimeout(() => { if (el === big) hideBigTitle(); resolve(); }, seconds * 1000));
+    el.done = resolve;
+  });
+}
+export function hideBigTitle() {
+  bigTimers.forEach(clearTimeout); bigTimers = [];
+  if (big) { const d = big.done; big.remove(); big = null; if (d) d(); }
+}
+
 /** Ferme tout (leçon terminée ou passée). */
 export function hideTutorialUi() {
+  hideBigTitle();
   hideHand();
   if (card) { card.onclick = null; card.classList.add('hidden'); }
 }

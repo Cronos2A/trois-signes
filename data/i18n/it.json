@@ -2983,5 +2983,14 @@
     "offline": "Nessuna connessione a Google Play. Riprova più tardi.",
     "error": "Impossibile completare l'acquisto. Riprova più tardi.",
     "note": "Acquisti tramite Google Play. Le gemme servono per i cosmetici: nessun vantaggio in gioco."
+  },
+  "tuto": {
+    "big": {
+      "triangle": "Traccia un TRIANGOLO per attaccare",
+      "rond": "Traccia un CERCHIO quando l'anello rosso si chiude",
+      "toucher": "TOCCA le monete",
+      "justesse": "Concatena gesti dello stesso livello",
+      "super": "Premi SUPER"
+    }
   }
 }
