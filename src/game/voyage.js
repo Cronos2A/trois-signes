@@ -62,7 +62,10 @@ export async function voyageBattle(hooks) {
   art.push(...variantArt(voyageVariants()));                       // sbire, brute, boss : une variante par arène
   const arenaOf = id => (V().arenas.find(a => a.guardian === id) || {}).id;   // talisman gardé par ce gardien
   const guardianType = (id, m) => {
-    if (D.enemies[id]) return { ...scaled(D.enemies[id], m), special: true, guardianOf: arenaOf(id) };
+    if (D.enemies[id]) {                                           // Forêt de Mousse : le boss du Solo, nommé « L'Oublié originel »
+      const A = V().arenas.find(a => a.guardian === id) || {};
+      return { ...scaled(D.enemies[id], m), name: A.guardianName || D.enemies[id].name, special: true, guardianOf: arenaOf(id) };
+    }
     const base = id === 'eldan_oublie' ? V().guardianEldan : V().guardian;
     return {
       ...scaled({ ...D.enemies.boss, hp: base.hp, dmg: base.dmg, wind: base.wind }, m),

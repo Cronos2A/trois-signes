@@ -249,6 +249,27 @@
         "histoire": "toutes",
         "apparence": "Vieux maître aux longs cheveux blancs, robe grise usée, entouré de fragments de pages du Codex qui flottent.",
         "mecanique_proposee": "Il utilise les trois signes : Triangle = coup normal ; Rond = se protège 2 s (dégâts reçus −50 %, signalé par un cercle autour de lui) ; Toucher = appelle un sbire (une fois par round, max 2 ennemis en plus de lui)."
+      },
+      {
+        "id": "fileuse",
+        "nom": "La Fileuse",
+        "rang": "mini_boss",
+        "histoire": "eldan",
+        "apparence": "Vieille femme grise, quenouille chargée d'un fil gris où l'on devine des lettres."
+      },
+      {
+        "id": "tessa_oubliee",
+        "nom": "Tessa, l'Oubliée",
+        "rang": "lieutenant",
+        "histoire": "eldan",
+        "apparence": "Tessa devenue grise, cheveux défaits, foulard du marché délavé."
+      },
+      {
+        "id": "oublie_originel",
+        "nom": "L'Oublié originel",
+        "rang": "boss_final",
+        "histoire": "eldan",
+        "apparence": "Le gardien de la Forêt de Mousse du Voyage (sprite « boss », très grand, épée) : même ennemi, même sprite."
       }
     ]
   },
@@ -284,7 +305,12 @@
       "lili": "Petite fille des Hautes-Gerbes",
       "aubin": "Vieux bibliothécaire d'Aubelle, mentor d'Ilwen",
       "fabre": "Premier patient de Mira, homme âgé au dos voûté",
-      "sbire": "Ombracé ordinaire (même design que l'ennemi sbire)"
+      "sbire": "Ombracé ordinaire (même design que l'ennemi sbire)",
+      "eldan_jeune": "Eldan à 16 ans, l'élève d'Orlen (héros jouable de cette histoire ; expressions des héros)",
+      "orlen": "Maître Orlen, maître d'Eldan : la soixantaine, calme, mains abîmées, manteau de laine (expressions des héros)",
+      "tessa": "Tessa, fille du marché de Pierrelune, vive et têtue, amie d'Eldan (expressions des héros + ombrace)",
+      "garran": "Le vieux Garran, berger de Pierrelune (expressions PNJ)",
+      "nell": "Nell, petite fille du hameau de Combelaine (expressions PNJ)"
     },
     "note": "Les boss (bram, corvin, sorel, reflet, tonnerre, oren, archiviste, selena, traqueur, hardel, helo, veilleuse) parlent aussi : leur portrait 'ombrace' est leur forme d'ennemi, 'neutre'/'tristesse'/'joie' leur forme humaine retrouvée un instant."
   },
@@ -320,7 +346,11 @@
     "maison_soins": "Maison de soins : fioles, plantes suspendues, lits simples",
     "route_villages": "Route de campagne entre plusieurs petits villages",
     "coeur_silence": "Clairière entièrement blanche, sans couleur, fragments de pages qui flottent",
-    "coeur_silence_gueri": "La même clairière qui retrouve ses couleurs, herbe verte, lumière chaude"
+    "coeur_silence_gueri": "La même clairière qui retrouve ses couleurs, herbe verte, lumière chaude",
+    "pierrelune_marche": "Place du marché de Pierrelune, étals et auvents colorés, maisons en pierre",
+    "hameau_gris": "Hameau sans nom de Combelaine, maisons grisées, brume entre les toits",
+    "montagne_grise": "Chemin de montagne où l'herbe devient grise, rochers et brume",
+    "sommet_oublie": "Sommet nu de la montagne grise, sans neige, une épée plantée dans la roche"
   },
   "histoires": [
     {
@@ -3977,6 +4007,842 @@
           "decor": "coeur_silence",
           "sujets": [
             "eldan:joie"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eldan",
+      "titre": "La leçon inachevée",
+      "couleur": "#E8E2C8",
+      "resume": "Cinquante ans avant le Silence, le jeune Eldan apprend les trois signes auprès de son maître, Orlen. Jusqu'au jour où ils montent affronter l'Oublié.",
+      "cinematique_ouverture": [
+        {
+          "qui": "narrateur",
+          "texte": "Cinquante ans avant le Silence, Pierrelune avait déjà un maître des signes.",
+          "decor": "pierrelune_aube",
+          "sujets": [
+            "orlen:neutre"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Il s'appelait Orlen. Et son seul élève, ce matin-là, était en retard.",
+          "decor": "pierrelune_aube",
+          "sujets": [
+            "orlen:neutre",
+            "eldan_jeune:surprise"
+          ]
+        },
+        {
+          "qui": "orlen",
+          "expression": "neutre",
+          "texte": "Tu as encore couru, Eldan. Tes triangles vont pencher.",
+          "decor": "pierrelune_aube",
+          "sujets": [
+            "orlen:neutre",
+            "eldan_jeune:surprise"
+          ]
+        },
+        {
+          "qui": "eldan_jeune",
+          "expression": "joie",
+          "texte": "Ils penchent déjà. Je cours pour que ça se voie moins.",
+          "decor": "pierrelune_aube",
+          "sujets": [
+            "orlen:neutre",
+            "eldan_jeune:joie"
+          ]
+        },
+        {
+          "qui": "orlen",
+          "expression": "joie",
+          "texte": "Pas de mannequin aujourd'hui. Le vieux Garran a besoin de nous à la bergerie.",
+          "decor": "pierrelune_aube",
+          "sujets": [
+            "orlen:joie",
+            "eldan_jeune:joie"
+          ]
+        }
+      ],
+      "combats": [
+        {
+          "n": 1,
+          "titre": "La bergerie",
+          "type": "normal",
+          "lieu": "pierrelune_aube",
+          "vagues": [
+            [
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "garran",
+              "expression": "surprise",
+              "texte": "Mes bêtes refusent de sortir. Il y a quelqu'un dans le pré. Plusieurs quelqu'un."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "surprise",
+              "texte": "Maître… ils n'ont pas de visage."
+            },
+            {
+              "qui": "orlen",
+              "expression": "determine",
+              "texte": "Alors ne cherche pas leurs yeux. Regarde leurs mains."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "orlen",
+              "expression": "neutre",
+              "texte": "Tu as fermé les yeux au deuxième."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "colere",
+              "texte": "Un peu."
+            },
+            {
+              "qui": "orlen",
+              "expression": "tristesse",
+              "texte": "Moi aussi, la première fois."
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "titre": "Ce qu'on oublie",
+          "type": "normal",
+          "lieu": "pierrelune_aube",
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Le lendemain, Garran attend devant sa porte, sa canne à la main."
+            },
+            {
+              "qui": "garran",
+              "expression": "tristesse",
+              "texte": "Petit… comment s'appelle ma fille ? Je l'ai su toute ma vie."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "tristesse",
+              "texte": "Ninon. Elle habite à côté du four."
+            },
+            {
+              "qui": "orlen",
+              "expression": "determine",
+              "texte": "Ils reviennent. Va. Je reste avec lui."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "garran",
+              "expression": "neutre",
+              "texte": "Ninon. Oui. Je vais l'écrire sur la porte."
+            },
+            {
+              "qui": "orlen",
+              "expression": "tristesse",
+              "texte": "Écris-le ailleurs aussi, Garran. Partout où tu peux."
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "titre": "Jour de marché",
+          "type": "normal",
+          "lieu": "pierrelune_marche",
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "tessa",
+              "expression": "colere",
+              "texte": "Hé, l'apprenti ! Tu comptes rester planté devant mon étal ?"
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "surprise",
+              "texte": "Il y en a trois derrière toi."
+            },
+            {
+              "qui": "tessa",
+              "expression": "determine",
+              "texte": "Je sais compter. Montre-moi plutôt ce que ton vieux t'apprend."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "tessa",
+              "expression": "joie",
+              "texte": "Pas mal, pour quelqu'un qui trace des ronds dans le vide."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "joie",
+              "texte": "C'est le vide qui tourne autour de moi. Moi, je le garde à distance."
+            },
+            {
+              "qui": "tessa",
+              "expression": "neutre",
+              "texte": "Ça, c'est une phrase de ton maître."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "neutre",
+              "texte": "…Oui."
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "titre": "La route du nord",
+          "type": "normal",
+          "lieu": "route_villages",
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "brute",
+              "brute",
+              "sbire"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Orlen ferme la maison et prend la route du nord. Eldan porte le sac. Tessa a décidé de venir."
+            },
+            {
+              "qui": "orlen",
+              "expression": "neutre",
+              "texte": "Je n'ai qu'un élève, Tessa."
+            },
+            {
+              "qui": "tessa",
+              "expression": "determine",
+              "texte": "Alors vous en aurez deux. Ou un qui porte mieux les sacs."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "colere",
+              "texte": "Je porte très bien les sacs."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "orlen",
+              "expression": "neutre",
+              "texte": "Le Rond te garde. Le Triangle te défend. Le Toucher te relie aux autres."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "neutre",
+              "texte": "Je sais, maître."
+            },
+            {
+              "qui": "orlen",
+              "expression": "joie",
+              "texte": "Toi, tu le sais. Elle, non. Ce soir, c'est toi qui le lui apprends."
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "titre": "Le hameau sans nom",
+          "type": "mini_boss",
+          "lieu": "hameau_gris",
+          "boss": "fileuse",
+          "vagues": [
+            [
+              "sbire",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute"
+            ],
+            [
+              "fileuse"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Au bout de la route, un hameau. Pas de panneau. Les gens disent bonjour, puis s'arrêtent, gênés."
+            },
+            {
+              "qui": "nell",
+              "expression": "surprise",
+              "texte": "Vous venez d'où ? Nous, on vient… d'ici. D'ici, je crois."
+            },
+            {
+              "qui": "fileuse",
+              "expression": "ombrace",
+              "texte": "Chut… chaque nom est un fil… et un fil, ça se défait…"
+            },
+            {
+              "qui": "tessa",
+              "expression": "surprise",
+              "texte": "Sa quenouille… ce qu'elle enroule, c'est des noms ?"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "eldan_jeune",
+              "expression": "determine",
+              "texte": "Ils vont se souvenir, maintenant ?"
+            },
+            {
+              "qui": "orlen",
+              "expression": "tristesse",
+              "texte": "De certaines choses."
+            }
+          ],
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "La quenouille tombe. Le fil gris se dénoue et s'envole.",
+              "decor": "hameau_gris",
+              "sujets": [
+                "fileuse:neutre"
+              ]
+            },
+            {
+              "qui": "fileuse",
+              "expression": "neutre",
+              "texte": "Je filais la laine… pour tout le hameau. Le hameau de… Combelaine.",
+              "decor": "hameau_gris",
+              "sujets": [
+                "fileuse:neutre",
+                "nell:surprise"
+              ]
+            },
+            {
+              "qui": "nell",
+              "expression": "joie",
+              "texte": "Combelaine ! On habite à Combelaine !",
+              "decor": "hameau_gris",
+              "sujets": [
+                "nell:joie"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Un nom retrouvé. Puis la brume emporte la vieille fileuse, très doucement.",
+              "decor": "hameau_gris",
+              "sujets": [
+                "nell:joie",
+                "eldan_jeune:tristesse"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "titre": "La nuit des Muets",
+          "type": "normal",
+          "lieu": "hameau_gris",
+          "vagues": [
+            [
+              "muet",
+              "sbire",
+              "sbire"
+            ],
+            [
+              "muet",
+              "muet",
+              "sbire"
+            ],
+            [
+              "brute",
+              "muet",
+              "muet"
+            ],
+            [
+              "muet",
+              "muet",
+              "muet"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Cette nuit, à Combelaine, personne ne dort. Quelque chose tourne autour des maisons, sans un bruit."
+            },
+            {
+              "qui": "tessa",
+              "expression": "surprise",
+              "texte": "Ceux-là ne marchent pas. Ils glissent."
+            },
+            {
+              "qui": "orlen",
+              "expression": "determine",
+              "texte": "Des Muets. Dos à dos, tous les deux. Et ne les laissez pas vous toucher."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "surprise",
+              "texte": "Vous les connaissez ?"
+            },
+            {
+              "qui": "orlen",
+              "expression": "neutre",
+              "texte": "Plus tard."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "eldan_jeune",
+              "expression": "colere",
+              "texte": "Plus tard, c'est maintenant, maître."
+            },
+            {
+              "qui": "orlen",
+              "expression": "tristesse",
+              "texte": "Oui. Venez. Je vais vous montrer un carnet."
+            }
+          ]
+        },
+        {
+          "n": 7,
+          "titre": "Le carnet",
+          "type": "normal",
+          "lieu": "hameau_gris",
+          "vagues": [
+            [
+              "brute",
+              "muet",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute",
+              "muet"
+            ],
+            [
+              "muet",
+              "muet",
+              "brute"
+            ],
+            [
+              "brute",
+              "brute",
+              "brute"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Un vieux carnet à la couverture brûlée. Dedans, des ronds, des triangles, des mains ouvertes."
+            },
+            {
+              "qui": "orlen",
+              "expression": "neutre",
+              "texte": "C'est mon maître qui l'a écrit. Il n'a pas eu le temps de le finir."
+            },
+            {
+              "qui": "orlen",
+              "expression": "tristesse",
+              "texte": "Il y a quelque chose sous la montagne. Ça ne casse rien. Ça prend. Les noms, les visages, les chansons."
+            },
+            {
+              "qui": "tessa",
+              "expression": "surprise",
+              "texte": "Et cette chose, elle a un nom ?"
+            },
+            {
+              "qui": "orlen",
+              "expression": "neutre",
+              "texte": "Mon maître l'appelait l'Oublié. Le premier de tous."
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Dehors, quelque chose cogne contre la porte. Puis plus rien. Puis encore."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "orlen",
+              "expression": "determine",
+              "texte": "Demain, je monte. Vous deux, vous rentrez à Pierrelune."
+            },
+            {
+              "qui": "tessa",
+              "expression": "colere",
+              "texte": "Non."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "colere",
+              "texte": "Non."
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Ils l'ont dit en même temps. Orlen n'a pas insisté."
+            }
+          ]
+        },
+        {
+          "n": 8,
+          "titre": "La montagne grise",
+          "type": "normal",
+          "lieu": "montagne_grise",
+          "vagues": [
+            [
+              "muet",
+              "muet",
+              "sbire"
+            ],
+            [
+              "brute",
+              "brute",
+              "muet"
+            ],
+            [
+              "muet",
+              "muet",
+              "muet"
+            ],
+            [
+              "brute",
+              "brute",
+              "muet"
+            ],
+            [
+              "brute",
+              "muet",
+              "muet"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Le chemin monte. L'herbe devient grise. Puis il n'y a plus d'herbe du tout."
+            },
+            {
+              "qui": "tessa",
+              "expression": "joie",
+              "texte": "Quand on redescend, vous m'apprenez le Rond. Pour de vrai, pas en regardant Eldan."
+            },
+            {
+              "qui": "orlen",
+              "expression": "joie",
+              "texte": "Quand on redescend, promis."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "neutre",
+              "texte": "Elle va être meilleure que moi."
+            },
+            {
+              "qui": "tessa",
+              "expression": "joie",
+              "texte": "Elle l'est déjà."
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "Un Muet surgit derrière Tessa. Personne ne l'a entendu venir."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "surprise",
+              "texte": "Tessa !"
+            },
+            {
+              "qui": "tessa",
+              "expression": "surprise",
+              "texte": "Ça va, il m'a juste frôlée… Attends. Toi, c'est… comment, déjà ?"
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Elle recule d'un pas, puis d'un autre. Et la brume se referme sur elle."
+            }
+          ]
+        },
+        {
+          "n": 9,
+          "titre": "La leçon inachevée",
+          "type": "lieutenant",
+          "lieu": "montagne_grise",
+          "boss": "tessa_oubliee",
+          "vagues": [
+            [
+              "muet",
+              "muet"
+            ],
+            [
+              "brute",
+              "muet",
+              "muet"
+            ],
+            [
+              "tessa_oubliee"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Dernier feu avant le sommet. Eldan ne dit rien depuis des heures."
+            },
+            {
+              "qui": "orlen",
+              "expression": "neutre",
+              "texte": "Il me reste une leçon à te donner. La dernière que mon maître m'a donnée."
+            },
+            {
+              "qui": "orlen",
+              "expression": "neutre",
+              "texte": "Quand tu n'as plus rien à garder, le Rond ne sert plus à rien. Alors il faut…"
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Des pas dans la brume. Des pas qu'Eldan connaît."
+            },
+            {
+              "qui": "tessa_oubliee",
+              "expression": "ombrace",
+              "texte": "…le Rond… pour de vrai… qui m'a promis ça…"
+            }
+          ],
+          "dialogue_apres": [
+            {
+              "qui": "eldan_jeune",
+              "expression": "determine",
+              "texte": "Maître. La fin de la leçon."
+            },
+            {
+              "qui": "orlen",
+              "expression": "neutre",
+              "texte": "Demain. Là-haut."
+            }
+          ],
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "L'Ombracée tombe à genoux. Un instant, c'est Tessa.",
+              "decor": "montagne_grise",
+              "sujets": [
+                "tessa:neutre",
+                "eldan_jeune:tristesse"
+              ]
+            },
+            {
+              "qui": "tessa",
+              "expression": "neutre",
+              "texte": "Eldan… tes triangles penchent toujours.",
+              "decor": "montagne_grise",
+              "sujets": [
+                "tessa:neutre",
+                "eldan_jeune:tristesse"
+              ]
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "tristesse",
+              "texte": "Je sais.",
+              "decor": "montagne_grise",
+              "sujets": [
+                "eldan_jeune:tristesse"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Elle s'endort. La brume recule autour d'elle. Orlen pose son manteau sur ses épaules.",
+              "decor": "montagne_grise",
+              "sujets": [
+                "orlen:tristesse"
+              ]
+            }
+          ]
+        },
+        {
+          "n": 10,
+          "titre": "L'Oublié",
+          "type": "boss_final",
+          "lieu": "sommet_oublie",
+          "boss": "oublie_originel",
+          "vagues": [
+            [
+              "muet",
+              "muet",
+              "brute"
+            ],
+            [
+              "brute",
+              "brute",
+              "muet"
+            ],
+            [
+              "oublie_originel"
+            ]
+          ],
+          "dialogue_avant": [
+            {
+              "qui": "narrateur",
+              "texte": "Au sommet, il n'y a pas de neige. Il n'y a rien. Juste une silhouette immense, une épée plantée devant elle."
+            },
+            {
+              "qui": "oublie_originel",
+              "expression": "ombrace",
+              "texte": "…tant de noms… donne-moi le tien…"
+            },
+            {
+              "qui": "orlen",
+              "expression": "determine",
+              "texte": "Eldan. Quoi qu'il arrive, tu redescends."
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "colere",
+              "texte": "Pas sans vous."
+            }
+          ],
+          "dialogue_apres": [],
+          "cinematique_apres": [
+            {
+              "qui": "narrateur",
+              "texte": "L'épée se brise. L'Oublié recule dans la montagne, et la montagne se referme sur lui.",
+              "decor": "sommet_oublie",
+              "sujets": [
+                "orlen:tristesse",
+                "eldan_jeune:surprise"
+              ]
+            },
+            {
+              "qui": "orlen",
+              "expression": "tristesse",
+              "texte": "Eldan… comment je m'appelle ?",
+              "decor": "sommet_oublie",
+              "sujets": [
+                "orlen:tristesse",
+                "eldan_jeune:surprise"
+              ]
+            },
+            {
+              "qui": "eldan_jeune",
+              "expression": "tristesse",
+              "texte": "Orlen. Vous vous appelez Orlen. Vous êtes mon maître.",
+              "decor": "sommet_oublie",
+              "sujets": [
+                "orlen:tristesse",
+                "eldan_jeune:tristesse"
+              ]
+            },
+            {
+              "qui": "orlen",
+              "expression": "joie",
+              "texte": "C'est bien. Garde-le. Garde tout.",
+              "decor": "sommet_oublie",
+              "sujets": [
+                "orlen:joie",
+                "eldan_jeune:tristesse"
+              ]
+            },
+            {
+              "qui": "narrateur",
+              "texte": "Quand Eldan relève la tête, il n'y a plus personne. Seulement le carnet, ouvert sur une page blanche.",
+              "decor": "sommet_oublie",
+              "sujets": [
+                "eldan_jeune:tristesse"
+              ]
+            }
+          ]
+        }
+      ],
+      "fin": [
+        {
+          "qui": "narrateur",
+          "texte": "Eldan est redescendu seul. Tessa ne se souvenait plus de lui. Elle lui a souri quand même.",
+          "decor": "pierrelune_aube",
+          "sujets": [
+            "eldan_jeune:tristesse",
+            "tessa:joie"
+          ]
+        },
+        {
+          "qui": "eldan_jeune",
+          "expression": "determine",
+          "texte": "Je vais tout écrire. Les trois signes, la leçon, son nom. Tout.",
+          "decor": "maison_maitre",
+          "sujets": [
+            "eldan_jeune:determine"
+          ]
+        },
+        {
+          "qui": "narrateur",
+          "texte": "Ce carnet deviendrait le Codex. La dernière page, elle, est restée blanche.",
+          "decor": "maison_maitre",
+          "sujets": [
+            "eldan_jeune:determine"
           ]
         }
       ]

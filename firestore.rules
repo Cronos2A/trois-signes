@@ -293,7 +293,7 @@ service cloud.firestore {
     function grants() {
       return { 'guardian:foret_mousse': 10, 'guardian:hautes_gerbes': 10, 'guardian:fontclaire': 10, 'guardian:velis_toits': 10,
         'guardian:aubelle_biblio': 10, 'guardian:col_vents': 10, 'guardian:ecole_ruines': 10, 'guardian:coeur_silence': 10,
-        'story:aldric': 30, 'story:nyra': 30, 'story:boran': 30, 'story:ilwen': 30, 'story:kestrel': 30, 'story:mira': 30,
+        'story:aldric': 30, 'story:nyra': 30, 'story:boran': 30, 'story:ilwen': 30, 'story:kestrel': 30, 'story:mira': 30, 'story:eldan': 30,
         'epilogue': 50 };
     }
     function today() { return request.time.year() * 10000 + request.time.month() * 100 + request.time.day(); }

@@ -791,7 +791,113 @@ function route_villages() {
   return wrap(s);
 }
 
+// ================= ELDAN — 50 ans avant
+const smooth = t => { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); };
+const stall = (e, x0, x1, y, h, c1, c2, goods) => {
+  const S = [], ah = h * .3, n = 4, sw = (x1 - x0) / n;
+  S.push({ p: e.limb([x0 + 8, y + h], [x0 + 8, y + ah - 4], 8, 7), c: '#8A5530' }, { p: e.limb([x1 - 8, y + h], [x1 - 8, y + ah - 4], 8, 7), c: '#8A5530' });
+  S.push({ p: [[x0 - 4, y + h * .58], [x1 + 4, y + h * .58], [x1 + 4, y + h * .68], [x0 - 4, y + h * .68]], c: '#8A5530' });
+  S.push({ p: [[x0 + 2, y + h * .68], [x1 - 2, y + h * .68], [x1 - 2, y + h], [x0 + 2, y + h]], c: '#A8703E' });
+  for (let i = 0; i < n; i++) { const a = x0 + i * sw; S.push({ p: [[a, y], [a + sw, y], [a + sw, y + ah], [a + sw / 2, y + ah + sw * .3], [a, y + ah]], c: i % 2 ? c2 : c1, sw: 2.5 }); }
+  S.push({ p: [[x0 - 6, y + 2], [x0 + (x1 - x0) / 2, y - h * .16], [x1 + 6, y + 2]], c: c1 });
+  let g = ''; for (let i = 0; i < 9; i++) g += dot(e, x0 + 12 + (x1 - x0 - 24) * i / 8, y + h * .56 - (i % 2) * 5, Math.max(3, h * .045), goods[i % goods.length]);
+  S.push({ raw: g + '<line x1="' + (x0 + 2) + '" y1="' + (y + h * .84).toFixed(1) + '" x2="' + (x1 - 2) + '" y2="' + (y + h * .84).toFixed(1) + '" stroke="' + e.OL + '" stroke-width="2" opacity=".35"/>' });
+  return e.parts(S, 6);
+};
+const basket = (e, x, y, r, fruit) => e.parts([{ p: [[x - r, y - r * .7], [x + r, y - r * .7], [x + r * .8, y], [x - r * .8, y]], c: '#C98A4E' }, { raw: '<line x1="' + (x - r * .9) + '" y1="' + (y - r * .35) + '" x2="' + (x + r * .9) + '" y2="' + (y - r * .35) + '" stroke="' + e.OL + '" stroke-width="2" opacity=".4"/>' + [0, 1, 2, 3].map(i => '<polygon points="' + e.P(e.ngon(x - r * .55 + i * r * .37, y - r * .78 - (i % 2) * r * .18, r * .24, r * .22, 7)) + '" fill="' + fruit[i % fruit.length] + '" stroke="' + e.OL + '" stroke-width="2.4" stroke-linejoin="round"/>').join('') }], 5);
+
+function pierrelune_marche() {
+  const e = eng(103), T = c => c, { grid, parts, ngon, P, rnd, glow, grad } = e, HZ = 410; let s = '';
+  s += grid(0, HZ + 12, 6, 8, (x, y) => grad([[0, '#86B6E4'], [.42, '#FFD0A4'], [.76, '#FFE2B0'], [1, '#FFF0C6']], y / HZ), () => .045);
+  s += glow(176, 120, 130, 130, '#FFF6D0', .45) + parts([{ p: ngon(176, 120, 34, 34, 12), c: '#FFE59A', sil: false, sw: 3.5 }]);
+  s += cloud(e, 70, 90, .7, '#FFFFFF') + cloud(e, 300, 64, .6, '#FFFFFF');
+  s += ranged(e, [[-10, 250], [40, 170], [96, 236], [140, 200], [196, 258], [250, 160], [310, 222], [360, 150], [400, 210], [400, HZ], [-10, HZ]], '#9A9CC4', .34, 240, 6, '#FFF4F0');
+  s += parts([{ p: [[-10, 272], [60, 300], [130, 350], [180, 392], [190, HZ + 10], [-10, HZ + 10]], c: '#7FB25A' }, { p: [[400, 262], [330, 296], [260, 346], [206, 392], [200, HZ + 10], [400, HZ + 10]], c: '#86B85C' }], 6);
+  s += stoneHouse(e, 162, 384, 26, 20, T, true) + stoneHouse(e, 200, 390, 24, 18, T, true);
+  [[-12, 300, 58, 42], [44, 322, 50, 38], [96, 356, 44, 34], [-8, 382, 72, 54], [60, 380, 50, 40]].forEach(a => s += stoneHouse(e, ...a, T, true));
+  [[300, 296, 56, 42], [350, 316, 50, 38], [254, 350, 44, 34], [318, 380, 76, 56], [272, 386, 48, 38]].forEach(a => s += stoneHouse(e, ...a, T, true));
+  s += parts([{ p: [[-10, 390], [124, 376], [128, 392], [-10, 408]], c: '#B8AA8E' }, { p: [[400, 390], [262, 380], [258, 396], [400, 410]], c: '#B8AA8E' }], 5);
+  s += grid(HZ, H, 8, 16, (x, y) => grad([[0, '#9AD468'], [.5, '#5DB84E'], [1, '#34A04C']], (y - HZ) / (H - HZ)), e.calm(HZ));
+  const pl = [[150, HZ], [240, HZ], [400, 560], [400, H + 10], [-10, H + 10], [-10, 560]];
+  s += '<g clip-path="url(#pmp)">' + grid(HZ, H + 10, 8, 14, (x, y) => grad([[0, '#E6D4AE'], [1, '#CDB088']], (y - HZ) / (H - HZ)), e.calm(HZ, .02, .16)) + '</g><polyline points="' + P(pl.slice(0, 3)) + '" fill="none" stroke="' + DK + '" stroke-width="3" opacity=".45"/><polyline points="150,' + HZ + ' -10,560" fill="none" stroke="' + DK + '" stroke-width="3" opacity=".45"/>';
+  const bc = e.cat([30, 318], [360, 312], 40, 18); s += '<polyline points="' + P(bc) + '" fill="none" stroke="' + DK + '" stroke-width="2.4"/>';
+  for (let i = 0; i < bc.length - 1; i++) { const a = bc[i], b = bc[i + 1]; s += '<polygon points="' + P([a, b, [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2 + 15]]) + '" fill="' + ['#E0662A', '#FFD23F', '#7A8A5E', '#FFF6E6', '#C67139'][i % 5] + '" stroke="' + DK + '" stroke-width="2.2" stroke-linejoin="round"/>'; }
+  s += stall(e, 92, 150, 382, 46, '#C67139', '#FFF6E6', ['#FF5A3C', '#FFD23F']) + stall(e, 240, 298, 386, 46, '#7A8A5E', '#FFF6E6', ['#9ACD32', '#FF8C32']);
+  s += stall(e, -24, 112, 470, 150, '#E0662A', '#FFF6E6', ['#FF5A3C', '#FFD23F', '#9ACD32', '#FF8C32']);
+  s += stall(e, 280, 414, 492, 150, '#7A8A5E', '#F3E6C8', ['#FFD23F', '#7A3B6E', '#FF5A3C', '#F3E6C8']);
+  s += basket(e, 36, 690, 26, ['#FF5A3C', '#FF8C32']) + basket(e, 84, 712, 20, ['#9ACD32', '#3FA85A']) + basket(e, 352, 716, 26, ['#FFD23F', '#FF8C32']);
+  s += parts([{ p: [[290, 830], [356, 830], [356, 782], [290, 782]], c: '#A8703E' }, { p: [[352, 846], [404, 846], [404, 800], [352, 800]], c: '#8A5530' }], 6) + [[306, 778], [322, 772], [340, 778]].map(([x, y]) => parts([{ p: ngon(x, y, 10, 8, 7), c: '#FF8C32' }], 4)).join('');
+  s += parts([{ p: [[-6, 848], [60, 848], [60, 796], [-6, 796]], c: '#A8703E' }], 6) + bush(e, 20, 790, 22) + potPlant(e, 90, 842, 24);
+  s += edges(e, 14, 600, 840, (x, y, i) => i % 3 ? blade(e, x, y, .8, '#9ACD32') : dot(e, x, y, 4, '#FF7AA8'));
+  return wrap(s, '<clipPath id="pmp"><polygon points="' + P(pl) + '"/></clipPath>');
+}
+
+function hameau_gris() {
+  const e = eng(307), T = c => e.mix(c, '#B4AEC2', .4), F = c => e.mix(c, '#C9C4D2', .68), { grid, parts, ngon, P, rnd, glow, grad } = e, HZ = 400; let s = '';
+  s += grid(0, HZ + 12, 6, 8, (x, y) => T(grad([[0, '#8CA8D0'], [.5, '#F2C4A0'], [1, '#FFE6B8']], y / HZ)), () => .04);
+  s += glow(276, 170, 90, 90, '#FFF6E6', .35) + parts([{ p: ngon(276, 170, 26, 26, 10), c: T('#FFE59A'), sil: false, sw: 3.5 }]) + cloud(e, 90, 96, .8, T('#FFFFFF'));
+  s += ranged(e, [[-10, 230], [50, 150], [110, 214], [170, 166], [230, 236], [290, 140], [350, 200], [400, 170], [400, HZ], [-10, HZ]], T('#9A9CC4'), .34, 230, 6, T('#FFF4F0'));
+  s += parts([{ p: [[-10, 300], [80, 322], [150, 360], [186, HZ + 10], [-10, HZ + 10]], c: T('#7FB25A') }, { p: [[400, 290], [320, 318], [250, 360], [204, HZ + 10], [400, HZ + 10]], c: T('#86B85C') }], 6);
+  [[6, 336, 50, 38, T], [58, 356, 42, 32, F], [-10, 388, 62, 46, T], [292, 330, 52, 40, F], [340, 352, 48, 36, T], [250, 382, 44, 32, T], [326, 392, 70, 48, F]].forEach(([x, b, w, h, f]) => s += stoneHouse(e, x, b, w, h, f, false));
+  const drift = (x, y, n, sp) => { let o = ''; for (let i = 0; i < n; i++) { const xx = x + (e.rnd() - .3) * sp, yy = y - e.rnd() * sp * 1.3, k = 3 + e.rnd() * 5; o += '<polygon points="' + P([[xx, yy - k], [xx + k, yy + k * .6], [xx - k, yy + k * .6]]) + '" fill="' + F(['#E0662A', '#CDBF9F'][i % 2]) + '" stroke="' + DK + '" stroke-width="1.8" stroke-linejoin="round" opacity="' + (1 - i / n * .7).toFixed(2) + '"/>'; } return o; };
+  s += drift(80, 316, 8, 40) + drift(318, 296, 8, 44) + drift(360, 352, 6, 36);
+  s += grid(HZ, H, 8, 16, (x, y) => T(grad([[0, '#9AD468'], [.5, '#5DB84E'], [1, '#34A04C']], (y - HZ) / (H - HZ))), e.calm(HZ));
+  s += '<polygon points="' + P([[186, HZ], [206, HZ], [282, H], [108, H]]) + '" fill="' + T('#D9C9A6') + '" opacity=".5" stroke="' + DK + '" stroke-width="2.5" stroke-opacity=".3"/>';
+  s += stoneHouse(e, -40, 590, 104, 120, T, false) + drift(30, 440, 10, 60);
+  const wallR = []; for (let x = 300, i = 0; x < 400; x += 22, i++) wallR.push({ p: ngon(x, 650 - i * 6, 13, 9, 6, i), c: T(i % 2 ? '#B0A696' : '#C2B8A6') });
+  s += parts(wallR, 5) + parts(wallR.map(q => ({ p: q.p.map(p => [p[0] + 6, p[1] - 15]), c: q.c })), 5);
+  s += pine(e, 376, 560, 140, T('#3FA85A'), T('#2E8A4A'), T('#6B4428')) + tree(e, 14, 800, 150, T('#2E8A4A'), F('#3FA85A'), T('#6B4428')) + drift(60, 640, 8, 50);
+  s += bush(e, 60, 610, 16, T('#5DBA4F'), T('#4AA548')) + rock(e, 360, 800, 28, T('#A2988A')) + bush(e, 320, 842, 26, T('#5DBA4F'), F('#4AA548'));
+  s += edges(e, 18, 620, 840, (x, y, i) => i % 4 === 0 ? dot(e, x, y, 4, F('#FFD23F')) : blade(e, x, y, .85, T('#9ACD32')));
+  return wrap(s);
+}
+
+function montagne_grise() {
+  const e = eng(311, '#3E3A4A'), { grid, parts, ngon, P, rnd, glow, grad } = e, HZ = 236; let s = '';
+  const gT = y => smooth(1 - (y - HZ) / (H - HZ) * 1.35 + .15), bare = y => smooth((HZ + 170 - y) / 170);
+  const G = (c, y) => e.mix(e.mix(c, '#B4AEC2', .72 * gT(y)), '#DCD6D0', .7 * bare(y));
+  s += grid(0, HZ + 12, 6, 6, (x, y) => grad([[0, '#C8C2D4'], [.6, '#E2DDE6'], [1, '#F0ECEE']], y / HZ), () => .035);
+  s += glow(120, 120, 70, 70, '#FFFFFF', .5);
+  s += ranged(e, [[-10, 190], [60, 96], [130, 160], [200, 70], [270, 150], [330, 100], [400, 160], [400, HZ + 10], [-10, HZ + 10]], '#B8B2C4', .3, 200, 6, '#F2EFF4');
+  s += grid(HZ, H, 8, 18, (x, y) => G(grad([[0, '#8FD05E'], [1, '#2FA24A']], (y - HZ) / (H - HZ)), y), e.calm(HZ, .02, .14));
+  const pl = [], pr = []; for (let i = 0; i <= 18; i++) { const t = i / 18, y = HZ + (H + 10 - HZ) * t, cx = 200 + Math.sin(t * 5 + .6) * 70 * (1 - t * .55), w = 4 + 90 * t * t; pl.push([cx - w, y]); pr.push([cx + w, y]); }
+  s += '<polygon points="' + P([...pl, ...pr.slice().reverse()]) + '" fill="#E0D4BC" opacity=".55"/><polyline points="' + P(pl) + '" fill="none" stroke="' + e.OL + '" stroke-width="2.4" opacity=".3"/><polyline points="' + P(pr) + '" fill="none" stroke="' + e.OL + '" stroke-width="2.4" opacity=".3"/>';
+  const R = (x, y, r) => rock(e, x, y, r, G('#A2988A', y + 200));
+  s += R(40, 320, 16) + R(352, 300, 14) + R(20, 430, 22) + R(372, 460, 26);
+  s += pine(e, 64, 380, 60, G('#3FA85A', 380), G('#2E8A4A', 380), G('#6B4428', 380), 5) + pine(e, 334, 410, 70, G('#3FA85A', 410), G('#2E8A4A', 410), G('#6B4428', 410), 5);
+  s += pine(e, 14, 640, 170, G('#3FA85A', 640), G('#2E8A4A', 640), G('#6B4428', 640)) + pine(e, 382, 700, 190, G('#3FA85A', 700), G('#2E8A4A', 700), G('#6B4428', 700));
+  s += R(30, 790, 34) + R(358, 830, 38) + bush(e, 80, 846, 26, G('#5DBA4F', 846), G('#4AA548', 846));
+  s += edges(e, 26, 300, 840, (x, y) => blade(e, x, y, .85, G('#9ACD32', y)));
+  s += mist(e, 300, 44, '#ECE8F0', .5, .2) + mist(e, 400, 40, '#E6E2EC', .35, 1.5) + mist(e, 500, 34, '#E6E2EC', .2, 2.7);
+  return wrap(s);
+}
+
+function sommet_oublie() {
+  const e = eng(317, '#5C566B'), { grid, parts, ngon, P, rnd, glow, grad } = e, HZ = 470; let s = '';
+  s += grid(0, HZ + 12, 6, 8, (x, y) => grad([[0, '#EEEBF2'], [1, '#FFFFFF']], y / HZ), () => .02);
+  s += '<g opacity=".45">' + parts([{ p: [[-10, HZ - 20], [60, HZ - 52], [120, HZ - 30], [290, HZ - 30], [340, HZ - 60], [400, HZ - 26], [400, HZ + 10], [-10, HZ + 10]], c: '#E2DEE8' }], 4) + '</g>';
+  const top = [[-10, HZ + 30], [40, HZ + 6], [120, HZ - 6], [195, HZ - 10], [270, HZ - 6], [350, HZ + 6], [400, HZ + 30], [400, H + 10], [-10, H + 10]];
+  s += '<g clip-path="url(#sop)">' + grid(HZ - 20, H, 8, 14, (x, y) => grad([[0, '#ECE7E0'], [1, '#D2CAC0']], (y - HZ) / (H - HZ)), e.calm(HZ, .02, .1)) + '</g><polyline points="' + P(top.slice(0, 7)) + '" fill="none" stroke="#5C566B" stroke-width="4" stroke-linejoin="round"/>';
+  const sx = 195, gy = 520;
+  s += '<polygon points="' + P(ngon(sx + 26, gy + 6, 74, 13, 12)) + '" fill="#5C566B" opacity=".18"/>';
+  s += '<g fill="none" stroke="#8E8698" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity=".8"><polyline points="' + sx + ',' + (gy + 4) + ' ' + (sx - 22) + ',' + (gy + 14) + ' ' + (sx - 40) + ',' + (gy + 12) + '"/><polyline points="' + (sx + 4) + ',' + (gy + 6) + ' ' + (sx + 30) + ',' + (gy + 20) + ' ' + (sx + 56) + ',' + (gy + 18) + '"/><polyline points="' + (sx - 2) + ',' + (gy + 8) + ' ' + (sx + 4) + ',' + (gy + 30) + '"/></g>';
+  [[sx - 40, gy + 10, 7], [sx + 50, gy + 14, 6], [sx - 14, gy + 18, 5]].forEach(([x, y, r]) => s += parts([{ p: ngon(x, y, r, r * .6, 6, .3), c: '#D6CFC6' }], 4));
+  const k = eng(401, '#2E2A38');
+  s += k.parts([
+    { p: [[sx - 15, 296], [sx + 15, 296], [sx + 12, gy - 4], [sx, gy + 10], [sx - 12, gy - 4]], c: '#C9CED6' },
+    { p: k.limb([sx - 3, 304], [sx - 3, gy - 24], 5, 3), c: '#A6ADB8', sw: 0, sil: false },
+    { p: [[sx - 74, 276], [sx - 52, 286], [sx + 52, 286], [sx + 74, 276], [sx + 64, 300], [sx - 64, 300]], c: '#8E8698' },
+    { p: k.limb([sx, 282], [sx, 214], 15, 13), c: '#6E6478' },
+    { p: ngon(sx, 204, 16, 16, 7, -Math.PI / 2), c: '#8E8698' },
+    { p: ngon(sx, 293, 9, 9, 6), c: '#B8B2C4', sw: 2.5 }
+  ], 12);
+  s += [226, 240, 254, 268].map(y => '<line x1="' + (sx - 7) + '" y1="' + y + '" x2="' + (sx + 7) + '" y2="' + (y - 6) + '" stroke="#2E2A38" stroke-width="2.4" opacity=".55"/>').join('');
+  s += '<polygon points="' + P([[sx - 9, 306], [sx - 4, 306], [sx - 4, 420], [sx - 9, 430]]) + '" fill="#FFFFFF" opacity=".5"/>';
+  return wrap(s, '<clipPath id="sop"><polygon points="' + P(top) + '"/></clipPath>');
+}
+
 window.DECORS = {
+  pierrelune_marche, hameau_gris, montagne_grise, sommet_oublie,
   hautes_gerbes_gris, chemin_collines, camp_refugies, palissade_nuit, aubelle_rues, reserve_interdite, tour_guet, lisiere, camp_eclaireurs, foret_effacee, maison_soins, route_villages,
   prologue_monde: () => prologue(false), prologue_silence: () => prologue(true), prologue_heros, pierrelune_aube: () => pierrelune(false), pierrelune_brume: () => pierrelune(true), maison_maitre, pont_brumes, route_ecole, velis_marche, planque_chats, archives_velis, velis_porte,
   hautes_gerbes, fontclaire, velis_toits, aubelle_biblio, col_vents, ecole_ruines,

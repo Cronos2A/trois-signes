@@ -120,8 +120,9 @@ export async function prepareCombatArt(heroId, W, H, dpr, enemySprites, extra = 
   // Apparence (game/cosmetics.js → look) : couleurs remplacées, ou skin complet (corps + bras armé).
   const rec = look && look.recolor, hs = SPRITE_SCALE.hero * k;
   const plain = () => {
-    const split = !!TS.sprite(heroId, { part: 'weapon' }).px;
-    return [bakeSprite(heroId, hs, dpr, split ? 'body' : undefined, rec), split ? bakeSprite(heroId, hs, dpr, 'weapon', rec) : Promise.resolve(null)];
+    const id = TS.heroes.some(h => h[0] === heroId) ? heroId : 'aldric';   // héros sans sprite en code (Eldan) : repli si son fichier manque
+    const split = !!TS.sprite(id, { part: 'weapon' }).px;
+    return [bakeSprite(id, hs, dpr, split ? 'body' : undefined, rec), split ? bakeSprite(id, hs, dpr, 'weapon', rec) : Promise.resolve(null)];
   };
   let heroJobs;
   if (look && look.skinUrl) {

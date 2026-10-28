@@ -13,5 +13,12 @@
     "name": "Boss", "sprite": "boss", "hp": 60, "dmg": 12, "wind": 1.3, "cd": [2.2, 3.2], "speed": 80, "pts": 200,
     "r": 48, "col": "#B259FF", "row": 0.3, "centered": true,
     "loot": { "count": 3, "hearts": 1, "heartChance": 0 }
+  },
+  "muet": {
+    "name": "Muet", "sprite": "x_muet", "hp": 14, "dmg": 6, "wind": 1.2, "cd": [1.8, 2.8], "speed": 200, "pts": 40,
+    "r": 22, "col": "#9AA3B5", "row": 0.36, "centered": false,
+    "loot": { "count": 1, "hearts": 0, "heartChance": 0.35 },
+    "art": { "file": "assets/ennemis/muet.svg", "height": 150, "fallback": "sbire" },
+    "note": "Ombracé ancien de l'histoire d'Eldan : plus rapide qu'un sbire, peu de PV, attaque souvent. Dessiné par un fichier (art), repli : sprite du sbire."
   }
 }

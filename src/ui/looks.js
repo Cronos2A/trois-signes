@@ -4,6 +4,9 @@ import { look } from '../game/cosmetics.js';
 import { art, heroArt } from './art.js';
 
 const skinFile = (id, combat) => `assets/skins/${id}${combat ? '_combat' : ''}.svg`;
+// Héros dessiné par des fichiers Claude Design (Eldan) plutôt qu'en code (art.js) : même format que les skins complets.
+const heroFile = (id, combat) => `assets/heros/${id}${combat ? '_combat' : ''}.svg`;
+const drawnInCode = id => !!art()[id];
 const skins = new Map();            // id → texte SVG prêt pour le lobby (ou null si le fichier manque)
 let onReady = null;
 
@@ -11,10 +14,10 @@ let onReady = null;
 export const onSkinReady = fn => { onReady = fn; };
 
 /** Charge le dessin de lobby d'un skin ; son repère est celui de art.js (240 × 320, avec 10 de marge). */
-function loadSkin(id) {
+function loadSkin(id, file = skinFile(id)) {
   if (skins.has(id)) return;
   skins.set(id, undefined);
-  fetch(skinFile(id)).then(r => r.ok ? r.text() : null).catch(() => null).then(txt => {
+  fetch(file).then(r => r.ok ? r.text() : null).catch(() => null).then(txt => {
     if (txt) {
       const open = (/<svg[^>]*>/.exec(txt) || [''])[0];
       txt = txt.replace(open, open.replace(/\s(width|height|viewBox|style)="[^"]*"/g, '')
@@ -32,11 +35,15 @@ export function heroLobbyHtml(heroId, L = look(heroId)) {
     const s = skins.get(L.skin);
     if (s) return s;
   }
+  if (!drawnInCode(heroId)) {                       // héros en fichier : son dessin de planche (rien tant qu'il charge)
+    loadSkin('hero:' + heroId, heroFile(heroId));
+    return skins.get('hero:' + heroId) || '';
+  }
   return L.recolor ? heroArt(heroId, L.recolor) : art()[heroId];
 }
 
 /** Apparence du sprite de combat : { recolor, skinUrl } (voir ui/combat-art.js). */
 export function combatLook(heroId) {
   const L = look(heroId);
-  return { recolor: L.recolor, skinUrl: L.skin ? skinFile(L.skin, true) : null };
+  return { recolor: L.recolor, skinUrl: L.skin ? skinFile(L.skin, true) : drawnInCode(heroId) ? null : heroFile(heroId, true) };
 }

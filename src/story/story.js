@@ -20,6 +20,9 @@ let api = {};   // { startBattle({ char, battle }), toLobby() } fourni par main.
 const SM = () => D.story_mode;
 const st = () => prog.story;
 const story = id => SM().histoires.find(h => h.id === id);
+/** Les six histoires des héros (fragments de mémoire, épilogue) ; celle d'Eldan s'ouvre après l'épilogue. */
+export const mainStories = () => SM().histoires.filter(h => SM().personnages_dialogue.heros.includes(h.id));
+const isMain = h => SM().personnages_dialogue.heros.includes(h.id);
 const combat = (h, n) => h.combats.find(k => k.n === +n);
 const hero = id => D.characters.characters.find(c => c.id === id);
 
@@ -42,7 +45,7 @@ export async function maybePrologue({ onShown } = {}) {
 export async function openStory(toEldan) {
   if (await resumeEndings()) return;
   music('musique_lobby');
-  renderChoice(st(), { back: () => { hideStory(); api.toLobby(); }, pick: id => openHistory(story(id)) });
+  renderChoice(st(), { back: () => { hideStory(); api.toLobby(); }, pick: id => { if (id !== 'eldan' || st().epilogue) openHistory(story(id)); } });
   if (toEldan === true) document.querySelector('#story .st-eldan')?.scrollIntoView({ block: 'center' });
 }
 
@@ -87,7 +90,11 @@ async function launch(h, k, withDialogue) {
 async function buildBattle(k) {
   const R = D.rules.story, V = SM().ennemis_speciaux.valeurs_de_depart, types = {}, art = [];
   for (const id of new Set(k.vagues.flat())) {
-    if (R.enemyMap[id]) continue;
+    if (R.enemyMap[id]) {                                  // ennemi ordinaire dessiné par un fichier (Muet) : repli sur le sbire
+      const T = D.enemies[R.enemyMap[id]], A = T && T.art;
+      if (A) art.push({ key: T.sprite, url: A.file, height: A.height, fallback: A.fallback });   // fichier illisible : combat-art.js prend le repli
+      continue;
+    }
     const b = bossInfo(id), v = V[b.rang], url = await enemyUrl(id);
     if (url) art.push({ key: 'x_' + id, url, height: R.rankHeight[b.rang], fallback: R.rankSprite[b.rang] });
     types[id] = {
@@ -167,9 +174,9 @@ async function afterCombat(h, k, why, res, rec) {
 // prog.story.endings : histoires dont la scène de fin reste à montrer ; prog.story.epiloguePending : épilogue à montrer.
 function markEnding(h) {
   const S = st();
-  if (!S.fragments.includes(h.id)) S.fragments.push(h.id);
+  if (isMain(h) && !S.fragments.includes(h.id)) S.fragments.push(h.id);      // l'histoire d'Eldan ne donne pas de fragment
   S.endings = [...new Set([...(S.endings || []), h.id])];
-  if (S.fragments.length >= SM().histoires.length && !S.epilogue) { S.epilogue = true; S.epiloguePending = true; }   // Eldan débloqué
+  if (S.fragments.length >= mainStories().length && !S.epilogue) { S.epilogue = true; S.epiloguePending = true; }   // Eldan débloqué
   saveProg();
 }
 
@@ -178,7 +185,7 @@ async function playEnding(h, lieu) {
   music('musique_epilogue');
   await playScene(h.fin, { decor: lieu || h.combats[h.combats.length - 1].lieu });
   sfx('deblocage');
-  await renderFragment(st().fragments.length, h);
+  if (isMain(h)) await renderFragment(st().fragments.length, h);
   await showRewards(syncGems());             // gemmes : histoire terminée
   st().endings = (st().endings || []).filter(id => id !== h.id);
   saveProg();
@@ -187,7 +194,7 @@ async function playEnding(h, lieu) {
 /** Épilogue à montrer (les 6 histoires finies) : scène, gemmes, écran « Eldan débloqué ». Renvoie true s'il a été joué. */
 async function playEpilogue() {
   const S = st();
-  if (S.fragments.length >= SM().histoires.length && !S.epilogue) { S.epilogue = true; S.epiloguePending = true; saveProg(); }
+  if (S.fragments.length >= mainStories().length && !S.epilogue) { S.epilogue = true; S.epiloguePending = true; saveProg(); }
   if (!S.epiloguePending) return false;
   hideStory();
   music('musique_epilogue');
@@ -196,7 +203,7 @@ async function playEpilogue() {
   saveProg();
   await showRewards(syncGems());             // gemmes : épilogue
   sfx('deblocage');
-  // Eldan débloqué (« Bientôt disponible ») : voir sa carte dans le choix des histoires, ou revenir au lobby.
+  // Eldan débloqué (son histoire et le héros jouable) : voir sa carte dans le choix des histoires, ou revenir au lobby.
   renderUnlock({ see: () => openStory(true), later: () => { hideStory(); api.toLobby(); } });
   return true;
 }

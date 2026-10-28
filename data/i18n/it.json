@@ -52,7 +52,8 @@
     "tooLate": "Troppo tardi",
     "tooLateSub": "traccia il Cerchio durante l'allarme",
     "pickup": "Raccolta",
-    "gradeLine": "{label} · {acc}%"
+    "gradeLine": "{label} · {acc}%",
+    "trio": "Tre gesti!"
   },
   "train": {
     "intro": "Traccia triangoli e cerchi, tocca gli oggetti. La precisione appare a ogni gesto.",
@@ -130,7 +131,6 @@
     "title": "Modalità Storia",
     "fragments": "FRAMMENTI DI MEMORIA",
     "found": "Ritrovato",
-    "eldanSoon": "Il Maestro · presto disponibile",
     "eldanUnknown": "???",
     "eldanLocked": "Completa le sei storie",
     "backLobby": "Torna alla lobby",
@@ -152,8 +152,8 @@
     "fragmentFound": "Frammento di memoria ritrovato",
     "memory": "Un ricordo torna al Maestro Eldan",
     "newCharacter": "NUOVO PERSONAGGIO",
-    "eldanTitle": "il Maestro",
-    "eldanSoonLong": "La sua storia sarà presto disponibile",
+    "eldanTitle": "l'Apprendista",
+    "eldanSoonLong": "La sua storia e l'eroe sono sbloccati",
     "seeCharacter": "Vedi il personaggio"
   },
   "of": {
@@ -164,7 +164,8 @@
       "boran": "di Boran",
       "ilwen": "di Ilwen",
       "kestrel": "di Kestrel",
-      "mira": "di Mira"
+      "mira": "di Mira",
+      "eldan": "di Eldan"
     },
     "arena": {
       "foret_mousse": "della Foresta di Muschio",
@@ -294,7 +295,7 @@
     "fromChest": "Forziere semplice offerto dal calendario.",
     "rewardOk": "Grande!",
     "boostsTitle": "SCORTA DI BOOST",
-    "boostsNote": "Un solo boost attivo per tipo. Una partita conta alla fine (vittoria, sconfitta o abbandono dopo un round). Solo Viaggio e Storia, mai in Duello.",
+    "boostsNote": "Un solo boost attivo per tipo. Una partita conta alla fine. Solo Viaggio e Storia.",
     "stock": "In scorta: {n} / {max}",
     "noStock": "Nessuno in scorta",
     "activeLeft": {
@@ -349,6 +350,9 @@
       },
       "boss": {
         "name": "Boss"
+      },
+      "muet": {
+        "name": "Muto"
       }
     },
     "progression": {
@@ -500,7 +504,8 @@
       "name": "Il Viaggio",
       "arenas": [
         {
-          "name": "Foresta di Muschio"
+          "name": "Foresta di Muschio",
+          "guardianName": "Il Primo Dimenticato"
         },
         {
           "name": "Hautes-Gerbes"
@@ -612,6 +617,19 @@
             "name": "Rinascita",
             "text": "Recupera il 5% dei PV massimi e raddoppia l'attacco per 10 s."
           }
+        },
+        {
+          "role": "Apprendista",
+          "title": "L'Apprendista",
+          "weaponLabel": "Bastone d'apprendista",
+          "passive": {
+            "name": "Tre gesti",
+            "text": "Un Triangolo, un Cerchio e un Tocco riusciti di fila, in qualsiasi ordine e senza errori nel mezzo: +15 di barra della super."
+          },
+          "super": {
+            "name": "La lezione",
+            "text": "Per 8 s, ogni gesto riuscito sale di un livello (OK diventa Good, Good diventa Very Good… Perfect resta Perfect)."
+          }
         }
       ]
     },
@@ -634,6 +652,9 @@
           },
           "sbire": {
             "name": "Svuotato"
+          },
+          "orlen": {
+            "name": "Maestro Orlen"
           }
         }
       },
@@ -962,6 +983,26 @@
           "style": {
             "text": "Al posto della cura, ogni attacco riuscito dà uno scudo di {barrierPerHit} PV × il moltiplicatore che assorbe i danni, cumulabile fino a {barrierMax}."
           }
+        },
+        "baton": {
+          "name": "Bastone d'apprendista",
+          "style": {
+            "text": "I Tre gesti danno +{trioBonus} di barra della super in più."
+          }
+        },
+        "fuseau_fileuse": {
+          "name": "Fuso della Filatrice",
+          "style": {
+            "text": "Un Perfect lega un 2º nemico con un filo: subisce il {cleaveOnPerfect} % dei danni."
+          },
+          "lock": "Vinci il combattimento 5 della tua storia"
+        },
+        "baton_orlen": {
+          "name": "Bastone di Orlen",
+          "style": {
+            "text": "Dopo una schivata riuscita, l'attacco successivo fa +{afterDodgeDamage} %."
+          },
+          "lock": "Vinci il combattimento 10 della tua storia"
         }
       }
     },
@@ -2692,6 +2733,360 @@
               "texte": "Un frammento di memoria torna al maestro."
             }
           ]
+        },
+        {
+          "titre": "La lezione incompiuta",
+          "cinematique_ouverture": [
+            {
+              "texte": "Cinquant'anni prima del Silenzio, Pierrelune aveva già un maestro dei segni."
+            },
+            {
+              "texte": "Si chiamava Orlen. E il suo unico allievo, quella mattina, era in ritardo."
+            },
+            {
+              "texte": "Hai corso di nuovo, Eldan. I tuoi triangoli pendono."
+            },
+            {
+              "texte": "Pendono già. Corro perché si veda di meno."
+            },
+            {
+              "texte": "Niente manichino oggi. Il vecchio Garran ha bisogno di noi all'ovile."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "L'ovile",
+              "dialogue_avant": [
+                {
+                  "texte": "Le mie bestie non vogliono uscire. C'è qualcuno nel prato. Più di qualcuno."
+                },
+                {
+                  "texte": "Maestro… non hanno volto."
+                },
+                {
+                  "texte": "Allora non cercare i loro occhi. Guarda le loro mani."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Hai chiuso gli occhi al secondo."
+                },
+                {
+                  "texte": "Un po'."
+                },
+                {
+                  "texte": "Anch'io, la prima volta."
+                }
+              ]
+            },
+            {
+              "titre": "Ciò che si dimentica",
+              "dialogue_avant": [
+                {
+                  "texte": "Il giorno dopo, Garran aspetta davanti alla porta, col bastone in mano."
+                },
+                {
+                  "texte": "Ragazzo… come si chiama mia figlia? L'ho saputo per tutta la vita."
+                },
+                {
+                  "texte": "Ninon. Abita vicino al forno."
+                },
+                {
+                  "texte": "Tornano. Vai. Io resto con lui."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ninon. Sì. Lo scriverò sulla porta."
+                },
+                {
+                  "texte": "Scrivilo anche altrove, Garran. Ovunque puoi."
+                }
+              ]
+            },
+            {
+              "titre": "Giorno di mercato",
+              "dialogue_avant": [
+                {
+                  "texte": "Ehi, apprendista! Hai intenzione di restare piantato davanti alla mia bancarella?"
+                },
+                {
+                  "texte": "Ce ne sono tre dietro di te."
+                },
+                {
+                  "texte": "So contare. Fammi vedere piuttosto cosa ti insegna il tuo vecchio."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Niente male, per uno che traccia cerchi nel vuoto."
+                },
+                {
+                  "texte": "È il vuoto che mi gira intorno. Io lo tengo a distanza."
+                },
+                {
+                  "texte": "Questa è una frase del tuo maestro."
+                },
+                {
+                  "texte": "…Sì."
+                }
+              ]
+            },
+            {
+              "titre": "La strada del nord",
+              "dialogue_avant": [
+                {
+                  "texte": "Orlen chiude la casa e prende la strada del nord. Eldan porta lo zaino. Tessa ha deciso di venire."
+                },
+                {
+                  "texte": "Ho un solo allievo, Tessa."
+                },
+                {
+                  "texte": "Allora ne avrete due. O uno che porta meglio gli zaini."
+                },
+                {
+                  "texte": "Io porto benissimo gli zaini."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Il Cerchio ti protegge. Il Triangolo ti difende. Il Tocco ti unisce agli altri."
+                },
+                {
+                  "texte": "Lo so, maestro."
+                },
+                {
+                  "texte": "Tu lo sai. Lei no. Stasera sei tu a insegnarglielo."
+                }
+              ]
+            },
+            {
+              "titre": "Il borgo senza nome",
+              "dialogue_avant": [
+                {
+                  "texte": "In fondo alla strada, un borgo. Nessun cartello. La gente saluta, poi si ferma, imbarazzata."
+                },
+                {
+                  "texte": "Da dove venite? Noi veniamo… da qui. Da qui, credo."
+                },
+                {
+                  "texte": "Zitti… ogni nome è un filo… e un filo si disfa…"
+                },
+                {
+                  "texte": "La sua conocchia… quello che avvolge sono nomi?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Adesso si ricorderanno?"
+                },
+                {
+                  "texte": "Di certe cose."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "La conocchia cade. Il filo grigio si scioglie e vola via."
+                },
+                {
+                  "texte": "Filavo la lana… per tutto il borgo. Il borgo di… Combelaine."
+                },
+                {
+                  "texte": "Combelaine! Abitiamo a Combelaine!"
+                },
+                {
+                  "texte": "Un nome ritrovato. Poi la nebbia porta via la vecchia filatrice, con dolcezza."
+                }
+              ]
+            },
+            {
+              "titre": "La notte dei Muti",
+              "dialogue_avant": [
+                {
+                  "texte": "Quella notte, a Combelaine, nessuno dorme. Qualcosa gira intorno alle case, senza un rumore."
+                },
+                {
+                  "texte": "Quelli non camminano. Scivolano."
+                },
+                {
+                  "texte": "Dei Muti. Schiena contro schiena, voi due. E non lasciate che vi tocchino."
+                },
+                {
+                  "texte": "Li conoscete?"
+                },
+                {
+                  "texte": "Più tardi."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Più tardi è adesso, maestro."
+                },
+                {
+                  "texte": "Sì. Venite. Vi mostrerò un taccuino."
+                }
+              ]
+            },
+            {
+              "titre": "Il taccuino",
+              "dialogue_avant": [
+                {
+                  "texte": "Un vecchio taccuino dalla copertina bruciata. Dentro, cerchi, triangoli, mani aperte."
+                },
+                {
+                  "texte": "L'ha scritto il mio maestro. Non ha avuto il tempo di finirlo."
+                },
+                {
+                  "texte": "C'è qualcosa sotto la montagna. Non rompe niente. Prende. I nomi, i volti, le canzoni."
+                },
+                {
+                  "texte": "E questa cosa ha un nome?"
+                },
+                {
+                  "texte": "Il mio maestro la chiamava il Dimenticato. Il primo di tutti."
+                },
+                {
+                  "texte": "Fuori, qualcosa sbatte contro la porta. Poi più niente. Poi di nuovo."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Domani salgo. Voi due tornate a Pierrelune."
+                },
+                {
+                  "texte": "No."
+                },
+                {
+                  "texte": "No."
+                },
+                {
+                  "texte": "L'hanno detto nello stesso momento. Orlen non ha insistito."
+                }
+              ]
+            },
+            {
+              "titre": "La montagna grigia",
+              "dialogue_avant": [
+                {
+                  "texte": "Il sentiero sale. L'erba diventa grigia. Poi non c'è più erba del tutto."
+                },
+                {
+                  "texte": "Quando scendiamo, mi insegnate il Cerchio. Sul serio, non guardando Eldan."
+                },
+                {
+                  "texte": "Quando scendiamo, promesso."
+                },
+                {
+                  "texte": "Sarà più brava di me."
+                },
+                {
+                  "texte": "Lo è già."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Un Muto spunta dietro Tessa. Nessuno l'ha sentito arrivare."
+                },
+                {
+                  "texte": "Tessa!"
+                },
+                {
+                  "texte": "Tutto bene, mi ha solo sfiorata… Aspetta. Tu sei… come ti chiami, già?"
+                },
+                {
+                  "texte": "Indietreggia di un passo, poi di un altro. E la nebbia si richiude su di lei."
+                }
+              ]
+            },
+            {
+              "titre": "La lezione incompiuta",
+              "dialogue_avant": [
+                {
+                  "texte": "Ultimo fuoco prima della vetta. Eldan non dice niente da ore."
+                },
+                {
+                  "texte": "Mi resta una lezione da darti. L'ultima che mi ha dato il mio maestro."
+                },
+                {
+                  "texte": "Quando non hai più niente da proteggere, il Cerchio non serve più a niente. Allora bisogna…"
+                },
+                {
+                  "texte": "Passi nella nebbia. Passi che Eldan conosce."
+                },
+                {
+                  "texte": "…il Cerchio… sul serio… chi me l'ha promesso…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Maestro. La fine della lezione."
+                },
+                {
+                  "texte": "Domani. Lassù."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "La Svuotata cade in ginocchio. Per un istante, è Tessa."
+                },
+                {
+                  "texte": "Eldan… i tuoi triangoli pendono ancora."
+                },
+                {
+                  "texte": "Lo so."
+                },
+                {
+                  "texte": "Si addormenta. La nebbia si ritira intorno a lei. Orlen le posa il mantello sulle spalle."
+                }
+              ]
+            },
+            {
+              "titre": "Il Dimenticato",
+              "dialogue_avant": [
+                {
+                  "texte": "In vetta non c'è neve. Non c'è niente. Solo una sagoma immensa, una spada piantata davanti a sé."
+                },
+                {
+                  "texte": "…tanti nomi… dammi il tuo…"
+                },
+                {
+                  "texte": "Eldan. Qualunque cosa accada, tu scendi."
+                },
+                {
+                  "texte": "Non senza di voi."
+                }
+              ],
+              "dialogue_apres": [],
+              "cinematique_apres": [
+                {
+                  "texte": "La spada si spezza. Il Dimenticato arretra nella montagna, e la montagna si richiude su di lui."
+                },
+                {
+                  "texte": "Eldan… come mi chiamo?"
+                },
+                {
+                  "texte": "Orlen. Vi chiamate Orlen. Siete il mio maestro."
+                },
+                {
+                  "texte": "Bene. Tienilo. Tieni tutto."
+                },
+                {
+                  "texte": "Quando Eldan rialza la testa, non c'è più nessuno. Solo il taccuino, aperto su una pagina bianca."
+                }
+              ]
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Eldan è sceso da solo. Tessa non si ricordava più di lui. Gli ha sorriso lo stesso."
+            },
+            {
+              "texte": "Scriverò tutto. I tre segni, la lezione, il suo nome. Tutto."
+            },
+            {
+              "texte": "Quel taccuino sarebbe diventato il Codex. L'ultima pagina, invece, è rimasta bianca."
+            }
+          ]
         }
       ],
       "prologue_commun": [
@@ -2786,6 +3181,15 @@
           },
           {
             "nom": "Maestro Eldan, il Dimenticato"
+          },
+          {
+            "nom": "La Filatrice"
+          },
+          {
+            "nom": "Tessa, la Dimenticata"
+          },
+          {
+            "nom": "Il Primo Dimenticato"
           }
         ]
       }

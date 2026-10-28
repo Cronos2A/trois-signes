@@ -101,6 +101,9 @@ export async function maybeDaily() {
   openDayWindow();
 }
 
+/** Une partie commence : la fenêtre du jour, ouverte un instant plus tôt (lobby visible entre deux scènes), se ferme. */
+export function closeDayWindow() { if (win) win.classList.add('hidden'); }
+
 function openDayWindow() {
   if (!win) {
     win = layer('dailyWin');
@@ -268,7 +271,7 @@ function renderScr(msg = '') {
   else action = `<div class="dy-done">${tr('daily.claimedToday')}</div>${adButton(today, false)}<div class="dy-sub">${tr('daily.comeBack')}</div>`;
   const boosts = boostTypes().map(t => {
     const a = activeOf(t), s = stockOf(t);
-    const meta = a ? tr('daily.activeLeft', { n: a }) : s.length ? tr('daily.stockGames', { list: s.map(games).join(', ') }) : tr('daily.noStock');
+    const meta = a ? tr('daily.activeLeft', { n: a }) : s.length ? tr('daily.stockGames', { list: games(s.reduce((a, n) => a + n, 0)) }) : tr('daily.noStock');
     return `<div class="dy-boost">
         <div class="dy-bi">${boostIcon(t, 36)}<b class="dy-cnt">${tr('daily.count', { n: s.length })}</b></div>
         <div class="dy-bt"><b>${boostName(t)}</b><span>${meta}</span></div>

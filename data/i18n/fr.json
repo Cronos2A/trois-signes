@@ -52,7 +52,8 @@
     "tooLate": "Trop tard",
     "tooLateSub": "trace le Rond pendant l'alerte",
     "pickup": "Ramassage",
-    "gradeLine": "{label} · {acc} %"
+    "gradeLine": "{label} · {acc} %",
+    "trio": "Trois gestes !"
   },
   "train": {
     "intro": "Tracez des triangles et des ronds, tapez sur les objets. La précision s’affiche à chaque geste.",
@@ -128,7 +129,6 @@
     "title": "Mode Histoire",
     "fragments": "FRAGMENTS DE MÉMOIRE",
     "found": "Retrouvé",
-    "eldanSoon": "Le Maître · bientôt disponible",
     "eldanUnknown": "???",
     "eldanLocked": "Termine les six histoires",
     "backLobby": "Retour au lobby",
@@ -150,8 +150,8 @@
     "fragmentFound": "Fragment de mémoire retrouvé",
     "memory": "Un souvenir revient à Maître Eldan",
     "newCharacter": "NOUVEAU PERSONNAGE",
-    "eldanTitle": "le Maître",
-    "eldanSoonLong": "Son histoire sera bientôt disponible",
+    "eldanTitle": "l'Apprenti",
+    "eldanSoonLong": "Son histoire et le héros sont débloqués",
     "seeCharacter": "Voir le personnage"
   },
   "of": {
@@ -162,7 +162,8 @@
       "boran": "de Boran",
       "ilwen": "d'Ilwen",
       "kestrel": "de Kestrel",
-      "mira": "de Mira"
+      "mira": "de Mira",
+      "eldan": "d'Eldan"
     },
     "arena": {
       "foret_mousse": "de la Forêt de Mousse",
@@ -319,7 +320,7 @@
     "fromChest": "Coffre simple offert par le calendrier.",
     "rewardOk": "Super !",
     "boostsTitle": "STOCK DE BOOSTS",
-    "boostsNote": "Un seul boost actif par type. Une partie compte à sa fin (victoire, défaite, ou abandon après un round). Voyage et Histoire seulement, jamais en Duel.",
+    "boostsNote": "Un seul boost actif par type. Une partie compte à sa fin. Voyage et Histoire seulement.",
     "stock": "En stock : {n} / {max}",
     "noStock": "Aucun en stock",
     "activeLeft": {

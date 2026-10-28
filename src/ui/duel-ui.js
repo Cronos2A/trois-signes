@@ -6,6 +6,7 @@ import { activeCharacter } from './lobby.js';
 import { whenOnline, pseudo } from '../online/online.js';
 import { createRoom, joinRoom, watch, leaveRoom, current, search, heartbeat, markReady } from '../online/duel-net.js';
 import { prints, arenaIndex, arenaOf } from '../game/duel-rank.js';
+import { heroUnlocked } from '../game/progress.js';
 import { sfx, music } from '../audio/audio.js';
 import { tipOnce, tipBubble } from './tips.js';
 import { tr, nfi } from '../i18n.js';
@@ -16,7 +17,7 @@ const nf = nfi;
 const U = () => D.duel.ui;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fill = (t, v) => t.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? '');
-const heroes = () => D.characters.characters.filter(c => c.available);
+const heroes = () => D.characters.characters.filter(heroUnlocked);
 let el = null, onClick = null, wait = null, banner = null, liveTimer = 0;
 
 function root() {

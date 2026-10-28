@@ -42,7 +42,8 @@ const fragBar = n => `<div class="st-fragbar"><div class="st-fragtxt"><span>${tr
 
 /* ---------- 01 · Choix des histoires ---------- */
 export function renderChoice(st, on) {
-  const cards = D.story_mode.histoires.map(h => {
+  const heros = D.story_mode.personnages_dialogue.heros;
+  const cards = D.story_mode.histoires.filter(h => heros.includes(h.id)).map(h => {
     const c = hero(h.id), n = (st.done[h.id] || []).length, found = st.fragments.includes(h.id);
     return `<button class="st-card" data-act="pick" data-arg="${h.id}">
       <div class="st-card-top">${avatar(c, 'st-av54')}${found ? `<span class="st-found">${fragIcon(true, 13)}${tr('story.found')}</span>` : ''}</div>
@@ -50,9 +51,12 @@ export function renderChoice(st, on) {
       <div class="st-prog"><div class="st-bar"><i style="width:${n * 10}%;background:${n >= 10 ? '#FFD23F' : '#FF8C32'}"></i></div><span>${n} / 10</span></div>
     </button>`;
   }).join('');
-  const eldan = st.epilogue
-    ? `<div class="st-eldan open"><div class="st-eldan-p">${facets.med()}${silhouette('color', 70)}</div>
-        <div class="st-eldan-txt"><b>Eldan</b><span>${tr('story.eldanSoon')}</span></div></div>`
+  // Après l'épilogue : l'histoire d'Eldan (« La leçon inachevée »), jouable comme les autres.
+  const E = D.story_mode.histoires.find(h => h.id === 'eldan'), nE = (st.done.eldan || []).length;
+  const eldan = st.epilogue && E
+    ? `<button class="st-eldan open" data-act="pick" data-arg="eldan"><div class="st-eldan-p">${facets.med()}<img class="st-eldan-img" src="assets/portraits/eldan_jeune_neutre.svg" alt="" onerror="this.remove()"></div>
+        <div class="st-eldan-txt"><b>Eldan</b><span>${E.titre}</span>
+        <div class="st-prog"><div class="st-bar"><i style="width:${nE * 10}%;background:${nE >= 10 ? '#FFD23F' : '#FF8C32'}"></i></div><span>${nE} / 10</span></div></div></button>`
     : `<div class="st-eldan"><div class="st-eldan-p">${silhouette('grey', 70)}</div>
         <div class="st-eldan-txt"><b>${tr('story.eldanUnknown')}</b><span>${tr('story.eldanLocked')}</span></div><div class="st-lock">${lockIcon(18, 2.75)}</div></div>`;
   show(`${facets.bg()}
@@ -196,7 +200,7 @@ export function renderUnlock(on) {
     <div class="st-end">
       <div class="st-end-head"><span class="st-kick">${tr('story.newCharacter')}</span><h1 class="st-big st-eldan-name">Eldan</h1><span class="st-sub-big">${tr('story.eldanTitle')}</span></div>
       <div class="st-end-art big"><i class="st-rays"></i><div class="st-disc">${glyph('circle', '#FFD23F', 290, { n: 12, outline: 5 })}</div>
-        <div class="st-reveal">${facets.med()}<div>${silhouette('color', 210)}</div></div>
+        <div class="st-reveal">${facets.med()}<div><img class="st-reveal-hero" src="assets/heros/eldan.svg" alt="" onerror="this.outerHTML=this.dataset.sil" data-sil="${silhouette('color', 210).replace(/"/g, '&quot;')}"></div></div>
         <span class="st-deco t">${glyph('tri', '#FFD23F', 44)}</span><span class="st-deco c">${glyph('circle', '#FF5A3C', 38)}</span><span class="st-deco d">${glyph('dot', '#FF8C32', 32)}</span></div>
       <div class="st-unlock-info"><div class="st-pips">${fragPips(6)}</div><span>${tr('story.eldanSoonLong')}</span></div>
       <div class="st-end-foot"><button class="st-cta" data-act="see"><span class="ol">${tr('story.seeCharacter')}</span></button><button class="st-later" data-act="later">${tr('common.later')}</button></div>

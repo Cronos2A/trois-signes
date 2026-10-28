@@ -14,6 +14,11 @@ Le français est la langue de référence : une clé absente d'une langue est af
 | les Ombracés | the Hollowed | gli Svuotati | los Vaciados | die Verblassten |
 | le Cœur du Silence | the Heart of Silence | il Cuore del Silenzio | el Corazón del Silencio | das Herz der Stille |
 | Fragment de mémoire | Memory fragment | Frammento di memoria | Fragmento de memoria | Erinnerungsfragment |
+| l'Oublié (l'Oublié originel) | the Forgotten (the First Forgotten) | il Dimenticato (il Primo Dimenticato) | el Olvidado (el Primer Olvidado) | der Vergessene (der Erste Vergessene) |
+| un Muet (des Muets) | a Mute (Mutes) | un Muto (i Muti) | un Mudo (los Mudos) | ein Stummer (die Stummen) |
+| la Fileuse | the Spinner | la Filatrice | la Hilandera | die Spinnerin |
+| le Codex (le carnet d'Orlen) | the Codex | il Codex | el Códice | der Kodex |
+| Maître Orlen | Master Orlen | Maestro Orlen | Maestro Orlen | Meister Orlen |
 
 ## Ce qui ne se traduit jamais
 - **Titre du jeu** : **Three Signs**, dans les 5 langues, français compris (décision du 03/10/2026) : titre de la page et de
@@ -21,7 +26,8 @@ Le français est la langue de référence : une clé absente d'une langue est af
   Seuls les trois gestes (« les trois signes ») et les objets de l'histoire ou de la boutique qui en portent le nom gardent leur traduction.
 - **Noms des héros** : Aldric, Nyra, Boran, Ilwen, Kestrel, Mira, Eldan.
 - **Niveaux de réussite** : OK, Good, Very Good, Excellent, Perfect (identiques dans toutes les langues).
-- **Noms propres de lieux** : Fontclaire, Vélis, Aubelle, Pierrelune, Hautes-Gerbes…
+- **Noms propres de lieux** : Fontclaire, Vélis, Aubelle, Pierrelune, Hautes-Gerbes, Combelaine…
+- **Noms des personnages de l'histoire d'Eldan** : Orlen, Tessa, Garran, Nell, Ninon (seul « Maître » se traduit).
 
 ## Lieux : nom propre inchangé, mots descriptifs traduits
 - Forêt de Mousse = Moss Forest

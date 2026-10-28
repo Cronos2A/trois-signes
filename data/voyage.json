@@ -22,7 +22,7 @@
   "guardianHeight": 190,
   "arenas": [
     {
-      "id": "foret_mousse", "name": "Forêt de Mousse", "decor": null, "tint": "#2BA84A", "guardian": "boss",
+      "id": "foret_mousse", "name": "Forêt de Mousse", "decor": null, "tint": "#2BA84A", "guardian": "boss", "guardianName": "L'Oublié originel",
       "waves": [["grunt", "grunt"], ["grunt", "grunt", "grunt"], ["brute", "grunt", "grunt"]], "escort": []
     },
     {

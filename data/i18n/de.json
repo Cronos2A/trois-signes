@@ -52,7 +52,8 @@
     "tooLate": "Zu spät",
     "tooLateSub": "zeichne den Kreis während der Warnung",
     "pickup": "Aufsammeln",
-    "gradeLine": "{label} · {acc} %"
+    "gradeLine": "{label} · {acc} %",
+    "trio": "Drei Gesten!"
   },
   "train": {
     "intro": "Zeichne Dreiecke und Kreise, tippe auf die Gegenstände. Nach jeder Geste siehst du deine Genauigkeit.",
@@ -129,7 +130,6 @@
     "title": "Geschichten",
     "fragments": "ERINNERUNGSFRAGMENTE",
     "found": "Gefunden",
-    "eldanSoon": "Der Meister · bald verfügbar",
     "eldanUnknown": "???",
     "eldanLocked": "Schließe alle sechs Geschichten ab",
     "backLobby": "Zurück zur Lobby",
@@ -151,8 +151,8 @@
     "fragmentFound": "Erinnerungsfragment gefunden",
     "memory": "Meister Eldan kehrt eine Erinnerung zurück",
     "newCharacter": "NEUER CHARAKTER",
-    "eldanTitle": "der Meister",
-    "eldanSoonLong": "Seine Geschichte ist bald verfügbar",
+    "eldanTitle": "der Lehrling",
+    "eldanSoonLong": "Seine Geschichte und der Held sind freigeschaltet",
     "seeCharacter": "Charakter ansehen"
   },
   "of": {
@@ -163,7 +163,8 @@
       "boran": "Borans",
       "ilwen": "Ilwens",
       "kestrel": "Kestrels",
-      "mira": "Miras"
+      "mira": "Miras",
+      "eldan": "Eldans"
     },
     "arena": {
       "foret_mousse": "des Mooswalds",
@@ -298,7 +299,7 @@
     "fromChest": "Einfache Truhe, geschenkt vom Kalender.",
     "rewardOk": "Super!",
     "boostsTitle": "BOOSTER-VORRAT",
-    "boostsNote": "Nur ein aktiver Booster pro Art. Eine Partie zählt am Ende (Sieg, Niederlage oder Aufgabe nach einer Runde). Nur in der Reise und den Geschichten, nie im Duell.",
+    "boostsNote": "Nur ein aktiver Booster pro Art. Eine Partie zählt am Ende. Nur in der Reise und den Geschichten.",
     "stock": "Vorrat: {n} / {max}",
     "noStock": "Keiner auf Vorrat",
     "activeLeft": {
@@ -353,6 +354,9 @@
       },
       "boss": {
         "name": "Boss"
+      },
+      "muet": {
+        "name": "Stummer"
       }
     },
     "progression": {
@@ -504,7 +508,8 @@
       "name": "Die Reise",
       "arenas": [
         {
-          "name": "Mooswald"
+          "name": "Mooswald",
+          "guardianName": "Der Erste Vergessene"
         },
         {
           "name": "Hautes-Gerbes"
@@ -616,6 +621,19 @@
             "name": "Erneuerung",
             "text": "Stellt 5 % ihrer max. LP wieder her und verdoppelt 10 s lang ihren Angriff."
           }
+        },
+        {
+          "role": "Lehrling",
+          "title": "Der Lehrling",
+          "weaponLabel": "Lehrlingsstab",
+          "passive": {
+            "name": "Drei Gesten",
+            "text": "Ein gelungenes Dreieck, ein Kreis und ein Tippen hintereinander, in beliebiger Reihenfolge und ohne Fehlschlag dazwischen: +15 Superleiste."
+          },
+          "super": {
+            "name": "Die Lektion",
+            "text": "8 s lang steigt jede gelungene Geste um eine Stufe (OK wird Good, Good wird Very Good… Perfect bleibt Perfect)."
+          }
         }
       ]
     },
@@ -638,6 +656,9 @@
           },
           "sbire": {
             "name": "Verblasster"
+          },
+          "orlen": {
+            "name": "Meister Orlen"
           }
         }
       },
@@ -966,6 +987,26 @@
           "style": {
             "text": "Statt zu heilen, gibt jeder gelungene Angriff einen Schild von {barrierPerHit} LP × Multiplikator, der Schaden abfängt, bis zu {barrierMax} stapelbar."
           }
+        },
+        "baton": {
+          "name": "Lehrlingsstab",
+          "style": {
+            "text": "Die Drei Gesten geben +{trioBonus} zusätzliche Superleiste."
+          }
+        },
+        "fuseau_fileuse": {
+          "name": "Spindel der Spinnerin",
+          "style": {
+            "text": "Ein Perfect bindet einen 2. Gegner mit einem Faden: Er erleidet {cleaveOnPerfect} % des Schadens."
+          },
+          "lock": "Gewinne Kampf 5 deiner Geschichte"
+        },
+        "baton_orlen": {
+          "name": "Orlens Stab",
+          "style": {
+            "text": "Nach einem gelungenen Ausweichen macht der nächste Angriff +{afterDodgeDamage} %."
+          },
+          "lock": "Gewinne Kampf 10 deiner Geschichte"
         }
       }
     },
@@ -2696,6 +2737,360 @@
               "texte": "Ein Erinnerungsfragment kehrt zum Meister zurück."
             }
           ]
+        },
+        {
+          "titre": "Die unvollendete Lektion",
+          "cinematique_ouverture": [
+            {
+              "texte": "Fünfzig Jahre vor der Stille hatte Pierrelune bereits einen Meister der Zeichen."
+            },
+            {
+              "texte": "Er hieß Orlen. Und sein einziger Schüler kam an jenem Morgen zu spät."
+            },
+            {
+              "texte": "Du bist wieder gerannt, Eldan. Deine Dreiecke werden schief."
+            },
+            {
+              "texte": "Sie sind schon schief. Ich renne, damit man es weniger sieht."
+            },
+            {
+              "texte": "Heute keine Übungspuppe. Der alte Garran braucht uns im Schafstall."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "Der Schafstall",
+              "dialogue_avant": [
+                {
+                  "texte": "Meine Tiere wollen nicht hinaus. Da ist jemand auf der Weide. Mehrere Jemande."
+                },
+                {
+                  "texte": "Meister… sie haben keine Gesichter."
+                },
+                {
+                  "texte": "Dann such nicht ihre Augen. Achte auf ihre Hände."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Beim zweiten hast du die Augen zugemacht."
+                },
+                {
+                  "texte": "Ein bisschen."
+                },
+                {
+                  "texte": "Ich auch, beim ersten Mal."
+                }
+              ]
+            },
+            {
+              "titre": "Was man vergisst",
+              "dialogue_avant": [
+                {
+                  "texte": "Am nächsten Tag wartet Garran vor seiner Tür, den Stock in der Hand."
+                },
+                {
+                  "texte": "Junge… wie heißt meine Tochter? Ich wusste es mein ganzes Leben lang."
+                },
+                {
+                  "texte": "Ninon. Sie wohnt neben dem Backofen."
+                },
+                {
+                  "texte": "Sie kommen zurück. Geh. Ich bleibe bei ihm."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ninon. Ja. Ich schreibe es an die Tür."
+                },
+                {
+                  "texte": "Schreib es auch woanders hin, Garran. Überallhin, wo du kannst."
+                }
+              ]
+            },
+            {
+              "titre": "Markttag",
+              "dialogue_avant": [
+                {
+                  "texte": "He, Lehrling! Willst du den ganzen Tag vor meinem Stand stehen bleiben?"
+                },
+                {
+                  "texte": "Hinter dir sind drei."
+                },
+                {
+                  "texte": "Ich kann zählen. Zeig mir lieber, was dein Alter dir beibringt."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Nicht schlecht für jemanden, der Kreise in die Luft zeichnet."
+                },
+                {
+                  "texte": "Die Leere dreht sich um mich. Ich halte sie auf Abstand."
+                },
+                {
+                  "texte": "Das ist ein Satz von deinem Meister."
+                },
+                {
+                  "texte": "…Ja."
+                }
+              ]
+            },
+            {
+              "titre": "Die Nordstraße",
+              "dialogue_avant": [
+                {
+                  "texte": "Orlen schließt das Haus ab und nimmt die Nordstraße. Eldan trägt den Sack. Tessa hat beschlossen mitzukommen."
+                },
+                {
+                  "texte": "Ich habe nur einen Schüler, Tessa."
+                },
+                {
+                  "texte": "Dann habt Ihr eben zwei. Oder einen, der besser Säcke trägt."
+                },
+                {
+                  "texte": "Ich trage Säcke sehr gut."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Der Kreis schützt dich. Das Dreieck verteidigt dich. Das Tippen verbindet dich mit den anderen."
+                },
+                {
+                  "texte": "Ich weiß, Meister."
+                },
+                {
+                  "texte": "Du weißt es. Sie nicht. Heute Abend bringst du es ihr bei."
+                }
+              ]
+            },
+            {
+              "titre": "Der Weiler ohne Namen",
+              "dialogue_avant": [
+                {
+                  "texte": "Am Ende der Straße ein Weiler. Kein Schild. Die Leute grüßen, dann stocken sie, verlegen."
+                },
+                {
+                  "texte": "Woher kommt ihr? Wir kommen… von hier. Von hier, glaube ich."
+                },
+                {
+                  "texte": "Psst… jeder Name ist ein Faden… und ein Faden löst sich auf…"
+                },
+                {
+                  "texte": "Ihr Spinnrocken… was sie da aufwickelt, sind das Namen?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Werden sie sich jetzt erinnern?"
+                },
+                {
+                  "texte": "An manches."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Der Spinnrocken fällt. Der graue Faden löst sich und fliegt davon."
+                },
+                {
+                  "texte": "Ich habe die Wolle gesponnen… für den ganzen Weiler. Den Weiler von… Combelaine."
+                },
+                {
+                  "texte": "Combelaine! Wir wohnen in Combelaine!"
+                },
+                {
+                  "texte": "Ein wiedergefundener Name. Dann trägt der Nebel die alte Spinnerin fort, ganz sanft."
+                }
+              ]
+            },
+            {
+              "titre": "Die Nacht der Stummen",
+              "dialogue_avant": [
+                {
+                  "texte": "In dieser Nacht schläft in Combelaine niemand. Etwas kreist um die Häuser, ohne ein Geräusch."
+                },
+                {
+                  "texte": "Die da gehen nicht. Sie gleiten."
+                },
+                {
+                  "texte": "Stumme. Rücken an Rücken, ihr beide. Und lasst euch nicht von ihnen berühren."
+                },
+                {
+                  "texte": "Ihr kennt sie?"
+                },
+                {
+                  "texte": "Später."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Später ist jetzt, Meister."
+                },
+                {
+                  "texte": "Ja. Kommt. Ich zeige euch ein Notizbuch."
+                }
+              ]
+            },
+            {
+              "titre": "Das Notizbuch",
+              "dialogue_avant": [
+                {
+                  "texte": "Ein altes Notizbuch mit verbranntem Einband. Darin Kreise, Dreiecke, offene Hände."
+                },
+                {
+                  "texte": "Mein Meister hat es geschrieben. Er hatte keine Zeit, es zu beenden."
+                },
+                {
+                  "texte": "Unter dem Berg ist etwas. Es zerbricht nichts. Es nimmt. Namen, Gesichter, Lieder."
+                },
+                {
+                  "texte": "Und dieses Etwas, hat es einen Namen?"
+                },
+                {
+                  "texte": "Mein Meister nannte es den Vergessenen. Den ersten von allen."
+                },
+                {
+                  "texte": "Draußen klopft etwas gegen die Tür. Dann nichts mehr. Dann wieder."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Morgen steige ich hinauf. Ihr beide kehrt nach Pierrelune zurück."
+                },
+                {
+                  "texte": "Nein."
+                },
+                {
+                  "texte": "Nein."
+                },
+                {
+                  "texte": "Sie sagten es gleichzeitig. Orlen bestand nicht darauf."
+                }
+              ]
+            },
+            {
+              "titre": "Der graue Berg",
+              "dialogue_avant": [
+                {
+                  "texte": "Der Weg steigt an. Das Gras wird grau. Dann gibt es gar kein Gras mehr."
+                },
+                {
+                  "texte": "Wenn wir wieder unten sind, bringt Ihr mir den Kreis bei. Richtig, nicht nur durch Zuschauen bei Eldan."
+                },
+                {
+                  "texte": "Wenn wir wieder unten sind, versprochen."
+                },
+                {
+                  "texte": "Sie wird besser als ich."
+                },
+                {
+                  "texte": "Das ist sie schon."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Hinter Tessa taucht ein Stummer auf. Niemand hat ihn kommen hören."
+                },
+                {
+                  "texte": "Tessa!"
+                },
+                {
+                  "texte": "Schon gut, er hat mich nur gestreift… Warte. Du bist… wie heißt du noch mal?"
+                },
+                {
+                  "texte": "Sie weicht einen Schritt zurück, dann noch einen. Und der Nebel schließt sich über ihr."
+                }
+              ]
+            },
+            {
+              "titre": "Die unvollendete Lektion",
+              "dialogue_avant": [
+                {
+                  "texte": "Letztes Feuer vor dem Gipfel. Eldan sagt seit Stunden nichts."
+                },
+                {
+                  "texte": "Eine Lektion muss ich dir noch geben. Die letzte, die mein Meister mir gegeben hat."
+                },
+                {
+                  "texte": "Wenn du nichts mehr zu schützen hast, nützt der Kreis nichts mehr. Dann musst du…"
+                },
+                {
+                  "texte": "Schritte im Nebel. Schritte, die Eldan kennt."
+                },
+                {
+                  "texte": "…der Kreis… richtig… wer hat mir das versprochen…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Meister. Das Ende der Lektion."
+                },
+                {
+                  "texte": "Morgen. Dort oben."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "Die Verblasste sinkt auf die Knie. Einen Augenblick lang ist sie Tessa."
+                },
+                {
+                  "texte": "Eldan… deine Dreiecke sind immer noch schief."
+                },
+                {
+                  "texte": "Ich weiß."
+                },
+                {
+                  "texte": "Sie schläft ein. Der Nebel weicht um sie zurück. Orlen legt ihr seinen Mantel um die Schultern."
+                }
+              ]
+            },
+            {
+              "titre": "Der Vergessene",
+              "dialogue_avant": [
+                {
+                  "texte": "Auf dem Gipfel liegt kein Schnee. Da ist nichts. Nur eine riesige Gestalt, ein Schwert vor sich in den Boden gerammt."
+                },
+                {
+                  "texte": "…so viele Namen… gib mir deinen…"
+                },
+                {
+                  "texte": "Eldan. Was auch geschieht, du steigst wieder hinab."
+                },
+                {
+                  "texte": "Nicht ohne Euch."
+                }
+              ],
+              "dialogue_apres": [],
+              "cinematique_apres": [
+                {
+                  "texte": "Das Schwert zerbricht. Der Vergessene weicht in den Berg zurück, und der Berg schließt sich über ihm."
+                },
+                {
+                  "texte": "Eldan… wie heiße ich?"
+                },
+                {
+                  "texte": "Orlen. Ihr heißt Orlen. Ihr seid mein Meister."
+                },
+                {
+                  "texte": "Gut. Behalte es. Behalte alles."
+                },
+                {
+                  "texte": "Als Eldan den Kopf hebt, ist niemand mehr da. Nur das Notizbuch, aufgeschlagen auf einer leeren Seite."
+                }
+              ]
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Eldan stieg allein hinab. Tessa erinnerte sich nicht mehr an ihn. Sie lächelte ihn trotzdem an."
+            },
+            {
+              "texte": "Ich werde alles aufschreiben. Die drei Zeichen, die Lektion, seinen Namen. Alles."
+            },
+            {
+              "texte": "Dieses Notizbuch sollte der Kodex werden. Die letzte Seite aber blieb leer."
+            }
+          ]
         }
       ],
       "prologue_commun": [
@@ -2790,6 +3185,15 @@
           },
           {
             "nom": "Meister Eldan, der Vergessene"
+          },
+          {
+            "nom": "Die Spinnerin"
+          },
+          {
+            "nom": "Tessa, die Vergessene"
+          },
+          {
+            "nom": "Der Erste Vergessene"
           }
         ]
       }

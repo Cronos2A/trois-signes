@@ -155,6 +155,8 @@ export function addXp(id, n) {
 
 /** Retient le personnage choisi dans le lobby pour les prochaines sessions. */
 export function saveActive(id) { prog.active = id; saveProg(); }
+/** Héros jouable ? Eldan (unlock « epilogue ») seulement après l'épilogue des six histoires. */
+export const heroUnlocked = c => !!c && c.available && (c.unlock !== 'epilogue' || !!(prog.story && prog.story.epilogue));
 
 /** Bonus de niveau : multiplicateurs d'attaque et de PV max. En Duel, neutralisés si bonus_en_duel vaut false. */
 export function levelBonuses(id, duel = false) {

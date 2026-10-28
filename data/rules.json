@@ -13,7 +13,7 @@
   "story": {
     "timeLimit": 0,
     "roundLabel": "Vague",
-    "enemyMap": { "sbire": "grunt", "brute": "brute" },
+    "enemyMap": { "sbire": "grunt", "brute": "brute", "muet": "muet" },
     "rankTemplate": "boss",
     "rankSprite": { "mini_boss": "brute", "lieutenant": "boss", "boss_final": "boss" },
     "rankPoints": { "mini_boss": 120, "lieutenant": 200, "boss_final": 400 },
@@ -27,7 +27,10 @@
       "eldan": { "name": "Maître Eldan", "color": "#C9A55A", "bust": "#FFF1D6" }, "eldan_oublie": { "name": "Eldan l'Oublié", "color": "#B7C3CE" },
       "maud": { "name": "Maud", "color": "#C98657" }, "pip": { "name": "Pip", "color": "#FFB347" },
       "lili": { "name": "Lili", "color": "#FF8BA7" }, "aubin": { "name": "Aubin", "color": "#A67C52" },
-      "fabre": { "name": "Fabre", "color": "#9C8A7A" }, "sbire": { "name": "Ombracé", "color": "#625476" }
+      "fabre": { "name": "Fabre", "color": "#9C8A7A" }, "sbire": { "name": "Ombracé", "color": "#625476" },
+      "eldan_jeune": { "name": "Eldan", "color": "#C9A46A" }, "orlen": { "name": "Maître Orlen", "color": "#8A5530" },
+      "tessa": { "name": "Tessa", "color": "#E0703A" }, "garran": { "name": "Garran", "color": "#7E8C5A" },
+      "nell": { "name": "Nell", "color": "#FF8BA7" }
     },
     "bossColor": "#8C8A99",
     "lettersPerSecond": 40

@@ -5,7 +5,7 @@ import { G, heroPos, addScore, emit } from './state.js';
 import { clamp, dist, rand } from '../util.js';
 import { gradeOf, registerGrade, comboHit, streakTxt, toleranceOffset } from './grades.js';
 import { sfx } from '../audio/audio.js';
-import { startSuper, superAttackMult, damageTakenMult, perfectMode, useAutoDodge, useComboCharge, addGaugeFlat } from './supers.js';
+import { startSuper, superAttackMult, damageTakenMult, perfectMode, gradeUp, noteSign, useAutoDodge, useComboCharge, addGaugeFlat } from './supers.js';
 import { pop, showGrade, addFx, vibrate, trainInfo, superBanner } from './effects.js';
 import { gainWeaponXp, attackXp, xpFor } from './weapons.js';
 import { beatGuardian } from './rewards.js';
@@ -24,7 +24,16 @@ const isTop = g => g === D.grades.levels[0];               // meilleur niveau de
 const heroAtk = () => G.hero.atk * G.atkMult * superAttackMult();
 
 /** Niveau d'un geste reconnu ; pendant Œil de faucon, c'est toujours le meilleur (Perfect). */
-const gradeFor = acc => perfectMode() ? D.grades.levels[0] : gradeOf(acc);
+const gradeFor = acc => {
+  const L = D.grades.levels, g = perfectMode() ? L[0] : gradeOf(acc);
+  return g && gradeUp() ? L[Math.max(0, L.indexOf(g) - gradeUp())] : g;   // La leçon : un niveau de plus (Perfect reste Perfect)
+};
+/** Passif « Trois gestes » : signe réussi ou raté, et bulle quand les trois sont réunis. */
+function trio(kind, g) {
+  if (!noteSign(kind, g)) return;
+  const h = heroPos();
+  pop(h.x, h.y - 130, tr('combat.trio'), '', '#C9A46A', 1.1, 20);
+}
 
 const aliveEnemies = () => G.enemies.filter(e => e.hp > 0 && e.state !== 'walk');
 
@@ -90,6 +99,7 @@ function tryPickup(x, y) {
   const cm = registerGrade(g, 'pickup');
   summon(g);
   showGrade(g, acc, tr('combat.pickup'), 'tap');
+  trio('tap', g);
   if (!g) { if (!G.battle.tutorial) best.life = Math.min(best.life, P.missLifeCap); emit('tapMiss'); return true; }   // leçon : la pièce reste
   G.loots.splice(G.loots.indexOf(best), 1);
   sfx(best.type === 'coin' ? 'piece' : 'coeur');
@@ -267,6 +277,7 @@ export function handleGesture(res) {
   }
   if (res.type === 'fail') {
     registerGrade(null, 'gesture');
+    trio(null, null);
     showGrade(null, null, res.reason);
     emit('gesture', { type: 'fail', g: null, cm: 1 });
     if (train) trainInfo(tr('train.fail', { reason: res.reason }));
@@ -275,6 +286,7 @@ export function handleGesture(res) {
   const g = gradeFor(res.acc);
   let cm = registerGrade(g, 'gesture');
   summon(g);
+  trio(res.type === 'triangle' ? 'tri' : 'circle', g);
   const label = res.type === 'triangle' ? tr('combat.attack') : tr('combat.dodge');
   showGrade(g, res.acc, label, res.type);
   const done = () => emit('gesture', { type: res.type, g, cm });

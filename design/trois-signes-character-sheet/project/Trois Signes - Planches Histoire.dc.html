@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/styles.css">
+<script src="_ds/organic-0fabafd5-c846-402d-9238-fc71f22a45da/_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--color-bg);} a{color:var(--color-accent-700);} a:hover{color:var(--color-accent-800);}</style>
+</helmet>
+<div style="padding:48px;display:flex;flex-direction:column;gap:56px;font-family:var(--font-body);color:#17251B;">
+
+<div data-screen-label="Planche héros" style="width:1680px;box-sizing:border-box;padding:56px 64px;border-radius:44px;background:linear-gradient(172deg,#F2F9E8 0%,#DFF0CE 55%,#CBE7B3 100%);display:flex;flex-direction:column;gap:28px;box-shadow:var(--shadow-lg);">
+  <header style="display:flex;flex-direction:column;gap:10px;">
+    <div style="font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#1F7A3D;">Trois Signes · Mode Histoire · Portraits de dialogue</div>
+    <h1 style="margin:0;font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:.95;">Les héros</h1>
+  </header>
+  <div style="display:grid;grid-template-columns:160px repeat(6,minmax(0,1fr));gap:12px;align-items:end;font-family:var(--font-heading);font-size:22px;padding:0 16px;">
+    <span></span><span style="text-align:center;">Neutre</span><span style="text-align:center;">Joie</span><span style="text-align:center;">Colère</span><span style="text-align:center;">Tristesse</span><span style="text-align:center;">Surprise</span><span style="text-align:center;">Déterminé</span>
+  </div>
+  <sc-for list="{{ heroes }}" as="h" hint-placeholder-count="6">
+    <div style="display:grid;grid-template-columns:160px repeat(6,minmax(0,1fr));gap:12px;align-items:center;padding:12px 16px;border-radius:32px;background:rgba(255,255,255,.55);">
+      <div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:var(--font-heading);font-size:30px;line-height:1;">{{ h.name }}</span><span style="font-size:14px;color:#2D3B2F;">{{ h.role }}</span></div>
+      <sc-for list="{{ h.files }}" as="f" hint-placeholder-count="6">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><img src="{{ f.src }}" style="width:170px;height:170px;"><span style="font-size:12px;color:#2D3B2F;">{{ f.name }}</span></div>
+      </sc-for>
+    </div>
+  </sc-for>
+</div>
+
+<div data-screen-label="Planche Eldan" style="width:1680px;box-sizing:border-box;padding:56px 64px;border-radius:44px;background:linear-gradient(172deg,#F2F9E8 0%,#DFF0CE 55%,#CBE7B3 100%);display:flex;flex-direction:column;gap:40px;box-shadow:var(--shadow-lg);">
+  <header style="display:flex;flex-direction:column;gap:10px;">
+    <div style="font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#1F7A3D;">Trois Signes · Mode Histoire · Planche 1</div>
+    <h1 style="margin:0;font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:.95;">Maître Eldan</h1>
+    <p style="margin:0;font-size:18px;color:#2D3B2F;max-width:720px;">Le vieux maître des trois signes. Robe claire brodée de triangles, de ronds et de points.</p>
+  </header>
+  <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;border-radius:28px;background:rgba(255,255,255,.55);"><img src="assets/portraits/eldan_neutre.svg" style="width:200px;height:200px;"><span style="font-family:var(--font-heading);font-size:24px;">Neutre</span><span style="font-size:13px;color:#2D3B2F;">eldan_neutre.svg</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;border-radius:28px;background:rgba(255,255,255,.55);"><img src="assets/portraits/eldan_joie.svg" style="width:200px;height:200px;"><span style="font-family:var(--font-heading);font-size:24px;">Joie</span><span style="font-size:13px;color:#2D3B2F;">eldan_joie.svg</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;border-radius:28px;background:rgba(255,255,255,.55);"><img src="assets/portraits/eldan_colere.svg" style="width:200px;height:200px;"><span style="font-family:var(--font-heading);font-size:24px;">Colère</span><span style="font-size:13px;color:#2D3B2F;">eldan_colere.svg</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;border-radius:28px;background:rgba(255,255,255,.55);"><img src="assets/portraits/eldan_tristesse.svg" style="width:200px;height:200px;"><span style="font-family:var(--font-heading);font-size:24px;">Tristesse</span><span style="font-size:13px;color:#2D3B2F;">eldan_tristesse.svg</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;border-radius:28px;background:rgba(255,255,255,.55);"><img src="assets/portraits/eldan_surprise.svg" style="width:200px;height:200px;"><span style="font-family:var(--font-heading);font-size:24px;">Surprise</span><span style="font-size:13px;color:#2D3B2F;">eldan_surprise.svg</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;border-radius:28px;background:rgba(255,255,255,.55);"><img src="assets/portraits/eldan_determine.svg" style="width:200px;height:200px;"><span style="font-family:var(--font-heading);font-size:24px;">Déterminé</span><span style="font-size:13px;color:#2D3B2F;">eldan_determine.svg</span></div>
+  </div>
+  <div style="display:flex;align-items:flex-end;gap:56px;padding:36px 48px;border-radius:40px;background:#D9D4E2;">
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:360px;align-self:center;">
+      <div style="font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#4A4060;">Boss final</div>
+      <h2 style="margin:0;font-family:var(--font-heading);font-weight:400;font-size:48px;line-height:1;">Eldan, l'Oublié</h2>
+      <p style="margin:0;font-size:17px;line-height:1.45;color:#2B2536;text-wrap:pretty;">La même personne, robe grise usée, entourée de fragments de pages qui flottent. Regard vide, jamais effrayant.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><img src="assets/portraits/eldan_oublie_ombrace.svg" style="width:240px;height:240px;"><span style="font-size:13px;color:#2B2536;">eldan_oublie_ombrace.svg</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><img src="assets/ennemis/eldan_oublie.svg" style="width:308px;height:440px;"><span style="font-size:13px;color:#2B2536;">ennemis/eldan_oublie.svg</span></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><img src="assets/ennemis/eldan_oublie.svg" style="width:77px;height:110px;"><span style="font-size:13px;color:#2B2536;">110 px</span></div>
+  </div>
+</div>
+
+<div data-screen-label="Planche secondaires" style="width:1680px;box-sizing:border-box;padding:56px 64px;border-radius:44px;background:linear-gradient(172deg,#F2F9E8 0%,#DFF0CE 55%,#CBE7B3 100%);display:flex;flex-direction:column;gap:40px;box-shadow:var(--shadow-lg);">
+  <header style="display:flex;flex-direction:column;gap:10px;">
+    <div style="font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#1F7A3D;">Trois Signes · Mode Histoire · Planche 2</div>
+    <h1 style="margin:0;font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:.95;">Personnages secondaires</h1>
+  </header>
+  <div style="display:flex;flex-wrap:wrap;gap:24px;">
+    <div style="display:flex;flex-direction:column;gap:12px;padding:20px 24px;border-radius:32px;background:rgba(255,255,255,.55);">
+      <div style="display:flex;flex-direction:column;"><span style="font-family:var(--font-heading);font-size:30px;">Maud</span><span style="font-size:14px;color:#2D3B2F;">Villageoise de montagne</span></div>
+      <div style="display:flex;gap:16px;"><div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><img src="assets/portraits/maud_neutre.svg" style="width:180px;height:180px;"><span style="font-size:13px;color:#2D3B2F;">maud_neutre</span></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;padding:20px 24px;border-radius:32px;background:rgba(255,255,255,.55);">
+      <div style="display:flex;flex-direction:column;"><span style="font-family:var(--font-heading);font-size:30px;">Pip</span><span style="font-size:14px;color:#2D3B2F;">Gamin des rues</span></div>
+      <div style="display:flex;gap:16px;"><div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><img src="assets/portraits/pip_neutre.svg" style="width:180px;height:180px;"><span style="font-size:13px;color:#2D3B2F;">pip_neutre</span></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;padding:20px 24px;border-radius:32px;background:rgba(255,255,255,.55);">
+      <div style="display:flex;flex-direction:column;"><span style="font-family:var(--font-heading);font-size:30px;">Lili</span><span style="font-size:14px;color:#2D3B2F;">Petite fille de ferme</span></div>
+      <div style="display:flex;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><img src="assets/portraits/lili_neutre.svg" style="width:180px;height:180px;"><span style="font-size:13px;color:#2D3B2F;">lili_neutre</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><img src="assets/portraits/lili_joie.svg" style="width:180px;height:180px;"><span style="font-size:13px;color:#2D3B2F;">lili_joie</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><img src="assets/portraits/lili_surprise.svg" style="width:180px;height:180px;"><span style="font-size:13px;color:#2D3B2F;">lili_surprise</span></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;padding:20px 24px;border-radius:32px;background:rgba(255,255,255,.55);">
+      <div style="display:flex;flex-direction:column;"><span style="font-family:var(--font-heading);font-size:30px;">Aubin</span><span style="font-size:14px;color:#2D3B2F;">Vieux bibliothécaire, doux et distrait</span></div>
+      <div style="display:flex;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><img src="assets/portraits/aubin_neutre.svg" style="width:180px;height:180px;"><span style="font-size:13px;color:#2D3B2F;">aubin_neutre</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><img src="assets/portraits/aubin_joie.svg" style="width:180px;height:180px;"><span style="font-size:13px;color:#2D3B2F;">aubin_joie</span></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;padding:20px 24px;border-radius:32px;background:rgba(255,255,255,.55);">
+      <div style="display:flex;flex-direction:column;"><span style="font-family:var(--font-heading);font-size:30px;">Fabre</span><span style="font-size:14px;color:#2D3B2F;">Vieil homme au dos voûté</span></div>
+      <div style="display:flex;gap:16px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><img src="assets/portraits/fabre_neutre.svg" style="width:180px;height:180px;"><span style="font-size:13px;color:#2D3B2F;">fabre_neutre</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><img src="assets/portraits/fabre_surprise.svg" style="width:180px;height:180px;"><span style="font-size:13px;color:#2D3B2F;">fabre_surprise</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 8px;border-radius:24px;background:#D9D4E2;"><img src="assets/portraits/fabre_ombrace.svg" style="width:180px;height:180px;"><span style="font-size:13px;color:#2B2536;">fabre_ombrace</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-screen-label="Planche boss" style="width:1680px;box-sizing:border-box;padding:56px 64px;border-radius:44px;background:linear-gradient(172deg,#F2F9E8 0%,#DFF0CE 55%,#CBE7B3 100%);display:flex;flex-direction:column;gap:36px;box-shadow:var(--shadow-lg);">
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;">
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#1F7A3D;">Trois Signes · Mode Histoire · Planche 3</div>
+      <h1 style="margin:0;font-family:var(--font-heading);font-weight:400;font-size:76px;line-height:.95;">Les 12 boss</h1>
+    </div>
+    <div style="display:flex;gap:28px;font-size:15px;color:#2D3B2F;"><span>Ombracé · portrait</span><span>Humain · apaisé</span><span>Sprite de combat · + aperçu 110 px</span></div>
+  </header>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;">
+    <sc-for list="{{ bosses }}" as="b" hint-placeholder-count="12">
+      <div style="display:grid;grid-template-columns:150px 150px 150px minmax(0,1fr);align-items:end;gap:14px;padding:18px 22px;border-radius:32px;background:rgba(255,255,255,.55);">
+        <div style="display:flex;flex-direction:column;gap:6px;align-self:center;">
+          <span style="font-family:var(--font-heading);font-size:28px;line-height:1;">{{ b.name }}</span>
+          <span style="font-size:14px;line-height:1.35;color:#2D3B2F;text-wrap:pretty;">{{ b.desc }}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:6px;border-radius:22px;background:#D9D4E2;"><img src="{{ b.omb }}" style="width:140px;height:140px;"><span style="font-size:12px;color:#2B2536;padding-bottom:6px;">{{ b.id }}_ombrace</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><img src="{{ b.hum }}" style="width:140px;height:140px;"><span style="font-size:12px;color:#2D3B2F;padding-bottom:6px;">{{ b.id }}_humain</span></div>
+        <div style="display:flex;align-items:flex-end;gap:12px;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><img src="{{ b.spr }}" style="height:190px;width:auto;"><span style="font-size:12px;color:#2D3B2F;">ennemis/{{ b.id }}</span></div>
+          <img src="{{ b.spr }}" style="height:110px;width:auto;margin-bottom:22px;">
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const L = [
+      ['bram', 'Bram', 'Forgeron trapu, marteau de pierre'],
+      ['corvin', 'Corvin', 'Chevalier, lame fissurée comme du verre'],
+      ['sorel', 'Sorel', 'Voleuse âgée, masque de chat, deux dagues'],
+      ['reflet', 'Reflet', 'Copie grise et translucide de Nyra'],
+      ['tonnerre', 'Tonnerre', 'Taureau aux cornes de pierre facettée'],
+      ['oren', 'Oren', 'Jeune fermier, fourche, air de Boran'],
+      ['archiviste', "L'Archiviste", 'Vieillard voûté, livres vides'],
+      ['selena', 'Séléna', 'Jeune savante, plume géante, carnets blancs'],
+      ['traqueur', 'Le Traqueur', 'Éclaireur, arc, insigne des Éclaireurs du Col'],
+      ['hardel', 'Hardel', 'Capitaine, longue-vue et vieille boussole'],
+      ['helo', 'Hélo', 'Vieille herboriste, panier de plantes'],
+      ['veilleuse', 'La Veilleuse', 'Infirmière encapuchonnée, lanterne pâle']
+    ];
+    const EX = ['neutre', 'joie', 'colere', 'tristesse', 'surprise', 'determine'];
+    const H = [['aldric', 'Aldric', 'Le Chevalier'], ['nyra', 'Nyra', "L'Assassine"], ['boran', 'Boran', 'Le Colosse'], ['ilwen', 'Ilwen', 'La Sorcière'], ['kestrel', 'Kestrel', 'La Rôdeuse'], ['mira', 'Mira', 'La Soigneuse']];
+    const heroes = H.map(([id, name, role]) => ({ id, name, role, files: EX.map(e => ({ name: `${id}_${e}.svg`, src: `assets/portraits/${id}_${e}.svg` })) }));
+    return { heroes, bosses: L.map(([id, name, desc]) => ({ id, name, desc, omb: `assets/portraits/${id}_ombrace.svg`, hum: `assets/portraits/${id}_humain.svg`, spr: `assets/ennemis/${id}.svg` })) };
+  }
+}
+</script>
+</body>
+</html>

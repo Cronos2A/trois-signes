@@ -43,10 +43,10 @@ const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 
 /** Nom affiché et couleur d'un personnage de dialogue (héros, PNJ ou boss). */
 export function who(id) {
+  const R = D.rules.story, npc = R.npc[id];
+  if (npc) return npc;                                   // d'abord les PNJ : « eldan » = Maître Eldan dans les dialogues
   const hero = D.characters.characters.find(c => c.id === id);
   if (hero) return { name: hero.name, color: hero.color };
-  const R = D.rules.story, npc = R.npc[id];
-  if (npc) return npc;
   const b = bossInfo(id);
   if (b) return { name: b.nom.split(',')[0].trim(), color: R.bossColor };
   return { name: cap(id.replace(/_/g, ' ')), color: R.bossColor };

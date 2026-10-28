@@ -317,5 +317,74 @@ const HEROES={
  mira:{seed:86,skin:'#F2B48C',hair:{c:'#8A4A2E',back:'buns2',front:'side'},iris:'#7A3E2A',browCol:'#6B3420',blush:1,top:'#F3E6C8',
   pOver:S=>{S.push({p:limb([30,252],[226,252],16,16),c:'#FF5A3C'});S.push({raw:pl([[106,186],[128,224],[150,186]],2.6,'#D9A62A')});glow(S,128,232,30,'#FFD23F',.4);S.push({p:ngon(128,232,14,17,6,Math.PI/2),c:'#FFD23F'});S.push({p:ngon(128,232,8,10,6,Math.PI/2),c:'#FF5A3C',sw:3});}}};
 function heroes(){const out={};MODE=null;OL=OLG;Object.keys(HEROES).forEach(id=>{const C=HEROES[id];['neutre','joie','colere','tristesse','surprise','determine'].forEach(e=>{out['assets/portraits/'+id+'_'+e+'.svg']=portrait(C,e==='neutre'&&C.neutre?C.neutre:e);});});return out;}
-W.TSStory={build,heroes};
+// ---------- La leçon inachevée ----------
+function distaff(S,base,top,hand){S.push({p:limb(base,top,9,8),c:'#8A5530'});
+ [[0,0,20,24],[-12,10,14,16],[12,8,14,16],[0,-16,14,14],[-8,24,12,12],[9,24,12,12]].forEach(([u,v,rx,ry])=>S.push({p:ngon(top[0]+u,top[1]+v,rx,ry,7,u*.1),c:'#D8D4CC'}));
+ if(hand){const a=[top[0]+6,top[1]+30],m1=mid(a,hand),th=[a,add(m1,[16,-10]),add(m1,[-10,14]),hand];S.push({raw:pl(th,3.2,T('#9A96A2'))});
+  const d=nrm(sub(hand,a));let g='';[.22,.42,.62,.8].forEach((t,i)=>{const p=add(a,mul(sub(hand,a),t)),n=perp(d),q=(u,v)=>add(add(p,mul(d,u)),mul(n,v));
+   g+=pl(i%2?[q(-4,-3),q(-1,3),q(2,-3),q(5,3)]:[q(-4,2),q(-2,-4),q(1,0),q(3,-4),q(5,2)],1.8,T('#5E5A68'));});S.push({raw:g});}}
+function staff(S,a,b,c){S.push({p:limb(a,b,12,11),c:c||'#8A5530'});S.push({p:ngon(b[0],b[1],9,8,6),c:sh(c||'#8A5530',-.15)});}
+const LECON={
+ eldan_jeune:{...ELDAN,seed:21,old:0,beard:0,mustache:0,hair:{c:'#6B4226',back:'short',front:'messy'},browCol:'#5A3A24',mouthY:.54,top:'#E8DCC4',outfit:'robe2',outC:'#C9A46A',bw:.88,
+  pBack:S=>staff(S,[30,264],[44,34]),
+  pOver:S=>{S.push({p:limb([40,246],[216,246],12,12),c:'#C9A46A'});S.push({p:ngon(152,248,9,8,6),c:'#B08A52',sw:3});S.push({p:limb([150,254],[146,268],6,5),c:'#C9A46A',sw:3});S.push({p:limb([156,254],[164,268],6,5),c:'#C9A46A',sw:3});}},
+ orlen:{seed:91,skin:'#E4AE84',hair:{c:'#A8A49C',back:'short',front:'crop'},beard:'full',beardC:'#B4B0A8',old:1,browCol:'#9A968E',iris:'#5A6A3A',mouthY:.56,top:'#5E6B3A',outfit:'coat',outC:'#6B5A34',
+  pFront:S=>{[[100,250],[156,250]].forEach(([x,y],i)=>{S.push({p:ngon(x,y,22,17,7,.3),c:'#E4AE84'});S.push({raw:pl([[x-8,y-6],[x-2,y-2]],2.2,T('#A86A4A'))+pl([[x+4,y-8],[x+10,y-3]],2.2,T('#A86A4A'))});if(i)S.push({p:limb([x-20,y+2],[x+20,y-4],8,8),c:'#EDE3CC',sw:3});});}},
+ tessa:{seed:92,skin:'#F2C09A',hair:{c:'#C8502A',back:'pony',front:'fringe'},hat:'band',hatC:'#D83A2A',freckles:1,iris:'#3F7A3A',browCol:'#9A3A1E',top:'#F3E6C8',outfit:'vest',outC:'#7A5A34',patch:'#D83A2A',bw:.88,
+  pOver:S=>{S.push({p:limb([34,232],[62,222],16,16),c:'#E2D2B0'});S.push({p:limb([222,232],[194,222],16,16),c:'#E2D2B0'});}},
+ garran:{seed:93,skin:'#D29A70',hair:{c:'#E8E4DC',back:'short',front:'receding'},beard:'full',beardC:'#EDE9E1',old:1,nose:'big',browCol:'#E0DCD4',iris:'#5A4A3A',mouthY:.56,top:'#7A6A4A',outfit:'vest',outC:'#EFE6D0',patch:'#B8A88A',hat:'wide',hatC:'#8A6A44',hatC2:'#5C3A22',
+  pBack:S=>{const c=[[224,264],[222,64],[218,40],[204,28],[190,34],[192,48]];for(let i=0;i<c.length-1;i++)S.push({p:limb(c[i],c[i+1],10,10),c:'#8A5530'});},
+  pOver:S=>{[[112,206],[111,222],[111,238],[110,254],[94,192],[80,186]].forEach(([x,y])=>{S.push({p:ngon(x,y,8,8,6),c:'#F7F1E2',sw:2.5});S.push({p:ngon(256-x,y,8,8,6),c:'#F7F1E2',sw:2.5});});}},
+ nell:{seed:94,skin:'#F6C9A0',hair:{c:'#9A5A2E',back:'short',front:'fringe'},blush:1,freckles:1,iris:'#5A7A3A',browCol:'#7A4420',top:'#E8D6B0',outfit:'robe2',outC:'#B8865A',bw:.72,r:60}};
+const FILEUSE={seed:44,skin:'#E9B58E',hair:{c:'#D8D4CC',back:'bun',front:'side'},old:1,browCol:'#C8C2B8',iris:'#7A6A8A',top:'#6E7A5A',outfit:'shawl',outC:'#B07A5A',blush:1,
+ pBack:S=>distaff(S,[44,264],[52,58],[88,232]),
+ sprite:{sw:30,hw:26,legW:16,armW:13,r:36,robe:1,flare:20,hunch:1,top:'#6E7A5A',boots:'#4A4238',hL:[56,196],hR:[150,206],
+  over:(S,c)=>S.push({p:[[c.cx-c.sw-6,c.sy+26],[c.cx-c.sw+6,c.sy-6],[c.cx+c.sw-6,c.sy-6],[c.cx+c.sw+6,c.sy+26],[c.cx,c.sy+50]],c:'#B07A5A'}),
+  back:S=>distaff(S,[52,290],[44,96],[150,206])}};
+const TESSA_O={...LECON.tessa,seed:95,hat:0,hair:{c:'#C8502A',back:'long',front:'messy'},outfit:'scarf',outC:'#C9907A',
+ sprite:{sw:30,hw:24,legW:17,armW:13,r:36,top:'#F3E6C8',sleeve2:'#F2C09A',legs:'#7A5A34',boots:'#5C3A22',belt:'#7A5A34',hL:[54,204],hR:[146,204],elbow:4,
+  back:(S,c)=>S.push({p:[[c.cx-c.r*.9,c.hyH],[c.cx+c.r*.9,c.hyH],[c.cx+c.r*1.1,c.sy+30],[c.cx-c.r*1.1,c.sy+30]],c:'#C8502A'}),
+  over:(S,c)=>{S.push({p:ngon(c.cx,c.sy+2,32,11,8),c:'#C9907A'});S.push({p:[[c.cx-16,c.sy+6],[c.cx-30,c.sy+16],[c.cx-24,c.sy+48],[c.cx-14,c.sy+48]],c:'#C9907A'});}}};
+function originelPortrait(){seed=96;OLW=10;LX=-.55;MODE=null;OL=OLO;const S=[],Y='#FFD23F',Rr='#FF5A3C',E='#3B2C4A',E2='#55406A',ar='#4A3A5E',bone='#EADFC8',gold='#D9A62A';
+ const Q=pts=>pts.map(([x,y])=>[128-(x-182)*1.5,124+(y-104)*1.5]);
+ [[30,200,10],[226,190,11],[24,90,8],[232,70,8]].forEach(w=>wisp(S,...w));
+ S.push({p:[[6,256],[26,150],[230,150],[250,256]],c:'#2A1F36'});
+ glow(S,64,230,30,Rr,.25);
+ S.push({p:[[18,256],[30,206],[80,180],[128,176],[176,180],[226,206],[238,256]],c:ar});
+ S.push({p:[[90,194],[166,194],[172,238],[128,256],[84,238]],c:E});
+ glow(S,128,224,26,Rr,.4);S.push({p:ngon(128,224,13,17,6,Math.PI/2),c:Rr});
+ S.push({p:Q([[206,130],[240,120],[264,148],[242,172],[210,160]]).map(([x,y])=>[x,y+40]),c:E2});
+ S.push({p:Q([[104,150],[122,122],[152,130],[152,162],[126,174]]).map(([x,y])=>[x,y+40]),c:E2});
+ S.push({p:Q([[236,122],[256,86],[252,132]]).map(([x,y])=>[x,y+40]),c:bone});S.push({p:Q([[112,132],[88,100],[128,124]]).map(([x,y])=>[x,y+40]),c:bone});
+ S.push({p:Q([[158,86],[126,52],[136,30],[168,76]]),c:bone});S.push({p:Q([[206,86],[238,52],[230,30],[198,76]]),c:bone});
+ S.push({p:Q([[152,100],[160,76],[182,68],[206,76],[214,100],[208,128],[182,142],[156,128]]),c:E});
+ S.push({p:Q([[156,82],[208,82],[206,70],[158,70]]),c:Y,sw:3.5});
+ [[164,70],[182,68],[200,70]].forEach(([x,y],i)=>S.push({p:Q([[x-7,y],[x,y-(i===1?26:16)],[x+7,y]]),c:gold,sw:3.5}));
+ const gl=p=>pg(Q(p),Y,3);S.push({raw:gl([[160,102],[180,108],[163,115]])+gl([[188,108],[208,99],[205,114]])+pg(Q([[168,124],[198,122],[194,132],[172,133]]),Rr,3)+[176,183,190].map(x=>pl(Q([[x,122.5],[x,132.5]]),2.5)).join('')});
+ const out=wrap(256,256,parts(S));OL=OLG;return out;}
+function muetSprite(){seed=97;OLW=11;LX=.55;MODE=null;OL=OLG;const S=[],E='#8E86A6',E2='#ABA3C2',D='#6E6688',bone='#F2ECDD',Y='#FFD23F';
+ const fl=pts=>pts.map(([x,y])=>[200-x,y]);
+ [[44,300,8],[160,286,9],[40,200,6],[170,150,7]].forEach(([x,y,s])=>S.push({p:[[x,y-s*1.6],[x+s*.55,y-s*.3],[x+s*.35,y+s*.5],[x-s*.35,y+s*.5],[x-s*.55,y-s*.3]],c:'#C8C0D8',o:.55,sil:false,sw:0}));
+ S.push({raw:pg(ngon(100,326,34,7,10),OL,0,.18)});
+ const arm2=(s,e,h)=>{S.push({p:fl(limb(s,e,10,9)),c:E});S.push({p:fl(limb(e,h,9,8)),c:E});S.push({p:fl(ngon(h[0],h[1],7,8,6)),c:E2});S.push({p:fl([[h[0]-3,h[1]+5],[h[0]-1,h[1]+16],[h[0]+3,h[1]+6]]),c:D,sw:3});};
+ arm2([84,152],[66,200],[74,246]);
+ S.push({p:fl([[76,206],[124,200],[120,252],[106,286],[88,312],[94,280],[80,246]]),c:E});
+ S.push({p:fl([[88,300],[80,318],[98,306]]),c:E,sw:3});
+ S.push({p:fl([[72,150],[112,130],[136,140],[128,208],[78,212],[70,180]]),c:E2});
+ S.push({p:fl([[82,170],[124,164],[120,186],[86,190]]),c:E,sw:3});
+ S.push({p:fl([[86,144],[74,118],[96,138]]),c:bone});
+ S.push({p:fl(limb([124,128],[134,112],16,16)),c:E});
+ S.push({p:fl([[122,88],[108,52],[132,82]]),c:bone});S.push({p:fl([[150,86],[168,54],[160,92]]),c:bone});
+ S.push({p:fl([[114,98],[128,82],[150,84],[164,100],[160,122],[144,134],[122,128],[112,112]]),c:E});
+ S.push({raw:pg(fl([[122,104],[138,110],[124,117]]),Y,3)+pg(fl([[144,108],[160,100],[158,115]]),Y,3)+pg(fl(limb([120,100],[138,106],5,4)),OL,0)+pg(fl(limb([142,104],[162,96],4,5)),OL,0)+pl(fl([[126,124],[150,122]]),2,sh(E,-.25))});
+ arm2([126,148],[154,188],[166,236]);
+ return wrap(200,340,parts(S));}
+function lecon(){const out={};MODE=null;OL=OLG;const pr=(n,C,ex,m,op)=>{MODE=m||null;OL=MODE==='ombre'?OLO:OLG;out['assets/portraits/'+n+'.svg']=portrait(C,ex,op);MODE=null;OL=OLG;};
+ const SIX=['neutre','joie','colere','tristesse','surprise','determine'],FOUR=['neutre','joie','tristesse','surprise'];
+ ['eldan_jeune','orlen','tessa'].forEach(id=>SIX.forEach(e=>pr(id+'_'+e,LECON[id],e)));['garran','nell'].forEach(id=>FOUR.forEach(e=>pr(id+'_'+e,LECON[id],e)));
+ pr('fileuse_ombrace',FILEUSE,'vide','ombre');pr('fileuse_humain',FILEUSE,'apaise');MODE='ombre';OL=OLO;out['assets/ennemis/fileuse.svg']=sprite(FILEUSE,FILEUSE.sprite);MODE=null;OL=OLG;
+ pr('tessa_oubliee_ombrace',TESSA_O,'vide','ombre');pr('tessa_oubliee_humain',LECON.tessa,'neutre');MODE='ombre';OL=OLO;out['assets/ennemis/tessa_oubliee.svg']=sprite(TESSA_O,TESSA_O.sprite);MODE=null;OL=OLG;
+ out['assets/portraits/oublie_originel_ombrace.svg']=originelPortrait();
+ out['assets/ennemis/muet.svg']=muetSprite();LX=-.55;return out;}
+W.TSStory={build,heroes,lecon};
 })(typeof window!=='undefined'?window:globalThis);

@@ -79,7 +79,9 @@ export function syncGems() {
     const arena = D.voyage.arenas.find(x => x.id === a);
     give('guardian:' + a, G.guardianFirst, tpl(U.guardian, { name: arena ? arena.name : a, of: tr('of.arena.' + a) }));
   }
-  for (const h of prog.story.fragments || []) {
+  // Histoires terminées : les six des fragments, et celle d'Eldan (sans fragment : combat 10 gagné).
+  const finished = new Set([...(prog.story.fragments || []), ...Object.keys(prog.story.done || {}).filter(h => prog.story.done[h].includes(10))]);
+  for (const h of finished) {
     const c = D.characters.characters.find(x => x.id === h);
     give('story:' + h, G.storyComplete, tpl(U.story, { name: c ? c.name : h, of: tr('of.hero.' + h) }));
   }

@@ -54,7 +54,8 @@
     "boran": ["gantelets", "masse_pierre", "bouclier_tour"],
     "ilwen": ["grimoire", "baton_braises", "orbe_miroir"],
     "kestrel": ["arc", "arbalete", "fronde"],
-    "mira": ["amulette", "baton_seve", "clochette"]
+    "mira": ["amulette", "baton_seve", "clochette"],
+    "eldan": ["baton", "fuseau_fileuse", "baton_orlen"]
   },
   "weapons": {
     "epee": {
@@ -128,6 +129,18 @@
     "clochette": {
       "name": "Clochette", "hero": "mira", "unlock": { "story": 10 }, "lock": "Gagne le combat 10 de ton histoire", "autorise_en_duel": true,
       "style": { "text": "À la place du soin, chaque attaque réussie donne un bouclier de {barrierPerHit} PV × le multiplicateur, qui absorbe les dégâts, cumulable jusqu'à {barrierMax}.", "scale": { "barrierMax": 20 }, "fixed": { "noHealPerHit": true, "barrierPerHit": 1 } }
+    },
+    "baton": {
+      "name": "Bâton d'apprenti", "hero": "eldan", "unlock": null, "autorise_en_duel": true,
+      "style": { "text": "Les Trois gestes donnent +{trioBonus} de jauge de super en plus.", "scale": { "trioBonus": 6 } }
+    },
+    "fuseau_fileuse": {
+      "name": "Fuseau de la Fileuse", "hero": "eldan", "unlock": { "story": 5 }, "lock": "Gagne le combat 5 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Un Perfect relie un 2e ennemi par un fil : il prend {cleaveOnPerfect} % des dégâts.", "scale": { "cleaveOnPerfect": 0.5 } }
+    },
+    "baton_orlen": {
+      "name": "Bâton d'Orlen", "hero": "eldan", "unlock": { "story": 10 }, "lock": "Gagne le combat 10 de ton histoire", "autorise_en_duel": true,
+      "style": { "text": "Après une esquive réussie, l'attaque suivante fait +{afterDodgeDamage} %.", "scale": { "afterDodgeDamage": 0.3 } }
     }
   }
 }

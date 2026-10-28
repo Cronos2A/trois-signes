@@ -192,3 +192,8 @@
   .st-label{padding:3px 8px 4px}
   .st-label b{font-size:11.5px}
 }
+/* Carte d'Eldan jouable (après l'épilogue) : un bouton, avec la progression de son histoire */
+button.st-eldan{width:100%;font:inherit;color:inherit;text-align:left}
+.st-eldan.open .st-prog{margin-top:4px}
+.st-eldan-img{position:relative;width:100%;height:100%;object-fit:cover}
+.st-reveal-hero{display:block;width:210px;height:auto}

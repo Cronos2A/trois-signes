@@ -1,6 +1,6 @@
 # Three Signs — brief pour Claude Code
 
-État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; le 09/10/2026 : pages légales alignées sur le jeu ; le 10/10/2026 : écran de chargement aux transitions (sortie de partie, Entraînement), musiques sans chevauchement, plus de lobby avant le didacticiel ; le 13/10/2026 : pseudos uniques, adresse Google jamais affichée, monétisation en mode test (pubs récompensées AdMob, achats Google Play) ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
+État du projet au 03/10/2026 (jeu en 5 langues ; premier lot de préparation à la publication fait : polices embarquées, zones tactiles, compte Google, suppression du compte, signalements, pubs de test limitées au développement, version ; puis confirmation pour quitter, Duel sans sortie avec reprise après fermeture, séquences de défaite et de victoire ; emballage Android Capacitor préparé le 04/10/2026, à compiler sur le PC : `docs/EMBALLAGE.md` ; le 05/10/2026 : XP des armes ralentie, écran de chargement, fond du lobby selon l'arène de Duel ; le 07/10/2026 : classement par arène, global et par pays ; le 09/10/2026 : pages légales alignées sur le jeu ; le 10/10/2026 : écran de chargement aux transitions (sortie de partie, Entraînement), musiques sans chevauchement, plus de lobby avant le didacticiel ; le 13/10/2026 : pseudos uniques, adresse Google jamais affichée, monétisation en mode test (pubs récompensées AdMob, achats Google Play) ; le 28/10/2026 : histoire d'Eldan (10 combats), Eldan jouable (7e héros), Muet, L'Oublié originel ; reste ouvert : `à faire.md` et `AVANT_PUBLICATION.md`). À tenir à jour à chaque étape terminée.
 
 ## Le projet
 **Titre du jeu : « Three Signs » dans les 5 langues, jamais traduit** (décision du 03/10/2026 ; avant : « Trois Signes »).
@@ -9,7 +9,7 @@ Les trois gestes (« les trois signes ») et les noms d'objets (« Coffre des Tr
 Petit jeu mobile à gestes, jouable au doigt, en parties courtes. PWA en HTML/JS (canvas), textes en français.
 Trois signes : **Triangle** = attaquer, **Rond** = esquiver, **Toucher** (tap) = ramasser.
 
-Modes jouables aujourd'hui : **Solo = Le Voyage** (infini), **Histoire** (6 × 10 combats), **Duel** (en ligne : adversaire au hasard ou ami), **Entraînement**, **La première leçon** (tutoriel).
+Modes jouables aujourd'hui : **Solo = Le Voyage** (infini), **Histoire** (6 × 10 combats, puis l'histoire d'Eldan après l'épilogue), **Duel** (en ligne : adversaire au hasard ou ami), **Entraînement**, **La première leçon** (tutoriel).
 Chaque héros a 3 armes qui progressent (niveaux 1 à 10) et un emplacement de talisman. Économie : or, gemmes, coffres et cosmétiques.
 
 Lancer : `py -m http.server 8123` dans ce dossier, puis http://localhost:8123 (les modules et les JSON ne se chargent pas en `file://`).
@@ -63,7 +63,8 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
   jamais 100 % par un Rond, même en Perfect ou pour Kestrel. Seuls les pouvoirs évitent tout, en nombre ou en durée limités
   (Ombre de Nyra : 3 esquives ; répit de la Seconde chance : 1,5 s). Bonus `perfectScore` à l'esquive maximale.
 - **Ramassage** : précision selon la distance au doigt (`rules.json` → `pickup`). Pièce = points, cœur = PV.
-- **Ennemis** (`data/enemies.json`) : sbire 20 PV / 6, brute 28 PV / 9, boss 60 PV / 12. Alerte avant un coup 1,3 à 1,5 s,
+- **Ennemis** (`data/enemies.json`) : sbire 20 PV / 6, brute 28 PV / 9, boss 60 PV / 12 ; **Muet** 14 PV / 6, alerte 1,2 s, repos 1,8 à 2,8 s, vitesse 200, 40 points
+  (histoire d'Eldan seulement ; dessin `assets/ennemis/muet.svg` déclaré dans `art`, repli : sbire). Alerte avant un coup 1,3 à 1,5 s,
   un seul ennemi prépare un coup à la fois.
 - **Variantes des ennemis** (`data/rules.json` → `enemyVariants`, `src/game/variants.js`, `assets/ennemis/variantes/`) : sbire, brute et
   boss du Solo, apparence seulement, mêmes valeurs. Voyage : petit (arènes 1-2), moyen (3-4), grand (5-6), costaud (7-8 et Au-delà) ;
@@ -81,7 +82,7 @@ Elle **remplace l'ancienne bible** (PDF « Bible ») : ne plus s'en servir.
   - Bonus par niveau : +0,5 % d'attaque et +0,5 % de PV max (Nv 100 : +49,5 %). `bonus_en_duel: false` : neutralisés en Duel.
   - Niveau 100 : plus d'XP accumulée, barre dorée « MAX », anneau doré autour du portrait (`maxRing`), « Nv 100 · MAX ».
 
-## Les 6 héros (tous jouables) — `data/characters.json`
+## Les 7 héros — `data/characters.json` (Eldan : après l'épilogue)
 Chaque héros : `hp`, `attack`, `passive`, `super`, couleurs `color` / `accent`, `stats` (affichage), `weapon`.
 Jauge de super (`superGauge`) : OK +2, Good +3, Very Good +5, Excellent +6, Perfect +8, combo +5, pleine à 100 ;
 elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui n'est jamais un geste). Code : `src/game/supers.js`.
@@ -94,6 +95,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 | Ilwen, Sorcière (grimoire) | 125 / 5 | Incantation : combo en 3 gestes | **Grimoire ouvert** : 2 attaques comptées comme combos |
 | Kestrel, Rôdeuse (arc) | 105 / 4,6 | Pas léger : esquive de base 120 % | **Œil de faucon** : 8 s, tout geste reconnu = Perfect |
 | Mira, Soigneuse (amulette) — **héroïne accessible pour les débutants** (étiquette « Idéal pour débuter », `beginner`) | 95 / 3 | Soin 0,25 PV × multiplicateur par attaque ; chaque Perfect invoque un petit monstre (1 dégât/s, 10 s, 6 max) | **Renouveau** : +5 % des PV max, attaque ×2 pendant 10 s |
+| Eldan, L'Apprenti (bâton, corps à corps) — `unlock: "epilogue"` : jouable après les six histoires (`progress.js → heroUnlocked` : lobby, Duel, Entraînement) | 120 / 3 | **Trois gestes** : un Triangle, un Rond et un Toucher réussis à la suite (n'importe quel ordre, répétitions permises, un raté remet à zéro) → +15 de jauge (`trioGauge`, `supers.js → noteSign`) | **La leçon** : 8 s, chaque geste réussi monte d'un niveau (`gradeUp`, Perfect reste Perfect, raté reste raté ; Toucher compris) |
+
+Eldan n'est pas dessiné en code (`art.js`) : fichiers Claude Design `assets/heros/eldan.svg` (planche, lobby) et `eldan_combat.svg` (calques ombre / corps / bras_arme, chargé comme un skin complet ; `looks.js → heroFile`). Pas de cosmétiques Eldan pour l'instant. Valeurs de départ, à équilibrer.
 
 ## Armes, talismans et récompenses — `data/weapons.json`, `data/talismans.json` — **fait**
 - **3 armes par héros** (`weapons.json` → `heroes`) : l'arme de départ + 2 alternatives débloquées en Histoire
@@ -107,6 +111,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   | Ilwen | Grimoire (combo +0,25) | Bâton de braises (Perfect : 3 dégâts en 3 s) | Orbe miroir (renvoie 20 % des dégâts évités) |
   | Kestrel | Arc (Perfect ×1,5 sur la jauge) | Arbalète (+20 % gardiens et boss, −10 % autres) | Fronde (tir de 3 dégâts à chaque ramassage) |
   | Mira | Amulette (+1 PV par attaque) | Bâton de sève (pas de soin par attaque, 8 PV par combo) | Clochette (pas de soin : bouclier de 1 PV × multiplicateur par attaque, 20 au plus) |
+  | Eldan | Bâton d'apprenti (Trois gestes +6 de jauge, `trioBonus`) | Fuseau de la Fileuse (Perfect : 2e ennemi à 50 %) | Bâton d'Orlen (+30 % après une esquive réussie) |
 - **Effet de style** (`style.scale` : monte de 50 % au niveau 1 à 100 % au niveau 6 ; `style.fixed` : valeurs fixes).
   « Esquive réussie » = un coup ennemi vraiment évité, pas le simple tracé d'un Rond.
 - **XP et niveaux** (chaque arme a les siens, `prog.weapons` = `{ epee: { xp } }`) : Voyage et Histoire seulement (`xpModes`) ;
@@ -247,7 +252,9 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   une fois par jour (`prog.daily.shownDay`) ; aussi quand la connexion revient. Série et calendrier du jour, « Récupérer », pub du jour.
   Hors connexion : « À récupérer dès que la connexion revient ». Son `deblocage` ; gemmes et cosmétiques par les écrans de récompense
   habituels (regroupés). **Bouton cadeau** rond dans l'onglet Jouer (pastille quand un jour est à récupérer) → écran « Récompenses »
-  (série, calendrier avec un grand jour tous les 5, stock de boosts et « Activer »).
+  (série, calendrier avec un grand jour tous les 5, stock de boosts en total de parties « En stock : 9 parties » et « Activer » ; note des boosts
+  raccourcie le 28/10/2026). La fenêtre du jour se ferme au lancement de toute partie (`closeDayWindow`) : elle pouvait s'ouvrir dans l'instant où le lobby
+  est visible entre deux scènes et rester par-dessus le combat.
 - **Pub du jour** (une fois par jour, `prog.daily.adDay`, gardée avec « Sans publicité ») : « Doubler l'or avec une pub » (or du jour des deux
   séries, remplacements compris) ou, sans or ce jour-là, « Bonus : +100 or avec une pub » (`ad.bonusGold`). Jamais gemmes, cosmétiques,
   coffre ni boosts. Avant de récupérer, la pub récupère le jour puis double l'or. Récompense seulement si la pub est vue jusqu'au bout.
@@ -300,6 +307,7 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   **Règles du 01/10/2026 (comptes supprimés, signalements) : à publier dans la console** (sinon suppression et signalement échouent).
   **Règles du 05/10/2026 (`ranked/{uid}.areneMaxDuel`, plus haute arène de Duel jamais en baisse) : à publier dans la console.**
   **Règles du 07/10/2026 (classement : `arene`, `pays`, `since` dans `ranked` et `leaderboard`) + index de `firestore.indexes.json` : à publier.**
+  **Règles du 28/10/2026 (`'story:eldan': 30` dans les gemmes) : à publier** (sinon les gemmes de l'histoire d'Eldan restent en attente).
   **Règles du 13/10/2026 (pseudos uniques, collection `pseudos`) : à publier** (sinon changer de pseudo est refusé : « Le serveur ne répond pas »).
   **Règles du 03/10/2026 (Duel : absence de 30 s, entrée figée, match annulé, champ `hp`) : à publier dans la console** (sinon la reprise
   après fermeture et l'annulation ne sont pas appliquées par le serveur, et le champ `hp` des signes de vie est refusé).
@@ -537,8 +545,15 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
   (mini-boss 35 / 10, lieutenant 60 / 12, boss final 90 / 14). Sbire / brute = ennemis de `enemies.json`.
 - Eldan l'Oublié utilise les trois signes : Triangle (coup), Rond (garde 2 s, dégâts reçus −50 %), Toucher (appelle un sbire,
   1 par round, 2 ennemis en plus au maximum). Réglages : `rules.json` → `story.eldan`.
-- Fin d'une histoire : `fin` + un fragment de mémoire. Les 6 terminées → `epilogue_final`, qui **débloque Eldan** :
-  sa carte apparaît dans le choix des histoires, marquée « Bientôt disponible » (pas encore jouable).
+- Fin d'une histoire : `fin` + un fragment de mémoire. Les 6 terminées → `epilogue_final`, qui **débloque Eldan** (écran « Nouveau personnage · Eldan, l'Apprenti ») :
+  son histoire devient jouable et le héros Eldan aussi.
+- **Histoire d'Eldan « La leçon inachevée »** (28/10/2026, 7e entrée de `histoires`, textes recopiés mot pour mot du fichier fourni) : cinquante ans avant le Silence,
+  Eldan jeune (PNJ `eldan_jeune`, héros jouable `eldan`), Maître Orlen, Tessa, Garran, Nell ; boss la Fileuse (mini-boss), Tessa l'Oubliée (lieutenant),
+  l'Oublié originel (boss final) ; décors `pierrelune_marche`, `hameau_gris`, `montagne_grise`, `sommet_oublie`. Les six histoires des héros
+  (`personnages_dialogue.heros`, `story.js → mainStories`) donnent les fragments et l'épilogue ; celle d'Eldan, ni fragment ni épilogue, mais XP, or, armes
+  (combats 5 et 10) et 30 gemmes (`story:eldan`) comme les autres. Carte dans le choix des histoires : verrouillée « ??? » avant l'épilogue, puis bouton
+  avec son portrait et sa progression. `who()` : les PNJ d'abord (« eldan » = Maître Eldan dans les dialogues). Traduite en en / it / es / de (glossaire mis à jour).
+  Testée le 28/10/2026 (Playwright, fr / en, 390 × 800 et 360 × 640) : 10 combats, 30 portraits, 4 décors, aucune erreur.
 - Autres réglages : `rules.json` → `story` (pas de limite de temps, PNJ, libellés, vitesse du texte).
 - Sauvegarde : `prog.story` (combats gagnés par histoire, scènes vues, fragments, prologue, épilogue).
   Fin d'histoire enregistrée dès la victoire du combat 10, avant les scènes : fragment, `endings` (fins pas encore vues) et
@@ -554,7 +569,8 @@ elle ne se recharge pas pendant une super. Bouton rond en bas à droite (l'appui
 - **Ordre d'un lancement** (toutes les parties, `main.js` → `start`) : écran de lancement (`src/ui/cover.js`, le lobby disparaît) →
   annonce de la partie (`battle.intro` : transition d'arène 1 du Voyage, « Souvenir » de la leçon ; en Histoire, les dialogues d'avant)
   pendant que sprites et décor se préparent → seulement ensuite l'arène et le combat. Vérifié : Voyage, Rejouer, Histoire, Réessayer, leçon.
-- Gardiens et décors repris du mode Histoire ; la Forêt de Mousse garde le décor et le boss du Solo d'origine.
+- Gardiens et décors repris du mode Histoire ; la Forêt de Mousse garde le décor et le boss du Solo d'origine, nommé **« L'Oublié originel »**
+  (`voyage.json → arenas[0].guardianName`, 5 langues ; mêmes valeurs et même sprite).
 - Coffre de l'écran « Arène découverte » : le talisman du gardien battu ; s'il est déjà possédé, de l'or à la place (`chestFallback`).
 - Sauvegarde : `prog.best` (record), `prog.voyage` (arène la plus lointaine, arènes découvertes).
 
@@ -831,7 +847,7 @@ tools/check-rules.mjs            vérifie que les chiffres des règles sont ceux
 tools/android/                   emballage Android : build-www.mjs, icons.mjs, cle/apk/aab/empreintes/verifier.ps1
 package.json  capacitor.config.json  android/   projet Capacitor (docs/EMBALLAGE.md)
 docs/EMBALLAGE.md                guide pas à pas de l'emballage Android
-assets/  portraits/  ennemis/ (+ variantes/)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  icones/recompenses/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
+assets/  portraits/  ennemis/ (+ variantes/)  heros/ (Eldan)  decors/  icones/armes/  icones/talismans/  icones/monnaies/  icones/recompenses/  boutique/  skins/  audio/sfx/  audio/musique/   (IMAGES.md, audio/SONS.md)
 design/  exports Claude Design (voir Direction artistique)
 prototype/ prototype d'origine
 ```

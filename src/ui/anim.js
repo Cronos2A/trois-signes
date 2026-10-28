@@ -16,7 +16,7 @@ const SHARDS = {
  * (flèche ou sort) depuis sa main (muzzle, en unités du sprite, par rapport aux pieds).
  */
 const ATTACK = {
-  aldric: { style: 'melee' }, nyra: { style: 'melee' }, boran: { style: 'melee' },
+  aldric: { style: 'melee' }, nyra: { style: 'melee' }, boran: { style: 'melee' }, eldan: { style: 'melee' },
   kestrel: { style: 'arrow', col: '#FFD23F', muzzle: [132, -187] },
   ilwen: { style: 'magic', col: '#FFD23F', muzzle: [77, -178] },
   mira: { style: 'magic', col: '#FF8C32', muzzle: [64, -214] }

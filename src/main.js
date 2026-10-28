@@ -49,7 +49,7 @@ import { showTransition, hideTransition } from './ui/voyage-ui.js';
 import { initAudio, sfx, music, placeMusic, traceStart, traceStop, fadeOutMusic } from './audio/audio.js';
 import { tr, nf, loadI18n, applyLanguageData, applyStatic } from './i18n.js';
 import { startBoosts, boostMult, countBoostGame, boostable, offerable } from './game/boosts.js';
-import { initDaily, enableDaily, maybeDaily, offerBoosts } from './ui/daily-ui.js';
+import { initDaily, enableDaily, maybeDaily, offerBoosts, closeDayWindow } from './ui/daily-ui.js';
 
 const $ = id => document.getElementById(id);
 const cv = $('c'), ctx = cv.getContext('2d');
@@ -79,7 +79,7 @@ function resize() {
 
 /** Décor (lieu du combat en Histoire) et sprites, préparés à la taille de l'écran (voir ui/combat-art.js). */
 function prepareArt(c, battle) {
-  return Promise.all([paintBackground($('bg'), G.W, G.H, dpr, battle.lieu, battle.bg).catch(() => {}), prepareCombatArt(c.id, G.W, G.H, dpr, Object.values(D.enemies).map(e => e.sprite), battle.art, battle.tutorial ? null : combatLook(c.id))]);
+  return Promise.all([paintBackground($('bg'), G.W, G.H, dpr, battle.lieu, battle.bg).catch(() => {}), prepareCombatArt(c.id, G.W, G.H, dpr, Object.values(D.enemies).map(e => e.sprite).filter(s => !s.startsWith('x_')), battle.art, battle.tutorial ? null : combatLook(c.id))]);
 }
 
 /* ---------- Partie ---------- */
@@ -102,7 +102,8 @@ function resetGame(c, battle) {
     noCombo: !!P.noCombo, comboLength: P.comboLength || D.grades.comboLength,
     dodgeBase: P.dodgeBase ?? D.rules.dodge.base, healPerHit: P.healPerHit || 0, damageTaken: P.damageTaken ?? 1,   // Garde d'Aldric
     super: c.super, gauge: (G.talisman.gaugeStart || 0) * D.characters.superGauge.max, sp: null,   // Plume de vent
-    barrier: 0, dodgeBonus: 0, shieldGrade: null, summon: P.summon || null
+    barrier: 0, dodgeBonus: 0, shieldGrade: null, summon: P.summon || null,
+    trioGauge: P.trioGauge || 0, trio: []          // Trois gestes d'Eldan (game/supers.js → noteSign)
   };
   Object.assign(G, {
     enemies: [], loots: [], summons: [], fx: [], pops: [], trails: [],
@@ -270,6 +271,7 @@ async function start(mode, opts = {}) {
   if (starting) return;
   starting = true;
   resetEnd();
+  closeDayWindow();                                                  // jamais de fenêtre du jour en partie
   if (!opts.loader) showCover();                                       // Entraînement : sous l'écran de chargement (initLobby)
   const c = opts.char || activeCharacter();
   let battle = opts.battle || idleBattle();

@@ -24,6 +24,7 @@
 .du-wait-dot.big{align-self:center;width:16px;height:16px}
 @keyframes du-pulse{50%{transform:scale(.6);opacity:.5}}
 .du-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.du-grid:has(> :nth-child(7)){grid-template-columns:repeat(4,1fr)}   /* 7 héros (Eldan) : 4 + 3 au lieu de 3 + 3 + 1 */
 .du-hero{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 2px;border-radius:16px;border:3px solid transparent;background:none}
 .du-hero.on{border-color:var(--ink);background:var(--btn-lime);box-shadow:0 3px 0 var(--ink)}
 .du-hero:disabled:not(.on){opacity:.45}

@@ -4,7 +4,7 @@
 import { isNative } from '../native.js';
 import { prints as duelPrints } from '../game/duel-rank.js';
 import { D } from '../data.js';
-import { prog, heroLevel, saveActive } from '../game/progress.js';
+import { prog, heroLevel, saveActive, heroUnlocked } from '../game/progress.js';
 import { glyph, facets } from './icons.js';
 import { applyLobbyTheme, previewTheme, previewed } from './lobby-theme.js';
 import { settings, setSetting } from '../game/settings.js';
@@ -71,7 +71,7 @@ export function initLobby(a) {
     if (e.target.dataset.vol === 'sfx') sfx('ui_clic');
     if (e.target.matches('[data-country]')) changeCountry(e.target.value);       // pays des classements (ui/ranking-ui.js)
   });
-  const saved = chars().findIndex(c => c.id === prog.active && c.available);
+  const saved = chars().findIndex(c => c.id === prog.active && heroUnlocked(c));
   if (saved >= 0) ui.active = saved;
   render();
 }
@@ -82,7 +82,7 @@ export const activeCharacter = () => chars()[ui.active];
 export function showLobby() { render(); $('lobby').classList.remove('hidden'); }
 /** Progression remplacée (sauvegarde du serveur plus récente) : héros actif et lobby redessinés. */
 export function refreshLobby() {
-  const saved = chars().findIndex(c => c.id === prog.active && c.available);
+  const saved = chars().findIndex(c => c.id === prog.active && heroUnlocked(c));
   if (saved >= 0) ui.active = ui.view = saved;
   render();
 }
@@ -116,7 +116,7 @@ function onClick(e) {
     case 'view': ui.view = +arg; render(); break;
     case 'prev': ui.view = (ui.view + chars().length - 1) % chars().length; render(); break;
     case 'next': ui.view = (ui.view + 1) % chars().length; render(); break;
-    case 'select': ui.active = ui.view; saveActive(chars()[ui.active].id); render(); break;
+    case 'select': if (!heroUnlocked(chars()[ui.view])) break; ui.active = ui.view; saveActive(chars()[ui.active].id); render(); break;
     case 'filter': ui.filter = arg; render(); break;
     case 'solo': actions.solo(); break;
     case 'train': actions.train(); break;
@@ -303,8 +303,8 @@ function charHtml() {
     `<div class="stat"><span>${label}</span><div class="pips pips-lg">${[0, 1, 2, 3, 4].map(j => `<i style="background:${j < v.stats[k] ? '#FF8C32' : '#E4D3B4'}"></i>`).join('')}</div></div>`).join('');
   let bottom;
   if (vi === ui.active) bottom = `<div class="char-cta dashed">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}${tr('lobby.activeChar')}</div>`;
-  else if (v.available) bottom = `<button class="char-cta go" data-act="select"><span class="ol ol-4">${tr('lobby.playWith', { name: v.name })}</span></button>`;
-  else bottom = `<div class="char-cta dashed locked">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}${tr('lobby.availableSoon')}</div>`;
+  else if (heroUnlocked(v)) bottom = `<button class="char-cta go" data-act="select"><span class="ol ol-4">${tr('lobby.playWith', { name: v.name })}</span></button>`;
+  else bottom = `<div class="char-cta dashed locked">${glyph('circle', '#9ACD32', 14, { outline: 1.6 })}${tr(v.unlock === 'epilogue' ? 'story.eldanLocked' : 'lobby.availableSoon')}</div>`;
   const soon = !v.available;
   return `<div class="carousel">
       <button class="car-arrow" data-act="prev" aria-label="${tr('lobby.prevChar')}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15301E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>

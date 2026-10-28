@@ -52,7 +52,8 @@
     "tooLate": "Too late",
     "tooLateSub": "draw the Circle during the warning",
     "pickup": "Pickup",
-    "gradeLine": "{label} · {acc}%"
+    "gradeLine": "{label} · {acc}%",
+    "trio": "Three gestures!"
   },
   "train": {
     "intro": "Draw triangles and circles, tap the items. Your accuracy shows after every gesture.",
@@ -127,7 +128,6 @@
     "title": "Story Mode",
     "fragments": "MEMORY FRAGMENTS",
     "found": "Found",
-    "eldanSoon": "The Master · coming soon",
     "eldanUnknown": "???",
     "eldanLocked": "Finish all six stories",
     "backLobby": "Back to the lobby",
@@ -149,8 +149,8 @@
     "fragmentFound": "Memory fragment recovered",
     "memory": "A memory comes back to Master Eldan",
     "newCharacter": "NEW CHARACTER",
-    "eldanTitle": "the Master",
-    "eldanSoonLong": "His story is coming soon",
+    "eldanTitle": "the Apprentice",
+    "eldanSoonLong": "His story and the hero are now unlocked",
     "seeCharacter": "See the character"
   },
   "of": {
@@ -161,7 +161,8 @@
       "boran": "Boran's",
       "ilwen": "Ilwen's",
       "kestrel": "Kestrel's",
-      "mira": "Mira's"
+      "mira": "Mira's",
+      "eldan": "Eldan's"
     },
     "arena": {
       "foret_mousse": "of the Moss Forest",
@@ -296,7 +297,7 @@
     "fromChest": "Free basic chest from the calendar.",
     "rewardOk": "Great!",
     "boostsTitle": "BOOST STOCK",
-    "boostsNote": "One active boost per type. A game counts when it ends (win, loss, or quitting after one round). Journey and Story only, never in Duel.",
+    "boostsNote": "One active boost per type. A game counts when it ends. Journey and Story only.",
     "stock": "In stock: {n} / {max}",
     "noStock": "None in stock",
     "activeLeft": {
@@ -351,6 +352,9 @@
       },
       "boss": {
         "name": "Boss"
+      },
+      "muet": {
+        "name": "Mute"
       }
     },
     "progression": {
@@ -502,7 +506,8 @@
       "name": "The Journey",
       "arenas": [
         {
-          "name": "Moss Forest"
+          "name": "Moss Forest",
+          "guardianName": "The First Forgotten"
         },
         {
           "name": "Hautes-Gerbes"
@@ -614,6 +619,19 @@
             "name": "Renewal",
             "text": "Recovers 5% of her max HP and doubles her attack for 10s."
           }
+        },
+        {
+          "role": "Apprentice",
+          "title": "The Apprentice",
+          "weaponLabel": "Apprentice's staff",
+          "passive": {
+            "name": "Three Gestures",
+            "text": "A successful Triangle, Circle and Tap in a row, in any order and with no miss in between: +15 super gauge."
+          },
+          "super": {
+            "name": "The Lesson",
+            "text": "For 8 s, every successful gesture goes up one grade (OK becomes Good, Good becomes Very Good… Perfect stays Perfect)."
+          }
         }
       ]
     },
@@ -636,6 +654,9 @@
           },
           "sbire": {
             "name": "Hollowed"
+          },
+          "orlen": {
+            "name": "Master Orlen"
           }
         }
       },
@@ -964,6 +985,26 @@
           "style": {
             "text": "Instead of healing, each successful attack gives a shield of {barrierPerHit} HP × the multiplier that absorbs damage, stacking up to {barrierMax}."
           }
+        },
+        "baton": {
+          "name": "Apprentice's staff",
+          "style": {
+            "text": "Three Gestures gives +{trioBonus} extra super gauge."
+          }
+        },
+        "fuseau_fileuse": {
+          "name": "Spinner's spindle",
+          "style": {
+            "text": "A Perfect ties a 2nd enemy with a thread: it takes {cleaveOnPerfect}% of the damage."
+          },
+          "lock": "Win battle 5 of your story"
+        },
+        "baton_orlen": {
+          "name": "Orlen's staff",
+          "style": {
+            "text": "After a successful dodge, your next attack deals +{afterDodgeDamage}%."
+          },
+          "lock": "Win battle 10 of your story"
         }
       }
     },
@@ -2694,6 +2735,360 @@
               "texte": "A memory fragment returns to the master."
             }
           ]
+        },
+        {
+          "titre": "The Unfinished Lesson",
+          "cinematique_ouverture": [
+            {
+              "texte": "Fifty years before the Silence, Pierrelune already had a master of signs."
+            },
+            {
+              "texte": "His name was Orlen. And his only pupil, that morning, was late."
+            },
+            {
+              "texte": "You've been running again, Eldan. Your triangles will lean."
+            },
+            {
+              "texte": "They already lean. I run so it shows less."
+            },
+            {
+              "texte": "No dummy today. Old Garran needs us at the sheepfold."
+            }
+          ],
+          "combats": [
+            {
+              "titre": "The Sheepfold",
+              "dialogue_avant": [
+                {
+                  "texte": "My animals won't go out. There's someone in the meadow. Several someones."
+                },
+                {
+                  "texte": "Master… they have no faces."
+                },
+                {
+                  "texte": "Then don't look for their eyes. Watch their hands."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "You closed your eyes on the second one."
+                },
+                {
+                  "texte": "A little."
+                },
+                {
+                  "texte": "So did I, the first time."
+                }
+              ]
+            },
+            {
+              "titre": "What We Forget",
+              "dialogue_avant": [
+                {
+                  "texte": "The next day, Garran is waiting at his door, cane in hand."
+                },
+                {
+                  "texte": "Lad… what's my daughter's name? I've known it all my life."
+                },
+                {
+                  "texte": "Ninon. She lives next to the oven."
+                },
+                {
+                  "texte": "They're coming back. Go. I'll stay with him."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Ninon. Yes. I'll write it on the door."
+                },
+                {
+                  "texte": "Write it somewhere else too, Garran. Everywhere you can."
+                }
+              ]
+            },
+            {
+              "titre": "Market Day",
+              "dialogue_avant": [
+                {
+                  "texte": "Hey, apprentice! Are you planning to stand in front of my stall all day?"
+                },
+                {
+                  "texte": "There are three of them behind you."
+                },
+                {
+                  "texte": "I can count. Show me what your old man teaches you instead."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Not bad, for someone who draws circles in thin air."
+                },
+                {
+                  "texte": "The emptiness spins around me. I keep it at a distance."
+                },
+                {
+                  "texte": "That's one of your master's lines."
+                },
+                {
+                  "texte": "…Yes."
+                }
+              ]
+            },
+            {
+              "titre": "The North Road",
+              "dialogue_avant": [
+                {
+                  "texte": "Orlen locks up the house and takes the north road. Eldan carries the bag. Tessa has decided to come along."
+                },
+                {
+                  "texte": "I only have one pupil, Tessa."
+                },
+                {
+                  "texte": "Then you'll have two. Or one who carries bags better."
+                },
+                {
+                  "texte": "I carry bags very well."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "The Circle guards you. The Triangle defends you. The Tap connects you to others."
+                },
+                {
+                  "texte": "I know, master."
+                },
+                {
+                  "texte": "You know it. She doesn't. Tonight, you teach her."
+                }
+              ]
+            },
+            {
+              "titre": "The Nameless Hamlet",
+              "dialogue_avant": [
+                {
+                  "texte": "At the end of the road, a hamlet. No sign. People say hello, then stop, embarrassed."
+                },
+                {
+                  "texte": "Where are you from? We're from… here. From here, I think."
+                },
+                {
+                  "texte": "Hush… every name is a thread… and a thread comes undone…"
+                },
+                {
+                  "texte": "Her distaff… what she's winding… are those names?"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Will they remember now?"
+                },
+                {
+                  "texte": "Some things."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "The distaff falls. The grey thread unravels and flies away."
+                },
+                {
+                  "texte": "I spun the wool… for the whole hamlet. The hamlet of… Combelaine."
+                },
+                {
+                  "texte": "Combelaine! We live in Combelaine!"
+                },
+                {
+                  "texte": "A name found again. Then the mist carries the old spinner away, very gently."
+                }
+              ]
+            },
+            {
+              "titre": "The Night of the Mutes",
+              "dialogue_avant": [
+                {
+                  "texte": "That night, in Combelaine, no one sleeps. Something circles the houses without a sound."
+                },
+                {
+                  "texte": "Those ones don't walk. They glide."
+                },
+                {
+                  "texte": "Mutes. Back to back, both of you. And don't let them touch you."
+                },
+                {
+                  "texte": "You know them?"
+                },
+                {
+                  "texte": "Later."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Later is now, master."
+                },
+                {
+                  "texte": "Yes. Come. I'll show you a notebook."
+                }
+              ]
+            },
+            {
+              "titre": "The Notebook",
+              "dialogue_avant": [
+                {
+                  "texte": "An old notebook with a burnt cover. Inside: circles, triangles, open hands."
+                },
+                {
+                  "texte": "My master wrote it. He didn't have time to finish it."
+                },
+                {
+                  "texte": "There's something under the mountain. It doesn't break anything. It takes. Names, faces, songs."
+                },
+                {
+                  "texte": "And does this thing have a name?"
+                },
+                {
+                  "texte": "My master called it the Forgotten. The first of them all."
+                },
+                {
+                  "texte": "Outside, something knocks against the door. Then nothing. Then again."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Tomorrow, I climb. You two go back to Pierrelune."
+                },
+                {
+                  "texte": "No."
+                },
+                {
+                  "texte": "No."
+                },
+                {
+                  "texte": "They said it at the same time. Orlen didn't insist."
+                }
+              ]
+            },
+            {
+              "titre": "The Grey Mountain",
+              "dialogue_avant": [
+                {
+                  "texte": "The path climbs. The grass turns grey. Then there's no grass at all."
+                },
+                {
+                  "texte": "When we come back down, you'll teach me the Circle. For real, not by watching Eldan."
+                },
+                {
+                  "texte": "When we come back down, I promise."
+                },
+                {
+                  "texte": "She's going to be better than me."
+                },
+                {
+                  "texte": "She already is."
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "A Mute appears behind Tessa. No one heard it coming."
+                },
+                {
+                  "texte": "Tessa!"
+                },
+                {
+                  "texte": "It's fine, it only brushed me… Wait. You're… what's your name again?"
+                },
+                {
+                  "texte": "She steps back, then again. And the mist closes over her."
+                }
+              ]
+            },
+            {
+              "titre": "The Unfinished Lesson",
+              "dialogue_avant": [
+                {
+                  "texte": "Last fire before the summit. Eldan hasn't said a word in hours."
+                },
+                {
+                  "texte": "I have one lesson left to give you. The last one my master gave me."
+                },
+                {
+                  "texte": "When you have nothing left to guard, the Circle is useless. So you must…"
+                },
+                {
+                  "texte": "Footsteps in the mist. Footsteps Eldan knows."
+                },
+                {
+                  "texte": "…the Circle… for real… who promised me that…"
+                }
+              ],
+              "dialogue_apres": [
+                {
+                  "texte": "Master. The end of the lesson."
+                },
+                {
+                  "texte": "Tomorrow. Up there."
+                }
+              ],
+              "cinematique_apres": [
+                {
+                  "texte": "The Hollowed falls to her knees. For a moment, she is Tessa."
+                },
+                {
+                  "texte": "Eldan… your triangles still lean."
+                },
+                {
+                  "texte": "I know."
+                },
+                {
+                  "texte": "She falls asleep. The mist draws back around her. Orlen lays his cloak over her shoulders."
+                }
+              ]
+            },
+            {
+              "titre": "The Forgotten",
+              "dialogue_avant": [
+                {
+                  "texte": "At the summit, there is no snow. There is nothing. Just a huge silhouette, a sword planted before it."
+                },
+                {
+                  "texte": "…so many names… give me yours…"
+                },
+                {
+                  "texte": "Eldan. Whatever happens, you go back down."
+                },
+                {
+                  "texte": "Not without you."
+                }
+              ],
+              "dialogue_apres": [],
+              "cinematique_apres": [
+                {
+                  "texte": "The sword shatters. The Forgotten withdraws into the mountain, and the mountain closes over it."
+                },
+                {
+                  "texte": "Eldan… what's my name?"
+                },
+                {
+                  "texte": "Orlen. Your name is Orlen. You are my master."
+                },
+                {
+                  "texte": "Good. Keep it. Keep everything."
+                },
+                {
+                  "texte": "When Eldan looks up, no one is there. Only the notebook, open on a blank page."
+                }
+              ]
+            }
+          ],
+          "fin": [
+            {
+              "texte": "Eldan came back down alone. Tessa no longer remembered him. She smiled at him anyway."
+            },
+            {
+              "texte": "I'll write everything down. The three signs, the lesson, his name. Everything."
+            },
+            {
+              "texte": "That notebook would become the Codex. The last page stayed blank."
+            }
+          ]
         }
       ],
       "prologue_commun": [
@@ -2788,6 +3183,15 @@
           },
           {
             "nom": "Master Eldan, the Forgotten"
+          },
+          {
+            "nom": "The Spinner"
+          },
+          {
+            "nom": "Tessa, the Forgotten"
+          },
+          {
+            "nom": "The First Forgotten"
           }
         ]
       }

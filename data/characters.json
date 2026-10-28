@@ -54,6 +54,14 @@
       "passive": { "name": "Soin et invocations", "text": "Chaque attaque réussie la soigne de 0,25\u00a0PV\u00a0× le multiplicateur, et chaque Perfect invoque un petit monstre (1\u00a0dégât par seconde pendant 10\u00a0s).", "healPerHit": 0.25,
         "summon": { "on": "Perfect", "damage": 1, "interval": 1, "duration": 10, "max": 6 } },
       "super": { "id": "renouveau", "name": "Renouveau", "text": "Récupère 5\u00a0% de ses PV max et double son attaque pendant 10\u00a0s.", "duration": 10, "healPct": 0.05, "attackMult": 2 }
+    },
+    {
+      "id": "eldan", "name": "Eldan", "role": "Apprenti", "title": "L'Apprenti", "unlock": "epilogue",
+      "weapon": "baton", "weaponLabel": "Bâton d'apprenti", "color": "#E8E2C8", "skinColor": "#E8E2C8", "accent": "#C9A46A",
+      "stats": [3, 3, 3],
+      "available": true, "hp": 120, "attack": 3,
+      "passive": { "name": "Trois gestes", "text": "Un Triangle, un Rond et un Toucher réussis à la suite, dans n'importe quel ordre et sans raté entre eux : +15 de jauge de super.", "trioGauge": 15 },
+      "super": { "id": "lecon", "name": "La leçon", "text": "Pendant 8\u00a0s, chaque geste réussi monte d'un niveau (OK devient Good, Good devient Very Good… Perfect reste Perfect).", "duration": 8, "gradeUp": 1 }
     }
   ]
 }

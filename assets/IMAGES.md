@@ -243,3 +243,49 @@ Dessinées dans le repère des sprites, à leur échelle : le petit est plus pet
 | costaud | arènes 7-8 et Au-delà du Silence | combats 9-10 | ✅ `sbire_costaud`, `brute_costaud`, `boss_costaud` |
 
 Tous dans `assets/ennemis/variantes/{sprite}_{variante}.svg`.
+
+## Histoire d'Eldan « La leçon inachevée » (Claude Design, 28/10/2026)
+Portraits (expressions des héros pour Eldan jeune, Orlen et Tessa ; expressions PNJ pour Garran et Nell) :
+- ✅ `assets/portraits/eldan_jeune_neutre.svg`
+- ✅ `assets/portraits/eldan_jeune_joie.svg`
+- ✅ `assets/portraits/eldan_jeune_colere.svg`
+- ✅ `assets/portraits/eldan_jeune_tristesse.svg`
+- ✅ `assets/portraits/eldan_jeune_surprise.svg`
+- ✅ `assets/portraits/eldan_jeune_determine.svg`
+- ✅ `assets/portraits/orlen_neutre.svg`
+- ✅ `assets/portraits/orlen_joie.svg`
+- ✅ `assets/portraits/orlen_colere.svg`
+- ✅ `assets/portraits/orlen_tristesse.svg`
+- ✅ `assets/portraits/orlen_surprise.svg`
+- ✅ `assets/portraits/orlen_determine.svg`
+- ✅ `assets/portraits/tessa_neutre.svg`
+- ✅ `assets/portraits/tessa_joie.svg`
+- ✅ `assets/portraits/tessa_colere.svg`
+- ✅ `assets/portraits/tessa_tristesse.svg`
+- ✅ `assets/portraits/tessa_surprise.svg`
+- ✅ `assets/portraits/tessa_determine.svg`
+- ✅ `assets/portraits/garran_neutre.svg`
+- ✅ `assets/portraits/garran_joie.svg`
+- ✅ `assets/portraits/garran_tristesse.svg`
+- ✅ `assets/portraits/garran_surprise.svg`
+- ✅ `assets/portraits/nell_neutre.svg`
+- ✅ `assets/portraits/nell_joie.svg`
+- ✅ `assets/portraits/nell_tristesse.svg`
+- ✅ `assets/portraits/nell_surprise.svg`
+Boss :
+- ✅ `assets/portraits/fileuse_ombrace.svg`
+- ✅ `assets/portraits/fileuse_humain.svg`
+- ✅ `assets/portraits/tessa_oubliee_ombrace.svg`
+- ✅ `assets/portraits/tessa_oubliee_humain.svg`
+- ✅ `assets/portraits/oublie_originel_ombrace.svg`
+- ⬜ `assets/portraits/oublie_originel_humain.svg` — pas prévu (l'Oublié originel n'a pas de forme humaine) : repli sur la forme d'ennemi seulement si elle est demandée
+Sprites de combat (`assets/ennemis/`) :
+- ✅ `assets/ennemis/muet.svg` (ennemi normal, repli : sprite du sbire)
+- ✅ `assets/ennemis/fileuse.svg`
+- ✅ `assets/ennemis/tessa_oubliee.svg`
+- ✅ `assets/ennemis/oublie_originel.svg`
+Décors : ✅ `pierrelune_marche`, ✅ `hameau_gris`, ✅ `montagne_grise`, ✅ `sommet_oublie` (`assets/decors/`).
+Héros jouable Eldan (L'Apprenti), en fichiers (pas de dessin en code dans `art.js`) :
+- ✅ `assets/heros/eldan.svg` — figure de planche (lobby), même repère que les skins complets
+- ✅ `assets/heros/eldan_combat.svg` — sprite de combat en calques ombre / corps / bras_arme (de face, comme les skins ; pas encore de vue de ¾ dos)
+- ✅ `assets/icones/armes/baton.svg` ; ⬜ `fuseau_fileuse.svg`, ⬜ `baton_orlen.svg` (repli : glyphe)
